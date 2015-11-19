@@ -43,23 +43,33 @@
 
   </div>
   <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
-
-    <a href="${ctx}/profile"><span>欢迎，<i class="fa fa-user"></i>
-      <shiro:principal property="username"/></span></a>|<a href="${ctx}/setting"><span><i class="ace-icon fa fa-cog"></i>
-    个人设置</span></a>|<a href="${ctx}/logout"><span><i class="ace-icon fa fa-power-off"></i>退出</span></a>
-  </div>
-  <div class="navbar-buttons navbar-header pull-right hidden-lg" role="navigation">
-
-    <a href="${ctx}/logout"><span><i class="ace-icon fa fa-power-off"></i> 退出</span></a>
+    <ul class="nav nav-pills">
+  <shiro:hasRole name="student">
+    <li class="<c:if test="${_path=='/index'}">active</c:if>">
+      <a href="${ctx}/index"><i class="fa fa-home"></i>
+       回到首页</a>
+    </li>
+  </shiro:hasRole>
+      <li class="<c:if test="${_path=='/profile'}">active</c:if>">
+        <a href="${ctx}/profile"><i class="fa fa-user"></i>
+          <shiro:principal property="username"/></a>
+      </li>
+      <li class="<c:if test="${_path=='/setting'}">active</c:if>">
+        <a href="${ctx}/setting"><i class="ace-icon fa fa-cog"></i> 个人设置</a>
+      </li>
+      <li>
+        <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+      </li>
+    </ul>
   </div>
   <!-- /.navbar-container -->
 </div>
 <div class="main-container" id="main-container">
+  <shiro:lacksRole name="student">
   <div id="sidebar" class="sidebar responsive">
     <script type="text/javascript">
       try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
     </script>
-    <%--<jsp:include page="11.jsp"/>--%>
     <c:import url="/menu"/>
     <!-- /.nav-list -->
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -67,7 +77,7 @@
          data-icon2="ace-icon fa fa-angle-double-right"></i>
     </div>
   </div>
-
+  </shiro:lacksRole>
   <div class="main-content" >
     <div class="main-content-inner">
       <c:if test="${fn:length(parentIdSet)>0}">

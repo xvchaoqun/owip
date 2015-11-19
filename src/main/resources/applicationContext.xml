@@ -76,8 +76,9 @@
        
     <context:component-scan base-package="service"/>
 	<context:annotation-config />
-	
-	<import resource="classpath*:spring-convert.xml"/>
 
+	<import resource="classpath:bnu-source.xml" />
+
+	<!--<import resource="classpath*:spring-convert.xml"/>-->
 	<import resource="classpath:spring-shiro.xml"/>
 </beans>

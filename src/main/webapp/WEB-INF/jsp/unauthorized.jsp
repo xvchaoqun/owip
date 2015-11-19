@@ -53,6 +53,11 @@
             <i class="ace-icon fa fa-home"></i>
             回到首页
           </a>
+
+          <a href="/logout" class="btn btn-success">
+            <i class="ace-icon fa fa-home"></i>
+            安全退出
+          </a>
         </div>
       </div>
     </div>

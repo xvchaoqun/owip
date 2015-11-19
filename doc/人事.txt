@@ -1,0 +1,597 @@
+172.16.181.10:1521/gbklicdc
+licdc_zg/neusoft
+select * from licdc_zg.V_YJS_YJSXJJBXX t;--研究生学籍基本信息
+select * from licdc_zg.v_bks_xjjbsjxx t;--本科生学籍基本信息
+select * from licdc_zg.v_jzg_rs_jzg_jbxx t;--教职工基本信息
+
+-- Create table
+create table LICDC_JZG.RS_JZG_JBXX
+(
+  zgh               VARCHAR2(32),
+  xm                VARCHAR2(32),
+  xbm               VARCHAR2(32),
+  dwid              VARCHAR2(32),
+  yjxkm             VARCHAR2(255),
+  lxrq              DATE,
+  gwlbm             VARCHAR2(32),
+  zcm               VARCHAR2(255),
+  gwjbm             VARCHAR2(32),
+  rclxm             VARCHAR2(32),
+  rcchm             VARCHAR2(32),
+  xyjgm             VARCHAR2(255),
+  gjm               VARCHAR2(255),
+  zhxwm             VARCHAR2(32),
+  zhxl              VARCHAR2(32),
+  xlbyxx            VARCHAR2(100),
+  xwsyxx            VARCHAR2(100),
+  xzjbm             VARCHAR2(255),
+  sfzgm             VARCHAR2(255),
+  ryztm             VARCHAR2(32),
+  rylxm             VARCHAR2(255),
+  bzlxm             VARCHAR2(32),
+  csrq              DATE,
+  rszfm             VARCHAR2(255),
+  sfnxz             VARCHAR2(255),
+  sfzjlx            VARCHAR2(255),
+  sfzh              VARCHAR2(32),
+  yddh              VARCHAR2(128),
+  dzxx              VARCHAR2(64),
+  bgdh              VARCHAR2(32),
+  jtdh              VARCHAR2(32),
+  zjgjm             VARCHAR2(32),
+  glgjm             VARCHAR2(32),
+  empid             VARCHAR2(32),
+  jg                VARCHAR2(255),
+  zzmm              VARCHAR2(255),
+  zw                VARCHAR2(255),
+  mz                VARCHAR2(255),
+  xkml              VARCHAR2(255),
+  ejxk              VARCHAR2(255),
+  xmpy              VARCHAR2(255),
+  poxm              VARCHAR2(255),
+  ryxxshzt          VARCHAR2(255),
+  tbrq              VARCHAR2(20),
+  jzdw1             VARCHAR2(255),
+  jzdw2             VARCHAR2(255),
+  batch_num         VARCHAR2(30),
+  basic_active_id   VARCHAR2(30),
+  domain_code       VARCHAR2(30),
+  basic_active_type VARCHAR2(30)
+)
+tablespace LICDC
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 2M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table LICDC_JZG.RS_JZG_JBXX
+  is '人事_教职工基本信息表';
+-- Add comments to the columns 
+comment on column LICDC_JZG.RS_JZG_JBXX.zgh
+  is '职工号';
+comment on column LICDC_JZG.RS_JZG_JBXX.xm
+  is '姓名';
+comment on column LICDC_JZG.RS_JZG_JBXX.xbm
+  is '性别码';
+comment on column LICDC_JZG.RS_JZG_JBXX.dwid
+  is '单位ID';
+comment on column LICDC_JZG.RS_JZG_JBXX.yjxkm
+  is '一级学科码';
+comment on column LICDC_JZG.RS_JZG_JBXX.lxrq
+  is '来校日期';
+comment on column LICDC_JZG.RS_JZG_JBXX.gwlbm
+  is '岗位类别码';
+comment on column LICDC_JZG.RS_JZG_JBXX.zcm
+  is '职称码';
+comment on column LICDC_JZG.RS_JZG_JBXX.gwjbm
+  is '岗位级别码';
+comment on column LICDC_JZG.RS_JZG_JBXX.rclxm
+  is '人才类型码';
+comment on column LICDC_JZG.RS_JZG_JBXX.rcchm
+  is '人才称号码';
+comment on column LICDC_JZG.RS_JZG_JBXX.xyjgm
+  is '学缘结构码';
+comment on column LICDC_JZG.RS_JZG_JBXX.gjm
+  is '国籍码';
+comment on column LICDC_JZG.RS_JZG_JBXX.zhxwm
+  is '最后学位码';
+comment on column LICDC_JZG.RS_JZG_JBXX.zhxl
+  is '最后学历码';
+comment on column LICDC_JZG.RS_JZG_JBXX.xlbyxx
+  is '学历毕业学校';
+comment on column LICDC_JZG.RS_JZG_JBXX.xwsyxx
+  is '学位授予学校';
+comment on column LICDC_JZG.RS_JZG_JBXX.xzjbm
+  is '行政级别码';
+comment on column LICDC_JZG.RS_JZG_JBXX.sfzgm
+  is '是否在岗码';
+comment on column LICDC_JZG.RS_JZG_JBXX.ryztm
+  is '人员状态码';
+comment on column LICDC_JZG.RS_JZG_JBXX.rylxm
+  is '人员类型码';
+comment on column LICDC_JZG.RS_JZG_JBXX.bzlxm
+  is '编制类型码';
+comment on column LICDC_JZG.RS_JZG_JBXX.csrq
+  is '出生日期';
+comment on column LICDC_JZG.RS_JZG_JBXX.rszfm
+  is '人事转否码';
+comment on column LICDC_JZG.RS_JZG_JBXX.sfnxz
+  is '是否年薪码';
+comment on column LICDC_JZG.RS_JZG_JBXX.sfzjlx
+  is '身份证件类型';
+comment on column LICDC_JZG.RS_JZG_JBXX.sfzh
+  is '身份证号';
+comment on column LICDC_JZG.RS_JZG_JBXX.yddh
+  is '移动电话';
+comment on column LICDC_JZG.RS_JZG_JBXX.dzxx
+  is '电子信箱';
+comment on column LICDC_JZG.RS_JZG_JBXX.bgdh
+  is '办公电话';
+comment on column LICDC_JZG.RS_JZG_JBXX.jtdh
+  is '家庭电话';
+comment on column LICDC_JZG.RS_JZG_JBXX.zjgjm
+  is '专技岗位等级码';
+comment on column LICDC_JZG.RS_JZG_JBXX.glgjm
+  is '管理岗位等级码';
+comment on column LICDC_JZG.RS_JZG_JBXX.empid
+  is '教职工主键';
+comment on column LICDC_JZG.RS_JZG_JBXX.jg
+  is '籍贯';
+comment on column LICDC_JZG.RS_JZG_JBXX.zzmm
+  is '政治面貌';
+comment on column LICDC_JZG.RS_JZG_JBXX.zw
+  is '职务';
+comment on column LICDC_JZG.RS_JZG_JBXX.mz
+  is '民族';
+comment on column LICDC_JZG.RS_JZG_JBXX.xkml
+  is '学科门类';
+comment on column LICDC_JZG.RS_JZG_JBXX.ejxk
+  is '二级学科';
+comment on column LICDC_JZG.RS_JZG_JBXX.xmpy
+  is '姓名拼音';
+comment on column LICDC_JZG.RS_JZG_JBXX.poxm
+  is '配偶姓名';
+comment on column LICDC_JZG.RS_JZG_JBXX.ryxxshzt
+  is '人员信息审核状态';
+comment on column LICDC_JZG.RS_JZG_JBXX.tbrq
+  is '数据同步日期';
+comment on column LICDC_JZG.RS_JZG_JBXX.jzdw1
+  is '兼职单位1';
+comment on column LICDC_JZG.RS_JZG_JBXX.jzdw2
+  is '兼职单位2';
+comment on column LICDC_JZG.RS_JZG_JBXX.batch_num
+  is '业务批次';
+-- Create/Recreate indexes 
+create index LICDC_JZG.IDX_INSERT_ODS on LICDC_JZG.RS_JZG_JBXX (ZGH, XM, XBM, DWID, YJXKM, LXRQ, GWLBM, ZCM, GWJBM, RCLXM, RCCHM, XYJGM, GJM, ZHXWM, ZHXL, XZJBM, SFZGM, RYZTM, RYLXM, BZLXM, RSZFM, SFNXZ, SFZJLX, ZJGJM, GLGJM, EMPID)
+  tablespace LICDC
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index LICDC_JZG.IDX__JZG_JBXX_PK on LICDC_JZG.RS_JZG_JBXX (EMPID)
+  tablespace LICDC
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index LICDC_JZG.RS_JZG_JZGJBXX on LICDC_JZG.RS_JZG_JBXX (ZGH)
+  tablespace LICDC
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+
+
+
+-- Create table
+create table LICDC_XS.BKS_XJJBSJXX
+(
+  xh                 VARCHAR2(100),
+  xm                 VARCHAR2(30),
+  xb                 VARCHAR2(100),
+  csrq               VARCHAR2(10),
+  nj                 VARCHAR2(100),
+  yxmc               VARCHAR2(100),
+  zymc               VARCHAR2(100),
+  fgyx               VARCHAR2(100),
+  pyfs               VARCHAR2(100),
+  mz                 VARCHAR2(100),
+  zzmm               VARCHAR2(100),
+  xjbd               VARCHAR2(100),
+  xjrq               VARCHAR2(20),
+  xjyy               VARCHAR2(100),
+  sf                 VARCHAR2(100),
+  dq                 VARCHAR2(100),
+  syxx               VARCHAR2(100),
+  dxhwpdw            VARCHAR2(100),
+  dxdwszd            VARCHAR2(100),
+  ksh                VARCHAR2(20),
+  xmpy               VARCHAR2(30),
+  kslb               VARCHAR2(10),
+  wyyz               VARCHAR2(100),
+  jtdz               VARCHAR2(150),
+  yzbm               VARCHAR2(20),
+  lxdh               VARCHAR2(100),
+  kl                 VARCHAR2(100),
+  lqzymc             VARCHAR2(100),
+  lqyxmc             VARCHAR2(100),
+  mfsfs              VARCHAR2(100),
+  sfzh               VARCHAR2(20),
+  kstc               VARCHAR2(1000),
+  grpj               VARCHAR2(2000),
+  ksjl               VARCHAR2(300),
+  xkml               VARCHAR2(100),
+  zkzh               VARCHAR2(100),
+  byxx               VARCHAR2(100),
+  bz                 VARCHAR2(4000),
+  sfgfs              VARCHAR2(20),
+  import_time_millis VARCHAR2(30),
+  yxsh               VARCHAR2(30)
+)
+tablespace LICDC
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 6M
+    next 8K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table LICDC_XS.BKS_XJJBSJXX
+  is '学籍基本数据信息(本科生基本信息子表)';
+-- Add comments to the columns 
+comment on column LICDC_XS.BKS_XJJBSJXX.xh
+  is '学号';
+comment on column LICDC_XS.BKS_XJJBSJXX.xm
+  is '姓名';
+comment on column LICDC_XS.BKS_XJJBSJXX.xb
+  is '性别';
+comment on column LICDC_XS.BKS_XJJBSJXX.csrq
+  is '出生日期';
+comment on column LICDC_XS.BKS_XJJBSJXX.nj
+  is '年级';
+comment on column LICDC_XS.BKS_XJJBSJXX.yxmc
+  is '院系名称';
+comment on column LICDC_XS.BKS_XJJBSJXX.zymc
+  is '专业名称';
+comment on column LICDC_XS.BKS_XJJBSJXX.fgyx
+  is '分管院系';
+comment on column LICDC_XS.BKS_XJJBSJXX.pyfs
+  is '培养方式';
+comment on column LICDC_XS.BKS_XJJBSJXX.mz
+  is '民族';
+comment on column LICDC_XS.BKS_XJJBSJXX.zzmm
+  is '政治面貌';
+comment on column LICDC_XS.BKS_XJJBSJXX.xjbd
+  is '学籍变动';
+comment on column LICDC_XS.BKS_XJJBSJXX.xjrq
+  is '变动日期';
+comment on column LICDC_XS.BKS_XJJBSJXX.xjyy
+  is '变动原因';
+comment on column LICDC_XS.BKS_XJJBSJXX.sf
+  is '省份';
+comment on column LICDC_XS.BKS_XJJBSJXX.dq
+  is '地区';
+comment on column LICDC_XS.BKS_XJJBSJXX.syxx
+  is '中学名称';
+comment on column LICDC_XS.BKS_XJJBSJXX.dxhwpdw
+  is 'dxhwpdw';
+comment on column LICDC_XS.BKS_XJJBSJXX.dxdwszd
+  is 'dxdwszd';
+comment on column LICDC_XS.BKS_XJJBSJXX.ksh
+  is '考生号';
+comment on column LICDC_XS.BKS_XJJBSJXX.xmpy
+  is '姓名拼音';
+comment on column LICDC_XS.BKS_XJJBSJXX.kslb
+  is '考生类别';
+comment on column LICDC_XS.BKS_XJJBSJXX.wyyz
+  is 'wyyz';
+comment on column LICDC_XS.BKS_XJJBSJXX.jtdz
+  is '家庭地址';
+comment on column LICDC_XS.BKS_XJJBSJXX.yzbm
+  is '邮政编码';
+comment on column LICDC_XS.BKS_XJJBSJXX.lxdh
+  is '联系电话';
+comment on column LICDC_XS.BKS_XJJBSJXX.kl
+  is '科类';
+comment on column LICDC_XS.BKS_XJJBSJXX.lqzymc
+  is '录取专业名称';
+comment on column LICDC_XS.BKS_XJJBSJXX.lqyxmc
+  is '录取院系名称';
+comment on column LICDC_XS.BKS_XJJBSJXX.mfsfs
+  is '免费师范生否';
+comment on column LICDC_XS.BKS_XJJBSJXX.sfzh
+  is '身份证号';
+comment on column LICDC_XS.BKS_XJJBSJXX.kstc
+  is '考生特长';
+comment on column LICDC_XS.BKS_XJJBSJXX.grpj
+  is '个人评价';
+comment on column LICDC_XS.BKS_XJJBSJXX.ksjl
+  is '考试奖励';
+comment on column LICDC_XS.BKS_XJJBSJXX.xkml
+  is '学科门类';
+comment on column LICDC_XS.BKS_XJJBSJXX.zkzh
+  is 'ZKZH';
+comment on column LICDC_XS.BKS_XJJBSJXX.byxx
+  is '毕业学校';
+comment on column LICDC_XS.BKS_XJJBSJXX.bz
+  is '备注';
+comment on column LICDC_XS.BKS_XJJBSJXX.sfgfs
+  is '是否国防生';
+comment on column LICDC_XS.BKS_XJJBSJXX.import_time_millis
+  is '导入批次';
+comment on column LICDC_XS.BKS_XJJBSJXX.yxsh
+  is '院系所号';
+-- Create/Recreate indexes 
+create index LICDC_XS.BKS_XJJBSJXX_XH_INX on LICDC_XS.BKS_XJJBSJXX (XH, XM, XB, CSRQ, NJ, YXMC, ZYMC)
+  tablespace LICDC
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index LICDC_XS.IDX_BKS_XJJBSJXX_XH on LICDC_XS.BKS_XJJBSJXX (XH)
+  tablespace LICDC
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+
+-- Create table
+create table LICDC_YJS.YJS_YJSXJJBXX
+(
+  ztm     VARCHAR2(2),
+  gbm     VARCHAR2(1),
+  xh      VARCHAR2(20) not null,
+  xslbm2  VARCHAR2(2),
+  xm      VARCHAR2(40),
+  xmpy    VARCHAR2(80),
+  xbm     VARCHAR2(1),
+  csrq    VARCHAR2(10),
+  sfzh    VARCHAR2(20),
+  mzm     VARCHAR2(2),
+  pyccm   VARCHAR2(1),
+  pylxm   VARCHAR2(1),
+  jylbm   VARCHAR2(1),
+  pyfsm   VARCHAR2(2),
+  ksh     VARCHAR2(16),
+  yxsh    VARCHAR2(6),
+  yxsm    VARCHAR2(3),
+  yxsmc   VARCHAR2(60),
+  yjxkm   VARCHAR2(4),
+  yjxkmc  VARCHAR2(40),
+  zydm    VARCHAR2(6),
+  zymc    VARCHAR2(50),
+  yjfxm   VARCHAR2(2),
+  yjfxmc  VARCHAR2(50),
+  dsh     VARCHAR2(50),
+  dsxm    VARCHAR2(40),
+  lqlbm   VARCHAR2(2),
+  dxwpdw  VARCHAR2(100),
+  daszdw  VARCHAR2(80),
+  zsnd    NUMBER,
+  blzgnx  NUMBER,
+  blzgm   VARCHAR2(1),
+  nj      NUMBER,
+  xz      NUMBER,
+  yjrxny  VARCHAR2(8),
+  sjrxny  VARCHAR2(50),
+  yjbyny  VARCHAR2(8),
+  yqbynx  FLOAT(63),
+  sjbyny  VARCHAR2(8),
+  sjxwny  VARCHAR2(8),
+  xjglm   VARCHAR2(2),
+  xjglny  VARCHAR2(8),
+  xjbz    VARCHAR2(250),
+  xjydbz  VARCHAR2(250),
+  qtbz    VARCHAR2(250),
+  hkszdm  VARCHAR2(6),
+  syszdm  VARCHAR2(6),
+  xxgzdw  VARCHAR2(80),
+  zslqlbm VARCHAR2(2),
+  zxjhm   VARCHAR2(2),
+  ksfsm   VARCHAR2(3),
+  kslym   VARCHAR2(3),
+  pyzxjhm VARCHAR2(3),
+  zzmmm   VARCHAR2(2),
+  hfm     VARCHAR2(1),
+  xyjrm   VARCHAR2(1),
+  xslbm5  VARCHAR2(5),
+  tjzydm  VARCHAR2(6),
+  tjzymc  VARCHAR2(60),
+  ksh16   VARCHAR2(16),
+  sjcqsj  VARCHAR2(20),
+  qzdwm   VARCHAR2(32),
+  qzdw    VARCHAR2(120),
+  qzny    VARCHAR2(32)
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table LICDC_YJS.YJS_YJSXJJBXX
+  is '（研究生）研究生学籍数据信息';
+-- Add comments to the columns 
+comment on column LICDC_YJS.YJS_YJSXJJBXX.ztm
+  is '状态';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.gbm
+  is '国别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xh
+  is '学号';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xslbm2
+  is '学生类别码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xm
+  is '姓名';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xmpy
+  is '姓名拼音';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xbm
+  is '性别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.csrq
+  is '出生日期';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.sfzh
+  is '身份证号';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.mzm
+  is '民族码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.pyccm
+  is '培养层次';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.pylxm
+  is '培养类型';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.jylbm
+  is '教育类别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.pyfsm
+  is '培养方式';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.ksh
+  is '考生编号';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yxsh
+  is '院系号';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yxsm
+  is '部院系所';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yxsmc
+  is '院系名';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjxkm
+  is '一级学科码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjxkmc
+  is '一级学科名称';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zydm
+  is '专业代码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zymc
+  is '专业名称';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjfxm
+  is '方向代码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjfxmc
+  is '方向名称';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.dsh
+  is '导师号';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.dsxm
+  is '导师姓名';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.lqlbm
+  is '录取类别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.dxwpdw
+  is '定向委培单位';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.daszdw
+  is '档案所在单位';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zsnd
+  is '招生年度';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.blzgnx
+  is '保留资格年限';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.blzgm
+  is '保留资格码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.nj
+  is '年级';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xz
+  is '学制';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjrxny
+  is '预计入学年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.sjrxny
+  is '实际入学年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yjbyny
+  is '预计毕业年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.yqbynx
+  is '延期毕业年限';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.sjbyny
+  is '实际毕业年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.sjxwny
+  is '实际学位年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xjglm
+  is '学籍归零码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xjglny
+  is '学籍归零年月';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xjbz
+  is '学籍备注';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xjydbz
+  is '学籍异动备注';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.qtbz
+  is '其它备注';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.hkszdm
+  is '户口所在地码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.syszdm
+  is '生源所在地码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xxgzdw
+  is '学习工作单位';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zslqlbm
+  is '录取类别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zxjhm
+  is '专项计划码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.ksfsm
+  is '考试方式码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.pyzxjhm
+  is '培养专项计划';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.zzmmm
+  is '政治面貌码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.hfm
+  is '婚否码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xyjrm
+  is '现役军人码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.xslbm5
+  is '高基学生类别';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.tjzydm
+  is '统计专业码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.tjzymc
+  is '统计专业名称';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.ksh16
+  is '研究生';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.qzdwm
+  is '前置单位码';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.qzdw
+  is '前置单位';
+comment on column LICDC_YJS.YJS_YJSXJJBXX.qzny
+  is '前置年月';
+-- Create/Recreate indexes 
+create unique index LICDC_YJS.IDX_YJS_YJSXJJBXX_XH on LICDC_YJS.YJS_YJSXJJBXX (XH)
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );

@@ -2,6 +2,9 @@ http://zzgz.bnu.edu.cn/
 11112010114
 19830820
 
+07159
+19810922
+
 138ODMISUSERSE =
   (DESCRIPTION =
     (ADDRESS_LIST =
@@ -13,10 +16,9 @@ http://zzgz.bnu.edu.cn/
   )
 
  
-
+用户名：odmisuser
 密码：bnuodmis
 
-odmisuser
 查询字段属于哪个表
 select * from dba_tab_cols where column_name='DWMC'
 

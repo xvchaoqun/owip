@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">上一届班子</label>
                 <div class="col-xs-6">
                     <div class="help-block">
-                        <select required class="form-control" name="fid"
+                        <select class="form-control" name="fid"
                                 data-rel="select2-ajax" data-ajax--url="${ctx}/partyMemberGroup_selects?partyId=${party.id}"
                                 data-placeholder="请选择班子">
                             <option value="${fPartyMemberGroup.id}">${fPartyMemberGroup.name}</option>

@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
 	
-<classPathEntry location="D:\IdeaProjects\bnu\owip\src\test\java\mysql-connector-java-5.1.13-bin.jar" />
+<classPathEntry location="D:\IdeaProjects\owip\src\test\java\mysql-connector-java-5.1.13-bin.jar" />
   <context id="context1" targetRuntime="MyBatis3">
   		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
   		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
@@ -21,10 +21,10 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="ow_branch_member" domainObjectName="BranchMember">
+      <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
-      </table>
+      </table>-->
    <!--<table tableName="ow_party" domainObjectName="Party">
        <ignoreColumn column="update_time"/>
     </table>
@@ -83,7 +83,12 @@
     <table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-
+      <!--<table tableName="ext_bks" domainObjectName="ExtBks">
+      </table>-->
+      <table tableName="ext_yjs" domainObjectName="ExtYjs">
+      </table>
+      <table tableName="ext_jzg" domainObjectName="ExtJzg">
+      </table>
 
   </context>
 </generatorConfiguration>
