@@ -1,0 +1,23 @@
+http://zzgz.bnu.edu.cn/
+11112010114
+19830820
+
+138ODMISUSERSE =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST =202.112.80.138)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = odmisuserse)
+    )
+  )
+
+ 
+
+密码：bnuodmis
+
+odmisuser
+查询字段属于哪个表
+select * from dba_tab_cols where column_name='DWMC'
+
+

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.BranchMapper" >
+  <resultMap id="BaseResultMap" type="domain.Branch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="staff_type_id" property="staffTypeId" jdbcType="INTEGER" />
+    <result column="unit_type_id" property="unitTypeId" jdbcType="INTEGER" />
+    <result column="is_enterprise_big" property="isEnterpriseBig" jdbcType="BIT" />
+    <result column="is_enterprise_nationalized" property="isEnterpriseNationalized" jdbcType="BIT" />
+    <result column="is_union" property="isUnion" jdbcType="BIT" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="found_time" property="foundTime" jdbcType="DATE" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, name, short_name, party_id, type_id, staff_type_id, unit_type_id, is_enterprise_big, 
+    is_enterprise_nationalized, is_union, phone, fax, email, found_time, sort_order, 
+    create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.BranchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_branch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_branch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_branch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.BranchExample" >
+    delete from ow_branch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert  keyProperty="id" id="insert" parameterType="domain.Branch" >
+    insert into ow_branch (id, code, name, 
+      short_name, party_id, type_id, 
+      staff_type_id, unit_type_id, is_enterprise_big, 
+      is_enterprise_nationalized, is_union, phone, 
+      fax, email, found_time, 
+      sort_order, create_time)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{shortName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{staffTypeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, 
+      #{isEnterpriseNationalized,jdbcType=BIT}, #{isUnion,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert  keyProperty="id" id="insertSelective" parameterType="domain.Branch" >
+    insert into ow_branch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="shortName != null" >
+        short_name,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="staffTypeId != null" >
+        staff_type_id,
+      </if>
+      <if test="unitTypeId != null" >
+        unit_type_id,
+      </if>
+      <if test="isEnterpriseBig != null" >
+        is_enterprise_big,
+      </if>
+      <if test="isEnterpriseNationalized != null" >
+        is_enterprise_nationalized,
+      </if>
+      <if test="isUnion != null" >
+        is_union,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="foundTime != null" >
+        found_time,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="staffTypeId != null" >
+        #{staffTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="unitTypeId != null" >
+        #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isEnterpriseBig != null" >
+        #{isEnterpriseBig,jdbcType=BIT},
+      </if>
+      <if test="isEnterpriseNationalized != null" >
+        #{isEnterpriseNationalized,jdbcType=BIT},
+      </if>
+      <if test="isUnion != null" >
+        #{isUnion,jdbcType=BIT},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="foundTime != null" >
+        #{foundTime,jdbcType=DATE},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.BranchExample" resultType="java.lang.Integer" >
+    select count(*) from ow_branch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_branch
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortName != null" >
+        short_name = #{record.shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.staffTypeId != null" >
+        staff_type_id = #{record.staffTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitTypeId != null" >
+        unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isEnterpriseBig != null" >
+        is_enterprise_big = #{record.isEnterpriseBig,jdbcType=BIT},
+      </if>
+      <if test="record.isEnterpriseNationalized != null" >
+        is_enterprise_nationalized = #{record.isEnterpriseNationalized,jdbcType=BIT},
+      </if>
+      <if test="record.isUnion != null" >
+        is_union = #{record.isUnion,jdbcType=BIT},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fax != null" >
+        fax = #{record.fax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foundTime != null" >
+        found_time = #{record.foundTime,jdbcType=DATE},
+      </if>
+      <if test="record.sortOrder != null" >
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_branch
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      short_name = #{record.shortName,jdbcType=VARCHAR},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      staff_type_id = #{record.staffTypeId,jdbcType=INTEGER},
+      unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
+      is_enterprise_big = #{record.isEnterpriseBig,jdbcType=BIT},
+      is_enterprise_nationalized = #{record.isEnterpriseNationalized,jdbcType=BIT},
+      is_union = #{record.isUnion,jdbcType=BIT},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      fax = #{record.fax,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      found_time = #{record.foundTime,jdbcType=DATE},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.Branch" >
+    update ow_branch
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="staffTypeId != null" >
+        staff_type_id = #{staffTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="unitTypeId != null" >
+        unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isEnterpriseBig != null" >
+        is_enterprise_big = #{isEnterpriseBig,jdbcType=BIT},
+      </if>
+      <if test="isEnterpriseNationalized != null" >
+        is_enterprise_nationalized = #{isEnterpriseNationalized,jdbcType=BIT},
+      </if>
+      <if test="isUnion != null" >
+        is_union = #{isUnion,jdbcType=BIT},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="foundTime != null" >
+        found_time = #{foundTime,jdbcType=DATE},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.Branch" >
+    update ow_branch
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      party_id = #{partyId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      staff_type_id = #{staffTypeId,jdbcType=INTEGER},
+      unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      is_enterprise_big = #{isEnterpriseBig,jdbcType=BIT},
+      is_enterprise_nationalized = #{isEnterpriseNationalized,jdbcType=BIT},
+      is_union = #{isUnion,jdbcType=BIT},
+      phone = #{phone,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      found_time = #{foundTime,jdbcType=DATE},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.BranchExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_branch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,7 @@
+.idea/
+pro.ces/src/main/webapp/static/build
+out/
+*.iml
+!.gitignore
+logs
+target

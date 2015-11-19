@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+	
+<classPathEntry location="D:\IdeaProjects\bnu\owip\src\test\java\mysql-connector-java-5.1.13-bin.jar" />
+  <context id="context1" targetRuntime="MyBatis3">
+  		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+  		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+  		<commentGenerator>
+	    <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+	    <property name="suppressAllComments" value="true"/>
+	  </commentGenerator>
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+    connectionURL="jdbc:mysql://localhost:3306/owip?useUnicode=true&amp;characterEncoding=UTF8"
+    userId="root" password="123" />
+    <javaModelGenerator targetPackage="domain" targetProject="src/main/java" >
+    	<property name="trimStrings" value="true" />
+    </javaModelGenerator>
+    <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java" >
+    </sqlMapGenerator>
+    <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
+    </javaClientGenerator>
+
+      <table tableName="ow_branch_member" domainObjectName="BranchMember">
+      </table>
+      <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
+      </table>
+   <!--<table tableName="ow_party" domainObjectName="Party">
+       <ignoreColumn column="update_time"/>
+    </table>
+      <table tableName="ow_party_member_group" domainObjectName="PartyMemberGroup">
+      </table>
+       <table tableName="ow_party_member" domainObjectName="PartyMember">
+      </table>
+    <table tableName="ow_branch" domainObjectName="Branch">
+    <ignoreColumn column="update_time"/>
+    </table>
+    <table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
+    </table>
+    <table tableName="base_unit_transfer_item" domainObjectName="UnitTransferItem">
+    </table>
+    <table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">
+    </table>
+    <table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
+    </table>
+    <table tableName="base_unit_cadre_transfer_item" domainObjectName="UnitCadreTransferItem">
+    </table>
+    <table tableName="base_dispatch" domainObjectName="Dispatch">
+    </table>
+    <table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
+    </table>
+    <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">
+    </table>
+    <table tableName="base_dispatch_unit_relate" domainObjectName="DispatchUnitRelate">
+    </table>
+    <table tableName="base_leader" domainObjectName="Leader">
+    </table>
+    <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
+    </table>
+
+    <table tableName="base_cadre" domainObjectName="Cadre">
+    </table>
+    <table tableName="base_meta_class" domainObjectName="MetaClass">
+    </table>
+    <table tableName="base_meta_type" domainObjectName="MetaType">
+    </table>
+
+    <table tableName="base_unit" domainObjectName="Unit">
+      <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+    </table>
+    <table tableName="base_history_unit" domainObjectName="HistoryUnit">
+    </table>-->
+    <!--<table tableName="sys_log" domainObjectName="SysLog">
+      <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+    </table>
+    <table tableName="sys_user" domainObjectName="SysUser">
+      <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
+    </table>
+    <table tableName="sys_login_log" domainObjectName="SysLoginLog">
+    </table>
+    <table tableName="sys_role" domainObjectName="SysRole">
+    </table>
+    <table tableName="sys_resource" domainObjectName="SysResource">
+      <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
+    </table>-->
+
+
+  </context>
+</generatorConfiguration>
