@@ -24,7 +24,7 @@
         </c:if>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">类别</label>
-			<div class="col-xs-6">
+			<div class="col-xs-9">
 				<div class="radio">
 					<c:forEach var="metaType" items="${metaTypeMap}">
 					<label>

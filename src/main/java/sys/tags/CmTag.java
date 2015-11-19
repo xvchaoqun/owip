@@ -37,6 +37,13 @@ public class CmTag {
 		return metaTypeMap.get(id);
 	}
 
+	public static MetaClass getMetaClassByCode(String code){
+
+		if(StringUtils.isBlank(code)) return null;
+		Map<String, MetaClass> metaClassMap = metaClassService.codeKeyMap();
+		return metaClassMap.get(code);
+	}
+
 	public static MetaType getMetaTypeByCode(String code){
 
 		if(StringUtils.isBlank(code)) return null;

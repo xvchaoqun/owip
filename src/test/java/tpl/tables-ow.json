@@ -6,13 +6,22 @@
   "tablePrefix": "ow_",
   "tables": [
     {
+      "table": "member_apply",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
+      "showColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
+      "excludeEditColumns": "id,user_id, update_time, create_time",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+    {
       "table": "branch_member_group",
       "key": "id",
       "searchColumns": "branch_id,name",
       "showColumns": "branch_id, name, is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "branch_member",

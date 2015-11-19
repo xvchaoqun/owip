@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BaseMapper {
 
 	@Autowired
+	protected MemberApplyMapper memberApplyMapper;
+	@Autowired
 	protected BranchMemberGroupMapper branchMemberGroupMapper;
 	@Autowired
 	protected BranchMemberMapper branchMemberMapper;

@@ -62,6 +62,12 @@
 		<function-signature>domain.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>getMetaClassByCode</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
+	</function>
+
+	<function>
 		<name>getUserById</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.SysUser getUserById(java.lang.Integer)</function-signature>

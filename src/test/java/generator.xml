@@ -21,6 +21,10 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
+      <table tableName="ow_member_apply" domainObjectName="MemberApply">
+          <ignoreColumn column="update_time"/>
+      </table>
+
       <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
@@ -85,10 +89,10 @@
     </table>-->
       <!--<table tableName="ext_bks" domainObjectName="ExtBks">
       </table>-->
-      <table tableName="ext_yjs" domainObjectName="ExtYjs">
+      <!--<table tableName="ext_yjs" domainObjectName="ExtYjs">
       </table>
       <table tableName="ext_jzg" domainObjectName="ExtJzg">
-      </table>
+      </table>-->
 
   </context>
 </generatorConfiguration>

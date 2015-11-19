@@ -51,6 +51,7 @@ public class MetaClassService extends BaseMapper {
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
             @CacheEvict(value = "MetaTyes", allEntries = true)
     })
     public int insertSelective(MetaClass record){
@@ -68,6 +69,7 @@ public class MetaClassService extends BaseMapper {
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
             @CacheEvict(value = "MetaTyes", allEntries = true)
     })
     public void del(Integer id){
@@ -76,7 +78,10 @@ public class MetaClassService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="MetaClass:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true)
+    })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -89,12 +94,28 @@ public class MetaClassService extends BaseMapper {
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
             @CacheEvict(value = "MetaTyes", allEntries = true)
     })
     public int updateByPrimaryKeySelective(MetaClass record){
         if(StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(codeAvailable(record.getId(), record.getCode()));
         return metaClassMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Cacheable(value="MetaClass:Code:ALL")
+    public Map<String, MetaClass> codeKeyMap() {
+
+        MetaClassExample example = new MetaClassExample();
+        example.createCriteria().andAvailableEqualTo(true);
+        example.setOrderByClause("sort_order desc");
+        List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
+        Map<String, MetaClass> map = new LinkedHashMap<>();
+        for (MetaClass metaClass : metaClasses) {
+            map.put(metaClass.getCode(), metaClass);
+        }
+
+        return map;
     }
 
     @Cacheable(value="MetaClass:ALL")
@@ -118,7 +139,10 @@ public class MetaClassService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "MetaClass:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true)
+    })
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

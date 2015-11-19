@@ -48,7 +48,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
 
             ModelMap modelMap = modelAndView.getModelMap();
             modelMap.put("roleMap", sysRoleService.findAll());
-            modelMap.put("metaClassMap", metaClassService.findAll());
+            //modelMap.put("metaClassMap", metaClassService.findAll());
         }
     }
 

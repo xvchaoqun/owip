@@ -19,21 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PartyController extends BaseController {
@@ -279,7 +275,7 @@ public class PartyController extends BaseController {
 
     @RequestMapping("/party_selects")
     @ResponseBody
-    public Map party_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map party_selects(Integer pageSize, Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -293,6 +289,8 @@ public class PartyController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
+        if(classId!=null) criteria.andClassIdEqualTo(classId);
+
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
         }
@@ -303,18 +301,14 @@ public class PartyController extends BaseController {
             pageNo = Math.max(1, pageNo-1);
         }
         List<Party> partys = partyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<Map<String, Object>> options = new ArrayList<>();
+        for(Party party:partys){
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != partys && partys.size()>0){
-
-            for(Party party:partys){
-
-                Select2Option option = new Select2Option();
-                option.setText(party.getName());
-                option.setId(party.getId() + "");
-
-                options.add(option);
-            }
+            Map<String, Object> option = new HashMap<>();
+            option.put("text", party.getName());
+            option.put("id", party.getId());
+            option.put("class", party.getClassId());
+            options.add(option);
         }
 
         Map resultMap = success();

@@ -44,12 +44,7 @@
   </div>
   <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
     <ul class="nav nav-pills">
-  <shiro:hasRole name="student">
-    <li class="<c:if test="${_path=='/index'}">active</c:if>">
-      <a href="${ctx}/index"><i class="fa fa-home"></i>
-       回到首页</a>
-    </li>
-  </shiro:hasRole>
+
       <li class="<c:if test="${_path=='/profile'}">active</c:if>">
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="username"/></a>
@@ -65,7 +60,7 @@
   <!-- /.navbar-container -->
 </div>
 <div class="main-container" id="main-container">
-  <shiro:lacksRole name="student">
+
   <div id="sidebar" class="sidebar responsive">
     <script type="text/javascript">
       try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
@@ -77,10 +72,10 @@
          data-icon2="ace-icon fa fa-angle-double-right"></i>
     </div>
   </div>
-  </shiro:lacksRole>
+
   <div class="main-content" >
     <div class="main-content-inner">
-      <c:if test="${fn:length(parentIdSet)>0}">
+      <c:if test="${fn:length(parentIdSet)>2}">
       <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
           try {ace.settings.check('breadcrumbs', 'fixed')} catch (e) {}
@@ -119,6 +114,7 @@
         <!-- /.nav-search -->
       </div>
       </c:if>
+
       <div class="page-content" id="page-content">
           <c:import url="${_path}_page"></c:import>
       </div>

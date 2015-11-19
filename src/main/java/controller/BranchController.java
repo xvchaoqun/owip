@@ -282,7 +282,7 @@ public class BranchController extends BaseController {
 
     @RequestMapping("/branch_selects")
     @ResponseBody
-    public Map branch_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map branch_selects(Integer pageSize, Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -295,6 +295,8 @@ public class BranchController extends BaseController {
         BranchExample example = new BranchExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");

@@ -28,28 +28,11 @@ public class SystemConstants {
 	public final static byte USER_SOURCE_EVAOBJ_CADRE = 1; // 后台导入或添加被测评的干部时创建
 	public final static byte USER_SOURCE_SYSCONFIG = 2; // 后台创建新的年份时创建
 
-	/*public static String ADMIN_LOGIN_SESSION_NAME="SESSION:ACCOUNT";
-	
-	public static String INSPECTOR_LOGIN_SESSION_NAME="SESSION:INSPECTOR";
-	public static String INSPECTOR_AGREE_SESSION_NAME="SESSION:INSPECTOR:AGREE";*/
-	
-	// 用户类型(ces_user_type表)
-	public final static String ROLE_ADMIN = "admin";
-	public final static String ROLE_UNIT_ADMIN = "unitAdmin";
-	public final static String ROLE_CADRE = "cadre";
-
-	public final static int ROLE_ID_ADMIN = 1;
-	public final static int ROLE_ID_UNIT_ADMIN = 2;
-	public final static int ROLE_ID_CADRE = 3;
-
-	public final static String ROLE_INSPECTOR = "inspector"; // 参评人
-	public final static String ROLE_SYS = "sys"; // 系统用户，包括管理员、单位管理员、干部等
-	/*public static Map<String, String> USER_TYPE_MAP = new LinkedHashMap<String, String>();
-	static{
-		USER_TYPE_MAP.put(ROLE_ADMIN, "系统管理员");
-		USER_TYPE_MAP.put(ROLE_UNIT_ADMIN, "单位管理员");
-		USER_TYPE_MAP.put(ROLE_CADRE, "干部");
-	}*/
-	
-	
+	// 申请入党类型
+	public final static byte APPLY_TYPE_STU= 1; // 学生
+	public final static byte APPLY_TYPE_TECHER = 2; // 教职工
+	// 申请入党当前状态
+	public final static byte APPLY_STATUS_DENY = 0; // 未通过
+	public final static byte APPLY_STATUS_INIT = 1; // 申请
+	public final static byte APPLY_STATUS_ACTIVE = 2; // 积极分子
 }

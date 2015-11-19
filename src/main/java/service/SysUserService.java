@@ -29,10 +29,9 @@ public class SysUserService {
 	public boolean idDuplicate(Integer id, String username, String code){
 
 		SysUserExample example = new SysUserExample();
-		if(id!=null) example.or().andIdNotEqualTo(id);
-		if(StringUtils.isNotBlank(code))
-			example.or().andCodeEqualTo(code);
-		example.or().andUsernameEqualTo(username);
+		SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
+		if(id!=null) criteria.andIdNotEqualTo(id);
+		if(StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
 
 		return sysUserMapper.countByExample(example) > 0;
 	}

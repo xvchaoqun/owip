@@ -3,6 +3,14 @@
 xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
 
 <!-- service 缓存 -->
+       <cache name="MemberApply"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
        <cache name="BranchMemberGroup:ALL"
               eternal="false"
               maxElementsInMemory="100"
@@ -172,6 +180,7 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        timeToIdleSeconds="0"
        timeToLiveSeconds="300"
        memoryStoreEvictionPolicy="LRU" />
+
 <cache name="MetaClass:ALL"
        eternal="false"
        maxElementsInMemory="100"
@@ -180,6 +189,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        timeToIdleSeconds="0"
        timeToLiveSeconds="300"
        memoryStoreEvictionPolicy="LRU" />
+       <cache name="MetaClass:Code:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
 <cache name="MetaType:ALL"
        eternal="false"
        maxElementsInMemory="100"
