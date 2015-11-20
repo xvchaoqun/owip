@@ -108,6 +108,7 @@ public class SysUserController extends BaseController {
 
 		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_user_type"));
 		modelMap.put("sourceMap", metaTypeService.metaTypes("mc_user_source"));
+		modelMap.put("roleMap", sysRoleService.findAll());
 
 		return "sysUser/sysUser_page";
 	}

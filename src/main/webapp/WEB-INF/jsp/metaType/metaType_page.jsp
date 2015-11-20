@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>${metaClassMap.get(metaType.classId).name}</td>
+								<td nowrap><a href="${ctx}/metaType?classId=${metaType.classId}">${metaClassMap.get(metaType.classId).name}</a></td>
 								<td nowrap>${metaType.name}</td>
 								<td nowrap>${metaType.code}</td>
 								<td nowrap>${metaType.boolAttr}</td>

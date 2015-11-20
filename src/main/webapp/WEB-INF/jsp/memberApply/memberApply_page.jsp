@@ -19,11 +19,11 @@ pageEncoding="UTF-8" %>
                         <%
                             String[] colors= new String[7];
                             colors[0]= "badge-grey";
-                            colors[1]= "badge-warning";
+                            colors[1]= "badge-inverse";
                             colors[2]= "badge-danger";
                             colors[3]= "badge-info";
                             colors[4]= "badge-purple";
-                            colors[5]= "badge-inverse";
+                            colors[5]= "badge-warning";
                             colors[6]= "badge-pink";
                             //colors[0]= "badge-yellow";
                         %>

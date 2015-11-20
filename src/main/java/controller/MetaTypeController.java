@@ -117,6 +117,9 @@ public class MetaTypeController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("metaClassMap", metaClassService.findAll());
+
         return "metaType/metaType_page";
     }
 
