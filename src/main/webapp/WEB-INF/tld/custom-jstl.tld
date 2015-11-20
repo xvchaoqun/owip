@@ -87,4 +87,9 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Boolean classEqualsCode(java.lang.Integer,java.lang.String)</function-signature>
 	</function>
+	<function>
+		<name>getApplyStatus</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getApplyStatus(domain.MemberApply)</function-signature>
+	</function>
 </taglib>

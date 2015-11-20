@@ -79,7 +79,9 @@ $.ajaxSetup({
          return data;
     },error:function(jqXHR, textStatus, errorMsg){
         //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
+
         toastr.error('系统异常，请稍后再试。', '系统异常');
+        //$("#modal").modal('hide');
     }
 });
 

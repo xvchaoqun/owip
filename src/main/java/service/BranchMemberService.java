@@ -18,6 +18,13 @@ import java.util.Map;
 @Service
 public class BranchMemberService extends BaseMapper {
 
+
+    // 查询用户是否是支部管理员
+    public boolean isAdmin(Integer userId, Integer branchId){
+        if(userId==null || branchId == null) return false;
+        return commonMapper.isBranchAdmin(userId, branchId)>0;
+    }
+
     public boolean idDuplicate(Integer id, int groupId, int userId){
 
         BranchMemberExample example = new BranchMemberExample();

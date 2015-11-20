@@ -37,4 +37,11 @@ public class MemberApplyService extends BaseMapper {
 
         return memberApplyMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example){
+
+        return memberApplyMapper.updateByExampleSelective(record, example);
+    }
 }

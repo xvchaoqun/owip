@@ -22,8 +22,6 @@ public class MemberApply implements Serializable {
 
     private Date activeTime;
 
-    private Byte activeStatus;
-
     private Date candidateTime;
 
     private Date trainTime;
@@ -120,14 +118,6 @@ public class MemberApply implements Serializable {
 
     public void setActiveTime(Date activeTime) {
         this.activeTime = activeTime;
-    }
-
-    public Byte getActiveStatus() {
-        return activeStatus;
-    }
-
-    public void setActiveStatus(Byte activeStatus) {
-        this.activeStatus = activeStatus;
     }
 
     public Date getCandidateTime() {

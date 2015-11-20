@@ -5,14 +5,23 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "ow_",
   "tables": [
+     {
+       "table": "apply_open_time",
+       "key": "id",
+       "searchColumns": "type, party_id,branch_id,start_time,end_time",
+       "showColumns": "type, party_id,branch_id,start_time,end_time, is_global",
+       "excludeEditColumns": "id",
+       "logType":"SystemConstants.LOG_MEMBER_APPLY",
+       "ignore": false
+     },
     {
       "table": "member_apply",
       "key": "id",
       "searchColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
       "showColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
       "excludeEditColumns": "id,user_id, update_time, create_time",
-      "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "logType":"SystemConstants.LOG_MEMBER_APPLY",
+      "ignore": true
     },
     {
       "table": "branch_member_group",

@@ -120,3 +120,15 @@ insert into sys_resource(name, type,parent_id, parent_ids, permission,available)
 ('添加/修改','function', 203, '0/1/105/203', 'branchMemberGroup:edit', 1),
 ('删除/批量删除','function', 203, '0/1/105/203', 'branchMemberGroup:del', 1),
 ('调序','function', 203, '0/1/105/203', 'branchMemberGroup:changeOrder', 1);
+
+#id=211 0/1/105/211 memberApply
+insert into sys_resource(name, type,parent_id, parent_ids, permission,available) values
+('添加/修改','function', 211, '0/1/105/211', 'memberApply:edit', 1),
+('删除/批量删除','function', 211, '0/1/105/211', 'memberApply:del', 1),
+('调序','function', 211, '0/1/105/211', 'memberApply:changeOrder', 1);
+
+#id=212 0/1/105/212 入党申请开放时间
+insert into sys_resource(name, type,parent_id, parent_ids, permission,available) values
+('添加/修改','function', 212, '0/1/105/212', 'applyOpenTime:edit', 1),
+('删除/批量删除','function', 212, '0/1/105/212', 'applyOpenTime:del', 1),
+('调序','function', 212, '0/1/105/212', 'applyOpenTime:changeOrder', 1);

@@ -1,10 +1,12 @@
 package service;
 
-import persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.*;
 
 public class BaseMapper {
 
+	@Autowired
+	protected ApplyOpenTimeMapper applyOpenTimeMapper;
 	@Autowired
 	protected MemberApplyMapper memberApplyMapper;
 	@Autowired

@@ -72,19 +72,32 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public Map resolveException(HttpServletRequest request, Exception ex) {
-
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("success", false);
-        resultMap.put("msg", ex.getMessage());
+    public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         ex.printStackTrace();
+
+        if (!HttpUtils.isAjaxRequest(request)) {
+
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("exception", ex);
+            mv.setViewName("500");
+            return mv;
+        }
+
+        ModelAndView mav = new ModelAndView();
+        MappingJackson2JsonView view = new MappingJackson2JsonView();
+        Map attributes = new HashMap();
+        attributes.put("success", false);
+        attributes.put("msg", ex.getMessage());
+        view.setAttributesMap(attributes);
+        mav.setView(view);
+
         logger.warn("{}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),
                         JSONUtils.toString(request.getParameterMap(), false)});
 
-        return resultMap;
+        return mav;
     }
 
 

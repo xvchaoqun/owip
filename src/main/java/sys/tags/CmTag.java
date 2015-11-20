@@ -1,12 +1,10 @@
 package sys.tags;
 
-import domain.MetaClass;
-import domain.MetaType;
-import domain.SysResource;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import service.*;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 
@@ -17,6 +15,56 @@ public class CmTag {
 	static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
 	static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
 	static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
+
+
+	public static String getApplyStatus(MemberApply memberApply){
+		String stage = "";
+		switch (memberApply.getStatus()){
+			case SystemConstants.APPLY_STATUS_INIT:
+				stage = "申请中"; break;
+			case SystemConstants.APPLY_STATUS_DENY:
+				stage = "已退回"; break;
+			case SystemConstants.APPLY_STATUS_ACTIVE:
+				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+					stage = "未审核";
+				}
+				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "已审核";
+				}
+				break;
+			case SystemConstants.APPLY_STATUS_CANDIDATE:
+				if(memberApply.getPlanStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+					stage = "未审核";
+				}
+				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "已审核";
+				}
+				break;
+			case SystemConstants.APPLY_STATUS_PLAN:
+				if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+					stage = "未审核";
+				}
+				if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "已审核";
+				}
+				break;
+			case SystemConstants.APPLY_STATUS_GROW:
+				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+					stage = "未审核";
+				}
+				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "待组织部审核";
+				}
+				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_OD_CHECKED){
+					stage = "已审核";
+				}
+				break;
+			case SystemConstants.APPLY_STATUS_POSITIVE:
+				stage = "已转正";
+				break;
+		}
+		return stage;
+	}
 
 	public static SysResource getSysResource(Integer id){
 

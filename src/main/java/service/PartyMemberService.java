@@ -18,6 +18,12 @@ import java.util.Map;
 @Service
 public class PartyMemberService extends BaseMapper {
 
+    // 查询用户是否是分党委管理员
+    public boolean isAdmin(Integer userId, Integer partyId){
+        if(userId==null || partyId == null) return false;
+        return commonMapper.isPartyAdmin(userId, partyId)>0;
+    }
+
     public boolean idDuplicate(Integer id, int groupId, int userId){
 
         PartyMemberExample example = new PartyMemberExample();

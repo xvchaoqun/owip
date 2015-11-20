@@ -1,9 +1,11 @@
 package service;
 
+import domain.MetaType;
 import domain.Party;
 import domain.PartyExample;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,15 @@ import java.util.Map;
 
 @Service
 public class PartyService extends BaseMapper {
+    @Autowired
+    private MetaTypeService metaTypeService;
+    // 是否直属党支部
+    public boolean isDirectParty(int partyId){
+
+        Party party = findAll().get(partyId);
+        MetaType metaType = metaTypeService.findAll().get(party.getClassId());
+        return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_direct_branch");
+    }
 
     public boolean idDuplicate(Integer id, String code){
 

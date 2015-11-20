@@ -1,5 +1,8 @@
 package sys.constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SystemConstants {
 
 
@@ -8,8 +11,7 @@ public class SystemConstants {
 	public static final String LOG_LOGIN = "mt_log_login";
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";
-	public static final String LOG_UNIT = "mt_log_unit";
-	public static final String LOG_CADRE = "mt_log_cadre";
+	public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
 
 	public static final String RESOURCE_TYPE_FUNCTION = "function";
 	public static final String RESOURCE_TYPE_URL = "url";
@@ -31,8 +33,35 @@ public class SystemConstants {
 	// 申请入党类型
 	public final static byte APPLY_TYPE_STU= 1; // 学生
 	public final static byte APPLY_TYPE_TECHER = 2; // 教职工
+	public static Map<Byte, String> applyTypeMap = new HashMap<>();
+	static {
+		applyTypeMap.put(APPLY_TYPE_STU, "学生");
+		applyTypeMap.put(APPLY_TYPE_TECHER, "教职工");
+	}
 	// 申请入党当前状态
+	//0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
 	public final static byte APPLY_STATUS_DENY = 0; // 未通过
 	public final static byte APPLY_STATUS_INIT = 1; // 申请
 	public final static byte APPLY_STATUS_ACTIVE = 2; // 积极分子
+	public final static byte APPLY_STATUS_CANDIDATE = 3; // 发展对象
+	public final static byte APPLY_STATUS_PLAN = 4; // 列入发展计划
+	public final static byte APPLY_STATUS_DRAW = 5; // 领取志愿书
+	public final static byte APPLY_STATUS_GROW = 6; // 预备党员
+	public final static byte APPLY_STATUS_POSITIVE = 7; // 正式党员
+
+	public static Map<Byte, String> applyStageTypeMap = new HashMap<>();
+	static {
+		applyStageTypeMap.put(APPLY_STATUS_INIT, "申请");
+		applyStageTypeMap.put(APPLY_STATUS_ACTIVE, "积极分子");
+		applyStageTypeMap.put(APPLY_STATUS_CANDIDATE, "发展对象");
+		applyStageTypeMap.put(APPLY_STATUS_PLAN, "列入发展计划");
+		applyStageTypeMap.put(APPLY_STATUS_DRAW, "领取志愿书");
+		applyStageTypeMap.put(APPLY_STATUS_GROW, "预备党员");
+		applyStageTypeMap.put(APPLY_STATUS_POSITIVE, "正式党员");
+	}
+
+	// 申请入党审核状态
+	public final static byte APPLY_STATUS_UNCHECKED = 0; // 未审核
+	public final static byte APPLY_STATUS_CHECKED = 1; // 已审核
+	public final static byte APPLY_STATUS_OD_CHECKED = 2; // 组织部已审核，成为预备党员和正式党员时
 }

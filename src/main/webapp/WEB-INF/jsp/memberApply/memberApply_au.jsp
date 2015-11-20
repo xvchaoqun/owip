@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberApply_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${memberApply.id}">
+        <input type="hidden" name="userId" value="${memberApply.userId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属分党委</label>
 				<div class="col-xs-6">
