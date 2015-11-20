@@ -21,41 +21,57 @@ public class CmTag {
 		String stage = "";
 		switch (memberApply.getStatus()){
 			case SystemConstants.APPLY_STATUS_INIT:
-				stage = "申请中"; break;
+				stage = "申请"; break;
 			case SystemConstants.APPLY_STATUS_DENY:
-				stage = "已退回"; break;
+				stage = "未通过"; break;
+			case SystemConstants.APPLY_STATUS_PASS:
+				stage = "通过"; break;
 			case SystemConstants.APPLY_STATUS_ACTIVE:
-				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+				if(memberApply.getCandidateStatus()==null || memberApply.getCandidateTime()==null){
+					stage = "未提交";
+				}else if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
 					stage = "未审核";
-				}
-				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+				}else if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_CHECKED){
 					stage = "已审核";
 				}
 				break;
 			case SystemConstants.APPLY_STATUS_CANDIDATE:
-				if(memberApply.getPlanStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+				if(memberApply.getPlanStatus()==null || memberApply.getPlanTime()==null){
+					stage = "未提交";
+				}else if(memberApply.getPlanStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
 					stage = "未审核";
-				}
-				if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+				}else if(memberApply.getPlanStatus()==SystemConstants.APPLY_STATUS_CHECKED){
 					stage = "已审核";
 				}
 				break;
 			case SystemConstants.APPLY_STATUS_PLAN:
-				if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+				if(memberApply.getDrawStatus()==null || memberApply.getDrawTime()==null){
+					stage = "未提交";
+				} else if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
 					stage = "未审核";
+				}else if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "已审核";
 				}
-				if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+				break;
+			case SystemConstants.APPLY_STATUS_DRAW:
+				if(memberApply.getGrowStatus()==null || memberApply.getGrowTime()==null){
+					stage = "未提交";
+				} else if(memberApply.getGrowStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+					stage = "未审核";
+				}else if(memberApply.getGrowStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+					stage = "待组织部审核";
+				}else if(memberApply.getGrowStatus()==SystemConstants.APPLY_STATUS_OD_CHECKED){
 					stage = "已审核";
 				}
 				break;
 			case SystemConstants.APPLY_STATUS_GROW:
-				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
+				if(memberApply.getPositiveStatus()==null || memberApply.getPositiveTime()==null){
+					stage = "未提交";
+				}else if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
 					stage = "未审核";
-				}
-				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_CHECKED){
+				}else if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_CHECKED){
 					stage = "待组织部审核";
-				}
-				if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_OD_CHECKED){
+				}else if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_OD_CHECKED){
 					stage = "已审核";
 				}
 				break;

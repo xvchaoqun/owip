@@ -122,7 +122,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "您没有权限访问");
+        attributes.put("msg", "您没有权限");
         view.setAttributesMap(attributes);
         mav.setView(view);
 

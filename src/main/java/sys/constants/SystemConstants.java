@@ -40,8 +40,9 @@ public class SystemConstants {
 	}
 	// 申请入党当前状态
 	//0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
-	public final static byte APPLY_STATUS_DENY = 0; // 未通过
-	public final static byte APPLY_STATUS_INIT = 1; // 申请
+	public final static byte APPLY_STATUS_DENY = -1; // 未通过
+	public final static byte APPLY_STATUS_INIT = 0; // 申请
+	public final static byte APPLY_STATUS_PASS = 1; // 通过
 	public final static byte APPLY_STATUS_ACTIVE = 2; // 积极分子
 	public final static byte APPLY_STATUS_CANDIDATE = 3; // 发展对象
 	public final static byte APPLY_STATUS_PLAN = 4; // 列入发展计划

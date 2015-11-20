@@ -3,7 +3,6 @@ package controller;
 import domain.MemberApply;
 import domain.MemberApplyExample;
 import domain.MemberApplyExample.Criteria;
-import domain.Party;
 import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -12,6 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -20,10 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -59,7 +59,8 @@ public class MemberApplyController extends BaseController {
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
-                                   Byte type,
+                                   @RequestParam(defaultValue = "1")Byte type,
+                                   @RequestParam(defaultValue = "0")Byte stage,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -73,10 +74,20 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         Criteria criteria = example.createCriteria();
-        if(type !=null)
-            criteria.andTypeEqualTo(type);
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        if(type !=null) {
+            modelMap.put("type", type);
+            criteria.andTypeEqualTo(type);
+        }
+        if (stage != null) {
+            modelMap.put("stage", stage);
+            if(stage<=SystemConstants.APPLY_STATUS_PASS)
+                criteria.andStatusLessThanOrEqualTo(SystemConstants.APPLY_STATUS_PASS);
+            else
+                criteria.andStatusEqualTo(stage);
+        }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -119,6 +130,9 @@ public class MemberApplyController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
+        if (stage != null) {
+            searchStr += "&stage=" + stage;
+        }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
@@ -131,8 +145,8 @@ public class MemberApplyController extends BaseController {
     }
 
     // 申请不通过
-    @RequiresRoles("branchAdmin")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_deny(int userId, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
@@ -144,7 +158,7 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -159,10 +173,10 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
-    // 申请通过 成为积极分子
-    @RequiresRoles("branchAdmin")
-    @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
-    public Map apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser) {
+    // 申请通过
+    @RequestMapping(value = "/apply_pass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map apply_pass(int userId, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -173,12 +187,11 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_ACTIVE);
-        record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+        record.setStatus(SystemConstants.APPLY_STATUS_PASS);
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
                 .andStatusEqualTo(SystemConstants.APPLY_STATUS_INIT);
@@ -189,10 +202,15 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
-    // 提交 确定为发展对象
-    @RequiresRoles("branchAdmin")
-    @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
-    public Map apply_candidate(int userId, String _candidateTime, String _trainTime, @CurrentUser SysUser loginUser) {
+    @RequestMapping(value = "/apply_active")
+    public String apply_active(){
+
+        return "memberApply/apply_active";
+    }
+    // 申请通过 成为积极分子
+    @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -203,7 +221,43 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
+        }
+
+        MemberApply record = new MemberApply();
+        record.setStatus(SystemConstants.APPLY_STATUS_ACTIVE);
+        record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+        MemberApplyExample example = new MemberApplyExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStatusEqualTo(SystemConstants.APPLY_STATUS_PASS);
+
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+            return success(FormUtils.SUCCESS);
+
+        return failed(FormUtils.FAILED);
+    }
+
+    @RequestMapping(value = "/apply_candidate")
+    public String apply_candidate(){
+
+        return "memberApply/apply_candidate";
+    }
+
+    // 提交 确定为发展对象
+    @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime, @CurrentUser SysUser loginUser) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberApply memberApply = memberApplyService.get(userId);
+        Integer branchId = memberApply.getBranchId();
+        Integer partyId = memberApply.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
         }
 
         DateTime dt = new DateTime(memberApply.getActiveTime());
@@ -225,7 +279,7 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_INIT);
+                .andStatusEqualTo(SystemConstants.APPLY_STATUS_ACTIVE);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
             return success(FormUtils.SUCCESS);
@@ -233,8 +287,8 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     // 审核 确定为发展对象
-    @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser) {
 
         //该分党委管理员应是申请人所在的分党委
@@ -242,7 +296,7 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -251,7 +305,7 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_INIT)
+                .andStatusEqualTo(SystemConstants.APPLY_STATUS_ACTIVE)
                 .andCandidateStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
@@ -260,10 +314,16 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequestMapping(value = "/apply_plan")
+    public String apply_plan(){
+
+        return "memberApply/apply_plan";
+    }
+
     //提交 列入发展计划
-    @RequiresRoles("branchAdmin")
     @RequestMapping(value = "/apply_plan", method = RequestMethod.POST)
-    public Map apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser) {
+    @ResponseBody
+    public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -274,7 +334,7 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STATUS_PLAN)){
             return failed("不在开放时间范围");
@@ -299,8 +359,8 @@ public class MemberApplyController extends BaseController {
     }
 
     //审核 列入发展计划
-    @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/apply_plan_check", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser) {
 
         //该分党委管理员应是申请人所在的分党委
@@ -308,7 +368,7 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STATUS_PLAN)){
@@ -329,10 +389,16 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequestMapping(value = "/apply_draw")
+    public String apply_draw(){
+
+        return "memberApply/apply_draw";
+    }
+
     //提交 领取志愿书
-    @RequiresRoles("branchAdmin")
     @RequestMapping(value = "/apply_draw", method = RequestMethod.POST)
-    public Map apply_draw(int userId, String _planTime, @CurrentUser SysUser loginUser) {
+    @ResponseBody
+    public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -343,7 +409,7 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -353,7 +419,7 @@ public class MemberApplyController extends BaseController {
         }else {
             record.setDrawStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setDrawTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
+        record.setDrawTime(DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD));
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -365,8 +431,8 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
-    @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser) {
 
         //该分党委管理员应是申请人所在的分党委
@@ -374,7 +440,7 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -392,10 +458,16 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequestMapping(value = "/apply_grow")
+    public String apply_grow(){
+
+        return "memberApply/apply_grow";
+    }
+
     //提交 预备党员
-    @RequiresRoles("branchAdmin")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
-    public Map apply_grow(int userId, String _planTime, @CurrentUser SysUser loginUser) {
+    @ResponseBody
+    public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -406,7 +478,7 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -415,7 +487,7 @@ public class MemberApplyController extends BaseController {
         }else {
             record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setGrowTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
+        record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -427,8 +499,8 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
-    @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser) {
 
         //该分党委管理员应是申请人所在的分党委
@@ -436,7 +508,7 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -456,7 +528,10 @@ public class MemberApplyController extends BaseController {
     //组织部管理员审核 领取志愿书
     @RequiresRoles("odAdmin")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser) {
+
+        // 这里要添加权限验证?
 
         MemberApply record = new MemberApply();
         record.setStatus(SystemConstants.APPLY_STATUS_GROW);
@@ -473,10 +548,16 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequestMapping(value = "/apply_positive")
+    public String apply_positive(){
+
+        return "memberApply/apply_positive";
+    }
+
     //提交 正式党员
-    @RequiresRoles("branchAdmin")
     @RequestMapping(value = "/apply_positive", method = RequestMethod.POST)
-    public Map apply_positive(int userId, String _planTime, @CurrentUser SysUser loginUser) {
+    @ResponseBody
+    public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -487,7 +568,7 @@ public class MemberApplyController extends BaseController {
         boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -496,7 +577,7 @@ public class MemberApplyController extends BaseController {
         }else {
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setPositiveTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
+        record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -509,8 +590,8 @@ public class MemberApplyController extends BaseController {
     }
 
     //审核 正式党员
-    @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/apply_positive_check", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser) {
 
         //该分党委管理员应是申请人所在的分党委
@@ -518,7 +599,7 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
-            return failed("没有权限");
+            throw new UnauthorizedException();
         }
 
         MemberApply record = new MemberApply();
@@ -538,6 +619,7 @@ public class MemberApplyController extends BaseController {
     //组织部管理员审核 正式党员
     @RequiresRoles("odAdmin")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
+    @ResponseBody
     public Map apply_positive_check2(int userId) {
 
         MemberApply record = new MemberApply();

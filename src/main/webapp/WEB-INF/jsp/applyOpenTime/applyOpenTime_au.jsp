@@ -62,7 +62,9 @@ pageEncoding="UTF-8"%>
                     <select required name="type" data-rel="select2" data-placeholder="请选择阶段">
                         <option></option>
                         <c:forEach items="${applyStageTypeMap}" var="type">
+                            <c:if test="${type.key>0}">
                             <option value="${type.key}">${type.value}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                     <script type="text/javascript">

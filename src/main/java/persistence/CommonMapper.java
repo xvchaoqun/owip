@@ -15,14 +15,14 @@ import java.util.List;
  */
 public interface CommonMapper {
 
-    // 判断用户是否是分党委管理员(>0)
+    // 判断用户是否是现在分党委班子管理员(>0)
     @Select("select count(*) from ow_party_member_group pmg, ow_party_member pm " +
-            "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id")
+            "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id")
     int isPartyAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
-    // 判断用户是否是支部管理员(>0)
+    // 判断用户是否是现任支部委员会管理员(>0)
     @Select("select count(*) from ow_branch_member_group bmg, ow_branch_member bm " +
-            "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id")
+            "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id")
     int isBranchAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
 
     @Update("update ${tableName} set sort_order = sort_order - 1 where sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
