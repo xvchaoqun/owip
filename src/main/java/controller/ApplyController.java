@@ -16,6 +16,7 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,10 +69,12 @@ public class ApplyController extends BaseController {
         memberApply.setRemark(remark);
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());
-        memberApply.setStatus(SystemConstants.APPLY_STATUS_INIT);
+        memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
         memberApplyService.insertSelective(memberApply);
 
-        logger.info(addLog(request, SystemConstants.LOG_OW, "提交申请入党"));
+        applyLogService.addApplyLog(loginUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
+        logger.info(addLog(request, SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 }

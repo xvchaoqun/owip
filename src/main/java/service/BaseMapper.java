@@ -6,6 +6,8 @@ import persistence.*;
 public class BaseMapper {
 
 	@Autowired
+	protected ApplyLogMapper applyLogMapper;
+	@Autowired
 	protected ApplyOpenTimeMapper applyOpenTimeMapper;
 	@Autowired
 	protected MemberApplyMapper memberApplyMapper;

@@ -9,7 +9,7 @@
     <result column="apply_time" property="applyTime" jdbcType="DATE" />
     <result column="fill_time" property="fillTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="stage" property="stage" jdbcType="TINYINT" />
     <result column="active_time" property="activeTime" jdbcType="DATE" />
     <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
     <result column="train_time" property="trainTime" jdbcType="DATE" />
@@ -83,7 +83,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, party_id, branch_id, type, apply_time, fill_time, remark, status, active_time, 
+    user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, active_time, 
     candidate_time, train_time, candidate_status, plan_time, plan_status, draw_time, 
     draw_status, grow_time, grow_status, positive_time, positive_status, create_time
   </sql>
@@ -120,7 +120,7 @@
   <insert id="insert" parameterType="domain.MemberApply" >
     insert into ow_member_apply (user_id, party_id, branch_id, 
       type, apply_time, fill_time, 
-      remark, status, active_time, 
+      remark, stage, active_time, 
       candidate_time, train_time, candidate_status, 
       plan_time, plan_status, draw_time, 
       draw_status, grow_time, grow_status, 
@@ -128,7 +128,7 @@
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{applyTime,jdbcType=DATE}, #{fillTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{activeTime,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{stage,jdbcType=TINYINT}, #{activeTime,jdbcType=DATE}, 
       #{candidateTime,jdbcType=DATE}, #{trainTime,jdbcType=DATE}, #{candidateStatus,jdbcType=TINYINT}, 
       #{planTime,jdbcType=DATE}, #{planStatus,jdbcType=TINYINT}, #{drawTime,jdbcType=DATE}, 
       #{drawStatus,jdbcType=TINYINT}, #{growTime,jdbcType=DATE}, #{growStatus,jdbcType=TINYINT}, 
@@ -159,8 +159,8 @@
       <if test="remark != null" >
         remark,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="stage != null" >
+        stage,
       </if>
       <if test="activeTime != null" >
         active_time,
@@ -224,8 +224,8 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
+      <if test="stage != null" >
+        #{stage,jdbcType=TINYINT},
       </if>
       <if test="activeTime != null" >
         #{activeTime,jdbcType=DATE},
@@ -298,8 +298,8 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=TINYINT},
+      <if test="record.stage != null" >
+        stage = #{record.stage,jdbcType=TINYINT},
       </if>
       <if test="record.activeTime != null" >
         active_time = #{record.activeTime,jdbcType=DATE},
@@ -354,7 +354,7 @@
       apply_time = #{record.applyTime,jdbcType=DATE},
       fill_time = #{record.fillTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=TINYINT},
+      stage = #{record.stage,jdbcType=TINYINT},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
       train_time = #{record.trainTime,jdbcType=DATE},
@@ -393,8 +393,8 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
+      <if test="stage != null" >
+        stage = #{stage,jdbcType=TINYINT},
       </if>
       <if test="activeTime != null" >
         active_time = #{activeTime,jdbcType=DATE},
@@ -446,7 +446,7 @@
       apply_time = #{applyTime,jdbcType=DATE},
       fill_time = #{fillTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
+      stage = #{stage,jdbcType=TINYINT},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},
       train_time = #{trainTime,jdbcType=DATE},

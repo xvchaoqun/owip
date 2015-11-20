@@ -19,14 +19,14 @@ public class CmTag {
 
 	public static String getApplyStatus(MemberApply memberApply){
 		String stage = "";
-		switch (memberApply.getStatus()){
-			case SystemConstants.APPLY_STATUS_INIT:
+		switch (memberApply.getStage()){
+			case SystemConstants.APPLY_STAGE_INIT:
 				stage = "申请"; break;
-			case SystemConstants.APPLY_STATUS_DENY:
+			case SystemConstants.APPLY_STAGE_DENY:
 				stage = "未通过"; break;
-			case SystemConstants.APPLY_STATUS_PASS:
+			case SystemConstants.APPLY_STAGE_PASS:
 				stage = "通过"; break;
-			case SystemConstants.APPLY_STATUS_ACTIVE:
+			case SystemConstants.APPLY_STAGE_ACTIVE:
 				if(memberApply.getCandidateStatus()==null || memberApply.getCandidateTime()==null){
 					stage = "未提交";
 				}else if(memberApply.getCandidateStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
@@ -35,7 +35,7 @@ public class CmTag {
 					stage = "已审核";
 				}
 				break;
-			case SystemConstants.APPLY_STATUS_CANDIDATE:
+			case SystemConstants.APPLY_STAGE_CANDIDATE:
 				if(memberApply.getPlanStatus()==null || memberApply.getPlanTime()==null){
 					stage = "未提交";
 				}else if(memberApply.getPlanStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
@@ -44,7 +44,7 @@ public class CmTag {
 					stage = "已审核";
 				}
 				break;
-			case SystemConstants.APPLY_STATUS_PLAN:
+			case SystemConstants.APPLY_STAGE_PLAN:
 				if(memberApply.getDrawStatus()==null || memberApply.getDrawTime()==null){
 					stage = "未提交";
 				} else if(memberApply.getDrawStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
@@ -53,7 +53,7 @@ public class CmTag {
 					stage = "已审核";
 				}
 				break;
-			case SystemConstants.APPLY_STATUS_DRAW:
+			case SystemConstants.APPLY_STAGE_DRAW:
 				if(memberApply.getGrowStatus()==null || memberApply.getGrowTime()==null){
 					stage = "未提交";
 				} else if(memberApply.getGrowStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
@@ -64,7 +64,7 @@ public class CmTag {
 					stage = "已审核";
 				}
 				break;
-			case SystemConstants.APPLY_STATUS_GROW:
+			case SystemConstants.APPLY_STAGE_GROW:
 				if(memberApply.getPositiveStatus()==null || memberApply.getPositiveTime()==null){
 					stage = "未提交";
 				}else if(memberApply.getPositiveStatus()==SystemConstants.APPLY_STATUS_UNCHECKED){
@@ -75,7 +75,7 @@ public class CmTag {
 					stage = "已审核";
 				}
 				break;
-			case SystemConstants.APPLY_STATUS_POSITIVE:
+			case SystemConstants.APPLY_STAGE_POSITIVE:
 				stage = "已转正";
 				break;
 		}

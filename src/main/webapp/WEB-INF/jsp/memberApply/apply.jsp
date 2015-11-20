@@ -156,37 +156,48 @@
     </c:if>
   <c:if test="${not empty memberApply}">
     <ul class="steps">
-      <li data-step="1" <c:if test="${memberApply.status>0}">class="active"</c:if>>
-        <span class="step">1</span>
+      <li data-step="1" class="active">
+        <span class="step">0</span>
         <span class="title">申请已提交</span>
       </li>
-
-      <li data-step="2" <c:if test="${memberApply.status>1}">class="active"</c:if>>
+      <c:if test="${memberApply.stage==-1}">
+      <li data-step="2" class="active">
+        <span class="step">1</span>
+        <span class="title">未通过申请</span>
+      </li>
+      </c:if>
+    <c:if test="${memberApply.stage>0}">
+      <li data-step="1" <c:if test="${memberApply.stage>0}">class="active"</c:if>>
+        <span class="step">1</span>
+        <span class="title">申请已通过</span>
+      </li>
+      <li data-step="2" <c:if test="${memberApply.stage>1}">class="active"</c:if>>
         <span class="step">2</span>
         <span class="title">入党积极分子</span>
       </li>
 
-      <li data-step="3" <c:if test="${memberApply.status>2}">class="active"</c:if>>
+      <li data-step="3" <c:if test="${memberApply.stage>2}">class="active"</c:if>>
         <span class="step">3</span>
         <span class="title">成为发展对象</span>
       </li>
 
-      <li data-step="4" <c:if test="${memberApply.status>3}">class="active"</c:if>>
+      <li data-step="4" <c:if test="${memberApply.stage>3}">class="active"</c:if>>
         <span class="step">4</span>
         <span class="title">例入发展计划</span>
       </li>
-      <li data-step="5" <c:if test="${memberApply.status>4}">class="active"</c:if>>
+      <li data-step="5" <c:if test="${memberApply.stage>4}">class="active"</c:if>>
         <span class="step">5</span>
         <span class="title">领取志愿书</span>
       </li>
-      <li data-step="6" <c:if test="${memberApply.status>5}">class="active"</c:if>>
+      <li data-step="6" <c:if test="${memberApply.stage>5}">class="active"</c:if>>
         <span class="step">6</span>
         <span class="title">预备党员</span>
       </li>
-      <li data-step="7" <c:if test="${memberApply.status>6}">class="active"</c:if>>
+      <li data-step="7" <c:if test="${memberApply.stage>6}">class="active"</c:if>>
         <span class="step">7</span>
         <span class="title">正式党员</span>
       </li>
+      </c:if>
     </ul>
   </c:if>
     </div>

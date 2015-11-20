@@ -45,9 +45,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">状态</label>
+				<label class="col-xs-3 control-label">阶段</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="status" value="${memberApply.status}">
+                        <input required class="form-control" type="text" name="status" value="${memberApply.stage}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -119,7 +119,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">转正时间</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="positive Time" value="${memberApply.positive Time}">
+                        <input required class="form-control" type="text" name="positive Time" value="${memberApply.positiveTime}">
 				</div>
 			</div>
 			<div class="form-group">

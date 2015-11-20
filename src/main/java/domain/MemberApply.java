@@ -18,7 +18,7 @@ public class MemberApply implements Serializable {
 
     private String remark;
 
-    private Byte status;
+    private Byte stage;
 
     private Date activeTime;
 
@@ -104,12 +104,12 @@ public class MemberApply implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Byte getStatus() {
-        return status;
+    public Byte getStage() {
+        return stage;
     }
 
-    public void setStatus(Byte status) {
-        this.status = status;
+    public void setStage(Byte stage) {
+        this.stage = stage;
     }
 
     public Date getActiveTime() {

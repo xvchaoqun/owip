@@ -38,27 +38,27 @@ public class SystemConstants {
 		applyTypeMap.put(APPLY_TYPE_STU, "学生");
 		applyTypeMap.put(APPLY_TYPE_TECHER, "教职工");
 	}
-	// 申请入党当前状态
+	// 申请入党阶段
 	//0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
-	public final static byte APPLY_STATUS_DENY = -1; // 未通过
-	public final static byte APPLY_STATUS_INIT = 0; // 申请
-	public final static byte APPLY_STATUS_PASS = 1; // 通过
-	public final static byte APPLY_STATUS_ACTIVE = 2; // 积极分子
-	public final static byte APPLY_STATUS_CANDIDATE = 3; // 发展对象
-	public final static byte APPLY_STATUS_PLAN = 4; // 列入发展计划
-	public final static byte APPLY_STATUS_DRAW = 5; // 领取志愿书
-	public final static byte APPLY_STATUS_GROW = 6; // 预备党员
-	public final static byte APPLY_STATUS_POSITIVE = 7; // 正式党员
+	public final static byte APPLY_STAGE_DENY = -1; // 未通过
+	public final static byte APPLY_STAGE_INIT = 0; // 申请
+	public final static byte APPLY_STAGE_PASS = 1; // 通过
+	public final static byte APPLY_STAGE_ACTIVE = 2; // 积极分子
+	public final static byte APPLY_STAGE_CANDIDATE = 3; // 发展对象
+	public final static byte APPLY_STAGE_PLAN = 4; // 列入发展计划
+	public final static byte APPLY_STAGE_DRAW = 5; // 领取志愿书
+	public final static byte APPLY_STAGE_GROW = 6; // 预备党员
+	public final static byte APPLY_STAGE_POSITIVE = 7; // 正式党员
 
 	public static Map<Byte, String> applyStageTypeMap = new HashMap<>();
 	static {
-		applyStageTypeMap.put(APPLY_STATUS_INIT, "申请");
-		applyStageTypeMap.put(APPLY_STATUS_ACTIVE, "积极分子");
-		applyStageTypeMap.put(APPLY_STATUS_CANDIDATE, "发展对象");
-		applyStageTypeMap.put(APPLY_STATUS_PLAN, "列入发展计划");
-		applyStageTypeMap.put(APPLY_STATUS_DRAW, "领取志愿书");
-		applyStageTypeMap.put(APPLY_STATUS_GROW, "预备党员");
-		applyStageTypeMap.put(APPLY_STATUS_POSITIVE, "正式党员");
+		applyStageTypeMap.put(APPLY_STAGE_INIT, "申请");
+		applyStageTypeMap.put(APPLY_STAGE_ACTIVE, "积极分子");
+		applyStageTypeMap.put(APPLY_STAGE_CANDIDATE, "发展对象");
+		applyStageTypeMap.put(APPLY_STAGE_PLAN, "列入发展计划");
+		applyStageTypeMap.put(APPLY_STAGE_DRAW, "领取志愿书");
+		applyStageTypeMap.put(APPLY_STAGE_GROW, "预备党员");
+		applyStageTypeMap.put(APPLY_STAGE_POSITIVE, "正式党员");
 	}
 
 	// 申请入党审核状态

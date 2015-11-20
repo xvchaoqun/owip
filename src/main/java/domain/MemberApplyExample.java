@@ -562,63 +562,63 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andStageIsNull() {
+            addCriterion("stage is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andStageIsNotNull() {
+            addCriterion("stage is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Byte value) {
-            addCriterion("status =", value, "status");
+        public Criteria andStageEqualTo(Byte value) {
+            addCriterion("stage =", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Byte value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andStageNotEqualTo(Byte value) {
+            addCriterion("stage <>", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Byte value) {
-            addCriterion("status >", value, "status");
+        public Criteria andStageGreaterThan(Byte value) {
+            addCriterion("stage >", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andStageGreaterThanOrEqualTo(Byte value) {
+            addCriterion("stage >=", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Byte value) {
-            addCriterion("status <", value, "status");
+        public Criteria andStageLessThan(Byte value) {
+            addCriterion("stage <", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andStageLessThanOrEqualTo(Byte value) {
+            addCriterion("stage <=", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Byte> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andStageIn(List<Byte> values) {
+            addCriterion("stage in", values, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Byte> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andStageNotIn(List<Byte> values) {
+            addCriterion("stage not in", values, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Byte value1, Byte value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andStageBetween(Byte value1, Byte value2) {
+            addCriterion("stage between", value1, value2, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andStageNotBetween(Byte value1, Byte value2) {
+            addCriterion("stage not between", value1, value2, "stage");
             return (Criteria) this;
         }
 

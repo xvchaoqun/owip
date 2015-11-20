@@ -15,6 +15,8 @@ public class BaseController extends BaseMapper {
 
 
     @Autowired
+    protected ApplyLogService applyLogService;
+    @Autowired
     protected ApplyOpenTimeService applyOpenTimeService;
     @Autowired
     protected MemberApplyService memberApplyService;

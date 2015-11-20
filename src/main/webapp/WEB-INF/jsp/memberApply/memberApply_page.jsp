@@ -3,14 +3,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="APPLY_STATUS_INIT" value="<%=SystemConstants.APPLY_STATUS_INIT%>"/>
-<c:set var="APPLY_STATUS_PASS" value="<%=SystemConstants.APPLY_STATUS_PASS%>"/>
-<c:set var="APPLY_STATUS_ACTIVE" value="<%=SystemConstants.APPLY_STATUS_ACTIVE%>"/>
-<c:set var="APPLY_STATUS_CANDIDATE" value="<%=SystemConstants.APPLY_STATUS_CANDIDATE%>"/>
-<c:set var="APPLY_STATUS_PLAN" value="<%=SystemConstants.APPLY_STATUS_PLAN%>"/>
-<c:set var="APPLY_STATUS_DRAW" value="<%=SystemConstants.APPLY_STATUS_DRAW%>"/>
-<c:set var="APPLY_STATUS_GROW" value="<%=SystemConstants.APPLY_STATUS_GROW%>"/>
-<c:set var="APPLY_STATUS_POSITIVE" value="<%=SystemConstants.APPLY_STATUS_POSITIVE%>"/>
+<c:set var="APPLY_STAGE_INIT" value="<%=SystemConstants.APPLY_STAGE_INIT%>"/>
+<c:set var="APPLY_STAGE_PASS" value="<%=SystemConstants.APPLY_STAGE_PASS%>"/>
+<c:set var="APPLY_STAGE_ACTIVE" value="<%=SystemConstants.APPLY_STAGE_ACTIVE%>"/>
+<c:set var="APPLY_STAGE_CANDIDATE" value="<%=SystemConstants.APPLY_STAGE_CANDIDATE%>"/>
+<c:set var="APPLY_STAGE_PLAN" value="<%=SystemConstants.APPLY_STAGE_PLAN%>"/>
+<c:set var="APPLY_STAGE_DRAW" value="<%=SystemConstants.APPLY_STAGE_DRAW%>"/>
+<c:set var="APPLY_STAGE_GROW" value="<%=SystemConstants.APPLY_STAGE_GROW%>"/>
+<c:set var="APPLY_STAGE_POSITIVE" value="<%=SystemConstants.APPLY_STAGE_POSITIVE%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -120,30 +120,30 @@ pageEncoding="UTF-8" %>
                                                 <th>${type==1?"学生证号":"工作证号"}</th>
                                                 <th>姓名</th>
                                                 <th>所属组织机构</th>
-                                                <c:if test="${stage<=APPLY_STATUS_PASS}">
+                                                <c:if test="${stage<=APPLY_STAGE_PASS}">
                                                 <th>提交书面申请书时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_ACTIVE}">
+                                                <c:if test="${stage==APPLY_STAGE_ACTIVE}">
                                                 <th>确定为入党积极分子时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_CANDIDATE}">
+                                                <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
                                                     <th>确定为发展对象时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_PLAN}">
+                                                <c:if test="${stage==APPLY_STAGE_PLAN}">
                                                     <th>列入发展计划时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_DRAW}">
+                                                <c:if test="${stage==APPLY_STAGE_DRAW}">
                                                     <th>领取志愿书时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_GROW||stage==APPLY_STATUS_POSITIVE}">
+                                                <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
                                                     <th>发展时间</th>
                                                 </c:if>
-                                                <c:if test="${stage==APPLY_STATUS_POSITIVE}">
+                                                <c:if test="${stage==APPLY_STAGE_POSITIVE}">
                                                     <th>转正时间</th>
                                                 </c:if>
 
-                                                <th>${(stage==APPLY_STATUS_POSITIVE)?"状态":"下一阶段状态"}</th>
-                                                <c:if test="${stage!=APPLY_STATUS_POSITIVE}">
+                                                <th>${(stage==APPLY_STAGE_POSITIVE)?"状态":"下一阶段状态"}</th>
+                                                <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
                                                 <th nowrap></th>
                                                     </c:if>
                                             </tr>
@@ -161,33 +161,33 @@ pageEncoding="UTF-8" %>
                                                     <td>${user.username}</td>
                                                     <td>${user.realname}</td>
                                                     <td>${partyMap.get(memberApply.partyId).name}-${branchMap.get(memberApply.branchId).name}</td>
-                                                    <c:if test="${stage<=APPLY_STATUS_PASS}">
+                                                    <c:if test="${stage<=APPLY_STAGE_PASS}">
                                                     <td>${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_ACTIVE}">
+                                                    <c:if test="${stage==APPLY_STAGE_ACTIVE}">
                                                     <td>${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_CANDIDATE}">
+                                                    <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
                                                         <td>${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_PLAN}">
+                                                    <c:if test="${stage==APPLY_STAGE_PLAN}">
                                                         <td>${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_DRAW}">
+                                                    <c:if test="${stage==APPLY_STAGE_DRAW}">
                                                         <td>${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_GROW||stage==APPLY_STATUS_POSITIVE}">
+                                                    <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
                                                         <td>${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <c:if test="${stage==APPLY_STATUS_POSITIVE}">
+                                                    <c:if test="${stage==APPLY_STAGE_POSITIVE}">
                                                         <td>${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
                                                     <td>${cm:getApplyStatus(memberApply)}</td>
-                                                    <c:if test="${stage!=APPLY_STATUS_POSITIVE}">
+                                                    <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
                                                     <td>
                                                         <div class="hidden-sm hidden-xs action-buttons">
                                                             <c:choose>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_INIT}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_INIT}">
                                                                     <button onclick="apply_pass(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                         <i class="fa fa-check"></i> 通过
                                                                     </button>
@@ -195,12 +195,12 @@ pageEncoding="UTF-8" %>
                                                                         <i class="fa fa-times"></i> 不通过
                                                                     </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_PASS}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">
                                                                     <button onclick="apply_active(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                         <i class="fa fa-check"></i> 确定为入党积极分子
                                                                     </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_ACTIVE}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_ACTIVE}">
                                                                     <c:if test="${empty memberApply.candidateStatus}">
                                                                         <button onclick="apply_candidate(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                             <i class="fa fa-check"></i> 确定为发展对象
@@ -213,7 +213,7 @@ pageEncoding="UTF-8" %>
                                                                     </c:if>
                                                                 </c:when>
 
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_CANDIDATE}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_CANDIDATE}">
                                                                     <c:if test="${empty memberApply.planStatus}">
                                                                         <button onclick="apply_plan(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                             <i class="fa fa-check"></i> 列入发展计划
@@ -225,7 +225,7 @@ pageEncoding="UTF-8" %>
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_PLAN}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_PLAN}">
                                                                     <c:if test="${empty memberApply.drawStatus}">
                                                                         <button onclick="apply_draw(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                             <i class="fa fa-check"></i> 领取志愿书
@@ -237,7 +237,7 @@ pageEncoding="UTF-8" %>
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_DRAW}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
                                                                     <c:if test="${empty memberApply.growStatus}">
                                                                         <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                             <i class="fa fa-check"></i> 领取志愿书
@@ -254,7 +254,7 @@ pageEncoding="UTF-8" %>
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.status==APPLY_STATUS_GROW}">
+                                                                <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
                                                                     <c:if test="${empty memberApply.positiveStatus}">
                                                                         <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success btn-mini">
                                                                             <i class="fa fa-check"></i> 发展为预备党员

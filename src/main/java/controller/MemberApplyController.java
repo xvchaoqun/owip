@@ -29,9 +29,11 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IpUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -83,10 +85,10 @@ public class MemberApplyController extends BaseController {
         }
         if (stage != null) {
             modelMap.put("stage", stage);
-            if(stage<=SystemConstants.APPLY_STATUS_PASS)
-                criteria.andStatusLessThanOrEqualTo(SystemConstants.APPLY_STATUS_PASS);
+            if(stage<=SystemConstants.APPLY_STAGE_PASS)
+                criteria.andStageLessThanOrEqualTo(SystemConstants.APPLY_STAGE_PASS);
             else
-                criteria.andStatusEqualTo(stage);
+                criteria.andStageEqualTo(stage);
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -147,7 +149,7 @@ public class MemberApplyController extends BaseController {
     // 申请不通过
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_deny(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_deny(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -162,13 +164,16 @@ public class MemberApplyController extends BaseController {
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_DENY);
+        record.setStage(SystemConstants.APPLY_STAGE_DENY);
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_INIT);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_INIT, "未通过入党申请", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -176,7 +181,7 @@ public class MemberApplyController extends BaseController {
     // 申请通过
     @RequestMapping(value = "/apply_pass", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_pass(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_pass(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -191,13 +196,16 @@ public class MemberApplyController extends BaseController {
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_PASS);
+        record.setStage(SystemConstants.APPLY_STAGE_PASS);
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_INIT);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_INIT, "通过入党申请", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -210,7 +218,7 @@ public class MemberApplyController extends BaseController {
     // 申请通过 成为积极分子
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -225,14 +233,17 @@ public class MemberApplyController extends BaseController {
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_ACTIVE);
+        record.setStage(SystemConstants.APPLY_STAGE_ACTIVE);
         record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_PASS);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_PASS);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_ACTIVE, "成为积极分子", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -246,7 +257,8 @@ public class MemberApplyController extends BaseController {
     // 提交 确定为发展对象
     @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime,
+                                  @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -271,7 +283,7 @@ public class MemberApplyController extends BaseController {
         record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
 
         if(directParty && partyAdmin){ // 直属党支部管理员，不需要通过审核，直接确定发展对象
-            record.setStatus(SystemConstants.APPLY_STATUS_CANDIDATE);
+            record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
             record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
         } else {
             record.setCandidateStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
@@ -279,17 +291,20 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_ACTIVE);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_CANDIDATE, "确定为发展对象，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
     // 审核 确定为发展对象
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();
@@ -300,16 +315,19 @@ public class MemberApplyController extends BaseController {
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_CANDIDATE);
+        record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
         record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_ACTIVE)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE)
                 .andCandidateStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_CANDIDATE, "确定为发展对象，已审核", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -323,7 +341,7 @@ public class MemberApplyController extends BaseController {
     //提交 列入发展计划
     @RequestMapping(value = "/apply_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -336,12 +354,12 @@ public class MemberApplyController extends BaseController {
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
         }
-        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STATUS_PLAN)){
+        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
         }
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-            record.setStatus(SystemConstants.APPLY_STATUS_PLAN);
+            record.setStage(SystemConstants.APPLY_STAGE_PLAN);
             record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
         }else{
             record.setPlanStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
@@ -350,10 +368,13 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_CANDIDATE);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_PLAN, "列入发展计划，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -361,7 +382,7 @@ public class MemberApplyController extends BaseController {
     //审核 列入发展计划
     @RequestMapping(value = "/apply_plan_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();
@@ -371,20 +392,23 @@ public class MemberApplyController extends BaseController {
             throw new UnauthorizedException();
         }
 
-        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STATUS_PLAN)){
+        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
         }
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_PLAN);
+        record.setStage(SystemConstants.APPLY_STAGE_PLAN);
         record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_CANDIDATE)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE)
                 .andPlanStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_PLAN, "列入发展计划，已审核", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -398,7 +422,7 @@ public class MemberApplyController extends BaseController {
     //提交 领取志愿书
     @RequestMapping(value = "/apply_draw", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -414,7 +438,7 @@ public class MemberApplyController extends BaseController {
 
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-            record.setStatus(SystemConstants.APPLY_STATUS_DRAW);
+            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
             record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
         }else {
             record.setDrawStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
@@ -423,17 +447,20 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_PLAN);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_DRAW, "领取志愿书，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();
@@ -444,16 +471,19 @@ public class MemberApplyController extends BaseController {
         }
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_DRAW);
+        record.setStage(SystemConstants.APPLY_STAGE_DRAW);
         record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_PLAN)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN)
                 .andDrawStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_DRAW, "领取志愿书，已审核", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -467,7 +497,7 @@ public class MemberApplyController extends BaseController {
     //提交 预备党员
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -491,17 +521,20 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_DRAW);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();
@@ -516,11 +549,14 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_DRAW)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
                 .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核1", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -529,21 +565,24 @@ public class MemberApplyController extends BaseController {
     @RequiresRoles("odAdmin")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         // 这里要添加权限验证?
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_GROW);
+        record.setStage(SystemConstants.APPLY_STAGE_GROW);
         record.setGrowStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_DRAW)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
                 .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核2", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -557,7 +596,7 @@ public class MemberApplyController extends BaseController {
     //提交 正式党员
     @RequestMapping(value = "/apply_positive", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser) {
+    public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -581,10 +620,13 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_GROW);
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -592,7 +634,7 @@ public class MemberApplyController extends BaseController {
     //审核 正式党员
     @RequestMapping(value = "/apply_positive_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser) {
+    public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();
@@ -607,11 +649,14 @@ public class MemberApplyController extends BaseController {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_GROW)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
                 .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核1", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }
@@ -620,19 +665,22 @@ public class MemberApplyController extends BaseController {
     @RequiresRoles("odAdmin")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check2(int userId) {
+    public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         MemberApply record = new MemberApply();
-        record.setStatus(SystemConstants.APPLY_STATUS_POSITIVE);
+        record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
         record.setPositiveStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.APPLY_STATUS_GROW)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
                 .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0)
+        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核2", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
+        }
 
         return failed(FormUtils.FAILED);
     }

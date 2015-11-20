@@ -5,6 +5,15 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "ow_",
   "tables": [
+    {
+      "table": "apply_log",
+      "key": "id",
+      "searchColumns": "user_id, operator_id,stage",
+      "showColumns": "user_id, operator_id,stage,content,create_time",
+      "excludeEditColumns": "id,create_time",
+      "logType":"SystemConstants.LOG_MEMBER_APPLY",
+      "ignore": false
+    },
      {
        "table": "apply_open_time",
        "key": "id",
@@ -12,7 +21,7 @@
        "showColumns": "type, party_id,branch_id,start_time,end_time, is_global",
        "excludeEditColumns": "id",
        "logType":"SystemConstants.LOG_MEMBER_APPLY",
-       "ignore": false
+       "ignore": true
      },
     {
       "table": "member_apply",

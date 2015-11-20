@@ -21,11 +21,13 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
+      <table tableName="ow_apply_log" domainObjectName="ApplyLog">
+      </table>
       <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
       </table>-->
-      <table tableName="ow_member_apply" domainObjectName="MemberApply">
+      <!--<table tableName="ow_member_apply" domainObjectName="MemberApply">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
