@@ -36,6 +36,7 @@ public abstract class Source {
 
     public abstract void update(Map<String, Object> map, ResultSet rs) throws SQLException;
 
+    // 从oracle导入数据到mysql
     public void excute(String schema, String tableName){
 
         Statement stat = null;
@@ -82,7 +83,7 @@ public abstract class Source {
             }
         }
     }
-
+    // 读取oracle表的字段信息
     public List<ColumnBean> getTableColumns(String tablename) throws Exception {
 
         List<ColumnBean> columnBeans = new ArrayList<ColumnBean>();

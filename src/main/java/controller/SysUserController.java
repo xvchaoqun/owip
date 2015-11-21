@@ -48,7 +48,7 @@ public class SysUserController extends BaseController {
 	public String sysUser_page(HttpServletRequest request,
 							   @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "asc") String order,
 			Integer pageSize, Integer pageNo, String username,
-			Integer typeId, Integer roleId, Boolean locked, ModelMap modelMap) {
+			Byte type, Integer roleId, Boolean locked, ModelMap modelMap) {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -68,8 +68,8 @@ public class SysUserController extends BaseController {
 		if(roleId!=null){
 			criteria.andRoleIdsLike("%," + roleId + "%,");
 		}
-		if(typeId!=null){
-			criteria.andTypeIdEqualTo(typeId);
+		if(type!=null){
+			criteria.andTypeEqualTo(type);
 		}
 		if(locked!=null){
 			criteria.andLockedEqualTo(locked);
@@ -96,8 +96,8 @@ public class SysUserController extends BaseController {
 		if(roleId!=null){
 			searchStr += "&roleId="+roleId;
 		}
-		if(typeId!=null){
-			searchStr += "&typeId="+typeId;
+		if(type!=null){
+			searchStr += "&type="+type;
 		}
 		if(locked!=null){
 			searchStr += "&locked="+locked;
@@ -106,8 +106,8 @@ public class SysUserController extends BaseController {
 		commonList.setSearchStr(searchStr);
 		modelMap.put("commonList", commonList);
 
-		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_user_type"));
-		modelMap.put("sourceMap", metaTypeService.metaTypes("mc_user_source"));
+		modelMap.put("userTypeMap", SystemConstants.USER_TYPE_MAP);
+		modelMap.put("userSourceMap", SystemConstants.USER_SOURCE_MAP);
 		modelMap.put("roleMap", sysRoleService.findAll());
 
 		return "sysUser/sysUser_page";
@@ -145,7 +145,7 @@ public class SysUserController extends BaseController {
 			sysUser.setSalt(encrypt.getSalt());
 			sysUser.setPasswd(encrypt.getPassword());
 			sysUser.setCreateTime(new Date());
-			sysUser.setSourceId(metaTypeService.codeKeyMap().get("mt_user_source_admin").getId());
+			sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
 			
 			sysUserMapper.insertSelective(sysUser);
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
@@ -184,7 +184,7 @@ public class SysUserController extends BaseController {
 			modelMap.put("sysUser", sysUser);
 		}
 
-		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_user_type"));
+		modelMap.put("userTypeMap", SystemConstants.USER_TYPE_MAP);
 
 		return "sysUser/sysUser_au";
 	}

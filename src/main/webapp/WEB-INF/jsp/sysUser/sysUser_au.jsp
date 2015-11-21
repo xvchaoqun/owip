@@ -26,16 +26,19 @@
 			<label class="col-xs-3 control-label">类别</label>
 			<div class="col-xs-9">
 				<div class="radio">
-					<c:forEach var="metaType" items="${metaTypeMap}">
+					<c:forEach var="userType" items="${userTypeMap}">
 					<label>
-						<input name="typeId" type="radio" class="ace" value="${metaType.value.id}"
-							   <c:if test="${sysUser.typeId==metaType.value.id}">checked</c:if>/>
-						<span class="lbl"> ${metaType.value.name}</span>
+						<input name="type" type="radio" class="ace" value="${userType.key}"
+							   <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
+						<span class="lbl"> ${userType.value}</span>
 					</label>
 					</c:forEach>
+
 				</div>
 			</div>
+
 		</div>
+		<div class="form-group"><div class="col-xs-offset-4">“其他”类型不可以申请入党</div></div>
     	<div class="form-group">
           <label class="col-xs-3 control-label">学工号</label>
           <div class="col-xs-6">

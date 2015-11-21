@@ -56,7 +56,7 @@ public class DBParser {
 		
 		return null;
 	}
-
+	// 读取mysql表的部分字段信息（过滤）
 	public List<ColumnBean> getTableColumns(String tablename, String schema, String columns, boolean include) throws Exception {
 		
 		List<ColumnBean> columnBeans = new ArrayList<ColumnBean>();
@@ -123,7 +123,7 @@ public class DBParser {
 		return columnBeans;
 	}
 	
-	// 全部列
+	// 读取mysql表的全部字段信息
 	public Map<String, ColumnBean> getTableColumnsMap(String tablename, String schema) throws Exception {
 		
 		Map<String, ColumnBean> columnBeansMap = new HashMap<String, ColumnBean>();

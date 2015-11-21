@@ -3,10 +3,9 @@
 <mapper namespace="persistence.ExtYjsMapper" >
   <resultMap id="BaseResultMap" type="domain.ExtYjs" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="xh" property="xh" jdbcType="VARCHAR" />
     <result column="ztm" property="ztm" jdbcType="VARCHAR" />
     <result column="gbm" property="gbm" jdbcType="VARCHAR" />
-    <result column="xh" property="xh" jdbcType="VARCHAR" />
     <result column="xslbm2" property="xslbm2" jdbcType="VARCHAR" />
     <result column="xm" property="xm" jdbcType="VARCHAR" />
     <result column="xmpy" property="xmpy" jdbcType="VARCHAR" />
@@ -128,12 +127,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, ztm, gbm, xh, xslbm2, xm, xmpy, xbm, csrq, sfzh, mzm, pyccm, pylxm, 
-    jylbm, pyfsm, ksh, yxsh, yxsm, yxsmc, yjxkm, yjxkmc, zydm, zymc, yjfxm, yjfxmc, dsh, 
-    dsxm, lqlbm, dxwpdw, daszdw, zsnd, blzgnx, blzgm, nj, xz, yjrxny, sjrxny, yjbyny, 
-    yqbynx, sjbyny, sjxwny, xjglm, xjglny, xjbz, xjydbz, qtbz, hkszdm, syszdm, xxgzdw, 
-    zslqlbm, zxjhm, ksfsm, kslym, pyzxjhm, zzmmm, hfm, xyjrm, xslbm5, tjzydm, tjzymc, 
-    ksh16, sjcqsj, qzdwm, qzdw, qzny
+    id, xh, ztm, gbm, xslbm2, xm, xmpy, xbm, csrq, sfzh, mzm, pyccm, pylxm, jylbm, pyfsm, 
+    ksh, yxsh, yxsm, yxsmc, yjxkm, yjxkmc, zydm, zymc, yjfxm, yjfxmc, dsh, dsxm, lqlbm, 
+    dxwpdw, daszdw, zsnd, blzgnx, blzgm, nj, xz, yjrxny, sjrxny, yjbyny, yqbynx, sjbyny, 
+    sjxwny, xjglm, xjglny, xjbz, xjydbz, qtbz, hkszdm, syszdm, xxgzdw, zslqlbm, zxjhm, 
+    ksfsm, kslym, pyzxjhm, zzmmm, hfm, xyjrm, xslbm5, tjzydm, tjzymc, ksh16, sjcqsj, 
+    qzdwm, qzdw, qzny
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ExtYjsExample" >
     select
@@ -166,48 +165,48 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ExtYjs" >
-    insert into ext_yjs (id, user_id, ztm, 
-      gbm, xh, xslbm2, xm, 
-      xmpy, xbm, csrq, sfzh, 
-      mzm, pyccm, pylxm, 
-      jylbm, pyfsm, ksh, 
-      yxsh, yxsm, yxsmc, 
-      yjxkm, yjxkmc, zydm, 
-      zymc, yjfxm, yjfxmc, 
-      dsh, dsxm, lqlbm, dxwpdw, 
-      daszdw, zsnd, blzgnx, 
-      blzgm, nj, xz, yjrxny, 
-      sjrxny, yjbyny, yqbynx, 
-      sjbyny, sjxwny, xjglm, 
-      xjglny, xjbz, xjydbz, 
-      qtbz, hkszdm, syszdm, 
-      xxgzdw, zslqlbm, zxjhm, 
-      ksfsm, kslym, pyzxjhm, 
-      zzmmm, hfm, xyjrm, 
-      xslbm5, tjzydm, tjzymc, 
-      ksh16, sjcqsj, qzdwm, 
-      qzdw, qzny)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{ztm,jdbcType=VARCHAR}, 
-      #{gbm,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, #{xslbm2,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, 
-      #{xmpy,jdbcType=VARCHAR}, #{xbm,jdbcType=VARCHAR}, #{csrq,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, 
-      #{mzm,jdbcType=VARCHAR}, #{pyccm,jdbcType=VARCHAR}, #{pylxm,jdbcType=VARCHAR}, 
-      #{jylbm,jdbcType=VARCHAR}, #{pyfsm,jdbcType=VARCHAR}, #{ksh,jdbcType=VARCHAR}, 
-      #{yxsh,jdbcType=VARCHAR}, #{yxsm,jdbcType=VARCHAR}, #{yxsmc,jdbcType=VARCHAR}, 
-      #{yjxkm,jdbcType=VARCHAR}, #{yjxkmc,jdbcType=VARCHAR}, #{zydm,jdbcType=VARCHAR}, 
-      #{zymc,jdbcType=VARCHAR}, #{yjfxm,jdbcType=VARCHAR}, #{yjfxmc,jdbcType=VARCHAR}, 
-      #{dsh,jdbcType=VARCHAR}, #{dsxm,jdbcType=VARCHAR}, #{lqlbm,jdbcType=VARCHAR}, #{dxwpdw,jdbcType=VARCHAR}, 
-      #{daszdw,jdbcType=VARCHAR}, #{zsnd,jdbcType=INTEGER}, #{blzgnx,jdbcType=INTEGER}, 
-      #{blzgm,jdbcType=VARCHAR}, #{nj,jdbcType=INTEGER}, #{xz,jdbcType=INTEGER}, #{yjrxny,jdbcType=VARCHAR}, 
-      #{sjrxny,jdbcType=VARCHAR}, #{yjbyny,jdbcType=VARCHAR}, #{yqbynx,jdbcType=REAL}, 
-      #{sjbyny,jdbcType=VARCHAR}, #{sjxwny,jdbcType=VARCHAR}, #{xjglm,jdbcType=VARCHAR}, 
-      #{xjglny,jdbcType=VARCHAR}, #{xjbz,jdbcType=VARCHAR}, #{xjydbz,jdbcType=VARCHAR}, 
-      #{qtbz,jdbcType=VARCHAR}, #{hkszdm,jdbcType=VARCHAR}, #{syszdm,jdbcType=VARCHAR}, 
-      #{xxgzdw,jdbcType=VARCHAR}, #{zslqlbm,jdbcType=VARCHAR}, #{zxjhm,jdbcType=VARCHAR}, 
-      #{ksfsm,jdbcType=VARCHAR}, #{kslym,jdbcType=VARCHAR}, #{pyzxjhm,jdbcType=VARCHAR}, 
-      #{zzmmm,jdbcType=VARCHAR}, #{hfm,jdbcType=VARCHAR}, #{xyjrm,jdbcType=VARCHAR}, 
-      #{xslbm5,jdbcType=VARCHAR}, #{tjzydm,jdbcType=VARCHAR}, #{tjzymc,jdbcType=VARCHAR}, 
-      #{ksh16,jdbcType=VARCHAR}, #{sjcqsj,jdbcType=VARCHAR}, #{qzdwm,jdbcType=VARCHAR}, 
-      #{qzdw,jdbcType=VARCHAR}, #{qzny,jdbcType=VARCHAR})
+    insert into ext_yjs (id, xh, ztm, 
+      gbm, xslbm2, xm, xmpy, 
+      xbm, csrq, sfzh, mzm, 
+      pyccm, pylxm, jylbm, 
+      pyfsm, ksh, yxsh, yxsm, 
+      yxsmc, yjxkm, yjxkmc, 
+      zydm, zymc, yjfxm, 
+      yjfxmc, dsh, dsxm, 
+      lqlbm, dxwpdw, daszdw, 
+      zsnd, blzgnx, blzgm, 
+      nj, xz, yjrxny, sjrxny, 
+      yjbyny, yqbynx, sjbyny, 
+      sjxwny, xjglm, xjglny, 
+      xjbz, xjydbz, qtbz, 
+      hkszdm, syszdm, xxgzdw, 
+      zslqlbm, zxjhm, ksfsm, 
+      kslym, pyzxjhm, zzmmm, 
+      hfm, xyjrm, xslbm5, 
+      tjzydm, tjzymc, ksh16, 
+      sjcqsj, qzdwm, qzdw, 
+      qzny)
+    values (#{id,jdbcType=INTEGER}, #{xh,jdbcType=VARCHAR}, #{ztm,jdbcType=VARCHAR}, 
+      #{gbm,jdbcType=VARCHAR}, #{xslbm2,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{xmpy,jdbcType=VARCHAR}, 
+      #{xbm,jdbcType=VARCHAR}, #{csrq,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{mzm,jdbcType=VARCHAR}, 
+      #{pyccm,jdbcType=VARCHAR}, #{pylxm,jdbcType=VARCHAR}, #{jylbm,jdbcType=VARCHAR}, 
+      #{pyfsm,jdbcType=VARCHAR}, #{ksh,jdbcType=VARCHAR}, #{yxsh,jdbcType=VARCHAR}, #{yxsm,jdbcType=VARCHAR}, 
+      #{yxsmc,jdbcType=VARCHAR}, #{yjxkm,jdbcType=VARCHAR}, #{yjxkmc,jdbcType=VARCHAR}, 
+      #{zydm,jdbcType=VARCHAR}, #{zymc,jdbcType=VARCHAR}, #{yjfxm,jdbcType=VARCHAR}, 
+      #{yjfxmc,jdbcType=VARCHAR}, #{dsh,jdbcType=VARCHAR}, #{dsxm,jdbcType=VARCHAR}, 
+      #{lqlbm,jdbcType=VARCHAR}, #{dxwpdw,jdbcType=VARCHAR}, #{daszdw,jdbcType=VARCHAR}, 
+      #{zsnd,jdbcType=INTEGER}, #{blzgnx,jdbcType=INTEGER}, #{blzgm,jdbcType=VARCHAR}, 
+      #{nj,jdbcType=INTEGER}, #{xz,jdbcType=INTEGER}, #{yjrxny,jdbcType=VARCHAR}, #{sjrxny,jdbcType=VARCHAR}, 
+      #{yjbyny,jdbcType=VARCHAR}, #{yqbynx,jdbcType=REAL}, #{sjbyny,jdbcType=VARCHAR}, 
+      #{sjxwny,jdbcType=VARCHAR}, #{xjglm,jdbcType=VARCHAR}, #{xjglny,jdbcType=VARCHAR}, 
+      #{xjbz,jdbcType=VARCHAR}, #{xjydbz,jdbcType=VARCHAR}, #{qtbz,jdbcType=VARCHAR}, 
+      #{hkszdm,jdbcType=VARCHAR}, #{syszdm,jdbcType=VARCHAR}, #{xxgzdw,jdbcType=VARCHAR}, 
+      #{zslqlbm,jdbcType=VARCHAR}, #{zxjhm,jdbcType=VARCHAR}, #{ksfsm,jdbcType=VARCHAR}, 
+      #{kslym,jdbcType=VARCHAR}, #{pyzxjhm,jdbcType=VARCHAR}, #{zzmmm,jdbcType=VARCHAR}, 
+      #{hfm,jdbcType=VARCHAR}, #{xyjrm,jdbcType=VARCHAR}, #{xslbm5,jdbcType=VARCHAR}, 
+      #{tjzydm,jdbcType=VARCHAR}, #{tjzymc,jdbcType=VARCHAR}, #{ksh16,jdbcType=VARCHAR}, 
+      #{sjcqsj,jdbcType=VARCHAR}, #{qzdwm,jdbcType=VARCHAR}, #{qzdw,jdbcType=VARCHAR}, 
+      #{qzny,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ExtYjs" >
     insert into ext_yjs
@@ -215,17 +214,14 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="xh != null" >
+        xh,
       </if>
       <if test="ztm != null" >
         ztm,
       </if>
       <if test="gbm != null" >
         gbm,
-      </if>
-      <if test="xh != null" >
-        xh,
       </if>
       <if test="xslbm2 != null" >
         xslbm2,
@@ -415,17 +411,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="xh != null" >
+        #{xh,jdbcType=VARCHAR},
       </if>
       <if test="ztm != null" >
         #{ztm,jdbcType=VARCHAR},
       </if>
       <if test="gbm != null" >
         #{gbm,jdbcType=VARCHAR},
-      </if>
-      <if test="xh != null" >
-        #{xh,jdbcType=VARCHAR},
       </if>
       <if test="xslbm2 != null" >
         #{xslbm2,jdbcType=VARCHAR},
@@ -624,17 +617,14 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.xh != null" >
+        xh = #{record.xh,jdbcType=VARCHAR},
       </if>
       <if test="record.ztm != null" >
         ztm = #{record.ztm,jdbcType=VARCHAR},
       </if>
       <if test="record.gbm != null" >
         gbm = #{record.gbm,jdbcType=VARCHAR},
-      </if>
-      <if test="record.xh != null" >
-        xh = #{record.xh,jdbcType=VARCHAR},
       </if>
       <if test="record.xslbm2 != null" >
         xslbm2 = #{record.xslbm2,jdbcType=VARCHAR},
@@ -827,10 +817,9 @@
   <update id="updateByExample" parameterType="map" >
     update ext_yjs
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+      xh = #{record.xh,jdbcType=VARCHAR},
       ztm = #{record.ztm,jdbcType=VARCHAR},
       gbm = #{record.gbm,jdbcType=VARCHAR},
-      xh = #{record.xh,jdbcType=VARCHAR},
       xslbm2 = #{record.xslbm2,jdbcType=VARCHAR},
       xm = #{record.xm,jdbcType=VARCHAR},
       xmpy = #{record.xmpy,jdbcType=VARCHAR},
@@ -899,17 +888,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ExtYjs" >
     update ext_yjs
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="xh != null" >
+        xh = #{xh,jdbcType=VARCHAR},
       </if>
       <if test="ztm != null" >
         ztm = #{ztm,jdbcType=VARCHAR},
       </if>
       <if test="gbm != null" >
         gbm = #{gbm,jdbcType=VARCHAR},
-      </if>
-      <if test="xh != null" >
-        xh = #{xh,jdbcType=VARCHAR},
       </if>
       <if test="xslbm2 != null" >
         xslbm2 = #{xslbm2,jdbcType=VARCHAR},
@@ -1099,10 +1085,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ExtYjs" >
     update ext_yjs
-    set user_id = #{userId,jdbcType=INTEGER},
+    set xh = #{xh,jdbcType=VARCHAR},
       ztm = #{ztm,jdbcType=VARCHAR},
       gbm = #{gbm,jdbcType=VARCHAR},
-      xh = #{xh,jdbcType=VARCHAR},
       xslbm2 = #{xslbm2,jdbcType=VARCHAR},
       xm = #{xm,jdbcType=VARCHAR},
       xmpy = #{xmpy,jdbcType=VARCHAR},

@@ -105,7 +105,7 @@ public class ApplyLogController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("applyStageTypeMap", SystemConstants.applyStageTypeMap);
+        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
         return "applyLog/applyLog_page";
     }
@@ -188,7 +188,7 @@ public class ApplyLogController extends BaseController {
             ApplyLog applyLog = applyLogs.get(i);
             String[] values = {
                         applyLog.getUserId()+"",
-                                            SystemConstants.applyStageTypeMap.get(applyLog.getStage()),
+                                            SystemConstants.APPLY_STAGE_MAP.get(applyLog.getStage()),
                                             applyLog.getContent(),
                                             DateUtils.formatDate(applyLog.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
                     };

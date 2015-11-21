@@ -21,13 +21,13 @@ import java.util.Map;
 @Service
 public class ${TableName}Service extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer ${tbn(key, "tableName")}, String code){
 
         Assert.isTrue(StringUtils.isNotBlank(code));
 
         ${TableName}Example example = new ${TableName}Example();
         ${TableName}Example.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(true);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if(${tbn(key, "tableName")}!=null) criteria.and${tbn(key, "TableName")}NotEqualTo(${tbn(key, "tableName")});
 
         return ${tableName}Mapper.countByExample(example) > 0;
     }
@@ -47,19 +47,19 @@ public class ${TableName}Service extends BaseMapper {
     }
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
-    public void del(Integer id){
+    public void del(Integer ${tbn(key, "tableName")}){
 
-        ${tableName}Mapper.deleteByPrimaryKey(id);
+        ${tableName}Mapper.deleteByPrimaryKey(${tbn(key, "tableName")});
     }
 
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ${tbn(key, "tableName")}s){
 
         if(ids==null || ids.length==0) return;
 
         ${TableName}Example example = new ${TableName}Example();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().and${tbn(key, "TableName")}In(Arrays.asList(${tbn(key, "tableName")}s));
         ${tableName}Mapper.deleteByExample(example);
     }
 
@@ -94,11 +94,11 @@ public class ${TableName}Service extends BaseMapper {
      */
     @Transactional
     @CacheEvict(value = "${TableName}:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int ${tbn(key, "tableName")}, int addNum) {
 
         if(addNum == 0) return ;
 
-        ${TableName} entity = ${tableName}Mapper.selectByPrimaryKey(id);
+        ${TableName} entity = ${tableName}Mapper.selectByPrimaryKey(${tbn(key, "tableName")});
         Integer baseSortOrder = entity.getSortOrder();
 
         ${TableName}Example example = new ${TableName}Example();

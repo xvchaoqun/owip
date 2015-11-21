@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class SystemConstants {
 
-
+	// 日期范围分隔符（用于查询时的输入框）
 	public static final String DATERANGE_SEPARTOR = " 至 ";
 
 	public static final String LOG_LOGIN = "mt_log_login";
@@ -20,24 +20,56 @@ public class SystemConstants {
 	public static final byte AVAILABLE = 1;
 	public static final byte UNAVAILABLE = 0;
 
-	public static final byte UNIT_STATUS_RUN = 1; // 正在运转单位
-	public static final byte UNIT_STATUS_HISTORY = 2; // 历史单位
+	// 性别， 1男 2女 3未知
+	public static final byte GENDER_MALE = 1;
+	public static final byte GENDER_FEMALE = 2;
+	public static final byte GENDER_UNKNOWN =3;
+	public final static Map<Byte, String> GENDER_MALE_MAP = new HashMap();
+	static {
+		GENDER_MALE_MAP.put(GENDER_MALE, "男");
+		GENDER_MALE_MAP.put(GENDER_FEMALE, "女");
+		GENDER_MALE_MAP.put(GENDER_UNKNOWN, "未知");
+	}
 
-	public final static byte USER_UNLOCKED = 0; // 用户状态：未锁定
-	public final static byte USER_LOCKED = 1; // 锁定
+	//单位状态，1正在运转单位、2历史单位
+	public static final byte UNIT_STATUS_RUN = 1;
+	public static final byte UNIT_STATUS_HISTORY = 2;
 
-	public final static byte USER_SOURCE_SYS = 0; // 用户来源：后台创建
-	public final static byte USER_SOURCE_EVAOBJ_CADRE = 1; // 后台导入或添加被测评的干部时创建
-	public final static byte USER_SOURCE_SYSCONFIG = 2; // 后台创建新的年份时创建
+	// 账号类别，1教职工 2本科生 3研究生
+	public final static byte USER_TYPE_JZG = 1;
+	public final static byte USER_TYPE_BKS = 2;
+	public final static byte USER_TYPE_YJS = 3;
+	public final static byte USER_TYPE_OTHER= 4;
+	public final static Map<Byte, String> USER_TYPE_MAP = new HashMap();
+	static {
+		USER_TYPE_MAP.put(USER_TYPE_JZG, "教职工");
+		USER_TYPE_MAP.put(USER_TYPE_BKS, "本科生");
+		USER_TYPE_MAP.put(USER_TYPE_YJS, "研究生");
+		USER_TYPE_MAP.put(USER_TYPE_OTHER, "其他");
+	}
+
+	// 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
+	public final static byte USER_SOURCE_ADMIN = 0;
+	public final static byte USER_SOURCE_JZG = 1;
+	public final static byte USER_SOURCE_BKS = 2;
+	public final static byte USER_SOURCE_YJS = 3;
+	public final static Map<Byte, String> USER_SOURCE_MAP = new HashMap();
+	static {
+		USER_SOURCE_MAP.put(USER_SOURCE_ADMIN, "后台创建");
+		USER_SOURCE_MAP.put(USER_SOURCE_JZG, "人事库");
+		USER_SOURCE_MAP.put(USER_SOURCE_BKS, "本科生库");
+		USER_SOURCE_MAP.put(USER_SOURCE_YJS, "研究生库");
+	}
 
 	// 申请入党类型
 	public final static byte APPLY_TYPE_STU= 1; // 学生
 	public final static byte APPLY_TYPE_TECHER = 2; // 教职工
-	public static Map<Byte, String> applyTypeMap = new HashMap<>();
+	public final static Map<Byte, String> APPLY_TYPE_MAP = new HashMap<>();
 	static {
-		applyTypeMap.put(APPLY_TYPE_STU, "学生");
-		applyTypeMap.put(APPLY_TYPE_TECHER, "教职工");
+		APPLY_TYPE_MAP.put(APPLY_TYPE_STU, "学生");
+		APPLY_TYPE_MAP.put(APPLY_TYPE_TECHER, "教职工");
 	}
+
 	// 申请入党阶段
 	//0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
 	public final static byte APPLY_STAGE_DENY = -1; // 未通过
@@ -49,20 +81,37 @@ public class SystemConstants {
 	public final static byte APPLY_STAGE_DRAW = 5; // 领取志愿书
 	public final static byte APPLY_STAGE_GROW = 6; // 预备党员
 	public final static byte APPLY_STAGE_POSITIVE = 7; // 正式党员
-
-	public static Map<Byte, String> applyStageTypeMap = new HashMap<>();
+	public final static Map<Byte, String> APPLY_STAGE_MAP = new HashMap<>();
 	static {
-		applyStageTypeMap.put(APPLY_STAGE_INIT, "申请");
-		applyStageTypeMap.put(APPLY_STAGE_ACTIVE, "积极分子");
-		applyStageTypeMap.put(APPLY_STAGE_CANDIDATE, "发展对象");
-		applyStageTypeMap.put(APPLY_STAGE_PLAN, "列入发展计划");
-		applyStageTypeMap.put(APPLY_STAGE_DRAW, "领取志愿书");
-		applyStageTypeMap.put(APPLY_STAGE_GROW, "预备党员");
-		applyStageTypeMap.put(APPLY_STAGE_POSITIVE, "正式党员");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_INIT, "申请");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_ACTIVE, "积极分子");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_CANDIDATE, "发展对象");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_PLAN, "列入发展计划");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_DRAW, "领取志愿书");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_GROW, "预备党员");
+		APPLY_STAGE_MAP.put(APPLY_STAGE_POSITIVE, "正式党员");
 	}
 
 	// 申请入党审核状态
 	public final static byte APPLY_STATUS_UNCHECKED = 0; // 未审核
 	public final static byte APPLY_STATUS_CHECKED = 1; // 已审核
 	public final static byte APPLY_STATUS_OD_CHECKED = 2; // 组织部已审核，成为预备党员和正式党员时
+
+	// 党员政治面貌
+	public final static byte MEMBER_POLITICAL_STATUS_GROW = 1; //预备党员
+	public final static byte MEMBER_POLITICAL_STATUS_POSITIVE = 2; //正式党员
+
+	// 党员类别
+	public final static byte MEMBER_TYPE_TEACHER = 1; //在职教职工党员
+	public final static byte MEMBER_TYPE_RETIRE = 2; //离退休党员
+	public final static byte MEMBER_TYPE_STUDENT= 3; //学生党员
+
+	// 党员状态
+	public final static byte MEMBER_STATUS_NORMAL= 1; // 已入党（正常）
+	public final static byte MEMBER_STATUS_QUIT= 2; // 已出党
+
+	// 党员来源
+	public final static byte MEMBER_SOURCE_GROW = 1; // 本校发展
+	public final static byte MEMBER_SOURCE_TRANSFER = 2; // 外校转入
+	public final static byte MEMBER_SOURCE_IMPORT = 3; // 建系统时统一导入
 }

@@ -1,9 +1,8 @@
 package controller;
 
 import domain.MemberApply;
-import domain.MetaType;
 import domain.SysUser;
-import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,11 +56,13 @@ public class ApplyController extends BaseController {
         MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
 
-        MetaType metaType = metaTypeService.findAll().get(loginUser.getTypeId());
-        if(StringUtils.equals(metaType.getCode(), "mt_jgz")){
+        if(loginUser.getType() == SystemConstants.USER_TYPE_JZG){
             memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
-        }else{
+        } else if(loginUser.getType() == SystemConstants.USER_TYPE_BKS
+                || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
             memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
+        }else{
+            throw new UnauthorizedException("没有权限");
         }
         memberApply.setPartyId(partyId);
         memberApply.setBranchId(branchId);

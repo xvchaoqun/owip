@@ -164,63 +164,73 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIsNull() {
-            addCriterion("user_id is null");
+        public Criteria andXhIsNull() {
+            addCriterion("xh is null");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIsNotNull() {
-            addCriterion("user_id is not null");
+        public Criteria andXhIsNotNull() {
+            addCriterion("xh is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdEqualTo(Integer value) {
-            addCriterion("user_id =", value, "userId");
+        public Criteria andXhEqualTo(String value) {
+            addCriterion("xh =", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotEqualTo(Integer value) {
-            addCriterion("user_id <>", value, "userId");
+        public Criteria andXhNotEqualTo(String value) {
+            addCriterion("xh <>", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThan(Integer value) {
-            addCriterion("user_id >", value, "userId");
+        public Criteria andXhGreaterThan(String value) {
+            addCriterion("xh >", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("user_id >=", value, "userId");
+        public Criteria andXhGreaterThanOrEqualTo(String value) {
+            addCriterion("xh >=", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThan(Integer value) {
-            addCriterion("user_id <", value, "userId");
+        public Criteria andXhLessThan(String value) {
+            addCriterion("xh <", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("user_id <=", value, "userId");
+        public Criteria andXhLessThanOrEqualTo(String value) {
+            addCriterion("xh <=", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIn(List<Integer> values) {
-            addCriterion("user_id in", values, "userId");
+        public Criteria andXhLike(String value) {
+            addCriterion("xh like", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotIn(List<Integer> values) {
-            addCriterion("user_id not in", values, "userId");
+        public Criteria andXhNotLike(String value) {
+            addCriterion("xh not like", value, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("user_id between", value1, value2, "userId");
+        public Criteria andXhIn(List<String> values) {
+            addCriterion("xh in", values, "xh");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("user_id not between", value1, value2, "userId");
+        public Criteria andXhNotIn(List<String> values) {
+            addCriterion("xh not in", values, "xh");
+            return (Criteria) this;
+        }
+
+        public Criteria andXhBetween(String value1, String value2) {
+            addCriterion("xh between", value1, value2, "xh");
+            return (Criteria) this;
+        }
+
+        public Criteria andXhNotBetween(String value1, String value2) {
+            addCriterion("xh not between", value1, value2, "xh");
             return (Criteria) this;
         }
 
@@ -361,76 +371,6 @@ public class ExtYjsExample {
 
         public Criteria andGbmNotBetween(String value1, String value2) {
             addCriterion("gbm not between", value1, value2, "gbm");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhIsNull() {
-            addCriterion("xh is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhIsNotNull() {
-            addCriterion("xh is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhEqualTo(String value) {
-            addCriterion("xh =", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhNotEqualTo(String value) {
-            addCriterion("xh <>", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhGreaterThan(String value) {
-            addCriterion("xh >", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhGreaterThanOrEqualTo(String value) {
-            addCriterion("xh >=", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhLessThan(String value) {
-            addCriterion("xh <", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhLessThanOrEqualTo(String value) {
-            addCriterion("xh <=", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhLike(String value) {
-            addCriterion("xh like", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhNotLike(String value) {
-            addCriterion("xh not like", value, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhIn(List<String> values) {
-            addCriterion("xh in", values, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhNotIn(List<String> values) {
-            addCriterion("xh not in", values, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhBetween(String value1, String value2) {
-            addCriterion("xh between", value1, value2, "xh");
-            return (Criteria) this;
-        }
-
-        public Criteria andXhNotBetween(String value1, String value2) {
-            addCriterion("xh not between", value1, value2, "xh");
             return (Criteria) this;
         }
 

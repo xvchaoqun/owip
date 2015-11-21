@@ -21,8 +21,21 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="ow_apply_log" domainObjectName="ApplyLog">
+      <table tableName="ow_member_student" domainObjectName="MemberStudent">
       </table>
+      <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      </table>-->
+     <!-- <table tableName="ow_member" domainObjectName="Member">
+          <ignoreColumn column="update_time"/>
+      </table>-->
+      <!--<table tableName="ow_student" domainObjectName="Student">
+          <ignoreColumn column="update_time"/>
+      </table>
+      <table tableName="ow_teacher" domainObjectName="Teacher">
+          <ignoreColumn column="update_time"/>
+      </table>-->
+      <!--<table tableName="ow_apply_log" domainObjectName="ApplyLog">
+      </table>-->
       <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
       </table>-->
       <!--<table tableName="ow_member_apply" domainObjectName="MemberApply">
@@ -79,10 +92,10 @@
     </table>-->
     <!--<table tableName="sys_log" domainObjectName="SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-    </table>
-    <table tableName="sys_user" domainObjectName="SysUser">
+    </table>-->
+   <!-- <table tableName="sys_user" domainObjectName="SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-    </table>
+    </table>--><!--
     <table tableName="sys_login_log" domainObjectName="SysLoginLog">
     </table>
     <table tableName="sys_role" domainObjectName="SysRole">
@@ -90,9 +103,9 @@
     <table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <!--<table tableName="ext_bks" domainObjectName="ExtBks">
-      </table>-->
-      <!--<table tableName="ext_yjs" domainObjectName="ExtYjs">
+     <!-- <table tableName="ext_bks" domainObjectName="ExtBks">
+      </table>
+      <table tableName="ext_yjs" domainObjectName="ExtYjs">
       </table>
       <table tableName="ext_jzg" domainObjectName="ExtJzg">
       </table>-->

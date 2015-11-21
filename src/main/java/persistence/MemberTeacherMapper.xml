@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.MemberTeacherMapper" >
+  <resultMap id="BaseResultMap" type="domain.MemberTeacher" >
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="apply_time" property="applyTime" jdbcType="DATE" />
+    <result column="source" property="source" jdbcType="TINYINT" />
+    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
+    <result column="active_time" property="activeTime" jdbcType="DATE" />
+    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
+    <result column="transfer_time" property="transferTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="grow_time" property="growTime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
+    <result column="title_level" property="titleLevel" jdbcType="VARCHAR" />
+    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
+    <result column="retire_time" property="retireTime" jdbcType="DATE" />
+    <result column="post_class" property="postClass" jdbcType="VARCHAR" />
+    <result column="pro_post" property="proPost" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="is_honor_retire" property="isHonorRetire" jdbcType="BIT" />
+    <result column="post_type" property="postType" jdbcType="VARCHAR" />
+    <result column="degree_time" property="degreeTime" jdbcType="VARCHAR" />
+    <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="post_level" property="postLevel" jdbcType="VARCHAR" />
+    <result column="office_level" property="officeLevel" jdbcType="VARCHAR" />
+    <result column="talent_title" property="talentTitle" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="authorized_type" property="authorizedType" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="arrive_time" property="arriveTime" jdbcType="VARCHAR" />
+    <result column="native_place" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="marital_status" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="staff_type" property="staffType" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="on_job" property="onJob" jdbcType="VARCHAR" />
+    <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    create_time, apply_time, source, positive_time, active_time, political_status, transfer_time, 
+    user_id, branch_id, candidate_time, party_id, grow_time, status, code, education, 
+    gender, nation, school_type, title_level, staff_status, retire_time, post_class, 
+    pro_post, major, post, school, is_honor_retire, post_type, degree_time, manage_level, 
+    email, post_level, office_level, talent_title, address, degree, mobile, birth, authorized_type, 
+    realname, arrive_time, native_place, marital_status, staff_type, phone, idcard, on_job, 
+    pro_post_level
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberTeacherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="domain.MemberTeacherExample" >
+    delete from ow_member_teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.MemberTeacher" >
+    insert into ow_member_teacher (create_time, apply_time, source, 
+      positive_time, active_time, political_status, 
+      transfer_time, user_id, branch_id, 
+      candidate_time, party_id, grow_time, 
+      status, code, education, 
+      gender, nation, school_type, 
+      title_level, staff_status, retire_time, 
+      post_class, pro_post, major, 
+      post, school, is_honor_retire, 
+      post_type, degree_time, manage_level, 
+      email, post_level, office_level, 
+      talent_title, address, degree, 
+      mobile, birth, authorized_type, 
+      realname, arrive_time, native_place, 
+      marital_status, staff_type, phone, 
+      idcard, on_job, pro_post_level
+      )
+    values (#{createTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, #{source,jdbcType=TINYINT}, 
+      #{positiveTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, 
+      #{transferTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{candidateTime,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, 
+      #{titleLevel,jdbcType=VARCHAR}, #{staffStatus,jdbcType=VARCHAR}, #{retireTime,jdbcType=DATE}, 
+      #{postClass,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{isHonorRetire,jdbcType=BIT}, 
+      #{postType,jdbcType=VARCHAR}, #{degreeTime,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, 
+      #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{authorizedType,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{arriveTime,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{maritalStatus,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{onJob,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.MemberTeacher" >
+    insert into ow_member_teacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="positiveTime != null" >
+        positive_time,
+      </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
+      </if>
+      <if test="transferTime != null" >
+        transfer_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="candidateTime != null" >
+        candidate_time,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="growTime != null" >
+        grow_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="schoolType != null" >
+        school_type,
+      </if>
+      <if test="titleLevel != null" >
+        title_level,
+      </if>
+      <if test="staffStatus != null" >
+        staff_status,
+      </if>
+      <if test="retireTime != null" >
+        retire_time,
+      </if>
+      <if test="postClass != null" >
+        post_class,
+      </if>
+      <if test="proPost != null" >
+        pro_post,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="isHonorRetire != null" >
+        is_honor_retire,
+      </if>
+      <if test="postType != null" >
+        post_type,
+      </if>
+      <if test="degreeTime != null" >
+        degree_time,
+      </if>
+      <if test="manageLevel != null" >
+        manage_level,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="postLevel != null" >
+        post_level,
+      </if>
+      <if test="officeLevel != null" >
+        office_level,
+      </if>
+      <if test="talentTitle != null" >
+        talent_title,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="authorizedType != null" >
+        authorized_type,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="arriveTime != null" >
+        arrive_time,
+      </if>
+      <if test="nativePlace != null" >
+        native_place,
+      </if>
+      <if test="maritalStatus != null" >
+        marital_status,
+      </if>
+      <if test="staffType != null" >
+        staff_type,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="onJob != null" >
+        on_job,
+      </if>
+      <if test="proPostLevel != null" >
+        pro_post_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="positiveTime != null" >
+        #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="transferTime != null" >
+        #{transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="candidateTime != null" >
+        #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="growTime != null" >
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolType != null" >
+        #{schoolType,jdbcType=VARCHAR},
+      </if>
+      <if test="titleLevel != null" >
+        #{titleLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null" >
+        #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="retireTime != null" >
+        #{retireTime,jdbcType=DATE},
+      </if>
+      <if test="postClass != null" >
+        #{postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null" >
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="isHonorRetire != null" >
+        #{isHonorRetire,jdbcType=BIT},
+      </if>
+      <if test="postType != null" >
+        #{postType,jdbcType=VARCHAR},
+      </if>
+      <if test="degreeTime != null" >
+        #{degreeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null" >
+        #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="postLevel != null" >
+        #{postLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLevel != null" >
+        #{officeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="talentTitle != null" >
+        #{talentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="authorizedType != null" >
+        #{authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveTime != null" >
+        #{arriveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalStatus != null" >
+        #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null" >
+        #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="onJob != null" >
+        #{onJob,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevel != null" >
+        #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.MemberTeacherExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_member_teacher
+    <set >
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applyTime != null" >
+        apply_time = #{record.applyTime,jdbcType=DATE},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=TINYINT},
+      </if>
+      <if test="record.positiveTime != null" >
+        positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeTime != null" >
+        active_time = #{record.activeTime,jdbcType=DATE},
+      </if>
+      <if test="record.politicalStatus != null" >
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.transferTime != null" >
+        transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.candidateTime != null" >
+        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.growTime != null" >
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolType != null" >
+        school_type = #{record.schoolType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.titleLevel != null" >
+        title_level = #{record.titleLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffStatus != null" >
+        staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retireTime != null" >
+        retire_time = #{record.retireTime,jdbcType=DATE},
+      </if>
+      <if test="record.postClass != null" >
+        post_class = #{record.postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPost != null" >
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null" >
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isHonorRetire != null" >
+        is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
+      </if>
+      <if test="record.postType != null" >
+        post_type = #{record.postType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degreeTime != null" >
+        degree_time = #{record.degreeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageLevel != null" >
+        manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postLevel != null" >
+        post_level = #{record.postLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeLevel != null" >
+        office_level = #{record.officeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.talentTitle != null" >
+        talent_title = #{record.talentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null" >
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birth != null" >
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.authorizedType != null" >
+        authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arriveTime != null" >
+        arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null" >
+        native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maritalStatus != null" >
+        marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffType != null" >
+        staff_type = #{record.staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onJob != null" >
+        on_job = #{record.onJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPostLevel != null" >
+        pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_member_teacher
+    set create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      apply_time = #{record.applyTime,jdbcType=DATE},
+      source = #{record.source,jdbcType=TINYINT},
+      positive_time = #{record.positiveTime,jdbcType=DATE},
+      active_time = #{record.activeTime,jdbcType=DATE},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      candidate_time = #{record.candidateTime,jdbcType=DATE},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      school_type = #{record.schoolType,jdbcType=VARCHAR},
+      title_level = #{record.titleLevel,jdbcType=VARCHAR},
+      staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      retire_time = #{record.retireTime,jdbcType=DATE},
+      post_class = #{record.postClass,jdbcType=VARCHAR},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
+      post_type = #{record.postType,jdbcType=VARCHAR},
+      degree_time = #{record.degreeTime,jdbcType=VARCHAR},
+      manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      post_level = #{record.postLevel,jdbcType=VARCHAR},
+      office_level = #{record.officeLevel,jdbcType=VARCHAR},
+      talent_title = #{record.talentTitle,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      birth = #{record.birth,jdbcType=DATE},
+      authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+      native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
+      staff_type = #{record.staffType,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      on_job = #{record.onJob,jdbcType=VARCHAR},
+      pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.MemberTeacherExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

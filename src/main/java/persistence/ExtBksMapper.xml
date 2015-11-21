@@ -3,7 +3,6 @@
 <mapper namespace="persistence.ExtBksMapper" >
   <resultMap id="BaseResultMap" type="domain.ExtBks" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="xh" property="xh" jdbcType="VARCHAR" />
     <result column="xm" property="xm" jdbcType="VARCHAR" />
     <result column="xb" property="xb" jdbcType="VARCHAR" />
@@ -105,9 +104,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, xh, xm, xb, csrq, nj, yxmc, zymc, fgyx, pyfs, mz, zzmm, xjbd, xjrq, 
-    xjyy, sf, dq, syxx, dxhwpdw, dxdwszd, ksh, xmpy, kslb, wyyz, jtdz, yzbm, lxdh, kl, 
-    lqzymc, lqyxmc, mfsfs, sfzh, kstc, grpj, ksjl, xkml, zkzh, byxx, bz, sfgfs, import_time_millis, 
+    id, xh, xm, xb, csrq, nj, yxmc, zymc, fgyx, pyfs, mz, zzmm, xjbd, xjrq, xjyy, sf, 
+    dq, syxx, dxhwpdw, dxdwszd, ksh, xmpy, kslb, wyyz, jtdz, yzbm, lxdh, kl, lqzymc, 
+    lqyxmc, mfsfs, sfzh, kstc, grpj, ksjl, xkml, zkzh, byxx, bz, sfgfs, import_time_millis, 
     yxsh
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ExtBksExample" >
@@ -141,39 +140,36 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ExtBks" >
-    insert into ext_bks (id, user_id, xh, 
-      xm, xb, csrq, nj, 
-      yxmc, zymc, fgyx, pyfs, 
-      mz, zzmm, xjbd, xjrq, 
-      xjyy, sf, dq, syxx, 
-      dxhwpdw, dxdwszd, ksh, 
-      xmpy, kslb, wyyz, jtdz, 
-      yzbm, lxdh, kl, lqzymc, 
-      lqyxmc, mfsfs, sfzh, 
-      kstc, grpj, ksjl, xkml, 
-      zkzh, byxx, bz, sfgfs, 
-      import_time_millis, yxsh)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{xh,jdbcType=VARCHAR}, 
-      #{xm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, #{csrq,jdbcType=VARCHAR}, #{nj,jdbcType=VARCHAR}, 
-      #{yxmc,jdbcType=VARCHAR}, #{zymc,jdbcType=VARCHAR}, #{fgyx,jdbcType=VARCHAR}, #{pyfs,jdbcType=VARCHAR}, 
-      #{mz,jdbcType=VARCHAR}, #{zzmm,jdbcType=VARCHAR}, #{xjbd,jdbcType=VARCHAR}, #{xjrq,jdbcType=VARCHAR}, 
-      #{xjyy,jdbcType=VARCHAR}, #{sf,jdbcType=VARCHAR}, #{dq,jdbcType=VARCHAR}, #{syxx,jdbcType=VARCHAR}, 
-      #{dxhwpdw,jdbcType=VARCHAR}, #{dxdwszd,jdbcType=VARCHAR}, #{ksh,jdbcType=VARCHAR}, 
-      #{xmpy,jdbcType=VARCHAR}, #{kslb,jdbcType=VARCHAR}, #{wyyz,jdbcType=VARCHAR}, #{jtdz,jdbcType=VARCHAR}, 
-      #{yzbm,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR}, #{kl,jdbcType=VARCHAR}, #{lqzymc,jdbcType=VARCHAR}, 
-      #{lqyxmc,jdbcType=VARCHAR}, #{mfsfs,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, 
-      #{kstc,jdbcType=VARCHAR}, #{grpj,jdbcType=VARCHAR}, #{ksjl,jdbcType=VARCHAR}, #{xkml,jdbcType=VARCHAR}, 
-      #{zkzh,jdbcType=VARCHAR}, #{byxx,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{sfgfs,jdbcType=VARCHAR}, 
-      #{importTimeMillis,jdbcType=VARCHAR}, #{yxsh,jdbcType=VARCHAR})
+    insert into ext_bks (id, xh, xm, xb, 
+      csrq, nj, yxmc, zymc, 
+      fgyx, pyfs, mz, zzmm, 
+      xjbd, xjrq, xjyy, sf, 
+      dq, syxx, dxhwpdw, 
+      dxdwszd, ksh, xmpy, 
+      kslb, wyyz, jtdz, yzbm, 
+      lxdh, kl, lqzymc, lqyxmc, 
+      mfsfs, sfzh, kstc, 
+      grpj, ksjl, xkml, zkzh, 
+      byxx, bz, sfgfs, import_time_millis, 
+      yxsh)
+    values (#{id,jdbcType=INTEGER}, #{xh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, 
+      #{csrq,jdbcType=VARCHAR}, #{nj,jdbcType=VARCHAR}, #{yxmc,jdbcType=VARCHAR}, #{zymc,jdbcType=VARCHAR}, 
+      #{fgyx,jdbcType=VARCHAR}, #{pyfs,jdbcType=VARCHAR}, #{mz,jdbcType=VARCHAR}, #{zzmm,jdbcType=VARCHAR}, 
+      #{xjbd,jdbcType=VARCHAR}, #{xjrq,jdbcType=VARCHAR}, #{xjyy,jdbcType=VARCHAR}, #{sf,jdbcType=VARCHAR}, 
+      #{dq,jdbcType=VARCHAR}, #{syxx,jdbcType=VARCHAR}, #{dxhwpdw,jdbcType=VARCHAR}, 
+      #{dxdwszd,jdbcType=VARCHAR}, #{ksh,jdbcType=VARCHAR}, #{xmpy,jdbcType=VARCHAR}, 
+      #{kslb,jdbcType=VARCHAR}, #{wyyz,jdbcType=VARCHAR}, #{jtdz,jdbcType=VARCHAR}, #{yzbm,jdbcType=VARCHAR}, 
+      #{lxdh,jdbcType=VARCHAR}, #{kl,jdbcType=VARCHAR}, #{lqzymc,jdbcType=VARCHAR}, #{lqyxmc,jdbcType=VARCHAR}, 
+      #{mfsfs,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{kstc,jdbcType=VARCHAR}, 
+      #{grpj,jdbcType=VARCHAR}, #{ksjl,jdbcType=VARCHAR}, #{xkml,jdbcType=VARCHAR}, #{zkzh,jdbcType=VARCHAR}, 
+      #{byxx,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{sfgfs,jdbcType=VARCHAR}, #{importTimeMillis,jdbcType=VARCHAR}, 
+      #{yxsh,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ExtBks" >
     insert into ext_bks
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="userId != null" >
-        user_id,
       </if>
       <if test="xh != null" >
         xh,
@@ -302,9 +298,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
       </if>
       <if test="xh != null" >
         #{xh,jdbcType=VARCHAR},
@@ -443,9 +436,6 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
       <if test="record.xh != null" >
         xh = #{record.xh,jdbcType=VARCHAR},
       </if>
@@ -577,7 +567,6 @@
   <update id="updateByExample" parameterType="map" >
     update ext_bks
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
       xh = #{record.xh,jdbcType=VARCHAR},
       xm = #{record.xm,jdbcType=VARCHAR},
       xb = #{record.xb,jdbcType=VARCHAR},
@@ -626,9 +615,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ExtBks" >
     update ext_bks
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
       <if test="xh != null" >
         xh = #{xh,jdbcType=VARCHAR},
       </if>
@@ -757,8 +743,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ExtBks" >
     update ext_bks
-    set user_id = #{userId,jdbcType=INTEGER},
-      xh = #{xh,jdbcType=VARCHAR},
+    set xh = #{xh,jdbcType=VARCHAR},
       xm = #{xm,jdbcType=VARCHAR},
       xb = #{xb,jdbcType=VARCHAR},
       csrq = #{csrq,jdbcType=VARCHAR},

@@ -13,7 +13,12 @@ import java.util.Map;
 
 public class BaseController extends BaseMapper {
 
-
+    @Autowired
+    protected MemberStudentService memberStudentService;
+    @Autowired
+    protected MemberTeacherService memberTeacherService;
+    @Autowired
+    protected MemberService memberService;
     @Autowired
     protected ApplyLogService applyLogService;
     @Autowired

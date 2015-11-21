@@ -128,12 +128,12 @@ public class ${TableName}Controller extends BaseController {
     @ResponseBody
     public Map do_${tableName}_au(${TableName} record, HttpServletRequest request) {
 
-        Integer id = record.get${tbn(key, "TableName")}();
+        Integer ${tbn(key, "tableName")} = record.get${tbn(key, "TableName")}();
 
-        if (${tableName}Service.idDuplicate(id, code)) {
+        if (${tableName}Service.idDuplicate(${tbn(key, "tableName")}, code)) {
             return failed("添加重复");
         }
-        if (id == null) {
+        if (${tbn(key, "tableName")} == null) {
             record.setStatus(true);
             ${tableName}Service.insertSelective(record);
             logger.info(addLog(request, ${logType}, "添加${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
@@ -148,10 +148,10 @@ public class ${TableName}Controller extends BaseController {
 
     @RequiresPermissions("${tableName}:edit")
     @RequestMapping("/${tableName}_au")
-    public String ${tableName}_au(Integer id, ModelMap modelMap) {
+    public String ${tableName}_au(Integer ${tbn(key, "tableName")}, ModelMap modelMap) {
 
-        if (id != null) {
-            ${TableName} ${tableName} = ${tableName}Mapper.selectByPrimaryKey(id);
+        if (${tbn(key, "tableName")} != null) {
+            ${TableName} ${tableName} = ${tableName}Mapper.selectByPrimaryKey(${tbn(key, "tableName")});
             modelMap.put("${tableName}", ${tableName});
         }
         return "${tableName}/${tableName}_au";
@@ -160,12 +160,12 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_${tableName}_del(HttpServletRequest request, Integer id) {
+    public Map do_${tableName}_del(HttpServletRequest request, Integer ${tbn(key, "tableName")}) {
 
-        if (id != null) {
+        if (${tbn(key, "tableName")} != null) {
 
-            ${tableName}Service.del(id);
-            logger.info(addLog(request, ${logType}, "删除${cnTableName}：%s", id));
+            ${tableName}Service.del(${tbn(key, "tableName")});
+            logger.info(addLog(request, ${logType}, "删除${cnTableName}：%s", ${tbn(key, "tableName")}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -173,12 +173,12 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
-            ${tableName}Service.batchDel(ids);
-            logger.info(addLog(request, ${logType}, "批量删除${cnTableName}：%s", StringUtils.join(ids, ",")));
+        if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){
+            ${tableName}Service.batchDel(${tbn(key, "tableName")}s);
+            logger.info(addLog(request, ${logType}, "批量删除${cnTableName}：%s", StringUtils.join(${tbn(key, "tableName")}s, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -187,10 +187,10 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:changeOrder")
     @RequestMapping(value = "/${tableName}_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_${tableName}_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_${tableName}_changeOrder(Integer ${tbn(key, "tableName")}, Integer addNum, HttpServletRequest request) {
 
-        ${tableName}Service.changeOrder(id, addNum);
-        logger.info(addLog(request, ${logType}, "${cnTableName}调序：%s,%s", id, addNum));
+        ${tableName}Service.changeOrder(${tbn(key, "tableName")}, addNum);
+        logger.info(addLog(request, ${logType}, "${cnTableName}调序：%s,%s", ${tbn(key, "tableName")}, addNum));
         return success(FormUtils.SUCCESS);
     }
 

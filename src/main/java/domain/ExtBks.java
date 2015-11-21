@@ -5,8 +5,6 @@ import java.io.Serializable;
 public class ExtBks implements Serializable {
     private Integer id;
 
-    private Integer userId;
-
     private String xh;
 
     private String xm;
@@ -97,14 +95,6 @@ public class ExtBks implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getXh() {

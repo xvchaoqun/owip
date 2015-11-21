@@ -6,6 +6,22 @@ import persistence.*;
 public class BaseMapper {
 
 	@Autowired
+	protected ExtYjsMapper extYjsMapper;
+	@Autowired
+	protected ExtBksMapper extBksMapper;
+	@Autowired
+	protected ExtJzgMapper extJzgMapper;
+	@Autowired
+	protected StudentMapper studentMapper;
+	@Autowired
+	protected MemberStudentMapper memberStudentMapper;
+	@Autowired
+	protected TeacherMapper teacherMapper;
+	@Autowired
+	protected MemberTeacherMapper memberTeacherMapper;
+	@Autowired
+	protected MemberMapper memberMapper;
+	@Autowired
 	protected ApplyLogMapper applyLogMapper;
 	@Autowired
 	protected ApplyOpenTimeMapper applyOpenTimeMapper;

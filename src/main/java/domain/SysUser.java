@@ -14,7 +14,7 @@ public class SysUser implements Serializable {
 
     private String roleIds;
 
-    private Integer typeId;
+    private Byte type;
 
     private String code;
 
@@ -28,7 +28,7 @@ public class SysUser implements Serializable {
 
     private Date createTime;
 
-    private Integer sourceId;
+    private Byte source;
 
     private Boolean locked;
 
@@ -74,12 +74,12 @@ public class SysUser implements Serializable {
         this.roleIds = roleIds == null ? null : roleIds.trim();
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Byte getType() {
+        return type;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public String getCode() {
@@ -130,12 +130,12 @@ public class SysUser implements Serializable {
         this.createTime = createTime;
     }
 
-    public Integer getSourceId() {
-        return sourceId;
+    public Byte getSource() {
+        return source;
     }
 
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
+    public void setSource(Byte source) {
+        this.source = source;
     }
 
     public Boolean getLocked() {

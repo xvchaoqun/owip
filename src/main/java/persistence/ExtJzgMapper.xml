@@ -3,7 +3,6 @@
 <mapper namespace="persistence.ExtJzgMapper" >
   <resultMap id="BaseResultMap" type="domain.ExtJzg" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="zgh" property="zgh" jdbcType="VARCHAR" />
     <result column="xm" property="xm" jdbcType="VARCHAR" />
     <result column="xbm" property="xbm" jdbcType="VARCHAR" />
@@ -114,11 +113,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, zgh, xm, xbm, dwid, yjxkm, lxrq, gwlbm, zcm, gwjbm, rclxm, rcchm, xyjgm, 
-    gjm, zhxwm, zhxl, xlbyxx, xwsyxx, xzjbm, sfzgm, ryztm, rylxm, bzlxm, csrq, rszfm, 
-    sfnxz, sfzjlx, sfzh, yddh, dzxx, bgdh, jtdh, zjgjm, glgjm, empid, jg, zzmm, zw, mz, 
-    xkml, ejxk, xmpy, poxm, ryxxshzt, tbrq, jzdw1, jzdw2, batch_num, basic_active_id, 
-    domain_code, basic_active_type
+    id, zgh, xm, xbm, dwid, yjxkm, lxrq, gwlbm, zcm, gwjbm, rclxm, rcchm, xyjgm, gjm, 
+    zhxwm, zhxl, xlbyxx, xwsyxx, xzjbm, sfzgm, ryztm, rylxm, bzlxm, csrq, rszfm, sfnxz, 
+    sfzjlx, sfzh, yddh, dzxx, bgdh, jtdh, zjgjm, glgjm, empid, jg, zzmm, zw, mz, xkml, 
+    ejxk, xmpy, poxm, ryxxshzt, tbrq, jzdw1, jzdw2, batch_num, basic_active_id, domain_code, 
+    basic_active_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ExtJzgExample" >
     select
@@ -151,9 +150,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ExtJzg" >
-    insert into ext_jzg (id, user_id, zgh, 
-      xm, xbm, dwid, yjxkm, 
-      lxrq, gwlbm, zcm, gwjbm, 
+    insert into ext_jzg (id, zgh, xm, 
+      xbm, dwid, yjxkm, lxrq, 
+      gwlbm, zcm, gwjbm, 
       rclxm, rcchm, xyjgm, 
       gjm, zhxwm, zhxl, xlbyxx, 
       xwsyxx, xzjbm, sfzgm, 
@@ -167,9 +166,9 @@
       jzdw1, jzdw2, batch_num, 
       basic_active_id, domain_code, basic_active_type
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{zgh,jdbcType=VARCHAR}, 
-      #{xm,jdbcType=VARCHAR}, #{xbm,jdbcType=VARCHAR}, #{dwid,jdbcType=VARCHAR}, #{yjxkm,jdbcType=VARCHAR}, 
-      #{lxrq,jdbcType=DATE}, #{gwlbm,jdbcType=VARCHAR}, #{zcm,jdbcType=VARCHAR}, #{gwjbm,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{zgh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, 
+      #{xbm,jdbcType=VARCHAR}, #{dwid,jdbcType=VARCHAR}, #{yjxkm,jdbcType=VARCHAR}, #{lxrq,jdbcType=DATE}, 
+      #{gwlbm,jdbcType=VARCHAR}, #{zcm,jdbcType=VARCHAR}, #{gwjbm,jdbcType=VARCHAR}, 
       #{rclxm,jdbcType=VARCHAR}, #{rcchm,jdbcType=VARCHAR}, #{xyjgm,jdbcType=VARCHAR}, 
       #{gjm,jdbcType=VARCHAR}, #{zhxwm,jdbcType=VARCHAR}, #{zhxl,jdbcType=VARCHAR}, #{xlbyxx,jdbcType=VARCHAR}, 
       #{xwsyxx,jdbcType=VARCHAR}, #{xzjbm,jdbcType=VARCHAR}, #{sfzgm,jdbcType=VARCHAR}, 
@@ -189,9 +188,6 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="userId != null" >
-        user_id,
       </if>
       <if test="zgh != null" >
         zgh,
@@ -347,9 +343,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
       </if>
       <if test="zgh != null" >
         #{zgh,jdbcType=VARCHAR},
@@ -515,9 +508,6 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
       <if test="record.zgh != null" >
         zgh = #{record.zgh,jdbcType=VARCHAR},
       </if>
@@ -676,7 +666,6 @@
   <update id="updateByExample" parameterType="map" >
     update ext_jzg
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
       zgh = #{record.zgh,jdbcType=VARCHAR},
       xm = #{record.xm,jdbcType=VARCHAR},
       xbm = #{record.xbm,jdbcType=VARCHAR},
@@ -734,9 +723,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ExtJzg" >
     update ext_jzg
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
       <if test="zgh != null" >
         zgh = #{zgh,jdbcType=VARCHAR},
       </if>
@@ -892,8 +878,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ExtJzg" >
     update ext_jzg
-    set user_id = #{userId,jdbcType=INTEGER},
-      zgh = #{zgh,jdbcType=VARCHAR},
+    set zgh = #{zgh,jdbcType=VARCHAR},
       xm = #{xm,jdbcType=VARCHAR},
       xbm = #{xbm,jdbcType=VARCHAR},
       dwid = #{dwid,jdbcType=VARCHAR},

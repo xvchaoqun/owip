@@ -5,13 +5,11 @@ import java.io.Serializable;
 public class ExtYjs implements Serializable {
     private Integer id;
 
-    private Integer userId;
+    private String xh;
 
     private String ztm;
 
     private String gbm;
-
-    private String xh;
 
     private String xslbm2;
 
@@ -145,12 +143,12 @@ public class ExtYjs implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getXh() {
+        return xh;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setXh(String xh) {
+        this.xh = xh == null ? null : xh.trim();
     }
 
     public String getZtm() {
@@ -167,14 +165,6 @@ public class ExtYjs implements Serializable {
 
     public void setGbm(String gbm) {
         this.gbm = gbm == null ? null : gbm.trim();
-    }
-
-    public String getXh() {
-        return xh;
-    }
-
-    public void setXh(String xh) {
-        this.xh = xh == null ? null : xh.trim();
     }
 
     public String getXslbm2() {

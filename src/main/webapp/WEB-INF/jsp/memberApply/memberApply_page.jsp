@@ -29,12 +29,12 @@ pageEncoding="UTF-8" %>
                         %>
                         <c:set value="<%=colors%>" var="colors"/>
                         <ul class="nav nav-tabs" id="myTab3">
-                            <c:forEach items="#{applyStageTypeMap}" var="applyStageType">
-                                <li class="<c:if test="${stage==applyStageType.key}">active</c:if>">
-                                    <a href="javascript:;" onclick="_go(${empty type?1:type}, ${applyStageType.key})">
+                            <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
+                                <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
+                                    <a href="javascript:;" onclick="_go(${empty type?1:type}, ${applyStage.key})">
                                         <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
-                                        <span class="badge ${colors[applyStageType.key==0?0:applyStageType.key-1]}">${applyStageType.key==0?1:applyStageType.key}</span>
-                                        ${applyStageType.value}
+                                        <span class="badge ${colors[applyStage.key==0?0:applyStage.key-1]}">${applyStage.key==0?1:applyStage.key}</span>
+                                        ${applyStage.value}
                                     </a>
                                 </li>
                             </c:forEach>
@@ -67,8 +67,10 @@ pageEncoding="UTF-8" %>
 
                                         <input type="hidden" name="type" value="${type}">
                                         <input type="hidden" name="stage" value="${stage}">
-                                        <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                                               placeholder="请输入用户">
+                                        <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            <option value="${sysUser.id}">${sysUser.username}</option>
+                                        </select>
                                         <select class="form-control" name="partyId" data-rel="select2" data-placeholder="请选择分党委">
                                             <option></option>
                                             <c:forEach items="${partyMap}" var="party">
@@ -136,7 +138,7 @@ pageEncoding="UTF-8" %>
                                                     <th>领取志愿书时间</th>
                                                 </c:if>
                                                 <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
-                                                    <th>发展时间</th>
+                                                    <th>入党时间</th>
                                                 </c:if>
                                                 <c:if test="${stage==APPLY_STAGE_POSITIVE}">
                                                     <th>转正时间</th>
@@ -182,7 +184,9 @@ pageEncoding="UTF-8" %>
                                                     <c:if test="${stage==APPLY_STAGE_POSITIVE}">
                                                         <td>${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
-                                                    <td>${cm:getApplyStatus(memberApply)}</td>
+                                                    <td>
+                                                    <a href="${ctx}/applyLog?userId=${memberApply.userId}">${cm:getApplyStatus(memberApply)}</a>
+                                                    </td>
                                                     <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
                                                     <td>
                                                         <div class="hidden-sm hidden-xs action-buttons">

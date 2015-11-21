@@ -6,8 +6,6 @@ import java.util.Date;
 public class ExtJzg implements Serializable {
     private Integer id;
 
-    private Integer userId;
-
     private String zgh;
 
     private String xm;
@@ -116,14 +114,6 @@ public class ExtJzg implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getZgh() {

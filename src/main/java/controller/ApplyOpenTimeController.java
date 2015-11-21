@@ -92,7 +92,7 @@ public class ApplyOpenTimeController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("applyStageTypeMap", SystemConstants.applyStageTypeMap);
+        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
         return "applyOpenTime/applyOpenTime_page";
     }
@@ -129,7 +129,7 @@ public class ApplyOpenTimeController extends BaseController {
             ApplyOpenTime applyOpenTime = applyOpenTimeMapper.selectByPrimaryKey(id);
             modelMap.put("applyOpenTime", applyOpenTime);
         }
-        modelMap.put("applyStageTypeMap", SystemConstants.applyStageTypeMap);
+        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
         modelMap.put("partyMap", partyService.findAll());
 
         return "applyOpenTime/applyOpenTime_au";

@@ -6,13 +6,40 @@
   "tablePrefix": "ow_",
   "tables": [
     {
+      "table": "member_student",
+      "key": "user_id",
+      "searchColumns": "user_id, party_id, branch_id, grow_time",
+      "showColumns": "code, realname,gender,birth,type,grade,party_id,branch_id,grow_time,positive_time",
+      "excludeEditColumns": "user_id",
+      "logType":"SystemConstants.LOG_MEMBER_APPLY",
+      "ignore": false
+    },
+    {
+      "table": "member_teacher",
+      "key": "user_id",
+      "searchColumns": "user_id, party_id, branch_id, grow_time",
+      "showColumns": "code, realname,gender,birth,education,post_class,pro_post,party_id,branch_id,grow_time,mobile",
+      "excludeEditColumns": "user_id",
+      "logType":"SystemConstants.LOG_MEMBER_APPLY",
+      "ignore": true
+    },
+    {
+      "table": "member",
+      "key": "user_id",
+      "searchColumns": "user_id, party_id,branch_id,grow_time",
+      "showColumns": "user_id, party_id,branch_id,grow_time",
+      "excludeEditColumns": "user_id",
+      "logType":"SystemConstants.LOG_MEMBER_APPLY",
+      "ignore": true
+    },
+    {
       "table": "apply_log",
       "key": "id",
       "searchColumns": "user_id, operator_id,stage",
       "showColumns": "user_id, operator_id,stage,content,create_time",
       "excludeEditColumns": "id,create_time",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
-      "ignore": false
+      "ignore": true
     },
      {
        "table": "apply_open_time",

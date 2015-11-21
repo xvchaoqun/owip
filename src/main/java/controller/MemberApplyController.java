@@ -91,6 +91,7 @@ public class MemberApplyController extends BaseController {
                 criteria.andStageEqualTo(stage);
         }
         if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
             criteria.andUserIdEqualTo(userId);
         }
         if (partyId != null) {
@@ -140,8 +141,7 @@ public class MemberApplyController extends BaseController {
 
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("applyTypeMap", SystemConstants.applyTypeMap);
-        modelMap.put("applyStageTypeMap", SystemConstants.applyStageTypeMap);
+        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
         return "memberApply/memberApply_page";
     }
@@ -569,22 +569,11 @@ public class MemberApplyController extends BaseController {
 
         // 这里要添加权限验证?
 
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_GROW);
-        record.setGrowStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
+        memberApplyService.memberGrow(userId);
+        applyLogService.addApplyLog(userId, loginUser.getId(),
+                SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核2", IpUtils.getIp(request));
 
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核2", IpUtils.getIp(request));
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success(FormUtils.SUCCESS);
     }
 
     @RequestMapping(value = "/apply_positive")
@@ -667,22 +656,12 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
-        record.setPositiveStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
+        // 这里要添加权限验证?
 
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
-                .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核2", IpUtils.getIp(request));
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        memberApplyService.memberPositive(userId);
+        applyLogService.addApplyLog(userId, loginUser.getId(),
+                SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核2", IpUtils.getIp(request));
+        return success(FormUtils.SUCCESS);
     }
 
     public void memberApply_export(MemberApplyExample example, HttpServletResponse response) {

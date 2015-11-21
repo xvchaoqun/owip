@@ -6,13 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<html>
-<head>
-    <title>没有权限访问</title>
-  <link rel="stylesheet" href="assets/css/bootstrap.css" />
-  <link rel="stylesheet" href="assets/css/font-awesome.css" />
-</head>
-<body>
+
 <div style="padding-top: 100px"></div>
 <div class="container">
 <div class="row">
@@ -64,9 +58,3 @@
 
     <!-- /section:pages/error -->
 
-    <!-- PAGE CONTENT ENDS -->
-  </div><!-- /.col -->
-</div>
-  </div>
-</body>
-</html>

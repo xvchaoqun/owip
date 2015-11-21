@@ -7,14 +7,14 @@
     <result column="passwd" property="passwd" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="realname" property="realname" jdbcType="VARCHAR" />
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="TINYINT" />
     <result column="locked" property="locked" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, passwd, salt, role_ids, type_id, code, realname, idcard, mobile, email, 
-    create_time, source_id, locked
+    id, username, passwd, salt, role_ids, type, code, realname, idcard, mobile, email, 
+    create_time, source, locked
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysUserExample" >
     select
@@ -109,19 +109,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.SysUser" >
+  <insert id="insert" parameterType="domain.SysUser" >
     insert into sys_user (id, username, passwd, 
-      salt, role_ids, type_id, 
+      salt, role_ids, type, 
       code, realname, idcard, 
       mobile, email, create_time, 
-      source_id, locked)
+      source, locked)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
-      #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{sourceId,jdbcType=INTEGER}, #{locked,jdbcType=BIT})
+      #{source,jdbcType=TINYINT}, #{locked,jdbcType=BIT})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.SysUser" >
+  <insert id="insertSelective" parameterType="domain.SysUser" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -139,8 +139,8 @@
       <if test="roleIds != null" >
         role_ids,
       </if>
-      <if test="typeId != null" >
-        type_id,
+      <if test="type != null" >
+        type,
       </if>
       <if test="code != null" >
         code,
@@ -160,8 +160,8 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="sourceId != null" >
-        source_id,
+      <if test="source != null" >
+        source,
       </if>
       <if test="locked != null" >
         locked,
@@ -183,8 +183,8 @@
       <if test="roleIds != null" >
         #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="typeId != null" >
-        #{typeId,jdbcType=INTEGER},
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
@@ -204,8 +204,8 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sourceId != null" >
-        #{sourceId,jdbcType=INTEGER},
+      <if test="source != null" >
+        #{source,jdbcType=TINYINT},
       </if>
       <if test="locked != null" >
         #{locked,jdbcType=BIT},
@@ -236,8 +236,8 @@
       <if test="record.roleIds != null" >
         role_ids = #{record.roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="record.typeId != null" >
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
@@ -257,8 +257,8 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.sourceId != null" >
-        source_id = #{record.sourceId,jdbcType=INTEGER},
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=TINYINT},
       </if>
       <if test="record.locked != null" >
         locked = #{record.locked,jdbcType=BIT},
@@ -275,14 +275,14 @@
       passwd = #{record.passwd,jdbcType=VARCHAR},
       salt = #{record.salt,jdbcType=VARCHAR},
       role_ids = #{record.roleIds,jdbcType=VARCHAR},
-      type_id = #{record.typeId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      source_id = #{record.sourceId,jdbcType=INTEGER},
+      source = #{record.source,jdbcType=TINYINT},
       locked = #{record.locked,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -303,8 +303,8 @@
       <if test="roleIds != null" >
         role_ids = #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="typeId != null" >
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
@@ -324,8 +324,8 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sourceId != null" >
-        source_id = #{sourceId,jdbcType=INTEGER},
+      <if test="source != null" >
+        source = #{source,jdbcType=TINYINT},
       </if>
       <if test="locked != null" >
         locked = #{locked,jdbcType=BIT},
@@ -339,14 +339,14 @@
       passwd = #{passwd,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       role_ids = #{roleIds,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
       idcard = #{idcard,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      source_id = #{sourceId,jdbcType=INTEGER},
+      source = #{source,jdbcType=TINYINT},
       locked = #{locked,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

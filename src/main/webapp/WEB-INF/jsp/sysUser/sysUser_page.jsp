@@ -7,14 +7,14 @@
         <div class="col-sm-12">
                 <mytag:sort-form css="form-inline hidden-xs hidden-sm" id="searchForm">
 
-                    <select name="typeId" data-placeholder="请选择类别" class="select2 tag-input-style">
+                    <select name="type" data-placeholder="请选择类别" class="select2 tag-input-style">
                         <option></option>
-                        <c:forEach items="${metaTypeMap}" var="metaType">
-                            <option value="${metaType.key}">${metaType.value.name}</option>
+                        <c:forEach items="${userTypeMap}" var="userType">
+                            <option value="${userType.key}">${userType.value}</option>
                         </c:forEach>
                     </select>
                     <script>
-                        $("#searchForm select[name=typeId]").val('${param.typeId}');
+                        $("#searchForm select[name=type]").val('${param.type}');
                     </script>
                     <select name="roleId" data-placeholder="请选择角色" class="select2 tag-input-style">
                         <option></option>
@@ -83,12 +83,12 @@
                         </td>
                         <td nowrap>${sysUser.username}</td>
                         <td nowrap>${sysUser.code}</td>
-                        <td nowrap>${metaTypeMap.get(sysUser.typeId).name}</td>
+                        <td nowrap>${userTypeMap.get(sysUser.type)}</td>
                         <td nowrap>${sysUser.realname}</td>
                         <td nowrap>${sysUser.idcard}</td>
                         <td nowrap>${sysUser.mobile}</td>
                         <td nowrap>${sysUser.email}</td>
-                        <td nowrap>${sourceMap.get(sysUser.sourceId).name}</td>
+                        <td nowrap>${userSourceMap.get(sysUser.source)}</td>
                         <td>
                             <c:forEach items="${fn:split(sysUser.roleIds,',')}" var="id" varStatus="vs">
                                 ${roleMap.get(cm:parseInt(id)).description}
