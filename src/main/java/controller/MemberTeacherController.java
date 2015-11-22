@@ -108,15 +108,32 @@ public class MemberTeacherController extends BaseController {
         return "memberTeacher/memberTeacher_page";
     }
 
-
-    @RequiresPermissions("memberTeacher:view")
-    @RequestMapping("/memberTeacher_show")
-    public String memberTeacher_au(int userId, ModelMap modelMap) {
+    // 基本信息
+    @RequiresPermissions("memberTeacher:base")
+    @RequestMapping("/memberTeacher_base")
+    public String memberTeacher_base(Integer userId, ModelMap modelMap) {
 
         MemberTeacher memberTeacher = memberTeacherService.get(userId);
         modelMap.put("memberTeacher", memberTeacher);
 
-        return "memberTeacher/memberTeacher_show";
+        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
+        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
+
+        return "memberTeacher/memberTeacher_base";
+    }
+    // 党籍信息
+    @RequiresPermissions("memberTeacher:member")
+    @RequestMapping("/memberTeacher_member")
+    public String memberTeacher_member(Integer userId, ModelMap modelMap) {
+
+        MemberTeacher memberTeacher = memberTeacherService.get(userId);
+        modelMap.put("memberTeacher", memberTeacher);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
+
+        return "memberTeacher/memberTeacher_member";
     }
 
     public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {

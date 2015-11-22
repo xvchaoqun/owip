@@ -102,7 +102,7 @@
         </ul>
         <!-- /.breadcrumb -->
 
-        <div class="nav-search" id="nav-search">
+        <%--<div class="nav-search" id="nav-search">
           <form class="form-search">
               <span class="input-icon">
                   <input type="text" placeholder="搜索 ..." class="nav-search-input"
@@ -110,7 +110,7 @@
                   <i class="ace-icon fa fa-search nav-search-icon"></i>
               </span>
           </form>
-        </div>
+        </div>--%>
         <!-- /.nav-search -->
       </div>
       </c:if>

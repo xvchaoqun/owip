@@ -106,14 +106,32 @@ public class MemberStudentController extends BaseController {
         return "memberStudent/memberStudent_page";
     }
 
-
-    @RequiresPermissions("memberStudent:show")
-    @RequestMapping("/memberStudent_show")
-    public String memberStudent_show(Integer userId, ModelMap modelMap) {
+    // 基本信息
+    @RequiresPermissions("memberStudent:base")
+    @RequestMapping("/memberStudent_base")
+    public String memberStudent_base(Integer userId, ModelMap modelMap) {
 
         MemberStudent memberStudent = memberStudentService.get(userId);
         modelMap.put("memberStudent", memberStudent);
-        return "memberStudent/memberStudent_show";
+
+        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
+        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
+
+        return "memberStudent/memberStudent_base";
+    }
+    // 党籍信息
+    @RequiresPermissions("memberStudent:member")
+    @RequestMapping("/memberStudent_member")
+    public String memberStudent_member(Integer userId, ModelMap modelMap) {
+
+        MemberStudent memberStudent = memberStudentService.get(userId);
+        modelMap.put("memberStudent", memberStudent);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
+
+        return "memberStudent/memberStudent_member";
     }
 
     public void memberStudent_export(MemberStudentExample example, HttpServletResponse response) {

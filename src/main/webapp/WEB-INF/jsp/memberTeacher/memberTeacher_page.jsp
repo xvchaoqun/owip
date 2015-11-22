@@ -83,8 +83,10 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            工作证号、姓名、性别、年龄、最高学历、岗位类别、专业技术职务、所属组织机构、入党时间、联系手机
-                            <td>${memberTeacher.code}</td>
+                            <td><a href="${ctx}/member_view?userId=${memberTeacher.userId}">
+                            ${memberTeacher.code}
+                            </a>
+                            </td>
                             <td>${memberTeacher.realname}</td>
                             <td>${memberTeacher.gender}</td>
                             <td>${cm:formatDate(memberTeacher.birth,'yyyy-MM-dd')}</td>

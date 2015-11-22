@@ -107,11 +107,11 @@
 
 <script>
 
-	if('${sysResource.type}'=="function"){
+	/*if('${sysResource.type}'=="function"){
 		$(".menuNeeded").hide();
 	}else{
 		$(".menuNeeded").show();
-	}
+	}*/
 
 	$("#modal select[name=parentId]").select2({
 		ajax: {
@@ -137,14 +137,14 @@
 		placeholder: "请选择上级对象"
 	});
 
-	$("#typeSelect").select2({ theme: "classic",width:'180px',allowClear:true }).on("select2:select",function(e){
+	$("#typeSelect").select2({ theme: "classic",width:'180px',allowClear:true })/*.on("select2:select",function(e){
 
 		if($(this).val()=="function"){
 			$(".menuNeeded").hide();
 		}else{
 			$(".menuNeeded").show();
 		}
-	});
+	});*/
 	function format(state) {
 		if (!state.id) return state.text; // optgroup
 		return $("<span><i class='" + state.id.toLowerCase() + "'></i> " + state.text + "</span>");

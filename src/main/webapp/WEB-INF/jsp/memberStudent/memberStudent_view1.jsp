@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${memberStudent!=null}">编辑</c:if><c:if test="${memberStudent==null}">添加</c:if>VIEW</h3>
-</div>
-<div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberStudent_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${memberStudent.id}">
+
+		<div class="row">
+			<div class="col-sm-6">
+		<input type="hidden" name="userId" value="${memberStudent.userId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">创建时间</label>
 				<div class="col-xs-6">
@@ -110,6 +108,8 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="gender" value="${memberStudent.gender}">
 				</div>
 			</div>
+				</div>
+					<div class="col-sm-6">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">民族</label>
 				<div class="col-xs-6">
@@ -200,12 +200,9 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="eduType" value="${memberStudent.eduType}">
 				</div>
 			</div>
+						</div>
+			</div>
     </form>
-</div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberStudent!=null}">确定</c:if><c:if test="${memberStudent==null}">添加</c:if>"/>
-</div>
 
 <script>
     $("#modal form").validate({

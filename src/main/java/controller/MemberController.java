@@ -1,5 +1,6 @@
 package controller;
 
+import domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,17 +35,20 @@ public class MemberController extends BaseController {
         return "forward:/memberTeacher_page";
     }
 
-    @RequiresPermissions("member:show")
-    @RequestMapping("/memberShow")
-    public String member_show(HttpServletResponse response, int userId, ModelMap modelMap) {
+    @RequiresPermissions("member:view")
+    @RequestMapping("/member_view")
+    public String member_view(HttpServletResponse response, int userId, ModelMap modelMap) {
 
         return "index";
     }
 
-    @RequiresPermissions("member:show")
-    @RequestMapping("/memberShow_page")
+    @RequiresPermissions("member:view")
+    @RequestMapping("/member_view_page")
     public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
 
-        return "member/member_show";
+        SysUser sysUser = sysUserService.findById(userId);
+        if(sysUser.getType() == SystemConstants.MEMBER_TYPE_TEACHER)
+            return "member/teacher_view";
+        return "member/student_view";
     }
 }

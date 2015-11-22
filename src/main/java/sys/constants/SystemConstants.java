@@ -108,6 +108,11 @@ public class SystemConstants {
 	// 党员政治面貌
 	public final static byte MEMBER_POLITICAL_STATUS_GROW = 1; //预备党员
 	public final static byte MEMBER_POLITICAL_STATUS_POSITIVE = 2; //正式党员
+	public final static Map<Byte, String>MEMBER_POLITICAL_STATUS_MAP = new HashMap<>();
+	static {
+		MEMBER_POLITICAL_STATUS_MAP.put(MEMBER_POLITICAL_STATUS_GROW, "预备党员");
+		MEMBER_POLITICAL_STATUS_MAP.put(MEMBER_POLITICAL_STATUS_POSITIVE, "正式党员");
+	}
 
 	// 党员类别
 	public final static byte MEMBER_TYPE_TEACHER = 1; //在职教职工党员
@@ -122,4 +127,10 @@ public class SystemConstants {
 	public final static byte MEMBER_SOURCE_GROW = 1; // 本校发展
 	public final static byte MEMBER_SOURCE_TRANSFER = 2; // 外校转入
 	public final static byte MEMBER_SOURCE_IMPORT = 3; // 建系统时统一导入
+	public final static Map<Byte, String>MEMBER_SOURCE_MAP = new HashMap<>();
+	static {
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
+	}
 }

@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td>
-								<a href="${ctx}/memberShow?userId=${memberStudent.userId}">
+								<a href="${ctx}/member_view?userId=${memberStudent.userId}">
 								${memberStudent.code}</a></td>
 								<td>${memberStudent.realname}</td>
 								<td>${GENDER_MALE_MAP.get(memberStudent.gender)}</td>
