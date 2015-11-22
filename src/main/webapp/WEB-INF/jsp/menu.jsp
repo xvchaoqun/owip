@@ -17,7 +17,8 @@
         </c:if>
     </c:if>
     <c:if test="${menu.type=='url'}">
-        <li class="<c:if test="${menu.url==_path}">active</c:if>">
+        <!--如果是url本身，或者 function打开，则选择function所属的url-->
+        <li class="<c:if test="${menu.url==_path || parentIdSet.contains(menu.id)}">active</c:if>">
             <a href="${menu.url}">
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>

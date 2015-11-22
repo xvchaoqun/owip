@@ -56,6 +56,8 @@ public class MemberTeacher implements Serializable {
 
     private String school;
 
+    private Boolean isRetire;
+
     private Boolean isHonorRetire;
 
     private String postType;
@@ -308,6 +310,14 @@ public class MemberTeacher implements Serializable {
 
     public void setSchool(String school) {
         this.school = school == null ? null : school.trim();
+    }
+
+    public Boolean getIsRetire() {
+        return isRetire;
+    }
+
+    public void setIsRetire(Boolean isRetire) {
+        this.isRetire = isRetire;
     }
 
     public Boolean getIsHonorRetire() {

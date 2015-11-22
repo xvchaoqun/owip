@@ -72,6 +72,8 @@ public class Teacher implements Serializable {
 
     private String phone;
 
+    private Boolean isRetire;
+
     private Date retireTime;
 
     private Boolean isHonorRetire;
@@ -350,6 +352,14 @@ public class Teacher implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Boolean getIsRetire() {
+        return isRetire;
+    }
+
+    public void setIsRetire(Boolean isRetire) {
+        this.isRetire = isRetire;
     }
 
     public Date getRetireTime() {

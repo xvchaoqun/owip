@@ -6,17 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
 
         <div class="tabbable">
-            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${type==1}">active</c:if>">
-                    <a href="?type=1" data-status="1"><i class="fa fa-flag"></i> 学生党员</a>
-                </li>
-                <li class="<c:if test="${type==2}">active</c:if>">
-                    <a href="?type=2" data-status="2"><i class="fa fa-history"></i> 教职工党员</a>
-                </li>
-                <li class="<c:if test="${type==3}">active</c:if>">
-                    <a href="?type=3" data-status="2"><i class="fa fa-history"></i> 离退休党员</a>
-                </li>
-            </ul>
+            <jsp:include page="/WEB-INF/jsp/member/member_menu.jsp"/>
 
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
@@ -66,16 +56,16 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>所属党支部</th>
-							<th>所属分党委</th>
-							<th>入党时间</th>
 							<th>工作证号</th>
-							<th>最高学历</th>
+							<th>姓名</th>
 							<th>性别</th>
+							<th>年龄</th>
+							<th>最高学历</th>
 							<th>岗位类别</th>
 							<th>专业技术职务</th>
+							<th>所属组织机构</th>
+							<th>入党时间</th>
 							<th>联系手机</th>
-							<th>出生日期</th>
                         <shiro:hasPermission name="memberTeacher:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap class="hidden-480">排序</th>
@@ -93,16 +83,20 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${memberTeacher.branchId}</td>
-								<td>${memberTeacher.partyId}</td>
-								<td>${memberTeacher.growTime}</td>
-								<td>${memberTeacher.code}</td>
-								<td>${memberTeacher.education}</td>
-								<td>${memberTeacher.gender}</td>
-								<td>${memberTeacher.postClass}</td>
-								<td>${memberTeacher.proPost}</td>
-								<td>${memberTeacher.mobile}</td>
-								<td>${memberTeacher.birth}</td>
+                            工作证号、姓名、性别、年龄、最高学历、岗位类别、专业技术职务、所属组织机构、入党时间、联系手机
+                            <td>${memberTeacher.code}</td>
+                            <td>${memberTeacher.realname}</td>
+                            <td>${memberTeacher.gender}</td>
+                            <td>${cm:formatDate(memberTeacher.birth,'yyyy-MM-dd')}</td>
+                            <td>${memberTeacher.education}</td>
+                            <td>${memberTeacher.postClass}</td>
+                            <td>${memberTeacher.proPost}</td>
+                            <td>${partyMap.get(memberTeacher.partyId).name}
+                                <c:if test="${not empty memberTeacher.branchId}">
+                                    -${branchMap.get(memberTeacher.branchId).name}
+                                </c:if></td>
+							<td>${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}</td>
+							<td>${memberTeacher.mobile}</td>
                             <shiro:hasPermission name="memberTeacher:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">

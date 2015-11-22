@@ -162,7 +162,11 @@ pageEncoding="UTF-8" %>
                                                     <c:set var="user" value="${cm:getUserById(memberApply.userId)}"/>
                                                     <td>${user.username}</td>
                                                     <td>${user.realname}</td>
-                                                    <td>${partyMap.get(memberApply.partyId).name}-${branchMap.get(memberApply.branchId).name}</td>
+                                                    <td>${partyMap.get(memberApply.partyId).name}
+                                                        <c:if test="${not empty memberApply.branchId}">
+                                                        -${branchMap.get(memberApply.branchId).name}
+                                                        </c:if>
+                                                    </td>
                                                     <c:if test="${stage<=APPLY_STAGE_PASS}">
                                                     <td>${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}</td>
                                                     </c:if>

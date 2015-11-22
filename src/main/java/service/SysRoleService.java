@@ -19,13 +19,23 @@ public class SysRoleService {
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
 
+	public boolean idDuplicate(Integer id, String role){
+
+		SysRoleExample example = new SysRoleExample();
+		SysRoleExample.Criteria criteria = example.createCriteria().andRoleEqualTo(role);
+		if(id!=null) criteria.andIdNotEqualTo(id);
+
+		return sysRoleMapper.countByExample(example) > 0;
+	}
+
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
+			@CacheEvict(value="SysRole", key = "#role"),
 			@CacheEvict(value="Permissions", allEntries=true)
 	})
-	public void del(Integer id){
+	public void del(Integer id, String role){
 
 		sysRoleMapper.deleteByPrimaryKey(id);
 	}
@@ -45,12 +55,25 @@ public class SysRoleService {
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
+			@CacheEvict(value="SysRole", key = "#role"),
+			@CacheEvict(value="SysRole", key = "#oldRole"),
 			@CacheEvict(value="SysRoles", allEntries=true)
 	})
-	public int updateByPrimaryKeySelective(SysRole sysRole){
+	public int updateByPrimaryKeySelective(SysRole sysRole, String role, String oldRole){
 
 		return sysRoleMapper.updateByPrimaryKeySelective(sysRole);
 	}
+
+	@Cacheable(value = "SysRoles", key = "#role")
+	public SysRole getByRole(String role){
+
+		SysRoleExample example = new SysRoleExample();
+		example.createCriteria().andRoleEqualTo(role);
+		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
+		if(sysRoles.size()>0) return sysRoles.get(0);
+		return null;
+	}
+
 	@Cacheable(value = "SysRoles")
 	public Map<Integer, SysRole> findAll(){
 

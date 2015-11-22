@@ -295,7 +295,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_CANDIDATE, "确定为发展对象，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_CANDIDATE, (directParty && partyAdmin)?"确定为发展对象，不需要审核":"确定为发展对象，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -372,7 +372,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_PLAN, "列入发展计划，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_PLAN, (directParty && partyAdmin)?"列入发展计划，不需要审核":"列入发展计划，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -451,7 +451,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_DRAW, "领取志愿书，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_DRAW, (directParty && partyAdmin)?"领取志愿书，不需要审核":"领取志愿书，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -525,7 +525,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_GROW, (directParty && partyAdmin)?"预备党员，不需要审核1":"预备党员，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -613,7 +613,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_POSITIVE, (directParty && partyAdmin)?"正式党员，不需要审核1":"正式党员，已提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 

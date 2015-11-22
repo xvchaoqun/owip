@@ -6,6 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${!param.__includePage}">
+<html>
+<head>
+    <title>系统错误</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="assets/css/font-awesome.css" />
+</head>
+<body>
+<div style="padding-top: 100px"></div>
+<div class="container">
+  </c:if>
+<div class="row">
   <div class="col-xs-12">
     <!-- PAGE CONTENT BEGINS -->
     <!-- #section:pages/error -->
@@ -47,4 +60,14 @@
       </div>
     </div>
 
+    <!-- /section:pages/error -->
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
 </div>
+
+<c:if test="${!param.__includePage}">
+  </div>
+</body>
+</html>
+  </c:if>

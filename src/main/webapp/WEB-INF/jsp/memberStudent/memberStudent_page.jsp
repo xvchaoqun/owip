@@ -9,17 +9,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
 
         <div class="tabbable">
-            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${type==1}">active</c:if>">
-                    <a href="?type=1" data-status="1"><i class="fa fa-flag"></i> 学生党员</a>
-                </li>
-                <li class="<c:if test="${type==2}">active</c:if>">
-                    <a href="?type=2" data-status="2"><i class="fa fa-history"></i> 教职工党员</a>
-                </li>
-                <li class="<c:if test="${type==3}">active</c:if>">
-                    <a href="?type=3" data-status="2"><i class="fa fa-history"></i> 离退休党员</a>
-                </li>
-            </ul>
+            <jsp:include page="/WEB-INF/jsp/member/member_menu.jsp"/>
 
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
@@ -90,13 +80,18 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${memberStudent.code}</td>
+								<td>
+								<a href="${ctx}/memberShow?userId=${memberStudent.userId}">
+								${memberStudent.code}</a></td>
 								<td>${memberStudent.realname}</td>
 								<td>${GENDER_MALE_MAP.get(memberStudent.gender)}</td>
 								<td>${cm:formatDate(memberStudent.birth,'yyyy-MM-dd')}</td>
 								<td>${memberStudent.type}</td>
 								<td>${memberStudent.grade}</td>
-                                <td>${memberStudent.branchId} ${memberStudent.partyId}</td>
+                                <td>${partyMap.get(memberStudent.partyId).name}
+                                    <c:if test="${not empty memberStudent.branchId}">
+                                        -${branchMap.get(memberStudent.branchId).name}
+                                    </c:if></td>
                                 <td>${cm:formatDate(memberStudent.growTime,'yyyy-MM-dd')}</td>
                                 <td>
                                     <c:if test="${memberStudent.politicalStatus == MEMBER_POLITICAL_STATUS_GROW}">

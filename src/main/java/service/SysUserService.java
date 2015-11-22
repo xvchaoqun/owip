@@ -11,7 +11,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import persistence.SysUserMapper;
+import sys.constants.SystemConstants;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -22,9 +24,9 @@ public class SysUserService {
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	@Autowired
-	private SysRoleService roleService;
+	private SysRoleService sysRoleService;
 	@Autowired
-	private SysResourceService resourceService;
+	private SysResourceService sysResourceService;
 
 	public boolean idDuplicate(Integer id, String username, String code){
 
@@ -34,6 +36,14 @@ public class SysUserService {
 		if(StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
 
 		return sysUserMapper.countByExample(example) > 0;
+	}
+
+	@Transactional
+	public void insertSelective(SysUser record){
+
+		sysUserMapper.insertSelective(record);
+		// 默认角色：访客
+		addRole(record.getId(), SystemConstants.ROLE_GUEST, record.getUsername());
 	}
 
 	@Cacheable(value="SysUser:ID", key="#id")
@@ -86,9 +96,9 @@ public class SysUserService {
 		return sysUserMapper.deleteByPrimaryKey(id);
 	}
 
-	public List<Integer> getUserRoleIds(String roleIdsStr){
+	public Set<Integer> getUserRoleIdSet(String roleIdsStr){
 
-		List<Integer> roleIds = new ArrayList<Integer>();
+		Set<Integer> roleIds = new HashSet<>();
 		if(StringUtils.isBlank(roleIdsStr)) return roleIds;
 		String[] roleIdStrs = roleIdsStr.split(",");
 		for(String roleIdStr : roleIdStrs) {
@@ -100,39 +110,98 @@ public class SysUserService {
 
 		return roleIds;
 	}
+	// 删除一个角色
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId")
+	})
+	public void delRole(int userId, String role, String username){
+
+		SysUser sysUser = findById(userId);
+		Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
+
+		SysRole sysRole = sysRoleService.getByRole(role);
+		Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+		roleIdSet.remove(sysRole.getId());
+
+		SysUser record = new SysUser();
+		record.setId(userId);
+		record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
+				StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
+				+ SystemConstants.USER_ROLEIDS_SEPARTOR);
+		updateByPrimaryKeySelective(record, sysUser.getUsername());
+	}
 	// 添加一个角色
-	public String buildRoleIdsStr(String roleIdsStr, int roleId){
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId")
+	})
+	public void addRole(int userId, String role, String username){
 
-		Set<Integer> roleIdSet = new HashSet<>();
-		roleIdSet.addAll(getUserRoleIds(roleIdsStr));
-		if(roleIdSet.contains(roleId))
-			return roleIdsStr;
-		roleIdSet.add(roleId);
+		SysUser sysUser = findById(userId);
+		Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
 
-		return "," + StringUtils.join(roleIdSet, ",") + ",";
+		SysRole sysRole = sysRoleService.getByRole(role);
+		Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+		roleIdSet.add(sysRole.getId());
+
+		SysUser record = new SysUser();
+		record.setId(userId);
+		record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
+				StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
+				+ SystemConstants.USER_ROLEIDS_SEPARTOR);
+		updateByPrimaryKeySelective(record, sysUser.getUsername());
+
 	}
 
-	private List<SysRole> _findRoles(String username){
+	// 改变角色
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId")
+	})
+	public void changeRole(int userId, String role, String toRole, String username){
+
+		SysUser sysUser = findById(userId);
+		Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
+
+		SysRole sysRole = sysRoleService.getByRole(role);
+		SysRole toSysRole = sysRoleService.getByRole(toRole);
+		Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+		roleIdSet.remove(sysRole.getId());
+		roleIdSet.add(toSysRole.getId());
+
+		SysUser record = new SysUser();
+		record.setId(userId);
+		record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
+				StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
+				+ SystemConstants.USER_ROLEIDS_SEPARTOR);
+		updateByPrimaryKeySelective(record, sysUser.getUsername());
+
+	}
+
+	// 根据账号查找所有的角色（对象）
+	private Set<SysRole> _findRoles(String username){
 
 		SysUser user = findByUsername(username);
-
-		List<SysRole> roles = new ArrayList<>();
-		List<Integer> roleIds = getUserRoleIds(user.getRoleIds());
-
-		Map<Integer, SysRole> roleMap = roleService.findAll();
+		Set<SysRole> roles = new HashSet<>();
+		Set<Integer> roleIds = getUserRoleIdSet(user.getRoleIds());
+		Map<Integer, SysRole> roleMap = sysRoleService.findAll();
 		for (Integer roleId : roleIds) {
 			SysRole role = roleMap.get(roleId);
 			if(role != null)
 				roles.add(role);
 		}
-
         return roles;
 	}
-	
+
+	// 根据账号查找所拥有的全部资源
 	private List<SysResource> findResources(String username){
 
 		List<SysResource> resources = new ArrayList<>();
-		List<SysRole> roles = _findRoles(username);
+		Set<SysRole> roles = _findRoles(username);
 		List<Integer> resourceIds = new ArrayList<Integer>();
 		
 		for (SysRole role : roles) {
@@ -141,7 +210,7 @@ public class SysUserService {
 			
 			if(StringUtils.isBlank(resourceIdsStr)) continue;
 			
-			String[] resourceIdStrs = resourceIdsStr.split(",");
+			String[] resourceIdStrs = resourceIdsStr.split(SystemConstants.USER_ROLEIDS_SEPARTOR);
 			for(String resourceIdStr : resourceIdStrs) {
 				if(StringUtils.isEmpty(resourceIdStr)) {
 					continue;
@@ -152,7 +221,7 @@ public class SysUserService {
 		
 		if(resourceIds.size()==0) return resources;
 
-		Map<Integer, SysResource> resourceMap = resourceService.getSortedSysResources();
+		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
 		for (Integer resourceId : resourceIds) {
 			SysResource resource = resourceMap.get(resourceId);
 			if(resource != null)
@@ -161,17 +230,15 @@ public class SysUserService {
 		return resources;
 	}
 
+	// 根据账号查找所有的角色（角色字符串集合）
 	@Cacheable(value="UserRoles", key="#username")
 	public Set<String> findRoles(String username) {
 
-		List<SysRole> _roles = _findRoles(username);
-
+		Set<SysRole> _roles = _findRoles(username);
 		Set<String> roles = new HashSet<String>();
         for(SysRole role : _roles) {
-           
         	roles.add(role.getRole());
         }
-        
 		return roles;
 	}
 	

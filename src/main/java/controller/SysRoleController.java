@@ -92,15 +92,8 @@ public class SysRoleController extends BaseController {
 		if(StringUtils.equals(role, "admin")) {
 			throw new IllegalArgumentException("不允许添加admin角色");
 		}
-
-		if(role != null) {
-			SysRoleExample example = new SysRoleExample();
-			example.createCriteria().andRoleEqualTo(role);
-			List<SysRole> byExample = sysRoleMapper.selectByExample(example);
-			if (byExample != null && byExample.size() > 0) {
-				if (sysRole.getId() == null || byExample.get(0).getId() != sysRole.getId())
-					return failed(FormUtils.DUPLICATE);
-			}
+		if (role!=null && sysRoleService.idDuplicate(sysRole.getId(), role)) {
+			return failed("添加重复");
 		}
 
 		if(resIds==null || resIds.length==0)
@@ -115,7 +108,8 @@ public class SysRoleController extends BaseController {
 			sysRoleService.insert(sysRole);
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, false)));
 		}else{
-			sysRoleService.updateByPrimaryKeySelective(sysRole);
+			SysRole oldSysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
+			sysRoleService.updateByPrimaryKeySelective(sysRole, sysRole.getRole(), oldSysRole.getRole());
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, false)));
 		}
 		
@@ -157,8 +151,8 @@ public class SysRoleController extends BaseController {
 	public Map do_sysRole_del(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request) {
 		
 		if(id!=null){
-			
-			sysRoleService.del(id);
+			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
+			sysRoleService.del(id, sysRole.getRole());
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除角色：%s", id));
 		}
 		

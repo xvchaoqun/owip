@@ -128,6 +128,10 @@ public class MemberApplyService extends BaseMapper {
         //3. 进入党员库
         if (memberMapper.insertSelective(member) == 0)
             throw new DBErrorException("系统错误");
+
+        // 4. 更新系统角色  访客->党员
+        sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_GUEST,
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
     }
 
     // 同步教职工党员信息
@@ -154,6 +158,9 @@ public class MemberApplyService extends BaseMapper {
 
             //+++++++++++++ 同步后面一系列属性
         }
+
+        // 在职或退休，如何判断？
+        teacher.setIsRetire(false);
 
         teacherMapper.insertSelective(teacher);
     }

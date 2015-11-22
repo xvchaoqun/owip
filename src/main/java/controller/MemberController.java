@@ -32,4 +32,18 @@ public class MemberController extends BaseController {
         // type=2教职工  3离退休
         return "forward:/memberTeacher_page";
     }
+
+    @RequiresPermissions("member:show")
+    @RequestMapping("/memberShow")
+    public String member_show(HttpServletResponse response, int userId, ModelMap modelMap) {
+
+        return "index";
+    }
+
+    @RequiresPermissions("member:show")
+    @RequestMapping("/memberShow_page")
+    public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
+
+        return "member/member_show";
+    }
 }

@@ -28,6 +28,7 @@
     <result column="major" property="major" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="is_retire" property="isRetire" jdbcType="BIT" />
     <result column="is_honor_retire" property="isHonorRetire" jdbcType="BIT" />
     <result column="post_type" property="postType" jdbcType="VARCHAR" />
     <result column="degree_time" property="degreeTime" jdbcType="VARCHAR" />
@@ -113,10 +114,10 @@
     create_time, apply_time, source, positive_time, active_time, political_status, transfer_time, 
     user_id, branch_id, candidate_time, party_id, grow_time, status, code, education, 
     gender, nation, school_type, title_level, staff_status, retire_time, post_class, 
-    pro_post, major, post, school, is_honor_retire, post_type, degree_time, manage_level, 
-    email, post_level, office_level, talent_title, address, degree, mobile, birth, authorized_type, 
-    realname, arrive_time, native_place, marital_status, staff_type, phone, idcard, on_job, 
-    pro_post_level
+    pro_post, major, post, school, is_retire, is_honor_retire, post_type, degree_time, 
+    manage_level, email, post_level, office_level, talent_title, address, degree, mobile, 
+    birth, authorized_type, realname, arrive_time, native_place, marital_status, staff_type, 
+    phone, idcard, on_job, pro_post_level
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberTeacherExample" >
     select
@@ -147,15 +148,15 @@
       gender, nation, school_type, 
       title_level, staff_status, retire_time, 
       post_class, pro_post, major, 
-      post, school, is_honor_retire, 
-      post_type, degree_time, manage_level, 
-      email, post_level, office_level, 
-      talent_title, address, degree, 
-      mobile, birth, authorized_type, 
-      realname, arrive_time, native_place, 
-      marital_status, staff_type, phone, 
-      idcard, on_job, pro_post_level
-      )
+      post, school, is_retire, 
+      is_honor_retire, post_type, degree_time, 
+      manage_level, email, post_level, 
+      office_level, talent_title, address, 
+      degree, mobile, birth, 
+      authorized_type, realname, arrive_time, 
+      native_place, marital_status, staff_type, 
+      phone, idcard, on_job, 
+      pro_post_level)
     values (#{createTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, #{source,jdbcType=TINYINT}, 
       #{positiveTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, 
       #{transferTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
@@ -164,15 +165,15 @@
       #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, 
       #{titleLevel,jdbcType=VARCHAR}, #{staffStatus,jdbcType=VARCHAR}, #{retireTime,jdbcType=DATE}, 
       #{postClass,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{isHonorRetire,jdbcType=BIT}, 
-      #{postType,jdbcType=VARCHAR}, #{degreeTime,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, 
-      #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{authorizedType,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{arriveTime,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{maritalStatus,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{idcard,jdbcType=VARCHAR}, #{onJob,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}
-      )
+      #{post,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, 
+      #{isHonorRetire,jdbcType=BIT}, #{postType,jdbcType=VARCHAR}, #{degreeTime,jdbcType=VARCHAR}, 
+      #{manageLevel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, 
+      #{officeLevel,jdbcType=VARCHAR}, #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{authorizedType,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{arriveTime,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{onJob,jdbcType=VARCHAR}, 
+      #{proPostLevel,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberTeacher" >
     insert into ow_member_teacher
@@ -254,6 +255,9 @@
       </if>
       <if test="school != null" >
         school,
+      </if>
+      <if test="isRetire != null" >
+        is_retire,
       </if>
       <if test="isHonorRetire != null" >
         is_honor_retire,
@@ -400,6 +404,9 @@
       </if>
       <if test="school != null" >
         #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="isRetire != null" >
+        #{isRetire,jdbcType=BIT},
       </if>
       <if test="isHonorRetire != null" >
         #{isHonorRetire,jdbcType=BIT},
@@ -556,6 +563,9 @@
       <if test="record.school != null" >
         school = #{record.school,jdbcType=VARCHAR},
       </if>
+      <if test="record.isRetire != null" >
+        is_retire = #{record.isRetire,jdbcType=BIT},
+      </if>
       <if test="record.isHonorRetire != null" >
         is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
       </if>
@@ -655,6 +665,7 @@
       major = #{record.major,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       school = #{record.school,jdbcType=VARCHAR},
+      is_retire = #{record.isRetire,jdbcType=BIT},
       is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
       post_type = #{record.postType,jdbcType=VARCHAR},
       degree_time = #{record.degreeTime,jdbcType=VARCHAR},

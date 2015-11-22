@@ -116,7 +116,9 @@
       </c:if>
 
       <div class="page-content" id="page-content">
-          <c:import url="${_path}_page"></c:import>
+          <c:import url="${_path}_page">
+            <c:param name="__includePage" value="true"/>
+          </c:import>
       </div>
       <!-- /.page-content -->
     </div>

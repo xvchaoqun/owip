@@ -146,8 +146,7 @@ public class SysUserController extends BaseController {
 			sysUser.setPasswd(encrypt.getPassword());
 			sysUser.setCreateTime(new Date());
 			sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
-			
-			sysUserMapper.insertSelective(sysUser);
+			sysUserService.insertSelective(sysUser);
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
 		}else{
 			
@@ -287,11 +286,10 @@ public class SysUserController extends BaseController {
 	public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
 
 		Set<Integer> selectIdSet = new HashSet<Integer>();
-
 		if(id != null){
 
 			SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
-			selectIdSet.addAll(sysUserService.getUserRoleIds(sysUser.getRoleIds()));
+			selectIdSet = sysUserService.getUserRoleIdSet(sysUser.getRoleIds());
 
 			modelMap.put("sysUser", sysUser);
 		}

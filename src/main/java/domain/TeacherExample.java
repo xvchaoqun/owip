@@ -2482,6 +2482,66 @@ public class TeacherExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsRetireIsNull() {
+            addCriterion("is_retire is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireIsNotNull() {
+            addCriterion("is_retire is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireEqualTo(Boolean value) {
+            addCriterion("is_retire =", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireNotEqualTo(Boolean value) {
+            addCriterion("is_retire <>", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireGreaterThan(Boolean value) {
+            addCriterion("is_retire >", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_retire >=", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireLessThan(Boolean value) {
+            addCriterion("is_retire <", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_retire <=", value, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireIn(List<Boolean> values) {
+            addCriterion("is_retire in", values, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireNotIn(List<Boolean> values) {
+            addCriterion("is_retire not in", values, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_retire between", value1, value2, "isRetire");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRetireNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_retire not between", value1, value2, "isRetire");
+            return (Criteria) this;
+        }
+
         public Criteria andRetireTimeIsNull() {
             addCriterion("retire_time is null");
             return (Criteria) this;

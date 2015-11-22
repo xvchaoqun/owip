@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.MSUtils;
@@ -62,7 +63,11 @@ public class MemberTeacherController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-
+        if(type== 2){ // 在职教职工党员
+            criteria.andIsRetireEqualTo(false);
+        }else if(type== 3){ // 离退休党员
+            criteria.andIsRetireEqualTo(true);
+        }
         if (export == 1) {
             memberTeacher_export(example, response);
             return null;
@@ -96,6 +101,10 @@ public class MemberTeacherController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+
         return "memberTeacher/memberTeacher_page";
     }
 

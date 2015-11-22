@@ -8,6 +8,14 @@ public class SystemConstants {
 	// 日期范围分隔符（用于查询时的输入框）
 	public static final String DATERANGE_SEPARTOR = " 至 ";
 
+	// 账号的角色字符串分隔符
+	public static final String USER_ROLEIDS_SEPARTOR = ",";
+
+	// 系统角色（与数据库对应的角色字符串不可以修改！）
+	public static final String ROLE_GUEST = "guest";
+	public static final String ROLE_MEMBER = "member";
+
+
 	public static final String LOG_LOGIN = "mt_log_login";
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";

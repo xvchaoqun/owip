@@ -99,6 +99,8 @@ public class MemberStudentController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
         modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
 
         return "memberStudent/memberStudent_page";

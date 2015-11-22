@@ -1,6 +1,8 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <div class="row">
   <div class="col-xs-12">
     <!-- PAGE CONTENT BEGINS -->
@@ -12,7 +14,7 @@
     <c:if test="${empty memberApply}">
     <form class="form-horizontal" method="post" action="${ctx}/apply">
       <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"> ${cm:typeEqualsCode(user.typeId,'mt_jgz')?"教工号":"学号"}</label>
+        <label class="col-sm-3 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
         <div class="col-sm-9">
           <input readonly disabled type="text" value="${user.code}" />
         </div>
@@ -166,7 +168,7 @@
         <span class="title">未通过申请</span>
       </li>
       </c:if>
-    <c:if test="${memberApply.stage>0}">
+
       <li data-step="1" <c:if test="${memberApply.stage>0}">class="active"</c:if>>
         <span class="step">1</span>
         <span class="title">申请已通过</span>
@@ -193,12 +195,8 @@
         <span class="step">6</span>
         <span class="title">预备党员</span>
       </li>
-      <li data-step="7" <c:if test="${memberApply.stage>6}">class="active"</c:if>>
-        <span class="step">7</span>
-        <span class="title">正式党员</span>
-      </li>
       </c:if>
     </ul>
-  </c:if>
+
     </div>
   </div>
