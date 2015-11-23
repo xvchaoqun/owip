@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="dispatchCadre:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="editBtn btn btn-info btn-sm" data-width="700"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
@@ -98,14 +98,16 @@ pageEncoding="UTF-8" %>
                             </label>
                         </th>
 							<th>所属发文</th>
+							<th>类别</th>
 							<th>类型</th>
 							<th>任免方式</th>
 							<th>任免程序</th>
 							<th>工作证号</th>
 							<th>姓名</th>
+                            <th>职务</th>
+                            <th>职务属性</th>
 							<th>行政级别</th>
 							<th>所属单位</th>
-							<th>备注</th>
                         <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
@@ -124,14 +126,16 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td nowrap>${dispatchMap.get(dispatchCadre.dispatchId).code}</td>
+								<td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
 								<td nowrap>${metaTypeMap.get(dispatchCadre.typeId).name}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
 								<td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
 								<td nowrap>${dispatchCadre.code}</td>
 								<td nowrap>${dispatchCadre.name}</td>
+                                <td nowrap>${dispatchCadre.post}</td>
+                                <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
 								<td nowrap>${adminLevelMap.get(dispatchCadre.adminLevelId).name}</td>
 								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
-								<td nowrap>${dispatchCadre.remark}</td>
                             <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
@@ -145,7 +149,7 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="dispatchCadre:edit">
-                                    <button data-id="${dispatchCadre.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${dispatchCadre.id}" class="editBtn btn btn-mini" data-width="700">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>

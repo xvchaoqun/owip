@@ -7,6 +7,8 @@ public class DispatchCadre implements Serializable {
 
     private Integer dispatchId;
 
+    private Byte type;
+
     private Integer typeId;
 
     private Integer wayId;
@@ -16,6 +18,8 @@ public class DispatchCadre implements Serializable {
     private String code;
 
     private String name;
+
+    private String post;
 
     private Integer postId;
 
@@ -43,6 +47,14 @@ public class DispatchCadre implements Serializable {
 
     public void setDispatchId(Integer dispatchId) {
         this.dispatchId = dispatchId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Integer getTypeId() {
@@ -83,6 +95,14 @@ public class DispatchCadre implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public Integer getPostId() {

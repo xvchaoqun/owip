@@ -87,9 +87,9 @@ $.ajaxSetup({
 
 function loadModal(url, width){
     if(width>0){
-        $('#modal .modal-dialog').addClass("modal-width900");
+        $('#modal .modal-dialog').addClass("modal-width"+width);
     }else{
-        $('#modal .modal-dialog').removeClass("modal-width900");
+        $('#modal .modal-dialog').removeClass("modal-width"+width);
     }
     $('#modal .modal-content').load(url,function(data){
         if(!data.startWith("{")) $("#modal").modal('show').draggable({handle :".modal-header"});

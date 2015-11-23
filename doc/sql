@@ -1,0 +1,6 @@
+
+
+
+ALTER TABLE `base_dispatch_cadre`
+	ADD COLUMN `type`  TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1任命 2免职' AFTER `dispatch_id`,
+	ADD COLUMN `post` VARCHAR(50) NOT NULL COMMENT '职务' AFTER `name`;

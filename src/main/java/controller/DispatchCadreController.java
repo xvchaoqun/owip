@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DispatchConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -158,6 +159,8 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
+        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+
         return "dispatchCadre/dispatchCadre_page";
     }
 
@@ -197,6 +200,8 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
+
+        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "dispatchCadre/dispatchCadre_au";
     }

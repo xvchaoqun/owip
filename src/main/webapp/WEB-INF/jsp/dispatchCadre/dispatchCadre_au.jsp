@@ -7,6 +7,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dispatchCadre_au" id="modalForm" method="post">
+        <div class="row">
+            <div class="col-xs-6">
         <input type="hidden" name="id" value="${dispatchCadre.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属发文</label>
@@ -17,6 +19,18 @@ pageEncoding="UTF-8"%>
                     </select>
 				</div>
 			</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">类别</label>
+            <div class="col-xs-6">
+                <c:forEach var="DISPATCH_CADRE_TYPE" items="${DISPATCH_CADRE_TYPE_MAP}">
+                <label>
+                    <input name="type" type="radio" class="ace" value="${DISPATCH_CADRE_TYPE.key}"
+                           <c:if test="${dispatchCadre.type==DISPATCH_CADRE_TYPE.key}">checked</c:if>/>
+                    <span class="lbl"> ${DISPATCH_CADRE_TYPE.value}</span>
+                </label>
+                </c:forEach>
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">类型</label>
 				<div class="col-xs-6">
@@ -62,16 +76,25 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作证号</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="code" value="${dispatchCadre.code}">
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${dispatchCadre.name}">
 				</div>
 			</div>
+            </div>
+            <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职务</label>
+                <div class="col-xs-8">
+                    <input required class="form-control" type="text" name="post" value="${dispatchCadre.post}">
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
@@ -116,10 +139,12 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                        <textarea class="form-control" name="remark">${dispatchCadre.remark}</textarea>
+				<div class="col-xs-8">
+                        <textarea class="form-control" name="remark" rows="5">${dispatchCadre.remark}</textarea>
 				</div>
 			</div>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">

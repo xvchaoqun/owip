@@ -224,6 +224,66 @@ public class DispatchCadreExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Byte value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Byte value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Byte value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Byte> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Byte> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIdIsNull() {
             addCriterion("type_id is null");
             return (Criteria) this;
@@ -541,6 +601,76 @@ public class DispatchCadreExample {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIsNull() {
+            addCriterion("post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIsNotNull() {
+            addCriterion("post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostEqualTo(String value) {
+            addCriterion("post =", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotEqualTo(String value) {
+            addCriterion("post <>", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostGreaterThan(String value) {
+            addCriterion("post >", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostGreaterThanOrEqualTo(String value) {
+            addCriterion("post >=", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLessThan(String value) {
+            addCriterion("post <", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLessThanOrEqualTo(String value) {
+            addCriterion("post <=", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLike(String value) {
+            addCriterion("post like", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotLike(String value) {
+            addCriterion("post not like", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIn(List<String> values) {
+            addCriterion("post in", values, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotIn(List<String> values) {
+            addCriterion("post not in", values, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostBetween(String value1, String value2) {
+            addCriterion("post between", value1, value2, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotBetween(String value1, String value2) {
+            addCriterion("post not between", value1, value2, "post");
             return (Criteria) this;
         }
 

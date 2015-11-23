@@ -23,17 +23,17 @@
 
       <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
       </table>-->
-      <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
-      </table>
+      <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      </table>-->
      <!-- <table tableName="ow_member" domainObjectName="Member">
           <ignoreColumn column="update_time"/>
       </table>-->
       <!--<table tableName="ow_student" domainObjectName="Student">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <table tableName="ow_teacher" domainObjectName="Teacher">
+      <!--<table tableName="ow_teacher" domainObjectName="Teacher">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="ow_apply_log" domainObjectName="ApplyLog">
       </table>-->
       <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
@@ -66,9 +66,10 @@
     <table tableName="base_unit_cadre_transfer_item" domainObjectName="UnitCadreTransferItem">
     </table>
     <table tableName="base_dispatch" domainObjectName="Dispatch">
-    </table>
+    </table>-->
     <table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
     </table>
+      <!--
     <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">
     </table>
     <table tableName="base_dispatch_unit_relate" domainObjectName="DispatchUnitRelate">
