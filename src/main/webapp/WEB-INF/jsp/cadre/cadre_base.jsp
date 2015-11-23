@@ -1,131 +1,118 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-    <form class="form-horizontal" action="${ctx}/memberStudent_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadre_au" id="modalForm" method="post">
 
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
-				<td>
-					姓名
+				<td rowspan="6" colspan="2" style="text-align: center;vertical-align: middle;
+				 width: 50px;background-color: #fff;">
+					照片
 				</td>
-				<td style="min-width: 80px">
-					${memberStudent.realname}
+				<td style="background-color: #f9f9f9;text-align: right">
+					工作证号
 				</td>
-				<td>
-					性别
-				</td>
-				<td style="min-width: 80px">
-					${GENDER_MALE_MAP.get(memberStudent.gender)}
+				<td style="min-width: 150px;background-color: #fff;">
+					${GENDER_MALE_MAP.get(cadre.gender)}
 				</td>
 
+				<td style="background-color: #f9f9f9;text-align: right">
+					姓名
+				</td>
+				<td  style="min-width: 150px;background-color: #fff;">
+					${cadre.nation}
+				</td>
+			</tr>
+			<tr>
+				<td>性别</td>
+				<td >
+					${cadre.code}
+				</td>
 				<td>
 					民族
 				</td>
-				<td  style="min-width: 80px">
-					${memberStudent.nation}
-				</td>
-				<td >
-					身份证号
-				</td>
-				<td style="min-width: 120px">
-					${memberStudent.idcard}
+				<td>
+					${cadre.nativePlace}
 				</td>
 			</tr>
 			<tr>
-				<td>学生证号</td>
+				<td>出生日期</td>
 				<td >
-					${memberStudent.code}
+					${cadre.code}
 				</td>
+				<td>
+					年龄
+				</td>
+				<td>
+					${cadre.nativePlace}
+				</td>
+			</tr>
+			<tr>
+				<td>政治面貌</td>
+				<td >
+					${cadre.code}
+				</td>
+				<td>
+					加入党团时间
+				</td>
+				<td>
+					${cadre.nativePlace}
+				</td>
+			</tr>
+			<tr>
+				<td>国家/地区</td>
+				<td >
+					${cadre.code}
+				</td>
+				<td>
+					所在党组织
+				</td>
+				<td>
+					${cadre.nativePlace}
+				</td>
+			</tr>
+			<tr>
+				<td>证件类型</td>
+				<td >
+					${cadre.code}
+				</td>
+				<td>
+					证件号码
+				</td>
+				<td>
+					${cadre.nativePlace}
+				</td>
+			</tr>
+
+			<tr>
 				<td>
 					籍贯
 				</td>
+				<td style="min-width: 100px">
+					${cadre.grade}
+				</td>
+				<td>出生地</td>
 				<td>
-					${memberStudent.nativePlace}
+					${cadre.eduType}
+				</td>
+				<td>
+					户籍地
 				</td>
 				<td >
-					来源
-				</td>
-				<td>
-					${MEMBER_SOURCE_MAP.get(memberStudent.source)}
-				</td>
-				<td>
-					同步来源
-				</td>
-				<td>
-					${memberStudent.syncSource}
+					${cadre.eduLevel}
 				</td>
 			</tr>
 			<tr>
-				<td>
-					年级
-				</td>
-				<td>
-					${memberStudent.grade}
-				</td>
-				<td>培养类型</td>
+				<td>熟悉专业有何专长</td>
 				<td >
-					${memberStudent.eduType}
+					${cadre.enrolYear}
 				</td>
 				<td>
-					培养层次
+					健康状况
 				</td>
-				<td>
-					${memberStudent.eduLevel}
-				</td>
-				<td >
-					培养方式
-				</td>
-				<td>
-					${memberStudent.eduWay}
-				</td>
-			</tr>
-			<tr>
-
-				<td>招生年度</td>
-				<td >
-					${memberStudent.enrolYear}
-				</td>
-				<td>
-					是否全日制
-				</td>
-				<td>
-					${memberStudent.isFullTime}
-				</td>
-				<td >
-					学生类别
-				</td>
-				<td>
-					${memberStudent.type}
-				</td>
-				<td>教育类别</td>
-				<td >
-					${memberStudent.eduCategory}
-				</td>
-			</tr>
-			<tr>
-
-				<td>实际入学年月</td>
-				<td >
-					${memberStudent.actualEnrolTime}
-				</td>
-				<td>
-					预计毕业年月
-				</td>
-				<td>
-					${memberStudent.expectGraduateTime}
-				</td>
-				<td >
-					实际毕业年月
-				</td>
-				<td>
-					${memberStudent.actualGraduateTime}
-				</td>
-				<td>
-					延期毕业年限
-				</td>
-				<td>
-					${memberStudent.delayYear}
+				<td colspan="3">
+					${cadre.isFullTime}
 				</td>
 			</tr>
 			</tbody>
@@ -133,13 +120,13 @@ pageEncoding="UTF-8"%>
     </form>
 
 <style>
-	.table-striped > tbody > tr:nth-of-type(odd) {
+	#cadre-box .table-striped > tbody > tr:nth-of-type(odd) {
 		background-color:inherit;
 	}
-	.table tbody tr:hover td, .table tbody tr:hover th {
+	#cadre-box .table tbody tr:hover td, .table tbody tr:hover th {
 		background-color:transparent;
 	}
-	.table-striped > tbody > tr > td:nth-of-type(odd) {
+	#cadre-box .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;
 		text-align: right;
 	}

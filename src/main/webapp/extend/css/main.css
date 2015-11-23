@@ -265,7 +265,7 @@ br.xs-100 {
     margin-bottom: 0px;
     margin-top: 0px;
 }
-.modal-header{
+.modal-header, .modal-footer.draggable{
     cursor: move;
 }
 .modal-width600{
@@ -278,5 +278,8 @@ br.xs-100 {
     width: 800px;
 }
 .modal-width900{
+    width: 900px;
+}
+.modal-width1000{
     width: 900px;
 }

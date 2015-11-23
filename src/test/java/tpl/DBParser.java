@@ -21,6 +21,41 @@ public class DBParser {
 		super();
 		this.dataSource = dataSource;
 	}
+
+	public List<String> getTableNameList(String schema) throws SQLException {
+
+		Connection conn = dataSource.getConnection();
+		Statement stat = null;
+		ResultSet rs = null;
+
+		List<String> list = new ArrayList<>();
+		try {
+			String sql = "select table_name from information_schema.tables "
+					+ "where table_schema='" + schema + "'";
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+
+			while (rs != null && rs.next()) {
+				String table_name = rs.getString("table_name");
+				list.add(table_name);
+			}
+		}catch(SQLException ex){
+
+			ex.printStackTrace();
+		}finally{
+
+			try {
+				stat.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+
+	}
 	
 	public String getTableComments(String tablename, String schema) throws SQLException{
 		

@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td>
-								<a href="${ctx}/member_view?userId=${memberStudent.userId}">
+								<a href="#" onclick="openMemberView(${memberStudent.userId})">
 								${memberStudent.code}</a></td>
 								<td>${memberStudent.realname}</td>
 								<td>${GENDER_MALE_MAP.get(memberStudent.gender)}</td>
@@ -178,7 +178,10 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function openMemberView(userId){
 
+        loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
+    }
     function _reset(){
 
         _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&type=${type}");

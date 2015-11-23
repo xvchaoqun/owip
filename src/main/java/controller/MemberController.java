@@ -35,15 +35,15 @@ public class MemberController extends BaseController {
         return "forward:/memberTeacher_page";
     }
 
-    @RequiresPermissions("member:view")
+ /*   @RequiresPermissions("member:view")
     @RequestMapping("/member_view")
     public String member_view(HttpServletResponse response, int userId, ModelMap modelMap) {
 
         return "index";
-    }
+    }*/
 
     @RequiresPermissions("member:view")
-    @RequestMapping("/member_view_page")
+    @RequestMapping("/member_view")
     public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
 
         SysUser sysUser = sysUserService.findById(userId);

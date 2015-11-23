@@ -82,7 +82,7 @@ public class CadreService extends BaseMapper {
      */
     @Transactional
     @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, byte status, int addNum) {
 
         if(addNum == 0) return ;
 
@@ -92,11 +92,11 @@ public class CadreService extends BaseMapper {
         CadreExample example = new CadreExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andStatusEqualTo(status).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andStatusEqualTo(status).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -106,9 +106,9 @@ public class CadreService extends BaseMapper {
             Cadre targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_cadre(status, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_cadre(status, baseSortOrder, targetEntity.getSortOrder());
 
             Cadre record = new Cadre();
             record.setId(id);

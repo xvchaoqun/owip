@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -49,6 +48,7 @@ public class CadreController extends BaseController {
     public String cadre_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer userId,
                                     Integer typeId,
                                     Integer postId,
@@ -64,8 +64,10 @@ public class CadreController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        modelMap.put("status", status);
+
         CadreExample example = new CadreExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -124,6 +126,64 @@ public class CadreController extends BaseController {
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
 
         return "cadre/cadre_page";
+    }
+
+
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_view")
+    public String cadre_show_page(HttpServletResponse response,  ModelMap modelMap) {
+
+        return "cadre/cadre_view";
+    }
+
+    // 基本信息
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_base")
+    public String cadre_base(Integer id, ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        //modelMap.put("cadre", cadre);
+        return "cadre/cadre_base";
+    }
+
+    // 人事信息
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_personnel")
+    public String cadre_personnel(Integer id, ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        //modelMap.put("cadre", cadre);
+        return "cadre/cadre_personnel";
+    }
+
+    // 任职信息
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_post")
+    public String cadre_post(Integer id, ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        //modelMap.put("cadre", cadre);
+        return "cadre/cadre_post";
+    }
+
+    // 职称信息
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_title")
+    public String cadre_title(Integer id, ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        //modelMap.put("cadre", cadre);
+        return "cadre/cadre_title";
+    }
+
+    // 学历学位信息
+    @RequiresPermissions("cadre:info")
+    @RequestMapping("/cadre_education")
+    public String cadre_education(Integer id, ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        //modelMap.put("cadre", cadre);
+        return "cadre/cadre_education";
     }
 
     @RequiresPermissions("cadre:edit")
@@ -189,9 +249,9 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:changeOrder")
     @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cadre_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
 
-        cadreService.changeOrder(id, addNum);
+        cadreService.changeOrder(id, status, addNum);
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部调序：%s, %s", id ,addNum));
         return success(FormUtils.SUCCESS);
     }

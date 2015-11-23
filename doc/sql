@@ -1,5 +1,5 @@
 
-
+grant all privileges on owip.* to root@'%' identified by '123';
 
 ALTER TABLE `base_dispatch_cadre`
 	ADD COLUMN `type`  TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1任命 2免职' AFTER `dispatch_id`,

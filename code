@@ -1,0 +1,39 @@
+
+是否
+<label>
+	<input name="isEnterpriseBig" ${branch.isEnterpriseBig?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+	<span class="lbl"></span>
+</label>
+record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
+
+类别选择
+<select data-rel="select2" name="eduId" data-placeholder="请选择">
+	<option></option>
+	<c:import url="/metaTypes?__code=mc_edu"/>
+</select>
+<script type="text/javascript">
+	$("#modal form select[name=eduId]").val(${cadreEdu.eduId});
+</script>
+
+modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
+
+时间
+<input required class="form-control date-picker" name="_foundTime" type="text"
+								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(party.foundTime,'yyyy-MM-dd')}" />
+<div class="input-group">
+	<input required class="form-control date-picker" name="_foundTime" type="text"
+		   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />
+	<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+</div>
+
+$('.date-picker').datepicker({
+	language:"zh-CN",
+	autoclose: true,
+	todayHighlight: true
+})
+
+if(StringUtils.isNotBlank(_foundTime)){
+	record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
+}
+
+${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}

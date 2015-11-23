@@ -10,7 +10,7 @@
   <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 </head>
 
-<body class="no-skin" onhashchange="hashchange()">
+<body class="no-skin">
 <div id="navbar" class="navbar navbar-default">
 
   <div class="navbar-container" id="navbar-container">
@@ -125,15 +125,13 @@
   </div>
   <!-- /.main-content -->
   <script>
-    function hashchange(){
-      //alert(location.hash);
       var url_anchor = window.location.toString().split("#");
       var anchor = url_anchor[1];
       if(anchor && anchor.length>0){
-        if(url_anchor[0].endWith("unit")) //单位页
-          $(".tabbable li a[href=#"+anchor+"]").click();
+        if(url_anchor[0].endWith("unit") || url_anchor[0].endWith("cadre")) { //单位页或干部页
+          $(".tabbable li a[href=#" + anchor + "]").click();
+        }
       }
-    }
   </script>
   <div class="footer">
     <div class="footer-inner">

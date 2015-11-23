@@ -9,6 +9,8 @@ http://zzgz.bnu.edu.cn/
 00382040 1
 管理员
 0611210038 751321
+留学归国
+00070 1
 
 138ODMISUSERSE =
   (DESCRIPTION =

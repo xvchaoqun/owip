@@ -57,7 +57,11 @@ public class SysResourceController extends BaseController {
 					byExample.get(0).getId().intValue() != sysResource.getId())
 				return failed(FormUtils.DUPLICATE);
 		}
-		
+
+		Integer parentId = sysResource.getParentId();
+		SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
+		sysResource.setParentIds(parent.getParentIds() + parentId + "/");
+
 		if(sysResource.getId() == null){
 			
 			sysResource.setAvailable(SystemConstants.AVAILABLE);
@@ -94,7 +98,7 @@ public class SysResourceController extends BaseController {
 			SysResource child = new SysResource();
 	        child.setParentId(parentId);
 	        
-	        child.setParentIds(parent.getParentIds() + parent.getId() + "/");
+	        //child.setParentIds(parent.getParentIds() + parent.getId() + "/");
 	        modelMap.addAttribute("sysResource", child);
 	        modelMap.addAttribute("op", "新增子节点");
 		}

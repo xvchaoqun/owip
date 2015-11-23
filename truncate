@@ -1,0 +1,38 @@
+
+SET FOREIGN_KEY_CHECKS=0;
+truncate base_cadre;
+
+truncate base_dispatch;
+truncate base_dispatch_cadre;
+truncate base_dispatch_unit;
+truncate base_dispatch_unit_relate;
+truncate base_history_unit;
+truncate base_leader;
+truncate base_leader_unit;
+
+truncate base_table;
+truncate base_table_column;
+truncate base_unit;
+truncate base_unit_cadre_transfer;
+truncate base_unit_cadre_transfer_group;
+truncate base_unit_cadre_transfer_item;
+truncate base_unit_transfer;
+truncate base_unit_transfer_item;
+
+truncate ow_apply_log;
+truncate ow_apply_open_time;
+truncate ow_branch;
+truncate ow_branch_member;
+truncate ow_branch_member_group;
+truncate ow_member;
+truncate ow_member_apply;
+truncate ow_member_student;
+truncate ow_member_teacher;
+truncate ow_party;
+truncate ow_party_member;
+truncate ow_party_member_group;
+truncate ow_student;
+truncate ow_teacher;
+truncate sys_log;
+truncate sys_login_log;
+SET FOREIGN_KEY_CHECKS=1;

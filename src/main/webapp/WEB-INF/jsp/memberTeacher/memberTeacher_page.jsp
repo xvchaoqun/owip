@@ -83,7 +83,8 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td><a href="${ctx}/member_view?userId=${memberTeacher.userId}">
+                            <td>
+                                <a href="#" onclick="openMemberView(${memberTeacher.userId})">
                             ${memberTeacher.code}
                             </a>
                             </td>
@@ -186,6 +187,11 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+        function openMemberView(userId){
+
+            loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
+        }
     function _reset(){
 
         _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&type=${type}");

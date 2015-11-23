@@ -9,13 +9,13 @@
 			<td>
 				姓名
 			</td>
-			<td>
+			<td style="min-width: 80px">
 				${memberTeacher.realname}
 			</td>
 			<td>
 				性别
 			</td>
-			<td>
+			<td style="min-width: 80px">
 				${GENDER_MALE_MAP.get(memberTeacher.gender)}
 			</td>
 
@@ -207,7 +207,7 @@
 
 			<td>是否退休</td>
 			<td >
-				${memberTeacher.isRetire}
+				${memberTeacher.isRetire?"是":"否"}
 			</td>
 			<td>
 				退休时间
@@ -219,7 +219,7 @@
 				是否离休
 			</td>
 			<td colspan="3">
-				${memberTeacher.isHonorRetire}
+				${memberTeacher.isHonorRetire?"是":"否"}
 			</td>
 		</tr>
 		</tbody>

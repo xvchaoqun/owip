@@ -35,7 +35,7 @@
             </div> <!-- /.form-group -->
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block btn-lg btn-shadow" tabindex="4">
+                <button type="button" class="submitBtn btn btn-primary btn-block btn-lg btn-shadow" tabindex="4">
                     登录
                 </button>
             </div> <!-- /.form-group -->
@@ -56,12 +56,12 @@
           $("input[name=captcha]").val('').focus();
           $(this).attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
       })
-	  $("form input[type=submit]").click(function(){$("form").submit();return false;});
+	  $(".submitBtn").click(function(){$("form").submit();return false;});
 	  $("form").validate({
 			submitHandler: function (form) {
-				
 				$(form).ajaxSubmit({
 					success:function(data){
+                        //alert(data)
                         data = JSON.parse(data);
                         if(data.success){
                             location.href = data.url;

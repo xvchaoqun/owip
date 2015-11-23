@@ -176,7 +176,7 @@ public class MetaTypeController extends BaseController {
             metaClass.setExtraAttr(StringUtils.trimToNull(metaClass.getExtraAttr()));
             modelMap.put("metaClass", metaClass);
         }*/
-
+        modelMap.put("metaClassMap", metaClassService.findAll());
         return "metaType/metaType_au";
     }
 

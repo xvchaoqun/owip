@@ -1,131 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-    <form class="form-horizontal" action="${ctx}/memberStudent_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadre_au" id="modalForm" method="post">
 
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
 				<td>
-					姓名
+					任职单位
 				</td>
 				<td style="min-width: 80px">
-					${memberStudent.realname}
+					${cadre.realname}
 				</td>
 				<td>
-					性别
+					单位属性
 				</td>
 				<td style="min-width: 80px">
-					${GENDER_MALE_MAP.get(memberStudent.gender)}
+					${GENDER_MALE_MAP.get(cadre.gender)}
 				</td>
 
 				<td>
-					民族
+					是否双肩挑
 				</td>
 				<td  style="min-width: 80px">
-					${memberStudent.nation}
+					${cadre.nation}
 				</td>
+
+			</tr>
+			<tr>
 				<td >
-					身份证号
+					现任职务
 				</td>
 				<td style="min-width: 120px">
-					${memberStudent.idcard}
-				</td>
-			</tr>
-			<tr>
-				<td>学生证号</td>
-				<td >
-					${memberStudent.code}
-				</td>
-				<td>
-					籍贯
-				</td>
-				<td>
-					${memberStudent.nativePlace}
+					${cadre.idcard}
 				</td>
 				<td >
-					来源
+					任现职时间
 				</td>
 				<td>
-					${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+					${MEMBER_SOURCE_MAP.get(cadre.source)}
 				</td>
 				<td>
-					同步来源
+					现职务始任时间
 				</td>
 				<td>
-					${memberStudent.syncSource}
+					${cadre.syncSource}
 				</td>
 			</tr>
 			<tr>
 				<td>
-					年级
+					行政级别
 				</td>
 				<td>
-					${memberStudent.grade}
+					${cadre.grade}
 				</td>
-				<td>培养类型</td>
+				<td>任现职级时间</td>
 				<td >
-					${memberStudent.eduType}
+					${cadre.eduType}
 				</td>
 				<td>
-					培养层次
+					任现职级年限
 				</td>
 				<td>
-					${memberStudent.eduLevel}
-				</td>
-				<td >
-					培养方式
-				</td>
-				<td>
-					${memberStudent.eduWay}
+					${cadre.eduLevel}
 				</td>
 			</tr>
 			<tr>
 
-				<td>招生年度</td>
+				<td>兼职单位1</td>
 				<td >
-					${memberStudent.enrolYear}
+					${cadre.enrolYear}
 				</td>
 				<td>
-					是否全日制
+					兼任职务1
 				</td>
 				<td>
-					${memberStudent.isFullTime}
+					${cadre.isFullTime}
 				</td>
 				<td >
-					学生类别
+					任兼职时间1
 				</td>
 				<td>
-					${memberStudent.type}
-				</td>
-				<td>教育类别</td>
-				<td >
-					${memberStudent.eduCategory}
+					${cadre.type}
 				</td>
 			</tr>
 			<tr>
 
-				<td>实际入学年月</td>
+				<td>兼职单位2</td>
 				<td >
-					${memberStudent.actualEnrolTime}
+					${cadre.actualEnrolTime}
 				</td>
 				<td>
-					预计毕业年月
+					兼任职务2
 				</td>
 				<td>
-					${memberStudent.expectGraduateTime}
+					${cadre.expectGraduateTime}
 				</td>
 				<td >
-					实际毕业年月
+					任兼职时间2
 				</td>
 				<td>
-					${memberStudent.actualGraduateTime}
+					${cadre.actualGraduateTime}
+				</td>
+			</tr>
+			<tr>
+
+				<td>党委委员</td>
+				<td >
+					${cadre.actualEnrolTime}
 				</td>
 				<td>
-					延期毕业年限
+					纪委委员
 				</td>
-				<td>
-					${memberStudent.delayYear}
+				<td colspan="3">
+					${cadre.expectGraduateTime}
+				</td>
+			</tr>
+			<tr>
+
+				<td>担任其他职务</td>
+				<td colspan="5">
+					${cadre.actualEnrolTime}
+				</td>
+			</tr>
+			<tr>
+
+				<td>基层工作经历</td>
+				<td colspan="5">
+					${cadre.actualEnrolTime}
+				</td>
+			</tr>
+			<tr>
+
+				<td>挂职借调经历</td>
+				<td colspan="5">
+					${cadre.actualEnrolTime}
 				</td>
 			</tr>
 			</tbody>
@@ -133,13 +142,13 @@ pageEncoding="UTF-8"%>
     </form>
 
 <style>
-	.table-striped > tbody > tr:nth-of-type(odd) {
+	#cadre-box .table-striped > tbody > tr:nth-of-type(odd) {
 		background-color:inherit;
 	}
-	.table tbody tr:hover td, .table tbody tr:hover th {
+	#cadre-box .table tbody tr:hover td, .table tbody tr:hover th {
 		background-color:transparent;
 	}
-	.table-striped > tbody > tr > td:nth-of-type(odd) {
+	#cadre-box .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;
 		text-align: right;
 	}

@@ -14,7 +14,7 @@
 	<form:form method="post" commandName="sysResource" class="form-horizontal">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
-		<form:hidden path="parentIds"/>
+		<%--<form:hidden path="parentIds"/>--%>
 
 		<c:if test="${not empty parent}">
 		<div class="form-group">

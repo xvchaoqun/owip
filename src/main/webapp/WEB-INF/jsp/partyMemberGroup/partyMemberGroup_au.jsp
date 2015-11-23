@@ -37,13 +37,14 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否现任班子</label>
-				<div class="col-xs-6">
-                    <div class="col-xs-8">
+				<div class="col-xs-8">
+                    <div class="col-xs-3">
                         <label>
                             <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
                             <span class="lbl"></span>
                         </label>
                     </div>
+                    <div class="col-xs-offset-3">（提示：每个分党委的“现任班子”只有一个）</div>
 				</div>
 			</div>
 			<div class="form-group">

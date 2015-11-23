@@ -4,19 +4,27 @@
 <form class="form-horizontal" id="modalForm" method="post">
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="widget-box transparent" id="member-box">
+        <div class="widget-box transparent" id="cadre-box">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
-                    <i class="ace-icon fa fa-user"></i>教职工党员个人信息
+                    <i class="ace-icon fa fa-user"></i>干部个人信息
                 </h4>
-
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a data-url="${ctx}/memberTeacher_base?userId=${param.userId}">基本信息</a>
+                            <a data-url="${ctx}/cadre_base?id=${param.id}">基本信息</a>
                         </li>
                         <li>
-                            <a data-url="${ctx}/memberTeacher_member?userId=${param.userId}">党籍信息</a>
+                            <a data-url="${ctx}/cadre_personnel?id=${param.id}">人事信息</a>
+                        </li>
+                        <li>
+                            <a data-url="${ctx}/cadre_post?id=${param.id}">任职信息</a>
+                        </li>
+                        <li>
+                            <a data-url="${ctx}/cadre_title?id=${param.id}">职称信息</a>
+                        </li>
+                        <li>
+                            <a data-url="${ctx}/cadre_education?id=${param.id}">学历学位信息</a>
                         </li>
                     </ul>
                 </div>
@@ -24,7 +32,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
-                    <c:import url="/memberTeacher_base"/>
+                    <c:import url="/cadre_base"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
@@ -36,10 +44,10 @@
     </div>
 </form>
 <script>
-    $("#member-box .nav-tabs li a").click(function(){
+    $("#cadre-box .nav-tabs li a").click(function(){
         $this = $(this);
-        $("#member-box  .nav-tabs li").removeClass("active");
+        $("#cadre-box .nav-tabs li").removeClass("active");
         $this.closest("li").addClass("active");
-        $("#member-box  .tab-content").load($(this).data("url"));
+        $("#cadre-box .tab-content").load($(this).data("url"));
     });
 </script>

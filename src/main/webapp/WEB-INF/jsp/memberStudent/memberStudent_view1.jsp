@@ -205,6 +205,9 @@ pageEncoding="UTF-8"%>
     </form>
 
 <script>
+
+
+
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

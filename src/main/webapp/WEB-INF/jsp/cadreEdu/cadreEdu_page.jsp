@@ -4,69 +4,35 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
-        <div class="tabbable">
-            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${status==1}">active</c:if>">
-                    <a href="#now" data-status="1"><i class="fa fa-flag"></i> 现任干部库</a>
-                </li>
-                <li class="<c:if test="${status==2}">active</c:if>">
-                    <a href="#temp" data-status="2"><i class="fa fa-history"></i> 临时干部库</a>
-                </li>
-                <li class="<c:if test="${status==3}">active</c:if>">
-                    <a href="#leave" data-status="3"><i class="fa fa-history"></i> 离任干部库</a>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-                <div id="home4" class="tab-pane in active">
-
         <div class="myTableDiv"
-             data-url-au="${ctx}/cadre_au"
-             data-url-page="${ctx}/cadre_page"
-             data-url-del="${ctx}/cadre_del"
-             data-url-bd="${ctx}/cadre_batchDel"
-             data-url-co="${ctx}/cadre_changeOrder?status=${status}"
+             data-url-au="${ctx}/cadreEdu_au"
+             data-url-page="${ctx}/cadreEdu_page"
+             data-url-del="${ctx}/cadreEdu_del"
+             data-url-bd="${ctx}/cadreEdu_batchDel"
+             data-url-co="${ctx}/cadreEdu_changeOrder"
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input type="hidden" name="status" value="${status}">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
-                        name="userId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${sysUser.id}">${sysUser.username}</option>
-                </select>
 
-                <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请选择干部">
+                    <option value="${cadre.id}">${sysUser.username}</option>
                 </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=typeId]").val(${param.typeId});
-                </script>
-                <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=postId]").val(${param.postId});
-                </script>
-                <input class="form-control search-query" name="title" type="text" value="${param.title}"
-                       placeholder="请输入单位及职务">
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.userId ||not empty param.typeId ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
+                    <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
                     </button>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadre:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <shiro:hasPermission name="cadreEdu:edit">
+                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="cadre:del">
+                    <shiro:hasPermission name="cadreEdu:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
                     </c:if>
@@ -83,61 +49,56 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>账号</th>
-							<th>工号</th>
-							<th>姓名</th>
-							<th>行政级别</th>
-							<th>职务属性</th>
-							<th>单位及职务</th>
-							<th>备注</th>
-                        <shiro:hasPermission name="cadre:changeOrder">
+							<th>所属干部</th>
+							<th>学历</th>
+							<th>毕业学校</th>
+							<th>院系</th>
+							<th>入学时间</th>
+							<th>毕业时间</th>
+							<th>学位</th>
+                        <shiro:hasPermission name="cadreEdu:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap>排序</th>
+                                <th nowrap class="hidden-480">排序</th>
                             </c:if>
                         </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${cadres}" var="cadre" varStatus="st">
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                    <c:forEach items="${cadreEdus}" var="cadreEdu" varStatus="st">
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${cadre.id}" class="ace">
+                                    <input type="checkbox" value="${cadreEdu.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>
-                                    <a href="javascript:;" onclick="openView(${cadre.id})">
-								${sysUser.username}
-                                </a>
-                                </td>
-								<td nowrap>${sysUser.code}</td>
-								<td nowrap>${sysUser.realname}</td>
-								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
-								<td nowrap>${postMap.get(cadre.postId).name}</td>
-								<td nowrap>${cadre.title}</td>
-								<td nowrap>${cadre.remark}</td>
-                            <shiro:hasPermission name="cadre:changeOrder">
+								<td>${cm:getUserById(cadreMap.get(cadreEdu.cadreId).userId).realname}</td>
+								<td>${eduMap.get(cadreEdu.eduId).name}</td>
+								<td>${cadreEdu.school}</td>
+								<td>${cadreEdu.dep}</td>
+								<td>${cm:formatDate(cadreEdu.enrolTime,'yyyy-MM-dd')}</td>
+								<td>${cm:formatDate(cadreEdu.finishTime,'yyyy-MM-dd')}</td>
+								<td>${cadreEdu.degree}</td>
+                            <shiro:hasPermission name="cadreEdu:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadre.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                <td class="hidden-480">
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadre.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
-                            <td nowrap>
+                            <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadre:edit">
-                                    <button data-id="${cadre.id}" class="editBtn btn btn-mini">
+                                    <shiro:hasPermission name="cadreEdu:edit">
+                                    <button data-id="${cadreEdu.id}" class="editBtn btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadre:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${cadre.id}">
+                                     <shiro:hasPermission name="cadreEdu:del">
+                                    <button class="delBtn btn btn-danger btn-mini" data-id="${cadreEdu.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -156,18 +117,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="cadre:edit">
+                                            <shiro:hasPermission name="cadreEdu:edit">
                                             <li>
-                                                <a href="#" data-id="${cadre.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${cadreEdu.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadre:del">
+                                            <shiro:hasPermission name="cadreEdu:del">
                                             <li>
-                                                <a href="#" data-id="${cadre.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${cadreEdu.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -188,7 +149,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadre_page" target="#page-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#page-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -202,46 +163,15 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
-                </div></div></div>
     </div>
 </div>
 <script>
-
-    function openView(id){
-
-        loadModal("${ctx}/cadre_view?id="+id, 800, ".modal-footer.draggable");
-    }
-
-    $(".tabbable li a").click(function(){
-        $this = $(this);
-        $(".tabbable li").removeClass("active");
-        $this.closest("li").addClass("active");
-        $(".myTableDiv #searchForm input[name=status]").val($this.data("status"));
-        $(".myTableDiv .searchBtn").click();
-    });
-
-    $('[data-rel="select2"]').select2();
+    $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-
-    function formatState (state) {
-
-        if (!state.id) { return state.text; }
-        var $state = state.text;
-        if(state.realname!=undefined && state.realname.length>0){
-            $state += '-' + state.realname;
-        }
-        if(state.code!=undefined && state.code.length>0){
-            $state += '-' + state.code;
-        }
-        //console.log($state)
-        return $state;
-    };
-
-    $('[data-rel="select2-ajax"]').select2({
-        templateResult: formatState,
+    $('#searchForm [data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 100,
+            delay: 200,
             data: function (params) {
                 return {
                     searchStr: params.term,

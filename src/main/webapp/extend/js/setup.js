@@ -85,14 +85,16 @@ $.ajaxSetup({
     }
 });
 
-function loadModal(url, width){
+function loadModal(url, width, dragTarget){
     if(width>0){
         $('#modal .modal-dialog').addClass("modal-width"+width);
     }else{
         $('#modal .modal-dialog').removeClass("modal-width"+width);
     }
+    dragTarget = dragTarget||".modal-header";
+
     $('#modal .modal-content').load(url,function(data){
-        if(!data.startWith("{")) $("#modal").modal('show').draggable({handle :".modal-header"});
+        if(!data.startWith("{")) $("#modal").modal('show').draggable({handle :dragTarget});
     });
 }
 
