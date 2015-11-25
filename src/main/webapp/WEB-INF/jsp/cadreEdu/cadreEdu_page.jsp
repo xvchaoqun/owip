@@ -1,43 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="myTableDiv"
-             data-url-au="${ctx}/cadreEdu_au"
-             data-url-page="${ctx}/cadreEdu_page"
-             data-url-del="${ctx}/cadreEdu_del"
-             data-url-bd="${ctx}/cadreEdu_batchDel"
-             data-url-co="${ctx}/cadreEdu_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
-                        name="cadreId" data-placeholder="请选择干部">
-                    <option value="${cadre.id}">${sysUser.username}</option>
-                </select>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
+        <!-- PAGE CONTENT BEGINS -->
+            <div class="buttons pull-right">
+                <shiro:hasPermission name="cadreEdu:edit">
+                <a class="btn btn-info btn-sm" onclick="au()" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                </shiro:hasPermission>
+                <c:if test="${commonList.recNum>0}">
+                <shiro:hasPermission name="cadreEdu:del">
+                 <a class="btn btn-danger btn-sm" onclick="_batchDel()"><i class="fa fa-times"></i> 批量删除</a>
+                 </shiro:hasPermission>
                 </c:if>
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadreEdu:edit">
-                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="cadreEdu:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>
-            </mytag:sort-form>
+            </div>
+            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
@@ -93,12 +69,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreEdu:edit">
-                                    <button data-id="${cadreEdu.id}" class="editBtn btn btn-mini">
+                                    <button onclick="au(${cadreEdu.id})" class="btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreEdu:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${cadreEdu.id}">
+                                    <button  onclick="_del(${cadreEdu.id})" class="btn btn-danger btn-mini">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -149,7 +125,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#page-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#cadre-box .tab-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -162,10 +138,52 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
-        </div>
-    </div>
-</div>
+
 <script>
+
+    function au(id) {
+        url = "${ctx}/cadreEdu_au?cadreId=${param.cadreId}";
+        if (id > 0)  url += "&id=" + id;
+        loadModal(url, 800);
+    }
+
+    function _del(id){
+        bootbox.confirm("确定删除该记录吗？", function (result) {
+            if (result) {
+                $.post("${ctx}/cadreEdu_del", {id: id}, function (ret) {
+                    if (ret.success) {
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _batchDel(){
+
+        var ids = $.map($("#cadre-box .table td :checkbox:checked"),function(item, index){
+            return $(item).val();
+        });
+        if(ids.length==0){
+            toastr.warning("请选择行", "提示");
+            return ;
+        }
+        bootbox.confirm("确定删除这"+ids.length+"条数据？",function(result){
+            if(result){
+                $.post("${ctx}/cadreEdu_batchDel",{ids:ids},function(ret){
+                    if(ret.success) {
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _reload(){
+        $("#modal").modal('hide');
+        $("#cadre-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
+    }
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

@@ -142,7 +142,7 @@ public class CadreController extends BaseController {
     public String cadre_base(Integer id, ModelMap modelMap) {
 
         Cadre cadre = cadreService.findAll().get(id);
-        //modelMap.put("cadre", cadre);
+        modelMap.put("cadre", cadre);
         return "cadre/cadre_base";
     }
 
@@ -154,36 +154,6 @@ public class CadreController extends BaseController {
         Cadre cadre = cadreService.findAll().get(id);
         //modelMap.put("cadre", cadre);
         return "cadre/cadre_personnel";
-    }
-
-    // 任职信息
-    @RequiresPermissions("cadre:info")
-    @RequestMapping("/cadre_post")
-    public String cadre_post(Integer id, ModelMap modelMap) {
-
-        Cadre cadre = cadreService.findAll().get(id);
-        //modelMap.put("cadre", cadre);
-        return "cadre/cadre_post";
-    }
-
-    // 职称信息
-    @RequiresPermissions("cadre:info")
-    @RequestMapping("/cadre_title")
-    public String cadre_title(Integer id, ModelMap modelMap) {
-
-        Cadre cadre = cadreService.findAll().get(id);
-        //modelMap.put("cadre", cadre);
-        return "cadre/cadre_title";
-    }
-
-    // 学历学位信息
-    @RequiresPermissions("cadre:info")
-    @RequestMapping("/cadre_education")
-    public String cadre_education(Integer id, ModelMap modelMap) {
-
-        Cadre cadre = cadreService.findAll().get(id);
-        //modelMap.put("cadre", cadre);
-        return "cadre/cadre_education";
     }
 
     @RequiresPermissions("cadre:edit")
@@ -331,9 +301,7 @@ public class CadreController extends BaseController {
                 Map<String, String> option = new HashMap<>();
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
                 option.put("id", cadre.getId() + "");
-                option.put("text", sysUser.getUsername());
-                option.put("realname", sysUser.getRealname());
-                option.put("code", sysUser.getCode());
+                option.put("text", sysUser.getRealname());
                 options.add(option);
             }
         }

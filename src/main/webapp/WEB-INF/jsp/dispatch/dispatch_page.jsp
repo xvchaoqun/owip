@@ -137,8 +137,15 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
-								<td nowrap><a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">${dispatch.fileName}</a></td>
-								<td nowrap><a href="/dispatch_download?id=${dispatch.id}&type=ppt" target="_blank">${dispatch.pptName}</a></td>
+								<td nowrap><c:if test="${not empty dispatch.fileName}">
+                                    <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">预览</a>
+                                </c:if>
+                                </td>
+								<td nowrap><c:if test="${not empty dispatch.pptName}"><a href="/dispatch_download?id=${dispatch.id}&type=ppt" target="_blank">下载</a>
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">预览</a>
+                                    </c:if>
+                                </td>
 								<td nowrap>${dispatch.remark}</td>
                             <shiro:hasPermission name="dispatch:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
@@ -231,6 +238,10 @@ pageEncoding="UTF-8" %>
 <script src="${ctx}/extend/js/daterange-zh-CN.js"></script>
 <script>
 
+    function swf_preview(id, type){
+
+        loadModal("${ctx}/swf_preview2?id="+id + "&type=" + type);
+    }
     $('.date-picker').datepicker({
         language:"zh-CN",
         autoclose: true,

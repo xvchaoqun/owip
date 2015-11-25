@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.CadreMainWorkMapper" >
+  <resultMap id="BaseResultMap" type="domain.CadreMainWork" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="post_id" property="postId" jdbcType="INTEGER" />
+    <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
+    <result column="is_positive" property="isPositive" jdbcType="BIT" />
+    <result column="post_class_id" property="postClassId" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="post_time" property="postTime" jdbcType="DATE" />
+    <result column="dispatchs" property="dispatchs" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="dispatch_cadre_id" property="dispatchCadreId" jdbcType="INTEGER" />
+    <result column="is_double" property="isDouble" jdbcType="BIT" />
+    <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cadre_id, work, post_id, admin_level_id, is_positive, post_class_id, unit_id, 
+    post_time, dispatchs, start_time, dispatch_cadre_id, is_double, double_unit_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreMainWorkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_cadre_main_work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_cadre_main_work
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from base_cadre_main_work
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.CadreMainWorkExample" >
+    delete from base_cadre_main_work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.CadreMainWork" >
+    insert into base_cadre_main_work (id, cadre_id, work, 
+      post_id, admin_level_id, is_positive, 
+      post_class_id, unit_id, post_time, 
+      dispatchs, start_time, dispatch_cadre_id, 
+      is_double, double_unit_id)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{work,jdbcType=VARCHAR}, 
+      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{isPositive,jdbcType=BIT}, 
+      #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{postTime,jdbcType=DATE}, 
+      #{dispatchs,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, #{dispatchCadreId,jdbcType=INTEGER}, 
+      #{isDouble,jdbcType=BIT}, #{doubleUnitId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.CadreMainWork" >
+    insert into base_cadre_main_work
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
+      <if test="work != null" >
+        work,
+      </if>
+      <if test="postId != null" >
+        post_id,
+      </if>
+      <if test="adminLevelId != null" >
+        admin_level_id,
+      </if>
+      <if test="isPositive != null" >
+        is_positive,
+      </if>
+      <if test="postClassId != null" >
+        post_class_id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="postTime != null" >
+        post_time,
+      </if>
+      <if test="dispatchs != null" >
+        dispatchs,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="dispatchCadreId != null" >
+        dispatch_cadre_id,
+      </if>
+      <if test="isDouble != null" >
+        is_double,
+      </if>
+      <if test="doubleUnitId != null" >
+        double_unit_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="adminLevelId != null" >
+        #{adminLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="isPositive != null" >
+        #{isPositive,jdbcType=BIT},
+      </if>
+      <if test="postClassId != null" >
+        #{postClassId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null" >
+        #{postTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchs != null" >
+        #{dispatchs,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchCadreId != null" >
+        #{dispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isDouble != null" >
+        #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="doubleUnitId != null" >
+        #{doubleUnitId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.CadreMainWorkExample" resultType="java.lang.Integer" >
+    select count(*) from base_cadre_main_work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update base_cadre_main_work
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.work != null" >
+        work = #{record.work,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null" >
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminLevelId != null" >
+        admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPositive != null" >
+        is_positive = #{record.isPositive,jdbcType=BIT},
+      </if>
+      <if test="record.postClassId != null" >
+        post_class_id = #{record.postClassId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postTime != null" >
+        post_time = #{record.postTime,jdbcType=DATE},
+      </if>
+      <if test="record.dispatchs != null" >
+        dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=DATE},
+      </if>
+      <if test="record.dispatchCadreId != null" >
+        dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDouble != null" >
+        is_double = #{record.isDouble,jdbcType=BIT},
+      </if>
+      <if test="record.doubleUnitId != null" >
+        double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update base_cadre_main_work
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      work = #{record.work,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      is_positive = #{record.isPositive,jdbcType=BIT},
+      post_class_id = #{record.postClassId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      post_time = #{record.postTime,jdbcType=DATE},
+      dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=DATE},
+      dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      is_double = #{record.isDouble,jdbcType=BIT},
+      double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.CadreMainWork" >
+    update base_cadre_main_work
+    <set >
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="adminLevelId != null" >
+        admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="isPositive != null" >
+        is_positive = #{isPositive,jdbcType=BIT},
+      </if>
+      <if test="postClassId != null" >
+        post_class_id = #{postClassId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null" >
+        post_time = #{postTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchs != null" >
+        dispatchs = #{dispatchs,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchCadreId != null" >
+        dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isDouble != null" >
+        is_double = #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="doubleUnitId != null" >
+        double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.CadreMainWork" >
+    update base_cadre_main_work
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      work = #{work,jdbcType=VARCHAR},
+      post_id = #{postId,jdbcType=INTEGER},
+      admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      is_positive = #{isPositive,jdbcType=BIT},
+      post_class_id = #{postClassId,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      post_time = #{postTime,jdbcType=DATE},
+      dispatchs = #{dispatchs,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      is_double = #{isDouble,jdbcType=BIT},
+      double_unit_id = #{doubleUnitId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.CadreMainWorkExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_cadre_main_work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

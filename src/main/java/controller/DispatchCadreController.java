@@ -1,8 +1,10 @@
 package controller;
 
+import domain.Cadre;
 import domain.DispatchCadre;
 import domain.DispatchCadreExample;
 import domain.DispatchCadreExample.Criteria;
+import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,18 +22,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.DispatchConstants;
+import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class DispatchCadreController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre_page")
     public String dispatchCadre_page(HttpServletResponse response,
@@ -56,7 +59,7 @@ public class DispatchCadreController extends BaseController {
                                     Integer typeId,
                                     Integer wayId,
                                     Integer procedureId,
-                                    String code,
+                                    Integer cadreId,
                                     String name,
                                     Integer adminLevelId,
                                     Integer unitId,
@@ -88,8 +91,14 @@ public class DispatchCadreController extends BaseController {
         if (procedureId!=null) {
             criteria.andProcedureIdEqualTo(procedureId);
         }
-        if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+        if (cadreId!=null) {
+
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+
+            criteria.andCadreIdEqualTo(cadreId);
         }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
@@ -130,8 +139,8 @@ public class DispatchCadreController extends BaseController {
         if (procedureId!=null) {
             searchStr += "&procedureId=" + procedureId;
         }
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
+        if (cadreId!=null) {
+            searchStr += "&cadreId=" + cadreId;
         }
         if (StringUtils.isNotBlank(name)) {
             searchStr += "&name=" + name;
@@ -158,6 +167,7 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
+        modelMap.put("cadreMap", cadreService.findAll());
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
@@ -190,8 +200,12 @@ public class DispatchCadreController extends BaseController {
         if (id != null) {
             DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchCadre", dispatchCadre);
-
             modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
+
+            Cadre cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
         }
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
@@ -267,7 +281,7 @@ public class DispatchCadreController extends BaseController {
                                             dispatchCadre.getTypeId()+"",
                                             dispatchCadre.getWayId()+"",
                                             dispatchCadre.getProcedureId()+"",
-                                            dispatchCadre.getCode(),
+                                            dispatchCadre.getCadreId()+"",
                                             dispatchCadre.getName(),
                                             dispatchCadre.getAdminLevelId()+"",
                                             dispatchCadre.getUnitId()+"",

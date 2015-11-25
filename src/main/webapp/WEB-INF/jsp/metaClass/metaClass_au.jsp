@@ -14,6 +14,7 @@
 			   <input required class="form-control" type="text" name="name" value="${metaClass.name}">
           </div>
         </div>
+        <shiro:hasRole name="admin">
     	<div class="form-group">
           <label class="col-xs-3 control-label">代码</label>
           <div class="col-xs-6">
@@ -32,6 +33,7 @@
 			  <input class="form-control" type="text" name="extraAttr" value="${metaClass.extraAttr}">
           </div>
         </div>
+        </shiro:hasRole>
         </form>
   </div>
   <div class="modal-footer">

@@ -2,8 +2,13 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
+    <c:if test="${empty param.fid}">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if>工作经历</h3>
+    </c:if>
+    <c:if test="${not empty param.fid}">
+    <button type="button" onclick="showSubWork(${param.fid})" aria-hidden="true" class="close">&times;</button>
+    </c:if>
+    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">期间</c:if>工作经历</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreWork_au" id="modalForm" method="post">
@@ -19,27 +24,25 @@ pageEncoding="UTF-8"%>
                 </c:if>
             <c:if test="${empty param.fid}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属干部</label>
+				<label class="col-xs-4 control-label">所属干部</label>
 				<div class="col-xs-6">
-                    <select required="" data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
-                            name="cadreId" data-placeholder="请选择干部">
-                        <option value="${cadre.id}">${sysUser.username}</option>
-                    </select>
+                    <input  type="hidden" name="cadreId" value="${cadre.id}">
+                    <input type="text" value="${sysUser.realname}" disabled>
 				</div>
 			</div>
                 </c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">开始日期</label>
+				<label class="col-xs-4 control-label">开始日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_startTime" type="text"
+                        <input required class="form-control date-picker" name="_startTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreWork.startTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结束日期</label>
+				<label class="col-xs-4 control-label">结束日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input class="form-control date-picker" name="_endTime" type="text"
@@ -49,21 +52,21 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">工作单位</label>
+				<label class="col-xs-4 control-label">工作单位</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="unit" value="${cadreWork.unit}">
+                        <input required class="form-control" type="text" name="unit" value="${cadreWork.unit}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">担任职务或者专技职务</label>
+				<label class="col-xs-4 control-label">担任职务或者专技职务</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="post" value="${cadreWork.post}">
+                        <input required class="form-control" type="text" name="post" value="${cadreWork.post}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-4 control-label">行政级别</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2" name="typeId" data-placeholder="请选择">
+                    <select required data-rel="select2" name="typeId" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_admin_level"/>
                     </select>
@@ -73,10 +76,10 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">院系/机关工作经历</label>
+				<label class="col-xs-4 control-label">院系/机关工作经历</label>
 				<div class="col-xs-6">
                     <label>
-                        <input name="workType" type="radio" class="ace" value="1"
+                        <input required name="workType" type="radio" class="ace" value="1"
                                <c:if test="${cadreWork.workType==1}">checked</c:if>/>
                         <span class="lbl"> 院系工作经历</span>
                     </label>
@@ -88,15 +91,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="remark" value="${cadreWork.remark}">
+                        <textarea class="form-control" type="text" name="remark" >${cadreWork.remark}</textarea>
 				</div>
 			</div>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <c:if test="${empty param.fid}">
+        <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    </c:if>
+    <c:if test="${not empty param.fid}">
+        <a href="#" onclick="showSubWork(${param.fid})" class="btn btn-default">取消</a>
+    </c:if>
     <input type="submit" class="btn btn-primary" value="<c:if test="${cadreWork!=null}">确定</c:if><c:if test="${cadreWork==null}">添加</c:if>"/>
 </div>
 
@@ -113,7 +121,13 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        <c:if test="${empty param.fid}">
+                        _reload();
+                        </c:if>
+                        <c:if test="${not empty param.fid}">
+                        showSubWork("${param.fid}");
+                        </c:if>
+
                         toastr.success('操作成功。', '成功');
                     }
                 }

@@ -18,7 +18,7 @@ public class CadreEdu implements Serializable {
 
     private String major;
 
-    private Byte schoolType;
+    private Integer schoolType;
 
     private Date enrolTime;
 
@@ -26,7 +26,7 @@ public class CadreEdu implements Serializable {
 
     private Byte schoolLen;
 
-    private Byte learnStyle;
+    private Integer learnStyle;
 
     private String degree;
 
@@ -102,11 +102,11 @@ public class CadreEdu implements Serializable {
         this.major = major == null ? null : major.trim();
     }
 
-    public Byte getSchoolType() {
+    public Integer getSchoolType() {
         return schoolType;
     }
 
-    public void setSchoolType(Byte schoolType) {
+    public void setSchoolType(Integer schoolType) {
         this.schoolType = schoolType;
     }
 
@@ -134,11 +134,11 @@ public class CadreEdu implements Serializable {
         this.schoolLen = schoolLen;
     }
 
-    public Byte getLearnStyle() {
+    public Integer getLearnStyle() {
         return learnStyle;
     }
 
-    public void setLearnStyle(Byte learnStyle) {
+    public void setLearnStyle(Integer learnStyle) {
         this.learnStyle = learnStyle;
     }
 

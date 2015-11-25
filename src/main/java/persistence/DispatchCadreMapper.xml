@@ -8,7 +8,7 @@
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
     <result column="way_id" property="wayId" jdbcType="INTEGER" />
     <result column="procedure_id" property="procedureId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, dispatch_id, type, type_id, way_id, procedure_id, code, name, post, post_id, 
+    id, dispatch_id, type, type_id, way_id, procedure_id, cadre_id, name, post, post_id, 
     admin_level_id, unit_id, remark, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.DispatchCadreExample" >
@@ -112,14 +112,14 @@
   <insert keyProperty="id" id="insert" parameterType="domain.DispatchCadre" >
     insert into base_dispatch_cadre (id, dispatch_id, type, 
       type_id, way_id, procedure_id, 
-      code, name, post, post_id, 
-      admin_level_id, unit_id, remark, 
-      sort_order)
+      cadre_id, name, post, 
+      post_id, admin_level_id, unit_id, 
+      remark, sort_order)
     values (#{id,jdbcType=INTEGER}, #{dispatchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{typeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
-      #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{cadreId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
+      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.DispatchCadre" >
     insert into base_dispatch_cadre
@@ -142,8 +142,8 @@
       <if test="procedureId != null" >
         procedure_id,
       </if>
-      <if test="code != null" >
-        code,
+      <if test="cadreId != null" >
+        cadre_id,
       </if>
       <if test="name != null" >
         name,
@@ -186,8 +186,8 @@
       <if test="procedureId != null" >
         #{procedureId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -239,8 +239,8 @@
       <if test="record.procedureId != null" >
         procedure_id = #{record.procedureId,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -276,7 +276,7 @@
       type_id = #{record.typeId,jdbcType=INTEGER},
       way_id = #{record.wayId,jdbcType=INTEGER},
       procedure_id = #{record.procedureId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
@@ -306,8 +306,8 @@
       <if test="procedureId != null" >
         procedure_id = #{procedureId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -340,7 +340,7 @@
       type_id = #{typeId,jdbcType=INTEGER},
       way_id = #{wayId,jdbcType=INTEGER},
       procedure_id = #{procedureId,jdbcType=INTEGER},
-      code = #{code,jdbcType=VARCHAR},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},

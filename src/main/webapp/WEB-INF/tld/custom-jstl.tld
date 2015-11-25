@@ -22,6 +22,11 @@
 	  	<function-signature>java.lang.String  formatDate(java.util.Date,java.lang.String)</function-signature>
   	</function>
 	<function>
+		<name>intervalYearsUntilNow</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
+	</function>
+	<function>
 		<name>parseInt</name>
 		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.Integer parseInt(java.lang.String)</function-signature>

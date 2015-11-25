@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class MetaClass implements Serializable {
     private Integer id;
 
+    private Integer roleId;
+
     private String name;
 
     private String code;
@@ -25,6 +27,14 @@ public class MetaClass implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public String getName() {

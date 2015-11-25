@@ -1,10 +1,7 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreWork;
-import domain.CadreWorkExample;
+import domain.*;
 import domain.CadreWorkExample.Criteria;
-import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -30,9 +28,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreWorkController extends BaseController {
@@ -89,8 +85,8 @@ public class CadreWorkController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreWork> CadreWorks = cadreWorkMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreWorks", CadreWorks);
+        List<CadreWork> cadreWorks = cadreWorkMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("cadreWorks", cadreWorks);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -113,6 +109,9 @@ public class CadreWorkController extends BaseController {
 
         modelMap.put("cadreMap", cadreService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_admin_level"));
+
+        if(fid!=null)
+            return "cadreWork/cadreWork_page2";
 
         return "cadreWork/cadreWork_page";
     }
@@ -145,17 +144,17 @@ public class CadreWorkController extends BaseController {
 
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping("/cadreWork_au")
-    public String cadreWork_au(Integer id, ModelMap modelMap) {
+    public String cadreWork_au(Integer id,  int cadreId, Integer fid, ModelMap modelMap) {
 
         if (id != null) {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
             modelMap.put("cadreWork", cadreWork);
-
-            Cadre cadre = cadreService.findAll().get(cadreWork.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
         }
+        Cadre cadre = cadreService.findAll().get(cadreId);
+        modelMap.put("cadre", cadre);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
         return "cadreWork/cadreWork_au";
     }
 
@@ -186,6 +185,52 @@ public class CadreWorkController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cadreWork:edit")
+    @RequestMapping("/cadreWork_addDispatchs")
+    public String cadreWork_addDispatchs(HttpServletResponse response, int id, int cadreId, ModelMap modelMap) {
+
+        Set<Integer> cadreDispatchIdSet = new HashSet<>();
+        CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+        String dispatchs = cadreWork.getDispatchs();
+        if(StringUtils.isNotBlank(dispatchs)) {
+            for (String str : dispatchs.split(",")) {
+                try {
+                    cadreDispatchIdSet.add(Integer.valueOf(str));
+                }catch (Exception ex){ex.printStackTrace();}
+            }
+            modelMap.put("cadreDispatchIdSet", cadreDispatchIdSet);
+        }
+
+        List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
+        modelMap.put("dispatchCadres", dispatchCadres);
+
+        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
+        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
+        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        modelMap.put("unitMap", unitService.findAll());
+        modelMap.put("dispatchMap", dispatchService.findAll());
+
+        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+
+        return "cadreWork/cadreWork_addDispatchs";
+    }
+    @RequiresPermissions("cadreWork:edit")
+    @RequestMapping(value = "/cadreWork_addDispatchs", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreWork_addDispatchs(HttpServletRequest request, int id, @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        CadreWork record = new CadreWork();
+        record.setId(id);
+        record.setDispatchs("-1");
+        if (null != ids && ids.length>0){
+            record.setDispatchs(StringUtils.join(ids, ","));
+        }
+        cadreWorkService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
 
     public void cadreWork_export(CadreWorkExample example, HttpServletResponse response) {
 

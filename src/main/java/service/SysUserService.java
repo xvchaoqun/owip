@@ -100,7 +100,7 @@ public class SysUserService {
 
 		Set<Integer> roleIds = new HashSet<>();
 		if(StringUtils.isBlank(roleIdsStr)) return roleIds;
-		String[] roleIdStrs = roleIdsStr.split(",");
+		String[] roleIdStrs = roleIdsStr.split(SystemConstants.USER_ROLEIDS_SEPARTOR);
 		for(String roleIdStr : roleIdStrs) {
 			if(StringUtils.isEmpty(roleIdStr)) {
 				continue;

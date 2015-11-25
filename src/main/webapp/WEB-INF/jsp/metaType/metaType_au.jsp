@@ -2,27 +2,28 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <button type="button" onclick="openView(${metaType.classId})" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${metaType!=null}">编辑</c:if><c:if test="${metaType==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/metaType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${metaType.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分类</label>
-				<div class="col-xs-6">
-					<select data-rel="select2-ajax" data-ajax--url="${ctx}/metaClass_selects"
-							name="classId" data-placeholder="请输入用户所在单位">
-						<option value="${metaType.classId}">${metaClassMap.get(metaType.classId).name}</option>
-					</select>
-				</div>
+
+		<div class="form-group">
+			<label class="col-xs-3 control-label">所属分类</label>
+			<div class="col-xs-6">
+				<input type="hidden" name="classId" value="${metaType.classId}">
+				<input type="text" readonly value="${metaClassMap.get(metaType.classId).name}">
+
 			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${metaType.name}">
 				</div>
 			</div>
+<shiro:hasRole name="admin">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">代码</label>
 				<div class="col-xs-6">
@@ -50,10 +51,11 @@ pageEncoding="UTF-8"%>
 						<textarea class="form-control" name="remark">${metaType.remark}</textarea>
 				</div>
 			</div>
+	</shiro:hasRole>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" onclick="openView(${metaType.classId})" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${metaType!=null}">确定</c:if><c:if test="${metaType==null}">添加</c:if>"/>
 </div>
 
@@ -84,7 +86,7 @@ pageEncoding="UTF-8"%>
                 $(form).ajaxSubmit({
                     success:function(ret){
                         if(ret.success){
-                            page_reload();
+							openView("${metaType.classId}");
                             toastr.success('操作成功。', '成功');
                         }
                     }

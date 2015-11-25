@@ -20,10 +20,14 @@
     </sqlMapGenerator>
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
-
-      <table tableName="base_cadre_work" domainObjectName="CadreWork">
+     <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
+      </table>-->
+      <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
       </table>
-
+      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
+      </table>-->
+     <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
+      </table>-->
       <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>-->
       <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
@@ -72,7 +76,7 @@
     </table>
     <table tableName="base_dispatch" domainObjectName="Dispatch">
     </table>-->
-   <!-- <table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
+    <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
     </table>-->
       <!--
     <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">
@@ -85,9 +89,10 @@
     </table>
 
     <table tableName="base_cadre" domainObjectName="Cadre">
-    </table>
-    <table tableName="base_meta_class" domainObjectName="MetaClass">
-    </table>
+    </table>-->
+   <!-- <table tableName="base_meta_class" domainObjectName="MetaClass">
+    </table>-->
+      <!--
     <table tableName="base_meta_type" domainObjectName="MetaType">
     </table>
 

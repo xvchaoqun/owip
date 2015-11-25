@@ -84,12 +84,13 @@ $.ajaxSetup({
         //$("#modal").modal('hide');
     }
 });
-
+var _width;
 function loadModal(url, width, dragTarget){
     if(width>0){
+        _width = width;
         $('#modal .modal-dialog').addClass("modal-width"+width);
     }else{
-        $('#modal .modal-dialog').removeClass("modal-width"+width);
+        $('#modal .modal-dialog').removeClass("modal-width"+_width);
     }
     dragTarget = dragTarget||".modal-header";
 
@@ -133,7 +134,7 @@ function tooltip_placement(context, source) {
 
 //select/deselect all rows according to table header checkbox
 var active_class = 'active';
-$(document).on('click', '.table > thead > tr > th input[type=checkbox]:eq(0)', function(){
+$(document).on('click', '.table > thead > tr > th input[type=checkbox]', function(){
     var th_checked = this.checked;//checkbox inside "TH" table header
     $(this).closest('table').find('tbody > tr').each(function(){
         var row = this;

@@ -12,6 +12,7 @@ public class SystemConstants {
 	public static final String USER_ROLEIDS_SEPARTOR = ",";
 
 	// 系统角色（与数据库对应的角色字符串不可以修改！）
+	public static final String ROLE_ADMIN = "admin";
 	public static final String ROLE_GUEST = "guest";
 	public static final String ROLE_MEMBER = "member";
 

@@ -182,26 +182,62 @@ public class DispatchController extends BaseController {
                 && dispatchService.idDuplicate(id, record.getCode())) {
             return failed("发文号重复");
         }
+
         if(_file!=null){
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("任免文件格式错误，请上传pdf文件");
+            }
+
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String savePath = File.separator
+            String realPath =  File.separator
                     + "dispatch" + File.separator + record.getYear() + File.separator
                     + "file" + File.separator
-                    + fileName + FileUtils.getExtention(originalFilename);
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+
+                if(_ppt!=null)
+                    Thread.sleep(2000);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             record.setFileName(originalFilename);
             record.setFile(savePath);
         }
 
         if(_ppt!=null){
+            String ext = FileUtils.getExtention(_ppt.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")){
+                throw new RuntimeException("上会ppt文件格式错误，请上传ppt文件");
+            }
+
             String originalFilename = _ppt.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String savePath = File.separator
+            String realPath = File.separator
                     + "dispatch" + File.separator + record.getYear() + File.separator
                     + "ppt" + File.separator
-                    + fileName + FileUtils.getExtention(originalFilename);
+                    + fileName;
+            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            String pdfPath = realPath + ".pdf";
             FileUtils.copyFile(_ppt, new File(springProps.uploadPath + savePath));
+            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             record.setPptName(originalFilename);
             record.setPpt(savePath);
         }
@@ -234,6 +270,50 @@ public class DispatchController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequestMapping("/dspatch_swf")
+    public void dspatch_swf(Integer id, @RequestParam(required = false,defaultValue = "file")String type
+            , HttpServletResponse response) throws IOException{
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+        String filePath = (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
+        filePath = springProps.uploadPath + FileUtils.getFileName(filePath) + ".swf";
+
+        byte[] bytes = FileUtils.getBytes(filePath);
+        if(bytes==null) return ;
+
+        response.reset();
+        response.addHeader("Content-Length", "" + bytes.length);
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    @RequestMapping("/swf_preview")
+    public String swf_preview(Integer id, @RequestParam(required = false,defaultValue = "file")String type,
+                              ModelMap modelMap) {
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+        String filePath = springProps.uploadPath +
+                (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
+        modelMap.put("dispatch", dispatch);
+        modelMap.put("filePath", filePath);
+        return "dispatch/swf_preview";
+    }
+    @RequestMapping("/swf_preview2")
+    public String swf_preview2(Integer id, @RequestParam(required = false,defaultValue = "file")String type,
+                              ModelMap modelMap) {
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+        String filePath = springProps.uploadPath +
+                (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
+        modelMap.put("dispatch", dispatch);
+        modelMap.put("filePath", filePath);
+        return "dispatch/swf_preview2";
+    }
+
 
     @RequiresPermissions("dispatch:download")
     @RequestMapping("/dispatch_download")

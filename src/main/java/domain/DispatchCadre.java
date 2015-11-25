@@ -15,7 +15,7 @@ public class DispatchCadre implements Serializable {
 
     private Integer procedureId;
 
-    private String code;
+    private Integer cadreId;
 
     private String name;
 
@@ -81,12 +81,12 @@ public class DispatchCadre implements Serializable {
         this.procedureId = procedureId;
     }
 
-    public String getCode() {
-        return code;
+    public Integer getCadreId() {
+        return cadreId;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
     }
 
     public String getName() {

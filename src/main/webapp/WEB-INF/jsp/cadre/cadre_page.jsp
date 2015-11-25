@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
+        <div class="page-list">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${status==1}">active</c:if>">
@@ -83,9 +83,8 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>账号</th>
+                            <th>姓名</th>
 							<th>工号</th>
-							<th>姓名</th>
 							<th>行政级别</th>
 							<th>职务属性</th>
 							<th>单位及职务</th>
@@ -108,13 +107,9 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>
-                                    <a href="javascript:;" onclick="openView(${cadre.id})">
-								${sysUser.username}
-                                </a>
-                                </td>
+                            <td nowrap> <a href="javascript:;" onclick="openView(${cadre.id})">${sysUser.realname}</a></td>
 								<td nowrap>${sysUser.code}</td>
-								<td nowrap>${sysUser.realname}</td>
+
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
 								<td nowrap>${postMap.get(cadre.postId).name}</td>
 								<td nowrap>${cadre.title}</td>
@@ -203,13 +198,26 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
                 </div></div></div>
+        </div>
+        <div class="cadre-view">
+
+        </div>
     </div>
 </div>
+<style>
+    .cadre-view{
+        display: none;
+    }
+</style>
 <script>
 
     function openView(id){
-
-        loadModal("${ctx}/cadre_view?id="+id, 800, ".modal-footer.draggable");
+        $(".page-list").hide();
+        $(".cadre-view").load("${ctx}/cadre_view?id="+id).show();
+    }
+    function closeView(){
+        $(".page-list").show();
+        $(".cadre-view").hide();
     }
 
     $(".tabbable li a").click(function(){

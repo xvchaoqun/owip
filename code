@@ -7,6 +7,11 @@
 record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
 
 类别选择
+ajax
+<select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects" name="unitId" data-placeholder="请选择所属单位">
+<option value="${unit.id}">${unit.name}</option>
+</select>
+
 <select data-rel="select2" name="eduId" data-placeholder="请选择">
 	<option></option>
 	<c:import url="/metaTypes?__code=mc_edu"/>
@@ -18,8 +23,6 @@ record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIs
 modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
 时间
-<input required class="form-control date-picker" name="_foundTime" type="text"
-								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(party.foundTime,'yyyy-MM-dd')}" />
 <div class="input-group">
 	<input required class="form-control date-picker" name="_foundTime" type="text"
 		   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />

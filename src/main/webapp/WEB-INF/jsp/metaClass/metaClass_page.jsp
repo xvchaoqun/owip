@@ -14,8 +14,10 @@
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                        placeholder="请输入名称">
+                <shiro:hasRole name="admin">
                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                        placeholder="请输入代码">
+                </shiro:hasRole>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
@@ -25,15 +27,19 @@
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
+                    <shiro:hasRole name="admin">
                     <shiro:hasPermission name="metaClass:edit">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
+                    </shiro:hasRole>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="metaClass:del">
+                        <shiro:hasRole name="admin">
+                        <shiro:hasPermission name="metaClass:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                     </shiro:hasPermission>
+                        </shiro:hasRole>
                     </c:if>
                 </div>
             </mytag:sort-form>
@@ -49,9 +55,11 @@
                         </label>
                     </th>
                     <mytag:sort-th field="name">名称</mytag:sort-th>
+                    <shiro:hasRole name="admin">
                     <mytag:sort-th field="code" css="visible-lg">代码</mytag:sort-th>
                     <th nowrap class="visible-lg">布尔属性名称</th>
                     <th nowrap class="visible-lg">附加属性名称</th>
+                    </shiro:hasRole>
                     <shiro:hasPermission name="metaClass:changeOrder">
                     <c:if test="${!_query && commonList.recNum>1}">
                         <th nowrap>排序</th>
@@ -70,7 +78,8 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-                        <td nowrap><a href="${ctx}/metaType?classId=${metaClass.id}">${metaClass.name}</a></td>
+                        <td nowrap>${metaClass.name}</td>
+                        <shiro:hasRole name="admin">
                         <td nowrap class="visible-lg">${metaClass.code}</td>
                         <td nowrap class="visible-lg">${metaClass.boolAttr}</td>
                         <td nowrap class="visible-lg">${metaClass.extraAttr}</td>
@@ -84,19 +93,29 @@
                             </td>
                         </c:if>
                         </shiro:hasPermission>
+                        </shiro:hasRole>
                         <%--<td nowrap>${available}</td>--%>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
+
                              <shiro:hasPermission name="metaClass:edit">
                             <button data-id="${metaClass.id}" class="editBtn btn btn-mini">
                                 <i class="fa fa-edit"></i> 编辑
                             </button>
+                                 <button onclick="openView(${metaClass.id})"  class="btn btn-mini btn-success">
+                                     <i class="fa fa-edit"></i> 编辑属性
+                                 </button>
                              </shiro:hasPermission>
+                                <shiro:hasRole name="admin">
+                                    <button class="btn btn-warning btn-mini" onclick="updateRole(${metaClass.id})">
+                                        <i class="fa fa-pencil"></i> 修改角色
+                                    </button>
                              <shiro:hasPermission name="metaClass:del">
                             <button class="delBtn btn btn-danger btn-mini" data-id="${metaClass.id}">
                                 <i class="fa fa-pencil"></i> 删除
                             </button>
                              </shiro:hasPermission>
+                                </shiro:hasRole>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
@@ -161,6 +180,13 @@
     </div>
 </div>
 <script>
+    function openView(classId){
+
+        loadModal( "${ctx}/metaClass_type?id="+classId);
+    }
+    function updateRole(id) {
+        loadModal( "${ctx}/metaClassRole?id=" + id);
+    }
     $("#searchForm select").select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

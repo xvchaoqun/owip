@@ -145,17 +145,18 @@ public class CadreEduController extends BaseController {
 
     @RequiresPermissions("cadreEdu:edit")
     @RequestMapping("/cadreEdu_au")
-    public String cadreEdu_au(Integer id, ModelMap modelMap) {
+    public String cadreEdu_au(Integer id, int cadreId, ModelMap modelMap) {
 
         if (id != null) {
             CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(id);
             modelMap.put("cadreEdu", cadreEdu);
-
-            Cadre cadre = cadreService.findAll().get(cadreEdu.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
         }
+
+        Cadre cadre = cadreService.findAll().get(cadreId);
+        modelMap.put("cadre", cadre);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
         return "cadreEdu/cadreEdu_au";
     }
 

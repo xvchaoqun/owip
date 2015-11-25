@@ -47,9 +47,9 @@ jQuery.validator.setDefaults({
 			error.insertAfter(element.parent().parent())
 			return;
 		}*/
-		console.log($(element).hasClass("date-picker")+"==================1111")
+		//console.log($(element).hasClass("date-picker")+"==================1111")
 		if(element.is(":checkbox")){
-			$(e).closest('div.form-group').removeClass('has-success').addClass('has-error')
+			$(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
 			error.insertAfter(element.closest('div'));
 		}else if(element.is(":radio") ){
 			var parent = element.closest(".radio").parent();

@@ -1,7 +1,6 @@
 package controller;
 
-import domain.MetaClass;
-import domain.MetaClassExample;
+import domain.*;
 import domain.MetaClassExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -10,7 +9,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,21 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MetaClassController extends BaseController {
@@ -46,9 +47,10 @@ public class MetaClassController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass_page")
-    public String metaClass_page(HttpServletRequest request,
+    public String metaClass_page(@CurrentUser SysUser loginUser,
                                  HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
@@ -67,6 +69,13 @@ public class MetaClassController extends BaseController {
         MetaClassExample example = new MetaClassExample();
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if (!SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)) {
+
+            Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
+            criteria.andRoleIdIn(new ArrayList<>(roleIdSet));
+        }
+
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
@@ -154,17 +163,19 @@ public class MetaClassController extends BaseController {
         }
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("metaClass:del")
     @RequestMapping(value = "/metaClass_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             metaClassService.batchDel(ids);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除元数据类型：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("metaClass:changeOrder")
     @RequestMapping(value = "/metaClass_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -173,6 +184,39 @@ public class MetaClassController extends BaseController {
         metaClassService.changeOrder(id, addNum);
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "元数据调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping(value = "/metaClassRole", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_metaClassRole(int id,
+                                Integer roleId,
+                                HttpServletRequest request) {
+
+        if (roleId == null) {
+            roleId = -1;
+        }
+        metaClassService.updateRoles(id, roleId);
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新元数据所属角色 %s, %s", id, roleId));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping("/metaClassRole")
+    public String metaClassRole(Integer id, ModelMap modelMap) throws IOException {
+
+        Set<Integer> selectIdSet = new HashSet<Integer>();
+        if (id != null) {
+
+            MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
+            selectIdSet.add(metaClass.getRoleId());
+            modelMap.put("metaClass", metaClass);
+        }
+
+        TreeNode tree = sysRoleService.getTree(selectIdSet);
+        modelMap.put("tree", JSONUtils.toString(tree));
+
+        return "metaClass/metaClassRole";
     }
 
     public void metaClass_export(MetaClassExample example, HttpServletResponse response) {
@@ -221,7 +265,7 @@ public class MetaClassController extends BaseController {
 
     @RequestMapping("/metaClass_selects")
     @ResponseBody
-    public Map metaClass_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map metaClass_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -235,21 +279,21 @@ public class MetaClassController extends BaseController {
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         int count = metaClassMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<MetaClass> metaClasss = metaClassMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<MetaClass> metaClasss = metaClassMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != metaClasss && metaClasss.size()>0){
+        if (null != metaClasss && metaClasss.size() > 0) {
 
-            for(MetaClass metaClass:metaClasss){
+            for (MetaClass metaClass : metaClasss) {
 
                 Select2Option option = new Select2Option();
                 option.setText(metaClass.getName());
@@ -263,5 +307,49 @@ public class MetaClassController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("metaClassType:list")
+    @RequestMapping("/metaClass_type")
+    public String metaClass_type(Integer id, Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if (id != null) {
+            if (null == pageSize) {
+                pageSize = springProps.pageSize;
+            }
+            if (null == pageNo) {
+                pageNo = 1;
+            }
+            pageNo = Math.max(1, pageNo);
+
+            MetaTypeExample example = new MetaTypeExample();
+            MetaTypeExample.Criteria criteria = example.createCriteria().andClassIdEqualTo(id);
+            example.setOrderByClause(String.format("%s %s", "sort_order", "desc"));
+
+            int count = metaTypeMapper.countByExample(example);
+            if ((pageNo - 1) * pageSize >= count) {
+
+                pageNo = Math.max(1, pageNo - 1);
+            }
+            List<MetaType> metaTypes = metaTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            modelMap.put("metaTypes", metaTypes);
+
+            CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+            String searchStr = "&pageSize=" + pageSize;
+
+            if (id != null) {
+                searchStr += "&id=" + id;
+            }
+
+            commonList.setSearchStr(searchStr);
+            modelMap.put("commonList", commonList);
+
+            MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
+            modelMap.put("metaClass", metaClass);
+            modelMap.put("metaClassMap", metaClassService.findAll());
+        }
+
+        return "metaClass/metaClass_type";
     }
 }

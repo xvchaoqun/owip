@@ -1,6 +1,7 @@
 package persistence;
 
 import domain.Cadre;
+import domain.DispatchCadre;
 import domain.DispatchUnit;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -75,5 +76,12 @@ public interface CommonMapper {
     @Select("select count(bdu.id) from base_dispatch_unit bdu, base_dispatch d " +
             "where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id and d.code like '%${search}%'")
     int countDispatchUnit(@Param("search") String code, @Param("unitId") int unitId);
+
+
+    // 根据工作证号查找发文
+    @ResultMap("persistence.DispatchCadreMapper.BaseResultMap")
+    @Select("select distinct dc.* from base_dispatch_cadre dc, base_dispatch d " +
+            "where dc.dispatch_id=d.id and dc.cadre_id=#{cadreId} order by d.pub_time desc")
+    List<DispatchCadre> selectDispatchCadreList(@Param("cadreId") int cadreId);
 
 }

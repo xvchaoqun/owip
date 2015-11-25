@@ -11,11 +11,9 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2015/11/10.
@@ -131,6 +129,21 @@ public class MetaClassService extends BaseMapper {
         }
 
         return map;
+    }
+
+    @Transactional
+    @Caching(evict={
+            @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
+            @CacheEvict(value = "MetaTyes", allEntries = true)
+    })
+    public void updateRoles(int id, int roleId){
+
+        MetaClass metaClass = new MetaClass();
+        metaClass.setId(id);
+        metaClass.setRoleId(roleId);
+
+        metaClassMapper.updateByPrimaryKeySelective(metaClass);
     }
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序

@@ -9,11 +9,11 @@
     <result column="school" property="school" jdbcType="VARCHAR" />
     <result column="dep" property="dep" jdbcType="VARCHAR" />
     <result column="major" property="major" jdbcType="VARCHAR" />
-    <result column="school_type" property="schoolType" jdbcType="TINYINT" />
+    <result column="school_type" property="schoolType" jdbcType="INTEGER" />
     <result column="enrol_time" property="enrolTime" jdbcType="DATE" />
     <result column="finish_time" property="finishTime" jdbcType="DATE" />
     <result column="school_len" property="schoolLen" jdbcType="TINYINT" />
-    <result column="learn_style" property="learnStyle" jdbcType="TINYINT" />
+    <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
     <result column="degree" property="degree" jdbcType="VARCHAR" />
     <result column="is_high_degree" property="isHighDegree" jdbcType="BIT" />
     <result column="degree_country" property="degreeCountry" jdbcType="VARCHAR" />
@@ -126,8 +126,8 @@
       tutor_unit, remark)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, 
-      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, #{enrolTime,jdbcType=DATE}, 
-      #{finishTime,jdbcType=DATE}, #{schoolLen,jdbcType=TINYINT}, #{learnStyle,jdbcType=TINYINT}, 
+      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=INTEGER}, #{enrolTime,jdbcType=DATE}, 
+      #{finishTime,jdbcType=DATE}, #{schoolLen,jdbcType=TINYINT}, #{learnStyle,jdbcType=INTEGER}, 
       #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, 
       #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, 
       #{tutorUnit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
@@ -219,7 +219,7 @@
         #{major,jdbcType=VARCHAR},
       </if>
       <if test="schoolType != null" >
-        #{schoolType,jdbcType=TINYINT},
+        #{schoolType,jdbcType=INTEGER},
       </if>
       <if test="enrolTime != null" >
         #{enrolTime,jdbcType=DATE},
@@ -231,7 +231,7 @@
         #{schoolLen,jdbcType=TINYINT},
       </if>
       <if test="learnStyle != null" >
-        #{learnStyle,jdbcType=TINYINT},
+        #{learnStyle,jdbcType=INTEGER},
       </if>
       <if test="degree != null" >
         #{degree,jdbcType=VARCHAR},
@@ -290,7 +290,7 @@
         major = #{record.major,jdbcType=VARCHAR},
       </if>
       <if test="record.schoolType != null" >
-        school_type = #{record.schoolType,jdbcType=TINYINT},
+        school_type = #{record.schoolType,jdbcType=INTEGER},
       </if>
       <if test="record.enrolTime != null" >
         enrol_time = #{record.enrolTime,jdbcType=DATE},
@@ -302,7 +302,7 @@
         school_len = #{record.schoolLen,jdbcType=TINYINT},
       </if>
       <if test="record.learnStyle != null" >
-        learn_style = #{record.learnStyle,jdbcType=TINYINT},
+        learn_style = #{record.learnStyle,jdbcType=INTEGER},
       </if>
       <if test="record.degree != null" >
         degree = #{record.degree,jdbcType=VARCHAR},
@@ -342,11 +342,11 @@
       school = #{record.school,jdbcType=VARCHAR},
       dep = #{record.dep,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
-      school_type = #{record.schoolType,jdbcType=TINYINT},
+      school_type = #{record.schoolType,jdbcType=INTEGER},
       enrol_time = #{record.enrolTime,jdbcType=DATE},
       finish_time = #{record.finishTime,jdbcType=DATE},
       school_len = #{record.schoolLen,jdbcType=TINYINT},
-      learn_style = #{record.learnStyle,jdbcType=TINYINT},
+      learn_style = #{record.learnStyle,jdbcType=INTEGER},
       degree = #{record.degree,jdbcType=VARCHAR},
       is_high_degree = #{record.isHighDegree,jdbcType=BIT},
       degree_country = #{record.degreeCountry,jdbcType=VARCHAR},
@@ -381,7 +381,7 @@
         major = #{major,jdbcType=VARCHAR},
       </if>
       <if test="schoolType != null" >
-        school_type = #{schoolType,jdbcType=TINYINT},
+        school_type = #{schoolType,jdbcType=INTEGER},
       </if>
       <if test="enrolTime != null" >
         enrol_time = #{enrolTime,jdbcType=DATE},
@@ -393,7 +393,7 @@
         school_len = #{schoolLen,jdbcType=TINYINT},
       </if>
       <if test="learnStyle != null" >
-        learn_style = #{learnStyle,jdbcType=TINYINT},
+        learn_style = #{learnStyle,jdbcType=INTEGER},
       </if>
       <if test="degree != null" >
         degree = #{degree,jdbcType=VARCHAR},
@@ -430,11 +430,11 @@
       school = #{school,jdbcType=VARCHAR},
       dep = #{dep,jdbcType=VARCHAR},
       major = #{major,jdbcType=VARCHAR},
-      school_type = #{schoolType,jdbcType=TINYINT},
+      school_type = #{schoolType,jdbcType=INTEGER},
       enrol_time = #{enrolTime,jdbcType=DATE},
       finish_time = #{finishTime,jdbcType=DATE},
       school_len = #{schoolLen,jdbcType=TINYINT},
-      learn_style = #{learnStyle,jdbcType=TINYINT},
+      learn_style = #{learnStyle,jdbcType=INTEGER},
       degree = #{degree,jdbcType=VARCHAR},
       is_high_degree = #{isHighDegree,jdbcType=BIT},
       degree_country = #{degreeCountry,jdbcType=VARCHAR},

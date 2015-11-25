@@ -592,52 +592,52 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeEqualTo(Byte value) {
+        public Criteria andSchoolTypeEqualTo(Integer value) {
             addCriterion("school_type =", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeNotEqualTo(Byte value) {
+        public Criteria andSchoolTypeNotEqualTo(Integer value) {
             addCriterion("school_type <>", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeGreaterThan(Byte value) {
+        public Criteria andSchoolTypeGreaterThan(Integer value) {
             addCriterion("school_type >", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andSchoolTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("school_type >=", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeLessThan(Byte value) {
+        public Criteria andSchoolTypeLessThan(Integer value) {
             addCriterion("school_type <", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeLessThanOrEqualTo(Byte value) {
+        public Criteria andSchoolTypeLessThanOrEqualTo(Integer value) {
             addCriterion("school_type <=", value, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeIn(List<Byte> values) {
+        public Criteria andSchoolTypeIn(List<Integer> values) {
             addCriterion("school_type in", values, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeNotIn(List<Byte> values) {
+        public Criteria andSchoolTypeNotIn(List<Integer> values) {
             addCriterion("school_type not in", values, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeBetween(Byte value1, Byte value2) {
+        public Criteria andSchoolTypeBetween(Integer value1, Integer value2) {
             addCriterion("school_type between", value1, value2, "schoolType");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolTypeNotBetween(Byte value1, Byte value2) {
+        public Criteria andSchoolTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("school_type not between", value1, value2, "schoolType");
             return (Criteria) this;
         }
@@ -832,52 +832,52 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleEqualTo(Byte value) {
+        public Criteria andLearnStyleEqualTo(Integer value) {
             addCriterion("learn_style =", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleNotEqualTo(Byte value) {
+        public Criteria andLearnStyleNotEqualTo(Integer value) {
             addCriterion("learn_style <>", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleGreaterThan(Byte value) {
+        public Criteria andLearnStyleGreaterThan(Integer value) {
             addCriterion("learn_style >", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andLearnStyleGreaterThanOrEqualTo(Integer value) {
             addCriterion("learn_style >=", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleLessThan(Byte value) {
+        public Criteria andLearnStyleLessThan(Integer value) {
             addCriterion("learn_style <", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleLessThanOrEqualTo(Byte value) {
+        public Criteria andLearnStyleLessThanOrEqualTo(Integer value) {
             addCriterion("learn_style <=", value, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleIn(List<Byte> values) {
+        public Criteria andLearnStyleIn(List<Integer> values) {
             addCriterion("learn_style in", values, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleNotIn(List<Byte> values) {
+        public Criteria andLearnStyleNotIn(List<Integer> values) {
             addCriterion("learn_style not in", values, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleBetween(Byte value1, Byte value2) {
+        public Criteria andLearnStyleBetween(Integer value1, Integer value2) {
             addCriterion("learn_style between", value1, value2, "learnStyle");
             return (Criteria) this;
         }
 
-        public Criteria andLearnStyleNotBetween(Byte value1, Byte value2) {
+        public Criteria andLearnStyleNotBetween(Integer value1, Integer value2) {
             addCriterion("learn_style not between", value1, value2, "learnStyle");
             return (Criteria) this;
         }

@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 
-        <div class="tabbable">
+        <div class="list-view tabbable">
             <jsp:include page="/WEB-INF/jsp/member/member_menu.jsp"/>
 
             <div class="tab-content">
@@ -175,12 +175,26 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
                     </div></div></div>
+
+        <div class="member-view">
+
+        </div>
     </div>
 </div>
+<style>
+    .member-view{
+        display: none;
+    }
+</style>
 <script>
+    function returnList(){
+        $(".member-view").hide();
+        $(".list-view").show();
+    }
     function openMemberView(userId){
-
-        loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
+        $(".list-view").hide();
+        $(".member-view").load("${ctx}/member_view?userId="+userId).show();
+        //loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
     }
     function _reset(){
 

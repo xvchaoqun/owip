@@ -61,12 +61,12 @@ pageEncoding="UTF-8" %>
                 <script>
                     $("#searchForm select[name=unitId]").val('${param.unitId}');
                 </script>
-                <input class="form-control search-query" name="code" type="text" value="${param.code}"
-                       placeholder="请输入工作证号">
-                <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                       placeholder="请输入姓名">
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value="${cadre.id}">${sysUser.username}</option>
+                </select>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.dispatchId ||not empty param.typeId ||not empty param.wayId ||not empty param.procedureId ||not empty param.code ||not empty param.name ||not empty param.adminLevelId ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.dispatchId ||not empty param.typeId ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId ||not empty param.adminLevelId ||not empty param.unitId ||  not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${metaTypeMap.get(dispatchCadre.typeId).name}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
 								<td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
-								<td nowrap>${dispatchCadre.code}</td>
+								<td nowrap>${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId).code}</td>
 								<td nowrap>${dispatchCadre.name}</td>
                                 <td nowrap>${dispatchCadre.post}</td>
                                 <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>

@@ -92,7 +92,7 @@
             <c:if test="${vs.count>=3}">
               <c:set var="sysResource" value="${cm:getSysResource(parentId)}"/>
                 <li>
-                  <a href="#">${sysResource.name}</a>
+                  ${sysResource.name}
                 </li>
             </c:if>
           </c:forEach>
