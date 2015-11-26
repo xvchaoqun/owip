@@ -6,6 +6,14 @@ import persistence.*;
 public class BaseMapper {
 
 	@Autowired
+	protected CadreInfoMapper cadreInfoMapper;
+	@Autowired
+	protected CadreFamliyAbroadMapper cadreFamliyAbroadMapper;
+	@Autowired
+	protected CadreFamliyMapper cadreFamliyMapper;
+	@Autowired
+	protected CadreCompanyMapper cadreCompanyMapper;
+	@Autowired
 	protected CadreParttimeMapper cadreParttimeMapper;
 	@Autowired
 	protected CadreRewardMapper cadreRewardMapper;

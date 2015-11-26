@@ -21,12 +21,20 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
+      <table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      </table>
+      <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
+      </table>
+      <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
+      </table>
+      <table tableName="base_cadre_company" domainObjectName="CadreCompany">
+      </table>
       <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
       </table>
       <table tableName="base_cadre_course" domainObjectName="CadreCourse">
       </table>-->
-      <table tableName="base_cadre_reward" domainObjectName="CadreReward">
-      </table>
+      <!--<table tableName="base_cadre_reward" domainObjectName="CadreReward">
+      </table>-->
       <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
       </table>-->
      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">

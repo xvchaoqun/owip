@@ -150,4 +150,19 @@ public class SystemConstants {
 	public final static byte CADRE_REWARD_TYPE_TEACH = 1;
 	public final static byte CADRE_REWARD_TYPE_RESEARCH = 2;
 	public final static byte CADRE_REWARD_TYPE_OTHER = 3;
+
+	// 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿
+	public final static byte CADRE_FAMLIY_TITLE_FATHER = 1;
+	public final static byte CADRE_FAMLIY_TITLE_MOTHER = 2;
+	public final static byte CADRE_FAMLIY_TITLE_MATE = 3;
+	public final static byte CADRE_FAMLIY_TITLE_SON = 4;
+	public final static byte CADRE_FAMLIY_TITLE_DAUGHTER = 5;
+	public final static Map<Byte, String>CADRE_FAMLIY_TITLE_MAP = new HashMap<>();
+	static {
+		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_FATHER, "父亲");
+		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_MOTHER, "母亲");
+		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_MATE, "配偶");
+		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_SON, "儿子");
+		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
+	}
 }

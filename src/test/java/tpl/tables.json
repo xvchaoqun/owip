@@ -6,13 +6,49 @@
   "tablePrefix": "base_",
   "tables": [
     {
+      "table": "cadre_info",
+      "key": "cadre_id",
+      "searchColumns": "cadre_id",
+      "showColumns": "mobile,office_phone, home_phone,email",
+      "excludeEditColumns": "",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_famliy_abroad",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "famliy_id,type, abroad_time,country,city",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_famliy",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "title,realname, birthday,political_status,unit",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_company",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "start_time,unit, report_unit",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
       "table": "cadre_parttime",
       "key": "id",
       "searchColumns": "cadre_id",
       "showColumns": "start_time,end_time, unit,post",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_course",
@@ -21,7 +57,7 @@
       "showColumns": "cadre_id,name,type",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_teach_reward",
@@ -30,7 +66,7 @@
       "showColumns": "cadre_id,name,type,unit,rank",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_research",
@@ -39,7 +75,7 @@
       "showColumns": "cadre_id,chair_file,join_file,publish_file",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_main_work",
