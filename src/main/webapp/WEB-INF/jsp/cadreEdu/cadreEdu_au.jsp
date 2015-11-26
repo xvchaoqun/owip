@@ -115,6 +115,10 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
 				</div>
 			</div>
+				<div class="form-group">
+					<div class="col-xs-offset-4 col-xs-6">
+						例子：教育学博士、管理学硕士
+					</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">是否为最高学位</label>
 				<div class="col-xs-6">

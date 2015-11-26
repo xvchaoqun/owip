@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.CadreResearchMapper" >
+  <resultMap id="BaseResultMap" type="domain.CadreResearch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="chair_file" property="chairFile" jdbcType="VARCHAR" />
+    <result column="chair_file_name" property="chairFileName" jdbcType="VARCHAR" />
+    <result column="join_file" property="joinFile" jdbcType="VARCHAR" />
+    <result column="join_file_name" property="joinFileName" jdbcType="VARCHAR" />
+    <result column="publish_file" property="publishFile" jdbcType="VARCHAR" />
+    <result column="publish_file_name" property="publishFileName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cadre_id, chair_file, chair_file_name, join_file, join_file_name, publish_file, 
+    publish_file_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreResearchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_cadre_research
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_cadre_research
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from base_cadre_research
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.CadreResearchExample" >
+    delete from base_cadre_research
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.CadreResearch" >
+    insert into base_cadre_research (id, cadre_id, chair_file, 
+      chair_file_name, join_file, join_file_name, 
+      publish_file, publish_file_name)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{chairFile,jdbcType=VARCHAR}, 
+      #{chairFileName,jdbcType=VARCHAR}, #{joinFile,jdbcType=VARCHAR}, #{joinFileName,jdbcType=VARCHAR}, 
+      #{publishFile,jdbcType=VARCHAR}, #{publishFileName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.CadreResearch" >
+    insert into base_cadre_research
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
+      <if test="chairFile != null" >
+        chair_file,
+      </if>
+      <if test="chairFileName != null" >
+        chair_file_name,
+      </if>
+      <if test="joinFile != null" >
+        join_file,
+      </if>
+      <if test="joinFileName != null" >
+        join_file_name,
+      </if>
+      <if test="publishFile != null" >
+        publish_file,
+      </if>
+      <if test="publishFileName != null" >
+        publish_file_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="chairFile != null" >
+        #{chairFile,jdbcType=VARCHAR},
+      </if>
+      <if test="chairFileName != null" >
+        #{chairFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinFile != null" >
+        #{joinFile,jdbcType=VARCHAR},
+      </if>
+      <if test="joinFileName != null" >
+        #{joinFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishFile != null" >
+        #{publishFile,jdbcType=VARCHAR},
+      </if>
+      <if test="publishFileName != null" >
+        #{publishFileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.CadreResearchExample" resultType="java.lang.Integer" >
+    select count(*) from base_cadre_research
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update base_cadre_research
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chairFile != null" >
+        chair_file = #{record.chairFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chairFileName != null" >
+        chair_file_name = #{record.chairFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joinFile != null" >
+        join_file = #{record.joinFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joinFileName != null" >
+        join_file_name = #{record.joinFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishFile != null" >
+        publish_file = #{record.publishFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishFileName != null" >
+        publish_file_name = #{record.publishFileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update base_cadre_research
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      chair_file = #{record.chairFile,jdbcType=VARCHAR},
+      chair_file_name = #{record.chairFileName,jdbcType=VARCHAR},
+      join_file = #{record.joinFile,jdbcType=VARCHAR},
+      join_file_name = #{record.joinFileName,jdbcType=VARCHAR},
+      publish_file = #{record.publishFile,jdbcType=VARCHAR},
+      publish_file_name = #{record.publishFileName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.CadreResearch" >
+    update base_cadre_research
+    <set >
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="chairFile != null" >
+        chair_file = #{chairFile,jdbcType=VARCHAR},
+      </if>
+      <if test="chairFileName != null" >
+        chair_file_name = #{chairFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinFile != null" >
+        join_file = #{joinFile,jdbcType=VARCHAR},
+      </if>
+      <if test="joinFileName != null" >
+        join_file_name = #{joinFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishFile != null" >
+        publish_file = #{publishFile,jdbcType=VARCHAR},
+      </if>
+      <if test="publishFileName != null" >
+        publish_file_name = #{publishFileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.CadreResearch" >
+    update base_cadre_research
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      chair_file = #{chairFile,jdbcType=VARCHAR},
+      chair_file_name = #{chairFileName,jdbcType=VARCHAR},
+      join_file = #{joinFile,jdbcType=VARCHAR},
+      join_file_name = #{joinFileName,jdbcType=VARCHAR},
+      publish_file = #{publishFile,jdbcType=VARCHAR},
+      publish_file_name = #{publishFileName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.CadreResearchExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_cadre_research
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

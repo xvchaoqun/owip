@@ -26,25 +26,25 @@
                             <a href="javascript:;" data-url="${ctx}/cadrePost_page?cadreId=${param.id}">任职情况</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">专技岗位过程信息</a>
+                            <a href="javascript:;" data-url="">专技岗位过程信息</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">管理岗位过程信息</a>
+                            <a href="javascript:;" data-url="">管理岗位过程信息</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">工勤岗位过程信息</a>
+                            <a href="javascript:;" data-url="">工勤岗位过程信息</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">社会或学术兼职</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreParttime_page?cadreId=${param.id}">社会或学术兼职</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">培训情况</a>
+                            <a href="javascript:;" data-url="">培训情况</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">教学经历</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreCourse_page?cadreId=${param.id}">教学经历</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">科研情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreResearch_page?cadreId=${param.id}">科研情况</a>
                         </li>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">其他奖励情况</a>
@@ -72,6 +72,7 @@
         $this = $(this);
         $("#cadre-box .nav-tabs li").removeClass("active");
         $this.closest("li").addClass("active");
+        if($(this).data("url")!='')
         $("#cadre-box .tab-content").load($(this).data("url"));
     });
 </script>

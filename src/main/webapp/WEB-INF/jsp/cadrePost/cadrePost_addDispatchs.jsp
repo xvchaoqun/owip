@@ -82,19 +82,6 @@ pageEncoding="UTF-8" %>
 
     function addDispatch(type){
 
-        if(type=="checkbox"){
-            var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
-                return $(item).val();
-            });
-
-            $.post("${ctx}/cadreSubWork_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
-                if(ret.success) {
-                    $("#modal").modal('hide');
-                    toastr.success('操作成功。', '成功');
-                }
-            });
-        }else if(type="radio"){
-
             var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
                 return $(item).val();
             });
@@ -103,15 +90,13 @@ pageEncoding="UTF-8" %>
                 return;
             }else{
 
-                $.post("${ctx}/cadreSubWork_addDispatch",{id:'${param.id}',dispatchCadreId:ids[0]},function(ret){
+                $.post("${ctx}/cadrePost_addDispatch",{id:'${param.id}',type:'${param.type}',dispatchCadreId:ids[0]},function(ret){
                     if(ret.success) {
                         _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 });
             }
-
-        }
     }
 </script>
 </div>

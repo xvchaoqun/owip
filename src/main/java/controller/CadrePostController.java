@@ -129,6 +129,53 @@ public class CadrePostController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cadrePost:edit")
+    @RequestMapping("/cadrePost_addDispatchs")
+    public String cadrePost_addDispatchs(HttpServletResponse response, String type, int id, int cadreId, ModelMap modelMap) {
+
+        Set<Integer> cadreDispatchIdSet = new HashSet<>();
+        CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
+        if(StringUtils.equalsIgnoreCase(type, "start")){
+            if(cadrePost.getStartDispatchCadreId()!=null)
+                cadreDispatchIdSet.add(cadrePost.getStartDispatchCadreId());
+        }else if(StringUtils.equalsIgnoreCase(type, "end")){
+            if(cadrePost.getEndDispatchCadreId()!=null)
+                cadreDispatchIdSet.add(cadrePost.getEndDispatchCadreId());
+        }
+        modelMap.put("cadreDispatchIdSet", cadreDispatchIdSet);
+
+        List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
+        modelMap.put("dispatchCadres", dispatchCadres);
+
+        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
+        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
+        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        modelMap.put("unitMap", unitService.findAll());
+        modelMap.put("dispatchMap", dispatchService.findAll());
+
+        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+
+        return "cadrePost/cadrePost_addDispatchs";
+    }
+
+    @RequestMapping(value = "/cadrePost_addDispatch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadrePost_addDispatch(HttpServletRequest request, String type, int id, Integer dispatchCadreId, ModelMap modelMap) {
+
+        CadrePost record = cadrePostMapper.selectByPrimaryKey(id);
+        if(StringUtils.equalsIgnoreCase(type, "start")){
+            record.setStartDispatchCadreId(dispatchCadreId);
+        }else if(StringUtils.equalsIgnoreCase(type, "end")){
+            record.setEndDispatchCadreId(dispatchCadreId);
+        }
+
+        cadrePostMapper.updateByPrimaryKey(record);
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改任职级经历%s %s-文号：%s", id, type, dispatchCadreId));
+        return success(FormUtils.SUCCESS);
+    }
+
 
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping(value = "/cadreMainWork_au", method = RequestMethod.POST)
@@ -317,19 +364,27 @@ public class CadrePostController extends BaseController {
 
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping("/cadreSubWork_addDispatchs")
-    public String cadreSubWork_addDispatchs(HttpServletResponse response, int id, int cadreId, ModelMap modelMap) {
+    public String cadreSubWork_addDispatchs(HttpServletResponse response, String type, int id, int cadreId, ModelMap modelMap) {
 
         Set<Integer> cadreDispatchIdSet = new HashSet<>();
         CadreSubWork cadreSubWork = cadreSubWorkMapper.selectByPrimaryKey(id);
-        String dispatchs = cadreSubWork.getDispatchs();
-        if(StringUtils.isNotBlank(dispatchs)) {
-            for (String str : dispatchs.split(",")) {
-                try {
-                    cadreDispatchIdSet.add(Integer.valueOf(str));
-                }catch (Exception ex){ex.printStackTrace();}
+        if(StringUtils.equalsIgnoreCase(type, "radio")){
+            if(cadreSubWork.getDispatchCadreId()!=null)
+                cadreDispatchIdSet.add(cadreSubWork.getDispatchCadreId());
+        }else {
+            String dispatchs = cadreSubWork.getDispatchs();
+            if (StringUtils.isNotBlank(dispatchs)) {
+                for (String str : dispatchs.split(",")) {
+                    try {
+                        cadreDispatchIdSet.add(Integer.valueOf(str));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
             }
-            modelMap.put("cadreDispatchIdSet", cadreDispatchIdSet);
         }
+        modelMap.put("cadreDispatchIdSet", cadreDispatchIdSet);
 
         List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
         modelMap.put("dispatchCadres", dispatchCadres);
@@ -359,6 +414,18 @@ public class CadrePostController extends BaseController {
         }
         cadreSubWorkMapper.updateByPrimaryKeySelective(record);
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改兼职%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping(value = "/cadreSubWork_addDispatch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreSubWork_addDispatch(HttpServletRequest request, int id, Integer dispatchCadreId, ModelMap modelMap) {
+
+        CadreSubWork record = cadreSubWorkMapper.selectByPrimaryKey(id);
+        record.setDispatchCadreId(dispatchCadreId);
+
+        cadreSubWorkMapper.updateByPrimaryKey(record);
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改兼职%s-现职务始任文号：%s", id, dispatchCadreId));
         return success(FormUtils.SUCCESS);
     }
 }

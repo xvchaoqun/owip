@@ -20,10 +20,19 @@
     </sqlMapGenerator>
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
+
+      <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
+      </table>
+      <table tableName="base_cadre_course" domainObjectName="CadreCourse">
+      </table>
+      <table tableName="base_cadre_teach_reward" domainObjectName="CadreTeachReward">
+      </table>-->
+      <table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      </table>
      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
       </table>-->
-      <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
-      </table>
+      <!--<table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
+      </table>-->
       <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
       </table>-->
      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">

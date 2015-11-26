@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal"  aria-hidden="true" class="close">&times;</button>
-    <a onclick="au2()" class="btn btn-default pull-right" style="margin-right: 20px">添加</a>
+    <a onclick="au2()" class="btn btn-default pull-right" style="margin-right: 20px">添加期间工作</a>
     <h3>期间工作</h3>
 </div>
 <div class="modal-body">

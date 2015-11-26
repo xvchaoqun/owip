@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
             <div class="buttons pull-right">
                 <shiro:hasPermission name="cadreEdu:edit">
-                <a class="btn btn-info btn-sm" onclick="au()" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                <a class="btn btn-info btn-sm" onclick="_au()" data-width="900"><i class="fa fa-plus"></i> 添加学习经历</a>
                 </shiro:hasPermission>
                 <c:if test="${commonList.recNum>0}">
                 <shiro:hasPermission name="cadreEdu:del">
@@ -69,7 +69,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreEdu:edit">
-                                    <button onclick="au(${cadreEdu.id})" class="btn btn-mini">
+                                    <button onclick="_au(${cadreEdu.id})" class="btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -141,10 +141,10 @@ pageEncoding="UTF-8" %>
 
 <script>
 
-    function au(id) {
+    function _au(id) {
         url = "${ctx}/cadreEdu_au?cadreId=${param.cadreId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url, 800);
+        loadModal(url, 900);
     }
 
     function _del(id){
@@ -159,6 +159,11 @@ pageEncoding="UTF-8" %>
             }
         });
     }
+    function _reload(){
+        $("#modal").modal('hide');
+        $("#cadre-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
+    }
+
     function _batchDel(){
 
         var ids = $.map($("#cadre-box .table td :checkbox:checked"),function(item, index){
@@ -179,10 +184,7 @@ pageEncoding="UTF-8" %>
             }
         });
     }
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#cadre-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
-    }
+
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

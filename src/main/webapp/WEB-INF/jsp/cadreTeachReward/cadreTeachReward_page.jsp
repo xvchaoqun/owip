@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-                <div class="vspace-12"></div>
+
+
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadreWork:edit">
-                    <a class="btn btn-info btn-sm" onclick="au()"><i class="fa fa-plus"></i> 添加工作经历</a>
+                    <shiro:hasPermission name="cadreTeachReward:edit">
+                    <a class="btn btn-info btn-sm" onclick="_au()"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
-                    <shiro:hasPermission name="cadreWork:del">
-                    <a class="btn btn-danger btn-sm" onclick="_batchDel()"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
                 </div>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
@@ -24,47 +20,52 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>开始日期</th>
-							<th>结束日期</th>
-							<th>工作单位</th>
-							<th>担任职务或者专技职务</th>
-							<th>行政级别</th>
-							<th>院系/机关工作经历</th>
+							<th>所属干部</th>
+							<th>日期</th>
+							<th>获得奖项</th>
+							<th>颁奖单位</th>
+							<th>排名</th>
+                        <shiro:hasPermission name="cadreTeachReward:changeOrder">
+                            <c:if test="${!_query && commonList.recNum>1}">
+                                <th nowrap class="hidden-480">排序</th>
+                            </c:if>
+                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <c:forEach items="${cadreWorks}" var="cadreWork" varStatus="st">
-
+                    <c:forEach items="${cadreTeachRewards}" var="cadreTeachReward" varStatus="st">
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreWork.id}" class="ace">
+                                    <input type="checkbox" value="${cadreTeachReward.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:formatDate(cadreWork.startTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(cadreWork.endTime,'yyyy-MM-dd')}</td>
-								<td>${cadreWork.unit}</td>
-								<td>${cadreWork.post}</td>
-								<td>${typeMap.get(cadreWork.typeId).name}</td>
-								<td>${cadreWork.workType==1?"院系工作经历":"机关工作经历"}</td>
+								<td>${cadreTeachReward.cadreId}</td>
+								<td>${cadreTeachReward.name}</td>
+								<td>${cadreTeachReward.type}</td>
+								<td>${cadreTeachReward.unit}</td>
+								<td>${cadreTeachReward.rank}</td>
+                            <shiro:hasPermission name="cadreTeachReward:changeOrder">
+                            <c:if test="${!_query && commonList.recNum>1}">
+                                <td class="hidden-480">
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTeachReward.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <input type="text" value="1"
+                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTeachReward.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                </td>
+                            </c:if>
+                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreWork:edit">
-                                        <button onclick="au(${cadreWork.id})" class="btn btn-mini">
-                                            <i class="fa fa-edit"></i> 编辑
-                                        </button>
-                                        <button onclick="showSubWork(${cadreWork.id})" class="btn btn-mini btn-warning">
-                                            <i class="fa fa-edit"></i> 编辑期间工作
-                                        </button>
-                                        <button onclick="showDispatch(${cadreWork.id})" class="btn btn-mini">
-                                            <i class="fa fa-edit"></i> 关联任免文件
-                                        </button>
+                                    <shiro:hasPermission name="cadreTeachReward:edit">
+                                    <button onclick="_au(${cadreTeachReward.id})" class="btn btn-mini">
+                                        <i class="fa fa-edit"></i> 编辑
+                                    </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreWork:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${cadreWork.id})">
+                                     <shiro:hasPermission name="cadreTeachReward:del">
+                                    <button class="btn btn-danger btn-mini" onclick="_del(${cadreTeachReward.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -83,18 +84,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="cadreWork:edit">
+                                            <shiro:hasPermission name="cadreTeachReward:edit">
                                             <li>
-                                                <a href="#" data-id="${cadreWork.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${cadreTeachReward.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadreWork:del">
+                                            <shiro:hasPermission name="cadreTeachReward:del">
                                             <li>
-                                                <a href="#" data-id="${cadreWork.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${cadreTeachReward.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -115,7 +116,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreWork_page" target="#cadre-box .tab-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreTeachReward_page" target="#cadre-box .tab-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -128,66 +129,34 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
+        </div>
+    </div>
+</div>
 <script>
+    function _au(id) {
+    url = "${ctx}/cadreTeachReward_au?cadreId=${param.cadreId}";
+    if (id > 0)  url += "&id=" + id;
+    loadModal(url);
+}
 
-    function au(id) {
-        url = "${ctx}/cadreWork_au?cadreId=${param.cadreId}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
-
-    function showSubWork(id){
-        loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid="+id, 1000);
-    }
-
-    var _id;
-    function showDispatch(id){
-        _id = id;
-        loadModal("${ctx}/cadreWork_addDispatchs?cadreId=${cadre.id}&id="+id, 1000);
-    }
-
-    function closeSwfPreview(){
-        showDispatch(_id);
-    }
-
-    function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreWork_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        toastr.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-    function _batchDel(){
-
-        var ids = $.map($("#cadre-box .table td :checkbox:checked"),function(item, index){
-            return $(item).val();
-        });
-        if(ids.length==0){
-            toastr.warning("请选择行", "提示");
-            return ;
+function _del(id){
+    bootbox.confirm("确定删除该记录吗？", function (result) {
+        if (result) {
+            $.post("${ctx}/cadreTeachReward_del", {id: id}, function (ret) {
+                if (ret.success) {
+                    _reload();
+                    toastr.success('操作成功。', '成功');
+                }
+            });
         }
-        bootbox.confirm("确定删除这"+ids.length+"条数据？",function(result){
-            if(result){
-                $.post("${ctx}/cadreWork_batchDel",{ids:ids},function(ret){
-                    if(ret.success) {
-                        _reload();
-                        toastr.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#cadre-box .tab-content").load("${ctx}/cadreWork_page?${pageContext.request.queryString}");
-    }
+    });
+}
+function _reload(){
+    $("#modal").modal('hide');
+    $("#cadre-box .tab-content").load("${ctx}/cadreTeachReward_page?${pageContext.request.queryString}");
+}
 
-    $('#searchForm [data-rel="select2"]').select2();
+$('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({
         ajax: {

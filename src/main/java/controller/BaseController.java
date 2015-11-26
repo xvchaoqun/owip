@@ -14,6 +14,14 @@ import java.util.Map;
 public class BaseController extends BaseMapper {
 
     @Autowired
+    protected CadreResearchService cadreResearchService;
+    @Autowired
+    protected CadreParttimeService cadreParttimeService;
+    @Autowired
+    protected CadreTeachRewardService cadreTeachRewardService;
+    @Autowired
+    protected CadreCourseService cadreCourseService;
+    @Autowired
     protected CadreWorkService cadreWorkService;
     @Autowired
     protected CadreEduService cadreEduService;

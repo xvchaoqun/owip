@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
                                         <button onclick="cadreMainWork_au(${cadreMainWork.id})" class="btn btn-mini btn-warning">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
-                                        <button onclick="cadreMainWork_showDispatch(${cadreMainWork.id})" class="btn btn-mini">
+                                        <button onclick="cadreMainWork_addDispatchs(${cadreMainWork.id})" class="btn btn-mini">
                                             <i class="fa fa-edit"></i> 关联任免文件
                                         </button>
                                     <button class="btn btn-danger btn-mini" onclick="cadreMainWork_del(${cadreMainWork.id})">
@@ -113,13 +113,17 @@ pageEncoding="UTF-8" %>
             <td>${cadreSubWork.post}</td>
             <td>${cm:formatDate(cadreSubWork.postTime,'yyyy-MM-dd')}</td>
             <td>${cm:formatDate(cadreSubWork.startTime,'yyyy-MM-dd')}</td>
-            <td>${cadreSubWork.dispatchCadreId}</td>
+            <td>
+                    ${dispatchMap.get(dispatchCadreMap.get(cadreSubWork.dispatchCadreId).dispatchId).code}
+                <a class="btn btn-mini btn-primary" onclick="cadreSubWork_selectDispatch(${cadreSubWork.id})">
+                        ${cadreSubWork.dispatchCadreId==null?"选择":"修改"}</a>
+            </td>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
                         <button onclick="cadreSubWork_au(${cadreSubWork.id})" class="btn btn-mini btn-warning">
                             <i class="fa fa-edit"></i> 编辑
                         </button>
-                        <button onclick="cadreSubWork_showDispatch(${cadreSubWork.id})" class="btn btn-mini">
+                        <button onclick="cadreSubWork_addDispatchs(${cadreSubWork.id})" class="btn btn-mini">
                             <i class="fa fa-edit"></i> 关联任免文件
                         </button>
                         <button class="btn btn-danger btn-mini" onclick="cadreSubWork_del(${cadreSubWork.id})">
@@ -171,9 +175,17 @@ pageEncoding="UTF-8" %>
             <td>${adminLevelMap.get(cadrePost.adminLevelId).name}</td>
             <td>${cadrePost.isPresent?"是":"否"}</td>
             <td>${cm:formatDate(cadrePost.startTime,'yyyy-MM-dd')}</td>
-            <td>${cadrePost.startDispatchCadreId}</td>
+            <td>
+                    ${dispatchMap.get(dispatchCadreMap.get(cadrePost.startDispatchCadreId).dispatchId).code}
+                <a class="btn btn-mini btn-primary" onclick="cadrePost_selectStartDispatch(${cadrePost.id})">
+                        ${cadrePost.startDispatchCadreId==null?"选择":"修改"}</a>
+            </td>
             <td>${cm:formatDate(cadrePost.endTime,'yyyy-MM-dd')}</td>
-            <td>${cadrePost.endDispatchCadreId}</td>
+            <td>
+                    ${dispatchMap.get(dispatchCadreMap.get(cadrePost.endDispatchCadreId).dispatchId).code}
+                <a class="btn btn-mini btn-primary" onclick="cadrePost_selectEndDispatch(${cadrePost.id})">
+                        ${cadrePost.endDispatchCadreId==null?"选择":"修改"}
+            </td>
             <td>${cadrePost.remark}</td>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
@@ -232,29 +244,62 @@ pageEncoding="UTF-8" %>
 
     var _id;
     var type;
-    function cadreMainWork_showDispatch(id){
+    function cadreMainWork_addDispatchs(id){
         _id = id;
         type=1
         loadModal("${ctx}/cadreMainWork_addDispatchs?type=checkbox&cadreId=${cadre.id}&id="+id, 1000);
     }
-    function cadreSubWork_showDispatch(id){
+    function cadreSubWork_addDispatchs(id){
         _id = id;
         type=2
-        loadModal("${ctx}/cadreSubWork_addDispatchs?cadreId=${cadre.id}&id="+id, 1000);
+        loadModal("${ctx}/cadreSubWork_addDispatchs?type=checkbox&cadreId=${cadre.id}&id="+id, 1000);
     }
 
     function cadreMainWork_selectDispatch(id){
-
         _id = id;
-        type=1
+        type=3
         loadModal("${ctx}/cadreMainWork_addDispatchs?type=radio&cadreId=${cadre.id}&id="+id, 1000);
     }
 
+    function cadreSubWork_selectDispatch(id){
+        _id = id;
+        type=4
+        loadModal("${ctx}/cadreSubWork_addDispatchs?type=radio&cadreId=${cadre.id}&id="+id, 1000);
+    }
+
+    function cadrePost_selectStartDispatch(id){
+        _id = id;
+        type=5
+        loadModal("${ctx}/cadrePost_addDispatchs?type=start&cadreId=${cadre.id}&id="+id, 1000);
+    }
+
+    function cadrePost_selectEndDispatch(id){
+        _id = id;
+        type=6
+        loadModal("${ctx}/cadrePost_addDispatchs?type=end&cadreId=${cadre.id}&id="+id, 1000);
+    }
+
     function closeSwfPreview(){
-        if(type==1)
-            cadreMainWork_showDispatch(_id);
-        if(type==2)
-            cadreSubWork_showDispatch(_id);
+        switch (type) {
+            case 1:
+                cadreMainWork_addDispatchs(_id);
+                break;
+            case 2:
+                cadreSubWork_addDispatchs(_id);
+                break;
+            case 3:
+                cadreMainWork_selectDispatch(_id);
+                break;
+            case 4:
+                cadreSubWork_selectDispatch(_id);
+                break;
+            case 5:
+                cadrePost_selectStartDispatch(_id);
+                break;
+            case 6:
+                cadrePost_selectEndDispatch(_id);
+                break;
+        }
     }
 
     function cadrePost_au(id) {

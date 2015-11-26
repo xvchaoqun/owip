@@ -6,6 +6,42 @@
   "tablePrefix": "base_",
   "tables": [
     {
+      "table": "cadre_parttime",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "start_time,end_time, unit,post",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_course",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "cadre_id,name,type",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_teach_reward",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "cadre_id,name,type,unit,rank",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "cadre_research",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "cadre_id,chair_file,join_file,publish_file",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
       "table": "cadre_main_work",
       "key": "id",
       "searchColumns": "cadre_id",

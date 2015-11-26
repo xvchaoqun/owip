@@ -134,4 +134,15 @@ public class SystemConstants {
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
 	}
+
+	// 干部教学课程类别
+	public final static byte CADRE_COURSE_TYPE_BKS = 1;
+	public final static byte CADRE_COURSE_TYPE_SS = 2;
+	public final static byte CADRE_COURSE_TYPE_BS = 3;
+	public final static Map<Byte, String>CADRE_COURSE_TYPE_MAP = new HashMap<>();
+	static {
+		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BKS, "本科生课程");
+		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_SS, "硕士生课程");
+		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "研究生课程");
+	}
 }
