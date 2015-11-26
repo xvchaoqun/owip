@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 
 
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadreTeachReward:edit">
+                    <shiro:hasPermission name="cadreReward:edit">
                     <a class="btn btn-info btn-sm" onclick="_au()"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                 </div>
@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
 							<th>获得奖项</th>
 							<th>颁奖单位</th>
 							<th>排名</th>
-                        <shiro:hasPermission name="cadreTeachReward:changeOrder">
+                        <shiro:hasPermission name="cadreReward:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap class="hidden-480">排序</th>
                             </c:if>
@@ -34,38 +34,38 @@ pageEncoding="UTF-8" %>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${cadreTeachRewards}" var="cadreTeachReward" varStatus="st">
+                    <c:forEach items="${cadreRewards}" var="cadreReward" varStatus="st">
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreTeachReward.id}" class="ace">
+                                    <input type="checkbox" value="${cadreReward.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cadreTeachReward.cadreId}</td>
-								<td>${cadreTeachReward.name}</td>
-								<td>${cadreTeachReward.type}</td>
-								<td>${cadreTeachReward.unit}</td>
-								<td>${cadreTeachReward.rank}</td>
-                            <shiro:hasPermission name="cadreTeachReward:changeOrder">
+								<td>${cadreReward.cadreId}</td>
+								<td>${cadreReward.name}</td>
+								<td>${cadreReward.type}</td>
+								<td>${cadreReward.unit}</td>
+								<td>${cadreReward.rank}</td>
+                            <shiro:hasPermission name="cadreReward:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTeachReward.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreReward.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTeachReward.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreReward.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreTeachReward:edit">
-                                    <button onclick="_au(${cadreTeachReward.id})" class="btn btn-mini">
+                                    <shiro:hasPermission name="cadreReward:edit">
+                                    <button onclick="_au(${cadreReward.id})" class="btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreTeachReward:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${cadreTeachReward.id})">
+                                     <shiro:hasPermission name="cadreReward:del">
+                                    <button class="btn btn-danger btn-mini" onclick="_del(${cadreReward.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -84,18 +84,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="cadreTeachReward:edit">
+                                            <shiro:hasPermission name="cadreReward:edit">
                                             <li>
-                                                <a href="#" data-id="${cadreTeachReward.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${cadreReward.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadreTeachReward:del">
+                                            <shiro:hasPermission name="cadreReward:del">
                                             <li>
-                                                <a href="#" data-id="${cadreTeachReward.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${cadreReward.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreTeachReward_page" target="#cadre-box .tab-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreReward_page" target="#cadre-box .tab-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -129,20 +129,18 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
-        </div>
-    </div>
-</div>
+
 <script>
     function _au(id) {
-    url = "${ctx}/cadreTeachReward_au?cadreId=${param.cadreId}";
-    if (id > 0)  url += "&id=" + id;
-    loadModal(url);
-}
+        url = "${ctx}/cadreReward_au?type=${param.type}&cadreId=${param.cadreId}";
+        if (id > 0)  url += "&id=" + id;
+        loadModal(url);
+    }
 
 function _del(id){
     bootbox.confirm("确定删除该记录吗？", function (result) {
         if (result) {
-            $.post("${ctx}/cadreTeachReward_del", {id: id}, function (ret) {
+            $.post("${ctx}/cadreReward_del", {id: id}, function (ret) {
                 if (ret.success) {
                     _reload();
                     toastr.success('操作成功。', '成功');
@@ -153,7 +151,7 @@ function _del(id){
 }
 function _reload(){
     $("#modal").modal('hide');
-    $("#cadre-box .tab-content").load("${ctx}/cadreTeachReward_page?${pageContext.request.queryString}");
+    $("#cadre-box .tab-content").load("${ctx}/cadreReward_page?${pageContext.request.queryString}");
 }
 
 $('#searchForm [data-rel="select2"]').select2();

@@ -94,8 +94,8 @@ public class ${TableName}Controller extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<${TableName}> ${TableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("${tableName}s", ${TableName}s);
+        List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("${tableName}s", ${tableName}s);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

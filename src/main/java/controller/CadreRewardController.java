@@ -1,9 +1,9 @@
 package controller;
 
 import domain.Cadre;
-import domain.CadreTeachReward;
-import domain.CadreTeachRewardExample;
-import domain.CadreTeachRewardExample.Criteria;
+import domain.CadreReward;
+import domain.CadreRewardExample;
+import domain.CadreRewardExample.Criteria;
 import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,22 +36,23 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CadreTeachRewardController extends BaseController {
+public class CadreRewardController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreTeachReward:list")
-    @RequestMapping("/cadreTeachReward")
-    public String cadreTeachReward() {
+    @RequiresPermissions("cadreReward:list")
+    @RequestMapping("/cadreReward")
+    public String cadreReward() {
 
         return "index";
     }
-    @RequiresPermissions("cadreTeachReward:list")
-    @RequestMapping("/cadreTeachReward_page")
-    public String cadreTeachReward_page(HttpServletResponse response,
+    @RequiresPermissions("cadreReward:list")
+    @RequestMapping("/cadreReward_page")
+    public String cadreReward_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
+                                    byte type, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -62,8 +64,8 @@ public class CadreTeachRewardController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreTeachRewardExample example = new CadreTeachRewardExample();
-        Criteria criteria = example.createCriteria();
+        CadreRewardExample example = new CadreRewardExample();
+        Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -71,17 +73,17 @@ public class CadreTeachRewardController extends BaseController {
         }
 
         if (export == 1) {
-            cadreTeachReward_export(example, response);
+            cadreReward_export(example, response);
             return null;
         }
 
-        int count = cadreTeachRewardMapper.countByExample(example);
+        int count = cadreRewardMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreTeachReward> CadreTeachRewards = cadreTeachRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreTeachRewards", CadreTeachRewards);
+        List<CadreReward> CadreRewards = cadreRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("cadreRewards", CadreRewards);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -96,87 +98,97 @@ public class CadreTeachRewardController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
+        searchStr += "&type=" + type;
+
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "cadreTeachReward/cadreTeachReward_page";
+        return "cadreReward/cadreReward_page";
     }
 
-    @RequiresPermissions("cadreTeachReward:edit")
-    @RequestMapping(value = "/cadreTeachReward_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreReward:edit")
+    @RequestMapping(value = "/cadreReward_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTeachReward_au(CadreTeachReward record, HttpServletRequest request) {
+    public Map do_cadreReward_au(CadreReward record,
+                                 String _rewardTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
+        Assert.isTrue(record.getType()!=null);
+
+        if(StringUtils.isNotBlank(_rewardTime)){
+            record.setRewardTime(DateUtils.parseDate(_rewardTime, DateUtils.YYYY_MM_DD));
+        }
+
         if (id == null) {
-            cadreTeachRewardService.insertSelective(record);
+            cadreRewardService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
         } else {
 
-            cadreTeachRewardService.updateByPrimaryKeySelective(record);
+            cadreRewardService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTeachReward:edit")
-    @RequestMapping("/cadreTeachReward_au")
-    public String cadreTeachReward_au(Integer id, int cadreId, ModelMap modelMap) {
+    @RequiresPermissions("cadreReward:edit")
+    @RequestMapping("/cadreReward_au")
+    public String cadreReward_au(Integer id, byte type, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
+                                 int cadreId, ModelMap modelMap) {
 
         if (id != null) {
-            CadreTeachReward cadreTeachReward = cadreTeachRewardMapper.selectByPrimaryKey(id);
-            modelMap.put("cadreTeachReward", cadreTeachReward);
+            CadreReward cadreReward = cadreRewardMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreReward", cadreReward);
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
-        return "cadreTeachReward/cadreTeachReward_au";
+        return "cadreReward/cadreReward_au";
     }
 
-    @RequiresPermissions("cadreTeachReward:del")
-    @RequestMapping(value = "/cadreTeachReward_del", method = RequestMethod.POST)
+    @RequiresPermissions("cadreReward:del")
+    @RequestMapping(value = "/cadreReward_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTeachReward_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreReward_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cadreTeachRewardService.del(id);
+            cadreRewardService.del(id);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部教学奖励：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTeachReward:del")
-    @RequestMapping(value = "/cadreTeachReward_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreReward:del")
+    @RequestMapping(value = "/cadreReward_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreTeachRewardService.batchDel(ids);
+            cadreRewardService.batchDel(ids);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部教学奖励：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTeachReward:changeOrder")
-    @RequestMapping(value = "/cadreTeachReward_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("cadreReward:changeOrder")
+    @RequestMapping(value = "/cadreReward_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTeachReward_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cadreReward_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cadreTeachRewardService.changeOrder(id, addNum);
+        cadreRewardService.changeOrder(id, addNum);
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部教学奖励调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreTeachReward_export(CadreTeachRewardExample example, HttpServletResponse response) {
+    public void cadreReward_export(CadreRewardExample example, HttpServletResponse response) {
 
-        List<CadreTeachReward> cadreTeachRewards = cadreTeachRewardMapper.selectByExample(example);
-        int rownum = cadreTeachRewardMapper.countByExample(example);
+        List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
+        int rownum = cadreRewardMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -191,13 +203,13 @@ public class CadreTeachRewardController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            CadreTeachReward cadreTeachReward = cadreTeachRewards.get(i);
+            CadreReward cadreReward = cadreRewards.get(i);
             String[] values = {
-                        cadreTeachReward.getCadreId()+"",
-                                            DateUtils.formatDate(cadreTeachReward.getName(), DateUtils.YYYY_MM_DD),
-                                            cadreTeachReward.getType(),
-                                            cadreTeachReward.getUnit(),
-                                            cadreTeachReward.getRank()+""
+                        cadreReward.getCadreId()+"",
+                                            DateUtils.formatDate(cadreReward.getRewardTime(), DateUtils.YYYY_MM_DD),
+                                            cadreReward.getName()+"",
+                                            cadreReward.getUnit(),
+                                            cadreReward.getRank()+""
                     };
 
             Row row = sheet.createRow(i + 1);

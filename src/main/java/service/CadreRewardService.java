@@ -1,7 +1,7 @@
 package service;
 
-import domain.CadreTeachReward;
-import domain.CadreTeachRewardExample;
+import domain.CadreReward;
+import domain.CadreRewardExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,23 +12,23 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CadreTeachRewardService extends BaseMapper {
+public class CadreRewardService extends BaseMapper {
 
     @Transactional
-    public int insertSelective(CadreTeachReward record){
+    public int insertSelective(CadreReward record){
 
-        cadreTeachRewardMapper.insertSelective(record);
+        cadreRewardMapper.insertSelective(record);
 
         Integer id = record.getId();
-        CadreTeachReward _record = new CadreTeachReward();
+        CadreReward _record = new CadreReward();
         _record.setId(id);
         _record.setSortOrder(id);
-        return cadreTeachRewardMapper.updateByPrimaryKeySelective(_record);
+        return cadreRewardMapper.updateByPrimaryKeySelective(_record);
     }
     @Transactional
     public void del(Integer id){
 
-        cadreTeachRewardMapper.deleteByPrimaryKey(id);
+        cadreRewardMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -36,24 +36,24 @@ public class CadreTeachRewardService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        CadreTeachRewardExample example = new CadreTeachRewardExample();
+        CadreRewardExample example = new CadreRewardExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadreTeachRewardMapper.deleteByExample(example);
+        cadreRewardMapper.deleteByExample(example);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreTeachReward record){
-        return cadreTeachRewardMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(CadreReward record){
+        return cadreRewardMapper.updateByPrimaryKeySelective(record);
     }
 
-    public Map<Integer, CadreTeachReward> findAll() {
+    public Map<Integer, CadreReward> findAll() {
 
-        CadreTeachRewardExample example = new CadreTeachRewardExample();
+        CadreRewardExample example = new CadreRewardExample();
         example.setOrderByClause("sort_order desc");
-        List<CadreTeachReward> cadreTeachRewardes = cadreTeachRewardMapper.selectByExample(example);
-        Map<Integer, CadreTeachReward> map = new LinkedHashMap<>();
-        for (CadreTeachReward cadreTeachReward : cadreTeachRewardes) {
-            map.put(cadreTeachReward.getId(), cadreTeachReward);
+        List<CadreReward> cadreRewardes = cadreRewardMapper.selectByExample(example);
+        Map<Integer, CadreReward> map = new LinkedHashMap<>();
+        for (CadreReward cadreReward : cadreRewardes) {
+            map.put(cadreReward.getId(), cadreReward);
         }
 
         return map;
@@ -70,10 +70,10 @@ public class CadreTeachRewardService extends BaseMapper {
 
         if(addNum == 0) return ;
 
-        CadreTeachReward entity = cadreTeachRewardMapper.selectByPrimaryKey(id);
+        CadreReward entity = cadreRewardMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
-        CadreTeachRewardExample example = new CadreTeachRewardExample();
+        CadreRewardExample example = new CadreRewardExample();
         if (addNum > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
@@ -84,20 +84,20 @@ public class CadreTeachRewardService extends BaseMapper {
             example.setOrderByClause("sort_order desc");
         }
 
-        List<CadreTeachReward> overEntities = cadreTeachRewardMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        List<CadreReward> overEntities = cadreRewardMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
         if(overEntities.size()>0) {
 
-            CadreTeachReward targetEntity = overEntities.get(overEntities.size()-1);
+            CadreReward targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
                 commonMapper.downOrder("base_cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("base_cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
 
-            CadreTeachReward record = new CadreTeachReward();
+            CadreReward record = new CadreReward();
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
-            cadreTeachRewardMapper.updateByPrimaryKeySelective(record);
+            cadreRewardMapper.updateByPrimaryKeySelective(record);
         }
     }
 }

@@ -3,20 +3,22 @@ package domain;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CadreTeachReward implements Serializable {
+public class CadreReward implements Serializable {
     private Integer id;
 
     private Integer cadreId;
 
-    private Date name;
+    private Date rewardTime;
 
-    private String type;
+    private String name;
 
     private String unit;
 
     private Integer rank;
 
     private Integer sortOrder;
+
+    private Byte type;
 
     private static final long serialVersionUID = 1L;
 
@@ -36,20 +38,20 @@ public class CadreTeachReward implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Date getName() {
+    public Date getRewardTime() {
+        return rewardTime;
+    }
+
+    public void setRewardTime(Date rewardTime) {
+        this.rewardTime = rewardTime;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setName(Date name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getUnit() {
@@ -74,5 +76,13 @@ public class CadreTeachReward implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

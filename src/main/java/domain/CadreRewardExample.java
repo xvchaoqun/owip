@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class CadreTeachRewardExample {
+public class CadreRewardExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreTeachRewardExample() {
+    public CadreRewardExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -252,6 +252,66 @@ public class CadreTeachRewardExample {
             return (Criteria) this;
         }
 
+        public Criteria andRewardTimeIsNull() {
+            addCriterion("reward_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeIsNotNull() {
+            addCriterion("reward_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("reward_time =", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("reward_time <>", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("reward_time >", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("reward_time >=", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeLessThan(Date value) {
+            addCriterionForJDBCDate("reward_time <", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("reward_time <=", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("reward_time in", values, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("reward_time not in", values, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("reward_time between", value1, value2, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("reward_time not between", value1, value2, "rewardTime");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -262,123 +322,63 @@ public class CadreTeachRewardExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(Date value) {
-            addCriterionForJDBCDate("name =", value, "name");
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(Date value) {
-            addCriterionForJDBCDate("name <>", value, "name");
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(Date value) {
-            addCriterionForJDBCDate("name >", value, "name");
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("name >=", value, "name");
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(Date value) {
-            addCriterionForJDBCDate("name <", value, "name");
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("name <=", value, "name");
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<Date> values) {
-            addCriterionForJDBCDate("name in", values, "name");
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<Date> values) {
-            addCriterionForJDBCDate("name not in", values, "name");
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("name between", value1, value2, "name");
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("name not between", value1, value2, "name");
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeEqualTo(String value) {
-            addCriterion("type =", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotEqualTo(String value) {
-            addCriterion("type <>", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThan(String value) {
-            addCriterion("type >", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("type >=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThan(String value) {
-            addCriterion("type <", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThanOrEqualTo(String value) {
-            addCriterion("type <=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLike(String value) {
-            addCriterion("type like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotLike(String value) {
-            addCriterion("type not like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<String> values) {
-            addCriterion("type in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotIn(List<String> values) {
-            addCriterion("type not in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeBetween(String value1, String value2) {
-            addCriterion("type between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotBetween(String value1, String value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
             return (Criteria) this;
         }
 
@@ -569,6 +569,66 @@ public class CadreTeachRewardExample {
 
         public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Byte value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Byte value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Byte value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Byte> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Byte> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
     }

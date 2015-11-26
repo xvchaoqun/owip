@@ -1,6 +1,8 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
         <div class="widget-box transparent" id="cadre-box">
@@ -26,13 +28,7 @@
                             <a href="javascript:;" data-url="${ctx}/cadrePost_page?cadreId=${param.id}">任职情况</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="">专技岗位过程信息</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" data-url="">管理岗位过程信息</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" data-url="">工勤岗位过程信息</a>
+                            <a href="javascript:;" data-url="${ctx}/cadrePostInfo_page?cadreId=${param.id}">岗位过程信息</a>
                         </li>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreParttime_page?cadreId=${param.id}">社会或学术兼职</a>
@@ -47,7 +43,7 @@
                             <a href="javascript:;" data-url="${ctx}/cadreResearch_page?cadreId=${param.id}">科研情况</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">其他奖励情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreReward_page?type=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.id}">其他奖励情况</a>
                         </li>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">家庭成员信息</a>
@@ -70,9 +66,23 @@
 <script>
     $("#cadre-box .nav-tabs li a").click(function(){
         $this = $(this);
-        $("#cadre-box .nav-tabs li").removeClass("active");
-        $this.closest("li").addClass("active");
-        if($(this).data("url")!='')
-        $("#cadre-box .tab-content").load($(this).data("url"));
+        var $container = $("#cadre-box .tab-content");
+        $container.showLoading({'afterShow':
+                function() {
+                    setTimeout( function(){
+
+                        $container.hideLoading();
+                    }, 2000 );
+                }}) ;
+        if($(this).data("url")!='') {
+            $container.load($(this).data("url"), function () {
+                $container.hideLoading();
+                $("#cadre-box .nav-tabs li").removeClass("active");
+                $this.closest("li").addClass("active");
+            });
+        }else{
+            $container.hideLoading();
+            toastr.warning("暂缓开通该功能");
+        }
     });
 </script>

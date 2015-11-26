@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 <c:set var="CADRE_COURSE_TYPE_MAP" value="<%=SystemConstants.CADRE_COURSE_TYPE_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreCourse!=null}">编辑</c:if><c:if test="${cadreCourse==null}">添加</c:if>干部教学课程</h3>
+    <h3><c:if test="${cadreCourse!=null}">编辑</c:if><c:if test="${cadreCourse==null}">添加</c:if>教学课程</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreCourse_au" id="modalForm" method="post">

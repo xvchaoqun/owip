@@ -3,11 +3,12 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreTeachReward!=null}">编辑</c:if><c:if test="${cadreTeachReward==null}">添加</c:if>干部教学奖励</h3>
+    <h3><c:if test="${cadreReward!=null}">编辑</c:if><c:if test="${cadreReward==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreTeachReward_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cadreTeachReward.id}">
+    <form class="form-horizontal" action="${ctx}/cadreReward_au" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${cadreReward.id}">
+        <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属干部</label>
@@ -18,65 +19,53 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">日期</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${cadreTeachReward.name}">
+                    <div class="input-group">
+                        <input required class="form-control date-picker" name="_rewardTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreReward.rewardTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">获得奖项</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${cadreTeachReward.type}">
+                        <input required class="form-control" type="text" name="name" value="${cadreReward.name}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">颁奖单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreTeachReward.unit}">
+                        <input required class="form-control" type="text" name="unit" value="${cadreReward.unit}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">排名</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="rank" value="${cadreTeachReward.rank}">
+                        <input  class="form-control required digits" type="text" name="rank" value="${cadreReward.rank}">
 				</div>
 			</div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreTeachReward!=null}">确定</c:if><c:if test="${cadreTeachReward==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreReward!=null}">确定</c:if><c:if test="${cadreReward==null}">添加</c:if>"/>
 </div>
 
 <script>
 
-    function _au(id) {
-        url = "${ctx}/cadreParttime_au?cadreId=${param.cadreId}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
+    $('.date-picker').datepicker({
+        language:"zh-CN",
+        autoclose: true,
+        todayHighlight: true
+    })
 
-    function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreParttime_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        toastr.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#cadre-box .tab-content").load("${ctx}/cadreParttime_page?${pageContext.request.queryString}");
-    }
 
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 }

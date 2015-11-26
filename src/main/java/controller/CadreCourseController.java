@@ -1,12 +1,7 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreCourse;
-import domain.CadreCourseExample;
-import domain.CadreCourseExample.Criteria;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -22,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
@@ -30,6 +24,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,56 +43,25 @@ public class CadreCourseController extends BaseController {
     @RequiresPermissions("cadreCourse:list")
     @RequestMapping("/cadreCourse_page")
     public String cadreCourse_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                    Integer cadreId, ModelMap modelMap) {
 
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
+        List<CadreCourse> cadreCourses = new ArrayList<>();
+        {
+            CadreCourseExample example = new CadreCourseExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.setOrderByClause("id desc");
+            cadreCourses = cadreCourseMapper.selectByExample(example);
         }
-        if (null == pageNo) {
-            pageNo = 1;
+        modelMap.put("cadreCourses", cadreCourses);
+
+        List<CadreReward> cadreRewards = new ArrayList<>();
+        {
+            CadreRewardExample example = new CadreRewardExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_TEACH);
+            example.setOrderByClause("sort_order desc");
+            cadreRewards = cadreRewardMapper.selectByExample(example);
         }
-        pageNo = Math.max(1, pageNo);
-
-        CadreCourseExample example = new CadreCourseExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
-
-        if (cadreId!=null) {
-            criteria.andCadreIdEqualTo(cadreId);
-        }
-
-        if (export == 1) {
-            cadreCourse_export(example, response);
-            return null;
-        }
-
-        int count = cadreCourseMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CadreCourse> CadreCourses = cadreCourseMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreCourses", CadreCourses);
-
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
+        modelMap.put("cadreRewards", cadreRewards);
 
         modelMap.put("cadreMap", cadreService.findAll());
 

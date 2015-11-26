@@ -145,4 +145,9 @@ public class SystemConstants {
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_SS, "硕士生课程");
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "研究生课程");
 	}
+
+	// 干部获奖类别 1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
+	public final static byte CADRE_REWARD_TYPE_TEACH = 1;
+	public final static byte CADRE_REWARD_TYPE_RESEARCH = 2;
+	public final static byte CADRE_REWARD_TYPE_OTHER = 3;
 }

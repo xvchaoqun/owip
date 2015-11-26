@@ -1,12 +1,7 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreResearch;
-import domain.CadreResearchExample;
-import domain.CadreResearchExample.Criteria;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
@@ -37,10 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class CadreResearchController extends BaseController {
@@ -62,50 +53,27 @@ public class CadreResearchController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
 
-        CadreResearchExample example = new CadreResearchExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
-
-        if (cadreId!=null) {
-            criteria.andCadreIdEqualTo(cadreId);
+        List<CadreResearch> cadreResearchs = new ArrayList<>();
+        {
+            CadreResearchExample example = new CadreResearchExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.setOrderByClause("id desc");
+            cadreResearchs = cadreResearchMapper.selectByExample(example);
         }
+        modelMap.put("cadreResearchs", cadreResearchs);
 
-        if (export == 1) {
-            cadreResearch_export(example, response);
-            return null;
+
+        List<CadreReward> cadreRewards = new ArrayList<>();
+        {
+            CadreRewardExample example = new CadreRewardExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
+            example.setOrderByClause("sort_order desc");
+            cadreRewards = cadreRewardMapper.selectByExample(example);
         }
+        modelMap.put("cadreRewards", cadreRewards);
 
-        int count = cadreResearchMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CadreResearch> CadreResearchs = cadreResearchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreResearchs", CadreResearchs);
-
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
         return "cadreResearch/cadreResearch_page";
     }
 

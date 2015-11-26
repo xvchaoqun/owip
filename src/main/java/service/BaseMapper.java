@@ -8,7 +8,7 @@ public class BaseMapper {
 	@Autowired
 	protected CadreParttimeMapper cadreParttimeMapper;
 	@Autowired
-	protected CadreTeachRewardMapper cadreTeachRewardMapper;
+	protected CadreRewardMapper cadreRewardMapper;
 	@Autowired
 	protected CadreResearchMapper cadreResearchMapper;
 	@Autowired

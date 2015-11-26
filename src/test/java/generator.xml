@@ -24,11 +24,11 @@
       <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
       </table>
       <table tableName="base_cadre_course" domainObjectName="CadreCourse">
-      </table>
-      <table tableName="base_cadre_teach_reward" domainObjectName="CadreTeachReward">
       </table>-->
-      <table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      <table tableName="base_cadre_reward" domainObjectName="CadreReward">
       </table>
+      <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      </table>-->
      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
       </table>-->
       <!--<table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
