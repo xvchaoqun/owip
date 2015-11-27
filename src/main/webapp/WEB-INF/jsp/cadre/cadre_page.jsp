@@ -62,10 +62,10 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="cadre:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i>
-                        <c:if test="${param.status==CADRE_STATUS_TEMP}">提任干部</c:if>
-                        <c:if test="${param.status==CADRE_STATUS_NOW}">添加现任干部</c:if>
-                        <c:if test="${param.status==CADRE_STATUS_LEAVE}">添加离任干部</c:if>
+                    <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
+                        <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
+                        <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
+                        <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任干部</c:if>
                         </a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">

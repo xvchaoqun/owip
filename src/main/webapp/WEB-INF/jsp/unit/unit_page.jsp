@@ -201,13 +201,13 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
 
-    $(".tabbable li a").click(function(){
+    /*$(".tabbable li a").click(function(){
         $this = $(this);
         $(".tabbable li").removeClass("active");
         $this.closest("li").addClass("active");
         $(".myTableDiv #searchForm input[name=status]").val($this.data("status"));
         $(".myTableDiv .searchBtn").click();
-    });
+    });*/
 
     // 编辑历史单位
     $(".myTableDiv .historyBtn").click(function(){
