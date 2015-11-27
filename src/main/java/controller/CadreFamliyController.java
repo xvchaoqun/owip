@@ -1,10 +1,7 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreFamliy;
-import domain.CadreFamliyExample;
+import domain.*;
 import domain.CadreFamliyExample.Criteria;
-import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -31,10 +28,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreFamliyController extends BaseController {
@@ -53,17 +47,29 @@ public class CadreFamliyController extends BaseController {
                                     int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
 
-        CadreFamliyExample example = new CadreFamliyExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExample(example);
-        modelMap.put("cadreFamliys", cadreFamliys);
-
-        if (export == 1) {
-            cadreFamliy_export(example, response);
-            return null;
+        List<CadreFamliy> cadreFamliys = new ArrayList<>();
+        {
+            CadreFamliyExample example = new CadreFamliyExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            cadreFamliys = cadreFamliyMapper.selectByExample(example);
         }
-
+        modelMap.put("cadreFamliys", cadreFamliys);
         modelMap.put("politicalStatusMap", metaTypeService.metaTypes("mc_political_status"));
+
+        Map<Integer, CadreFamliy> cadreFamliyMap = new HashMap<>();
+        for (CadreFamliy cadreFamliy : cadreFamliys) {
+            cadreFamliyMap.put(cadreFamliy.getId(), cadreFamliy);
+        }
+        modelMap.put("cadreFamliyMap", cadreFamliyMap);
+
+        List<CadreFamliyAbroad> cadreFamliyAbroads = new ArrayList<>();
+        {
+            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            cadreFamliyAbroads = cadreFamliyAbroadMapper.selectByExample(example);
+        }
+        modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
+        modelMap.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
 
         return "cadreFamliy/cadreFamliy_page";
     }
@@ -194,7 +200,7 @@ public class CadreFamliyController extends BaseController {
 
         CadreFamliyExample example = new CadreFamliyExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("id desc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andRealnameLike("%" + searchStr + "%");

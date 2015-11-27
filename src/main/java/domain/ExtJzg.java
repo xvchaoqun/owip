@@ -12,29 +12,53 @@ public class ExtJzg implements Serializable {
 
     private String xbm;
 
-    private String dwid;
+    private String xb;
+
+    private String dwdm;
+
+    private String dwmc;
 
     private String yjxkm;
+
+    private String yjxk;
 
     private Date lxrq;
 
     private String gwlbm;
 
+    private String gwlb;
+
     private String zcm;
+
+    private String zc;
 
     private String gwjbm;
 
+    private String gwjb;
+
     private String rclxm;
+
+    private String rclx;
 
     private String rcchm;
 
+    private String rcch;
+
     private String xyjgm;
+
+    private String xyjg;
 
     private String gjm;
 
+    private String gj;
+
     private String zhxwm;
 
+    private String zhxw;
+
     private String zhxl;
+
+    private String zhxlmc;
 
     private String xlbyxx;
 
@@ -42,21 +66,35 @@ public class ExtJzg implements Serializable {
 
     private String xzjbm;
 
+    private String xzjb;
+
     private String sfzgm;
+
+    private String sfzg;
 
     private String ryztm;
 
+    private String ryzt;
+
     private String rylxm;
 
+    private String rylx;
+
     private String bzlxm;
+
+    private String bzlx;
 
     private Date csrq;
 
     private String rszfm;
 
+    private String rszf;
+
     private String sfnxz;
 
     private String sfzjlx;
+
+    private String name;
 
     private String sfzh;
 
@@ -70,7 +108,11 @@ public class ExtJzg implements Serializable {
 
     private String zjgjm;
 
+    private String zjgwdj;
+
     private String glgjm;
+
+    private String glgwdj;
 
     private String empid;
 
@@ -80,9 +122,15 @@ public class ExtJzg implements Serializable {
 
     private String zw;
 
+    private String zwmc;
+
     private String mz;
 
+    private String xkmlm;
+
     private String xkml;
+
+    private String ejxkm;
 
     private String ejxk;
 
@@ -140,12 +188,28 @@ public class ExtJzg implements Serializable {
         this.xbm = xbm == null ? null : xbm.trim();
     }
 
-    public String getDwid() {
-        return dwid;
+    public String getXb() {
+        return xb;
     }
 
-    public void setDwid(String dwid) {
-        this.dwid = dwid == null ? null : dwid.trim();
+    public void setXb(String xb) {
+        this.xb = xb == null ? null : xb.trim();
+    }
+
+    public String getDwdm() {
+        return dwdm;
+    }
+
+    public void setDwdm(String dwdm) {
+        this.dwdm = dwdm == null ? null : dwdm.trim();
+    }
+
+    public String getDwmc() {
+        return dwmc;
+    }
+
+    public void setDwmc(String dwmc) {
+        this.dwmc = dwmc == null ? null : dwmc.trim();
     }
 
     public String getYjxkm() {
@@ -154,6 +218,14 @@ public class ExtJzg implements Serializable {
 
     public void setYjxkm(String yjxkm) {
         this.yjxkm = yjxkm == null ? null : yjxkm.trim();
+    }
+
+    public String getYjxk() {
+        return yjxk;
+    }
+
+    public void setYjxk(String yjxk) {
+        this.yjxk = yjxk == null ? null : yjxk.trim();
     }
 
     public Date getLxrq() {
@@ -172,12 +244,28 @@ public class ExtJzg implements Serializable {
         this.gwlbm = gwlbm == null ? null : gwlbm.trim();
     }
 
+    public String getGwlb() {
+        return gwlb;
+    }
+
+    public void setGwlb(String gwlb) {
+        this.gwlb = gwlb == null ? null : gwlb.trim();
+    }
+
     public String getZcm() {
         return zcm;
     }
 
     public void setZcm(String zcm) {
         this.zcm = zcm == null ? null : zcm.trim();
+    }
+
+    public String getZc() {
+        return zc;
+    }
+
+    public void setZc(String zc) {
+        this.zc = zc == null ? null : zc.trim();
     }
 
     public String getGwjbm() {
@@ -188,12 +276,28 @@ public class ExtJzg implements Serializable {
         this.gwjbm = gwjbm == null ? null : gwjbm.trim();
     }
 
+    public String getGwjb() {
+        return gwjb;
+    }
+
+    public void setGwjb(String gwjb) {
+        this.gwjb = gwjb == null ? null : gwjb.trim();
+    }
+
     public String getRclxm() {
         return rclxm;
     }
 
     public void setRclxm(String rclxm) {
         this.rclxm = rclxm == null ? null : rclxm.trim();
+    }
+
+    public String getRclx() {
+        return rclx;
+    }
+
+    public void setRclx(String rclx) {
+        this.rclx = rclx == null ? null : rclx.trim();
     }
 
     public String getRcchm() {
@@ -204,12 +308,28 @@ public class ExtJzg implements Serializable {
         this.rcchm = rcchm == null ? null : rcchm.trim();
     }
 
+    public String getRcch() {
+        return rcch;
+    }
+
+    public void setRcch(String rcch) {
+        this.rcch = rcch == null ? null : rcch.trim();
+    }
+
     public String getXyjgm() {
         return xyjgm;
     }
 
     public void setXyjgm(String xyjgm) {
         this.xyjgm = xyjgm == null ? null : xyjgm.trim();
+    }
+
+    public String getXyjg() {
+        return xyjg;
+    }
+
+    public void setXyjg(String xyjg) {
+        this.xyjg = xyjg == null ? null : xyjg.trim();
     }
 
     public String getGjm() {
@@ -220,6 +340,14 @@ public class ExtJzg implements Serializable {
         this.gjm = gjm == null ? null : gjm.trim();
     }
 
+    public String getGj() {
+        return gj;
+    }
+
+    public void setGj(String gj) {
+        this.gj = gj == null ? null : gj.trim();
+    }
+
     public String getZhxwm() {
         return zhxwm;
     }
@@ -228,12 +356,28 @@ public class ExtJzg implements Serializable {
         this.zhxwm = zhxwm == null ? null : zhxwm.trim();
     }
 
+    public String getZhxw() {
+        return zhxw;
+    }
+
+    public void setZhxw(String zhxw) {
+        this.zhxw = zhxw == null ? null : zhxw.trim();
+    }
+
     public String getZhxl() {
         return zhxl;
     }
 
     public void setZhxl(String zhxl) {
         this.zhxl = zhxl == null ? null : zhxl.trim();
+    }
+
+    public String getZhxlmc() {
+        return zhxlmc;
+    }
+
+    public void setZhxlmc(String zhxlmc) {
+        this.zhxlmc = zhxlmc == null ? null : zhxlmc.trim();
     }
 
     public String getXlbyxx() {
@@ -260,12 +404,28 @@ public class ExtJzg implements Serializable {
         this.xzjbm = xzjbm == null ? null : xzjbm.trim();
     }
 
+    public String getXzjb() {
+        return xzjb;
+    }
+
+    public void setXzjb(String xzjb) {
+        this.xzjb = xzjb == null ? null : xzjb.trim();
+    }
+
     public String getSfzgm() {
         return sfzgm;
     }
 
     public void setSfzgm(String sfzgm) {
         this.sfzgm = sfzgm == null ? null : sfzgm.trim();
+    }
+
+    public String getSfzg() {
+        return sfzg;
+    }
+
+    public void setSfzg(String sfzg) {
+        this.sfzg = sfzg == null ? null : sfzg.trim();
     }
 
     public String getRyztm() {
@@ -276,6 +436,14 @@ public class ExtJzg implements Serializable {
         this.ryztm = ryztm == null ? null : ryztm.trim();
     }
 
+    public String getRyzt() {
+        return ryzt;
+    }
+
+    public void setRyzt(String ryzt) {
+        this.ryzt = ryzt == null ? null : ryzt.trim();
+    }
+
     public String getRylxm() {
         return rylxm;
     }
@@ -284,12 +452,28 @@ public class ExtJzg implements Serializable {
         this.rylxm = rylxm == null ? null : rylxm.trim();
     }
 
+    public String getRylx() {
+        return rylx;
+    }
+
+    public void setRylx(String rylx) {
+        this.rylx = rylx == null ? null : rylx.trim();
+    }
+
     public String getBzlxm() {
         return bzlxm;
     }
 
     public void setBzlxm(String bzlxm) {
         this.bzlxm = bzlxm == null ? null : bzlxm.trim();
+    }
+
+    public String getBzlx() {
+        return bzlx;
+    }
+
+    public void setBzlx(String bzlx) {
+        this.bzlx = bzlx == null ? null : bzlx.trim();
     }
 
     public Date getCsrq() {
@@ -308,6 +492,14 @@ public class ExtJzg implements Serializable {
         this.rszfm = rszfm == null ? null : rszfm.trim();
     }
 
+    public String getRszf() {
+        return rszf;
+    }
+
+    public void setRszf(String rszf) {
+        this.rszf = rszf == null ? null : rszf.trim();
+    }
+
     public String getSfnxz() {
         return sfnxz;
     }
@@ -322,6 +514,14 @@ public class ExtJzg implements Serializable {
 
     public void setSfzjlx(String sfzjlx) {
         this.sfzjlx = sfzjlx == null ? null : sfzjlx.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getSfzh() {
@@ -372,12 +572,28 @@ public class ExtJzg implements Serializable {
         this.zjgjm = zjgjm == null ? null : zjgjm.trim();
     }
 
+    public String getZjgwdj() {
+        return zjgwdj;
+    }
+
+    public void setZjgwdj(String zjgwdj) {
+        this.zjgwdj = zjgwdj == null ? null : zjgwdj.trim();
+    }
+
     public String getGlgjm() {
         return glgjm;
     }
 
     public void setGlgjm(String glgjm) {
         this.glgjm = glgjm == null ? null : glgjm.trim();
+    }
+
+    public String getGlgwdj() {
+        return glgwdj;
+    }
+
+    public void setGlgwdj(String glgwdj) {
+        this.glgwdj = glgwdj == null ? null : glgwdj.trim();
     }
 
     public String getEmpid() {
@@ -412,6 +628,14 @@ public class ExtJzg implements Serializable {
         this.zw = zw == null ? null : zw.trim();
     }
 
+    public String getZwmc() {
+        return zwmc;
+    }
+
+    public void setZwmc(String zwmc) {
+        this.zwmc = zwmc == null ? null : zwmc.trim();
+    }
+
     public String getMz() {
         return mz;
     }
@@ -420,12 +644,28 @@ public class ExtJzg implements Serializable {
         this.mz = mz == null ? null : mz.trim();
     }
 
+    public String getXkmlm() {
+        return xkmlm;
+    }
+
+    public void setXkmlm(String xkmlm) {
+        this.xkmlm = xkmlm == null ? null : xkmlm.trim();
+    }
+
     public String getXkml() {
         return xkml;
     }
 
     public void setXkml(String xkml) {
         this.xkml = xkml == null ? null : xkml.trim();
+    }
+
+    public String getEjxkm() {
+        return ejxkm;
+    }
+
+    public void setEjxkm(String ejxkm) {
+        this.ejxkm = ejxkm == null ? null : ejxkm.trim();
     }
 
     public String getEjxk() {

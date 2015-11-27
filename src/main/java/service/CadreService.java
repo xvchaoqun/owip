@@ -59,6 +59,12 @@ public class CadreService extends BaseMapper {
     public int updateByPrimaryKeySelective(Cadre record){
         return cadreMapper.updateByPrimaryKeySelective(record);
     }
+    @Transactional
+    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    public int updateByExampleSelective(Cadre record, CadreExample example){
+
+        return cadreMapper.updateByExampleSelective(record, example);
+    }
 
     @Cacheable(value="Cadre:ALL")
     public Map<Integer, Cadre> findAll() {

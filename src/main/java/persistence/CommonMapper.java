@@ -3,6 +3,7 @@ package persistence;
 import domain.Cadre;
 import domain.DispatchCadre;
 import domain.DispatchUnit;
+import domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -67,6 +68,16 @@ public interface CommonMapper {
     @Select("select count(bc.id) from base_cadre bc, sys_user user where bc.user_id= user.id and " +
             "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')")
     int countCadre(@Param("search") String search);
+
+    // 根据账号、姓名、学工号查找 不是 干部的用户
+    @ResultMap("persistence.SysUserMapper.BaseResultMap")
+    @Select("select user.* from sys_user user where user.id not in(select user_id from base_cadre) and " +
+            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')" +
+            "order by create_time desc")
+    List<SysUser> selectNotCadreList(@Param("search") String search, RowBounds rowBounds);
+    @Select("select count(user.id) from sys_user user where user.id not in(select user_id from base_cadre) and " +
+            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')")
+    int countNotCadre(@Param("search") String search);
 
     // 根据发文号查找单位发文
     @ResultMap("persistence.DispatchUnitMapper.BaseResultMap")

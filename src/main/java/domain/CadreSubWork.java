@@ -8,6 +8,8 @@ public class CadreSubWork implements Serializable {
 
     private Integer cadreId;
 
+    private Integer unitId;
+
     private String post;
 
     private Date postTime;
@@ -34,6 +36,14 @@ public class CadreSubWork implements Serializable {
 
     public void setCadreId(Integer cadreId) {
         this.cadreId = cadreId;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public String getPost() {

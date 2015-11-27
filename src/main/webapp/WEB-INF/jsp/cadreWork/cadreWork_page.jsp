@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="cadreWork:edit">
-                    <a class="btn btn-info btn-sm" onclick="au()"><i class="fa fa-plus"></i> 添加工作经历</a>
+                    <a class="btn btn-info btn-sm" onclick="_au()"><i class="fa fa-plus"></i> 添加工作经历</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <shiro:hasPermission name="cadreWork:del">
@@ -53,7 +53,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreWork:edit">
-                                        <button onclick="au(${cadreWork.id})" class="btn btn-mini">
+                                        <button onclick="_au(${cadreWork.id})" class="btn btn-mini">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
                                         <button onclick="showSubWork(${cadreWork.id})" class="btn btn-mini btn-warning">
@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
             </c:if>
 <script>
 
-    function au(id) {
+    function _au(id) {
         url = "${ctx}/cadreWork_au?cadreId=${param.cadreId}";
         if (id > 0)  url += "&id=" + id;
         loadModal(url);

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.CadreSubWork" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="post_time" property="postTime" jdbcType="DATE" />
     <result column="dispatchs" property="dispatchs" jdbcType="VARCHAR" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, post, post_time, dispatchs, start_time, dispatch_cadre_id
+    id, cadre_id, unit_id, post, post_time, dispatchs, start_time, dispatch_cadre_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreSubWorkExample" >
     select
@@ -102,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.CadreSubWork" >
-    insert into base_cadre_sub_work (id, cadre_id, post, 
-      post_time, dispatchs, start_time, 
-      dispatch_cadre_id)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{postTime,jdbcType=DATE}, #{dispatchs,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, 
-      #{dispatchCadreId,jdbcType=INTEGER})
+    insert into base_cadre_sub_work (id, cadre_id, unit_id, 
+      post, post_time, dispatchs, 
+      start_time, dispatch_cadre_id)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{post,jdbcType=VARCHAR}, #{postTime,jdbcType=DATE}, #{dispatchs,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=DATE}, #{dispatchCadreId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.CadreSubWork" >
     insert into base_cadre_sub_work
@@ -117,6 +118,9 @@
       </if>
       <if test="cadreId != null" >
         cadre_id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
       </if>
       <if test="post != null" >
         post,
@@ -140,6 +144,9 @@
       </if>
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
       </if>
       <if test="post != null" >
         #{post,jdbcType=VARCHAR},
@@ -173,6 +180,9 @@
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
       <if test="record.post != null" >
         post = #{record.post,jdbcType=VARCHAR},
       </if>
@@ -197,6 +207,7 @@
     update base_cadre_sub_work
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
       post_time = #{record.postTime,jdbcType=DATE},
       dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
@@ -211,6 +222,9 @@
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=INTEGER},
       </if>
       <if test="post != null" >
         post = #{post,jdbcType=VARCHAR},
@@ -233,6 +247,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.CadreSubWork" >
     update base_cadre_sub_work
     set cadre_id = #{cadreId,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
       post_time = #{postTime,jdbcType=DATE},
       dispatchs = #{dispatchs,jdbcType=VARCHAR},

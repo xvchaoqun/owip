@@ -7,12 +7,11 @@ pageEncoding="UTF-8" %>
 
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${status==1}">active</c:if>">
-                    <a href="#now" data-status="1"><i class="fa fa-flag"></i> 正在运转单位</a>
+                <li  class="<c:if test="${status==1}">active</c:if>">
+                    <a href="?status=1"><i class="fa fa-flag"></i> 正在运转单位</a>
                 </li>
-
-                <li class="<c:if test="${status==2}">active</c:if>">
-                    <a href="#history" data-status="2"><i class="fa fa-history"></i> 历史单位</a>
+                <li  class="<c:if test="${status==2}">active</c:if>">
+                    <a href="?status=2"><i class="fa fa-history"></i> 历史单位</a>
                 </li>
             </ul>
 

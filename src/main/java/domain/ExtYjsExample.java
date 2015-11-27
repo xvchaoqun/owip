@@ -304,6 +304,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andZtIsNull() {
+            addCriterion("zt is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtIsNotNull() {
+            addCriterion("zt is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtEqualTo(String value) {
+            addCriterion("zt =", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtNotEqualTo(String value) {
+            addCriterion("zt <>", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtGreaterThan(String value) {
+            addCriterion("zt >", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtGreaterThanOrEqualTo(String value) {
+            addCriterion("zt >=", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtLessThan(String value) {
+            addCriterion("zt <", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtLessThanOrEqualTo(String value) {
+            addCriterion("zt <=", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtLike(String value) {
+            addCriterion("zt like", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtNotLike(String value) {
+            addCriterion("zt not like", value, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtIn(List<String> values) {
+            addCriterion("zt in", values, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtNotIn(List<String> values) {
+            addCriterion("zt not in", values, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtBetween(String value1, String value2) {
+            addCriterion("zt between", value1, value2, "zt");
+            return (Criteria) this;
+        }
+
+        public Criteria andZtNotBetween(String value1, String value2) {
+            addCriterion("zt not between", value1, value2, "zt");
+            return (Criteria) this;
+        }
+
         public Criteria andGbmIsNull() {
             addCriterion("gbm is null");
             return (Criteria) this;
@@ -374,6 +444,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andGbIsNull() {
+            addCriterion("gb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbIsNotNull() {
+            addCriterion("gb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbEqualTo(String value) {
+            addCriterion("gb =", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbNotEqualTo(String value) {
+            addCriterion("gb <>", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbGreaterThan(String value) {
+            addCriterion("gb >", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbGreaterThanOrEqualTo(String value) {
+            addCriterion("gb >=", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbLessThan(String value) {
+            addCriterion("gb <", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbLessThanOrEqualTo(String value) {
+            addCriterion("gb <=", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbLike(String value) {
+            addCriterion("gb like", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbNotLike(String value) {
+            addCriterion("gb not like", value, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbIn(List<String> values) {
+            addCriterion("gb in", values, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbNotIn(List<String> values) {
+            addCriterion("gb not in", values, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbBetween(String value1, String value2) {
+            addCriterion("gb between", value1, value2, "gb");
+            return (Criteria) this;
+        }
+
+        public Criteria andGbNotBetween(String value1, String value2) {
+            addCriterion("gb not between", value1, value2, "gb");
+            return (Criteria) this;
+        }
+
         public Criteria andXslbm2IsNull() {
             addCriterion("xslbm2 is null");
             return (Criteria) this;
@@ -441,6 +581,76 @@ public class ExtYjsExample {
 
         public Criteria andXslbm2NotBetween(String value1, String value2) {
             addCriterion("xslbm2 not between", value1, value2, "xslbm2");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbIsNull() {
+            addCriterion("xslb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbIsNotNull() {
+            addCriterion("xslb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbEqualTo(String value) {
+            addCriterion("xslb =", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbNotEqualTo(String value) {
+            addCriterion("xslb <>", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbGreaterThan(String value) {
+            addCriterion("xslb >", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbGreaterThanOrEqualTo(String value) {
+            addCriterion("xslb >=", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbLessThan(String value) {
+            addCriterion("xslb <", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbLessThanOrEqualTo(String value) {
+            addCriterion("xslb <=", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbLike(String value) {
+            addCriterion("xslb like", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbNotLike(String value) {
+            addCriterion("xslb not like", value, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbIn(List<String> values) {
+            addCriterion("xslb in", values, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbNotIn(List<String> values) {
+            addCriterion("xslb not in", values, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbBetween(String value1, String value2) {
+            addCriterion("xslb between", value1, value2, "xslb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXslbNotBetween(String value1, String value2) {
+            addCriterion("xslb not between", value1, value2, "xslb");
             return (Criteria) this;
         }
 
@@ -654,6 +864,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andXbIsNull() {
+            addCriterion("xb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbIsNotNull() {
+            addCriterion("xb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbEqualTo(String value) {
+            addCriterion("xb =", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbNotEqualTo(String value) {
+            addCriterion("xb <>", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbGreaterThan(String value) {
+            addCriterion("xb >", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbGreaterThanOrEqualTo(String value) {
+            addCriterion("xb >=", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbLessThan(String value) {
+            addCriterion("xb <", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbLessThanOrEqualTo(String value) {
+            addCriterion("xb <=", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbLike(String value) {
+            addCriterion("xb like", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbNotLike(String value) {
+            addCriterion("xb not like", value, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbIn(List<String> values) {
+            addCriterion("xb in", values, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbNotIn(List<String> values) {
+            addCriterion("xb not in", values, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbBetween(String value1, String value2) {
+            addCriterion("xb between", value1, value2, "xb");
+            return (Criteria) this;
+        }
+
+        public Criteria andXbNotBetween(String value1, String value2) {
+            addCriterion("xb not between", value1, value2, "xb");
+            return (Criteria) this;
+        }
+
         public Criteria andCsrqIsNull() {
             addCriterion("csrq is null");
             return (Criteria) this;
@@ -864,6 +1144,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andMzIsNull() {
+            addCriterion("mz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzIsNotNull() {
+            addCriterion("mz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzEqualTo(String value) {
+            addCriterion("mz =", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzNotEqualTo(String value) {
+            addCriterion("mz <>", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzGreaterThan(String value) {
+            addCriterion("mz >", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzGreaterThanOrEqualTo(String value) {
+            addCriterion("mz >=", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzLessThan(String value) {
+            addCriterion("mz <", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzLessThanOrEqualTo(String value) {
+            addCriterion("mz <=", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzLike(String value) {
+            addCriterion("mz like", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzNotLike(String value) {
+            addCriterion("mz not like", value, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzIn(List<String> values) {
+            addCriterion("mz in", values, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzNotIn(List<String> values) {
+            addCriterion("mz not in", values, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzBetween(String value1, String value2) {
+            addCriterion("mz between", value1, value2, "mz");
+            return (Criteria) this;
+        }
+
+        public Criteria andMzNotBetween(String value1, String value2) {
+            addCriterion("mz not between", value1, value2, "mz");
+            return (Criteria) this;
+        }
+
         public Criteria andPyccmIsNull() {
             addCriterion("pyccm is null");
             return (Criteria) this;
@@ -931,6 +1281,76 @@ public class ExtYjsExample {
 
         public Criteria andPyccmNotBetween(String value1, String value2) {
             addCriterion("pyccm not between", value1, value2, "pyccm");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccIsNull() {
+            addCriterion("pycc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccIsNotNull() {
+            addCriterion("pycc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccEqualTo(String value) {
+            addCriterion("pycc =", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccNotEqualTo(String value) {
+            addCriterion("pycc <>", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccGreaterThan(String value) {
+            addCriterion("pycc >", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccGreaterThanOrEqualTo(String value) {
+            addCriterion("pycc >=", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccLessThan(String value) {
+            addCriterion("pycc <", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccLessThanOrEqualTo(String value) {
+            addCriterion("pycc <=", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccLike(String value) {
+            addCriterion("pycc like", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccNotLike(String value) {
+            addCriterion("pycc not like", value, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccIn(List<String> values) {
+            addCriterion("pycc in", values, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccNotIn(List<String> values) {
+            addCriterion("pycc not in", values, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccBetween(String value1, String value2) {
+            addCriterion("pycc between", value1, value2, "pycc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyccNotBetween(String value1, String value2) {
+            addCriterion("pycc not between", value1, value2, "pycc");
             return (Criteria) this;
         }
 
@@ -1004,6 +1424,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andPylxIsNull() {
+            addCriterion("pylx is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxIsNotNull() {
+            addCriterion("pylx is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxEqualTo(String value) {
+            addCriterion("pylx =", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxNotEqualTo(String value) {
+            addCriterion("pylx <>", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxGreaterThan(String value) {
+            addCriterion("pylx >", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxGreaterThanOrEqualTo(String value) {
+            addCriterion("pylx >=", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxLessThan(String value) {
+            addCriterion("pylx <", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxLessThanOrEqualTo(String value) {
+            addCriterion("pylx <=", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxLike(String value) {
+            addCriterion("pylx like", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxNotLike(String value) {
+            addCriterion("pylx not like", value, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxIn(List<String> values) {
+            addCriterion("pylx in", values, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxNotIn(List<String> values) {
+            addCriterion("pylx not in", values, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxBetween(String value1, String value2) {
+            addCriterion("pylx between", value1, value2, "pylx");
+            return (Criteria) this;
+        }
+
+        public Criteria andPylxNotBetween(String value1, String value2) {
+            addCriterion("pylx not between", value1, value2, "pylx");
+            return (Criteria) this;
+        }
+
         public Criteria andJylbmIsNull() {
             addCriterion("jylbm is null");
             return (Criteria) this;
@@ -1074,6 +1564,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andJylbIsNull() {
+            addCriterion("jylb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbIsNotNull() {
+            addCriterion("jylb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbEqualTo(String value) {
+            addCriterion("jylb =", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbNotEqualTo(String value) {
+            addCriterion("jylb <>", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbGreaterThan(String value) {
+            addCriterion("jylb >", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbGreaterThanOrEqualTo(String value) {
+            addCriterion("jylb >=", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbLessThan(String value) {
+            addCriterion("jylb <", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbLessThanOrEqualTo(String value) {
+            addCriterion("jylb <=", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbLike(String value) {
+            addCriterion("jylb like", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbNotLike(String value) {
+            addCriterion("jylb not like", value, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbIn(List<String> values) {
+            addCriterion("jylb in", values, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbNotIn(List<String> values) {
+            addCriterion("jylb not in", values, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbBetween(String value1, String value2) {
+            addCriterion("jylb between", value1, value2, "jylb");
+            return (Criteria) this;
+        }
+
+        public Criteria andJylbNotBetween(String value1, String value2) {
+            addCriterion("jylb not between", value1, value2, "jylb");
+            return (Criteria) this;
+        }
+
         public Criteria andPyfsmIsNull() {
             addCriterion("pyfsm is null");
             return (Criteria) this;
@@ -1141,6 +1701,76 @@ public class ExtYjsExample {
 
         public Criteria andPyfsmNotBetween(String value1, String value2) {
             addCriterion("pyfsm not between", value1, value2, "pyfsm");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsIsNull() {
+            addCriterion("pyfs is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsIsNotNull() {
+            addCriterion("pyfs is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsEqualTo(String value) {
+            addCriterion("pyfs =", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsNotEqualTo(String value) {
+            addCriterion("pyfs <>", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsGreaterThan(String value) {
+            addCriterion("pyfs >", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsGreaterThanOrEqualTo(String value) {
+            addCriterion("pyfs >=", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsLessThan(String value) {
+            addCriterion("pyfs <", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsLessThanOrEqualTo(String value) {
+            addCriterion("pyfs <=", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsLike(String value) {
+            addCriterion("pyfs like", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsNotLike(String value) {
+            addCriterion("pyfs not like", value, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsIn(List<String> values) {
+            addCriterion("pyfs in", values, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsNotIn(List<String> values) {
+            addCriterion("pyfs not in", values, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsBetween(String value1, String value2) {
+            addCriterion("pyfs between", value1, value2, "pyfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyfsNotBetween(String value1, String value2) {
+            addCriterion("pyfs not between", value1, value2, "pyfs");
             return (Criteria) this;
         }
 
@@ -2051,6 +2681,76 @@ public class ExtYjsExample {
 
         public Criteria andLqlbmNotBetween(String value1, String value2) {
             addCriterion("lqlbm not between", value1, value2, "lqlbm");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbIsNull() {
+            addCriterion("lqlb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbIsNotNull() {
+            addCriterion("lqlb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbEqualTo(String value) {
+            addCriterion("lqlb =", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbNotEqualTo(String value) {
+            addCriterion("lqlb <>", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbGreaterThan(String value) {
+            addCriterion("lqlb >", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbGreaterThanOrEqualTo(String value) {
+            addCriterion("lqlb >=", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbLessThan(String value) {
+            addCriterion("lqlb <", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbLessThanOrEqualTo(String value) {
+            addCriterion("lqlb <=", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbLike(String value) {
+            addCriterion("lqlb like", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbNotLike(String value) {
+            addCriterion("lqlb not like", value, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbIn(List<String> values) {
+            addCriterion("lqlb in", values, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbNotIn(List<String> values) {
+            addCriterion("lqlb not in", values, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbBetween(String value1, String value2) {
+            addCriterion("lqlb between", value1, value2, "lqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqlbNotBetween(String value1, String value2) {
+            addCriterion("lqlb not between", value1, value2, "lqlb");
             return (Criteria) this;
         }
 
@@ -2984,6 +3684,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andXjglmcIsNull() {
+            addCriterion("xjglmc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcIsNotNull() {
+            addCriterion("xjglmc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcEqualTo(String value) {
+            addCriterion("xjglmc =", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcNotEqualTo(String value) {
+            addCriterion("xjglmc <>", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcGreaterThan(String value) {
+            addCriterion("xjglmc >", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcGreaterThanOrEqualTo(String value) {
+            addCriterion("xjglmc >=", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcLessThan(String value) {
+            addCriterion("xjglmc <", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcLessThanOrEqualTo(String value) {
+            addCriterion("xjglmc <=", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcLike(String value) {
+            addCriterion("xjglmc like", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcNotLike(String value) {
+            addCriterion("xjglmc not like", value, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcIn(List<String> values) {
+            addCriterion("xjglmc in", values, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcNotIn(List<String> values) {
+            addCriterion("xjglmc not in", values, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcBetween(String value1, String value2) {
+            addCriterion("xjglmc between", value1, value2, "xjglmc");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjglmcNotBetween(String value1, String value2) {
+            addCriterion("xjglmc not between", value1, value2, "xjglmc");
+            return (Criteria) this;
+        }
+
         public Criteria andXjglnyIsNull() {
             addCriterion("xjglny is null");
             return (Criteria) this;
@@ -3544,6 +4314,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andZslqlbIsNull() {
+            addCriterion("zslqlb is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbIsNotNull() {
+            addCriterion("zslqlb is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbEqualTo(String value) {
+            addCriterion("zslqlb =", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbNotEqualTo(String value) {
+            addCriterion("zslqlb <>", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbGreaterThan(String value) {
+            addCriterion("zslqlb >", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbGreaterThanOrEqualTo(String value) {
+            addCriterion("zslqlb >=", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbLessThan(String value) {
+            addCriterion("zslqlb <", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbLessThanOrEqualTo(String value) {
+            addCriterion("zslqlb <=", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbLike(String value) {
+            addCriterion("zslqlb like", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbNotLike(String value) {
+            addCriterion("zslqlb not like", value, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbIn(List<String> values) {
+            addCriterion("zslqlb in", values, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbNotIn(List<String> values) {
+            addCriterion("zslqlb not in", values, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbBetween(String value1, String value2) {
+            addCriterion("zslqlb between", value1, value2, "zslqlb");
+            return (Criteria) this;
+        }
+
+        public Criteria andZslqlbNotBetween(String value1, String value2) {
+            addCriterion("zslqlb not between", value1, value2, "zslqlb");
+            return (Criteria) this;
+        }
+
         public Criteria andZxjhmIsNull() {
             addCriterion("zxjhm is null");
             return (Criteria) this;
@@ -3684,6 +4524,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andKsfsIsNull() {
+            addCriterion("ksfs is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsIsNotNull() {
+            addCriterion("ksfs is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsEqualTo(String value) {
+            addCriterion("ksfs =", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsNotEqualTo(String value) {
+            addCriterion("ksfs <>", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsGreaterThan(String value) {
+            addCriterion("ksfs >", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsGreaterThanOrEqualTo(String value) {
+            addCriterion("ksfs >=", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsLessThan(String value) {
+            addCriterion("ksfs <", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsLessThanOrEqualTo(String value) {
+            addCriterion("ksfs <=", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsLike(String value) {
+            addCriterion("ksfs like", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsNotLike(String value) {
+            addCriterion("ksfs not like", value, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsIn(List<String> values) {
+            addCriterion("ksfs in", values, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsNotIn(List<String> values) {
+            addCriterion("ksfs not in", values, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsBetween(String value1, String value2) {
+            addCriterion("ksfs between", value1, value2, "ksfs");
+            return (Criteria) this;
+        }
+
+        public Criteria andKsfsNotBetween(String value1, String value2) {
+            addCriterion("ksfs not between", value1, value2, "ksfs");
+            return (Criteria) this;
+        }
+
         public Criteria andKslymIsNull() {
             addCriterion("kslym is null");
             return (Criteria) this;
@@ -3754,6 +4664,76 @@ public class ExtYjsExample {
             return (Criteria) this;
         }
 
+        public Criteria andKslyIsNull() {
+            addCriterion("ksly is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyIsNotNull() {
+            addCriterion("ksly is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyEqualTo(String value) {
+            addCriterion("ksly =", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyNotEqualTo(String value) {
+            addCriterion("ksly <>", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyGreaterThan(String value) {
+            addCriterion("ksly >", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyGreaterThanOrEqualTo(String value) {
+            addCriterion("ksly >=", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyLessThan(String value) {
+            addCriterion("ksly <", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyLessThanOrEqualTo(String value) {
+            addCriterion("ksly <=", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyLike(String value) {
+            addCriterion("ksly like", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyNotLike(String value) {
+            addCriterion("ksly not like", value, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyIn(List<String> values) {
+            addCriterion("ksly in", values, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyNotIn(List<String> values) {
+            addCriterion("ksly not in", values, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyBetween(String value1, String value2) {
+            addCriterion("ksly between", value1, value2, "ksly");
+            return (Criteria) this;
+        }
+
+        public Criteria andKslyNotBetween(String value1, String value2) {
+            addCriterion("ksly not between", value1, value2, "ksly");
+            return (Criteria) this;
+        }
+
         public Criteria andPyzxjhmIsNull() {
             addCriterion("pyzxjhm is null");
             return (Criteria) this;
@@ -3821,6 +4801,76 @@ public class ExtYjsExample {
 
         public Criteria andPyzxjhmNotBetween(String value1, String value2) {
             addCriterion("pyzxjhm not between", value1, value2, "pyzxjhm");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhIsNull() {
+            addCriterion("pyzxjh is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhIsNotNull() {
+            addCriterion("pyzxjh is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhEqualTo(String value) {
+            addCriterion("pyzxjh =", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhNotEqualTo(String value) {
+            addCriterion("pyzxjh <>", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhGreaterThan(String value) {
+            addCriterion("pyzxjh >", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhGreaterThanOrEqualTo(String value) {
+            addCriterion("pyzxjh >=", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhLessThan(String value) {
+            addCriterion("pyzxjh <", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhLessThanOrEqualTo(String value) {
+            addCriterion("pyzxjh <=", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhLike(String value) {
+            addCriterion("pyzxjh like", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhNotLike(String value) {
+            addCriterion("pyzxjh not like", value, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhIn(List<String> values) {
+            addCriterion("pyzxjh in", values, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhNotIn(List<String> values) {
+            addCriterion("pyzxjh not in", values, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhBetween(String value1, String value2) {
+            addCriterion("pyzxjh between", value1, value2, "pyzxjh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyzxjhNotBetween(String value1, String value2) {
+            addCriterion("pyzxjh not between", value1, value2, "pyzxjh");
             return (Criteria) this;
         }
 

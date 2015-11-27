@@ -116,6 +116,9 @@ public class UnitController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
+        if (status!=null) {
+            searchStr += "&status=" + status;
+        }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 

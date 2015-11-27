@@ -21,14 +21,14 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
       </table>
       <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
       </table>
       <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
       </table>
       <table tableName="base_cadre_company" domainObjectName="CadreCompany">
-      </table>
+      </table>-->
       <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
       </table>
       <table tableName="base_cadre_course" domainObjectName="CadreCourse">
@@ -39,8 +39,8 @@
       </table>-->
      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
       </table>-->
-      <!--<table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
-      </table>-->
+      <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
+      </table>
       <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
       </table>-->
      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
@@ -131,12 +131,12 @@
     <table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-     <!-- <table tableName="ext_bks" domainObjectName="ExtBks">
+      <!--<table tableName="ext_bks" domainObjectName="ExtBks">
+      </table>
+
+      <table tableName="ext_jzg" domainObjectName="ExtJzg">
       </table>
       <table tableName="ext_yjs" domainObjectName="ExtYjs">
-      </table>
-      <table tableName="ext_jzg" domainObjectName="ExtJzg">
       </table>-->
-
   </context>
 </generatorConfiguration>

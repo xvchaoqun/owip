@@ -7,7 +7,6 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreInfo_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cadreInfo.id}">
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属干部</label>
@@ -52,7 +51,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 }

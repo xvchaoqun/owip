@@ -15,6 +15,15 @@ pageEncoding="UTF-8"%>
                 <input type="text" value="${sysUser.realname}" disabled>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">所属单位</label>
+            <div class="col-xs-6">
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects"
+                        name="unitId" data-placeholder="请选择所属单位">
+                    <option value="${unit.id}">${unit.name}</option>
+                </select>
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">兼任职务</label>
 				<div class="col-xs-6">

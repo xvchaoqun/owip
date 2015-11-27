@@ -87,6 +87,8 @@ public class CadreResearchController extends BaseController {
 
         Integer id = record.getId();
 
+        if(_chairFile==null ||_joinFile==null || _publishFile==null )
+            return success(FormUtils.SUCCESS);
         if(_chairFile!=null){
             String ext = FileUtils.getExtention(_chairFile.getOriginalFilename());
             if(!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")){

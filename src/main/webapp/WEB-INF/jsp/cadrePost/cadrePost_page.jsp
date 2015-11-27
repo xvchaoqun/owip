@@ -98,6 +98,7 @@ pageEncoding="UTF-8" %>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>
     <tr>
+        <th>兼任单位</th>
         <th>兼任职务</th>
         <th>兼任职务任职日期</th>
         <th>兼任职务始任日期</th>
@@ -110,6 +111,7 @@ pageEncoding="UTF-8" %>
     <c:forEach items="${cadreSubWorks}" var="cadreSubWork" varStatus="st">
 
         <tr>
+            <td>${unitMap.get(cadreSubWork.unitId).name}</td>
             <td>${cadreSubWork.post}</td>
             <td>${cm:formatDate(cadreSubWork.postTime,'yyyy-MM-dd')}</td>
             <td>${cm:formatDate(cadreSubWork.startTime,'yyyy-MM-dd')}</td>

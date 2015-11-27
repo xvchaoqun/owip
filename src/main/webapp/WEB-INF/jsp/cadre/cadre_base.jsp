@@ -27,77 +27,77 @@ pageEncoding="UTF-8"%>
 					照片
 				</td>
 				<td style="background-color: #f9f9f9;text-align: right">
-					工作证号
+					姓名
 				</td>
-				<td style="min-width: 150px;background-color: #fff;">
-					${GENDER_MALE_MAP.get(cadreView.gender)}
+				<td style="min-width: 150px;background-color: #fff;text-align: left">
+					${extJzg.xm}
 				</td>
 
 				<td style="background-color: #f9f9f9;text-align: right">
-					姓名
+					工作证号
 				</td>
-				<td  style="min-width: 150px;background-color: #fff;">
-					${cadreView.nation}
+				<td  style="min-width: 150px;background-color: #fff;text-align: left">
+					${extJzg.zgh}
 				</td>
 			</tr>
 			<tr>
 				<td>性别</td>
 				<td >
-					${cadreView.code}
+					${extJzg.xb}
 				</td>
 				<td>
 					民族
 				</td>
 				<td>
-					${cadreView.nativePlace}
+					${extJzg.mz}
 				</td>
 			</tr>
 			<tr>
 				<td>出生日期</td>
 				<td >
-					${cadreView.code}
+					${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
 				</td>
 				<td>
 					年龄
 				</td>
 				<td>
-					${cadreView.nativePlace}
+					${cm:intervalYearsUntilNow(extJzg.csrq)}
 				</td>
 			</tr>
 			<tr>
 				<td>政治面貌</td>
 				<td >
-					${cadreView.code}
+					${extJzg.zzmm}
 				</td>
 				<td>
 					加入党团时间
 				</td>
 				<td>
-					${cadreView.nativePlace}
+
 				</td>
 			</tr>
 			<tr>
 				<td>国家/地区</td>
 				<td >
-					${cadreView.code}
+					${extJzg.gj}
 				</td>
 				<td>
 					所在党组织
 				</td>
 				<td>
-					${cadreView.nativePlace}
+
 				</td>
 			</tr>
 			<tr>
 				<td>证件类型</td>
 				<td >
-					${cadreView.code}
+					${extJzg.name}
 				</td>
 				<td>
 					证件号码
 				</td>
 				<td>
-					${cadreView.nativePlace}
+					${extJzg.sfzh}
 				</td>
 			</tr>
 
@@ -106,29 +106,29 @@ pageEncoding="UTF-8"%>
 					籍贯
 				</td>
 				<td style="min-width: 100px">
-					${cadreView.grade}
+					${extJzg.jg}
 				</td>
 				<td>出生地</td>
 				<td>
-					${cadreView.eduType}
+					--
 				</td>
 				<td>
 					户籍地
 				</td>
 				<td >
-					${cadreView.eduLevel}
+					--
 				</td>
 			</tr>
 			<tr>
 				<td>熟悉专业有何专长</td>
 				<td >
-					${cadreView.enrolYear}
+					--
 				</td>
 				<td>
 					健康状况
 				</td>
 				<td colspan="3">
-					${cadreView.isFullTime}
+					--
 				</td>
 			</tr>
 			</tbody>
@@ -158,38 +158,38 @@ pageEncoding="UTF-8"%>
 						所在单位
 					</td>
 					<td style="min-width: 80px">
-						${cadreView.realname}
+						${extJzg.dwmc}
 					</td>
 					<td>
 						所在子单位1
 					</td>
 					<td style="min-width: 80px">
-						${GENDER_MALE_MAP.get(cadreView.gender)}
+						${extJzg.jzdw1}
 					</td>
 
 					<td>
 						所在子单位2
 					</td>
 					<td  style="min-width: 80px">
-						${cadreView.nation}
+						${extJzg.jzdw2}
 					</td>
 				</tr>
 				<tr>
 					<td>编制类别</td>
 					<td >
-						${cadreView.code}
+						${extJzg.bzlx}
 					</td>
 					<td>
 						人员分类
 					</td>
 					<td>
-						${cadreView.nativePlace}
+						${extJzg.rylx}
 					</td>
 					<td >
 						人员身份
 					</td>
 					<td>
-						${MEMBER_SOURCE_MAP.get(cadreView.source)}
+						--
 					</td>
 				</tr>
 				<tr>
@@ -197,55 +197,54 @@ pageEncoding="UTF-8"%>
 						人事转否
 					</td>
 					<td>
-						${cadreView.grade}
+						${extJzg.rszf}
 					</td>
 					<td>人事转入时间</td>
 					<td >
-						${cadreView.eduType}
+						--
 					</td>
 					<td>
 						人员状态
 					</td>
 					<td>
-						${cadreView.eduLevel}
+						${extJzg.ryzt}
 					</td>
 				</tr>
 				<tr>
 
 					<td>岗位类别</td>
 					<td >
-						${cadreView.enrolYear}
+						${extJzg.gwlb}
 					</td>
 					<td>
 						岗位子类别
 					</td>
 					<td>
-						${cadreView.isFullTime}
+						--
 					</td>
 					<td >
 						在岗情况
 					</td>
 					<td>
-						${cadreView.isFullTime}
+						${extJzg.sfzg}
 					</td>
 				</tr>
 				<tr>
 
 					<td>参加工作时间</td>
 					<td >
-						${cadreView.actualEnrolTime}
+						--
 					</td>
 					<td>
 						到校时间
 					</td>
-					<td>
-						${cadreView.expectGraduateTime}
+					<td>${cm:formatDate(extJzg.lxrq,'yyyy-MM-dd')}
 					</td>
 					<td >
 						转正定级时间
 					</td>
 					<td>
-						${cadreView.actualGraduateTime}
+						--
 					</td>
 				</tr>
 				</tbody>
@@ -275,20 +274,20 @@ pageEncoding="UTF-8"%>
 						任职单位
 					</td>
 					<td style="min-width: 80px">
-						${cadreView.realname}
+						${unitMap.get(cadreMainWork.unitId).name}
 					</td>
 					<td>
 						单位属性
 					</td>
 					<td style="min-width: 80px">
-						${GENDER_MALE_MAP.get(cadreView.gender)}
+						${unitTypeMap.get(unitMap.get(cadreMainWork.unitId).typeId).name}
 					</td>
 
 					<td>
 						是否双肩挑
 					</td>
 					<td  style="min-width: 80px">
-						${cadreView.nation}
+						${cadreMainWork.isDouble?"是":"否"}
 					</td>
 
 				</tr>
@@ -297,19 +296,17 @@ pageEncoding="UTF-8"%>
 						现任职务
 					</td>
 					<td style="min-width: 120px">
-						${cadreView.idcard}
+						${cadreMainWork.work}
 					</td>
 					<td >
 						任现职时间
 					</td>
-					<td>
-						${MEMBER_SOURCE_MAP.get(cadreView.source)}
+					<td>${cm:formatDate(cadreMainWork.postTime,'yyyy-MM-dd')}
 					</td>
 					<td>
 						现职务始任时间
 					</td>
-					<td>
-						${cadreView.syncSource}
+					<td>${cm:formatDate(cadreMainWork.startTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
@@ -317,55 +314,53 @@ pageEncoding="UTF-8"%>
 						行政级别
 					</td>
 					<td>
-						${cadreView.grade}
+						${adminLevelMap.get(cadrePost.adminLevelId).name}
 					</td>
 					<td>任现职级时间</td>
 					<td >
-						${cadreView.eduType}
+						${cm:formatDate(cadrePost.startTime,'yyyy-MM-dd')}
 					</td>
 					<td>
 						任现职级年限
 					</td>
 					<td>
-						${cadreView.eduLevel}
+						${cm:intervalYearsUntilNow(cadrePost.startTime)}
 					</td>
 				</tr>
 				<tr>
 
 					<td>兼职单位1</td>
 					<td >
-						${cadreView.enrolYear}
+						${unitMap.get(cadreSubWork1.unitId).name}
 					</td>
 					<td>
 						兼任职务1
 					</td>
 					<td>
-						${cadreView.isFullTime}
+						${cadreSubWork1.post}
 					</td>
 					<td >
 						任兼职时间1
 					</td>
-					<td>
-						${cadreView.type}
+					<td>${cm:formatDate(cadreSubWork1.postTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
 
 					<td>兼职单位2</td>
 					<td >
-						${cadreView.actualEnrolTime}
+						${unitMap.get(cadreSubWork2.unitId).name}
 					</td>
 					<td>
 						兼任职务2
 					</td>
 					<td>
-						${cadreView.expectGraduateTime}
+						${cadreSubWork2.post}
 					</td>
 					<td >
 						任兼职时间2
 					</td>
-					<td>
-						${cadreView.actualGraduateTime}
+					<td>${cm:formatDate(cadreSubWork2.postTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
@@ -432,26 +427,26 @@ pageEncoding="UTF-8"%>
 						专业技术职务
 					</td>
 					<td style="min-width: 80px" class="bg-white">
-						${GENDER_MALE_MAP.get(cadreView.gender)}
+						--
 					</td>
 
 					<td class="bg-right">
 						专业技术职务评定时间
 					</td>
 					<td  style="min-width: 80px"  class="bg-white">
-						${cadreView.nation}
+						--
 					</td>
 				</tr>
 				<tr>
 					<td  class="bg-right">专业技术职务等级</td>
 					<td >
-						${cadreView.code}
+						--
 					</td>
 					<td  class="bg-right">
 						专业技术职务分级时间
 					</td>
 					<td>
-						${cadreView.nativePlace}
+						--
 					</td>
 
 				</tr>
@@ -469,13 +464,13 @@ pageEncoding="UTF-8"%>
 						管理岗位等级
 					</td>
 					<td  class="bg-white">
-						${cadreView.isFullTime}
+						${extJzg.glgwdj}
 					</td>
 					<td class="bg-right">
 						管理岗位分级
 					</td>
 					<td  class="bg-white">
-						${cadreView.type}
+						--
 					</td>
 				</tr>
 				<tr>
@@ -485,12 +480,12 @@ pageEncoding="UTF-8"%>
 						时间
 					</td>
 					<td>
-						${cadreView.delayYear}
+						--
 					</td>
 				</tr>
 				<tr>
 					<td colspan="5" style="background-color:#fff;text-align: left ">
-						管理岗位备注：
+						管理岗位备注：--
 					</td>
 
 				</tr>
@@ -502,18 +497,18 @@ pageEncoding="UTF-8"%>
 						工勤岗位等级
 					</td>
 					<td  class="bg-white">
-						${cadreView.isFullTime}
+						--
 					</td>
 					<td  class="bg-right">
 						工勤岗位分级时间
 					</td>
 					<td  class="bg-white">
-						${cadreView.type}
+						--
 					</td>
 				</tr>
 				<tr>
 					<td colspan="5" style="background-color:#fff;text-align: left ">
-						工勤岗位备注：
+						工勤岗位备注：--
 					</td>
 
 				</tr>
@@ -544,38 +539,37 @@ pageEncoding="UTF-8"%>
 						最高学历
 					</td>
 					<td style="min-width: 80px">
-						${cadreView.realname}
+						${eduTypeMap.get(highEdu.eduId).name}
 					</td>
 					<td>
 						学习方式
 					</td>
 					<td style="min-width: 80px">
-						${GENDER_MALE_MAP.get(cadreView.gender)}
+						${learnStyleMap.get(highEdu.learnStyle).name}
 					</td>
 
 					<td>
 						毕业学校
 					</td>
 					<td style="min-width: 80px">
-						${GENDER_MALE_MAP.get(cadreView.gender)}
+						${highEdu.school}
 					</td>
 				</tr>
 				<tr>
 					<td>毕业学院</td>
 					<td >
-						${cadreView.code}
+						${highEdu.dep}
 					</td>
 					<td>
 						所学专业
 					</td>
 					<td>
-						${cadreView.nativePlace}
+						${highEdu.major}
 					</td>
 					<td >
 						学校类型
 					</td>
-					<td>
-						${MEMBER_SOURCE_MAP.get(cadreView.source)}
+					<td>${schoolTypeMap.get(highEdu.schoolType).name}
 					</td>
 				</tr>
 				<tr>
@@ -583,36 +577,36 @@ pageEncoding="UTF-8"%>
 						最高学位
 					</td>
 					<td>
-						${cadreView.grade}
+						${highDegree.degree}
 					</td>
 					<td>学习方式</td>
 					<td >
-						${cadreView.eduType}
+						${learnStyleMap.get(highDegree.learnStyle).name}
 					</td>
 					<td>
 						毕业学校
 					</td>
 					<td>
-						${cadreView.eduLevel}
+						${highDegree.school}
 					</td>
 				</tr>
 				<tr>
 
 					<td>毕业学院</td>
 					<td >
-						${cadreView.enrolYear}
+						${highDegree.dep}
 					</td>
 					<td>
 						所学专业
 					</td>
 					<td>
-						${cadreView.isFullTime}
+						${highDegree.major}
 					</td>
 					<td >
 						学校类型
 					</td>
 					<td>
-						${cadreView.type}
+						${schoolTypeMap.get(highDegree.schoolType).name}
 					</td>
 				</tr>
 

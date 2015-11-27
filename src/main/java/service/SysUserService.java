@@ -38,12 +38,17 @@ public class SysUserService {
 		return sysUserMapper.countByExample(example) > 0;
 	}
 
+	public String getDefaultRoleIds(){
+
+		SysRole sysRole = sysRoleService.getByRole(SystemConstants.ROLE_GUEST);
+		return SystemConstants.USER_ROLEIDS_SEPARTOR + sysRole.getId() + SystemConstants.USER_ROLEIDS_SEPARTOR;
+	}
+
 	@Transactional
 	public void insertSelective(SysUser record){
 
+		record.setRoleIds(getDefaultRoleIds());
 		sysUserMapper.insertSelective(record);
-		// 默认角色：访客
-		addRole(record.getId(), SystemConstants.ROLE_GUEST, record.getUsername());
 	}
 
 	@Cacheable(value="SysUser:ID", key="#id")
@@ -155,6 +160,8 @@ public class SysUserService {
 		updateByPrimaryKeySelective(record, sysUser.getUsername());
 
 	}
+
+
 
 	// 改变角色
 	@Transactional

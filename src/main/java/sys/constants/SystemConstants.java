@@ -135,6 +135,18 @@ public class SystemConstants {
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
 	}
 
+
+	// 干部库类别 1现任干部库  2 临时干部库 3离任干部库
+	public final static byte CADRE_STATUS_NOW = 1;
+	public final static byte CADRE_STATUS_TEMP = 2;
+	public final static byte CADRE_STATUS_LEAVE = 3;
+	public final static Map<Byte, String>CADRE_STATUS_MAP = new HashMap<>();
+	static {
+		CADRE_STATUS_MAP.put(CADRE_STATUS_NOW, "现任干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "临时干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任干部库");
+	}
+
 	// 干部教学课程类别
 	public final static byte CADRE_COURSE_TYPE_BKS = 1;
 	public final static byte CADRE_COURSE_TYPE_SS = 2;

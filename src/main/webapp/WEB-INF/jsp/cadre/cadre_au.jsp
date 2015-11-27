@@ -3,15 +3,20 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>干部</h3>
+    <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>
+        <c:if test="${status==CADRE_STATUS_TEMP}">临时干部</c:if>
+        <c:if test="${status==CADRE_STATUS_NOW}">现任干部</c:if>
+        <c:if test="${status==CADRE_STATUS_LEAVE}">离任干部</c:if>
+    </h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadre_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadre.id}">
+        <input type="hidden" name="status" value="${status}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">账号</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                    <select required data-rel="select2-ajax" data-ajax--url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.username}</option>
                     </select>

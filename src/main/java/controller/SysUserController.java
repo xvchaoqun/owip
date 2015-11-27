@@ -201,66 +201,6 @@ public class SysUserController extends BaseController {
 		
 		return success(FormUtils.SUCCESS);
 	}
-	
-
-
-	@RequestMapping("/sysUser_selects")
-	@ResponseBody
-	public Map sysUser_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
-
-		if (null == pageSize) {
-			pageSize = springProps.pageSize;
-		}
-		if (null == pageNo) {
-			pageNo = 1;
-		}
-		pageNo = Math.max(1, pageNo);
-
-		SysUserExample example = new SysUserExample();
-		example.setOrderByClause("id desc");
-		if(StringUtils.isNotBlank(searchStr)){
-			example.or().andUsernameLike("%" + searchStr + "%");
-			example.or().andCodeLike("%" + searchStr + "%");
-			example.or().andRealnameLike("%" + searchStr + "%");
-		}
-
-		int count = sysUserMapper.countByExample(example);
-		if((pageNo-1)*pageSize >= count){
-
-			pageNo = Math.max(1, pageNo-1);
-		}
-		List<SysUser> sysUsers = sysUserMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-		/*List<Select2Option> options = new ArrayList<Select2Option>();
-		if(null != sysUsers && sysUsers.size()>0){
-
-			for(SysUser sysUser:sysUsers){
-
-				Select2Option option = new Select2Option();
-				option.setText(sysUser.getRealname());
-				option.setId(sysUser.getId() + "");
-				options.add(option);
-			}
-		}*/
-
-		List<Map<String, String>> options = new ArrayList<Map<String, String>>();
-		if(null != sysUsers && sysUsers.size()>0){
-
-			for(SysUser sysUser:sysUsers){
-				Map<String, String> option = new HashMap<>();
-				option.put("id", sysUser.getId() + "");
-				option.put("text", sysUser.getUsername());
-				option.put("realname", sysUser.getRealname());
-				option.put("code", sysUser.getCode());
-				options.add(option);
-			}
-		}
-
-		Map resultMap = success();
-		resultMap.put("totalCount", count);
-		resultMap.put("options", options);
-		return resultMap;
-	}
 
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysUserRole", method=RequestMethod.POST)

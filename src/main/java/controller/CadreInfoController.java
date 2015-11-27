@@ -70,8 +70,8 @@ public class CadreInfoController extends BaseController {
     public Map do_cadreInfo_au(CadreInfo record, HttpServletRequest request) {
 
         Integer cadreId = record.getCadreId();
-
-        if (cadreId == null) {
+        CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
+        if (cadreInfo == null) {
             cadreInfoService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部联系方式：%s", record.getCadreId()));
         } else {

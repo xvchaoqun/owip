@@ -1,9 +1,7 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreExample;
+import domain.*;
 import domain.CadreExample.Criteria;
-import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -49,7 +47,7 @@ public class CadreController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
-                                    Integer userId,
+                                    Integer cadreId,
                                     Integer typeId,
                                     Integer postId,
                                     String title,
@@ -70,9 +68,12 @@ public class CadreController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
-            criteria.andUserIdEqualTo(userId);
+        if (cadreId!=null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+            criteria.andIdEqualTo(cadreId);
         }
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
@@ -101,8 +102,8 @@ public class CadreController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (userId!=null) {
-            searchStr += "&userId=" + userId;
+        if (cadreId!=null) {
+            searchStr += "&cadreId=" + cadreId;
         }
         if (typeId!=null) {
             searchStr += "&typeId=" + typeId;
@@ -143,6 +144,40 @@ public class CadreController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(id);
         modelMap.put("cadre", cadre);
+
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        // 人事信息
+        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+        modelMap.put("extJzg", extJzg);
+
+        modelMap.put("unitMap", unitService.findAll());
+        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        // 主职
+        modelMap.put("cadreMainWork", cadreMainWorkService.getByCadreId(id));
+
+        // 现任职务
+        modelMap.put("cadrePost", cadrePostService.getPresentByCadreId(id));
+
+        // 兼职单位
+        List<CadreSubWork> cadreSubWorks = cadreSubWorkService.findByCadreId(id);
+        if(cadreSubWorks.size()>=1){
+            modelMap.put("cadreSubWork1", cadreSubWorks.get(0));
+        }
+        if(cadreSubWorks.size()>=2){
+            modelMap.put("cadreSubWork2", cadreSubWorks.get(1));
+        }
+
+        modelMap.put("eduTypeMap", metaTypeService.metaTypes("mc_edu"));
+        modelMap.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
+        modelMap.put("schoolTypeMap", metaTypeService.metaTypes("mc_school"));
+        // 最高学历
+        modelMap.put("highEdu", cadreEduService.getHighEdu(id));
+        //最高学位
+        modelMap.put("highDegree", cadreEduService.getHighDegree(id));
+
         return "cadre/cadre_base";
     }
 
@@ -154,6 +189,38 @@ public class CadreController extends BaseController {
         Cadre cadre = cadreService.findAll().get(id);
         //modelMap.put("cadre", cadre);
         return "cadre/cadre_personnel";
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_pass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_pass(int id, HttpServletRequest request) {
+
+        Cadre record = new Cadre();
+        record.setStatus(SystemConstants.CADRE_STATUS_NOW);
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_TEMP);
+
+        cadreService.updateByExampleSelective(record, example);
+
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s", id));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_leave(int id, HttpServletRequest request) {
+
+        Cadre record = new Cadre();
+        record.setStatus(SystemConstants.CADRE_STATUS_LEAVE);
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+
+        cadreService.updateByExampleSelective(record, example);
+
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s", id));
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cadre:edit")
@@ -180,11 +247,13 @@ public class CadreController extends BaseController {
 
     @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_au")
-    public String cadre_au(Integer id, ModelMap modelMap) {
+    public String cadre_au(Integer id, Byte status, ModelMap modelMap) {
 
+        modelMap.put("status", status);
         if (id != null) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             modelMap.put("cadre", cadre);
+            modelMap.put("status", cadre.getStatus());
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }

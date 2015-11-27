@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 }

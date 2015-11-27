@@ -1,0 +1,103 @@
+package controller;
+
+import domain.SysUser;
+import domain.SysUserExample;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by fafa on 2015/11/27.
+ */
+@Controller
+public class CommonController extends BaseController{
+
+    // 根据账号或姓名或学工号选择用户
+    @RequestMapping("/sysUser_selects")
+    @ResponseBody
+    public Map sysUser_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        SysUserExample example = new SysUserExample();
+        example.setOrderByClause("id desc");
+        if(StringUtils.isNotBlank(searchStr)){
+            example.or().andUsernameLike("%" + searchStr + "%");
+            example.or().andCodeLike("%" + searchStr + "%");
+            example.or().andRealnameLike("%" + searchStr + "%");
+        }
+
+        int count = sysUserMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<SysUser> sysUsers = sysUserMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if(null != sysUsers && sysUsers.size()>0){
+            for(SysUser sysUser:sysUsers){
+                Map<String, String> option = new HashMap<>();
+                option.put("id", sysUser.getId() + "");
+                option.put("text", sysUser.getRealname());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
+    // 根据账号或姓名或学工号选择非干部用户
+    @RequestMapping("/notCadre_selects")
+    @ResponseBody
+    public Map notCadre_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        int count = commonMapper.countNotCadre(searchStr);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<SysUser> sysUsers = commonMapper.selectNotCadreList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if(null != sysUsers && sysUsers.size()>0){
+
+            for(SysUser sysUser:sysUsers){
+                Map<String, String> option = new HashMap<>();
+                option.put("id", sysUser.getId() + "");
+                option.put("text", sysUser.getRealname());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+}

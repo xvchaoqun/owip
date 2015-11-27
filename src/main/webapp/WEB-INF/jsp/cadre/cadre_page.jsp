@@ -1,28 +1,29 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_LEAVE%>" var="CADRE_STATUS_LEAVE"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="page-list">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${status==1}">active</c:if>">
-                    <a href="#now" data-status="1"><i class="fa fa-flag"></i> 现任干部库</a>
+                <c:forEach var="cadreStatus" items="${CADRE_STATUS_MAP}">
+                <li class="<c:if test="${status==cadreStatus.key}">active</c:if>">
+                    <a href="?status=${cadreStatus.key}"><i class="fa fa-flag"></i> ${cadreStatus.value}</a>
                 </li>
-                <li class="<c:if test="${status==2}">active</c:if>">
-                    <a href="#temp" data-status="2"><i class="fa fa-history"></i> 临时干部库</a>
-                </li>
-                <li class="<c:if test="${status==3}">active</c:if>">
-                    <a href="#leave" data-status="3"><i class="fa fa-history"></i> 离任干部库</a>
-                </li>
+                </c:forEach>
             </ul>
 
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
 
         <div class="myTableDiv"
-             data-url-au="${ctx}/cadre_au"
+             data-url-au="${ctx}/cadre_au?status=${status}"
              data-url-page="${ctx}/cadre_page"
              data-url-del="${ctx}/cadre_del"
              data-url-bd="${ctx}/cadre_batchDel"
@@ -30,9 +31,9 @@ pageEncoding="UTF-8" %>
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="status" value="${status}">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
-                        name="userId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${sysUser.id}">${sysUser.username}</option>
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value="${cadre.id}">${sysUser.realname}</option>
                 </select>
 
                 <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
@@ -52,7 +53,7 @@ pageEncoding="UTF-8" %>
                 <input class="form-control search-query" name="title" type="text" value="${param.title}"
                        placeholder="请输入单位及职务">
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.userId ||not empty param.typeId ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                         <i class="fa fa-reply"></i> 重置
@@ -61,7 +62,11 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="cadre:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i>
+                        <c:if test="${param.status==CADRE_STATUS_TEMP}">提任干部</c:if>
+                        <c:if test="${param.status==CADRE_STATUS_NOW}">添加现任干部</c:if>
+                        <c:if test="${param.status==CADRE_STATUS_LEAVE}">添加离任干部</c:if>
+                        </a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
@@ -126,6 +131,16 @@ pageEncoding="UTF-8" %>
                             </shiro:hasPermission>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${cadre.status==CADRE_STATUS_TEMP}">
+                                        <button onclick="_pass(${cadre.id}, '${sysUser.realname}', '${sysUser.code}')" class="btn btn-mini btn-success">
+                                            <i class="fa fa-edit"></i> 通过常委会任命
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${cadre.status==CADRE_STATUS_NOW}">
+                                        <button onclick="_leave(${cadre.id}, '${sysUser.realname}', '${sysUser.code}')" class="btn btn-mini btn-success">
+                                            <i class="fa fa-edit"></i> 离任
+                                        </button>
+                                    </c:if>
                                     <shiro:hasPermission name="cadre:edit">
                                     <button data-id="${cadre.id}" class="editBtn btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
@@ -211,6 +226,34 @@ pageEncoding="UTF-8" %>
 </style>
 <script>
 
+    function _pass(id, realname, code){
+
+        bootbox.confirm("姓名：{0}，工号：{1}，确定通过常委会任命吗？".format(realname, code), function (result) {
+            if (result) {
+                $.post("${ctx}/cadre_pass", {id: id}, function (ret) {
+                    if (ret.success) {
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
+    function _leave(id, realname, code){
+
+        bootbox.confirm("姓名：{0}，工号：{1}，确定移到离任干部库吗？".format(realname, code), function (result) {
+            if (result) {
+                $.post("${ctx}/cadre_leave", {id: id}, function (ret) {
+                    if (ret.success) {
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
     function openView(id){
         $(".page-list").hide();
         $(".cadre-view").load("${ctx}/cadre_view?id="+id).show();
@@ -220,13 +263,13 @@ pageEncoding="UTF-8" %>
         $(".cadre-view").hide();
     }
 
-    $(".tabbable li a").click(function(){
+    /*$(".tabbable li a").click(function(){
         $this = $(this);
         $(".tabbable li").removeClass("active");
         $this.closest("li").addClass("active");
         $(".myTableDiv #searchForm input[name=status]").val($this.data("status"));
         $(".myTableDiv .searchBtn").click();
-    });
+    });*/
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

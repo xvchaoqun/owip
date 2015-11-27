@@ -1,9 +1,6 @@
 package controller;
 
-import domain.Cadre;
-import domain.CadreFamliyAbroad;
-import domain.CadreFamliyAbroadExample;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -93,6 +90,10 @@ public class CadreFamliyAbroadController extends BaseController {
         if (id != null) {
             CadreFamliyAbroad cadreFamliyAbroad = cadreFamliyAbroadMapper.selectByPrimaryKey(id);
             modelMap.put("cadreFamliyAbroad", cadreFamliyAbroad);
+
+            Integer famliyId = cadreFamliyAbroad.getFamliyId();
+            CadreFamliy cadreFamliy = cadreFamliyMapper.selectByPrimaryKey(famliyId);
+            modelMap.put("cadreFamliy", cadreFamliy);
         }
 
         Cadre cadre = cadreService.findAll().get(cadreId);

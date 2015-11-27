@@ -16,9 +16,12 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所选家庭成员</label>
+				<label class="col-xs-3 control-label">家庭成员</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="famliyId" value="${cadreFamliyAbroad.famliyId}">
+                    <select required data-rel="select2-ajax"
+                            data-ajax--url="${ctx}/cadreFamliy_selects?cadreId=${cadre.id}" name="famliyId" data-placeholder="请选择">
+                        <option value="${cadreFamliy.id}">${cadreFamliy.realname}</option>
+                    </select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -63,12 +66,18 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+    $('.date-picker').datepicker({
+        language:"zh-CN",
+        autoclose: true,
+        todayHighlight: true
+    })
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 }

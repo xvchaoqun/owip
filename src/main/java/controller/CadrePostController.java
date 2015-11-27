@@ -341,6 +341,8 @@ public class CadrePostController extends BaseController {
         if (id != null) {
             CadreSubWork cadreSubWork = cadreSubWorkMapper.selectByPrimaryKey(id);
             modelMap.put("cadreSubWork", cadreSubWork);
+
+            modelMap.put("unit", unitService.findAll().get(cadreSubWork.getUnitId()));
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);

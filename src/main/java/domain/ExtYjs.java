@@ -9,9 +9,15 @@ public class ExtYjs implements Serializable {
 
     private String ztm;
 
+    private String zt;
+
     private String gbm;
 
+    private String gb;
+
     private String xslbm2;
+
+    private String xslb;
 
     private String xm;
 
@@ -19,19 +25,31 @@ public class ExtYjs implements Serializable {
 
     private String xbm;
 
+    private String xb;
+
     private String csrq;
 
     private String sfzh;
 
     private String mzm;
 
+    private String mz;
+
     private String pyccm;
+
+    private String pycc;
 
     private String pylxm;
 
+    private String pylx;
+
     private String jylbm;
 
+    private String jylb;
+
     private String pyfsm;
+
+    private String pyfs;
 
     private String ksh;
 
@@ -58,6 +76,8 @@ public class ExtYjs implements Serializable {
     private String dsxm;
 
     private String lqlbm;
+
+    private String lqlb;
 
     private String dxwpdw;
 
@@ -87,6 +107,8 @@ public class ExtYjs implements Serializable {
 
     private String xjglm;
 
+    private String xjglmc;
+
     private String xjglny;
 
     private String xjbz;
@@ -103,13 +125,21 @@ public class ExtYjs implements Serializable {
 
     private String zslqlbm;
 
+    private String zslqlb;
+
     private String zxjhm;
 
     private String ksfsm;
 
+    private String ksfs;
+
     private String kslym;
 
+    private String ksly;
+
     private String pyzxjhm;
+
+    private String pyzxjh;
 
     private String zzmmm;
 
@@ -159,6 +189,14 @@ public class ExtYjs implements Serializable {
         this.ztm = ztm == null ? null : ztm.trim();
     }
 
+    public String getZt() {
+        return zt;
+    }
+
+    public void setZt(String zt) {
+        this.zt = zt == null ? null : zt.trim();
+    }
+
     public String getGbm() {
         return gbm;
     }
@@ -167,12 +205,28 @@ public class ExtYjs implements Serializable {
         this.gbm = gbm == null ? null : gbm.trim();
     }
 
+    public String getGb() {
+        return gb;
+    }
+
+    public void setGb(String gb) {
+        this.gb = gb == null ? null : gb.trim();
+    }
+
     public String getXslbm2() {
         return xslbm2;
     }
 
     public void setXslbm2(String xslbm2) {
         this.xslbm2 = xslbm2 == null ? null : xslbm2.trim();
+    }
+
+    public String getXslb() {
+        return xslb;
+    }
+
+    public void setXslb(String xslb) {
+        this.xslb = xslb == null ? null : xslb.trim();
     }
 
     public String getXm() {
@@ -199,6 +253,14 @@ public class ExtYjs implements Serializable {
         this.xbm = xbm == null ? null : xbm.trim();
     }
 
+    public String getXb() {
+        return xb;
+    }
+
+    public void setXb(String xb) {
+        this.xb = xb == null ? null : xb.trim();
+    }
+
     public String getCsrq() {
         return csrq;
     }
@@ -223,12 +285,28 @@ public class ExtYjs implements Serializable {
         this.mzm = mzm == null ? null : mzm.trim();
     }
 
+    public String getMz() {
+        return mz;
+    }
+
+    public void setMz(String mz) {
+        this.mz = mz == null ? null : mz.trim();
+    }
+
     public String getPyccm() {
         return pyccm;
     }
 
     public void setPyccm(String pyccm) {
         this.pyccm = pyccm == null ? null : pyccm.trim();
+    }
+
+    public String getPycc() {
+        return pycc;
+    }
+
+    public void setPycc(String pycc) {
+        this.pycc = pycc == null ? null : pycc.trim();
     }
 
     public String getPylxm() {
@@ -239,6 +317,14 @@ public class ExtYjs implements Serializable {
         this.pylxm = pylxm == null ? null : pylxm.trim();
     }
 
+    public String getPylx() {
+        return pylx;
+    }
+
+    public void setPylx(String pylx) {
+        this.pylx = pylx == null ? null : pylx.trim();
+    }
+
     public String getJylbm() {
         return jylbm;
     }
@@ -247,12 +333,28 @@ public class ExtYjs implements Serializable {
         this.jylbm = jylbm == null ? null : jylbm.trim();
     }
 
+    public String getJylb() {
+        return jylb;
+    }
+
+    public void setJylb(String jylb) {
+        this.jylb = jylb == null ? null : jylb.trim();
+    }
+
     public String getPyfsm() {
         return pyfsm;
     }
 
     public void setPyfsm(String pyfsm) {
         this.pyfsm = pyfsm == null ? null : pyfsm.trim();
+    }
+
+    public String getPyfs() {
+        return pyfs;
+    }
+
+    public void setPyfs(String pyfs) {
+        this.pyfs = pyfs == null ? null : pyfs.trim();
     }
 
     public String getKsh() {
@@ -357,6 +459,14 @@ public class ExtYjs implements Serializable {
 
     public void setLqlbm(String lqlbm) {
         this.lqlbm = lqlbm == null ? null : lqlbm.trim();
+    }
+
+    public String getLqlb() {
+        return lqlb;
+    }
+
+    public void setLqlb(String lqlb) {
+        this.lqlb = lqlb == null ? null : lqlb.trim();
     }
 
     public String getDxwpdw() {
@@ -471,6 +581,14 @@ public class ExtYjs implements Serializable {
         this.xjglm = xjglm == null ? null : xjglm.trim();
     }
 
+    public String getXjglmc() {
+        return xjglmc;
+    }
+
+    public void setXjglmc(String xjglmc) {
+        this.xjglmc = xjglmc == null ? null : xjglmc.trim();
+    }
+
     public String getXjglny() {
         return xjglny;
     }
@@ -535,6 +653,14 @@ public class ExtYjs implements Serializable {
         this.zslqlbm = zslqlbm == null ? null : zslqlbm.trim();
     }
 
+    public String getZslqlb() {
+        return zslqlb;
+    }
+
+    public void setZslqlb(String zslqlb) {
+        this.zslqlb = zslqlb == null ? null : zslqlb.trim();
+    }
+
     public String getZxjhm() {
         return zxjhm;
     }
@@ -551,6 +677,14 @@ public class ExtYjs implements Serializable {
         this.ksfsm = ksfsm == null ? null : ksfsm.trim();
     }
 
+    public String getKsfs() {
+        return ksfs;
+    }
+
+    public void setKsfs(String ksfs) {
+        this.ksfs = ksfs == null ? null : ksfs.trim();
+    }
+
     public String getKslym() {
         return kslym;
     }
@@ -559,12 +693,28 @@ public class ExtYjs implements Serializable {
         this.kslym = kslym == null ? null : kslym.trim();
     }
 
+    public String getKsly() {
+        return ksly;
+    }
+
+    public void setKsly(String ksly) {
+        this.ksly = ksly == null ? null : ksly.trim();
+    }
+
     public String getPyzxjhm() {
         return pyzxjhm;
     }
 
     public void setPyzxjhm(String pyzxjhm) {
         this.pyzxjhm = pyzxjhm == null ? null : pyzxjhm.trim();
+    }
+
+    public String getPyzxjh() {
+        return pyzxjh;
+    }
+
+    public void setPyzxjh(String pyzxjh) {
+        this.pyzxjh = pyzxjh == null ? null : pyzxjh.trim();
     }
 
     public String getZzmmm() {
