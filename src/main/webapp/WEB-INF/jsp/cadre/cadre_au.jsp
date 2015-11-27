@@ -90,11 +90,10 @@ pageEncoding="UTF-8"%>
 
         if (!state.id) { return state.text; }
         var $state = state.text;
-        if(state.realname!=undefined && state.realname.length>0){
-            $state += '-' + state.realname;
-        }
-        if(state.code!=undefined && state.code.length>0){
+        if(state.code!=undefined && state.code.length>0)
             $state += '-' + state.code;
+        if(state.unit!=undefined && state.unit.length>0){
+            $state += '-' + state.unit;
         }
         //console.log($state)
         return $state;
@@ -105,7 +104,7 @@ pageEncoding="UTF-8"%>
         minimumInputLength: 2,
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

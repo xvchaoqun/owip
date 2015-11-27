@@ -1,14 +1,12 @@
 package controller;
 
-import domain.Cadre;
-import domain.ExtJzg;
-import domain.SysUser;
-import domain.SysUserExample;
+import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,6 +54,30 @@ public class CommonController extends BaseController{
                 Map<String, String> option = new HashMap<>();
                 option.put("id", sysUser.getId() + "");
                 option.put("text", sysUser.getRealname());
+
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                        if (extJzg != null) {
+                            option.put("code", extJzg.getZgh());
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(sysUser.getCode());
+                        if (extBks != null) {
+                            option.put("code", extBks.getXh());
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
+                        if (extYjs != null) {
+                            option.put("code", extYjs.getXh());
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
                 options.add(option);
             }
         }
@@ -95,6 +117,9 @@ public class CommonController extends BaseController{
             for(Cadre cadre:cadres){
                 Map<String, String> option = new HashMap<>();
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                option.put("id", cadre.getId() + "");
+                option.put("text", sysUser.getRealname());
+
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
                     ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                     if(extJzg!=null) {
@@ -102,9 +127,6 @@ public class CommonController extends BaseController{
                         option.put("unit", extJzg.getDwmc());
                     }
                 }
-                option.put("id", cadre.getId() + "");
-                option.put("text", sysUser.getRealname());
-
                 options.add(option);
             }
         }
@@ -145,6 +167,30 @@ public class CommonController extends BaseController{
                 Map<String, String> option = new HashMap<>();
                 option.put("id", sysUser.getId() + "");
                 option.put("text", sysUser.getRealname());
+
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                        if (extJzg != null) {
+                            option.put("code", extJzg.getZgh());
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(sysUser.getCode());
+                        if (extBks != null) {
+                            option.put("code", extBks.getXh());
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
+                        if (extYjs != null) {
+                            option.put("code", extYjs.getXh());
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
                 options.add(option);
             }
         }

@@ -25,6 +25,10 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected ExtJzgService extJzgService;
     @Autowired
+    protected ExtYjsService extYjsService;
+    @Autowired
+    protected ExtBksService extBksService;
+    @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired
     protected CadreFamliyAbroadService cadreFamliyAbroadService;

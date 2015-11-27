@@ -289,9 +289,10 @@ pageEncoding="UTF-8" %>
 
     $('select[name=cadreId]').select2({
         templateResult: formatState,
+        minimumInputLength: 2,
         ajax: {
             dataType: 'json',
-            delay: 100,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,
