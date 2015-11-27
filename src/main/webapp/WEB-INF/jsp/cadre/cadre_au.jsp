@@ -96,12 +96,13 @@ pageEncoding="UTF-8"%>
         if(state.code!=undefined && state.code.length>0){
             $state += '-' + state.code;
         }
-        console.log($state)
+        //console.log($state)
         return $state;
     };
 
     $('[data-rel="select2-ajax"]').select2({
         templateResult: formatState,
+        minimumInputLength: 2,
         ajax: {
             dataType: 'json',
             delay: 200,

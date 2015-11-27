@@ -1,5 +1,7 @@
 package controller;
 
+import domain.Cadre;
+import domain.ExtJzg;
 import domain.SysUser;
 import domain.SysUserExample;
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +66,55 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
+    // 根据账号或姓名或学工号选择干部
+    @RequestMapping("/cadre_selects")
+    @ResponseBody
+    public Map cadre_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
+
+        int count = commonMapper.countCadre(searchStr);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if(null != cadres && cadres.size()>0){
+
+            for(Cadre cadre:cadres){
+                Map<String, String> option = new HashMap<>();
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                    if(extJzg!=null) {
+                        option.put("code", extJzg.getZgh());
+                        option.put("unit", extJzg.getDwmc());
+                    }
+                }
+                option.put("id", cadre.getId() + "");
+                option.put("text", sysUser.getRealname());
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
     // 根据账号或姓名或学工号选择非干部用户
     @RequestMapping("/notCadre_selects")
     @ResponseBody
@@ -76,6 +127,9 @@ public class CommonController extends BaseController{
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
         int count = commonMapper.countNotCadre(searchStr);
         if((pageNo-1)*pageSize >= count){

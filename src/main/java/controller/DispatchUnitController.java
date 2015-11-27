@@ -291,7 +291,10 @@ public class DispatchUnitController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = commonMapper.countCadre(searchStr);
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
+
+        int count = commonMapper.countDispatchUnit(searchStr, unitId);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

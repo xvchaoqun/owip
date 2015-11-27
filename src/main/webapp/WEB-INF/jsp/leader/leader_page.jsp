@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${cadre.id}">${sysUser.username}</option>
+                    <option value="${cadre.id}">${sysUser.realname}</option>
                 </select>
                 <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                     <option></option>
@@ -60,7 +60,7 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>账号</th>
+							<th>姓名</th>
 							<th>类别</th>
 							<th>分管工作</th>
                         <shiro:hasPermission name="leader:changeOrder">
@@ -81,9 +81,9 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>${sysUser.username}</td>
+								<td nowrap>${sysUser.realname}</td>
 								<td nowrap>${metaTypeMap.get(leader.typeId).name}</td>
-								<td nowrap>${leader.job}</td>
+								<td nowrap title="${leader.job}">${cm:substr(leader.job, 0, 20, '...')}</td>
                             <shiro:hasPermission name="leader:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

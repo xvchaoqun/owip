@@ -60,32 +60,15 @@ public interface CommonMapper {
 
 
     // 根据账号、姓名、学工号查找干部
-    @ResultMap("persistence.CadreMapper.BaseResultMap")
-    @Select("select bc.* from base_cadre bc, sys_user user where bc.user_id= user.id and " +
-            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')" +
-            "order by sort_order desc")
     List<Cadre> selectCadreList(@Param("search") String search, RowBounds rowBounds);
-    @Select("select count(bc.id) from base_cadre bc, sys_user user where bc.user_id= user.id and " +
-            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')")
     int countCadre(@Param("search") String search);
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
-    @ResultMap("persistence.SysUserMapper.BaseResultMap")
-    @Select("select user.* from sys_user user where user.id not in(select user_id from base_cadre) and " +
-            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')" +
-            "order by create_time desc")
     List<SysUser> selectNotCadreList(@Param("search") String search, RowBounds rowBounds);
-    @Select("select count(user.id) from sys_user user where user.id not in(select user_id from base_cadre) and " +
-            "(user.username like '%${search}%' or user.realname like '%${search}%' or user.code like '%${search}%')")
     int countNotCadre(@Param("search") String search);
 
     // 根据发文号查找单位发文
-    @ResultMap("persistence.DispatchUnitMapper.BaseResultMap")
-    @Select("select bdu.* from base_dispatch_unit bdu, base_dispatch d " +
-            "where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id and d.code like '%${search}%' order by bdu.sort_order desc")
     List<DispatchUnit> selectDispatchUnitList(@Param("search") String code, @Param("unitId") int unitId, RowBounds rowBounds);
-    @Select("select count(bdu.id) from base_dispatch_unit bdu, base_dispatch d " +
-            "where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id and d.code like '%${search}%'")
     int countDispatchUnit(@Param("search") String code, @Param("unitId") int unitId);
 
 

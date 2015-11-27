@@ -278,17 +278,16 @@ pageEncoding="UTF-8" %>
 
         if (!state.id) { return state.text; }
         var $state = state.text;
-        if(state.realname!=undefined && state.realname.length>0){
-            $state += '-' + state.realname;
-        }
-        if(state.code!=undefined && state.code.length>0){
+        if(state.code!=undefined && state.code.length>0)
             $state += '-' + state.code;
+        if(state.unit!=undefined && state.unit.length>0){
+            $state += '-' + state.unit;
         }
         //console.log($state)
         return $state;
     };
 
-    $('[data-rel="select2-ajax"]').select2({
+    $('select[name=cadreId]').select2({
         templateResult: formatState,
         ajax: {
             dataType: 'json',

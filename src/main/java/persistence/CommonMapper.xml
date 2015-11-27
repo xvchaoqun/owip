@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.CommonMapper" >
+  <select id="selectCadreList" resultMap="persistence.CadreMapper.BaseResultMap" parameterType="map" >
+    select bc.* from base_cadre bc, sys_user user where bc.user_id= user.id
+    <if test="search != null" >
+    and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    order by sort_order desc
+  </select>
+  <select id="countCadre" parameterType="map" resultType="java.lang.Integer" >
+    select count(bc.id) from base_cadre bc, sys_user user where bc.user_id= user.id
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+  </select>
+
+
+  <select id="selectNotCadreList" resultMap="persistence.SysUserMapper.BaseResultMap" parameterType="map" >
+    select user.* from sys_user user where user.id not in(select user_id from base_cadre)
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    order by create_time desc
+  </select>
+  <select id="countNotCadre" parameterType="map" resultType="java.lang.Integer" >
+    select count(user.id) from sys_user user where user.id not in(select user_id from base_cadre)
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+  </select>
+
+  <select id="selectDispatchUnitList" resultMap="persistence.DispatchUnitMapper.BaseResultMap" parameterType="map" >
+    select bdu.* from base_dispatch_unit bdu, base_dispatch d
+    where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
+    <if test="search != null" >
+    and d.code like #{search}
+    </if>
+    order by bdu.sort_order desc
+  </select>
+  <select id="countDispatchUnit" parameterType="map" resultType="java.lang.Integer" >
+    select count(bdu.id) from base_dispatch_unit bdu, base_dispatch d
+    where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
+    <if test="search != null" >
+      and d.code like #{search}
+    </if>
+  </select>
+
+</mapper>

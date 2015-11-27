@@ -343,41 +343,4 @@ public class CadreController extends BaseController {
             ex.printStackTrace();
         }
     }
-
-    @RequestMapping("/cadre_selects")
-    @ResponseBody
-    public Map cadre_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        int count = commonMapper.countCadre(searchStr);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
-        if(null != cadres && cadres.size()>0){
-
-            for(Cadre cadre:cadres){
-                Map<String, String> option = new HashMap<>();
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
-                option.put("id", cadre.getId() + "");
-                option.put("text", sysUser.getRealname());
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
-    }
 }

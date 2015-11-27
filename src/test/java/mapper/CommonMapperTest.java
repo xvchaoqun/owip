@@ -31,7 +31,7 @@ public class CommonMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = commonMapper.selectCadreList("sd", new RowBounds(0, 2));
+		List<Cadre> cadres = commonMapper.selectCadreList("%sd%", new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
 		int sd = commonMapper.countCadre("sd");

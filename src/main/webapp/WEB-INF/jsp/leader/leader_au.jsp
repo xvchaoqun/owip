@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
-                        <option value="${cadre.id}">${sysUser.username}</option>
+                        <option value="${cadre.id}">${sysUser.realname}</option>
                     </select>
 				</div>
 			</div>
@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">分管工作</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="job" value="${leader.job}">
+                        <textarea required class="form-control" name="job" rows="5">${leader.job}</textarea>
 				</div>
 			</div>
     </form>
@@ -74,6 +74,7 @@ pageEncoding="UTF-8"%>
 
     $('[data-rel="select2-ajax"]').select2({
         templateResult: formatState,
+        minimumInputLength: 2,
         ajax: {
             dataType: 'json',
             delay: 200,
