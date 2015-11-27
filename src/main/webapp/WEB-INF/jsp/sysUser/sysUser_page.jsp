@@ -37,8 +37,10 @@
                     </script>
                     <input class="form-control search-query" name="username" type="text" value="${param.username}"
                            placeholder="请输入账号">
+                    <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
+                           placeholder="请输入姓名">
                     <a class="btn btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
-                    <c:set var="_query" value="${not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
+                    <c:set var="_query" value="${not empty param.realname ||not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
                     <c:if test="${_query}">
                         <button type="button" class="btn btn-warning btn-sm" onclick="_reset()">
                             <i class="fa fa-reply"></i> 重置
@@ -67,7 +69,7 @@
                     <mytag:sort-th field="username">账号</mytag:sort-th>
                     <mytag:sort-th field="code">学工号</mytag:sort-th>
                     <th class="hidden-480">类别</th>
-                    <th class="hidden-480">真实姓名</th>
+                    <th class="hidden-480">姓名</th>
                     <th class="hidden-480">身份证</th>
                     <th class="hidden-480">手机</th>
                     <th class="hidden-480">邮箱</th>

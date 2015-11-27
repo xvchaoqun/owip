@@ -27,6 +27,8 @@ public interface PartyMemberGroupMapper {
 
     int updateByExample(@Param("record") PartyMemberGroup record, @Param("example") PartyMemberGroupExample example);
 
+    //<!--<if test="dispatchUnitId != null" >-->
+    //  <!--<if test="fid != null" >-->
     int updateByPrimaryKeySelective(PartyMemberGroup record);
 
     int updateByPrimaryKey(PartyMemberGroup record);

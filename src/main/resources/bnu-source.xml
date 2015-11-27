@@ -12,7 +12,7 @@
 
 	
 	<bean id="bnuDS" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
+		init-method="init" destroy-method="close" lazy-init="true">
 		
 		<property name="url" value="${bnu_jdbc_url}" />
 		<property name="username" value="${bnu_jdbc_user}" />

@@ -47,7 +47,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping("/sysUser_page")
 	public String sysUser_page(HttpServletRequest request,
 							   @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "asc") String order,
-			Integer pageSize, Integer pageNo, String username,
+			Integer pageSize, Integer pageNo, String username, String realname,
 			Byte type, Integer roleId, Boolean locked, ModelMap modelMap) {
 		
 		if (null == pageSize) {
@@ -64,6 +64,9 @@ public class SysUserController extends BaseController {
 
 		if(StringUtils.isNotBlank(username)){
 			criteria.andUsernameLike("%" + username + "%");
+		}
+		if(StringUtils.isNotBlank(realname)){
+			criteria.andRealnameLike("%" + realname + "%");
 		}
 		if(roleId!=null){
 			criteria.andRoleIdsLike("%," + roleId + "%,");
@@ -86,6 +89,9 @@ public class SysUserController extends BaseController {
 		String searchStr = "&pageSize="+pageSize;
 		if(StringUtils.isNotBlank(username)){
 			searchStr += "&username="+username;
+		}
+		if(StringUtils.isNotBlank(realname)){
+			searchStr += "&realname="+realname;
 		}
 		if(StringUtils.isNotBlank(sort)){
 			searchStr += "&sort="+sort;

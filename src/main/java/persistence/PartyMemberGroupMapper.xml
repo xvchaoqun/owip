@@ -245,9 +245,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.PartyMemberGroup" >
     update ow_party_member_group
     <set >
-      <if test="fid != null" >
+      <!--<if test="fid != null" >-->
         fid = #{fid,jdbcType=INTEGER},
-      </if>
+      <!--</if>-->
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
@@ -266,9 +266,9 @@
       <if test="appointTime != null" >
         appoint_time = #{appointTime,jdbcType=DATE},
       </if>
-      <if test="dispatchUnitId != null" >
+      <!--<if test="dispatchUnitId != null" >-->
         dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
-      </if>
+      <!--</if>-->
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
