@@ -39,8 +39,8 @@
       </table>-->
      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
       </table>-->
-      <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
-      </table>
+     <!-- <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
+      </table>-->
       <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
       </table>-->
      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
@@ -80,19 +80,20 @@
       </table>
     <table tableName="ow_branch" domainObjectName="Branch">
     <ignoreColumn column="update_time"/>
-    </table>
-    <table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
-    </table>
-    <table tableName="base_unit_transfer_item" domainObjectName="UnitTransferItem">
-    </table>
-    <table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">
-    </table>
-    <table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
-    </table>
-    <table tableName="base_unit_cadre_transfer_item" domainObjectName="UnitCadreTransferItem">
-    </table>
-    <table tableName="base_dispatch" domainObjectName="Dispatch">
     </table>-->
+    <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
+        <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+    </table>-->
+      <table tableName="base_unit_admin_group" domainObjectName="UnitAdminGroup">
+      </table>
+      <!--<table tableName="base_unit_admin" domainObjectName="UnitAdmin">
+      </table>-->
+    <!--<table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">
+    </table>-->
+      <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
+      </table>
+      <table tableName="base_dispatch" domainObjectName="Dispatch">
+      </table>-->
     <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
     </table>-->
       <!--

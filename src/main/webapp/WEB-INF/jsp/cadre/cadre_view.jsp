@@ -5,7 +5,7 @@
 <c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="widget-box transparent" id="cadre-box">
+        <div class="widget-box transparent" id="view-box">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
                     <a href="javascript:;" class="btn btn-mini btn-success" onclick="closeView()">
@@ -67,9 +67,9 @@
         </div><!-- /.widget-box -->
     </div>
 <script>
-    $("#cadre-box .nav-tabs li a").click(function(){
+    $("#view-box .nav-tabs li a").click(function(){
         $this = $(this);
-        var $container = $("#cadre-box .tab-content");
+        var $container = $("#view-box .tab-content");
         $container.showLoading({'afterShow':
                 function() {
                     setTimeout( function(){
@@ -80,7 +80,7 @@
         if($(this).data("url")!='') {
             $container.load($(this).data("url"), function () {
                 $container.hideLoading();
-                $("#cadre-box .nav-tabs li").removeClass("active");
+                $("#view-box .nav-tabs li").removeClass("active");
                 $this.closest("li").addClass("active");
             });
         }else{

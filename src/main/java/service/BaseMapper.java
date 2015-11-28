@@ -2,9 +2,18 @@ package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.*;
+import persistence.common.CommonMapper;
+import persistence.common.CommonUnitMapper;
 
 public class BaseMapper {
 
+	@Autowired
+	protected CommonUnitMapper commonUnitMapper;
+
+	@Autowired
+	protected UnitAdminGroupMapper unitAdminGroupMapper;
+	@Autowired
+	protected UnitAdminMapper unitAdminMapper;
 	@Autowired
 	protected CadreInfoMapper cadreInfoMapper;
 	@Autowired
@@ -68,13 +77,9 @@ public class BaseMapper {
 	@Autowired
 	protected BranchMapper branchMapper;
 	@Autowired
-	protected UnitTransferItemMapper unitTransferItemMapper;
-	@Autowired
 	protected UnitTransferMapper unitTransferMapper;
 	@Autowired
 	protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
-	@Autowired
-	protected UnitCadreTransferItemMapper unitCadreTransferItemMapper;
 	@Autowired
 	protected UnitCadreTransferMapper unitCadreTransferMapper;
 	@Autowired

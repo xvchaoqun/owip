@@ -6,13 +6,31 @@
   "tablePrefix": "base_",
   "tables": [
     {
+      "table": "unit_admin_group",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "fid,name, is_present,tran_time,actual_tran_time,appoint_time",
+      "excludeEditColumns": "id, sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "unit_admin",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "group_id,cadre_id, post_id,is_admin",
+      "excludeEditColumns": "id, sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
       "table": "cadre_info",
       "key": "cadre_id",
       "searchColumns": "cadre_id",
       "showColumns": "mobile,office_phone, home_phone,email",
       "excludeEditColumns": "",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_famliy_abroad",
@@ -21,7 +39,7 @@
       "showColumns": "famliy_id,type, abroad_time,country,city",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_famliy",
@@ -30,7 +48,7 @@
       "showColumns": "title,realname, birthday,political_status,unit",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_company",
@@ -39,7 +57,7 @@
       "showColumns": "start_time,unit, report_unit",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cadre_parttime",

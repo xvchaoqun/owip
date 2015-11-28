@@ -3,6 +3,22 @@
 xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
 
 <!-- service 缓存 -->
+       <cache name="UnitAdmin:ALL"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+       <cache name="UnitAdminGroup:ALL"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
        <cache name="MemberApply"
               eternal="false"
               maxElementsInMemory="2000"

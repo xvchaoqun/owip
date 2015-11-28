@@ -29,8 +29,8 @@ pageEncoding="UTF-8" %>
                 </script>
                 <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
                     <option></option>
-                    <c:forEach var="metaType" items="${metaTypeMap}">
-                        <option value="${metaType.value.id}">${metaType.value.name}</option>
+                    <c:forEach var="dispatchUnitType" items="${dispatchUnitTypeMap}">
+                        <option value="${dispatchUnitType.value.id}">${dispatchUnitType.value.name}</option>
                     </c:forEach>
                 </select>
                 <script type="text/javascript">
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                             </td>
                                 <td nowrap>${dispatchMap.get(dispatchUnit.dispatchId).code}</td>
 								<td nowrap>${unitMap.get(dispatchUnit.unitId).name}</td>
-								<td nowrap>${metaTypeMap.get(dispatchUnit.typeId).name}</td>
+								<td nowrap>${dispatchUnitTypeMap.get(dispatchUnit.typeId).name}</td>
 								<td nowrap>${dispatchUnit.year}</td>
 								<td nowrap>${dispatchUnit.remark}</td>
                             <shiro:hasPermission name="dispatchUnit:changeOrder">
@@ -204,7 +204,7 @@ pageEncoding="UTF-8" %>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

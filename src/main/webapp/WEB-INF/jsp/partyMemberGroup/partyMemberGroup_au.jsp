@@ -118,7 +118,7 @@ pageEncoding="UTF-8"%>
         width:300,
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

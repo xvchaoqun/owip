@@ -1,19 +1,13 @@
 package mapper;
 
 import domain.Cadre;
-import domain.SysUser;
-import domain.SysUserExample;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.CommonMapper;
-import persistence.SysUserMapper;
-import service.SysUserService;
-import shiro.PasswordHelper;
-import sys.utils.MD5Util;
+import persistence.common.CommonMapper;
 
 import java.util.List;
 

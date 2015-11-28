@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#cadre-box .tab-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#view-box .tab-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -161,12 +161,12 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#cadre-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
+        $("#view-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
     }
 
     function _batchDel(){
 
-        var ids = $.map($("#cadre-box .table td :checkbox:checked"),function(item, index){
+        var ids = $.map($("#view-box .table td :checkbox:checked"),function(item, index){
             return $(item).val();
         });
         if(ids.length==0){
@@ -191,7 +191,7 @@ pageEncoding="UTF-8" %>
     $('#searchForm [data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

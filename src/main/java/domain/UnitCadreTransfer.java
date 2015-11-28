@@ -18,6 +18,8 @@ public class UnitCadreTransfer implements Serializable {
 
     private Date dismissTime;
 
+    private String dispatchs;
+
     private String remark;
 
     private Integer sortOrder;
@@ -78,6 +80,14 @@ public class UnitCadreTransfer implements Serializable {
 
     public void setDismissTime(Date dismissTime) {
         this.dismissTime = dismissTime;
+    }
+
+    public String getDispatchs() {
+        return dispatchs;
+    }
+
+    public void setDispatchs(String dispatchs) {
+        this.dispatchs = dispatchs == null ? null : dispatchs.trim();
     }
 
     public String getRemark() {

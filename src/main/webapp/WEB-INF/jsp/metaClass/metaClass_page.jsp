@@ -103,7 +103,7 @@
                                 <i class="fa fa-edit"></i> 编辑
                             </button>
                                  <button onclick="openView(${metaClass.id})"  class="btn btn-mini btn-success">
-                                     <i class="fa fa-edit"></i> 编辑属性
+                                     <i class="fa fa-bars"></i> 编辑属性
                                  </button>
                              </shiro:hasPermission>
                                 <shiro:hasRole name="admin">

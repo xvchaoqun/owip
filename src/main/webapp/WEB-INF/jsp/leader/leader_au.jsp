@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
         minimumInputLength: 2,
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

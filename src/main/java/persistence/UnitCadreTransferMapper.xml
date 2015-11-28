@@ -9,6 +9,7 @@
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="appoint_time" property="appointTime" jdbcType="DATE" />
     <result column="dismiss_time" property="dismissTime" jdbcType="DATE" />
+    <result column="dispatchs" property="dispatchs" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
   </resultMap>
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, group_id, cadre_id, name, post_id, appoint_time, dismiss_time, remark, sort_order
+    id, group_id, cadre_id, name, post_id, appoint_time, dismiss_time, dispatchs, remark, 
+    sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.UnitCadreTransferExample" >
     select
@@ -103,17 +105,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.UnitCadreTransfer" >
+  <insert id="insert" parameterType="domain.UnitCadreTransfer" >
     insert into base_unit_cadre_transfer (id, group_id, cadre_id, 
       name, post_id, appoint_time, 
-      dismiss_time, remark, sort_order
-      )
+      dismiss_time, dispatchs, remark, 
+      sort_order)
     values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{appointTime,jdbcType=DATE}, 
-      #{dismissTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{dismissTime,jdbcType=DATE}, #{dispatchs,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.UnitCadreTransfer" >
+  <insert id="insertSelective" parameterType="domain.UnitCadreTransfer" >
     insert into base_unit_cadre_transfer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -136,6 +138,9 @@
       </if>
       <if test="dismissTime != null" >
         dismiss_time,
+      </if>
+      <if test="dispatchs != null" >
+        dispatchs,
       </if>
       <if test="remark != null" >
         remark,
@@ -165,6 +170,9 @@
       </if>
       <if test="dismissTime != null" >
         #{dismissTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchs != null" >
+        #{dispatchs,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -204,6 +212,9 @@
       <if test="record.dismissTime != null" >
         dismiss_time = #{record.dismissTime,jdbcType=DATE},
       </if>
+      <if test="record.dispatchs != null" >
+        dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -224,6 +235,7 @@
       post_id = #{record.postId,jdbcType=INTEGER},
       appoint_time = #{record.appointTime,jdbcType=DATE},
       dismiss_time = #{record.dismissTime,jdbcType=DATE},
+      dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -251,6 +263,9 @@
       <if test="dismissTime != null" >
         dismiss_time = #{dismissTime,jdbcType=DATE},
       </if>
+      <if test="dispatchs != null" >
+        dispatchs = #{dispatchs,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -268,6 +283,7 @@
       post_id = #{postId,jdbcType=INTEGER},
       appoint_time = #{appointTime,jdbcType=DATE},
       dismiss_time = #{dismissTime,jdbcType=DATE},
+      dispatchs = #{dispatchs,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

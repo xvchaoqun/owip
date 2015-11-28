@@ -3,22 +3,20 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${unitCadreTransferGroup!=null}">编辑</c:if><c:if test="${unitCadreTransferGroup==null}">添加</c:if>单位任免分组</h3>
+    <h3><c:if test="${unitCadreTransferGroup!=null}">编辑</c:if><c:if test="${unitCadreTransferGroup==null}">添加</c:if>任免项目</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitCadreTransferGroup_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitCadreTransferGroup.id}">
+        <input type="hidden" name="unitId" value="${unitId}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">所属单位</label>
+            <div class="col-xs-6">
+                <input type="text" disabled value="${unitMap.get(unitId).name}">
+            </div>
+        </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属单位</label>
-				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects"
-                            name="unitId" data-placeholder="请选择所属单位">
-                        <option value="${unit.id}">${unit.name}</option>
-                    </select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">分组名称</label>
+				<label class="col-xs-3 control-label">项目名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${unitCadreTransferGroup.name}">
 				</div>
@@ -36,7 +34,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        _reload();
                         toastr.success('操作成功。', '成功');
                     }
                 }
@@ -48,7 +46,7 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

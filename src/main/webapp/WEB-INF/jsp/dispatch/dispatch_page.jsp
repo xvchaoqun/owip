@@ -240,7 +240,7 @@ pageEncoding="UTF-8" %>
 
     function swf_preview(id, type){
 
-        loadModal("${ctx}/swf_preview2?id="+id + "&type=" + type);
+        loadModal("${ctx}/swf_preview?id="+id + "&type=" + type);
     }
     $('.date-picker').datepicker({
         language:"zh-CN",
@@ -266,7 +266,7 @@ pageEncoding="UTF-8" %>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

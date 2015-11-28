@@ -4,6 +4,17 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.*;
+import service.cadre.*;
+import service.dispatch.DispatchCadreService;
+import service.dispatch.DispatchService;
+import service.dispatch.DispatchUnitRelateService;
+import service.dispatch.DispatchUnitService;
+import service.ext.ExtBksService;
+import service.ext.ExtJzgService;
+import service.ext.ExtYjsService;
+import service.party.*;
+import service.sys.*;
+import service.unit.*;
 import shiro.PasswordHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +27,10 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected SyncUserService syncUserService;
 
+    @Autowired
+    protected UnitAdminGroupService unitAdminGroupService;
+    @Autowired
+    protected UnitAdminService unitAdminService;
     @Autowired
     protected CadreSubWorkService cadreSubWorkService;
     @Autowired
@@ -76,13 +91,9 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
-    protected UnitTransferItemService unitTransferItemService;
-    @Autowired
     protected UnitCadreTransferService unitCadreTransferService;
     @Autowired
     protected UnitCadreTransferGroupService unitCadreTransferGroupService;
-    @Autowired
-    protected UnitCadreTransferItemService unitCadreTransferItemService;
     @Autowired
     protected DispatchService dispatchService;
     @Autowired

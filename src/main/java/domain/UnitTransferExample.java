@@ -322,6 +322,76 @@ public class UnitTransferExample {
             return (Criteria) this;
         }
 
+        public Criteria andContentIsNull() {
+            addCriterion("content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentIsNotNull() {
+            addCriterion("content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentEqualTo(String value) {
+            addCriterion("content =", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotEqualTo(String value) {
+            addCriterion("content <>", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentGreaterThan(String value) {
+            addCriterion("content >", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentGreaterThanOrEqualTo(String value) {
+            addCriterion("content >=", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLessThan(String value) {
+            addCriterion("content <", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLessThanOrEqualTo(String value) {
+            addCriterion("content <=", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLike(String value) {
+            addCriterion("content like", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotLike(String value) {
+            addCriterion("content not like", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentIn(List<String> values) {
+            addCriterion("content in", values, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotIn(List<String> values) {
+            addCriterion("content not in", values, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentBetween(String value1, String value2) {
+            addCriterion("content between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotBetween(String value1, String value2) {
+            addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
         public Criteria andPubTimeIsNull() {
             addCriterion("pub_time is null");
             return (Criteria) this;
@@ -379,6 +449,76 @@ public class UnitTransferExample {
 
         public Criteria andPubTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("pub_time not between", value1, value2, "pubTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsIsNull() {
+            addCriterion("dispatchs is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsIsNotNull() {
+            addCriterion("dispatchs is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsEqualTo(String value) {
+            addCriterion("dispatchs =", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotEqualTo(String value) {
+            addCriterion("dispatchs <>", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsGreaterThan(String value) {
+            addCriterion("dispatchs >", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsGreaterThanOrEqualTo(String value) {
+            addCriterion("dispatchs >=", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLessThan(String value) {
+            addCriterion("dispatchs <", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLessThanOrEqualTo(String value) {
+            addCriterion("dispatchs <=", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLike(String value) {
+            addCriterion("dispatchs like", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotLike(String value) {
+            addCriterion("dispatchs not like", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsIn(List<String> values) {
+            addCriterion("dispatchs in", values, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotIn(List<String> values) {
+            addCriterion("dispatchs not in", values, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsBetween(String value1, String value2) {
+            addCriterion("dispatchs between", value1, value2, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotBetween(String value1, String value2) {
+            addCriterion("dispatchs not between", value1, value2, "dispatchs");
             return (Criteria) this;
         }
 

@@ -614,17 +614,17 @@ pageEncoding="UTF-8"%>
 			</table>
 		</div></div></div>
 <style>
-	#cadre-box .table-striped > tbody > tr:nth-of-type(odd) {
+	#view-box .table-striped > tbody > tr:nth-of-type(odd) {
 		background-color:inherit;
 	}
-	#cadre-box .table tbody tr:hover td, .table tbody tr:hover th {
+	#view-box .table tbody tr:hover td, .table tbody tr:hover th {
 		background-color:transparent;
 	}
-	#cadre-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+	#view-box .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;
 		text-align: right;
 	}
-	#cadre-box  .widget-main.no-padding .table{
+	#view-box  .widget-main.no-padding .table{
 
 		border: 1px solid #E5E5E5
 	}
@@ -647,7 +647,7 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

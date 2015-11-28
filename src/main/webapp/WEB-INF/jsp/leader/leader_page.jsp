@@ -201,7 +201,7 @@ pageEncoding="UTF-8" %>
         templateResult: formatState,
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

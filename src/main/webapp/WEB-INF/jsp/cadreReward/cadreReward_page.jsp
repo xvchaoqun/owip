@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreReward_page" target="#cadre-box .tab-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreReward_page" target="#view-box .tab-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -151,7 +151,7 @@ function _del(id){
 }
 function _reload(){
     $("#modal").modal('hide');
-    $("#cadre-box .tab-content").load("${ctx}/cadreReward_page?${pageContext.request.queryString}");
+    $("#view-box .tab-content").load("${ctx}/cadreReward_page?${pageContext.request.queryString}");
 }
 
 $('#searchForm [data-rel="select2"]').select2();
@@ -159,7 +159,7 @@ $('#searchForm [data-rel="select2"]').select2();
     $('#searchForm [data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

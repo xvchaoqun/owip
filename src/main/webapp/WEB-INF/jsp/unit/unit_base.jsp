@@ -1,0 +1,215 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="widget-box transparent">
+	<div class="widget-header widget-header-flat">
+		<h4 class="widget-title lighter">
+			<i class="ace-icon fa fa-info-circle"></i>
+			基本信息(${unit.status==1?"正在运转单位":"历史单位"})
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+				<table class="table table-bordered table-striped">
+					<tbody>
+					<tr>
+
+						<td>
+							单位名称
+						</td>
+						<td style="min-width: 80px">
+							${unit.name}
+						</td>
+						<td>
+							单位编号
+						</td>
+						<td  style="min-width: 80px">
+							${unit.code}
+						</td>
+						<td>
+							单位网址
+						</td>
+						<td style="min-width: 80px">
+							<c:if test="${not empty unit.url}">
+								<a href="${unit.url}" target="_blank">${unit.url}</a>
+							</c:if>
+						</td>
+					</tr>
+					<tr>
+						<td>单位类型</td>
+						<td >
+							${unitTypeMap.get(unit.typeId).name}
+						</td>
+						<td>
+							成立时间
+						</td>
+						<td>
+							${cm:formatDate(unit.workTime, "yyyy-MM-dd")}
+						</td>
+						<td >
+							备注
+						</td>
+						<td>
+							${unit.remark}
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+
+</div></div></div>
+
+<div class="widget-box transparent">
+
+	<div class="widget-header widget-header-flat">
+		<h4 class="widget-title lighter">
+			<i class="ace-icon fa fa-circle-o"></i>
+			正在运转单位
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+
+			<table class="table table-striped table-bordered table-hover table-condensed">
+				<thead>
+				<tr>
+					<th>单位编号</th>
+					<th>单位名称</th>
+					<th>单位类型</th>
+					<th>成立时间</th>
+					<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<c:forEach items="${runUnits}" var="unit" varStatus="st">
+					<tr>
+						<td >${unit.code}</td>
+						<td >
+							<a href="javascript:;" onclick="openView(${unit.id})">
+									${unit.name}
+							</a>
+						</td>
+						<td  class="hidden-480 hidden-xs">${unitTypeMap.get(unit.typeId).name}</td>
+						<td  class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
+
+						<td  class="hidden-480 hidden-xs">${unit.remark}</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+
+<div class="widget-box transparent">
+	<div class="widget-header widget-header-flat">
+		<h4 class="widget-title lighter">
+			<i class="ace-icon fa fa-history"></i>
+			历史单位
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<table class="table table-striped table-bordered table-hover table-condensed">
+				<thead>
+				<tr>
+					<th>单位编号</th>
+					<th>单位名称</th>
+					<th>单位类型</th>
+					<th>成立时间</th>
+					<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<c:forEach items="${historyUnits}" var="unit" varStatus="st">
+					<tr>
+						<td >${unit.code}</td>
+						<td >
+							<a href="javascript:;" onclick="openView(${unit.id})">
+									${unit.name}
+							</a>
+						</td>
+						<td  class="hidden-480 hidden-xs">${unitTypeMap.get(unit.typeId).name}</td>
+						<td  class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
+
+						<td  class="hidden-480 hidden-xs">${unit.remark}</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<style>
+	#view-box .table-striped > tbody > tr:nth-of-type(odd) {
+		background-color:inherit;
+	}
+	#view-box .table tbody tr:hover td, .table tbody tr:hover th {
+		background-color:transparent;
+	}
+	#view-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+		background-color: #f9f9f9;
+		text-align: right;
+	}
+	#view-box  .widget-main.no-padding .table{
+
+		border: 1px solid #E5E5E5
+	}
+</style>
+<script>
+    $("#modal form").validate({
+        submitHandler: function (form) {
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                }
+            });
+        }
+    });
+    $('#modalForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $('#modalForm [data-rel="select2-ajax"]').select2({
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+</script>

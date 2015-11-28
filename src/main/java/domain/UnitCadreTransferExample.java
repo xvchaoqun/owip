@@ -562,6 +562,76 @@ public class UnitCadreTransferExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchsIsNull() {
+            addCriterion("dispatchs is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsIsNotNull() {
+            addCriterion("dispatchs is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsEqualTo(String value) {
+            addCriterion("dispatchs =", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotEqualTo(String value) {
+            addCriterion("dispatchs <>", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsGreaterThan(String value) {
+            addCriterion("dispatchs >", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsGreaterThanOrEqualTo(String value) {
+            addCriterion("dispatchs >=", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLessThan(String value) {
+            addCriterion("dispatchs <", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLessThanOrEqualTo(String value) {
+            addCriterion("dispatchs <=", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsLike(String value) {
+            addCriterion("dispatchs like", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotLike(String value) {
+            addCriterion("dispatchs not like", value, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsIn(List<String> values) {
+            addCriterion("dispatchs in", values, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotIn(List<String> values) {
+            addCriterion("dispatchs not in", values, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsBetween(String value1, String value2) {
+            addCriterion("dispatchs between", value1, value2, "dispatchs");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchsNotBetween(String value1, String value2) {
+            addCriterion("dispatchs not between", value1, value2, "dispatchs");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

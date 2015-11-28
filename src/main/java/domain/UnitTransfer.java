@@ -10,11 +10,13 @@ public class UnitTransfer implements Serializable {
 
     private String subject;
 
+    private String content;
+
     private Date pubTime;
 
-    private Integer sortOrder;
+    private String dispatchs;
 
-    private String content;
+    private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +44,14 @@ public class UnitTransfer implements Serializable {
         this.subject = subject == null ? null : subject.trim();
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
     public Date getPubTime() {
         return pubTime;
     }
@@ -50,19 +60,19 @@ public class UnitTransfer implements Serializable {
         this.pubTime = pubTime;
     }
 
+    public String getDispatchs() {
+        return dispatchs;
+    }
+
+    public void setDispatchs(String dispatchs) {
+        this.dispatchs = dispatchs == null ? null : dispatchs.trim();
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 }

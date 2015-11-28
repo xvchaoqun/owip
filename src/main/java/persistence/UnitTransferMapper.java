@@ -17,10 +17,6 @@ public interface UnitTransferMapper {
 
     int insertSelective(UnitTransfer record);
 
-    List<UnitTransfer> selectByExampleWithBLOBsWithRowbounds(UnitTransferExample example, RowBounds rowBounds);
-
-    List<UnitTransfer> selectByExampleWithBLOBs(UnitTransferExample example);
-
     List<UnitTransfer> selectByExampleWithRowbounds(UnitTransferExample example, RowBounds rowBounds);
 
     List<UnitTransfer> selectByExample(UnitTransferExample example);
@@ -29,13 +25,9 @@ public interface UnitTransferMapper {
 
     int updateByExampleSelective(@Param("record") UnitTransfer record, @Param("example") UnitTransferExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") UnitTransfer record, @Param("example") UnitTransferExample example);
-
     int updateByExample(@Param("record") UnitTransfer record, @Param("example") UnitTransferExample example);
 
     int updateByPrimaryKeySelective(UnitTransfer record);
-
-    int updateByPrimaryKeyWithBLOBs(UnitTransfer record);
 
     int updateByPrimaryKey(UnitTransfer record);
 }

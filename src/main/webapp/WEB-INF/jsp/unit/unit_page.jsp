@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
+        <div class="unit-list">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li  class="<c:if test="${status==1}">active</c:if>">
@@ -32,8 +32,8 @@ pageEncoding="UTF-8" %>
                        placeholder="请输入单位名称">
                 <select data-rel="select2" name="typeId" data-placeholder="请选择单位类型">
                     <option></option>
-                    <c:forEach var="metaType" items="${metaTypeMap}">
-                        <option value="${metaType.value.id}">${metaType.value.name}</option>
+                    <c:forEach var="unitType" items="${unitTypeMap}">
+                        <option value="${unitType.value.id}">${unitType.value.name}</option>
                     </c:forEach>
                 </select>
                 <script type="text/javascript">
@@ -50,12 +50,12 @@ pageEncoding="UTF-8" %>
                 <div class="buttons pull-right">
                     <c:if test="${status==1}">
                     <shiro:hasPermission name="unit:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加单位</a>
                     </shiro:hasPermission>
                     </c:if>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出单位</a>
                     <shiro:hasPermission name="unit:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
@@ -97,14 +97,11 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td >${unit.code}</td>
 								<td >
-                                    <c:if test="${not empty unit.url}">
-                                        <a href="${unit.url}" target="_blank">${unit.name}</a>
-                                    </c:if>
-                                    <c:if test="${empty unit.url}">
-                                        ${unit.name}
-                                    </c:if>
+                                    <a href="javascript:;" onclick="openView(${unit.id})">
+                                            ${unit.name}
+                                    </a>
 								</td>
-								<td  class="hidden-480 hidden-xs">${metaTypeMap.get(unit.typeId).name}</td>
+								<td  class="hidden-480 hidden-xs">${unitTypeMap.get(unit.typeId).name}</td>
 								<td  class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
 
 								<td  class="hidden-480 hidden-xs">${unit.remark}</td>
@@ -128,7 +125,7 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${status==1}">
                                     <shiro:hasPermission name="unit:abolish">
                                         <button data-id="${unit.id}" class="abolishBtn btn btn-warning btn-mini">
-                                            <i class="fa fa-recycle"></i> 撤销
+                                            <i class="fa fa-recycle"></i> 转移
                                         </button>
                                     </shiro:hasPermission>
                                     </c:if>
@@ -198,8 +195,26 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
     </div></div></div>
+    </div>
+    <div class="unit-view">
+        </div>
 </div>
+<style>
+    .unit-view{
+        display: none;
+    }
+</style>
 <script>
+
+
+    function openView(id){
+        $(".unit-list").hide();
+        $(".unit-view").load("${ctx}/unit_view?id="+id).show();
+    }
+    function closeView(){
+        $(".unit-list").show();
+        $(".unit-view").hide();
+    }
 
     /*$(".tabbable li a").click(function(){
         $this = $(this);
@@ -216,7 +231,7 @@ pageEncoding="UTF-8" %>
 
     $(".abolishBtn").click(function(){
         var id = $(this).data("id");
-        bootbox.confirm("确定撤销该单位吗？", function (result) {
+        bootbox.confirm("确定转移该单位到历史单位吗？", function (result) {
             if (result) {
                 $.post("${ctx}/unit_abolish", {id: id}, function (ret) {
                     if (ret.success) {
@@ -232,7 +247,7 @@ pageEncoding="UTF-8" %>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

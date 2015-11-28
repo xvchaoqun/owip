@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="page-list">
+        <div class="cadre-list">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="cadreStatus" items="${CADRE_STATUS_MAP}">
@@ -255,11 +255,11 @@ pageEncoding="UTF-8" %>
     }
 
     function openView(id){
-        $(".page-list").hide();
+        $(".cadre-list").hide();
         $(".cadre-view").load("${ctx}/cadre_view?id="+id).show();
     }
     function closeView(){
-        $(".page-list").show();
+        $(".cadre-list").show();
         $(".cadre-view").hide();
     }
 

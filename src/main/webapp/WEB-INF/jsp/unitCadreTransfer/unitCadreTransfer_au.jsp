@@ -2,19 +2,17 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${unitCadreTransfer!=null}">编辑</c:if><c:if test="${unitCadreTransfer==null}">添加</c:if>单位任免记录</h3>
+    <button type="button" onclick='unitCadreTransfer_page("${param.groupId}")' aria-hidden="true" class="close">&times;</button>
+    <h3><c:if test="${unitCadreTransfer!=null}">编辑</c:if><c:if test="${unitCadreTransfer==null}">添加</c:if>任职信息</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitCadreTransfer_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitCadreTransfer.id}">
+        <input type="hidden" name="groupId" value="${unitCadreTransferGroup.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属分组</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/unitCadreTransferGroup_selects"
-                            name="groupId" data-placeholder="请选择所属分组">
-                        <option value="${unitCadreTransferGroup.id}">${unitCadreTransferGroup.name}</option>
-                    </select>
+                    <input type="text" disabled value="${unitCadreTransferGroup.name}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -22,7 +20,9 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
-                        <option value="${cadre.id}">${cadre.name}</option>
+                        <c:if test="${not empty cadre}">
+                        <option value="${cadre.id}">${cm:getUserById(cadre.userId).realname}</option>
+                        </c:if>
                     </select>
 				</div>
 			</div>
@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#" onclick='unitCadreTransfer_page("${param.groupId}")' class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${unitCadreTransfer!=null}">确定</c:if><c:if test="${unitCadreTransfer==null}">添加</c:if>"/>
 </div>
 
@@ -90,7 +90,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        unitCadreTransfer_page("${param.groupId}");
                         toastr.success('操作成功。', '成功');
                     }
                 }
@@ -102,7 +102,7 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,

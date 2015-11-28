@@ -325,7 +325,7 @@ pageEncoding="UTF-8" %>
 
     function _reload(){
         $("#modal").modal('hide');
-        $("#cadre-box .tab-content").load("${ctx}/cadrePost_page?${pageContext.request.queryString}");
+        $("#view-box .tab-content").load("${ctx}/cadrePost_page?${pageContext.request.queryString}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();
@@ -333,7 +333,7 @@ pageEncoding="UTF-8" %>
     $('#searchForm [data-rel="select2-ajax"]').select2({
         ajax: {
             dataType: 'json',
-            delay: 200,
+            delay: 300,
             data: function (params) {
                 return {
                     searchStr: params.term,
