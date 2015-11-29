@@ -32,6 +32,11 @@ public interface CommonMapper {
     @Update("update ${tableName} set sort_order = sort_order + 1 where sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder(@Param("tableName") String tableName,  @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
+    @Update("update base_unit_admin set sort_order = sort_order - 1 where group_id = #{groupId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    void downOrder_unitAdmin(@Param("groupId") int groupId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+    @Update("update base_unit_admin set sort_order = sort_order + 1 where group_id = #{groupId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    void upOrder_unitAdmin(@Param("groupId") int groupId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+
     @Update("update base_dispatch_unit_relate set sort_order = sort_order - 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_dispatchUnit(@Param("dispatchUnitId") int dispatchUnitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
     @Update("update base_dispatch_unit_relate set sort_order = sort_order + 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")

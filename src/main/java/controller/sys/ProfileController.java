@@ -33,7 +33,7 @@ public class ProfileController extends BaseController {
     @RequestMapping("/setting_page")
     public String setting_page(ModelMap modelMap) {
 
-        return "profile/setting";
+        return "sys/profile/setting";
     }
 
     @RequiresPermissions("profile:view")
@@ -47,7 +47,7 @@ public class ProfileController extends BaseController {
     @RequestMapping("/profile_page")
     public String profile_page(ModelMap modelMap) {
 
-        return "profile/profile";
+        return "sys/profile/profile";
     }
 
     @RequiresPermissions("password:modify")
@@ -61,7 +61,7 @@ public class ProfileController extends BaseController {
     @RequestMapping("/password_page")
     public String password_page(ModelMap modelMap) {
 
-        return "profile/password";
+        return "sys/profile/password";
     }
 
     @RequiresPermissions("password:modify")

@@ -45,7 +45,7 @@ public class MetaTypeController extends BaseController {
     public String metaTypes(String __code, ModelMap modelMap) {
 
         modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
-        return "metaType/metaTypes";
+        return "sys/metaType/metaTypes";
     }
 
     @RequiresPermissions("metaType:list")
@@ -121,7 +121,7 @@ public class MetaTypeController extends BaseController {
 
         modelMap.put("metaClassMap", metaClassService.findAll());
 
-        return "metaType/metaType_page";
+        return "sys/metaType/metaType_page";
     }
 
     @RequiresPermissions("metaType:edit")
@@ -178,7 +178,7 @@ public class MetaTypeController extends BaseController {
             modelMap.put("metaClass", metaClass);
         }*/
         modelMap.put("metaClassMap", metaClassService.findAll());
-        return "metaType/metaType_au";
+        return "sys/metaType/metaType_au";
     }
 
     @RequiresPermissions("metaType:del")

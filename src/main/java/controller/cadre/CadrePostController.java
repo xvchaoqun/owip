@@ -72,7 +72,7 @@ public class CadrePostController extends BaseController {
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
 
-        return "cadrePost/cadrePost_page";
+        return "cadre/cadrePost/cadrePost_page";
     }
 
     @RequiresPermissions("cadrePost:edit")
@@ -115,7 +115,7 @@ public class CadrePostController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadrePost/cadrePost_au";
+        return "cadre/cadrePost/cadrePost_au";
     }
 
     @RequiresPermissions("cadrePost:del")
@@ -158,7 +158,7 @@ public class CadrePostController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "cadrePost/cadrePost_addDispatchs";
+        return "cadre/cadrePost/cadrePost_addDispatchs";
     }
 
     @RequestMapping(value = "/cadrePost_addDispatch", method = RequestMethod.POST)
@@ -278,7 +278,7 @@ public class CadrePostController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "cadrePost/cadreMainWork_addDispatchs";
+        return "cadre/cadrePost/cadreMainWork_addDispatchs";
     }
 
     @RequestMapping(value = "/cadreMainWork_addDispatchs", method = RequestMethod.POST)
@@ -350,7 +350,7 @@ public class CadrePostController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadrePost/cadreSubWork_au";
+        return "cadre/cadrePost/cadreSubWork_au";
     }
 
     @RequiresPermissions("cadrePost:del")
@@ -402,7 +402,7 @@ public class CadrePostController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "cadrePost/cadreSubWork_addDispatchs";
+        return "cadre/cadrePost/cadreSubWork_addDispatchs";
     }
 
     @RequestMapping(value = "/cadreSubWork_addDispatchs", method = RequestMethod.POST)

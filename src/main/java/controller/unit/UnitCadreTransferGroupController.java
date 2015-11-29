@@ -110,7 +110,7 @@ public class UnitCadreTransferGroupController extends BaseController {
 
         modelMap.put("unitMap", unitService.findAll());
 
-        return "unitCadreTransferGroup/unitCadreTransferGroup_page";
+        return "unit/unitCadreTransferGroup/unitCadreTransferGroup_page";
     }
 
     @RequiresPermissions("unitCadreTransferGroup:edit")
@@ -146,7 +146,7 @@ public class UnitCadreTransferGroupController extends BaseController {
             modelMap.put("unitId", unitCadreTransferGroup.getUnitId());
         }
         modelMap.put("unitMap", unitService.findAll());
-        return "unitCadreTransferGroup/unitCadreTransferGroup_au";
+        return "unit/unitCadreTransferGroup/unitCadreTransferGroup_au";
     }
 
     @RequiresPermissions("unitCadreTransferGroup:del")

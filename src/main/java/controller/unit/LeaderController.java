@@ -115,10 +115,11 @@ public class LeaderController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_leader_type"));
+        modelMap.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("cadreMap", cadreService.findAll());
 
-        return "leader/leader_page";
+        return "unit/leader/leader_page";
     }
 
     @RequiresPermissions("leader:edit")
@@ -156,7 +157,7 @@ public class LeaderController extends BaseController {
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
-        return "leader/leader_au";
+        return "unit/leader/leader_au";
     }
 
     @RequiresPermissions("leader:del")
@@ -284,6 +285,6 @@ public class LeaderController extends BaseController {
             modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_leader_unit"));
         }
 
-        return "leader/leader_unit";
+        return "unit/leader/leader_unit";
     }
 }

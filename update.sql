@@ -1,5 +1,12 @@
 
 
+#2015.1129
+# 联系院系所 mt_leader_contact
+# 分管部门 mt_leader_manager
+# 单位管理->综合管理 3 /unit_layout unitLayout:*
+ALTER TABLE `base_unit_admin`
+	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否管理员，暂未用' AFTER `post_id`;
+
 ##2015.11.28
 drop table base_unit_transfer_item;
 ALTER TABLE `base_unit_transfer`

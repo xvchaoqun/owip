@@ -172,7 +172,7 @@ public class DispatchCadreController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "dispatchCadre/dispatchCadre_page";
+        return "dispatch/dispatchCadre/dispatchCadre_page";
     }
 
     @RequiresPermissions("dispatchCadre:edit")
@@ -218,7 +218,7 @@ public class DispatchCadreController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "dispatchCadre/dispatchCadre_au";
+        return "dispatch/dispatchCadre/dispatchCadre_au";
     }
 
     @RequiresPermissions("dispatchCadre:del")

@@ -99,7 +99,7 @@ public class CadreParttimeController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "cadreParttime/cadreParttime_page";
+        return "cadre/cadreParttime/cadreParttime_page";
     }
 
     @RequiresPermissions("cadreParttime:edit")
@@ -142,7 +142,7 @@ public class CadreParttimeController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadreParttime/cadreParttime_au";
+        return "cadre/cadreParttime/cadreParttime_au";
     }
 
     @RequiresPermissions("cadreParttime:del")

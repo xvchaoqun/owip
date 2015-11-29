@@ -42,7 +42,7 @@ public class SysResourceController extends BaseController {
 	public String sysResource_page(ModelMap modelMap) {
 
 		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
-		return "sysResource/sysResource_page";
+		return "sys/sysResource/sysResource_page";
 	}
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
@@ -104,7 +104,7 @@ public class SysResourceController extends BaseController {
 	        modelMap.addAttribute("op", "新增子节点");
 		}
 		
-		return "sysResource/sysResource_au";
+		return "sys/sysResource/sysResource_au";
 	}
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)

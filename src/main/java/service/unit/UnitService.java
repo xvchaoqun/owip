@@ -20,6 +20,14 @@ import java.util.*;
 @Service
 public class UnitService extends BaseMapper {
 
+    public List<Unit> findUnitByTypeAndStatus(int type, byte status){
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andTypeIdEqualTo(type).andStatusEqualTo(status);
+        example.setOrderByClause(" sort_order desc");
+        return unitMapper.selectByExample(example);
+    }
+
     // 查找正在运转单位
     public List<Unit> findRunUnits(int unitId){
 

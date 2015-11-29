@@ -62,7 +62,7 @@ public class CadreInfoController extends BaseController {
             return null;
         }
 
-        return "cadreInfo/cadreInfo_page";
+        return "cadre/cadreInfo/cadreInfo_page";
     }
 
     @RequiresPermissions("cadreInfo:edit")
@@ -97,7 +97,7 @@ public class CadreInfoController extends BaseController {
             CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadreInfo", cadreInfo);
         }
-        return "cadreInfo/cadreInfo_au";
+        return "cadre/cadreInfo/cadreInfo_au";
     }
 
     @RequiresPermissions("cadreInfo:del")

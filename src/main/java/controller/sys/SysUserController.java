@@ -117,7 +117,7 @@ public class SysUserController extends BaseController {
 		modelMap.put("userSourceMap", SystemConstants.USER_SOURCE_MAP);
 		modelMap.put("roleMap", sysRoleService.findAll());
 
-		return "sysUser/sysUser_page";
+		return "sys/sysUser/sysUser_page";
 	}
 	@RequiresRoles("admin")
 	@RequestMapping("/sysUser_roles")
@@ -126,7 +126,7 @@ public class SysUserController extends BaseController {
 		Set<String> roles = sysUserService.findRoles(_sysUsername);
 		modelMap.put("roles", roles);
 		
-		return "sysUser/sysUser_roles";
+		return "sys/sysUser/sysUser_roles";
 	}
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysUser_au", method=RequestMethod.POST)
@@ -192,7 +192,7 @@ public class SysUserController extends BaseController {
 
 		modelMap.put("userTypeMap", SystemConstants.USER_TYPE_MAP);
 
-		return "sysUser/sysUser_au";
+		return "sys/sysUser/sysUser_au";
 	}
 
 	@RequiresRoles("admin")
@@ -244,7 +244,7 @@ public class SysUserController extends BaseController {
 		TreeNode tree = sysRoleService.getTree(selectIdSet);
 		modelMap.put("tree", JSONUtils.toString(tree));
 
-		return "sysUser/sysUserRole";
+		return "sys/sysUser/sysUserRole";
 	}
 
 	@RequestMapping("/sysUser_export")

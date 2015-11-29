@@ -60,7 +60,7 @@ public class CadreCompanyController extends BaseController {
             return null;
         }
         
-        return "cadreCompany/cadreCompany_page";
+        return "cadre/cadreCompany/cadreCompany_page";
     }
 
     @RequiresPermissions("cadreCompany:edit")
@@ -98,7 +98,7 @@ public class CadreCompanyController extends BaseController {
         modelMap.put("cadre", cadre);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
-        return "cadreCompany/cadreCompany_au";
+        return "cadre/cadreCompany/cadreCompany_au";
     }
 
     @RequiresPermissions("cadreCompany:del")

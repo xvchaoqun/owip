@@ -72,7 +72,7 @@ public class UnitCadreTransferController extends BaseController {
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
-        return "unitCadreTransfer/unitCadreTransfer_addDispatchs";
+        return "unit/unitCadreTransfer/unitCadreTransfer_addDispatchs";
     }
 
     @RequestMapping(value = "/unitCadreTransfer_addDispatchs", method = RequestMethod.POST)
@@ -193,7 +193,7 @@ public class UnitCadreTransferController extends BaseController {
         modelMap.put("groupMap", unitCadreTransferGroupService.findAll());
         modelMap.put("cadreMap", cadreService.findAll());
 
-        return "unitCadreTransfer/unitCadreTransfer_page";
+        return "unit/unitCadreTransfer/unitCadreTransfer_page";
     }
 
     @RequiresPermissions("unitCadreTransfer:edit")
@@ -235,7 +235,7 @@ public class UnitCadreTransferController extends BaseController {
         }
         modelMap.put("unitCadreTransferGroup", unitCadreTransferGroupMapper.
                 selectByPrimaryKey(groupId));
-        return "unitCadreTransfer/unitCadreTransfer_au";
+        return "unit/unitCadreTransfer/unitCadreTransfer_au";
     }
 
     @RequiresPermissions("unitCadreTransfer:del")

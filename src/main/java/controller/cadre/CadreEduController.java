@@ -109,7 +109,7 @@ public class CadreEduController extends BaseController {
         modelMap.put("cadreMap", cadreService.findAll());
         modelMap.put("eduMap", metaTypeService.metaTypes("mc_edu"));
 
-        return "cadreEdu/cadreEdu_page";
+        return "cadre/cadreEdu/cadreEdu_page";
     }
 
     @RequiresPermissions("cadreEdu:edit")
@@ -158,7 +158,7 @@ public class CadreEduController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadreEdu/cadreEdu_au";
+        return "cadre/cadreEdu/cadreEdu_au";
     }
 
     @RequiresPermissions("cadreEdu:del")

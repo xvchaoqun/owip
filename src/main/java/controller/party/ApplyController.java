@@ -46,7 +46,7 @@ public class ApplyController extends BaseController {
         if(memberApply==null)
             modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
 
-        return "memberApply/apply";
+        return "party/memberApply/apply";
     }
 
     @RequiresRoles("guest")

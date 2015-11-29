@@ -97,7 +97,7 @@ public class HistoryUnitController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "historyUnit/historyUnit_page";
+        return "unit/historyUnit/historyUnit_page";
     }
 
     @RequiresPermissions("historyUnit:edit")
@@ -138,7 +138,7 @@ public class HistoryUnitController extends BaseController {
             HistoryUnit historyUnit = historyUnitMapper.selectByPrimaryKey(id);
             modelMap.put("historyUnit", historyUnit);
         }
-        return "historyUnit/historyUnit_au";
+        return "unit/historyUnit/historyUnit_au";
     }
 
     @RequiresPermissions("historyUnit:del")

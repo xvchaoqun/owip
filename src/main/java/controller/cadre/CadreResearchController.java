@@ -75,7 +75,7 @@ public class CadreResearchController extends BaseController {
         modelMap.put("cadreRewards", cadreRewards);
 
 
-        return "cadreResearch/cadreResearch_page";
+        return "cadre/cadreResearch/cadreResearch_page";
     }
 
     @RequiresPermissions("cadreResearch:edit")
@@ -219,7 +219,7 @@ public class CadreResearchController extends BaseController {
                 :StringUtils.equalsIgnoreCase(type, "join")?cadreResearch.getJoinFile():cadreResearch.getPublishFile();
         modelMap.put("cadreResearch", cadreResearch);
         modelMap.put("filePath", filePath);
-        return "cadreResearch/cadreResearch_swf_preview";
+        return "cadre/cadreResearch/cadreResearch_swf_preview";
     }
 
     @RequiresPermissions("cadreResearch:download")
@@ -259,7 +259,7 @@ public class CadreResearchController extends BaseController {
         modelMap.put("cadre", cadre);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
-        return "cadreResearch/cadreResearch_au";
+        return "cadre/cadreResearch/cadreResearch_au";
     }
 
     @RequiresPermissions("cadreResearch:del")

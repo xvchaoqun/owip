@@ -298,3 +298,22 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function(){
     });
 });
 //↑↑↑↑↑↑↑↑↑弹出框列表操作↑↑↑↑↑↑↑↑↑
+
+// 内页展示
+$(document).on("click", "#body-content .openView", function(){
+    $("#body-content").hide();
+    var $container = $("#item-content");
+    $container.show().showLoading({'afterShow':
+        function() {
+            setTimeout( function(){
+
+                $container.hideLoading();
+            }, 2000 );
+        }}).load($(this).data("url"),function(){
+                $container.hideLoading();
+    })
+});
+$(document).on("click", "#item-content .closeView", function(){
+    $("#body-content").show();
+    $("#item-content").hide();
+});

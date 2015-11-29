@@ -66,7 +66,7 @@ public class CadreCourseController extends BaseController {
 
         modelMap.put("cadreMap", cadreService.findAll());
 
-        return "cadreCourse/cadreCourse_page";
+        return "cadre/cadreCourse/cadreCourse_page";
     }
 
     @RequiresPermissions("cadreCourse:edit")
@@ -101,7 +101,7 @@ public class CadreCourseController extends BaseController {
         modelMap.put("cadre", cadre);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
-        return "cadreCourse/cadreCourse_au";
+        return "cadre/cadreCourse/cadreCourse_au";
     }
 
     @RequiresPermissions("cadreCourse:del")

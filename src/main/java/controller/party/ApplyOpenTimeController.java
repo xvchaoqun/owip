@@ -95,7 +95,7 @@ public class ApplyOpenTimeController extends BaseController {
 
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
-        return "applyOpenTime/applyOpenTime_page";
+        return "party/applyOpenTime/applyOpenTime_page";
     }
 
     @RequiresPermissions("applyOpenTime:edit")
@@ -133,7 +133,7 @@ public class ApplyOpenTimeController extends BaseController {
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
         modelMap.put("partyMap", partyService.findAll());
 
-        return "applyOpenTime/applyOpenTime_au";
+        return "party/applyOpenTime/applyOpenTime_au";
     }
 
     @RequiresPermissions("applyOpenTime:del")

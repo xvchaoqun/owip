@@ -142,7 +142,7 @@ public class BranchController extends BaseController {
         modelMap.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
         modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
-        return "branch/branch_page";
+        return "party/branch/branch_page";
     }
 
     @RequiresPermissions("branch:edit")
@@ -191,7 +191,7 @@ public class BranchController extends BaseController {
         modelMap.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
         modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
-        return "branch/branch_au";
+        return "party/branch/branch_au";
     }
 
     @RequiresPermissions("branch:del")

@@ -7,9 +7,9 @@
         <div class="widget-box transparent" id="view-box">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
-                    <a href="javascript:;" class="btn btn-mini btn-success" onclick="closeView()">
+                    <a href="javascript:;" class="closeView btn btn-mini btn-success">
                         <i class="ace-icon fa fa-backward"></i>
-                        返回单位库</a>
+                        返回</a>
                 </h4>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">

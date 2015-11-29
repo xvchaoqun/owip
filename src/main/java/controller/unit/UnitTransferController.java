@@ -70,7 +70,7 @@ public class UnitTransferController extends BaseController {
         modelMap.put("dispatchMap", dispatchService.findAll());
         modelMap.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
 
-        return "unitTransfer/unitTransfer_addDispatchs";
+        return "unit/unitTransfer/unitTransfer_addDispatchs";
     }
 
     @RequestMapping(value = "/unitTransfer_addDispatchs", method = RequestMethod.POST)
@@ -158,7 +158,7 @@ public class UnitTransferController extends BaseController {
         modelMap.put("commonList", commonList);
         modelMap.put("unitMap", unitService.findAll());
 
-        return "unitTransfer/unitTransfer_page";
+        return "unit/unitTransfer/unitTransfer_page";
     }
 
     @RequiresPermissions("unitTransfer:edit")

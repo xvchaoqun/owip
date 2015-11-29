@@ -70,7 +70,6 @@ public class UnitAdminService extends BaseMapper {
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
-     * 3.sort_order = LAST_INSERT_ID()+1,
      * @param id
      * @param addNum
      */
@@ -82,15 +81,16 @@ public class UnitAdminService extends BaseMapper {
 
         UnitAdmin entity = unitAdminMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        int groupId = entity.getGroupId();
 
         UnitAdminExample example = new UnitAdminExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -100,9 +100,9 @@ public class UnitAdminService extends BaseMapper {
             UnitAdmin targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_unit_admin", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_unitAdmin(groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_unit_admin", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_unitAdmin(groupId, baseSortOrder, targetEntity.getSortOrder());
 
             UnitAdmin record = new UnitAdmin();
             record.setId(id);

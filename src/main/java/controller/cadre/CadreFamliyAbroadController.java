@@ -58,7 +58,7 @@ public class CadreFamliyAbroadController extends BaseController {
 
         modelMap.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
        
-        return "cadreFamliyAbroad/cadreFamliyAbroad_page";
+        return "cadre/cadreFamliyAbroad/cadreFamliyAbroad_page";
     }
 
     @RequiresPermissions("cadreFamliyAbroad:edit")
@@ -102,7 +102,7 @@ public class CadreFamliyAbroadController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadreFamliyAbroad/cadreFamliyAbroad_au";
+        return "cadre/cadreFamliyAbroad/cadreFamliyAbroad_au";
     }
 
     @RequiresPermissions("cadreFamliyAbroad:del")

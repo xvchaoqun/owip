@@ -14,6 +14,6 @@ public class CadrePostInfoController extends BaseController {
     @RequestMapping("/cadrePostInfo_page")
     public String cadrePostInfo_page(int cadreId) {
 
-        return "cadrePostInfo/cadrePostInfo_page";
+        return "cadre/cadrePostInfo/cadrePostInfo_page";
     }
 }

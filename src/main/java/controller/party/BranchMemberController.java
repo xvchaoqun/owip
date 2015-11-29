@@ -121,7 +121,7 @@ public class BranchMemberController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "branchMember/branchMember_page";
+        return "party/branchMember/branchMember_page";
     }
 
     @RequiresPermissions("branchMember:edit")
@@ -156,7 +156,7 @@ public class BranchMemberController extends BaseController {
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
             modelMap.put("branchMember", branchMember);
         }
-        return "branchMember/branchMember_au";
+        return "party/branchMember/branchMember_au";
     }
 
     @RequiresPermissions("branchMember:del")

@@ -111,7 +111,7 @@ public class BranchMemberGroupController extends BaseController {
         modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
-        return "branchMemberGroup/branchMemberGroup_page";
+        return "party/branchMemberGroup/branchMemberGroup_page";
     }
 
     @RequiresPermissions("branchMemberGroup:edit")
@@ -185,7 +185,7 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("branch", branch);
             modelMap.put("party", partyMap.get(branch.getPartyId()));
         }
-        return "branchMemberGroup/branchMemberGroup_au";
+        return "party/branchMemberGroup/branchMemberGroup_au";
     }
 
     @RequiresPermissions("branchMemberGroup:del")
@@ -359,6 +359,6 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         }
 
-        return "branchMemberGroup/branch_member";
+        return "party/branchMemberGroup/branch_member";
     }
 }

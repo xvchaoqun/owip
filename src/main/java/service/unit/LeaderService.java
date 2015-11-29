@@ -2,6 +2,8 @@ package service.unit;
 
 import domain.Leader;
 import domain.LeaderExample;
+import domain.LeaderUnit;
+import domain.LeaderUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +18,21 @@ import java.util.Map;
 
 @Service
 public class LeaderService extends BaseMapper {
+
+    // 根据校领导类别查询校领导
+    public List<Leader> findLeaderByType(int type){
+
+        LeaderExample example = new LeaderExample();
+        example.createCriteria().andTypeIdEqualTo(type);
+        return leaderMapper.selectByExample(example);
+    }
+    // 根据校领导id和关联单位类别获取所有关联单位IDs
+    public List<LeaderUnit> findLeaderUnitByType(int leaderId, int type){
+
+        LeaderUnitExample example = new LeaderUnitExample();
+        example.createCriteria().andLeaderIdEqualTo(leaderId).andTypeIdEqualTo(type);
+        return leaderUnitMapper.selectByExample(example);
+    }
 
     public boolean idDuplicate(Integer id, int cadreId, int typeId) {
 

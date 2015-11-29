@@ -8,9 +8,9 @@
         <div class="widget-box transparent" id="view-box">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
-                    <a href="javascript:;" class="btn btn-mini btn-success" onclick="closeView()">
+                    <a href="javascript:;" class="closeView btn btn-mini btn-success">
                         <i class="ace-icon fa fa-backward"></i>
-                        返回干部库</a>
+                        返回</a>
                     <%--<i class="ace-icon fa fa-user"></i>干部个人信息--%>
                 </h4>
                 <div class="widget-toolbar no-border">

@@ -78,7 +78,7 @@ public class SysRoleController extends BaseController {
 			commonList.setSearchStr("&searchStr=" + Escape.escape(Escape.escape(Escape.escape(searchStr))) + "&pageSize="+pageSize);
 		modelMap.put("commonList", commonList);
 		
-		return "sysRole/sysRole_page";
+		return "sys/sysRole/sysRole_page";
 	}
 
 	@RequiresRoles("admin")
@@ -144,7 +144,7 @@ public class SysRoleController extends BaseController {
 		TreeNode tree = sysResourceService.getTree(selectIdSet);
 		modelMap.put("tree", JSONUtils.toString(tree));
 		
-		return "sysRole/sysRole_au";
+		return "sys/sysRole/sysRole_au";
 	}
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)

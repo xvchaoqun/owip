@@ -106,7 +106,7 @@ public class MemberTeacherController extends BaseController {
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
 
-        return "memberTeacher/memberTeacher_page";
+        return "party/memberTeacher/memberTeacher_page";
     }
 
     // 基本信息
@@ -120,7 +120,7 @@ public class MemberTeacherController extends BaseController {
         modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
         modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
-        return "memberTeacher/memberTeacher_base";
+        return "party/memberTeacher/memberTeacher_base";
     }
     // 党籍信息
     @RequiresPermissions("memberTeacher:member")
@@ -134,7 +134,7 @@ public class MemberTeacherController extends BaseController {
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
 
-        return "memberTeacher/memberTeacher_member";
+        return "party/memberTeacher/memberTeacher_member";
     }
 
     public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {

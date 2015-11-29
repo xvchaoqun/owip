@@ -114,7 +114,7 @@ public class DispatchUnitController extends BaseController {
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
-        return "dispatchUnit/dispatchUnit_page";
+        return "dispatch/dispatchUnit/dispatchUnit_page";
     }
 
     @RequiresPermissions("dispatchUnit:edit")
@@ -148,7 +148,7 @@ public class DispatchUnitController extends BaseController {
         }
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
-        return "dispatchUnit/dispatchUnit_au";
+        return "dispatch/dispatchUnit/dispatchUnit_au";
     }
 
     @RequiresPermissions("dispatchUnit:del")
@@ -276,7 +276,7 @@ public class DispatchUnitController extends BaseController {
             modelMap.put("unitMap", unitService.findAll());
         }
 
-        return "dispatchUnit/dispatchUnit_relate";
+        return "dispatch/dispatchUnit/dispatchUnit_relate";
     }
 
     @RequestMapping("/dispatchUnit_selects")

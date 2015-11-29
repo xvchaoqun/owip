@@ -5,15 +5,31 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
-             data-url-au="${ctx}/baseUnitTransfer_au"
-             data-url-page="${ctx}/baseUnitTransfer_page"
-             data-url-del="${ctx}/baseUnitTransfer_del"
-             data-url-bd="${ctx}/baseUnitTransfer_batchDel"
-             data-url-co="${ctx}/baseUnitTransfer_changeOrder"
+             data-url-au="${ctx}/leader_au"
+             data-url-page="${ctx}/leader_page"
+             data-url-del="${ctx}/leader_del"
+             data-url-bd="${ctx}/leader_batchDel"
+             data-url-co="${ctx}/leader_changeOrder"
              data-querystr="${pageContext.request.queryString}">
+
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value="${cadre.id}">${sysUser.realname}</option>
+                </select>
+                <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
+                    <option></option>
+                    <c:forEach var="leaderType" items="${leaderTypeMap}">
+                        <option value="${leaderType.value.id}">${leaderType.value.name}</option>
+                    </c:forEach>
+                </select>
+                <script type="text/javascript">
+                    $("#searchForm select[name=typeId]").val('${param.typeId}');
+                </script>
+                <input class="form-control search-query" name="job" type="text" value="${param.job}"
+                       placeholder="请输入分管工作">
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${ not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId ||not empty param.job || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -21,13 +37,13 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="baseUnitTransfer:edit">
+                    <shiro:hasPermission name="leader:edit">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="baseUnitTransfer:del">
+                    <shiro:hasPermission name="leader:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
                     </c:if>
@@ -44,7 +60,13 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-                        <shiro:hasPermission name="baseUnitTransfer:changeOrder">
+							<th>工作证号</th>
+							<th>姓名</th>
+							<th>职务</th>
+							<th>行政级别</th>
+                            <th>分管工作</th>
+							<th>类别</th>
+                        <shiro:hasPermission name="leader:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
                             </c:if>
@@ -53,33 +75,46 @@ pageEncoding="UTF-8" %>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${baseUnitTransfers}" var="baseUnitTransfer" varStatus="st">
+                    <c:forEach items="${leaders}" var="leader" varStatus="st">
+                        <c:set var="cadre" value="${cadreMap.get(leader.cadreId)}"/>
+                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${baseUnitTransfer.id}" class="ace">
+                                    <input type="checkbox" value="${leader.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <shiro:hasPermission name="baseUnitTransfer:changeOrder">
+								<td nowrap>${sysUser.code}</td>
+								<td nowrap>${sysUser.realname}</td>
+								<td nowrap>${cadre.title}</td>
+								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
+								<td nowrap title="${leader.job}">${cm:substr(leader.job, 0, 20, '...')}</td>
+                                <td nowrap>${leaderTypeMap.get(leader.typeId).name}</td>
+                            <shiro:hasPermission name="leader:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${baseUnitTransfer.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${leader.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${baseUnitTransfer.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${leader.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="baseUnitTransfer:edit">
-                                    <button data-id="${baseUnitTransfer.id}" class="editBtn btn btn-mini">
+                                    <shiro:hasPermission name="leader:edit">
+                                    <button data-id="${leader.id}" class="editBtn btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="baseUnitTransfer:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${baseUnitTransfer.id}">
+                                    <shiro:hasPermission name="leaderUnit:list">
+                                        <button data-id="${leader.id}" class="leaderUnitBtn btn btn-mini btn-primary">
+                                            <i class="fa fa-sitemap"></i> 编辑联系单位
+                                        </button>
+                                    </shiro:hasPermission>
+                                     <shiro:hasPermission name="leader:del">
+                                    <button class="delBtn btn btn-danger btn-mini" data-id="${leader.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -98,18 +133,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="baseUnitTransfer:edit">
+                                            <shiro:hasPermission name="leader:edit">
                                             <li>
-                                                <a href="#" data-id="${baseUnitTransfer.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${leader.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="baseUnitTransfer:del">
+                                            <shiro:hasPermission name="leader:del">
                                             <li>
-                                                <a href="#" data-id="${baseUnitTransfer.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${leader.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -130,7 +165,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/baseUnitTransfer_page" target="#page-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/leader_page" target="#page-content" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -147,9 +182,30 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    // 联系单位
+    $(".myTableDiv .leaderUnitBtn").click(function(){
+        loadModal("${ctx}/leader_unit?id="+$(this).data("id"));
+    });
+
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+    function formatState (state) {
+
+        if (!state.id) { return state.text; }
+        var $state = state.text;
+        if(state.realname!=undefined && state.realname.length>0){
+            $state += '-' + state.realname;
+        }
+        if(state.code!=undefined && state.code.length>0){
+            $state += '-' + state.code;
+        }
+        //console.log($state)
+        return $state;
+    };
+
     $('[data-rel="select2-ajax"]').select2({
+        templateResult: formatState,
         ajax: {
             dataType: 'json',
             delay: 300,

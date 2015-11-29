@@ -125,7 +125,7 @@ public class PartyMemberController extends BaseController {
         modelMap.put("partyMemberGroupMap", partyMemberGroupService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
 
-        return "partyMember/partyMember_page";
+        return "party/partyMember/partyMember_page";
     }
 
     @RequiresPermissions("partyMember:edit")
@@ -164,7 +164,7 @@ public class PartyMemberController extends BaseController {
         modelMap.put("partyMemberGroupMap", partyMemberGroupService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
 
-        return "partyMember/partyMember_au";
+        return "party/partyMember/partyMember_au";
     }
 
     @RequiresPermissions("partyMember:edit")

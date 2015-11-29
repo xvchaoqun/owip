@@ -111,7 +111,7 @@ public class PartyMemberGroupController extends BaseController {
         modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
-        return "partyMemberGroup/partyMemberGroup_page";
+        return "party/partyMemberGroup/partyMemberGroup_page";
     }
 
     @RequiresPermissions("partyMemberGroup:edit")
@@ -185,7 +185,7 @@ public class PartyMemberGroupController extends BaseController {
         modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
-        return "partyMemberGroup/partyMemberGroup_au";
+        return "party/partyMemberGroup/partyMemberGroup_au";
     }
 
     @RequiresPermissions("partyMemberGroup:del")
@@ -361,6 +361,6 @@ public class PartyMemberGroupController extends BaseController {
             modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
         }
 
-        return "partyMemberGroup/party_member";
+        return "party/partyMemberGroup/party_member";
     }
 }

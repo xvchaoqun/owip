@@ -111,7 +111,7 @@ public class LeaderUnitController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "leaderUnit/leaderUnit_page";
+        return "unit/leaderUnit/leaderUnit_page";
     }
 
     @RequiresPermissions("leaderUnit:edit")
@@ -144,7 +144,7 @@ public class LeaderUnitController extends BaseController {
             LeaderUnit leaderUnit = leaderUnitMapper.selectByPrimaryKey(id);
             modelMap.put("leaderUnit", leaderUnit);
         }
-        return "leaderUnit/leaderUnit_au";
+        return "unit/leaderUnit/leaderUnit_au";
     }
 
     @RequiresPermissions("leaderUnit:del")

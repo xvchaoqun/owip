@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="unit-list">
+        <div id="body-content">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li  class="<c:if test="${status==1}">active</c:if>">
@@ -97,7 +97,7 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td >${unit.code}</td>
 								<td >
-                                    <a href="javascript:;" onclick="openView(${unit.id})">
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
                                             ${unit.name}
                                     </a>
 								</td>
@@ -196,25 +196,11 @@ pageEncoding="UTF-8" %>
     </div>
     </div></div></div>
     </div>
-    <div class="unit-view">
+    <div id="item-content">
         </div>
 </div>
-<style>
-    .unit-view{
-        display: none;
-    }
-</style>
+
 <script>
-
-
-    function openView(id){
-        $(".unit-list").hide();
-        $(".unit-view").load("${ctx}/unit_view?id="+id).show();
-    }
-    function closeView(){
-        $(".unit-list").show();
-        $(".unit-view").hide();
-    }
 
     /*$(".tabbable li a").click(function(){
         $this = $(this);
@@ -265,4 +251,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

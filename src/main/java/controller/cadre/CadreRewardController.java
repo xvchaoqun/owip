@@ -103,7 +103,7 @@ public class CadreRewardController extends BaseController {
 
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "cadreReward/cadreReward_page";
+        return "cadre/cadreReward/cadreReward_page";
     }
 
     @RequiresPermissions("cadreReward:edit")
@@ -145,7 +145,7 @@ public class CadreRewardController extends BaseController {
         modelMap.put("cadre", cadre);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
-        return "cadreReward/cadreReward_au";
+        return "cadre/cadreReward/cadreReward_au";
     }
 
     @RequiresPermissions("cadreReward:del")

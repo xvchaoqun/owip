@@ -72,7 +72,7 @@ public class CadreFamliyController extends BaseController {
         modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
         modelMap.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
 
-        return "cadreFamliy/cadreFamliy_page";
+        return "cadre/cadreFamliy/cadreFamliy_page";
     }
 
     @RequiresPermissions("cadreFamliy:edit")
@@ -111,7 +111,7 @@ public class CadreFamliyController extends BaseController {
             CadreFamliy cadreFamliy = cadreFamliyMapper.selectByPrimaryKey(id);
             modelMap.put("cadreFamliy", cadreFamliy);
         }
-        return "cadreFamliy/cadreFamliy_au";
+        return "cadre/cadreFamliy/cadreFamliy_au";
     }
 
     @RequiresPermissions("cadreFamliy:del")

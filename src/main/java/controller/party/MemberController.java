@@ -49,7 +49,7 @@ public class MemberController extends BaseController {
 
         SysUser sysUser = sysUserService.findById(userId);
         if(sysUser.getType() == SystemConstants.MEMBER_TYPE_TEACHER)
-            return "member/teacher_view";
-        return "member/student_view";
+            return "party/member/teacher_view";
+        return "party/member/student_view";
     }
 }

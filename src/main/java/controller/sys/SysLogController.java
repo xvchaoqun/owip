@@ -79,7 +79,7 @@ public class SysLogController extends BaseController {
 		commonList.setSearchStr(searchStr);
 		modelMap.put("commonList", commonList);
 		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
-		return "sysLog/sysLog_page";
+		return "sys/sysLog/sysLog_page";
 	}
 
 	@RequiresRoles("admin")

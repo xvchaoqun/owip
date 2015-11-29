@@ -22,8 +22,10 @@ pageEncoding="UTF-8" %>
                     </thead>
                     <tbody>
                     <c:forEach items="${unitAdminGroups}" var="unitAdminGroup" varStatus="st">
-                        <tr>
-								<td>${unitAdminGroup.name}</td>
+                        <tr <c:if test="${unitAdminGroup.isPresent}">class="success" </c:if>>
+								<td><c:if test="${unitAdminGroup.isPresent}">
+                                    <span class="label label-sm label-primary arrowed-in arrowed-in-right">现任班子</span>
+                                </c:if>${unitAdminGroup.name}</td>
                                 <td>${cm:formatDate(unitAdminGroup.tranTime,'yyyy-MM-dd')}</td>
                                 <td>${cm:formatDate(unitAdminGroup.actualTranTime,'yyyy-MM-dd')}</td>
                                 <td>${cm:formatDate(unitAdminGroup.appointTime,'yyyy-MM-dd')}</td>

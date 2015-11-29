@@ -52,7 +52,10 @@ public class UnitAdminController extends BaseController {
         List<UnitAdmin> unitAdmins = unitAdminMapper.selectByExample(example);
         modelMap.put("unitAdmins", unitAdmins);
 
-        return "unitAdmin/unitAdmin_page";
+        modelMap.put("cadreMap", cadreService.findAll());
+        modelMap.put("postTypeMap", metaTypeService.metaTypes("mc_post"));
+
+        return "unit/unitAdmin/unitAdmin_page";
     }
 
     @RequiresPermissions("unitAdmin:edit")
@@ -91,7 +94,7 @@ public class UnitAdminController extends BaseController {
         modelMap.put("unitAdminGroup", unitAdminGroup);
         modelMap.put("unit", unitService.findAll().get(unitAdminGroup.getUnitId()));
 
-        return "unitAdmin/unitAdmin_au";
+        return "unit/unitAdmin/unitAdmin_au";
     }
 
     @RequiresPermissions("unitAdmin:del")

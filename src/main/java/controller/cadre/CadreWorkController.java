@@ -112,9 +112,9 @@ public class CadreWorkController extends BaseController {
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_admin_level"));
 
         if(fid!=null)
-            return "cadreWork/cadreWork_page2";
+            return "cadre/cadreWork/cadreWork_page2";
 
-        return "cadreWork/cadreWork_page";
+        return "cadre/cadreWork/cadreWork_page";
     }
 
     @RequiresPermissions("cadreWork:edit")
@@ -156,7 +156,7 @@ public class CadreWorkController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadreWork/cadreWork_au";
+        return "cadre/cadreWork/cadreWork_au";
     }
 
     @RequiresPermissions("cadreWork:del")
@@ -215,7 +215,7 @@ public class CadreWorkController extends BaseController {
 
         modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
-        return "cadreWork/cadreWork_addDispatchs";
+        return "cadre/cadreWork/cadreWork_addDispatchs";
     }
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_addDispatchs", method = RequestMethod.POST)

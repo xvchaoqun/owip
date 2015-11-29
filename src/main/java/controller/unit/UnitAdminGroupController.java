@@ -101,7 +101,7 @@ public class UnitAdminGroupController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "unitAdminGroup/unitAdminGroup_page";
+        return "unit/unitAdminGroup/unitAdminGroup_page";
     }
 
     @RequiresPermissions("unitAdminGroup:edit")
@@ -157,7 +157,7 @@ public class UnitAdminGroupController extends BaseController {
         }
 
         modelMap.put("unit", unitService.findAll().get(unitId));
-        return "unitAdminGroup/unitAdminGroup_au";
+        return "unit/unitAdminGroup/unitAdminGroup_au";
     }
 
     @RequiresPermissions("unitAdminGroup:del")

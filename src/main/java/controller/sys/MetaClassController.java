@@ -113,7 +113,7 @@ public class MetaClassController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "metaClass/metaClass_page";
+        return "sys/metaClass/metaClass_page";
     }
 
     @RequiresPermissions("metaClass:edit")
@@ -150,7 +150,7 @@ public class MetaClassController extends BaseController {
             MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
             modelMap.put("metaClass", metaClass);
         }
-        return "metaClass/metaClass_au";
+        return "sys/metaClass/metaClass_au";
     }
 
     @RequiresPermissions("metaClass:del")
@@ -217,7 +217,7 @@ public class MetaClassController extends BaseController {
         TreeNode tree = sysRoleService.getTree(selectIdSet);
         modelMap.put("tree", JSONUtils.toString(tree));
 
-        return "metaClass/metaClassRole";
+        return "sys/metaClass/metaClassRole";
     }
 
     public void metaClass_export(MetaClassExample example, HttpServletResponse response) {
@@ -351,6 +351,6 @@ public class MetaClassController extends BaseController {
             modelMap.put("metaClassMap", metaClassService.findAll());
         }
 
-        return "metaClass/metaClass_type";
+        return "sys/metaClass/metaClass_type";
     }
 }

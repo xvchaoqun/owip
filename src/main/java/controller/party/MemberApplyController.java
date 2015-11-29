@@ -144,7 +144,7 @@ public class MemberApplyController extends BaseController {
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
-        return "memberApply/memberApply_page";
+        return "party/memberApply/memberApply_page";
     }
 
     // 申请不通过
@@ -214,7 +214,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_active")
     public String apply_active(){
 
-        return "memberApply/apply_active";
+        return "party/memberApply/apply_active";
     }
     // 申请通过 成为积极分子
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
@@ -252,7 +252,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_candidate")
     public String apply_candidate(){
 
-        return "memberApply/apply_candidate";
+        return "party/memberApply/apply_candidate";
     }
 
     // 提交 确定为发展对象
@@ -336,7 +336,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_plan")
     public String apply_plan(){
 
-        return "memberApply/apply_plan";
+        return "party/memberApply/apply_plan";
     }
 
     //提交 列入发展计划
@@ -417,7 +417,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_draw")
     public String apply_draw(){
 
-        return "memberApply/apply_draw";
+        return "party/memberApply/apply_draw";
     }
 
     //提交 领取志愿书
@@ -492,7 +492,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_grow")
     public String apply_grow(){
 
-        return "memberApply/apply_grow";
+        return "party/memberApply/apply_grow";
     }
 
     //提交 预备党员
@@ -580,7 +580,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/apply_positive")
     public String apply_positive(){
 
-        return "memberApply/apply_positive";
+        return "party/memberApply/apply_positive";
     }
 
     //提交 正式党员

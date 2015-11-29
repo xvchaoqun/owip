@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="cadre-list">
+        <div id="body-content">
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="cadreStatus" items="${CADRE_STATUS_MAP}">
@@ -112,7 +112,7 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td nowrap> <a href="javascript:;" onclick="openView(${cadre.id})">${sysUser.realname}</a></td>
+                            <td nowrap> <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre.id}">${sysUser.realname}</a></td>
 								<td nowrap>${sysUser.code}</td>
 
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
@@ -214,16 +214,11 @@ pageEncoding="UTF-8" %>
         </div>
                 </div></div></div>
         </div>
-        <div class="cadre-view">
+        <div id="item-content">
 
         </div>
     </div>
 </div>
-<style>
-    .cadre-view{
-        display: none;
-    }
-</style>
 <script>
 
     function _pass(id, realname, code){
@@ -255,12 +250,12 @@ pageEncoding="UTF-8" %>
     }
 
     function openView(id){
-        $(".cadre-list").hide();
-        $(".cadre-view").load("${ctx}/cadre_view?id="+id).show();
+        $("#body-content").hide();
+        $("#item-content").load("${ctx}/cadre_view?id="+id).show();
     }
     function closeView(){
-        $(".cadre-list").show();
-        $(".cadre-view").hide();
+        $("#body-content").show();
+        $("#item-content").hide();
     }
 
     /*$(".tabbable li a").click(function(){

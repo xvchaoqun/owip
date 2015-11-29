@@ -108,7 +108,7 @@ public class ApplyLogController extends BaseController {
 
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
-        return "applyLog/applyLog_page";
+        return "party/applyLog/applyLog_page";
     }
 
     @RequiresPermissions("applyLog:edit")
@@ -138,7 +138,7 @@ public class ApplyLogController extends BaseController {
             ApplyLog applyLog = applyLogMapper.selectByPrimaryKey(id);
             modelMap.put("applyLog", applyLog);
         }
-        return "applyLog/applyLog_au";
+        return "party/applyLog/applyLog_au";
     }
 
     @RequiresPermissions("applyLog:del")

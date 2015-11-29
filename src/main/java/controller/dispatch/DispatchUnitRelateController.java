@@ -107,7 +107,7 @@ public class DispatchUnitRelateController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "dispatchUnitRelate/dispatchUnitRelate_page";
+        return "dispatch/dispatchUnitRelate/dispatchUnitRelate_page";
     }
 
     @RequiresPermissions("dispatchUnitRelate:edit")
@@ -141,7 +141,7 @@ public class DispatchUnitRelateController extends BaseController {
             DispatchUnitRelate dispatchUnitRelate = dispatchUnitRelateMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchUnitRelate", dispatchUnitRelate);
         }
-        return "dispatchUnitRelate/dispatchUnitRelate_au";
+        return "dispatch/dispatchUnitRelate/dispatchUnitRelate_au";
     }
 
     @RequiresPermissions("dispatchUnitRelate:del")
