@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
 
         <div class="list-view tabbable">
-            <jsp:include page="/WEB-INF/jsp/member/member_menu.jsp"/>
+            <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
 
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
