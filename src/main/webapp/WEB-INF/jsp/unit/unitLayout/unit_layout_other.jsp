@@ -4,7 +4,7 @@
     <div class="widget-box transparent">
         <div class="widget-header widget-header-flat">
             <h4 class="widget-title lighter">
-                <i class="ace-icon fa fa-angle-double-down"></i>
+                <i class="ace-icon fa fa-circle-o-notch fa-spin"></i>
                     正在运转单位
             </h4>
 
@@ -60,7 +60,7 @@
 <div class="widget-box transparent">
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter">
-            <i class="ace-icon fa fa-angle-double-down"></i>
+            <i class="ace-icon fa fa-history"></i>
             历史单位
         </h4>
 

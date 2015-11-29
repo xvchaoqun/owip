@@ -28,7 +28,7 @@
                         <th>姓名</th>
                         <th>职务</th>
                         <th>行政级别</th>
-                        <th>分管工作</th>
+                        <th width="300">分管工作</th>
                         <th>分管机关部门</th>
                         <th>联系学部、院、系（所）</th>
                     </tr>
@@ -45,7 +45,7 @@
                             <td nowrap><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre.id}"> ${sysUser.realname}</a></td>
                             <td nowrap>${cadre.title}</td>
                             <td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
-                            <td title="${leader.job}">${cm:substr(leader.job, 0, 100, '...')}</td>
+                            <td>${leader.job}</td>
                             <td>
                                 <ul>
                                     <c:forEach items="${cLeaderUnits}" var="leaderUnit">

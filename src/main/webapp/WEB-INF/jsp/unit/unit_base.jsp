@@ -70,7 +70,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-circle-o"></i>
+			<i class="ace-icon fa fa-circle-o-notch fa-spin"></i>
 			正在运转单位
 		</h4>
 
