@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
 
                 <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${sysUser.id}">${sysUser.username}</option>
+                    <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
                 <select class="form-control" name="stage" data-rel="select2" data-placeholder="请选择阶段">
                     <option></option>
@@ -161,7 +161,21 @@ pageEncoding="UTF-8" %>
 <script>
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('#searchForm [data-rel="select2-ajax"]').select2({
+    function formatState (state) {
+
+        if (!state.id) { return state.text; }
+        var $state = state.text;
+        if(state.code!=undefined && state.code.length>0)
+            $state += '-' + state.code;
+        if(state.unit!=undefined && state.unit.length>0){
+            $state += '-' + state.unit;
+        }
+        //console.log($state)
+        return $state;
+    };
+
+    $('#searchForm select[name=userId]').select2({
+        templateResult: formatState,
         ajax: {
             dataType: 'json',
             delay: 300,

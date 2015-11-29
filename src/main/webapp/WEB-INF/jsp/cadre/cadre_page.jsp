@@ -282,9 +282,8 @@ pageEncoding="UTF-8" %>
         return $state;
     };
 
-    $('select[name=cadreId]').select2({
+    $('#searchForm select[name=cadreId]').select2({
         templateResult: formatState,
-        minimumInputLength: 2,
         ajax: {
             dataType: 'json',
             delay: 300,
