@@ -18,12 +18,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>所属干部</th>
 							<th>学历</th>
 							<th>毕业学校</th>
@@ -42,12 +36,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreEdus}" var="cadreEdu" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreEdu.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${cm:getUserById(cadreMap.get(cadreEdu.cadreId).userId).realname}</td>
 								<td>${eduMap.get(cadreEdu.eduId).name}</td>
 								<td>${cadreEdu.school}</td>

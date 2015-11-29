@@ -14,12 +14,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>兼职起始时间</th>
 							<th>兼职单位及职务</th>
                         <shiro:hasPermission name="cadreCompany:changeOrder">
@@ -33,12 +27,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreCompanys}" var="cadreCompany" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreCompany.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${cm:formatDate(cadreCompany.startTime,'yyyy-MM-dd')}</td>
 								<td>${cadreCompany.unit}</td>
                             <shiro:hasPermission name="cadreCompany:changeOrder">

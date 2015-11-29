@@ -13,12 +13,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>所属干部</th>
 							<th>日期</th>
 							<th>获得奖项</th>
@@ -35,12 +29,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreRewards}" var="cadreReward" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreReward.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${cadreReward.cadreId}</td>
 								<td>${cadreReward.name}</td>
 								<td>${cadreReward.type}</td>

@@ -13,12 +13,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>起始时间</th>
 							<th>结束时间</th>
 							<th>兼任职务</th>
@@ -33,12 +27,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreParttimes}" var="cadreParttime" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreParttime.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${cm:formatDate(cadreParttime.startTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(cadreParttime.endTime,'yyyy-MM-dd')}</td>
 								<td>${cadreParttime.post}</td>

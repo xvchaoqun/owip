@@ -26,12 +26,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>主持科研项目情况</th>
 							<th>参与科研项目情况</th>
 							<th>出版著作及发表论文等情况</th>
@@ -46,12 +40,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreResearchs}" var="cadreResearch" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreResearch.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 
 								<td>
                                     <c:if test="${not empty cadreResearch.chairFile}">

@@ -17,12 +17,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>开始日期</th>
 							<th>结束日期</th>
 							<th>工作单位</th>
@@ -37,12 +31,6 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${cadreWorks}" var="cadreWork" varStatus="st">
 
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadreWork.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${cm:formatDate(cadreWork.startTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(cadreWork.endTime,'yyyy-MM-dd')}</td>
 								<td>${cadreWork.unit}</td>
