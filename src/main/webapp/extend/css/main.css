@@ -283,3 +283,8 @@ br.xs-100 {
 .modal-width1000{
     width: 900px;
 }
+
+/*search form*/
+.widget-main.no-padding > form .row{
+    padding: 16px;
+}

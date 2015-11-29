@@ -11,81 +11,146 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/dispatchCadre_batchDel"
              data-url-co="${ctx}/dispatchCadre_changeOrder"
              data-querystr="${pageContext.request.queryString}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/dispatch_selects"
-                        name="dispatchId" data-placeholder="请选择发文">
-                    <option value="${dispatch.id}">${dispatch.code}</option>
-                </select>
-                <select data-rel="select2" name="typeId" data-placeholder="请选择干部发文类型">
-                    <option></option>
-                    <c:forEach var="metaType" items="${metaTypeMap}">
-                        <option value="${metaType.value.id}">${metaType.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=typeId]").val('${param.typeId}');
-                </script>
-                <select data-rel="select2" name="wayId" data-placeholder="请选择任免方式">
-                    <option></option>
-                    <c:forEach var="way" items="${wayMap}">
-                        <option value="${way.value.id}">${way.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=wayId]").val('${param.wayId}');
-                </script>
-                <select data-rel="select2" name="procedureId" data-placeholder="请选择任免程序">
-                    <option></option>
-                    <c:forEach var="procedure" items="${procedureMap}">
-                        <option value="${procedure.value.id}">${procedure.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=procedureId]").val('${param.procedureId}');
-                </script>
-                <select data-rel="select2" name="adminLevelId" data-placeholder="请选择行政级别">
-                    <option></option>
-                    <c:forEach var="adminLevel" items="${adminLevelMap}">
-                        <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=adminLevelId]").val('${param.adminLevelId}');
-                </script>
-                <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=unitId]").val('${param.unitId}');
-                </script>
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
-                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${cadre.id}">${sysUser.username}</option>
-                </select>
+            <div class="widget-box hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                <mytag:sort-form css="form-horizontal hidden-sm hidden-xs" id="searchForm">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <%--<div class="form-group">
+                            <label class="col-xs-3 control-label">发文</label>
+                            <div class="col-xs-6">
+                                <select data-rel="select2-ajax" data-ajax--url="${ctx}/dispatch_selects"
+                                        name="dispatchId" data-placeholder="请选择">
+                                    <option value="${dispatch.id}">${dispatch.code}</option>
+                                </select>
+                            </div>
+                        </div>--%>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">干部</label>
+                                    <div class="col-xs-6">
+                                        <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                                                name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                            <option value="${cadre.id}">${sysUser.username}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">发文类型</label>
+                                <div class="col-xs-6">
+                                    <select data-rel="select2" name="typeId" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach var="metaType" items="${metaTypeMap}">
+                                            <option value="${metaType.value.id}">${metaType.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#searchForm select[name=typeId]").val('${param.typeId}');
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">任免方式</label>
+                                <div class="col-xs-6">
+                                    <select data-rel="select2" name="wayId" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach var="way" items="${wayMap}">
+                                            <option value="${way.value.id}">${way.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#searchForm select[name=wayId]").val('${param.wayId}');
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">任免程序</label>
+                                <div class="col-xs-6">
+                                    <select data-rel="select2" name="procedureId" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach var="procedure" items="${procedureMap}">
+                                            <option value="${procedure.value.id}">${procedure.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#searchForm select[name=procedureId]").val('${param.procedureId}');
+                                    </script>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">行政级别</label>
+                                <div class="col-xs-6">
+                                    <select data-rel="select2" name="adminLevelId" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach var="adminLevel" items="${adminLevelMap}">
+                                            <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#searchForm select[name=adminLevelId]").val('${param.adminLevelId}');
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">所属单位</label>
+                                <div class="col-xs-6">
+                                    <select name="unitId" data-rel="select2" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach items="${unitMap}" var="unit">
+                                            <option value="${unit.key}">${unit.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script>
+                                        $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                    </script>
+                                </div>
+                            </div>
+
+
+                            </div>
+                        </div>
+
+                    <div class="clearfix form-actions center">
+
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.dispatchId ||not empty param.typeId ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId ||not empty param.adminLevelId ||not empty param.unitId ||  not empty param.sort}"/>
-                <c:if test="${_query}">
+                <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
                     </button>
                 </c:if>
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="dispatchCadre:edit">
+                </div>
+
+            </mytag:sort-form>
+                        </div>
+                    </div>
+                </div>
+            <div class="buttons pull-right">
+                <shiro:hasPermission name="dispatchCadre:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="700"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
+                </shiro:hasPermission>
+                <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchCadre:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>
-            </mytag:sort-form>
+                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                    </shiro:hasPermission>
+                </c:if>
+            </div>
+            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">

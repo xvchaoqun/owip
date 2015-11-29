@@ -96,7 +96,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${cadreMap.get(unitCadreTransfer.cadreId).name}</td>
 								<td nowrap>${unitCadreTransfer.name}</td>
 								<td nowrap>${cm:formatDate(unitCadreTransfer.dismissTime,'yyyy-MM-dd')}</td>
-								<td nowrap>${unitCadreTransfer.remark}</td>
+								<td>${unitCadreTransfer.remark}</td>
                             <shiro:hasPermission name="unitCadreTransfer:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

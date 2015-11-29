@@ -71,7 +71,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <textarea  class="form-control"  name="remark"  rows="5">${cadrePost.remark}</textarea>
+                        <textarea  class="form-control limited"  name="remark"  rows="5">${cadrePost.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -82,6 +82,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $('textarea.limited').inputlimiter();
+
     $('.date-picker').datepicker({
         language:"zh-CN",
         autoclose: true,

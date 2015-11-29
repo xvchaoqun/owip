@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-						<textarea class="form-control" name="remark">${metaType.remark}</textarea>
+						<textarea class="form-control limited" name="remark">${metaType.remark}</textarea>
 				</div>
 			</div>
 	</shiro:hasRole>
@@ -60,6 +60,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	$('textarea.limited').inputlimiter();
 		$('[data-rel="select2-ajax"]').select2({
 			ajax: {
 				dataType: 'json',

@@ -13,6 +13,10 @@ $(document).on("click","button[type=reset],input[type=reset]",function(event){
     //validator.resetForm();
     event.stopPropagation();
 });
+$.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {
+    remText: '还可以输入%n个字符...',
+    limitText: '最多能输入%n个字符。'
+})
 
 var console = console || {
     log : function(){

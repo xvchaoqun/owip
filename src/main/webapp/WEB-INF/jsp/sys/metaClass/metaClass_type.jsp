@@ -38,7 +38,7 @@
                         <td nowrap>${metaType.code}</td>
                         <td nowrap>${metaType.boolAttr}</td>
                         <td nowrap>${metaType.extraAttr}</td>
-                        <td nowrap>${metaType.remark}</td>
+                        <td>${metaType.remark}</td>
                         </shiro:hasRole>
                         <shiro:hasPermission name="metaType:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">

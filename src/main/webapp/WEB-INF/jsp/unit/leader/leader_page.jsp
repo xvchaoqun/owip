@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/leader_au"
              data-url-page="${ctx}/leader_page"
@@ -60,11 +61,11 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>工作证号</th>
+							<th nowrap>工作证号</th>
 							<th>姓名</th>
 							<th>职务</th>
-							<th>行政级别</th>
-                            <th>分管工作</th>
+							<th nowrap>行政级别</th>
+                            <th nowrap>分管工作</th>
 							<th>类别</th>
                         <shiro:hasPermission name="leader:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
@@ -86,10 +87,14 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td nowrap>${sysUser.code}</td>
-								<td nowrap>${sysUser.realname}</td>
+								<td nowrap>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${leader.cadreId}">
+								        ${sysUser.realname}
+                                    </a>
+                                </td>
 								<td nowrap>${cadre.title}</td>
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
-								<td nowrap title="${leader.job}">${cm:substr(leader.job, 0, 20, '...')}</td>
+								<td>${leader.job}</td>
                                 <td nowrap>${leaderTypeMap.get(leader.typeId).name}</td>
                             <shiro:hasPermission name="leader:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
@@ -180,6 +185,10 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
     </div>
+        <div id="item-content">
+
+        </div>
+</div>
 </div>
 <script>
     // 联系单位
@@ -226,4 +235,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

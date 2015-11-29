@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <textarea class="form-control" name="remark">${unit.remark}</textarea>
+                        <textarea class="form-control limited" name="remark">${unit.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -64,6 +64,8 @@ pageEncoding="UTF-8"%>
     <input type="submit" class="btn btn-primary" value="<c:if test="${unit!=null}">确定</c:if><c:if test="${unit==null}">添加</c:if>"/>
 </div>
 <script>
+    $('textarea.limited').inputlimiter();
+
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

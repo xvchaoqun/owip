@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${unitMap.get(dispatchUnit.unitId).name}</td>
 								<td nowrap>${dispatchUnitTypeMap.get(dispatchUnit.typeId).name}</td>
 								<td nowrap>${dispatchUnit.year}</td>
-								<td nowrap>${dispatchUnit.remark}</td>
+								<td>${dispatchUnit.remark}</td>
                             <shiro:hasPermission name="dispatchUnit:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

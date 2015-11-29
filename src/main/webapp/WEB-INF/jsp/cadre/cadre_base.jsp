@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-star orange"></i>
+			<i class="ace-icon fa fa-paw blue "></i>
 			基本信息
 		</h4>
 
@@ -138,7 +138,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-star orange"></i>
+			<i class="ace-icon fa fa-info-circle blue"></i>
 			人事信息
 		</h4>
 
@@ -254,7 +254,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-star orange"></i>
+			<i class="ace-icon fa fa-pencil-square-o blue"></i>
 			任职信息
 		</h4>
 
@@ -404,7 +404,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-star orange"></i>
+			<i class="ace-icon fa fa-star blue"></i>
 			职称信息
 		</h4>
 
@@ -519,7 +519,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-star orange"></i>
+			<i class="ace-icon fa fa-graduation-cap blue"></i>
 			学历学位信息
 		</h4>
 

@@ -13,8 +13,8 @@ pageEncoding="UTF-8" %>
              data-querystr="${pageContext.request.queryString}">
 
 
-            <mytag:sort-form css="form-horizontal hidden-sm hidden-xs" id="searchForm">
-                <div class="widget-box">
+
+                <div class="widget-box hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
@@ -24,61 +24,101 @@ pageEncoding="UTF-8" %>
                         </div>
                     </div>
                     <div class="widget-body">
-                        <div class="widget-main">
-                            <div class="form-inline">
-                            <input class="form-control search-query" name="code" type="text" value="${param.code}"
-                                   placeholder="请输入发文号">
+                        <div class="widget-main no-padding">
+                            <mytag:sort-form css="form-horizontal " id="searchForm">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">年份</label>
+                                            <div class="col-xs-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                                    <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                                                           data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <select data-rel="select2" name="typeId" data-placeholder="请选择发文类型">
-                                <option></option>
-                                <c:forEach var="metaType" items="${metaTypeMap}">
-                                    <option value="${metaType.value.id}">${metaType.value.name}</option>
-                                </c:forEach>
-                            </select>
-                                <script type="text/javascript">
-                                    $("#searchForm select[name=typeId]").val(${param.typeId});
-                                </script>
-                           <%-- </div>
-                            <br/>
-                            <div class="vspace-12"> </div>
-                            <div class="form-inline">--%>
-                                <div class="input-group">
-                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                                    <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
-                                           data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">任免日期</label>
+                                            <div class="col-xs-6">
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="任免日期范围">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                                    <input placeholder="请选择任免日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_workTime" value="${param._workTime}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">发文类型</label>
+                                            <div class="col-xs-6">
+                                                <select class="form-control" data-rel="select2" name="typeId" data-placeholder="请选择发文类型">
+                                                    <option></option>
+                                                    <c:forEach var="metaType" items="${metaTypeMap}">
+                                                        <option value="${metaType.value.id}">${metaType.value.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <script type="text/javascript">
+                                                    $("#searchForm select[name=typeId]").val(${param.typeId});
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">发文日期</label>
+                                            <div class="col-xs-6">
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="发文日期范围">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                                    <input placeholder="请选择发文日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_pubTime" value="${param._pubTime}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">发文号</label>
+                                            <div class="col-xs-6">
+                                                <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                                       placeholder="请输入发文号">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-xs-3 control-label">常委会</label>
+                                            <div class="col-xs-6">
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="党委常委会日期范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                                                    <input placeholder="请选择党委常委会日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_meetingTime" value="${param._meetingTime}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            <div class="input-group tooltip-success" data-rel="tooltip" title="发文日期范围">
-                    <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i>
-                    </span>
-                      <input placeholder="请选择发文日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_pubTime" value="${param._pubTime}"/>
-                            </div>
-                            <div class="input-group tooltip-success" data-rel="tooltip" title="任免日期范围">
-                    <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i>
-                    </span>
-                                <input placeholder="请选择任免日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_workTime" value="${param._workTime}"/>
-                            </div>
-                            <div class="input-group tooltip-success" data-rel="tooltip" title="党委常委会日期范围">
-                    <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i>
-                    </span>
-                                <input placeholder="请选择党委常委会日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_meetingTime" value="${param._meetingTime}"/>
-                            </div>
 
-                                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                                <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code || not empty param.sort}"/>
-                                <c:if test="${_query}">
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
 
-                            </div>
+
+
+                                <div class="clearfix form-actions center">
+                                        <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                    <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code || not empty param.sort}"/>
+                                    <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
+                                        <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                            <i class="fa fa-reply"></i> 重置
+                                        </button>
+                                    </c:if>
+                                </div>
+                            </mytag:sort-form>
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0 !important;">
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="dispatch:edit">
                         <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
@@ -91,9 +131,7 @@ pageEncoding="UTF-8" %>
                         </shiro:hasPermission>
                     </c:if>
                 </div>
-                </div>
-            </mytag:sort-form>
-
+            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
@@ -146,7 +184,7 @@ pageEncoding="UTF-8" %>
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">预览</a>
                                     </c:if>
                                 </td>
-								<td nowrap>${dispatch.remark}</td>
+								<td>${dispatch.remark}</td>
                             <shiro:hasPermission name="dispatch:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax--url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
-                        <option value="${sysUser.id}">${sysUser.username}</option>
+                        <option value="${sysUser.id}">${sysUser.realname}</option>
                     </select>
 				</div>
 			</div>
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                    <textarea class="form-control" name="remark">${cadre.remark}</textarea>
+                    <textarea class="form-control limited" name="remark" >${cadre.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -71,6 +71,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $('textarea.limited').inputlimiter();
+
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

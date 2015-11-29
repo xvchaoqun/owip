@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${metaType.code}</td>
 								<td nowrap>${metaType.boolAttr}</td>
 								<td nowrap>${metaType.extraAttr}</td>
-								<td nowrap>${metaType.remark}</td>
+								<td>${metaType.remark}</td>
                             <shiro:hasPermission name="metaType:changeOrder">
                             <c:if test="${_query2 && commonList.recNum>1}">
                                 <td nowrap>

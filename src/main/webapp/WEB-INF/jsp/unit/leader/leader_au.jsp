@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">分管工作</label>
 				<div class="col-xs-6">
-                        <textarea required class="form-control" name="job" rows="5">${leader.job}</textarea>
+                        <textarea required class="form-control limited" name="job" rows="5">${leader.job}</textarea>
 				</div>
 			</div>
     </form>
@@ -43,6 +43,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

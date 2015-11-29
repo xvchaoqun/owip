@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <textarea class="form-control"name="remark">${dispatch.remark}</textarea>
+                        <textarea class="form-control limited"name="remark">${dispatch.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
+    $('textarea.limited').inputlimiter();
     $('#modalForm input[type=file]').ace_file_input({
         no_file:'请选择文件 ...',
         btn_choose:'选择',

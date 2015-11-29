@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${memberApply.remark}">
+                        <input required class="form-control limited" type="text" name="remark" value="${memberApply.remark}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -148,6 +148,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	$('textarea.limited').inputlimiter();
+
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
