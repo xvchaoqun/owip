@@ -99,7 +99,7 @@
             <div class="text-center">
                 <div class="pagination pagination-centered">
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                        <wo:page commonList="${commonList}" uri="${ctx}/party_member" target="#modal .modal-content"
+                        <wo:page commonList="${commonList}" uri="${ctx}/metaClass_type?id=${metaClass.id}" target="#modal .modal-content"
                                  pageNum="5"
                                  model="3"/>
                     </c:if>

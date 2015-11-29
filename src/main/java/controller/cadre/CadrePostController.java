@@ -223,9 +223,7 @@ public class CadrePostController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-
-
-        return "cadrePost/cadreMainWork_au";
+        return "cadre/cadrePost/cadreMainWork_au";
     }
 
     @RequiresPermissions("cadrePost:del")

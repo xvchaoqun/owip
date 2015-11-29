@@ -316,7 +316,7 @@ public class MetaClassController extends BaseController {
 
         if (id != null) {
             if (null == pageSize) {
-                pageSize = springProps.pageSize;
+                pageSize = 10;
             }
             if (null == pageNo) {
                 pageNo = 1;
