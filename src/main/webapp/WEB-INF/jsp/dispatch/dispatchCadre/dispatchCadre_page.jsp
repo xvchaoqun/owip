@@ -289,7 +289,21 @@ pageEncoding="UTF-8" %>
 <script>
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
+    function formatState (state) {
+
+        if (!state.id) { return state.text; }
+        var $state = state.text;
+        if(state.code!=undefined && state.code.length>0)
+            $state += '-' + state.code;
+        if(state.unit!=undefined && state.unit.length>0){
+            $state += '-' + state.unit;
+        }
+        //console.log($state)
+        return $state;
+    };
+
+    $('#searchForm select[name=cadreId][data-rel="select2-ajax"]').select2({
+        templateResult: formatState,
         ajax: {
             dataType: 'json',
             delay: 300,
