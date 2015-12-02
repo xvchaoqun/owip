@@ -93,22 +93,22 @@
                         </td>
                         <td nowrap>${sysUser.username}</td>
                         <td nowrap>${sysUser.code}</td>
-                        <td nowrap>${userTypeMap.get(sysUser.type)}</td>
-                        <td nowrap>${sysUser.realname}</td>
-                        <td nowrap>${GENDER_MAP.get(sysUser.gender)}</td>
-                        <td nowrap>${cm:formatDate(sysUser.birth, "yyyy-MM-dd")}</td>
-                        <td nowrap>${sysUser.idcard}</td>
-                        <td nowrap>${sysUser.mobile}</td>
-                        <td nowrap>${sysUser.email}</td>
-                        <td nowrap>${userSourceMap.get(sysUser.source)}</td>
+                        <td >${userTypeMap.get(sysUser.type)}</td>
+                        <td >${sysUser.realname}</td>
+                        <td >${GENDER_MAP.get(sysUser.gender)}</td>
+                        <td >${cm:formatDate(sysUser.birth, "yyyy-MM-dd")}</td>
+                        <td >${sysUser.idcard}</td>
+                        <td >${sysUser.mobile}</td>
+                        <td >${sysUser.email}</td>
+                        <td >${userSourceMap.get(sysUser.source)}</td>
                         <td>
                             <c:forEach items="${fn:split(sysUser.roleIds,',')}" var="id" varStatus="vs">
                                 ${roleMap.get(cm:parseInt(id)).description}
                                 <c:if test="${!vs.last}">,</c:if>
                             </c:forEach>
                         </td>
-                        <td nowrap class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
-                        <td nowrap class="hidden-480">
+                        <td  class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
+                        <td  class="hidden-480">
                             <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
                             <button onclick="au(${sysUser.id})" class="btn btn-mini">
                                 <i class="fa fa-edit"></i> 编辑
