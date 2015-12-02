@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">家庭成员</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax"
-                            data-ajax--url="${ctx}/cadreFamliy_selects?cadreId=${cadre.id}" name="famliyId" data-placeholder="请选择">
+                            data-ajax-url="${ctx}/cadreFamliy_selects?cadreId=${cadre.id}" name="famliyId" data-placeholder="请选择">
                         <option value="${cadreFamliy.id}">${cadreFamliy.realname}</option>
                     </select>
 				</div>

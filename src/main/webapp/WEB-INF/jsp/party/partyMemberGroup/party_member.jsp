@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">账号</label>
                             <div class="col-xs-6">
-                                <select required data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.username}</option>
                                 </select></div>
@@ -34,6 +34,7 @@
                                 </select>
                             </div>
                         </div>
+                    </form>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info btn-sm" type="submit">
@@ -48,7 +49,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+
                 </div>
             </div>
         </div>
@@ -172,8 +173,8 @@
             }
         });
     })
-
-    $("#modal form").validate({
+    $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;})
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -183,11 +184,6 @@
                     }
                 }
             });
-        }, errorPlacement: function (error, element) {
-
-        }, invalidHandler: function (form, validator) {
-            //var errors = validator.numberOfInvalids();
-            toastr.error("请选择用户和类别", '错误');
         }
     });
 

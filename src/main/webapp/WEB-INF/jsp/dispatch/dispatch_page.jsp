@@ -43,9 +43,9 @@ pageEncoding="UTF-8" %>
                                             <label class="col-xs-3 control-label">任免日期</label>
                                             <div class="col-xs-6">
                                                 <div class="input-group tooltip-success" data-rel="tooltip" title="任免日期范围">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar bigger-110"></i>
-                                        </span>
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                    </span>
                                                     <input placeholder="请选择任免日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_workTime" value="${param._workTime}"/>
                                                 </div>
                                             </div>
@@ -270,10 +270,7 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="${ctx}/assets/css/daterangepicker.css" />
-<script src="${ctx}/assets/js/date-time/moment.js"></script>
-<script src="${ctx}/assets/js/date-time/daterangepicker.js"></script>
-<script src="${ctx}/extend/js/daterange-zh-CN.js"></script>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
 
     function swf_preview(id, type){
@@ -285,19 +282,6 @@ pageEncoding="UTF-8" %>
         autoclose: true,
         todayHighlight: true
     })
-    $('[data-rel=date-range-picker]').daterangepicker({
-        autoUpdateInput:false,
-        'applyClass' : 'btn-sm btn-success',
-        'cancelClass' : 'btn-sm btn-default',
-        locale: {
-            applyLabel: '确定',
-            cancelLabel: '清除'
-        }
-    }).on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' 至 ' + picker.endDate.format('YYYY-MM-DD'));
-    }).on('cancel.daterangepicker', function(ev, picker) {
-        $(this).val('');
-    });
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
@@ -322,4 +306,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

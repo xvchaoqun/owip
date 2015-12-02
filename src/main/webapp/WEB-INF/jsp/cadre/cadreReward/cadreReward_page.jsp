@@ -159,4 +159,3 @@ $('#searchForm [data-rel="select2"]').select2();
         }
     });
 </script>
-</div>

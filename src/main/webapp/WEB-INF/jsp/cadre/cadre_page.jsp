@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="status" value="${status}">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${cadre.id}">${sysUser.realname}</option>
                 </select>

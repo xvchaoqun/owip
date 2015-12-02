@@ -5,6 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
+             data-target="#home2"
              data-url-au="${ctx}/applyOpenTime_au"
              data-url-page="${ctx}/applyOpenTime_page"
              data-url-del="${ctx}/applyOpenTime_del"
@@ -151,7 +152,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/applyOpenTime_page" target="#page-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/applyOpenTime_page" target="#home2" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -191,4 +192,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

@@ -21,37 +21,33 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
       </table>
-      <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
-      </table>
-      <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
-      </table>
-      <table tableName="base_cadre_company" domainObjectName="CadreCompany">
+      <!-- <table tableName="ow_member_stay" domainObjectName="MemberStay">
+       </table>
+       <table tableName="ow_member_in" domainObjectName="MemberIn">
+       </table>
+       <table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>-->
+      <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
-      <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
-      </table>
-      <table tableName="base_cadre_course" domainObjectName="CadreCourse">
+      <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>-->
-      <!--<table tableName="base_cadre_reward" domainObjectName="CadreReward">
+      <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
-      <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      <!--
+      <table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
       </table>-->
-     <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
+      <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
-     <!-- <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
-      </table>-->
-      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
-      </table>-->
-     <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
-      </table>-->
-      <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+
+      <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
       <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
-      </table>-->
-      <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
-      </table>-->
-     <!-- <table tableName="ow_member" domainObjectName="Member">
+      </table>
+      <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      </table>
+      <table tableName="ow_member" domainObjectName="Member">
           <ignoreColumn column="update_time"/>
       </table>-->
       <!--<table tableName="ow_student" domainObjectName="Student">
@@ -81,11 +77,40 @@
     <table tableName="ow_branch" domainObjectName="Branch">
     <ignoreColumn column="update_time"/>
     </table>-->
+
+      <!--<table tableName="base_location" domainObjectName="Location">
+      </table>-->
+      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      </table>
+      <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
+      </table>
+      <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
+      </table>
+      <table tableName="base_cadre_company" domainObjectName="CadreCompany">
+      </table>-->
+      <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
+      </table>
+      <table tableName="base_cadre_course" domainObjectName="CadreCourse">
+      </table>-->
+      <!--<table tableName="base_cadre_reward" domainObjectName="CadreReward">
+      </table>-->
+      <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      </table>-->
+      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
+       </table>-->
+      <!-- <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
+       </table>-->
+      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
+      </table>-->
+      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
+       </table>-->
+      <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+      </table>-->
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
         <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <table tableName="base_unit_admin_group" domainObjectName="UnitAdminGroup">
-      </table>
+      <!--<table tableName="base_unit_admin_group" domainObjectName="UnitAdminGroup">
+      </table>-->
       <!--<table tableName="base_unit_admin" domainObjectName="UnitAdmin">
       </table>-->
     <!--<table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">

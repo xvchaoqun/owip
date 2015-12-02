@@ -57,9 +57,6 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-        </div>
-    </div>
-</div>
 <script>
 
     function _au(id) {
@@ -108,4 +105,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

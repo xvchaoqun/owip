@@ -74,7 +74,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">所属单位</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects"
+						<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
 								name="unitId" data-placeholder="请选择所属单位">
 							<option value="${unit.id}">${unit.name}</option>
 						</select>
@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">双肩挑单位</label>
 				<div class="col-xs-6">
-					<select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects"
+					<select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
 							name="doubleUnitId" data-placeholder="请选择所属单位">
 						<option value="${doubleUnit.id}">${doubleUnit.name}</option>
 					</select>

@@ -44,7 +44,7 @@ public class MemberTeacherController extends BaseController {
     public String memberTeacher_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "grow_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
-                                 Integer type, // 教师或学生，用于页面标签
+                                 @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -64,11 +64,32 @@ public class MemberTeacherController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if(type== 2){ // 在职教职工党员
-            criteria.andIsRetireEqualTo(false);
-        }else if(type== 3){ // 离退休党员
-            criteria.andIsRetireEqualTo(true);
+
+        /*
+            cls=2教职工   =>  member.type=1 member.status=1
+                3离退休   =>  member.type=2 member.status=1
+                4应退休   =>  member.type=2 member.status=1
+                5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+         */
+        switch (cls){
+            case 2:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                        .andIsRetireEqualTo(false);
+                break;
+            case 3:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                        .andIsRetireEqualTo(true);
+                break;
+            case 4:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                        .andIsRetireEqualTo(true);
+                break;
+            case 5:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_RETIRE)
+                        .andIsRetireEqualTo(true);
+                break;
         }
+
         if (export == 1) {
             memberTeacher_export(example, response);
             return null;
@@ -96,10 +117,9 @@ public class MemberTeacherController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
-        if(type!=null){
-            modelMap.put("type", type);
-            searchStr += "&type=" + type;
-        }
+        modelMap.put("cls", cls);
+        searchStr += "&cls=" + cls;
+
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
@@ -109,7 +129,7 @@ public class MemberTeacherController extends BaseController {
         return "party/memberTeacher/memberTeacher_page";
     }
 
-    // 基本信息
+    // 基本信息 + 党籍信息
     @RequiresPermissions("memberTeacher:base")
     @RequestMapping("/memberTeacher_base")
     public String memberTeacher_base(Integer userId, ModelMap modelMap) {
@@ -117,24 +137,14 @@ public class MemberTeacherController extends BaseController {
         MemberTeacher memberTeacher = memberTeacherService.get(userId);
         modelMap.put("memberTeacher", memberTeacher);
 
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
+        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
         modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        return "party/memberTeacher/memberTeacher_base";
-    }
-    // 党籍信息
-    @RequiresPermissions("memberTeacher:member")
-    @RequestMapping("/memberTeacher_member")
-    public String memberTeacher_member(Integer userId, ModelMap modelMap) {
-
-        MemberTeacher memberTeacher = memberTeacherService.get(userId);
-        modelMap.put("memberTeacher", memberTeacher);
 
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
 
-        return "party/memberTeacher/memberTeacher_member";
+        return "party/memberTeacher/memberTeacher_base";
     }
 
     public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {

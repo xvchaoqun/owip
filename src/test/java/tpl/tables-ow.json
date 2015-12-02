@@ -6,10 +6,92 @@
   "tablePrefix": "ow_",
   "tables": [
     {
+      "table": "member_stay",
+      "key": "id",
+      "searchColumns": "user_id,type",
+      "showColumns": "user_id,abroad_time,return_time,mobile,status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+    {
+      "table": "member_transfer",
+      "key": "id",
+      "searchColumns": "user_id,type",
+      "showColumns": "user_id,from_unit,type,from_unit,to_unit,from_handle_time,status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+    {
+      "table": "member_out",
+      "key": "id",
+      "searchColumns": "user_id,type,party_id,branch_id",
+      "showColumns": "user_id,from_unit,type,from_unit,to_unit,to_title,valid_days,handle_time,status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+    {
+      "table": "member_in",
+      "key": "id",
+      "searchColumns": "user_id,type,party_id,branch_id",
+      "showColumns": "user_id,from_unit,type,from_unit,from_title,valid_days,from_handle_time,status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+
+    {
+      "table": "member_outflow",
+      "key": "id",
+      "searchColumns": "user_id,type,party_id,branch_id",
+      "showColumns": "user_id,party_name,branch_name,original_job,direction,has_papers,flow_time,reason,province,or_status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "member_inflow",
+      "key": "id",
+      "searchColumns": "user_id,type,party_id,branch_id",
+      "showColumns": "user_id,party_name,branch_name,original_job,province,has_papers,flow_time,reason,grow_time,or_location",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "member_return",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id",
+      "showColumns": "user_id,party_id,branch_id,active_time,candidate_time,grow_time,positive_time,remark,status,create_time",
+      "excludeEditColumns": "id,status,create_time",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "member_abroad",
+      "key": "user_id",
+      "searchColumns": "user_id,abroad_time",
+      "showColumns": "user_id,party_name,branch_name,grow_time,abroad_time,reason,expect_return_time,actual_return_time",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "member_quit",
+      "key": "user_id",
+      "searchColumns": "user_id,party_id,branch_id,type,quit_time",
+      "showColumns": "user_id,party_id,branch_id,type,quit_time",
+      "excludeEditColumns": "create_time",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
       "table": "member_student",
       "key": "user_id",
-      "searchColumns": "user_id, party_id, branch_id, grow_time",
-      "showColumns": "code, realname,gender,birth,type,grade,party_id,branch_id,grow_time,positive_time",
+      "searchColumns": "user_id,party_id,branch_id,grow_time",
+      "showColumns": "code,realname,gender,birth,type,grade,party_id,branch_id,grow_time,positive_time",
       "excludeEditColumns": "user_id",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true
@@ -17,8 +99,8 @@
     {
       "table": "member_teacher",
       "key": "user_id",
-      "searchColumns": "user_id, party_id, branch_id, grow_time",
-      "showColumns": "code, realname,gender,birth,education,post_class,pro_post,party_id,branch_id,grow_time,mobile",
+      "searchColumns": "user_id,party_id,branch_id,grow_time",
+      "showColumns": "code,realname,gender,birth,education,post_class,pro_post,party_id,branch_id,grow_time,mobile",
       "excludeEditColumns": "user_id",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true
@@ -26,8 +108,8 @@
     {
       "table": "member",
       "key": "user_id",
-      "searchColumns": "user_id, party_id,branch_id,grow_time",
-      "showColumns": "user_id, party_id,branch_id,grow_time",
+      "searchColumns": "user_id,party_id,branch_id,grow_time",
+      "showColumns": "user_id,party_id,branch_id,grow_time",
       "excludeEditColumns": "user_id",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true
@@ -36,7 +118,7 @@
       "table": "apply_log",
       "key": "id",
       "searchColumns": "user_id, operator_id,stage",
-      "showColumns": "user_id, operator_id,stage,content,create_time",
+      "showColumns": "user_id,operator_id,stage,content,create_time",
       "excludeEditColumns": "id,create_time",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true
@@ -45,7 +127,7 @@
        "table": "apply_open_time",
        "key": "id",
        "searchColumns": "type, party_id,branch_id,start_time,end_time",
-       "showColumns": "type, party_id,branch_id,start_time,end_time, is_global",
+       "showColumns": "type,party_id,branch_id,start_time,end_time, is_global",
        "excludeEditColumns": "id",
        "logType":"SystemConstants.LOG_MEMBER_APPLY",
        "ignore": true
@@ -54,7 +136,7 @@
       "table": "member_apply",
       "key": "id",
       "searchColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
-      "showColumns": "user_id,party_id,branch_id,type, apply_time, fill_time",
+      "showColumns": "user_id,party_id,branch_id,type, apply_time,fill_time",
       "excludeEditColumns": "id,user_id, update_time, create_time",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true

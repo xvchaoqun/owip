@@ -55,7 +55,7 @@ public class UserRealm extends AuthorizingRealm {
         password = user.getPasswd();
         salt = user.getSalt();
 
-        ShiroUser shiroUser = new ShiroUser(user.getId(), username, "1");
+        ShiroUser shiroUser = new ShiroUser(user.getId(), username, user.getRealname(), "1");
         /*User _user = new User();
         _user.setId(user.getId());
         SaltPassword encrypt = passwordHelper.encrypt(username, "1");

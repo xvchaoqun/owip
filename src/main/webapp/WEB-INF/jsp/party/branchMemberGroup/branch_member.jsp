@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">账号</label>
                             <div class="col-xs-6">
-                                <select required data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.username}</option>
                                 </select></div>
@@ -34,6 +34,7 @@
                                 </select>
                             </div>
                         </div>
+                    </form>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info btn-sm" type="submit">
@@ -48,7 +49,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+
                 </div>
             </div>
         </div>
@@ -172,8 +173,8 @@
             }
         });
     })
-
-    $("#modal form").validate({
+    $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;})
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -191,7 +192,21 @@
         }*/
     });
 
-    $('#modal [data-rel="select2-ajax"]').select2({
+    function formatState (state) {
+
+        if (!state.id) { return state.text; }
+        var $state = state.text;
+        if(state.code!=undefined && state.code.length>0)
+            $state += '-' + state.code;
+        if(state.unit!=undefined && state.unit.length>0){
+            $state += '-' + state.unit;
+        }
+        //console.log($state)
+        return $state;
+    };
+
+    $('#modalForm select[name=userId]').select2({
+        templateResult: formatState,
         ajax: {
             dataType: 'json',
             delay: 300,

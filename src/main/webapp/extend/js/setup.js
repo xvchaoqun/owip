@@ -4,12 +4,16 @@ $.fn.select2.defaults.set("language", "zh-CN");
 $.fn.select2.defaults.set("theme", "classic");
 $.fn.select2.defaults.set("allowClear", true);
 $.fn.select2.defaults.set("width", "200px");
+// 解决IE8下elect2不能搜索的bug
+$.fn.modal.Constructor.prototype.enforceFocus = function () { };
+
 $(document).on("change","[data-rel=select2],.date-picker",function(){
     try{$(this).valid();}catch (e){}
 });
 $(document).on("click","button[type=reset],input[type=reset]",function(event){
     $("select").val(null).trigger("change");
-    $(this).closest('form')[0].reset();
+    var $form = $(this).closest('form')[0] || $(this).closest("#modal").find("form");
+    if($form)$form.reset;
     //validator.resetForm();
     event.stopPropagation();
 });
@@ -157,9 +161,10 @@ function page_reload() {
     $("#modal").modal('hide');
     var $div = $(".myTableDiv");
     var queryString = $div.data("querystr");
-    console.log(queryString)
+    //console.log(queryString)
     //alert($div.data("url-page"))
-    $("#page-content").load($div.data("url-page") + (queryString?("?"+queryString):""));
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    $target.load($div.data("url-page") + (queryString?("?"+queryString):""));
 }
 // 添加/编辑
 $(document).on("click", ".myTableDiv .editBtn", function(){
@@ -206,14 +211,18 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
 $(document).on("click", ".myTableDiv .searchBtn", function(){
 
     var $div = $(this).closest(".myTableDiv");
-    _tunePage(1, "", $div.data("url-page"), "#page-content", "", "&" + $("div.myTableDiv #searchForm").serialize());
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    //alert($target)
+    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
 });
 // 重置
 $(document).on("click", ".myTableDiv .resetBtn", function(){
 
     var $div = $(this).closest(".myTableDiv");
     var querystr = $(this).data("querystr");
-    _tunePage(1, "", $div.data("url-page"), "#page-content", "", "&" + querystr);
+
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + querystr);
 });
 // 排序
 $(document).on("click",".myTableDiv .table th.sortable", function(){
@@ -226,7 +235,9 @@ $(document).on("click",".myTableDiv .table th.sortable", function(){
     $(".myTableDiv #searchForm input[name=sort]").val($this.data("field"));
     $(".myTableDiv #searchForm input[name=order]").val(order);
     //alert($("div.myTableDiv #searchForm").serialize())
-    _tunePage(1, "", $div.data("url-page"), "#page-content", "", "&" + $("div.myTableDiv #searchForm").serialize());
+
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
 });
 // 导出
 $(document).on("click", ".myTableDiv .exportBtn", function(){
@@ -300,6 +311,28 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function(){
     });
 });
 //↑↑↑↑↑↑↑↑↑弹出框列表操作↑↑↑↑↑↑↑↑↑
+
+// 内页标签
+$(document).on("click", "#view-box .nav-tabs li a", function(){
+    var $this = $(this);
+    var $container = $("#view-box .tab-content");
+    $container.showLoading({'afterShow':
+        function() {
+            setTimeout( function(){
+                $container.hideLoading();
+            }, 2000 );
+        }}) ;
+    if($(this).data("url")!='') {
+        $container.load($(this).data("url"), function () {
+            $container.hideLoading();
+            $("#view-box .nav-tabs li").removeClass("active");
+            $this.closest("li").addClass("active");
+        });
+    }else{
+        $container.hideLoading();
+        toastr.warning("暂缓开通该功能");
+    }
+});
 
 // 内页展示
 $(document).on("click", "#body-content .openView", function(){

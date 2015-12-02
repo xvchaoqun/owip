@@ -15,6 +15,9 @@
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="party_post" property="partyPost" jdbcType="VARCHAR" />
+    <result column="party_reward" property="partyReward" jdbcType="VARCHAR" />
+    <result column="other_reward" property="otherReward" jdbcType="VARCHAR" />
     <result column="delay_year" property="delayYear" jdbcType="REAL" />
     <result column="period" property="period" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
@@ -97,10 +100,10 @@
   </sql>
   <sql id="Base_Column_List" >
     create_time, apply_time, source, positive_time, active_time, political_status, transfer_time, 
-    user_id, branch_id, candidate_time, party_id, grow_time, status, delay_year, period, 
-    code, edu_category, gender, birth, nation, actual_graduate_time, expect_graduate_time, 
-    actual_enrol_time, sync_source, type, is_full_time, realname, enrol_year, native_place, 
-    edu_way, idcard, edu_level, grade, edu_type
+    user_id, branch_id, candidate_time, party_id, grow_time, status, party_post, party_reward, 
+    other_reward, delay_year, period, code, edu_category, gender, birth, nation, actual_graduate_time, 
+    expect_graduate_time, actual_enrol_time, sync_source, type, is_full_time, realname, 
+    enrol_year, native_place, edu_way, idcard, edu_level, grade, edu_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStudentExample" >
     select
@@ -127,7 +130,8 @@
       positive_time, active_time, political_status, 
       transfer_time, user_id, branch_id, 
       candidate_time, party_id, grow_time, 
-      status, delay_year, period, 
+      status, party_post, party_reward, 
+      other_reward, delay_year, period, 
       code, edu_category, gender, 
       birth, nation, actual_graduate_time, 
       expect_graduate_time, actual_enrol_time, sync_source, 
@@ -139,7 +143,8 @@
       #{positiveTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, 
       #{transferTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{candidateTime,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
-      #{status,jdbcType=TINYINT}, #{delayYear,jdbcType=REAL}, #{period,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, 
+      #{otherReward,jdbcType=VARCHAR}, #{delayYear,jdbcType=REAL}, #{period,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
       #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{actualGraduateTime,jdbcType=DATE}, 
       #{expectGraduateTime,jdbcType=DATE}, #{actualEnrolTime,jdbcType=DATE}, #{syncSource,jdbcType=TINYINT}, 
@@ -189,6 +194,15 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="partyPost != null" >
+        party_post,
+      </if>
+      <if test="partyReward != null" >
+        party_reward,
+      </if>
+      <if test="otherReward != null" >
+        other_reward,
       </if>
       <if test="delayYear != null" >
         delay_year,
@@ -293,6 +307,15 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="partyPost != null" >
+        #{partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyReward != null" >
+        #{partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReward != null" >
+        #{otherReward,jdbcType=VARCHAR},
       </if>
       <if test="delayYear != null" >
         #{delayYear,jdbcType=REAL},
@@ -407,6 +430,15 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.partyPost != null" >
+        party_post = #{record.partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyReward != null" >
+        party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherReward != null" >
+        other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      </if>
       <if test="record.delayYear != null" >
         delay_year = #{record.delayYear,jdbcType=REAL},
       </if>
@@ -490,6 +522,9 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       grow_time = #{record.growTime,jdbcType=DATE},
       status = #{record.status,jdbcType=TINYINT},
+      party_post = #{record.partyPost,jdbcType=VARCHAR},
+      party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      other_reward = #{record.otherReward,jdbcType=VARCHAR},
       delay_year = #{record.delayYear,jdbcType=REAL},
       period = #{record.period,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},

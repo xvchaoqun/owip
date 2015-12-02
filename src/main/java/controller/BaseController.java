@@ -28,6 +28,52 @@ public class BaseController extends BaseMapper {
     protected SyncUserService syncUserService;
 
     @Autowired
+    protected MemberStayService memberStayService;
+    @Autowired
+    protected MemberTransferService memberTransferService;
+    @Autowired
+    protected MemberOutService memberOutService;
+    @Autowired
+    protected MemberInService memberInService;
+
+    @Autowired
+    protected MemberInflowService memberInflowService;
+    @Autowired
+    protected MemberOutflowService memberOutflowService;
+    @Autowired
+    protected MemberReturnService memberReturnService;
+    @Autowired
+    protected MemberAbroadService memberAbroadService;
+    @Autowired
+    protected MemberQuitService memberQuitService;
+    @Autowired
+    protected RetireApplyService retireApplyService;
+    @Autowired
+    protected MemberStudentService memberStudentService;
+    @Autowired
+    protected MemberTeacherService memberTeacherService;
+    @Autowired
+    protected MemberService memberService;
+    @Autowired
+    protected ApplyLogService applyLogService;
+    @Autowired
+    protected ApplyOpenTimeService applyOpenTimeService;
+    @Autowired
+    protected MemberApplyService memberApplyService;
+    @Autowired
+    protected BranchMemberGroupService branchMemberGroupService;
+    @Autowired
+    protected BranchMemberService branchMemberService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected PartyMemberGroupService partyMemberGroupService;
+    @Autowired
+    protected PartyMemberService partyMemberService;
+    @Autowired
+    protected BranchService branchService;
+
+    @Autowired
     protected UnitAdminGroupService unitAdminGroupService;
     @Autowired
     protected UnitAdminService unitAdminService;
@@ -63,31 +109,6 @@ public class BaseController extends BaseMapper {
     protected CadreWorkService cadreWorkService;
     @Autowired
     protected CadreEduService cadreEduService;
-
-    @Autowired
-    protected MemberStudentService memberStudentService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
-    @Autowired
-    protected MemberService memberService;
-    @Autowired
-    protected ApplyLogService applyLogService;
-    @Autowired
-    protected ApplyOpenTimeService applyOpenTimeService;
-    @Autowired
-    protected MemberApplyService memberApplyService;
-    @Autowired
-    protected BranchMemberGroupService branchMemberGroupService;
-    @Autowired
-    protected BranchMemberService branchMemberService;
-    @Autowired
-    protected PartyService partyService;
-    @Autowired
-    protected PartyMemberGroupService partyMemberGroupService;
-    @Autowired
-    protected PartyMemberService partyMemberService;
-    @Autowired
-    protected BranchService branchService;
     @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
@@ -117,6 +138,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
 
+    @Autowired
+    protected LocationService locationService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired

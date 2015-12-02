@@ -17,10 +17,21 @@ ajax
 	<c:import url="/metaTypes?__code=mc_edu"/>
 </select>
 <script type="text/javascript">
-	$("#modal form select[name=eduId]").val(${cadreEdu.eduId});
+	$("#modalForm select[name=eduId]").val(${cadreEdu.eduId});
 </script>
 
 modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
+
+
+<select required data-rel="select2" name="type" data-placeholder="请选择">
+	<option></option>
+	<c:forEach items="${MEMBER_FLOW_TYPE_MAP}" var="_type">
+		<option value="${_type.key}">${_type.value}</option>
+	</c:forEach>
+</select>
+<script>
+	$("#modalForm select[name=type]").val(${memberOutflow.type});
+</script>
 
 时间
 <div class="input-group">
@@ -40,3 +51,7 @@ if(StringUtils.isNotBlank(_foundTime)){
 }
 
 ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
+
+字数限制
+<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
+$('textarea.limited').inputlimiter();

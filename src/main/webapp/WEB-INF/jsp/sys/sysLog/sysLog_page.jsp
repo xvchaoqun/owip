@@ -96,4 +96,3 @@
         $("#page-content").load("${ctx}/sysLog_page?${pageContext.request.queryString}");
     }
 </script>
-</div>

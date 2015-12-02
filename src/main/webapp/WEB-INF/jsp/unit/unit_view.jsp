@@ -37,26 +37,3 @@
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div>
-<script>
-    $("#view-box .nav-tabs li a").click(function(){
-        $this = $(this);
-        var $container = $("#view-box .tab-content");
-        $container.showLoading({'afterShow':
-                function() {
-                    setTimeout( function(){
-
-                        $container.hideLoading();
-                    }, 2000 );
-                }}) ;
-        if($(this).data("url")!='') {
-            $container.load($(this).data("url"), function () {
-                $container.hideLoading();
-                $("#view-box .nav-tabs li").removeClass("active");
-                $this.closest("li").addClass("active");
-            });
-        }else{
-            $container.hideLoading();
-            toastr.warning("暂缓开通该功能");
-        }
-    });
-</script>

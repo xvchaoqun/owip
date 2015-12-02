@@ -912,6 +912,216 @@ public class MemberTeacherExample {
             return (Criteria) this;
         }
 
+        public Criteria andPartyPostIsNull() {
+            addCriterion("party_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostIsNotNull() {
+            addCriterion("party_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostEqualTo(String value) {
+            addCriterion("party_post =", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostNotEqualTo(String value) {
+            addCriterion("party_post <>", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostGreaterThan(String value) {
+            addCriterion("party_post >", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostGreaterThanOrEqualTo(String value) {
+            addCriterion("party_post >=", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostLessThan(String value) {
+            addCriterion("party_post <", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostLessThanOrEqualTo(String value) {
+            addCriterion("party_post <=", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostLike(String value) {
+            addCriterion("party_post like", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostNotLike(String value) {
+            addCriterion("party_post not like", value, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostIn(List<String> values) {
+            addCriterion("party_post in", values, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostNotIn(List<String> values) {
+            addCriterion("party_post not in", values, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostBetween(String value1, String value2) {
+            addCriterion("party_post between", value1, value2, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyPostNotBetween(String value1, String value2) {
+            addCriterion("party_post not between", value1, value2, "partyPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardIsNull() {
+            addCriterion("party_reward is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardIsNotNull() {
+            addCriterion("party_reward is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardEqualTo(String value) {
+            addCriterion("party_reward =", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardNotEqualTo(String value) {
+            addCriterion("party_reward <>", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardGreaterThan(String value) {
+            addCriterion("party_reward >", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardGreaterThanOrEqualTo(String value) {
+            addCriterion("party_reward >=", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardLessThan(String value) {
+            addCriterion("party_reward <", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardLessThanOrEqualTo(String value) {
+            addCriterion("party_reward <=", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardLike(String value) {
+            addCriterion("party_reward like", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardNotLike(String value) {
+            addCriterion("party_reward not like", value, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardIn(List<String> values) {
+            addCriterion("party_reward in", values, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardNotIn(List<String> values) {
+            addCriterion("party_reward not in", values, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardBetween(String value1, String value2) {
+            addCriterion("party_reward between", value1, value2, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyRewardNotBetween(String value1, String value2) {
+            addCriterion("party_reward not between", value1, value2, "partyReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardIsNull() {
+            addCriterion("other_reward is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardIsNotNull() {
+            addCriterion("other_reward is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardEqualTo(String value) {
+            addCriterion("other_reward =", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardNotEqualTo(String value) {
+            addCriterion("other_reward <>", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardGreaterThan(String value) {
+            addCriterion("other_reward >", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardGreaterThanOrEqualTo(String value) {
+            addCriterion("other_reward >=", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardLessThan(String value) {
+            addCriterion("other_reward <", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardLessThanOrEqualTo(String value) {
+            addCriterion("other_reward <=", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardLike(String value) {
+            addCriterion("other_reward like", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardNotLike(String value) {
+            addCriterion("other_reward not like", value, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardIn(List<String> values) {
+            addCriterion("other_reward in", values, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardNotIn(List<String> values) {
+            addCriterion("other_reward not in", values, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardBetween(String value1, String value2) {
+            addCriterion("other_reward between", value1, value2, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherRewardNotBetween(String value1, String value2) {
+            addCriterion("other_reward not between", value1, value2, "otherReward");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;

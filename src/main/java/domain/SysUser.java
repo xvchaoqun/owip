@@ -20,6 +20,10 @@ public class SysUser implements Serializable {
 
     private String realname;
 
+    private Byte gender;
+
+    private Date birth;
+
     private String idcard;
 
     private String mobile;
@@ -96,6 +100,22 @@ public class SysUser implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
     }
 
     public String getIdcard() {

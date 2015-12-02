@@ -61,10 +61,6 @@ pageEncoding="UTF-8" %>
                         </div>
                     </div>
                 </c:if>
-
-        </div>
-    </div>
-</div>
 <script>
 
     function _au() {
@@ -111,4 +107,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

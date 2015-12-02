@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发文</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/dispatch_selects"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
                             name="dispatchId" data-placeholder="请选择发文">
                         <option value="${dispatch.id}">${dispatch.code}</option>
                     </select>

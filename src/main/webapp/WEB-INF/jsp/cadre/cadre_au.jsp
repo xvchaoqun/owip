@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">账号</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax--url="${ctx}/notCadre_selects"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}</option>
                     </select>
@@ -103,7 +103,6 @@ pageEncoding="UTF-8"%>
 
     $('[data-rel="select2-ajax"]').select2({
         templateResult: formatState,
-        minimumInputLength: 2,
         ajax: {
             dataType: 'json',
             delay: 300,

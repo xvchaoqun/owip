@@ -16,6 +16,9 @@
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="positive_time" property="positiveTime" jdbcType="DATE" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="party_post" property="partyPost" jdbcType="VARCHAR" />
+    <result column="party_reward" property="partyReward" jdbcType="VARCHAR" />
+    <result column="other_reward" property="otherReward" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +80,8 @@
   </sql>
   <sql id="Base_Column_List" >
     user_id, party_id, branch_id, political_status, type, status, source, transfer_time, 
-    apply_time, active_time, candidate_time, grow_time, positive_time, create_time
+    apply_time, active_time, candidate_time, grow_time, positive_time, create_time, party_post, 
+    party_reward, other_reward
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberExample" >
     select
@@ -114,12 +118,14 @@
       political_status, type, status, 
       source, transfer_time, apply_time, 
       active_time, candidate_time, grow_time, 
-      positive_time, create_time)
+      positive_time, create_time, party_post, 
+      party_reward, other_reward)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{source,jdbcType=TINYINT}, #{transferTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, 
       #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, 
-      #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP})
+      #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{partyPost,jdbcType=VARCHAR}, 
+      #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.Member" >
     insert into ow_member
@@ -166,6 +172,15 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="partyPost != null" >
+        party_post,
+      </if>
+      <if test="partyReward != null" >
+        party_reward,
+      </if>
+      <if test="otherReward != null" >
+        other_reward,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -209,6 +224,15 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partyPost != null" >
+        #{partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyReward != null" >
+        #{partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReward != null" >
+        #{otherReward,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +287,15 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.partyPost != null" >
+        party_post = #{record.partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyReward != null" >
+        party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherReward != null" >
+        other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +316,10 @@
       candidate_time = #{record.candidateTime,jdbcType=DATE},
       grow_time = #{record.growTime,jdbcType=DATE},
       positive_time = #{record.positiveTime,jdbcType=DATE},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      party_post = #{record.partyPost,jdbcType=VARCHAR},
+      party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      other_reward = #{record.otherReward,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +366,15 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="partyPost != null" >
+        party_post = #{partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyReward != null" >
+        party_reward = #{partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReward != null" >
+        other_reward = #{otherReward,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -347,7 +392,10 @@
       candidate_time = #{candidateTime,jdbcType=DATE},
       grow_time = #{growTime,jdbcType=DATE},
       positive_time = #{positiveTime,jdbcType=DATE},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      party_post = #{partyPost,jdbcType=VARCHAR},
+      party_reward = #{partyReward,jdbcType=VARCHAR},
+      other_reward = #{otherReward,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.MemberExample" id="selectByExampleWithRowbounds" >

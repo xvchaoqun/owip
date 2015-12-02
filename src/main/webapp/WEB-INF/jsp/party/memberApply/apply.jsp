@@ -43,7 +43,7 @@
 
         <div class="form-group"  id="party" style="display: none;" >
             <div class="col-sm-offset-3 col-sm-9">
-          <select data-rel="select2-ajax" data-ajax--url="${ctx}/party_selects"
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                   name="partyId" data-placeholder="请输入分党委名称">
             <option></option>
           </select>
@@ -51,7 +51,7 @@
          </div>
           <div class="form-group" id="branch" style="display: none;" >
             <div class="col-sm-offset-3 col-sm-9">
-          <select data-rel="select2-ajax" data-ajax--url="${ctx}/branch_selects"
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                   name="branchId" data-placeholder="请输入支部名称">
             <option></option>
           </select>
@@ -101,7 +101,8 @@
                 searchStr: params.term,
                 pageSize: 10,
                 pageNo: params.page,
-                classId: $('select[name=classId]').val()
+                classId: $('select[name=classId]').val(),
+                partyId: $('select[name=partyId]').val()
               };
             },
             processResults: function (data, params) {

@@ -7,8 +7,8 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
-        <div class="list-view tabbable">
+        <div id="body-content">
+        <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
 
             <div class="tab-content">
@@ -22,8 +22,8 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/memberStudent_changeOrder"
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input type="hidden" name="type" value="${type}">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                <input type="hidden" name="cls" value="${cls}">
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
@@ -36,15 +36,10 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="memberStudent:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
+
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="memberStudent:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
                     </c:if>
                 </div>
             </mytag:sort-form>
@@ -59,8 +54,8 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+                            <th>姓名</th>
 							<th>学生证号</th>
-							<th>姓名</th>
 							<th>性别</th>
 							<th>年龄</th>
 							<th>学生类别</th>
@@ -81,11 +76,11 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td>
-								<a href="#" onclick="openMemberView(${memberStudent.userId})">
-								${memberStudent.code}</a></td>
-								<td>${memberStudent.realname}</td>
+								<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberStudent.userId}">
+								${memberStudent.realname}</a></td>
+								<td>${memberStudent.code}</td>
 								<td>${GENDER_MALE_MAP.get(memberStudent.gender)}</td>
-								<td>${cm:formatDate(memberStudent.birth,'yyyy-MM-dd')}</td>
+								<td>${cm:intervalYearsUntilNow(memberStudent.birth)}</td>
 								<td>${memberStudent.type}</td>
 								<td>${memberStudent.grade}</td>
                                 <td>${partyMap.get(memberStudent.partyId).name}
@@ -175,30 +170,15 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
                     </div></div></div>
-
-        <div class="member-view">
-
-        </div>
+</div>
+        <div id="item-content"></div>
     </div>
 </div>
-<style>
-    .member-view{
-        display: none;
-    }
-</style>
 <script>
-    function returnList(){
-        $(".member-view").hide();
-        $(".list-view").show();
-    }
-    function openMemberView(userId){
-        $(".list-view").hide();
-        $(".member-view").load("${ctx}/member_view?userId="+userId).show();
-        //loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
-    }
+
     function _reset(){
 
-        _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&type=${type}");
+        _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&cls=${cls}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();
@@ -238,4 +218,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

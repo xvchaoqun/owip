@@ -8,7 +8,54 @@ import persistence.common.CommonUnitMapper;
 public class BaseMapper {
 
 	@Autowired
-	protected CommonUnitMapper commonUnitMapper;
+	protected MemberStayMapper memberStayMapper;
+	@Autowired
+	protected MemberTransferMapper memberTransferMapper;
+	@Autowired
+	protected MemberOutMapper memberOutMapper;
+	@Autowired
+	protected MemberInMapper memberInMapper;
+
+	@Autowired
+	protected MemberOutflowMapper memberOutflowMapper;
+	@Autowired
+	protected MemberInflowMapper memberInflowMapper;
+	@Autowired
+	protected MemberReturnMapper memberReturnMapper;
+	@Autowired
+	protected MemberAbroadMapper memberAbroadMapper;
+	@Autowired
+	protected MemberQuitMapper memberQuitMapper;
+	@Autowired
+	protected RetireApplyMapper retireApplyMapper;
+	@Autowired
+	protected StudentMapper studentMapper;
+	@Autowired
+	protected MemberStudentMapper memberStudentMapper;
+	@Autowired
+	protected TeacherMapper teacherMapper;
+	@Autowired
+	protected MemberTeacherMapper memberTeacherMapper;
+	@Autowired
+	protected MemberMapper memberMapper;
+	@Autowired
+	protected ApplyLogMapper applyLogMapper;
+	@Autowired
+	protected ApplyOpenTimeMapper applyOpenTimeMapper;
+	@Autowired
+	protected MemberApplyMapper memberApplyMapper;
+	@Autowired
+	protected BranchMemberGroupMapper branchMemberGroupMapper;
+	@Autowired
+	protected BranchMemberMapper branchMemberMapper;
+	@Autowired
+	protected PartyMapper partyMapper;
+	@Autowired
+	protected PartyMemberMapper partyMemberMapper;
+	@Autowired
+	protected PartyMemberGroupMapper partyMemberGroupMapper;
+	@Autowired
+	protected BranchMapper branchMapper;
 
 	@Autowired
 	protected UnitAdminGroupMapper unitAdminGroupMapper;
@@ -40,42 +87,6 @@ public class BaseMapper {
 	protected CadreWorkMapper cadreWorkMapper;
 	@Autowired
 	protected CadreEduMapper cadreEduMapper;
-
-
-	@Autowired
-	protected ExtYjsMapper extYjsMapper;
-	@Autowired
-	protected ExtBksMapper extBksMapper;
-	@Autowired
-	protected ExtJzgMapper extJzgMapper;
-	@Autowired
-	protected StudentMapper studentMapper;
-	@Autowired
-	protected MemberStudentMapper memberStudentMapper;
-	@Autowired
-	protected TeacherMapper teacherMapper;
-	@Autowired
-	protected MemberTeacherMapper memberTeacherMapper;
-	@Autowired
-	protected MemberMapper memberMapper;
-	@Autowired
-	protected ApplyLogMapper applyLogMapper;
-	@Autowired
-	protected ApplyOpenTimeMapper applyOpenTimeMapper;
-	@Autowired
-	protected MemberApplyMapper memberApplyMapper;
-	@Autowired
-	protected BranchMemberGroupMapper branchMemberGroupMapper;
-	@Autowired
-	protected BranchMemberMapper branchMemberMapper;
-	@Autowired
-	protected PartyMapper partyMapper;
-	@Autowired
-	protected PartyMemberMapper partyMemberMapper;
-	@Autowired
-	protected PartyMemberGroupMapper partyMemberGroupMapper;
-	@Autowired
-	protected BranchMapper branchMapper;
 	@Autowired
 	protected UnitTransferMapper unitTransferMapper;
 	@Autowired
@@ -112,7 +123,18 @@ public class BaseMapper {
 	protected MetaClassMapper metaClassMapper;
 	@Autowired
 	protected MetaTypeMapper metaTypeMapper;
+
+	@Autowired
+	protected CommonUnitMapper commonUnitMapper;
 	@Autowired
 	protected CommonMapper commonMapper;
+	@Autowired
+	protected ExtYjsMapper extYjsMapper;
+	@Autowired
+	protected ExtBksMapper extBksMapper;
+	@Autowired
+	protected ExtJzgMapper extJzgMapper;
 
+	@Autowired
+	protected LocationMapper locationMapper;
 }

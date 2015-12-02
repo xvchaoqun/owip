@@ -9,7 +9,6 @@ pageEncoding="UTF-8" %>
                 </div>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
-            <c:if test="${fn:length(unitTransfers)>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
@@ -62,12 +61,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-            <c:if test="${fn:length(unitTransfers)==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
+
 <script>
     var _id;
     function unitTransfer_addDispatchs(id){
@@ -125,4 +119,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

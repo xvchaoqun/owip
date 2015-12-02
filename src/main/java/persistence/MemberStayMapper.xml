@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.MemberStayMapper" >
+  <resultMap id="BaseResultMap" type="domain.MemberStay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
+    <result column="grow_time" property="growTime" jdbcType="DATE" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="abroad_time" property="abroadTime" jdbcType="DATE" />
+    <result column="return_time" property="returnTime" jdbcType="DATE" />
+    <result column="pay_time" property="payTime" jdbcType="DATE" />
+    <result column="mobile" property="mobile" jdbcType="CHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, code, realname, gender, age, nation, idcard, political_status, grow_time, 
+    country, abroad_time, return_time, pay_time, mobile, email, contact_name, contact_mobile, 
+    status, reason
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_stay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_member_stay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_member_stay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.MemberStayExample" >
+    delete from ow_member_stay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.MemberStay" >
+    insert into ow_member_stay (id, user_id, code, 
+      realname, gender, age, 
+      nation, idcard, political_status, 
+      grow_time, country, abroad_time, 
+      return_time, pay_time, mobile, 
+      email, contact_name, contact_mobile, 
+      status, reason)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{age,jdbcType=INTEGER}, 
+      #{nation,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, 
+      #{growTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{abroadTime,jdbcType=DATE}, 
+      #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
+      #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.MemberStay" >
+    insert into ow_member_stay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
+      </if>
+      <if test="growTime != null" >
+        grow_time,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="abroadTime != null" >
+        abroad_time,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactMobile != null" >
+        contact_mobile,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="growTime != null" >
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="abroadTime != null" >
+        #{abroadTime,jdbcType=DATE},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=DATE},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.MemberStayExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_stay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_member_stay
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politicalStatus != null" >
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.growTime != null" >
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abroadTime != null" >
+        abroad_time = #{record.abroadTime,jdbcType=DATE},
+      </if>
+      <if test="record.returnTime != null" >
+        return_time = #{record.returnTime,jdbcType=DATE},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=DATE},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=CHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactName != null" >
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactMobile != null" >
+        contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_member_stay
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      age = #{record.age,jdbcType=INTEGER},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      country = #{record.country,jdbcType=VARCHAR},
+      abroad_time = #{record.abroadTime,jdbcType=DATE},
+      return_time = #{record.returnTime,jdbcType=DATE},
+      pay_time = #{record.payTime,jdbcType=DATE},
+      mobile = #{record.mobile,jdbcType=CHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      contact_name = #{record.contactName,jdbcType=VARCHAR},
+      contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      reason = #{record.reason,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.MemberStay" >
+    update ow_member_stay
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        political_status = #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="growTime != null" >
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="abroadTime != null" >
+        abroad_time = #{abroadTime,jdbcType=DATE},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=DATE},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.MemberStay" >
+    update ow_member_stay
+    set user_id = #{userId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      age = #{age,jdbcType=INTEGER},
+      nation = #{nation,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
+      grow_time = #{growTime,jdbcType=DATE},
+      country = #{country,jdbcType=VARCHAR},
+      abroad_time = #{abroadTime,jdbcType=DATE},
+      return_time = #{returnTime,jdbcType=DATE},
+      pay_time = #{payTime,jdbcType=DATE},
+      mobile = #{mobile,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.MemberStayExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_stay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

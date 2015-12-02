@@ -1,8 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-    <form class="form-horizontal" action="${ctx}/memberStudent_au" id="modalForm" method="post">
 
+<div class="widget-box">
+	<div class="widget-header">
+		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+	<div class="widget-body">
+		<div class="widget-main">
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
@@ -130,7 +141,106 @@ pageEncoding="UTF-8"%>
 			</tr>
 			</tbody>
 		</table>
-    </form>
+			</div></div></div>
+<div class="widget-box">
+	<div class="widget-header">
+		<h4 class="widget-title"><i class="fa fa-star blue"></i> 党籍信息</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+	<div class="widget-body">
+		<div class="widget-main">
+		<table class="table table-bordered table-striped">
+	<tbody>
+	<tr>
+		<td>
+			所属组织机构
+		</td>
+
+		<td colspan="5">
+			${partyMap.get(memberStudent.partyId).name}
+			<c:if test="${not empty memberStudent.branchId}">
+				-${branchMap.get(memberStudent.branchId).name}
+			</c:if>
+		</td>
+
+	</tr>
+	<tr>
+		<td>政治面貌</td>
+		<td colspan="2">
+			${MEMBER_POLITICAL_STATUS_MAP.get(memberStudent.politicalStatus)}
+		</td>
+
+		<td>
+			党内职务
+		</td>
+		<td colspan="2">
+			${memberStudent.partyPost}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			入党时间
+		</td>
+		<td>
+			${cm:formatDate(memberStudent.growTime,'yyyy-MM-dd')}
+		</td>
+		<td>
+			转正时间
+		</td>
+		<td>
+			${cm:formatDate(memberStudent.positiveTime,'yyyy-MM-dd')}
+		</td>
+		<td>
+			进入系统方式
+		</td>
+		<td>
+			${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+		</td>
+	</tr>
+	<tr>
+		<td>提交书面申请书时间</td>
+		<td >
+			${cm:formatDate(memberStudent.applyTime,'yyyy-MM-dd')}
+		</td>
+		<td>
+			确定为入党积极分子时间
+		</td>
+
+		<td>
+			${cm:formatDate(memberStudent.activeTime,'yyyy-MM-dd')}
+		</td>
+		<td>
+			确定为发展对象时间
+		</td>
+		<td >
+			${cm:formatDate(memberStudent.candidateTime,'yyyy-MM-dd')}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			党内奖励
+		</td>
+		<td colspan="5">
+			${memberStudent.partyReward}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			其他奖励
+		</td>
+		<td colspan="5">
+			${memberStudent.otherReward}
+		</td>
+	</tr>
+
+	</tbody>
+</table>
+			</div></div></div>
 
 <style>
 	.table-striped > tbody > tr:nth-of-type(odd) {
@@ -144,39 +254,3 @@ pageEncoding="UTF-8"%>
 		text-align: right;
 	}
 </style>
-<script>
-    $("#modal form").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        page_reload();
-                        toastr.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }
-    });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-    $('#modalForm [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
-</script>

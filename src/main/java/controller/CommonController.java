@@ -267,4 +267,70 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
+
+    // 根据类别、状态、账号或姓名或学工号 查询 党员
+    @RequestMapping("/member_selects")
+    @ResponseBody
+    public Map member_selects(Integer pageSize, Byte type, Byte status, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
+
+        int count = commonMapper.countMember(type, status, searchStr);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<Member> members = commonMapper.selectMemberList(type, status, searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if(null != members && members.size()>0){
+
+            for(Member member:members){
+                Map<String, String> option = new HashMap<>();
+                SysUser sysUser = sysUserService.findById(member.getUserId());
+                option.put("id", member.getUserId() + "");
+                option.put("text", sysUser.getRealname());
+
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                        if (extJzg != null) {
+                            option.put("code", extJzg.getZgh());
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(sysUser.getCode());
+                        if (extBks != null) {
+                            option.put("code", extBks.getXh());
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
+                        if (extYjs != null) {
+                            option.put("code", extYjs.getXh());
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
 }

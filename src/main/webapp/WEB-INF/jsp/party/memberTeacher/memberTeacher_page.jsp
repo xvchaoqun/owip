@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
+        <div id="body-content">
         <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
 
@@ -19,8 +19,8 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/memberTeacher_changeOrder"
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input type="hidden" name="type" value="${type}">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                <input type="hidden" name="cls" value="${cls}">
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
@@ -33,15 +33,9 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="memberTeacher:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="memberTeacher:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
                     </c:if>
                 </div>
             </mytag:sort-form>
@@ -56,8 +50,8 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+                            <th>姓名</th>
 							<th>工作证号</th>
-							<th>姓名</th>
 							<th>性别</th>
 							<th>年龄</th>
 							<th>最高学历</th>
@@ -66,11 +60,10 @@ pageEncoding="UTF-8" %>
 							<th>所属组织机构</th>
 							<th>入党时间</th>
 							<th>联系手机</th>
-                        <shiro:hasPermission name="memberTeacher:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
+                            <c:if test="${cls>=3}">
+                            <th>退休时间</th>
+                            <th>是否离休</th>
                             </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -84,13 +77,13 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
                             <td>
-                                <a href="#" onclick="openMemberView(${memberTeacher.userId})">
-                            ${memberTeacher.code}
+                                <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberTeacher.userId}">
+                            ${memberTeacher.realname}
                             </a>
                             </td>
-                            <td>${memberTeacher.realname}</td>
+                            <td>${memberTeacher.code}</td>
                             <td>${memberTeacher.gender}</td>
-                            <td>${cm:formatDate(memberTeacher.birth,'yyyy-MM-dd')}</td>
+                            <td>${cm:intervalYearsUntilNow(memberTeacher.birth)}</td>
                             <td>${memberTeacher.education}</td>
                             <td>${memberTeacher.postClass}</td>
                             <td>${memberTeacher.proPost}</td>
@@ -100,63 +93,18 @@ pageEncoding="UTF-8" %>
                                 </c:if></td>
 							<td>${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}</td>
 							<td>${memberTeacher.mobile}</td>
-                            <shiro:hasPermission name="memberTeacher:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberTeacher.userId}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberTeacher.userId}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
+                            <c:if test="${cls>=3}">
+                                <td>${cm:formatDate(memberTeacher.retireTime,'yyyy-MM-dd')}</td>
+                                <td>${memberTeacher.isHonorRetire?"是":"否"}</td>
                             </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="memberTeacher:edit">
-                                    <button data-id="${memberTeacher.userId}" class="editBtn btn btn-mini">
-                                        <i class="fa fa-edit"></i> 编辑
+                                    <c:if test="${cls==4}">
+                                    <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-mini">
+                                        <i class="fa fa-edit"></i> 党员退休
                                     </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberTeacher:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberTeacher.userId}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
+                                     </c:if>
 
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="memberTeacher:edit">
-                                            <li>
-                                                <a href="#" data-id="${memberTeacher.userId}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="memberTeacher:del">
-                                            <li>
-                                                <a href="#" data-id="${memberTeacher.userId}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -184,17 +132,20 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
                     </div></div></div>
+            </div>
+            <div id="item-content"></div>
     </div>
 </div>
 <script>
 
-        function openMemberView(userId){
+    function _retireApply(userId){
 
-            loadModal("${ctx}/member_view?userId="+userId, 1000, ".modal-footer.draggable");
-        }
+        loadModal("${ctx}/retireApply?userId="+userId);
+    }
+
     function _reset(){
 
-        _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&type=${type}");
+        _tunePage(1, "", "${ctx}/memberTeacher_page", "#page-content", "", "&cls=${cls}");
     }
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
@@ -233,4 +184,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

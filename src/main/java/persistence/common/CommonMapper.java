@@ -1,9 +1,6 @@
 package persistence.common;
 
-import domain.Cadre;
-import domain.DispatchCadre;
-import domain.DispatchUnit;
-import domain.SysUser;
+import domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -75,6 +72,10 @@ public interface CommonMapper {
     // 根据账号、姓名、学工号查找 不是 干部的用户
     List<SysUser> selectNotCadreList(@Param("search") String search, RowBounds rowBounds);
     int countNotCadre(@Param("search") String search);
+
+    // 根据类别、状态、账号、姓名、学工号查找党员
+    List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search, RowBounds rowBounds);
+    int countMember(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search);
 
     // 根据发文号查找单位发文
     List<DispatchUnit> selectDispatchUnitByCodeList(@Param("search") String code, @Param("unitId") int unitId, RowBounds rowBounds);

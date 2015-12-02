@@ -190,4 +190,3 @@
     $("#searchForm select").select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
-</div>

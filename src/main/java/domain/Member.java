@@ -32,6 +32,12 @@ public class Member implements Serializable {
 
     private Date createTime;
 
+    private String partyPost;
+
+    private String partyReward;
+
+    private String otherReward;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -144,5 +150,29 @@ public class Member implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPartyPost() {
+        return partyPost;
+    }
+
+    public void setPartyPost(String partyPost) {
+        this.partyPost = partyPost == null ? null : partyPost.trim();
+    }
+
+    public String getPartyReward() {
+        return partyReward;
+    }
+
+    public void setPartyReward(String partyReward) {
+        this.partyReward = partyReward == null ? null : partyReward.trim();
+    }
+
+    public String getOtherReward() {
+        return otherReward;
+    }
+
+    public void setOtherReward(String otherReward) {
+        this.otherReward = otherReward == null ? null : otherReward.trim();
     }
 }

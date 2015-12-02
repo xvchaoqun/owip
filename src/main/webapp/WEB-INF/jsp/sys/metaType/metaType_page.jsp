@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/metaClass_selects"
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/metaClass_selects"
                         name="classId" data-placeholder="请输入分类名称">
                     <option value="${metaClass.id}">${metaClass.name}</option>
                 </select>
@@ -192,4 +192,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

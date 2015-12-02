@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $("#modal form").validate({
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){

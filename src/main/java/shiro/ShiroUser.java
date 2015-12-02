@@ -7,11 +7,13 @@ public class ShiroUser {
 
     private Integer id;
     private String username;
+    private String realname;
     private String type;
 
-    public ShiroUser(Integer id, String username, String type) {
+    public ShiroUser(Integer id, String username, String realname, String type) {
         this.id = id;
         this.username = username;
+        this.realname = realname;
         this.type = type;
     }
 
@@ -29,6 +31,14 @@ public class ShiroUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
     public String getType() {

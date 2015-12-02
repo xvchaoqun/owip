@@ -4,6 +4,7 @@ import domain.ExtJzg;
 import domain.ExtJzgExample;
 import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,8 @@ public class SyncUserService extends BaseMapper {
                 record.setCode(code);
                 record.setType(SystemConstants.USER_TYPE_JZG);
                 record.setRealname(StringUtils.trim(extJzg.getXm()));
+                record.setGender(NumberUtils.toByte(extJzg.getXbm()));
+                record.setBirth(extJzg.getCsrq());
                 record.setIdcard(StringUtils.trim(extJzg.getSfzh()));
                 record.setMobile(StringUtils.trim(extJzg.getYddh()));
                 record.setEmail(StringUtils.trim(extJzg.getDzxx()));

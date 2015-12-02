@@ -45,7 +45,7 @@ public class MemberStudentController extends BaseController {
     public String memberStudent_page(HttpServletResponse response,
                                      @RequestParam(required = false, defaultValue = "grow_time") String sort,
                                      @RequestParam(required = false, defaultValue = "desc") String order,
-                                     Integer type, // 教师或学生，用于页面标签
+                                     @RequestParam(defaultValue = "1")int cls,
                                      Integer userId,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -59,7 +59,7 @@ public class MemberStudentController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         MemberStudentExample example = new MemberStudentExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId != null) {
@@ -93,21 +93,22 @@ public class MemberStudentController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
-        if(type!=null){
-            modelMap.put("type", type);
-            searchStr += "&type=" + type;
-        }
+
+        modelMap.put("cls", cls);
+        searchStr += "&cls=" + cls;
+
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
+        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
+        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
         return "party/memberStudent/memberStudent_page";
     }
 
-    // 基本信息
+    // 基本信息 + 党籍信息
     @RequiresPermissions("memberStudent:base")
     @RequestMapping("/memberStudent_base")
     public String memberStudent_base(Integer userId, ModelMap modelMap) {
@@ -115,24 +116,15 @@ public class MemberStudentController extends BaseController {
         MemberStudent memberStudent = memberStudentService.get(userId);
         modelMap.put("memberStudent", memberStudent);
 
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MALE_MAP);
+        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
         modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        return "party/memberStudent/memberStudent_base";
-    }
-    // 党籍信息
-    @RequiresPermissions("memberStudent:member")
-    @RequestMapping("/memberStudent_member")
-    public String memberStudent_member(Integer userId, ModelMap modelMap) {
-
-        MemberStudent memberStudent = memberStudentService.get(userId);
-        modelMap.put("memberStudent", memberStudent);
 
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
+        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
-        return "party/memberStudent/memberStudent_member";
+        return "party/memberStudent/memberStudent_base";
     }
 
     public void memberStudent_export(MemberStudentExample example, HttpServletResponse response) {

@@ -3,6 +3,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="USER_SOURCE_ADMIN" value="<%=SystemConstants.USER_SOURCE_ADMIN%>"/>
+<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -68,12 +69,14 @@
                     </th>
                     <mytag:sort-th field="username">账号</mytag:sort-th>
                     <mytag:sort-th field="code">学工号</mytag:sort-th>
-                    <th class="hidden-480">类别</th>
-                    <th class="hidden-480">姓名</th>
-                    <th class="hidden-480">身份证</th>
-                    <th class="hidden-480">手机</th>
-                    <th class="hidden-480">邮箱</th>
-                    <th class="hidden-480">账号来源</th>
+                    <th>类别</th>
+                    <th >姓名</th>
+                    <th >性别</th>
+                    <th >出生年月</th>
+                    <th >身份证</th>
+                    <th >手机</th>
+                    <th >邮箱</th>
+                    <th >账号来源</th>
                     <th>拥有角色</th>
                     <th class="hidden-480">创建时间</th>
                     <th class="hidden-480"></th>
@@ -92,6 +95,8 @@
                         <td nowrap>${sysUser.code}</td>
                         <td nowrap>${userTypeMap.get(sysUser.type)}</td>
                         <td nowrap>${sysUser.realname}</td>
+                        <td nowrap>${GENDER_MAP.get(sysUser.gender)}</td>
+                        <td nowrap>${cm:formatDate(sysUser.birth, "yyyy-MM-dd")}</td>
                         <td nowrap>${sysUser.idcard}</td>
                         <td nowrap>${sysUser.mobile}</td>
                         <td nowrap>${sysUser.email}</td>
@@ -230,4 +235,3 @@
         $("#page-content").load("${ctx}/sysUser_page?${pageContext.request.queryString}");
     }
 </script>
-</div>

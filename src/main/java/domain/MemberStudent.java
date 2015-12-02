@@ -30,6 +30,12 @@ public class MemberStudent implements Serializable {
 
     private Byte status;
 
+    private String partyPost;
+
+    private String partyReward;
+
+    private String otherReward;
+
     private Float delayYear;
 
     private String period;
@@ -176,6 +182,30 @@ public class MemberStudent implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getPartyPost() {
+        return partyPost;
+    }
+
+    public void setPartyPost(String partyPost) {
+        this.partyPost = partyPost == null ? null : partyPost.trim();
+    }
+
+    public String getPartyReward() {
+        return partyReward;
+    }
+
+    public void setPartyReward(String partyReward) {
+        this.partyReward = partyReward == null ? null : partyReward.trim();
+    }
+
+    public String getOtherReward() {
+        return otherReward;
+    }
+
+    public void setOtherReward(String otherReward) {
+        this.otherReward = otherReward == null ? null : otherReward.trim();
     }
 
     public Float getDelayYear() {

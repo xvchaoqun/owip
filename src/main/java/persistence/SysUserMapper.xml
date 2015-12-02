@@ -10,6 +10,8 @@
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="birth" property="birth" jdbcType="DATE" />
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
@@ -76,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, passwd, salt, role_ids, type, code, realname, idcard, mobile, email, 
-    create_time, source, locked
+    id, username, passwd, salt, role_ids, type, code, realname, gender, birth, idcard, 
+    mobile, email, create_time, source, locked
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysUserExample" >
     select
@@ -109,19 +111,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.SysUser" >
+  <insert id="insert" parameterType="domain.SysUser" >
     insert into sys_user (id, username, passwd, 
       salt, role_ids, type, 
-      code, realname, idcard, 
-      mobile, email, create_time, 
-      source, locked)
+      code, realname, gender, 
+      birth, idcard, mobile, 
+      email, create_time, source, 
+      locked)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{source,jdbcType=TINYINT}, #{locked,jdbcType=BIT})
+      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
+      #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT}, 
+      #{locked,jdbcType=BIT})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.SysUser" >
+  <insert id="insertSelective" parameterType="domain.SysUser" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -147,6 +151,12 @@
       </if>
       <if test="realname != null" >
         realname,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birth != null" >
+        birth,
       </if>
       <if test="idcard != null" >
         idcard,
@@ -191,6 +201,12 @@
       </if>
       <if test="realname != null" >
         #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=DATE},
       </if>
       <if test="idcard != null" >
         #{idcard,jdbcType=VARCHAR},
@@ -245,6 +261,12 @@
       <if test="record.realname != null" >
         realname = #{record.realname,jdbcType=VARCHAR},
       </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.birth != null" >
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
       <if test="record.idcard != null" >
         idcard = #{record.idcard,jdbcType=VARCHAR},
       </if>
@@ -278,6 +300,8 @@
       type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      birth = #{record.birth,jdbcType=DATE},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
@@ -312,6 +336,12 @@
       <if test="realname != null" >
         realname = #{realname,jdbcType=VARCHAR},
       </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=DATE},
+      </if>
       <if test="idcard != null" >
         idcard = #{idcard,jdbcType=VARCHAR},
       </if>
@@ -342,6 +372,8 @@
       type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      birth = #{birth,jdbcType=DATE},
       idcard = #{idcard,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

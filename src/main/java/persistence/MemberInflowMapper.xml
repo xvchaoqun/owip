@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.MemberInflowMapper" >
+  <resultMap id="BaseResultMap" type="domain.MemberInflow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="party_name" property="partyName" jdbcType="VARCHAR" />
+    <result column="branch_name" property="branchName" jdbcType="VARCHAR" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="original_job" property="originalJob" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="INTEGER" />
+    <result column="has_papers" property="hasPapers" jdbcType="BIT" />
+    <result column="flow_time" property="flowTime" jdbcType="DATE" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="grow_time" property="growTime" jdbcType="DATE" />
+    <result column="or_location" property="orLocation" jdbcType="VARCHAR" />
+    <result column="outflow_unit" property="outflowUnit" jdbcType="VARCHAR" />
+    <result column="outflow_location" property="outflowLocation" jdbcType="INTEGER" />
+    <result column="outflow_time" property="outflowTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, type, party_name, branch_name, party_id, branch_id, original_job, province, 
+    has_papers, flow_time, reason, grow_time, or_location, outflow_unit, outflow_location, 
+    outflow_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberInflowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_inflow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_member_inflow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_member_inflow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.MemberInflowExample" >
+    delete from ow_member_inflow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.MemberInflow" >
+    insert into ow_member_inflow (id, user_id, type, 
+      party_name, branch_name, party_id, 
+      branch_id, original_job, province, 
+      has_papers, flow_time, reason, 
+      grow_time, or_location, outflow_unit, 
+      outflow_location, outflow_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{originalJob,jdbcType=INTEGER}, #{province,jdbcType=INTEGER}, 
+      #{hasPapers,jdbcType=BIT}, #{flowTime,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{growTime,jdbcType=DATE}, #{orLocation,jdbcType=VARCHAR}, #{outflowUnit,jdbcType=VARCHAR}, 
+      #{outflowLocation,jdbcType=INTEGER}, #{outflowTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.MemberInflow" >
+    insert into ow_member_inflow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="partyName != null" >
+        party_name,
+      </if>
+      <if test="branchName != null" >
+        branch_name,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="originalJob != null" >
+        original_job,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="hasPapers != null" >
+        has_papers,
+      </if>
+      <if test="flowTime != null" >
+        flow_time,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="growTime != null" >
+        grow_time,
+      </if>
+      <if test="orLocation != null" >
+        or_location,
+      </if>
+      <if test="outflowUnit != null" >
+        outflow_unit,
+      </if>
+      <if test="outflowLocation != null" >
+        outflow_location,
+      </if>
+      <if test="outflowTime != null" >
+        outflow_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="partyName != null" >
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null" >
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="originalJob != null" >
+        #{originalJob,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=INTEGER},
+      </if>
+      <if test="hasPapers != null" >
+        #{hasPapers,jdbcType=BIT},
+      </if>
+      <if test="flowTime != null" >
+        #{flowTime,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null" >
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="orLocation != null" >
+        #{orLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="outflowUnit != null" >
+        #{outflowUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="outflowLocation != null" >
+        #{outflowLocation,jdbcType=INTEGER},
+      </if>
+      <if test="outflowTime != null" >
+        #{outflowTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.MemberInflowExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_inflow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_member_inflow
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.partyName != null" >
+        party_name = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branchName != null" >
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.originalJob != null" >
+        original_job = #{record.originalJob,jdbcType=INTEGER},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=INTEGER},
+      </if>
+      <if test="record.hasPapers != null" >
+        has_papers = #{record.hasPapers,jdbcType=BIT},
+      </if>
+      <if test="record.flowTime != null" >
+        flow_time = #{record.flowTime,jdbcType=DATE},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.growTime != null" >
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.orLocation != null" >
+        or_location = #{record.orLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outflowUnit != null" >
+        outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outflowLocation != null" >
+        outflow_location = #{record.outflowLocation,jdbcType=INTEGER},
+      </if>
+      <if test="record.outflowTime != null" >
+        outflow_time = #{record.outflowTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_member_inflow
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      party_name = #{record.partyName,jdbcType=VARCHAR},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      original_job = #{record.originalJob,jdbcType=INTEGER},
+      province = #{record.province,jdbcType=INTEGER},
+      has_papers = #{record.hasPapers,jdbcType=BIT},
+      flow_time = #{record.flowTime,jdbcType=DATE},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      or_location = #{record.orLocation,jdbcType=VARCHAR},
+      outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
+      outflow_location = #{record.outflowLocation,jdbcType=INTEGER},
+      outflow_time = #{record.outflowTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.MemberInflow" >
+    update ow_member_inflow
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="partyName != null" >
+        party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null" >
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="originalJob != null" >
+        original_job = #{originalJob,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=INTEGER},
+      </if>
+      <if test="hasPapers != null" >
+        has_papers = #{hasPapers,jdbcType=BIT},
+      </if>
+      <if test="flowTime != null" >
+        flow_time = #{flowTime,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null" >
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="orLocation != null" >
+        or_location = #{orLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="outflowUnit != null" >
+        outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="outflowLocation != null" >
+        outflow_location = #{outflowLocation,jdbcType=INTEGER},
+      </if>
+      <if test="outflowTime != null" >
+        outflow_time = #{outflowTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.MemberInflow" >
+    update ow_member_inflow
+    set user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      party_name = #{partyName,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      original_job = #{originalJob,jdbcType=INTEGER},
+      province = #{province,jdbcType=INTEGER},
+      has_papers = #{hasPapers,jdbcType=BIT},
+      flow_time = #{flowTime,jdbcType=DATE},
+      reason = #{reason,jdbcType=VARCHAR},
+      grow_time = #{growTime,jdbcType=DATE},
+      or_location = #{orLocation,jdbcType=VARCHAR},
+      outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
+      outflow_location = #{outflowLocation,jdbcType=INTEGER},
+      outflow_time = #{outflowTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.MemberInflowExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_inflow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

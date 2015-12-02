@@ -11,9 +11,6 @@ pageEncoding="UTF-8" %>
 <c:set var="APPLY_STAGE_DRAW" value="<%=SystemConstants.APPLY_STAGE_DRAW%>"/>
 <c:set var="APPLY_STAGE_GROW" value="<%=SystemConstants.APPLY_STAGE_GROW%>"/>
 <c:set var="APPLY_STAGE_POSITIVE" value="<%=SystemConstants.APPLY_STAGE_POSITIVE%>"/>
-
-<div class="row">
-    <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="tabbable tabs-left">
                         <%
@@ -31,7 +28,7 @@ pageEncoding="UTF-8" %>
                         <ul class="nav nav-tabs" id="myTab3">
                             <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
                                 <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
-                                    <a href="javascript:;" onclick="_go(${empty type?1:type}, ${applyStage.key})">
+                                    <a href='?cls=${cls}&type=${type}&stage=${applyStage.key}'>
                                         <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
                                         <span class="badge ${colors[applyStage.key==0?0:applyStage.key-1]}">${applyStage.key==0?1:applyStage.key}</span>
                                         ${applyStage.value}
@@ -46,17 +43,18 @@ pageEncoding="UTF-8" %>
                                 <div class="tabbable" >
                                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                         <li class="<c:if test="${type==1}">active</c:if>">
-                                            <a href="javascript:;" onclick="_go(1, ${empty stage?1:stage})"><i class="fa fa-graduation-cap"></i> 学生</a>
+                                            <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生</a>
                                         </li>
 
                                         <li class="<c:if test="${type==2}">active</c:if>">
-                                            <a href="javascript:;" onclick="_go(2, ${empty stage?1:stage})"><i class="fa fa-user-secret"></i> 教职工</a>
+                                            <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工</a>
                                         </li>
                                     </ul>
 
                                     <div class="tab-content" >
                                         <div id="home4" class="tab-pane in active">
                                 <div class="myTableDiv"
+                                     data-target="#home2"
                                      data-url-au="${ctx}/memberApply_au"
                                      data-url-page="${ctx}/memberApply_page"
                                      data-url-del="${ctx}/memberApply_del"
@@ -67,27 +65,81 @@ pageEncoding="UTF-8" %>
 
                                         <input type="hidden" name="type" value="${type}">
                                         <input type="hidden" name="stage" value="${stage}">
-                                        <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                                             <option value="${sysUser.id}">${sysUser.realname}</option>
                                         </select>
-                                        <select class="form-control" name="partyId" data-rel="select2" data-placeholder="请选择分党委">
-                                            <option></option>
-                                            <c:forEach items="${partyMap}" var="party">
-                                                <option value="${party.key}">${party.value.name}</option>
-                                            </c:forEach>
+                                        <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                                name="partyId" data-placeholder="请选择分党委">
+                                            <option value="${party.id}">${party.name}</option>
                                         </select>
-                                        <script>
-                                            $("#searchForm select[name=partyId]").val('${param.partyId}');
-                                        </script>
-                                        <select class="form-control" name="branchId" data-rel="select2" data-placeholder="请选择党支部">
-                                            <option></option>
-                                            <c:forEach items="${branchMap}" var="branch">
-                                                <option value="${branch.key}">${branch.value.name}</option>
-                                            </c:forEach>
+                                        <span style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                        <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                                name="branchId" data-placeholder="请选择党支部">
+                                            <option value="${branch.id}">${branch.name}</option>
                                         </select>
+                                        </span>
                                         <script>
-                                            $("#searchForm select[name=branchId]").val('${param.branchId}');
+                                            var $container = $("#searchForm");
+                                            var $party_class ={};
+                                            $party_class["${party.id}"]="${party.classId}";
+                                            function formatState (state) {
+                                                $party_class[state.id] = state.class;
+                                                return state.text;
+                                            };
+                                            $('select[name=partyId]', $container).select2({
+                                                width:300,
+                                                templateResult: formatState,
+                                                ajax: {
+                                                    dataType: 'json',
+                                                    delay: 300,
+                                                    data: function (params) {
+                                                        return {
+                                                            searchStr: params.term,
+                                                            pageSize: 10,
+                                                            pageNo: params.page
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        params.page = params.page || 1;
+                                                        return {results: data.options,  pagination: {
+                                                            more: (params.page * 10) < data.totalCount
+                                                        }};
+                                                    },
+                                                    cache: true
+                                                }
+                                            });
+                                            $('select[name=branchId]', $container).select2({
+                                                width:300,
+                                                ajax: {
+                                                    dataType: 'json',
+                                                    delay: 300,
+                                                    data: function (params) {
+                                                        return {
+                                                            searchStr: params.term,
+                                                            pageSize: 10,
+                                                            pageNo: params.page,
+                                                            partyId: $('select[name=partyId]', $container).val()
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        params.page = params.page || 1;
+                                                        return {results: data.options,  pagination: {
+                                                            more: (params.page * 10) < data.totalCount
+                                                        }};
+                                                    },
+                                                    cache: true
+                                                }
+                                            });
+                                            $('select[name=partyId]', $container).on("change", function () {
+
+                                                if($(this).val()>0 && $party_class[$(this).val()]!='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
+                                                    $("#branchDiv", $container).show();
+                                                }else{
+                                                    $('select[name=branchId]', $container).val(null).trigger("change");
+                                                    $("#branchDiv", $container).hide();
+                                                }
+                                            }).change();
                                         </script>
 
                                         <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -301,7 +353,7 @@ pageEncoding="UTF-8" %>
                                                 <div class="col-xs-6">
                                                     <div class="my_paginate">
                                                         <ul class="pagination">
-                                                            <wo:page commonList="${commonList}" uri="${ctx}/memberApply_page" target="#page-content" pageNum="5"
+                                                            <wo:page commonList="${commonList}" uri="${ctx}/memberApply_page" target="#home2" pageNum="5"
                                                                      model="3"/>
                                                         </ul>
                                                     </div>
@@ -330,9 +382,6 @@ pageEncoding="UTF-8" %>
                         </div>
                     </div>
 
-    </div>
-
-</div>
 <script>
     function apply_deny(userId){
         bootbox.confirm("确定拒绝该申请？", function (result) {
@@ -472,12 +521,9 @@ pageEncoding="UTF-8" %>
 
     function _reset(){
 
-        _tunePage(1, "", "${ctx}/memberApply_page", "#page-content", "", "&type=${type}&stage=${stage}");
+        _tunePage(1, "", "${ctx}/memberApply_page", "#home2", "", "&type=${type}&stage=${stage}");
     }
-    function _go(type, stage){
 
-        location.href="${ctx}/memberApply?type="+type + "&stage="+ stage;
-    }
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     function formatState (state) {
@@ -515,4 +561,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

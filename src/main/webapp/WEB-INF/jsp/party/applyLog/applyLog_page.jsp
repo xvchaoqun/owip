@@ -5,6 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
+             data-target="#home2"
              data-url-au="${ctx}/applyLog_au"
              data-url-page="${ctx}/applyLog_page"
              data-url-del="${ctx}/applyLog_del"
@@ -13,7 +14,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/sysUser_selects"
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
@@ -35,12 +36,9 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-                    <shiro:hasPermission name="applyLog:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    <%--<a class="exportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>--%>
                     <shiro:hasPermission name="applyLog:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
@@ -76,8 +74,8 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(applyLog.userId).username}</td>
-								<td>${cm:getUserById(applyLog.operatorId).username}</td>
+								<td>${cm:getUserById(applyLog.userId).realname}</td>
+								<td>${cm:getUserById(applyLog.operatorId).realname}</td>
 								<td>${applyStageTypeMap.get(applyLog.stage)}</td>
 								<td>${applyLog.content}</td>
 								<td>${applyLog.ip}</td>
@@ -142,7 +140,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-xs-6">
                             <div class="my_paginate">
                                 <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/applyLog_page" target="#page-content" pageNum="5"
+                                    <wo:page commonList="${commonList}" uri="${ctx}/applyLog_page" target="#home2" pageNum="5"
                                              model="3"/>
                                 </ul>
                             </div>
@@ -196,4 +194,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

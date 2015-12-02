@@ -17,11 +17,11 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/unitCadreTransfer_changeOrder"
              data-querystr="${pageContext.request.queryString}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/unitCadreTransferGroup_selects"
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/unitCadreTransferGroup_selects"
                         name="groupId" data-placeholder="请选择所属分组">
                     <option value="${unitCadreTransferGroup.id}">${unitCadreTransferGroup.name}</option>
                 </select>
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请选择干部">
                     <option value="${cadre.id}">${cadre.name}</option>
                 </select>
@@ -231,4 +231,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

@@ -11,7 +11,7 @@
         <form class="form-inline" action="${ctx}/dispatchUnitRelate_au" id="modalForm" method="post">
             <div class="form-group">
                 <input type="hidden" name="dispatchUnitId" value="${dispatchUnit.id}">
-                <select data-rel="select2-ajax" required data-ajax--url="${ctx}/unit_selects"
+                <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects"
                         name="unitId" data-placeholder="请选择关联单位">
                     <option></option>
                 </select>

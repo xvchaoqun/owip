@@ -47,7 +47,7 @@
 
       <li class="<c:if test="${_path=='/profile'}">active</c:if>">
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
-          <shiro:principal property="username"/></a>
+          <shiro:principal property="realname"/></a>
       </li>
       <li class="<c:if test="${_path=='/setting'}">active</c:if>">
         <a href="${ctx}/setting"><i class="ace-icon fa fa-cog"></i> 个人设置</a>

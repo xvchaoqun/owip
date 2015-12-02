@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">上一届</label>
 				<div class="col-xs-6">
                     <select class="form-control" name="fid"
-                            data-rel="select2-ajax" data-ajax--url="${ctx}/unitAdminGroup_selects?unitId=${unit.id}"
+                            data-rel="select2-ajax" data-ajax-url="${ctx}/unitAdminGroup_selects?unitId=${unit.id}"
                             data-placeholder="请选择班子">
                         <option value="${fUnitAdminGroup.id}">${fUnitAdminGroup.name}</option>
                     </select>

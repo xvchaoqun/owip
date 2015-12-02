@@ -281,10 +281,21 @@ br.xs-100 {
     width: 900px;
 }
 .modal-width1000{
-    width: 900px;
+    width: 1000px;
+}
+.modal-width1200{
+    width: 1200px;
 }
 
 /*search form*/
 .widget-main.no-padding > form .row{
     padding: 16px;
+}
+
+#modal .form-group {
+    margin-bottom: 8px;
+}
+#modal .help-block {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

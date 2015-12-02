@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属发文</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/dispatch_selects"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
                             name="dispatchId" data-placeholder="请选择发文">
                         <option value="${dispatch.id}">${dispatch.code}</option>
                     </select>
@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属干部</label>
 				<div class="col-xs-8">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
                         <option value="${cadre.id}">${sysUser.realname}</option>
                     </select>

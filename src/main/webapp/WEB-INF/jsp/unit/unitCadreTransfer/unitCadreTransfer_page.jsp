@@ -10,7 +10,6 @@ pageEncoding="UTF-8" %>
     </div></h3>
 </div>
 <div class="modal-body">
-            <c:if test="${fn:length(unitCadreTransfers)>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
@@ -51,12 +50,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-            <c:if test="${fn:length(unitCadreTransfers)==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
+
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
@@ -113,4 +107,3 @@ pageEncoding="UTF-8" %>
         }
     });
 </script>
-</div>

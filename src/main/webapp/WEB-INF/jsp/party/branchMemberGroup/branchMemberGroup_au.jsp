@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">上一届委员会</label>
 				<div class="col-xs-6">
                     <select class="form-control" name="fid"
-                            data-rel="select2-ajax" data-ajax--url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}"
+                            data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}"
                             data-placeholder="请选择委员会">
                         <option value="${fBranchMemberGroup.id}">${fBranchMemberGroup.name}</option>
                     </select>
@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发文</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
                             name="dispatchUnitId" data-placeholder="请选择单位发文">
                         <option value="${branchMemberGroup.dispatchUnitId}">${dispatch.code}</option>
                     </select>

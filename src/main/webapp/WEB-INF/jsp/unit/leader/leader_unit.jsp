@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-inline" action="${ctx}/leaderUnit_au" id="modalForm" method="post">
         <div class="form-group">
             <input type="hidden" name="leaderId" value="${leader.id}">
-            <select data-rel="select2-ajax" required data-ajax--url="${ctx}/unit_selects?status=1"
+            <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=1"
                     name="unitId" data-placeholder="请选择单位">
                 <option></option>
             </select>

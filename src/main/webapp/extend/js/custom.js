@@ -76,7 +76,7 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
 		}
 		options = $.extend(defaults, options);
 		
-
+		//alert(JSON.stringify(defaults))
 		this.each(function(){
 			if(options.url){
 				var thisContainer = $(this);
@@ -107,6 +107,7 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
 						}else if(options.op == "after"){
 							$(thisContainer).after(html); 
 						}else{
+							//alert(html)
 							$(thisContainer).empty().append(html);
 						}
 						if (options.fn) {

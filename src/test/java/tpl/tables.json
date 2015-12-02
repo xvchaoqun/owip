@@ -9,7 +9,7 @@
       "table": "unit_admin_group",
       "key": "id",
       "searchColumns": "name",
-      "showColumns": "fid,name, is_present,tran_time,actual_tran_time,appoint_time",
+      "showColumns": "fid,name,is_present,tran_time,actual_tran_time,appoint_time",
       "excludeEditColumns": "id, sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
@@ -18,7 +18,7 @@
       "table": "unit_admin",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "group_id,cadre_id, post_id,is_admin",
+      "showColumns": "group_id,cadre_id,post_id,is_admin",
       "excludeEditColumns": "id, sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
@@ -27,7 +27,7 @@
       "table": "cadre_info",
       "key": "cadre_id",
       "searchColumns": "cadre_id",
-      "showColumns": "mobile,office_phone, home_phone,email",
+      "showColumns": "mobile,office_phone,home_phone,email",
       "excludeEditColumns": "",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
@@ -36,7 +36,7 @@
       "table": "cadre_famliy_abroad",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "famliy_id,type, abroad_time,country,city",
+      "showColumns": "famliy_id,type,abroad_time,country,city",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
@@ -45,7 +45,7 @@
       "table": "cadre_famliy",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "title,realname, birthday,political_status,unit",
+      "showColumns": "title,realname,birthday,political_status,unit",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
@@ -54,7 +54,7 @@
       "table": "cadre_company",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "start_time,unit, report_unit",
+      "showColumns": "start_time,unit,report_unit",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
@@ -63,7 +63,7 @@
       "table": "cadre_parttime",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "start_time,end_time, unit,post",
+      "showColumns": "start_time,end_time,unit,post",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true

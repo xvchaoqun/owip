@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">关联干部</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/cadre_selects"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
                         <c:if test="${not empty cadre}">
                         <option value="${cadre.id}">${cm:getUserById(cadre.userId).realname}</option>

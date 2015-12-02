@@ -1,10 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.MemberApply;
-import domain.MemberApplyExample;
+import domain.*;
 import domain.MemberApplyExample.Criteria;
-import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -122,10 +120,19 @@ public class MemberApplyController extends BaseController {
         if (userId != null) {
             searchStr += "&userId=" + userId;
         }
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+
         if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
             searchStr += "&partyId=" + partyId;
         }
+
         if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
             searchStr += "&branchId=" + branchId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -140,8 +147,7 @@ public class MemberApplyController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
+
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
         return "party/memberApply/memberApply_page";

@@ -26,13 +26,18 @@ public class MemberController extends BaseController {
     }
     @RequiresPermissions("member:list")
     @RequestMapping("/member_page")
-    public String member_page(HttpServletResponse response,@RequestParam(defaultValue = "1")int type, ModelMap modelMap) {
+    public String member_page(HttpServletResponse response,@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
 
-        modelMap.put("type", type);
-        if(type==1) {
+        modelMap.put("cls", cls);
+        if(cls==1) { // => member.type=3 member.status=1
             return "forward:/memberStudent_page";
         }
-        // type=2教职工  3离退休
+        /*
+            cls=2教职工   =>  member.type=1 member.status=1
+                3离退休   =>  member.type=2 member.status=1
+                4应退休   =>  member.type=2 member.status=1
+                5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+         */
         return "forward:/memberTeacher_page";
     }
 
@@ -48,7 +53,7 @@ public class MemberController extends BaseController {
     public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
 
         SysUser sysUser = sysUserService.findById(userId);
-        if(sysUser.getType() == SystemConstants.MEMBER_TYPE_TEACHER)
+        if(sysUser.getType() == SystemConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
             return "party/member/teacher_view";
         return "party/member/student_view";
     }

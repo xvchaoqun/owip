@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-inline" action="${ctx}/historyUnit_au" id="modalForm" method="post">
         <div class="form-group">
             <input type="hidden" name="unitId" value="${unit.id}">
-            <select data-rel="select2-ajax" required data-ajax--url="${ctx}/unit_selects?status=2"
+            <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=2"
                     name="oldUnitId" data-placeholder="请选择历史单位">
                 <option></option>
             </select>

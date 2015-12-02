@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.CommonMapper" >
+
+  <select id="selectMemberList" resultMap="persistence.MemberMapper.BaseResultMap" parameterType="map" >
+    select m.* from ow_member m, sys_user user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="status!=null">
+      and m.status =#{status}
+    </if>
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    order by m.grow_time desc
+  </select>
+  <select id="countMember" parameterType="map" resultType="java.lang.Integer" >
+    select count(m.user_id) from ow_member m, sys_user user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="status!=null">
+      and m.status =#{status}
+    </if>
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+  </select>
+
+
   <select id="selectCadreList" resultMap="persistence.CadreMapper.BaseResultMap" parameterType="map" >
     select bc.* from base_cadre bc, sys_user user where bc.user_id= user.id
     <if test="search != null" >

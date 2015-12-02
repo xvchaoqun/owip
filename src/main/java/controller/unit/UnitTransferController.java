@@ -194,7 +194,7 @@ public class UnitTransferController extends BaseController {
         }
         modelMap.put("unitMap", unitService.findAll());
 
-        return "unitTransfer/unitTransfer_au";
+        return "unit/unitTransfer/unitTransfer_au";
     }
 
     @RequiresPermissions("unitTransfer:del")
