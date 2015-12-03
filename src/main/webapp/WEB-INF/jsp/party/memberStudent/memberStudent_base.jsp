@@ -243,13 +243,13 @@ pageEncoding="UTF-8"%>
 			</div></div></div>
 
 <style>
-	.table-striped > tbody > tr:nth-of-type(odd) {
+	#item-content .table-striped > tbody > tr:nth-of-type(odd) {
 		background-color:inherit;
 	}
-	.table tbody tr:hover td, .table tbody tr:hover th {
+	#item-content .table tbody tr:hover td, .table tbody tr:hover th {
 		background-color:transparent;
 	}
-	.table-striped > tbody > tr > td:nth-of-type(odd) {
+	#item-content .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;
 		text-align: right;
 	}

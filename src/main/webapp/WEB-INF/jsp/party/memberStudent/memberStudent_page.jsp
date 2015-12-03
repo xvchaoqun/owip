@@ -36,7 +36,8 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
-
+                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+                        <i class="fa fa-plus"></i> 添加党员</a>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -98,11 +99,12 @@ pageEncoding="UTF-8" %>
                                 </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="memberStudent:edit">
-                                    <button data-id="${memberStudent.userId}" class="editBtn btn btn-mini">
+
+                                    <button class="openView btn btn-mini"
+                                            data-url="${ctx}/member_au?userId=${memberStudent.userId}">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                     </shiro:hasPermission>
+
                                      <shiro:hasPermission name="memberStudent:del">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${memberStudent.userId}">
                                         <i class="fa fa-times"></i> 删除

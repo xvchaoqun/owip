@@ -33,6 +33,9 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
+                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+                        <i class="fa fa-plus"></i> 添加党员</a>
+
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -99,12 +102,16 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <c:if test="${cls==4}">
-                                    <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-mini">
-                                        <i class="fa fa-edit"></i> 党员退休
-                                    </button>
-                                     </c:if>
 
+                                    <button class="openView btn btn-mini"
+                                            data-url="${ctx}/member_au?userId=${memberTeacher.userId}">
+                                        <i class="fa fa-edit"></i> 编辑
+                                    </button>
+                                    <c:if test="${cls==4}">
+                                        <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-mini">
+                                            <i class="fa fa-edit"></i> 党员退休
+                                        </button>
+                                    </c:if>
                                 </div>
                             </td>
                         </tr>

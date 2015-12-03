@@ -6,6 +6,7 @@ pageEncoding="UTF-8" %>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
+        <div id="body-content">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
              data-url-au="${ctx}/memberOut_au"
@@ -38,7 +39,8 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="memberOut:edit">
-                    <a class="editBtn btn btn-info btn-sm" data-width="1000"><i class="fa fa-plus"></i> 添加</a>
+                        <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
+                    <%--<a class="editBtn btn btn-info btn-sm" data-width="1000">--%><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
@@ -106,7 +108,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="memberOut:edit">
-                                    <button data-id="${memberOut.id}" class="editBtn btn btn-mini" data-width="1000">
+                                    <button data-url="${ctx}/memberOut_au?id=${memberOut.id}" class="openView btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -115,41 +117,6 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="memberOut:edit">
-                                            <li>
-                                                <a href="#" data-id="${memberOut.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="memberOut:del">
-                                            <li>
-                                                <a href="#" data-id="${memberOut.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -175,6 +142,10 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
+        </div>
+            </div>
+        <div id="item-content">
+
         </div>
     </div>
 </div>

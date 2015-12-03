@@ -1,5 +1,9 @@
 
 
+#####2015.12.3
+#更改表 base_location
+
+
 ##2015.11.30
 
 ALTER TABLE `ow_member`

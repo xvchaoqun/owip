@@ -3,7 +3,8 @@
 <mapper namespace="persistence.LocationMapper" >
   <resultMap id="BaseResultMap" type="domain.Location" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="fid" property="fid" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="parent_code" property="parentCode" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, fid, name, remark
+    id, code, parent_code, name, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.LocationExample" >
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.Location" >
-    insert into base_location (id, fid, name, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into base_location (id, code, parent_code, 
+      name, remark)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, #{parentCode,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.Location" >
     insert into base_location
@@ -110,8 +111,11 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="fid != null" >
-        fid,
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
       </if>
       <if test="name != null" >
         name,
@@ -124,8 +128,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="fid != null" >
-        #{fid,jdbcType=INTEGER},
+      <if test="code != null" >
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -147,8 +154,11 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.fid != null" >
-        fid = #{record.fid,jdbcType=INTEGER},
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentCode != null" >
+        parent_code = #{record.parentCode,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -164,7 +174,8 @@
   <update id="updateByExample" parameterType="map" >
     update base_location
     set id = #{record.id,jdbcType=INTEGER},
-      fid = #{record.fid,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=INTEGER},
+      parent_code = #{record.parentCode,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -174,8 +185,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.Location" >
     update base_location
     <set >
-      <if test="fid != null" >
-        fid = #{fid,jdbcType=INTEGER},
+      <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -188,7 +202,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.Location" >
     update base_location
-    set fid = #{fid,jdbcType=INTEGER},
+    set code = #{code,jdbcType=INTEGER},
+      parent_code = #{parentCode,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

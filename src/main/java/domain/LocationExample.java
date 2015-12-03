@@ -164,63 +164,123 @@ public class LocationExample {
             return (Criteria) this;
         }
 
-        public Criteria andFidIsNull() {
-            addCriterion("fid is null");
+        public Criteria andCodeIsNull() {
+            addCriterion("code is null");
             return (Criteria) this;
         }
 
-        public Criteria andFidIsNotNull() {
-            addCriterion("fid is not null");
+        public Criteria andCodeIsNotNull() {
+            addCriterion("code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFidEqualTo(Integer value) {
-            addCriterion("fid =", value, "fid");
+        public Criteria andCodeEqualTo(Integer value) {
+            addCriterion("code =", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidNotEqualTo(Integer value) {
-            addCriterion("fid <>", value, "fid");
+        public Criteria andCodeNotEqualTo(Integer value) {
+            addCriterion("code <>", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidGreaterThan(Integer value) {
-            addCriterion("fid >", value, "fid");
+        public Criteria andCodeGreaterThan(Integer value) {
+            addCriterion("code >", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("fid >=", value, "fid");
+        public Criteria andCodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("code >=", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidLessThan(Integer value) {
-            addCriterion("fid <", value, "fid");
+        public Criteria andCodeLessThan(Integer value) {
+            addCriterion("code <", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidLessThanOrEqualTo(Integer value) {
-            addCriterion("fid <=", value, "fid");
+        public Criteria andCodeLessThanOrEqualTo(Integer value) {
+            addCriterion("code <=", value, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidIn(List<Integer> values) {
-            addCriterion("fid in", values, "fid");
+        public Criteria andCodeIn(List<Integer> values) {
+            addCriterion("code in", values, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidNotIn(List<Integer> values) {
-            addCriterion("fid not in", values, "fid");
+        public Criteria andCodeNotIn(List<Integer> values) {
+            addCriterion("code not in", values, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidBetween(Integer value1, Integer value2) {
-            addCriterion("fid between", value1, value2, "fid");
+        public Criteria andCodeBetween(Integer value1, Integer value2) {
+            addCriterion("code between", value1, value2, "code");
             return (Criteria) this;
         }
 
-        public Criteria andFidNotBetween(Integer value1, Integer value2) {
-            addCriterion("fid not between", value1, value2, "fid");
+        public Criteria andCodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("code not between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeIsNull() {
+            addCriterion("parent_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeIsNotNull() {
+            addCriterion("parent_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeEqualTo(Integer value) {
+            addCriterion("parent_code =", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeNotEqualTo(Integer value) {
+            addCriterion("parent_code <>", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeGreaterThan(Integer value) {
+            addCriterion("parent_code >", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("parent_code >=", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeLessThan(Integer value) {
+            addCriterion("parent_code <", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeLessThanOrEqualTo(Integer value) {
+            addCriterion("parent_code <=", value, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeIn(List<Integer> values) {
+            addCriterion("parent_code in", values, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeNotIn(List<Integer> values) {
+            addCriterion("parent_code not in", values, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeBetween(Integer value1, Integer value2) {
+            addCriterion("parent_code between", value1, value2, "parentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentCodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("parent_code not between", value1, value2, "parentCode");
             return (Criteria) this;
         }
 

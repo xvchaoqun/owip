@@ -111,6 +111,9 @@ public class BaseMapper {
 	protected HistoryUnitMapper historyUnitMapper;
 	@Autowired
 	protected UnitMapper unitMapper;
+
+	@Autowired
+	protected SysUserSyncMapper sysUserSyncMapper;
 	@Autowired
 	protected SysLogMapper sysLogMapper;
 	@Autowired

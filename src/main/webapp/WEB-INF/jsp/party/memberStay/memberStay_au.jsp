@@ -4,11 +4,8 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberStay!=null}">编辑</c:if><c:if test="${memberStay==null}">添加</c:if>公派留学生党员申请组织关系暂留</h3>
-</div>
-<div class="modal-body">
+<hr/>
     <form class="form-horizontal" action="${ctx}/memberStay_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberStay.id}">
 		<div class="row">
@@ -37,7 +34,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">性别</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
+					<select required data-rel="select2" name="gender" data-placeholder="请选择">
 						<option></option>
 						<c:forEach items="${GENDER_MAP}" var="_gender">
 							<option value="${_gender.key}">${_gender.value}</option>
@@ -71,7 +68,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">政治面貌</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" data-width="120">
+					<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" >
 						<option></option>
 						<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
 							<option value="${_status.key}">${_status.value}</option>
@@ -163,9 +160,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
     </form>
-</div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#" class="closeView btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberStay!=null}">确定</c:if><c:if test="${memberStay==null}">添加</c:if>"/>
 </div>
 
@@ -177,7 +173,8 @@ pageEncoding="UTF-8"%>
 		autoclose: true,
 		todayHighlight: true
 	})
-    $("#modal form").validate({
+	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){

@@ -292,10 +292,10 @@ br.xs-100 {
     padding: 16px;
 }
 
-#modal .form-group {
+.form-group {
     margin-bottom: 8px;
 }
-#modal .help-block {
+.help-block {
     margin-top: 0px;
     margin-bottom: 0px;
 }

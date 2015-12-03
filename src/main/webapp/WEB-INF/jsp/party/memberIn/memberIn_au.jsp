@@ -5,11 +5,8 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入</h3>
-</div>
-<div class="modal-body">
+<hr/>
     <form class="form-horizontal" action="${ctx}/memberIn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberIn.id}">
 			<div class="row">
@@ -297,9 +294,8 @@ pageEncoding="UTF-8"%>
 
 
     </form>
-</div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#" class="closeView btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberIn!=null}">确定</c:if><c:if test="${memberIn==null}">添加</c:if>"/>
 </div>
 
@@ -310,7 +306,8 @@ pageEncoding="UTF-8"%>
 		autoclose: true,
 		todayHighlight: true
 	})
-    $("#modal form").validate({
+	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#modalForm").validate({
         submitHandler: function (form) {
 			if(!$("#branchDiv").is(":hidden")){
 				if($('#modalForm select[name=branchId]').val()=='') {

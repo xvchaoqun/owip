@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                    <textarea class="form-control limited" name="remark" >${cadre.remark}</textarea>
+                    <textarea class="form-control limited" name="remark" rows="5">${cadre.remark}</textarea>
 				</div>
 			</div>
     </form>

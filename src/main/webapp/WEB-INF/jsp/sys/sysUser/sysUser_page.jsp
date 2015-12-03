@@ -51,9 +51,7 @@
                     <div class="buttons pull-right">
                         <a onclick="au()" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加账号</a>
                         <a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>
-                        <a class="syncJzg btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
-                        <a  class="syncBks btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
-                        <a class="syncYjs btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
+
                      </div>
                 </mytag:sort-form>
             <div class="space-4"></div>
@@ -155,27 +153,6 @@
     </div>
 </div>
 <script>
-
-    $(".syncJzg").click(function(){
-        var $this = $(this);
-        bootbox.confirm("确定同步（将耗费很长时间）？", function (result) {
-            if (result) {
-                var $btn = $this.button('loading')
-                $.post("${ctx}/syncJzg",{},function(ret){
-                    if(ret.success){
-                        $btn.button('reset');
-                        toastr.success('同步成功。', '成功');
-                    }
-                });
-            }
-        });
-    });
-    $(".syncBks").click(function(){
-        var $btn = $(this).button('loading')
-        setTimeout(function(){
-            $btn.button('reset')
-        }, 2000);
-    });
 
     $(".table th.sortable").click(function(){
 

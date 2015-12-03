@@ -41,8 +41,8 @@ public class GsonTest {
             for (Map.Entry<String, String> stringEntry : entry.getValue().entrySet()) {
                 System.out.println(stringEntry.getKey() + ":" + stringEntry.getValue());
                 Location record = new Location();
-                record.setId(Integer.parseInt(stringEntry.getKey()));
-                record.setFid(fid);
+                record.setCode(Integer.parseInt(stringEntry.getKey()));
+                record.setParentCode(fid);
                 record.setName(StringUtils.trimToNull(stringEntry.getValue()));
                 locationMapper.insert(record);
             }

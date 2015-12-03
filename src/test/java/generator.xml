@@ -21,8 +21,8 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
-      </table>
+      <!--<table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
+      </table>-->
       <!-- <table tableName="ow_member_stay" domainObjectName="MemberStay">
        </table>
        <table tableName="ow_member_in" domainObjectName="MemberIn">
@@ -78,8 +78,8 @@
     <ignoreColumn column="update_time"/>
     </table>-->
 
-      <!--<table tableName="base_location" domainObjectName="Location">
-      </table>-->
+      <table tableName="base_location" domainObjectName="Location">
+      </table>
       <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
       </table>
       <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
@@ -157,6 +157,9 @@
     <table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
+      <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
+      </table>-->
+
       <!--<table tableName="ext_bks" domainObjectName="ExtBks">
       </table>
 

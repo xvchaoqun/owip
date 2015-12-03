@@ -5,11 +5,10 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+
     <h3><c:if test="${memberOut!=null}">编辑</c:if><c:if test="${memberOut==null}">添加</c:if>组织关系转出</h3>
-</div>
-<div class="modal-body">
+	<hr/>
+
     <form class="form-horizontal" action="${ctx}/memberOut_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOut.id}">
 		<div class="row">
@@ -38,7 +37,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">性别</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
+					<select required data-rel="select2" name="gender" data-placeholder="请选择">
 						<option></option>
 						<c:forEach items="${GENDER_MAP}" var="_gender">
 							<option value="${_gender.key}">${_gender.value}</option>
@@ -64,7 +63,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">政治面貌</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+					<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" >
 						<option></option>
 						<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
 							<option value="${_status.key}">${_status.value}</option>
@@ -84,7 +83,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">类别</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
+						<select required data-rel="select2" name="type" data-placeholder="请选择"  >
 							<option></option>
 							<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
 								<option value="${_type.key}">${_type.value}</option>
@@ -188,9 +187,9 @@ pageEncoding="UTF-8"%>
 			</div>
 				</div></div>
     </form>
-</div>
+
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#" class="btn btn-default closeView">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberOut!=null}">确定</c:if><c:if test="${memberOut==null}">添加</c:if>"/>
 </div>
 
@@ -201,7 +200,8 @@ pageEncoding="UTF-8"%>
 		autoclose: true,
 		todayHighlight: true
 	})
-    $("#modal form").validate({
+	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){

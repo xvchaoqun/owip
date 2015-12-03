@@ -112,7 +112,7 @@
                                     </button>
                              <shiro:hasPermission name="metaClass:del">
                             <button class="delBtn btn btn-danger btn-mini" data-id="${metaClass.id}">
-                                <i class="fa fa-pencil"></i> 删除
+                                <i class="fa fa-times"></i> 删除
                             </button>
                              </shiro:hasPermission>
                                 </shiro:hasRole>

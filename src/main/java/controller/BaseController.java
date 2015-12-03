@@ -25,9 +25,6 @@ import java.util.Map;
 public class BaseController extends BaseMapper {
 
     @Autowired
-    protected SyncUserService syncUserService;
-
-    @Autowired
     protected MemberStayService memberStayService;
     @Autowired
     protected MemberTransferService memberTransferService;
@@ -138,6 +135,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
 
+    @Autowired
+    protected SysUserSyncService sysUserSyncService;
     @Autowired
     protected LocationService locationService;
     @Autowired

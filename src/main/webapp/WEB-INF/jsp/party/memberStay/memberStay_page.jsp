@@ -5,6 +5,7 @@ pageEncoding="UTF-8" %>
 <c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
+        <div id="body-content">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
              data-url-au="${ctx}/memberStay_au"
@@ -28,7 +29,8 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
                     <shiro:hasPermission name="memberStay:edit">
-                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                        <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberStay_au">
+                    <%--<a class="editBtn btn btn-info btn-sm" data-width="900">--%><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
@@ -90,7 +92,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="memberStay:edit">
-                                    <button data-id="${memberStay.id}" class="editBtn btn btn-mini" data-width="900">
+                                    <button data-url="${ctx}/memberStay_au?id=${memberStay.id}" class="openView  btn btn-mini" data-width="900">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -159,6 +161,10 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
+        </div>
+        </div>
+        <div id="item-content">
+
         </div>
     </div>
 </div>

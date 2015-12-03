@@ -125,23 +125,33 @@ public class SystemConstants {
 	}
 
 	// 党员状态, 1正常，2已退休 3已出党 4已转出 5暂时转出（外出挂职、休学等）
-	public final static byte MEMBER_STATUS_NORMAL= 1; // 已入党（正常）
+	public final static byte MEMBER_STATUS_NORMAL= 1; // 正常
 	public final static byte MEMBER_STATUS_RETIRE= 2; // 已退休
 	public final static byte MEMBER_STATUS_QUIT= 3; // 已出党
 	public final static byte MEMBER_STATUS_TRANSFER= 4; // 已转出
-	public final static byte MEMBER_STATUS_TRANSFER_TEMP= 5; // 暂时转出
+	public final static byte MEMBER_STATUS_TRANSFER_TEMP= 5; // 外出挂职、休学等
+	public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		MEMBER_STATUS_MAP.put(MEMBER_STATUS_NORMAL, "正常");
+		MEMBER_STATUS_MAP.put(MEMBER_STATUS_RETIRE, "已退休");
+		MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已出党");
+		MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER, "已转出");
+		MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
+	}
 
 	// 党员来源
 	public final static byte MEMBER_SOURCE_IMPORT = 1; // 建系统时统一导入
 	public final static byte MEMBER_SOURCE_GROW = 2; // 本校发展
 	public final static byte MEMBER_SOURCE_TRANSFER = 3; // 外校转入
 	public final static byte MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
+	public final static byte MEMBER_SOURCE_ADMIN = 5; // 后台添加
 	public final static Map<Byte, String>MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 	static {
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_RETURNED, "归国人员恢复入党");
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_ADMIN, "后台添加");
 	}
 
 	// 党员退休审核状态

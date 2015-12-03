@@ -5,11 +5,8 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
-</div>
-<div class="modal-body">
+<hr/>
     <form class="form-horizontal" action="${ctx}/memberTransfer_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberTransfer.id}">
 		<div class="row">
@@ -151,15 +148,15 @@ pageEncoding="UTF-8"%>
 				</div>
 					<div class="col-xs-4">
 						<div class="form-group">
-							<label class="col-xs-5 control-label">姓名</label>
+							<label class="col-xs-3 control-label">姓名</label>
 							<div class="col-xs-6">
 								<input required class="form-control" type="text" name="realname" value="${memberTransfer.realname}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">类别</label>
+							<label class="col-xs-3 control-label">类别</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="100">
+								<select required data-rel="select2" name="type" data-placeholder="请选择">
 									<option></option>
 									<c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
 										<option value="${_type.key}">${_type.value}</option>
@@ -171,9 +168,9 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">性别</label>
+							<label class="col-xs-3 control-label">性别</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
+								<select required data-rel="select2" name="gender" data-placeholder="请选择">
 									<option></option>
 									<c:forEach items="${GENDER_MAP}" var="_gender">
 										<option value="${_gender.key}">${_gender.value}</option>
@@ -185,21 +182,21 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">年龄</label>
+							<label class="col-xs-3 control-label">年龄</label>
 							<div class="col-xs-6">
 								<input required class="form-control digits" type="text" name="age" value="${memberTransfer.age}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">民族</label>
+							<label class="col-xs-3 control-label">民族</label>
 							<div class="col-xs-6">
 								<input required class="form-control" type="text" name="nation" value="${memberTransfer.nation}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">政治面貌</label>
+							<label class="col-xs-3 control-label">政治面貌</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" data-width="150">
+								<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择">
 									<option></option>
 									<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
 										<option value="${_status.key}">${_status.value}</option>
@@ -211,7 +208,7 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">身份证号</label>
+							<label class="col-xs-3 control-label">身份证号</label>
 							<div class="col-xs-6">
 								<input required class="form-control" type="text" name="idcard" value="${memberTransfer.idcard}">
 							</div>
@@ -264,9 +261,8 @@ pageEncoding="UTF-8"%>
 			</div>
 				</div></div>
     </form>
-</div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#"  class="closeView btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
 </div>
 
@@ -278,7 +274,8 @@ pageEncoding="UTF-8"%>
 		autoclose: true,
 		todayHighlight: true
 	})
-    $("#modal form").validate({
+	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#modalForm").validate({
         submitHandler: function (form) {
 
 			if(!$("#toBranchDiv").is(":hidden")){

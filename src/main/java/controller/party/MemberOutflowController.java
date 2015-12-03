@@ -128,7 +128,7 @@ public class MemberOutflowController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("locationMap", locationService.findAll());
+        modelMap.put("locationMap", locationService.codeMap());
         modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
         modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
 

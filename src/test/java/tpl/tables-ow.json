@@ -12,7 +12,7 @@
       "showColumns": "user_id,abroad_time,return_time,mobile,status",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "member_transfer",
@@ -21,7 +21,7 @@
       "showColumns": "user_id,from_unit,type,from_unit,to_unit,from_handle_time,status",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "member_out",
@@ -30,7 +30,7 @@
       "showColumns": "user_id,from_unit,type,from_unit,to_unit,to_title,valid_days,handle_time,status",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "member_in",
@@ -39,7 +39,7 @@
       "showColumns": "user_id,from_unit,type,from_unit,from_title,valid_days,from_handle_time,status",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
 
     {
@@ -110,7 +110,7 @@
       "key": "user_id",
       "searchColumns": "user_id,party_id,branch_id,grow_time",
       "showColumns": "user_id,party_id,branch_id,grow_time",
-      "excludeEditColumns": "user_id",
+      "excludeEditColumns": "user_id,update_time",
       "logType":"SystemConstants.LOG_MEMBER_APPLY",
       "ignore": true
     },

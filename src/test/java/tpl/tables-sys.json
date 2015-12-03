@@ -1,0 +1,18 @@
+{
+  "schema": "owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "tables": [
+    {
+      "table": "sys_user_sync",
+      "key": "id",
+      "searchColumns": "user_id,type",
+      "showColumns": "type,auto_start,auto_stop,is_stop,current_count,start_time,end_time",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}

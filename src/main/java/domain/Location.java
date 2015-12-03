@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class Location implements Serializable {
     private Integer id;
 
-    private Integer fid;
+    private Integer code;
+
+    private Integer parentCode;
 
     private String name;
 
@@ -21,12 +23,20 @@ public class Location implements Serializable {
         this.id = id;
     }
 
-    public Integer getFid() {
-        return fid;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setFid(Integer fid) {
-        this.fid = fid;
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Integer getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(Integer parentCode) {
+        this.parentCode = parentCode;
     }
 
     public String getName() {
