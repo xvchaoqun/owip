@@ -7,7 +7,7 @@ $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下elect2不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
-$(document).on("change","[data-rel=select2],.date-picker",function(){
+$(document).on("change","[data-rel=select2],[data-rel=select2-ajax],.date-picker",function(){
     try{$(this).valid();}catch (e){}
 });
 $(document).on("click","button[type=reset],input[type=reset]",function(event){
@@ -335,20 +335,162 @@ $(document).on("click", "#view-box .nav-tabs li a", function(){
 });
 
 // 内页展示
-$(document).on("click", "#body-content .openView", function(){
-    $("#body-content").hide();
-    var $container = $("#item-content");
-    $container.show().showLoading({'afterShow':
+$(document).on("click", "#body-content .openView, #item-content .openView", function(){
+    var $container = $("#body-content");
+    $container.showLoading({'afterShow':
         function() {
             setTimeout( function(){
-
                 $container.hideLoading();
             }, 2000 );
-        }}).load($(this).data("url"),function(){
-                $container.hideLoading();
+        }})
+    $.get($(this).data("url"),{},function(html){
+        $container.hideLoading().hide();
+        $("#item-content").hide().html(html).fadeIn("slow");
     })
 });
 $(document).on("click", "#item-content .closeView", function(){
-    $("#body-content").show();
-    $("#item-content").hide();
+    $("#item-content").fadeOut("fast",function(){$("#body-content").show()});
 });
+
+// 分党委、党支部select2联动
+function register_party_branch_select($container, branchDivId, mt_direct_branch_id,
+                                      init_party_id, init_party_class, partyId, branchId){
+
+    //var $container = $("#modalForm");
+    partyId = partyId || "partyId";
+    branchId = branchId || "branchId";
+    $('select[name='+partyId+'], select[name='+branchId+']', $container).select2({
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page,
+                    partyId: $('select[name='+partyId+']', $container).val()
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+    $('select[name='+partyId+']', $container).on("change", function () {
+
+        var $party_class = $(this).select2("data")[0].class || init_party_class;
+        //alert("${party.id}")
+        if($(this).val()!=init_party_id)
+            $('select[name='+branchId+']', $container).val(null).trigger("change");
+        if($(this).val()>0 && $party_class != mt_direct_branch_id){
+            $("#"+branchDivId, $container).show();
+        }else{
+            $('select[name='+branchId+']', $container).val(null).trigger("change");
+            $("#"+branchDivId, $container).hide();
+        }
+    }).change();
+    $('select[name='+partyId+']', $container).on("select2:unselect",function(){
+        $('select[name='+branchId+']', $container).val(null).trigger("change");
+        $("#"+branchDivId, $container).hide();
+    })
+}
+
+// 类型、分党委、党支部 3级联动
+function register_class_party_branch_select($container, partyDivId, branchDivId, mt_direct_branch_id, classId, partyId, branchId){
+
+    classId = classId || "classId";
+    partyId = partyId || "partyId";
+    branchId = branchId || "branchId";
+
+    $('select[name='+classId+']', $container).select2({width:200}).on("change", function () {
+        if($(this).val()>0){
+            $("#"+partyDivId, $container).show();
+        }else{
+            $('select[name='+partyId+']', $container).val(null).trigger("change");
+            $('select[name='+branchId+']', $container).val(null).trigger("change");
+            $("#"+partyDivId+", #"+branchDivId, $container).hide();
+        }
+    });
+
+    $('select[name='+partyId+'], select[name='+branchId+']', $container).select2({
+        width:400,
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page,
+                    classId: $('select[name='+classId+']', $container).val(),
+                    partyId: $('select[name='+partyId+']', $container).val()
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+
+    $('select[name='+partyId+']', $container).on("change", function () {
+
+        if($(this).val()>0 && $('select[name='+classId+']', $container).val()!=mt_direct_branch_id){
+            $("#"+branchDivId, $container).show();
+        }else{
+            $('select[name='+branchId+']', $container).val(null).trigger("change");
+            $("#"+branchDivId, $container).hide();
+        }
+    });
+}
+function formatState (state) {
+    if (!state.id) { return state.text; }
+    var $state = state.text;
+    if(state.code!=undefined && state.code.length>0)
+        $state += '-' + state.code;
+    if(state.unit!=undefined && state.unit.length>0){
+        $state += '-' + state.unit;
+    }
+    //console.log($state)
+    return $state;
+};
+// 选择账号
+function register_user_select($select){
+    $select.select2({
+        templateResult: formatState,
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+}
+// 日历
+function register_date($date){
+    $date.datepicker({
+        language:"zh-CN",
+        autoclose: true,
+        todayHighlight: true,
+        clearBtn:true
+    })
+}

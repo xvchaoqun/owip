@@ -36,11 +36,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    })
+    register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

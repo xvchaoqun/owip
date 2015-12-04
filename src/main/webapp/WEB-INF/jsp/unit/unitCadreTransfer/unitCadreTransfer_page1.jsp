@@ -210,7 +210,9 @@ pageEncoding="UTF-8" %>
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
+
+    register_user_select($('#searchForm select[name=cadreId]'));
+    $('#searchForm select[name=groupId]').select2({
         ajax: {
             dataType: 'json',
             delay: 300,

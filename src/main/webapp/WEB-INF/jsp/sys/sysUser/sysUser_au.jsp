@@ -78,30 +78,8 @@
   </div>
 
   <script>
-	$(function(){
-		$('[data-rel="select2-ajax"]').select2({
-			ajax: {
-				dataType: 'json',
-				delay: 300,
-				data: function (params) {
-					return {
-						searchStr: params.term,
-						pageSize: 10,
-						pageNo: params.page
-					};
-				},
-				processResults: function (data, params) {
-					params.page = params.page || 1;
-					return {results: data.options,  pagination: {
-						more: (params.page * 10) < data.totalCount
-					}};
-				},
-				cache: true
-			}
-		});
 		$("#modal input[type=submit]").click(function(){$("#modal form").submit();return false;});
 		$("#modal form").validate({
-
 				rules: {
 					username:{
 						required:true
@@ -125,5 +103,4 @@
 					});
 				}
 			});
-	 })
 </script>

@@ -223,8 +223,7 @@
 			<td>
 				退休时间
 			</td>
-			<td>
-				${memberTeacher.retireTime}
+			<td>${cm:formatDate(memberTeacher.retireTime,'yyyy-MM-dd')}
 			</td>
 			<td >
 				是否离休
@@ -277,7 +276,7 @@
 		<td>
 			入党时间
 		</td>
-		<td>
+		<td width="150">
 			${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}
 		</td>
 		<td>

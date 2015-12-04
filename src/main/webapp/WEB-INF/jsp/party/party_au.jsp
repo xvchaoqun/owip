@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">所在单位属性</label>
 					<div class="col-xs-8">
-						<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择所属单位">
+						<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择">
 							<option></option>
 							<c:forEach items="${unitTypeMap}" var="unitType">
 								<option value="${unitType.key}">${unitType.value.name}</option>
@@ -167,12 +167,7 @@ pageEncoding="UTF-8"%>
 </style>
 <script>
 
-	$('.date-picker').datepicker({
-		language:"zh-CN",
-		autoclose: true,
-		todayHighlight: true
-	})
-
+	register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -191,29 +186,10 @@ pageEncoding="UTF-8"%>
 		if($(this).val()=='${cm:getMetaTypeByCode('mt_party_unit_type_enterprise').id}') {
 			$(".enterprise").show();
 		} else {
+			$(".enterprise :checkbox").prop("checked",false);
 			$(".enterprise").hide();
 		}
 	}).change();
 
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

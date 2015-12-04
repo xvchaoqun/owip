@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/party_au"
              data-url-page="${ctx}/party_page"
@@ -146,7 +147,7 @@ pageEncoding="UTF-8" %>
 
                                     <c:if test="${cm:typeEqualsCode(party.classId,'mt_direct_branch')}">
                                         <shiro:hasPermission name="member:edit">
-                                        <button data-id="${party.id}" class="addPartyMemberGroupBtn btn btn-success btn-mini">
+                                        <button data-url="${ctx}/member_au?partyId=${party.id}" class="openView btn btn-success btn-mini">
                                             <i class="fa fa-user"></i> 添加党员
                                         </button>
                                         </shiro:hasPermission>
@@ -223,6 +224,8 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
+        </div>
+        <div id="item-content"></div>
     </div>
 </div>
 <script>
@@ -234,24 +237,4 @@ pageEncoding="UTF-8" %>
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

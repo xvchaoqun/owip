@@ -70,6 +70,32 @@ public class SystemConstants {
 		USER_SOURCE_MAP.put(USER_SOURCE_YJS, "研究生库");
 	}
 
+	// 权限开通申请状态，0申请 1本人撤销 2 管理员撤回 3通过；
+	public final static byte ENTER_APPLY_STATUS_APPLY= 0;
+	public final static byte ENTER_APPLY_STATUS_SELF_ABORT = 1;
+	public final static byte ENTER_APPLY_STATUS_ADMIN_ABORT = 2;
+	public final static byte ENTER_APPLY_STATUS_PASS = 3;
+	public final static Map<Byte, String> ENTER_APPLY_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		ENTER_APPLY_STATUS_MAP.put(ENTER_APPLY_STATUS_APPLY, "申请");
+		ENTER_APPLY_STATUS_MAP.put(ENTER_APPLY_STATUS_SELF_ABORT, "本人撤销");
+		ENTER_APPLY_STATUS_MAP.put(ENTER_APPLY_STATUS_ADMIN_ABORT, "管理员撤回");
+		ENTER_APPLY_STATUS_MAP.put(ENTER_APPLY_STATUS_PASS, "通过");
+	}
+
+	// 权限开通申请类别，1申请入党 2 留学归国申请 3转入申请  4 流入申请
+	public final static byte ENTER_APPLY_TYPE_MEMBERAPPLY= 1;
+	public final static byte ENTER_APPLY_TYPE_RETURN = 2;
+	public final static byte ENTER_APPLY_TYPE_MEMBERIN = 3;
+	public final static byte ENTER_APPLY_TYPE_MEMBERINFLOW = 4;
+	public final static Map<Byte, String> ENTER_APPLY_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		ENTER_APPLY_TYPE_MAP.put(ENTER_APPLY_TYPE_MEMBERAPPLY, "申请入党");
+		ENTER_APPLY_TYPE_MAP.put(ENTER_APPLY_TYPE_RETURN, "留学归国申请");
+		ENTER_APPLY_TYPE_MAP.put(ENTER_APPLY_TYPE_MEMBERIN, "转入申请");
+		ENTER_APPLY_TYPE_MAP.put(ENTER_APPLY_TYPE_MEMBERINFLOW, "流入申请");
+	}
+
 	// 申请入党类型
 	public final static byte APPLY_TYPE_STU= 1; // 学生
 	public final static byte APPLY_TYPE_TECHER = 2; // 教职工

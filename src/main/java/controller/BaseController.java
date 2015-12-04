@@ -25,6 +25,9 @@ import java.util.Map;
 public class BaseController extends BaseMapper {
 
     @Autowired
+    protected EnterApplyService enterApplyService;
+
+    @Autowired
     protected MemberStayService memberStayService;
     @Autowired
     protected MemberTransferService memberTransferService;

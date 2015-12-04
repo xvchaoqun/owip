@@ -77,29 +77,31 @@ public class MemberController extends BaseController {
 
     @RequiresPermissions("member:edit")
     @RequestMapping("/member_au")
-    public String member_au(Integer userId, ModelMap modelMap) {
+    public String member_au(Integer userId, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         Member member = null;
         if (userId != null) {
             member = memberMapper.selectByPrimaryKey(userId);
             modelMap.put("op", "编辑");
 
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            Map<Integer, Party> partyMap = partyService.findAll();
-            modelMap.put("branchMap", branchMap);
-            modelMap.put("partyMap", partyMap);
-            if (member.getPartyId() != null) {
-                modelMap.put("party", partyMap.get(member.getPartyId()));
-            }
-            if (member.getBranchId() != null) {
-                modelMap.put("branch", branchMap.get(member.getBranchId()));
-            }
-
+            partyId = member.getPartyId();
+            branchId = member.getBranchId();
             modelMap.put("sysUser", sysUserService.findById(userId));
         }else{
-
             modelMap.put("op", "添加");
         }
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+
         modelMap.put("member", member);
 
         return "party/member/member_au";

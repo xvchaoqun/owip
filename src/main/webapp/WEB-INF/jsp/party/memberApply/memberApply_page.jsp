@@ -80,66 +80,8 @@ pageEncoding="UTF-8" %>
                                         </select>
                                         </span>
                                         <script>
-                                            var $container = $("#searchForm");
-                                            var $party_class ={};
-                                            $party_class["${party.id}"]="${party.classId}";
-                                            function formatState (state) {
-                                                $party_class[state.id] = state.class;
-                                                return state.text;
-                                            };
-                                            $('select[name=partyId]', $container).select2({
-                                                width:300,
-                                                templateResult: formatState,
-                                                ajax: {
-                                                    dataType: 'json',
-                                                    delay: 300,
-                                                    data: function (params) {
-                                                        return {
-                                                            searchStr: params.term,
-                                                            pageSize: 10,
-                                                            pageNo: params.page
-                                                        };
-                                                    },
-                                                    processResults: function (data, params) {
-                                                        params.page = params.page || 1;
-                                                        return {results: data.options,  pagination: {
-                                                            more: (params.page * 10) < data.totalCount
-                                                        }};
-                                                    },
-                                                    cache: true
-                                                }
-                                            });
-                                            $('select[name=branchId]', $container).select2({
-                                                width:300,
-                                                ajax: {
-                                                    dataType: 'json',
-                                                    delay: 300,
-                                                    data: function (params) {
-                                                        return {
-                                                            searchStr: params.term,
-                                                            pageSize: 10,
-                                                            pageNo: params.page,
-                                                            partyId: $('select[name=partyId]', $container).val()
-                                                        };
-                                                    },
-                                                    processResults: function (data, params) {
-                                                        params.page = params.page || 1;
-                                                        return {results: data.options,  pagination: {
-                                                            more: (params.page * 10) < data.totalCount
-                                                        }};
-                                                    },
-                                                    cache: true
-                                                }
-                                            });
-                                            $('select[name=partyId]', $container).on("change", function () {
-
-                                                if($(this).val()>0 && $party_class[$(this).val()]!='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
-                                                    $("#branchDiv", $container).show();
-                                                }else{
-                                                    $('select[name=branchId]', $container).val(null).trigger("change");
-                                                    $("#branchDiv", $container).hide();
-                                                }
-                                            }).change();
+                                            register_party_branch_select($("#searchForm"), "branchDiv",
+                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                         </script>
 
                                         <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -526,38 +468,6 @@ pageEncoding="UTF-8" %>
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    function formatState (state) {
+    register_user_select($('#searchForm select[name=userId]'));
 
-        if (!state.id) { return state.text; }
-        var $state = state.text;
-        if(state.code!=undefined && state.code.length>0)
-            $state += '-' + state.code;
-        if(state.unit!=undefined && state.unit.length>0){
-            $state += '-' + state.unit;
-        }
-        //console.log($state)
-        return $state;
-    };
-
-    $('#searchForm select[name=userId]').select2({
-        templateResult: formatState,
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

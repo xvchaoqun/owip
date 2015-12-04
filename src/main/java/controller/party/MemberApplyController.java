@@ -154,6 +154,7 @@ public class MemberApplyController extends BaseController {
     }
 
     // 申请不通过
+    @RequiresPermissions("memberApply:deny")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_deny(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -186,6 +187,7 @@ public class MemberApplyController extends BaseController {
     }
 
     // 申请通过
+    @RequiresPermissions("memberApply:pass")
     @RequestMapping(value = "/apply_pass", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_pass(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -217,12 +219,14 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active")
     public String apply_active(){
 
         return "party/memberApply/apply_active";
     }
     // 申请通过 成为积极分子
+    @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -255,6 +259,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate")
     public String apply_candidate(){
 
@@ -262,6 +267,7 @@ public class MemberApplyController extends BaseController {
     }
 
     // 提交 确定为发展对象
+    @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime,
@@ -309,6 +315,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     // 审核 确定为发展对象
+    @RequiresPermissions("memberApply:check")
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -339,6 +346,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequiresPermissions("memberApply:plan")
     @RequestMapping(value = "/apply_plan")
     public String apply_plan(){
 
@@ -346,6 +354,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //提交 列入发展计划
+    @RequiresPermissions("memberApply:plan")
     @RequestMapping(value = "/apply_plan", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -387,6 +396,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //审核 列入发展计划
+    @RequiresPermissions("memberApply:plan_check")
     @RequestMapping(value = "/apply_plan_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -419,7 +429,7 @@ public class MemberApplyController extends BaseController {
 
         return failed(FormUtils.FAILED);
     }
-
+    @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw")
     public String apply_draw(){
 
@@ -427,6 +437,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //提交 领取志愿书
+    @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -465,6 +476,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
+    @RequiresPermissions("memberApply:draw_check")
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -495,6 +507,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
+    @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow")
     public String apply_grow(){
 
@@ -502,6 +515,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //提交 预备党员
+    @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -539,6 +553,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
     //审核 领取志愿书
+    @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -570,6 +585,7 @@ public class MemberApplyController extends BaseController {
 
     //组织部管理员审核 领取志愿书
     @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberApply:grow_check2")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -582,7 +598,7 @@ public class MemberApplyController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-
+    @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive")
     public String apply_positive(){
 
@@ -590,6 +606,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //提交 正式党员
+    @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -628,6 +645,7 @@ public class MemberApplyController extends BaseController {
     }
 
     //审核 正式党员
+    @RequiresPermissions("memberApply:positive_check")
     @RequestMapping(value = "/apply_positive_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -659,6 +677,7 @@ public class MemberApplyController extends BaseController {
 
     //组织部管理员审核 正式党员
     @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberApply:positive_check2")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {

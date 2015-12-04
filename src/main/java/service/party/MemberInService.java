@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class MemberInService extends BaseMapper {
@@ -18,6 +19,16 @@ public class MemberInService extends BaseMapper {
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return memberInMapper.countByExample(example) > 0;
+    }
+
+    public MemberIn get(int userId) {
+
+        MemberInExample example = new MemberInExample();
+        MemberInExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        List<MemberIn> memberReturns = memberInMapper.selectByExample(example);
+        if(memberReturns.size()>0) return memberReturns.get(0);
+
+        return null;
     }
 
     @Transactional

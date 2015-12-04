@@ -66,47 +66,11 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    })
+    register_date($('.date-picker'));
     $('textarea.limited').inputlimiter();
 
-    function formatState (state) {
-
-        if (!state.id) { return state.text; }
-        var $state = state.text;
-        if(state.code!=undefined && state.code.length>0)
-            $state += '-' + state.code;
-        if(state.unit!=undefined && state.unit.length>0){
-            $state += '-' + state.unit;
-        }
-        //console.log($state)
-        return $state;
-    };
+    register_user_select($('#modalForm select[name=userId]'));
     $('#modalForm [data-rel="select2"]').select2();
-    $('#modalForm select[name=userId]').select2({
-        templateResult: formatState,
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 
     $("#modal form").validate({
         submitHandler: function (form) {

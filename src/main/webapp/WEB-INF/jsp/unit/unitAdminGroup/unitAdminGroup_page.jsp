@@ -90,32 +90,10 @@ pageEncoding="UTF-8" %>
             }
         });
     }
-
     function _reload(){
         $("#modal").modal('hide');
         $("#view-box .tab-content").load("${ctx}/unitAdminGroup_page?${pageContext.request.queryString}");
     }
-    
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('#searchForm [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

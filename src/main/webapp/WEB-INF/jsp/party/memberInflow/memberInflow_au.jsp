@@ -55,40 +55,8 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<script>
-					var $container = $("#modalForm");
-					$('select[name=partyId], select[name=branchId]', $container).select2({
-						width:300,
-						ajax: {
-							dataType: 'json',
-							delay: 300,
-							data: function (params) {
-								return {
-									searchStr: params.term,
-									pageSize: 10,
-									pageNo: params.page,
-									partyId: $('select[name=partyId]', $container).val()
-								};
-							},
-							processResults: function (data, params) {
-								params.page = params.page || 1;
-								return {results: data.options,  pagination: {
-									more: (params.page * 10) < data.totalCount
-								}};
-							},
-							cache: true
-						}
-					});
-					$('select[name=partyId]', $container).on("change", function () {
-
-						var $party_class = $("select[name=partyId]", $container).select2("data")[0].class | "${party.classId}";
-						//alert($party_class)
-						if($(this).val()>0 && $party_class !='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
-							$("#branchDiv", $container).show();
-						}else{
-							$('select[name=branchId]', $container).val(null).trigger("change");
-							$("#branchDiv", $container).hide();
-						}
-					}).change();
+					register_party_branch_select($("#modalForm"), "branchDiv",
+							'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 				</script>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">原职业</label>
@@ -187,17 +155,10 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
-
 	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
 	showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
-
 	$('textarea.limited').inputlimiter();
-	$('.date-picker').datepicker({
-		language:"zh-CN",
-		autoclose: true,
-		todayHighlight: true
-	})
-
+	register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
 			if(!$("#branchDiv").is(":hidden")){
@@ -206,7 +167,6 @@ pageEncoding="UTF-8"%>
 					return;
 				}
 			}
-
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -219,38 +179,5 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	function formatState (state) {
-
-		if (!state.id) { return state.text; }
-		var $state = state.text;
-		if(state.code!=undefined && state.code.length>0)
-			$state += '-' + state.code;
-		if(state.unit!=undefined && state.unit.length>0){
-			$state += '-' + state.unit;
-		}
-		//console.log($state)
-		return $state;
-	};
-
-	$('#modalForm select[name=userId]').select2({
-		templateResult: formatState,
-        ajax: {
-            dataType: 'json',
-            delay: 200,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+	register_user_select($('#modalForm select[name=userId]'));
 </script>

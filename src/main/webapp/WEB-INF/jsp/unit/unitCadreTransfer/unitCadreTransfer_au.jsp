@@ -79,12 +79,8 @@ pageEncoding="UTF-8"%>
 
 <script>
     $('textarea.limited').inputlimiter();
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    })
-
+    register_date($('.date-picker'));
+    register_user_select($('#modalForm select[name=cadreId]'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -99,24 +95,4 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

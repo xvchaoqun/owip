@@ -8,9 +8,9 @@ public class ShiroUser {
     private Integer id;
     private String username;
     private String realname;
-    private String type;
+    private Byte type;
 
-    public ShiroUser(Integer id, String username, String realname, String type) {
+    public ShiroUser(Integer id, String username, String realname, Byte type) {
         this.id = id;
         this.username = username;
         this.realname = realname;
@@ -41,11 +41,11 @@ public class ShiroUser {
         this.realname = realname;
     }
 
-    public String getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Byte type) {
         this.type = type;
     }
 }

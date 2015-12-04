@@ -51,39 +51,9 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<script>
-					var $container = $("#modalForm");
-					$('select[name=toPartyId], select[name=toBranchId]', $container).select2({
-						ajax: {
-							dataType: 'json',
-							delay: 300,
-							data: function (params) {
-								return {
-									searchStr: params.term,
-									pageSize: 10,
-									pageNo: params.page,
-									partyId: $('select[name=toPartyId]', $container).val()
-								};
-							},
-							processResults: function (data, params) {
-								params.page = params.page || 1;
-								return {results: data.options,  pagination: {
-									more: (params.page * 10) < data.totalCount
-								}};
-							},
-							cache: true
-						}
-					});
-					$('select[name=toPartyId]', $container).on("change", function () {
-
-						var $party_class = $(this).select2("data")[0].class || "${toParty.classId}";
-						//alert($party_class)
-						if($(this).val()>0 && $party_class !='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
-							$("#toBranchDiv", $container).show();
-						}else{
-							$('select[name=toBranchId]', $container).val(null).trigger("change");
-							$("#toBranchDiv", $container).hide();
-						}
-					}).change();
+					register_party_branch_select($("#modalForm"), "toBranchDiv",
+							'${cm:getMetaTypeByCode("mt_direct_branch").id}',
+							"${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
 				</script>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">转出单位</label>
@@ -110,39 +80,9 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<script>
-					var $container = $("#modalForm");
-					$('select[name=fromPartyId], select[name=fromBranchId]', $container).select2({
-						ajax: {
-							dataType: 'json',
-							delay: 300,
-							data: function (params) {
-								return {
-									searchStr: params.term,
-									pageSize: 10,
-									pageNo: params.page,
-									partyId: $('select[name=fromPartyId]', $container).val()
-								};
-							},
-							processResults: function (data, params) {
-								params.page = params.page || 1;
-								return {results: data.options,  pagination: {
-									more: (params.page * 10) < data.totalCount
-								}};
-							},
-							cache: true
-						}
-					});
-					$('select[name=fromPartyId]', $container).on("change", function () {
-
-						var $party_class = $(this).select2("data")[0].class || "${fromParty.classId}";
-						//alert($party_class)
-						if($(this).val()>0 && $party_class !='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
-							$("#fromBranchDiv", $container).show();
-						}else{
-							$('select[name=fromBranchId]', $container).val(null).trigger("change");
-							$("#fromBranchDiv", $container).hide();
-						}
-					}).change();
+					register_party_branch_select($("#modalForm"), "fromBranchDiv",
+							'${cm:getMetaTypeByCode("mt_direct_branch").id}',
+							"${fromParty.id}", "${fromParty.classId}", "fromPartyId", "fromBranchId");
 				</script>
 
 				</div>
@@ -269,11 +209,7 @@ pageEncoding="UTF-8"%>
 <script>
 
 	$('textarea.limited').inputlimiter();
-	$('.date-picker').datepicker({
-		language:"zh-CN",
-		autoclose: true,
-		todayHighlight: true
-	})
+	register_date($('.date-picker'));
 	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
@@ -303,38 +239,5 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	function formatState (state) {
-
-		if (!state.id) { return state.text; }
-		var $state = state.text;
-		if(state.code!=undefined && state.code.length>0)
-			$state += '-' + state.code;
-		if(state.unit!=undefined && state.unit.length>0){
-			$state += '-' + state.unit;
-		}
-		//console.log($state)
-		return $state;
-	};
-
-	$('#modalForm select[name=userId]').select2({
-		templateResult: formatState,
-        ajax: {
-            dataType: 'json',
-            delay: 200,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+	register_user_select($('#modalForm select[name=userId]'));
 </script>

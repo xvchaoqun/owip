@@ -171,38 +171,5 @@ pageEncoding="UTF-8" %>
 <script>
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    function formatState (state) {
-
-        if (!state.id) { return state.text; }
-        var $state = state.text;
-        if(state.code!=undefined && state.code.length>0)
-            $state += '-' + state.code;
-        if(state.unit!=undefined && state.unit.length>0){
-            $state += '-' + state.unit;
-        }
-        //console.log($state)
-        return $state;
-    };
-
-    $('#searchForm select[name=userId]').select2({
-        templateResult: formatState,
-        ajax: {
-            dataType: 'json',
-            delay: 200,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+    register_user_select($('#searchForm select[name=userId]'));
 </script>

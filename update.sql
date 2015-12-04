@@ -1,4 +1,28 @@
 
+###12.4
+ALTER TABLE `ow_member_inflow`
+	ADD COLUMN `inflow_status` TINYINT NULL DEFAULT NULL COMMENT '流入状态，-1不通过 0申请 1党支部审核 2分党委审核' AFTER `or_location`,
+	ADD COLUMN `outflow_status` TINYINT NULL DEFAULT NULL COMMENT '流出状态，-1不通过 0申请 1党支部审核 2分党委审核' AFTER `outflow_time`;
+
+CREATE TABLE `ow_enter_apply` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类别，1申请入党 2 留学归国申请 3转入申请  4 流入申请',
+	`user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '用户',
+	`create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态，0申请 1本人撤销 2 管理员撤回 3通过；当前0的状态每个用户只允许一个，且是最新的一条',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '撤回原因',
+	`back_time` DATETIME NULL DEFAULT NULL COMMENT '撤回时间',
+	`pass_time` DATETIME NULL DEFAULT NULL COMMENT '通过时间',
+	PRIMARY KEY (`id`),
+	INDEX `FK_ow_enter_apply_sys_user` (`user_id`),
+	CONSTRAINT `FK_ow_enter_apply_sys_user` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
+)
+COMMENT='权限开通申请'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+
 
 #####2015.12.3
 #更改表 base_location

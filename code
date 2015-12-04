@@ -1,4 +1,13 @@
 
+register_class_party_branch_select($("#modalForm"), "party", "branch",
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}')
+register_party_branch_select($("#searchForm"), "branchDiv",
+                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+
+
+register_user_select($('#modalForm select[name=userId]'));
+register_date($('.date-picker'));
+
 是否
 <label>
 	<input name="isEnterpriseBig" ${branch.isEnterpriseBig?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />

@@ -8,6 +8,9 @@ import persistence.common.CommonUnitMapper;
 public class BaseMapper {
 
 	@Autowired
+	protected EnterApplyMapper enterApplyMapper;
+
+	@Autowired
 	protected MemberStayMapper memberStayMapper;
 	@Autowired
 	protected MemberTransferMapper memberTransferMapper;
