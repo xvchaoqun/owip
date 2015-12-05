@@ -21,7 +21,7 @@
         <div class="col-sm-2 col-xs-4">
           <div class="input-group">
             <input required class="form-control date-picker" name="_applyTime" type="text"
-                   data-date-format="yyyy-mm-dd"/>
+                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
         </div>
@@ -35,21 +35,24 @@
               <option value="${cls.key}">${cls.value.name}</option>
             </c:forEach>
           </select>
+          <script>
+            $("#modalForm select[name=classId]").val("${party.classId}")
+          </script>
           </div>
         </div>
-        <div class="form-group"  id="party" style="display: none;" >
+        <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
           <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                   name="partyId" data-placeholder="请选择分党委">
-            <option></option>
+            <option value="${party.id}">${party.name}</option>
           </select>
           </div>
          </div>
-          <div class="form-group" id="branch" style="display: none;" >
+          <div class="form-group" id="branch" style="${empty branch?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
           <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                   name="branchId" data-placeholder="请选择党支部">
-            <option></option>
+            <option value="${branch.id}">${branch.name}</option>
           </select>
               </div>
             </div>
@@ -57,7 +60,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right"> 备注</label>
         <div class="col-sm-9">
-          <textarea name="remark"  class="col-xs-10 col-sm-5" rows="10"></textarea>
+          <textarea name="remark"  class="col-xs-10 col-sm-5" rows="10">${memberApply.remark}</textarea>
         </div>
       </div>
 
@@ -78,7 +81,7 @@
       </form>
       <script>
         register_class_party_branch_select($("#modalForm"), "party", "branch",
-                '${cm:getMetaTypeByCode("mt_direct_branch").id}');
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
         register_date($('.date-picker'));
 
         $("form").validate({
@@ -90,7 +93,7 @@
               }
             }
             if(!$("#branch").is(":hidden")){
-              if($('select[name=branchId]').val()=='') {
+              if(!($('select[name=branchId]').val()>0)) {
                 bootbox.alert("请选择支部。");
                 return;
               }

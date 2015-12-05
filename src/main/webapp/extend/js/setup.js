@@ -7,7 +7,12 @@ $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下elect2不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
-$(document).on("change","[data-rel=select2],[data-rel=select2-ajax],.date-picker",function(){
+$(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){
+    //alert(0)
+    try{$(this).valid();}catch (e){}
+});
+$(document).on("change",".date-picker",function(){
+    //alert(0)
     try{$(this).valid();}catch (e){}
 });
 $(document).on("click","button[type=reset],input[type=reset]",function(event){
@@ -400,7 +405,8 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
 }
 
 // 类型、分党委、党支部 3级联动
-function register_class_party_branch_select($container, partyDivId, branchDivId, mt_direct_branch_id, classId, partyId, branchId){
+function register_class_party_branch_select($container, partyDivId, branchDivId,
+                                            mt_direct_branch_id, init_party_id, classId, partyId, branchId){
 
     classId = classId || "classId";
     partyId = partyId || "partyId";
@@ -441,6 +447,9 @@ function register_class_party_branch_select($container, partyDivId, branchDivId,
     });
 
     $('select[name='+partyId+']', $container).on("change", function () {
+
+        if($(this).val()!=init_party_id)
+            $('select[name='+branchId+']', $container).val(null).trigger("change");
 
         if($(this).val()>0 && $('select[name='+classId+']', $container).val()!=mt_direct_branch_id){
             $("#"+branchDivId, $container).show();

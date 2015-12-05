@@ -25,11 +25,11 @@ public class MemberApplyService extends BaseMapper {
     @Autowired
     private MemberService memberService;
 
-    @Transactional
+    /*@Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
     public int insertSelective(MemberApply record) {
         return memberApplyMapper.insertSelective(record);
-    }
+    }*/
 
     @Cacheable(value = "MemberApply", key = "#userId")
     public MemberApply get(int userId) {

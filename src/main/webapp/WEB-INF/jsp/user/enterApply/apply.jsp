@@ -29,7 +29,7 @@
 
       <div class="well ">
         <blockquote>
-        <h4 class="blue bolder bigger-150">转入党员申请</h4>
+        <h4 class="blue bolder bigger-150">组织关系转入</h4>
         转入党员申请转入党员申请转入党员申请。
 
 

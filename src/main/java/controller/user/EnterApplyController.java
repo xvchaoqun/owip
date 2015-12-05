@@ -44,17 +44,15 @@ public class EnterApplyController extends BaseController {
         if(currentApply==null) {
             return "user/enterApply/apply";
         }
-        if(currentApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY){
-            return "foward:/user/memberApply_view";
-        }
-        if(currentApply.getType()==SystemConstants.ENTER_APPLY_TYPE_RETURN){
-            return "foward:/user/memberReturn_view";
-        }
-        if(currentApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERIN){
-            return "foward:/user/memberIn_view";
-        }
-        if(currentApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW){
-            return "foward:/user/memberInflow_view";
+        switch (currentApply.getType()){
+            case SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY:
+                return "forward:/user/memberApply_view";
+            case SystemConstants.ENTER_APPLY_TYPE_RETURN:
+                return "forward:/user/memberReturn_view";
+             case SystemConstants.ENTER_APPLY_TYPE_MEMBERIN:
+                return "forward:/user/memberIn_view";
+             case SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW:
+                return "forward:/user/memberInflow_view";
         }
 
         throw new RuntimeException("系统异常");
@@ -64,11 +62,13 @@ public class EnterApplyController extends BaseController {
     @RequestMapping("/memberApply_view")
     public String memberApply_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-
+        modelMap.put("user", loginUser);
         MemberApply memberApply = memberApplyService.get(loginUser.getId());
         modelMap.put("memberApply", memberApply);
-        if(memberApply==null)
-            modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+
 
         return "user/enterApply/memberApply_view";
     }
@@ -80,16 +80,44 @@ public class EnterApplyController extends BaseController {
         modelMap.put("user", loginUser);
         MemberApply memberApply = memberApplyService.get(loginUser.getId());
         modelMap.put("memberApply", memberApply);
-        if(memberApply==null)
-            modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+
+        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        if(memberApply!=null){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            Integer partyId = memberApply.getPartyId();
+            Integer branchId = memberApply.getBranchId();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+        }
 
         return "user/enterApply/memberApply";
+    }
+
+    // 撤回申请
+    @RequiresRoles("guest")
+    @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
+    @ResponseBody
+    public Map applyBack(@CurrentUser SysUser loginUser){
+
+        int userId = loginUser.getId();
+        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+        if(_enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY){
+            enterApplyService.memberApplyBack(userId);
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply(@CurrentUser SysUser loginUser,Integer partyId, Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+    public Map do_memberApply(@CurrentUser SysUser loginUser,Integer partyId,
+                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
 
         MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
@@ -109,7 +137,7 @@ public class EnterApplyController extends BaseController {
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());
         memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
-        memberApplyService.insertSelective(memberApply);
+        enterApplyService.memberApply(memberApply);
 
         applyLogService.addApplyLog(loginUser.getId(), loginUser.getId(),
                 SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
@@ -142,10 +170,11 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn(@CurrentUser SysUser loginUser,Integer partyId,
-                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+    public Map do_memberReturn(@CurrentUser SysUser loginUser,MemberReturn memberReturn, HttpServletRequest request) {
 
        //
+        memberReturn.setUserId(loginUser.getId());
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -175,10 +204,13 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberIn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn(@CurrentUser SysUser loginUser,Integer partyId,
-                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+    public Map do_memberIn(@CurrentUser SysUser loginUser, MemberIn record, HttpServletRequest request) {
 
         //
+        record.setUserId(loginUser.getId());
+        record.setHasReceipt(null);
+        record.setReason(null);
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -208,10 +240,11 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow(@CurrentUser SysUser loginUser,Integer partyId,
-                           Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+    public Map do_memberInflow(@CurrentUser SysUser loginUser,MemberInflow record,  HttpServletRequest request) {
 
         //
+        record.setUserId(loginUser.getId());
+
         return success(FormUtils.SUCCESS);
     }
 }
