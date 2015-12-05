@@ -12,69 +12,109 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/party_batchDel"
              data-url-co="${ctx}/party_changeOrder"
              data-querystr="${pageContext.request.queryString}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="code" type="text" value="${param.code}"
-                       placeholder="请输入编号">
-                <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                       placeholder="请输入名称">
-                <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=unitId]").val('${param.unitId}');
-                </script>
-                <select name="classId" data-rel="select2" data-placeholder="请选择党总支类别">
-                    <option></option>
-                    <c:forEach items="${classMap}" var="cls">
-                        <option value="${cls.key}">${cls.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=classId]").val('${param.classId}');
-                </script>
-                <select name="typeId" data-rel="select2" data-placeholder="请选择组织类别">
-                    <option></option>
-                    <c:forEach items="${typeMap}" var="type">
-                        <option value="${type.key}">${type.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=typeId]").val('${param.typeId}');
-                </script>
 
-                <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性">
-                    <option></option>
-                    <c:forEach items="${unitTypeMap}" var="unitType">
-                        <option value="${unitType.key}">${unitType.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');
-                </script>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="party:edit">
-                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="party:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
+            <div class="widget-box hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
                 </div>
-            </mytag:sort-form>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <mytag:sort-form css="form-horizontal " id="searchForm">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">编号</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">名称</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control search-query" name="name" type="text" value="${param.name}"            placeholder="请输入名称">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">所属单位</label>
+                                        <div class="col-xs-6">
+                                            <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
+                                                <option></option>
+                                                  <c:forEach items="${unitMap}" var="unit"> 
+                                                    <option value="${unit.key}">${unit.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">组织类别</label>
+                                        <div class="col-xs-6">
+                                            <select name="classId" data-rel="select2" data-placeholder="请选择"> 
+                                                <option></option>
+                                                  <c:forEach items="${classMap}" var="cls"> 
+                                                    <option value="${cls.key}">${cls.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">组织类型</label>
+                                        <div class="col-xs-6">
+                                            <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
+                                                <option></option>
+                                                  <c:forEach items="${typeMap}" var="type"> 
+                                                    <option value="${type.key}">${type.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
+                                             
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">单位属性</label>
+                                        <div class="col-xs-6">
+                                            <select name="unitTypeId" data-rel="select2" data-placeholder="请选择"> 
+                                                <option></option>
+                                                  <c:forEach items="${unitTypeMap}" var="unitType"> 
+                                                    <option value="${unitType.key}">${unitType.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="clearfix form-actions center">
+                                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId || not empty param.code || not empty param.sort}"/>
+                                <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </mytag:sort-form>
+                    </div>
+                </div>
+            </div>
+
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">

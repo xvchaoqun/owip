@@ -4,7 +4,7 @@ $.fn.select2.defaults.set("language", "zh-CN");
 $.fn.select2.defaults.set("theme", "classic");
 $.fn.select2.defaults.set("allowClear", true);
 $.fn.select2.defaults.set("width", "200px");
-// 解决IE8下elect2不能搜索的bug
+// 解决IE8下select2在modal里不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){

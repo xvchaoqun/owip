@@ -289,7 +289,7 @@ br.xs-100 {
 
 /*search form*/
 .widget-main.no-padding > form .row{
-    padding: 16px;
+    padding-top: 16px;
 }
 
 .form-group {

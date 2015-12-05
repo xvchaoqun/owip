@@ -59,7 +59,7 @@ public class BranchController extends BaseController {
                                     Integer partyId,
                                     Integer typeId,
                                     Integer unitTypeId,
-                                    String foundTime,
+                                    String _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -90,9 +90,16 @@ public class BranchController extends BaseController {
         if (unitTypeId!=null) {
             criteria.andUnitTypeIdEqualTo(unitTypeId);
         }
-        /*if (StringUtils.isNotBlank(foundTime)) {
-            criteria.andFoundTimeLike("%" + foundTime + "%");
-        }*/
+        if(StringUtils.isNotBlank(_foundTime)) {
+            String foundTimeStart = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String foundTimeEnd = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(foundTimeStart)) {
+                criteria.andFoundTimeGreaterThanOrEqualTo(DateUtils.parseDate(foundTimeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(foundTimeEnd)) {
+                criteria.andFoundTimeLessThanOrEqualTo(DateUtils.parseDate(foundTimeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
 
         if (export == 1) {
             branch_export(example, response);
@@ -125,8 +132,8 @@ public class BranchController extends BaseController {
         if (unitTypeId!=null) {
             searchStr += "&unitTypeId=" + unitTypeId;
         }
-        if (StringUtils.isNotBlank(foundTime)) {
-            searchStr += "&foundTime=" + foundTime;
+        if (StringUtils.isNotBlank(_foundTime)) {
+            searchStr += "&_foundTime=" + _foundTime;
         }
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
