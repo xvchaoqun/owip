@@ -17,35 +17,34 @@ pageEncoding="UTF-8"%>
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
-				<td rowspan="6" style="text-align: center;vertical-align: middle;
+				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
 					<img src="${ctx}/avatar/${memberStudent.code}">
 				</td>
-			</tr>
-			<tr>
-				<td>
+
+				<td class="bg-right">
 					姓名
 				</td>
-				<td style="min-width: 80px">
+				<td class="bg-left" style="min-width: 80px">
 					${memberStudent.realname}
 				</td>
-				<td>
+				<td class="bg-right">
 					性别
 				</td>
-				<td style="min-width: 80px">
+				<td class="bg-left" style="min-width: 80px">
 					${GENDER_MALE_MAP.get(memberStudent.gender)}
 				</td>
 
-				<td>
+				<td class="bg-right">
 					民族
 				</td>
-				<td  style="min-width: 80px">
+				<td class="bg-left" style="min-width: 80px">
 					${memberStudent.nation}
 				</td>
-				<td >
+				<td class="bg-right">
 					身份证号
 				</td>
-				<td style="min-width: 120px">
+				<td class="bg-left" style="min-width: 120px">
 					${memberStudent.idcard}
 				</td>
 			</tr>
