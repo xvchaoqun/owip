@@ -1,6 +1,8 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberReturn!=null}">编辑</c:if><c:if test="${memberReturn==null}">添加</c:if>留学归国人员申请恢复组织生活</h3>
@@ -9,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberReturn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberReturn.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-4 control-label">用户</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -18,7 +20,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">分党委</label>
+            <label class="col-xs-4 control-label">分党委</label>
             <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                         name="partyId" data-placeholder="请选择">
@@ -27,7 +29,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-            <label class="col-xs-3 control-label">党支部</label>
+            <label class="col-xs-4 control-label">党支部</label>
             <div class="col-xs-6">
                 <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                         name="branchId" data-placeholder="请选择">
@@ -39,8 +41,32 @@ pageEncoding="UTF-8"%>
             register_party_branch_select($("#modalForm"), "branchDiv",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
         </script>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">政治面貌</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+                    <option></option>
+                    <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                        <option value="${_status.key}">${_status.value}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("#modalForm select[name=politicalStatus]").val(${memberReturn.politicalStatus});
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">提交书面申请书时间</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <input required class="form-control date-picker" name="_applyTime" type="text"
+                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}" />
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">确定为入党积极分子时间</label>
+				<label class="col-xs-4 control-label">确定为入党积极分子时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_activeTime" type="text"
@@ -50,7 +76,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">确定为发展对象时间</label>
+				<label class="col-xs-4 control-label">确定为发展对象时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_candidateTime" type="text"
@@ -60,7 +86,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">入党时间</label>
+				<label class="col-xs-4 control-label">入党时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_growTime" type="text"
@@ -70,7 +96,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">转正时间</label>
+				<label class="col-xs-4 control-label">转正时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_positiveTime" type="text"
@@ -80,7 +106,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
                         <textarea class="form-control limited" name="remark" rows="5">${memberReturn.remark}</textarea>
 				</div>

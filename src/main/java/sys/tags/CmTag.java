@@ -4,6 +4,7 @@ import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import service.party.ApplicationContextSupport;
+import service.party.RetireApplyService;
 import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
 import service.sys.SysResourceService;
@@ -19,6 +20,7 @@ public class CmTag {
 	static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
 	static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
 	static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
+	static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
 
 
 	public static String getApplyStatus(MemberApply memberApply){
@@ -163,5 +165,10 @@ public class CmTag {
 		MetaClass metaClass = metaClassMap.get(classId);
 
 		return StringUtils.equalsIgnoreCase(metaClass.getCode(), code);
+	}
+
+	public static RetireApply getRetireApply(Integer userId){
+
+		return retireApplyService.get(userId);
 	}
 }

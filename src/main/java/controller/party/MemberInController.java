@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberIn;
-import domain.MemberInExample;
+import domain.*;
 import domain.MemberInExample.Criteria;
-import domain.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,7 +10,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,18 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
+import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IpUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -174,15 +172,79 @@ public class MemberInController extends BaseController {
         }
 
         if (id == null) {
-            record.setStatus(SystemConstants.MEMBER_IN_STATUS_APPLY);
-            memberInService.insertSelective(record);
+
+            enterApplyService.memberIn(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加组织关系转入：%s", record.getId()));
         } else {
-
+            record.setStatus(null); // 更新的时候不能更新状态
             memberInService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新组织关系转入：%s", record.getId()));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping("/memberIn_deny")
+    public String memberIn_deny() {
+
+        return "party/memberIn/memberIn_deny";
+    }
+
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberIn_deny(@CurrentUser SysUser loginUser, String reason, HttpServletRequest request, Integer id) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        Integer branchId = memberIn.getBranchId();
+        Integer partyId = memberIn.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        enterApplyService.applyBack(memberIn.getUserId(), reason, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝组织关系转入：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberIn_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应该是应是申请人所在分党委、直属党支部管理员
+        int loginUserId = loginUser.getId();
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        Integer partyId = memberIn.getPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberInService.checkMember(memberIn.getUserId());
+        logger.info(addLog(request, SystemConstants.LOG_OW, "组织关系转入-审核1：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //组织部管理员审核 正式党员
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberIn_check3(int id, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+
+        // 这里要添加权限验证?
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+
+        memberInService.addMember(memberIn.getUserId(),memberIn.getPoliticalStatus());
+        logger.info(addLog(request, SystemConstants.LOG_OW, "组织关系转入-审核2：%s", id));
         return success(FormUtils.SUCCESS);
     }
 

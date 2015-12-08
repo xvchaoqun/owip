@@ -69,7 +69,10 @@
           </button>
         </small>
         </c:if>
-  </span>
+      </span>
+      <span class="subtitle">
+        ${cm:formatDate(memberApply.createTime,'yyyy-MM-dd')}
+      </span>
       </li>
       <c:if test="${memberApply.stage==-1}">
       <li data-step="2" class="active">
@@ -81,28 +84,58 @@
       <li data-step="1" <c:if test="${memberApply.stage>0}">class="complete"</c:if>>
         <span class="step">1</span>
         <span class="title">申请已通过</span>
+<c:if test="${memberApply.stage>0}"><span class="subtitle">
+          ${cm:formatDate(memberApply.passTime,'yyyy-MM-dd')}
+        </span></c:if>
       </li>
       <li data-step="2" <c:if test="${memberApply.stage>1}">class="complete"</c:if>>
         <span class="step">2</span>
         <span class="title">入党积极分子</span>
+<c:if test="${memberApply.stage>1}"> <span class="subtitle">
+          ${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}
+        </span></c:if>
       </li>
 
       <li data-step="3" <c:if test="${memberApply.stage>2}">class="complete"</c:if>>
         <span class="step">3</span>
         <span class="title">成为发展对象</span>
+<c:if test="${memberApply.stage>2}"> <span class="subtitle">
+          ${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}
+        </span></c:if>
       </li>
 
       <li data-step="4" <c:if test="${memberApply.stage>3}">class="complete"</c:if>>
         <span class="step">4</span>
         <span class="title">例入发展计划</span>
+<c:if test="${memberApply.stage>3}"> <span class="subtitle">
+          ${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}
+        </span></c:if>
       </li>
       <li data-step="5" <c:if test="${memberApply.stage>4}">class="complete"</c:if>>
         <span class="step">5</span>
         <span class="title">领取志愿书</span>
+<c:if test="${memberApply.stage>4}"> <span class="subtitle">
+          ${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}
+        </span></c:if>
       </li>
       <li data-step="6" <c:if test="${memberApply.stage>5}">class="complete"</c:if>>
         <span class="step">6</span>
         <span class="title">预备党员</span>
+<c:if test="${memberApply.stage>5}">
+        <span class="subtitle">
+          ${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}
+        </span>
+  </c:if>
+      </li>
+
+      <li data-step="7" <c:if test="${memberApply.stage>6}">class="complete"</c:if>>
+        <span class="step">7</span>
+        <span class="title">正式党员</span>
+        <c:if test="${memberApply.stage>6}">
+        <span class="subtitle">
+            ${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}
+        </span>
+        </c:if>
       </li>
     </ul>
       </div>

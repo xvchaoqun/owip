@@ -11,8 +11,8 @@
 <html>
 <head>
     <title>没有权限访问</title>
-  <link rel="stylesheet" href="assets/css/bootstrap.css" />
-  <link rel="stylesheet" href="assets/css/font-awesome.css" />
+  <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
 </head>
 <body>
 <div style="padding-top: 100px"></div>

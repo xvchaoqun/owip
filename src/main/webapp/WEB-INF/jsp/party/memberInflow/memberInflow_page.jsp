@@ -3,6 +3,10 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_APPLY%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"/>
 
 <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
     <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
@@ -71,6 +75,7 @@
             <th>流入原因</th>
             <th>入党时间</th>
             <th>组织关系所在地</th>
+            <th>状态</th>
             <th nowrap></th>
         </tr>
         </thead>
@@ -95,18 +100,29 @@
                 <td>${memberInflow.reason}</td>
                 <td>${cm:formatDate(memberInflow.growTime,'yyyy-MM-dd')}</td>
                 <td>${memberInflow.orLocation}</td>
+                <td>${MEMBER_INFLOW_STATUS_MAP.get(memberInflow.inflowStatus)}</td>
                 <td>
                     <div class="hidden-sm hidden-xs action-buttons">
-                        <shiro:hasPermission name="memberInflow:edit">
-                            <button onclick="_au(${memberInflow.id})" class="btn btn-mini">
-                                <i class="fa fa-edit"></i> 编辑
+                        <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_APPLY}">
+                            <button onclick="_deny(${memberInflow.id})" class="btn btn-danger btn-mini">
+                                <i class="fa fa-times"></i> 不通过
                             </button>
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="memberInflow:del">
-                            <button class="btn btn-danger btn-mini" onclick="_del(${memberInflow.id})">
-                                <i class="fa fa-times"></i> 删除
+                            <button onclick="_check1(${memberInflow.id})" class="btn btn-success btn-mini">
+                                <i class="fa fa-check"></i> 审核1
                             </button>
-                        </shiro:hasPermission>
+                        </c:if>
+                        <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_BRANCH_VERIFY}">
+                            <button onclick="_check2(${memberInflow.id})" class="btn btn-success btn-mini">
+                                <i class="fa fa-check"></i> 审核2
+                            </button>
+                        </c:if>
+                        <c:if test="${memberInflow.inflowStatus!=MEMBER_INFLOW_STATUS_PARTY_VERIFY}">
+                            <shiro:hasPermission name="memberInflow:edit">
+                                <button data-id="${memberInflow.id}" class="editBtn btn btn-mini">
+                                    <i class="fa fa-edit"></i> 编辑
+                                </button>
+                            </shiro:hasPermission>
+                        </c:if>
                     </div>
                 </td>
             </tr>
@@ -133,6 +149,43 @@
     </div>
 </c:if>
 <script>
+
+    function _deny(id){
+        bootbox.confirm("确定拒绝该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberInflow_deny",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberInflow_check1",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberInflow_check2",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
 
     function _au(id) {
         url = "${ctx}/memberInflow_au?cadreId=${param.cadreId}";

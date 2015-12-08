@@ -157,7 +157,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:deny")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_deny(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_deny(int userId, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
@@ -171,19 +171,12 @@ public class MemberApplyController extends BaseController {
             throw new UnauthorizedException();
         }
 
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_DENY);
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
+       enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
+       applyLogService.addApplyLog(userId, loginUser.getId(),
                     SystemConstants.APPLY_STAGE_INIT, "未通过入党申请", IpUtils.getIp(request));
-            return success(FormUtils.SUCCESS);
-        }
+        return success(FormUtils.SUCCESS);
 
-        return failed(FormUtils.FAILED);
     }
 
     // 申请通过
@@ -206,6 +199,7 @@ public class MemberApplyController extends BaseController {
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_PASS);
+        record.setPassTime(new Date());
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
@@ -243,9 +237,13 @@ public class MemberApplyController extends BaseController {
             throw new UnauthorizedException();
         }
 
+        Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
+        if(activeTime.before(memberApply.getApplyTime())){
+            throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+        }
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_ACTIVE);
-        record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+        record.setActiveTime(activeTime);
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_PASS);
@@ -286,9 +284,19 @@ public class MemberApplyController extends BaseController {
         }
 
         DateTime dt = new DateTime(memberApply.getActiveTime());
-        DateTime dateTime = dt.plusYears(1);
-        if (dateTime.isBeforeNow()) {
+        DateTime afterActiveTimeOneYear = dt.plusYears(1);
+        if (afterActiveTimeOneYear.isBeforeNow()) {
             return failed("确定为入党积极分子满1年之后才能被确定为发展对象。");
+        }
+
+        Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
+        if(candidateTime.before(afterActiveTimeOneYear.toDate())){
+            throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满1年之后");
+        }
+
+        Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);
+        if(trainTime.before(memberApply.getActiveTime())){
+            throw new RuntimeException("培训时间应该在确定为入党积极分子之后");
         }
 
         MemberApply record = new MemberApply();
@@ -359,7 +367,7 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
+        //操作人应该是申请人所在党支部或直属党支部管理员
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
@@ -373,6 +381,11 @@ public class MemberApplyController extends BaseController {
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
         }
+        Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
+        if(planTime.before(memberApply.getCandidateTime())){
+            throw new RuntimeException("列入发展计划时间应该在确定为发展对象之后");
+        }
+
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
             record.setStage(SystemConstants.APPLY_STAGE_PLAN);
@@ -380,7 +393,7 @@ public class MemberApplyController extends BaseController {
         }else{
             record.setPlanStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setPlanTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
+        record.setPlanTime(planTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -454,6 +467,11 @@ public class MemberApplyController extends BaseController {
             throw new UnauthorizedException();
         }
 
+        Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
+        if(drawTime.before(memberApply.getPlanTime())){
+            throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
+        }
+
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
             record.setStage(SystemConstants.APPLY_STAGE_DRAW);
@@ -461,7 +479,7 @@ public class MemberApplyController extends BaseController {
         }else {
             record.setDrawStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setDrawTime(DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD));
+        record.setDrawTime(drawTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -531,6 +549,10 @@ public class MemberApplyController extends BaseController {
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
         }
+        Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+        if(growTime.before(memberApply.getDrawTime())){
+            throw new RuntimeException("入党时间应该在领取志愿书之后");
+        }
 
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
@@ -538,7 +560,7 @@ public class MemberApplyController extends BaseController {
         }else {
             record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
+        record.setGrowTime(growTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
@@ -552,7 +574,7 @@ public class MemberApplyController extends BaseController {
 
         return failed(FormUtils.FAILED);
     }
-    //审核 领取志愿书
+    //审核 预备党员
     @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
@@ -583,7 +605,7 @@ public class MemberApplyController extends BaseController {
         return failed(FormUtils.FAILED);
     }
 
-    //组织部管理员审核 领取志愿书
+    //组织部管理员审核 预备党员
     @RequiresRoles("odAdmin")
     @RequiresPermissions("memberApply:grow_check2")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
@@ -623,13 +645,18 @@ public class MemberApplyController extends BaseController {
             throw new UnauthorizedException();
         }
 
+        Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
+        if(positiveTime.before(memberApply.getGrowTime())){
+            throw new RuntimeException("转正时间应该在入党之后");
+        }
+
         MemberApply record = new MemberApply();
         if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
         }else {
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
         }
-        record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
+        record.setPositiveTime(positiveTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)

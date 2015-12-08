@@ -50,6 +50,8 @@ public class MemberTransfer implements Serializable {
 
     private String reason;
 
+    private Date applyTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -234,5 +236,13 @@ public class MemberTransfer implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason == null ? null : reason.trim();
+    }
+
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 }

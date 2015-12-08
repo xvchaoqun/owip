@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberReturn;
-import domain.MemberReturnExample;
+import domain.*;
 import domain.MemberReturnExample.Criteria;
-import domain.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -126,7 +125,7 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:edit")
     @RequestMapping(value = "/memberReturn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_au(MemberReturn record, String _activeTime, String _candidateTime,
+    public Map do_memberReturn_au(MemberReturn record, String _applyTime, String _activeTime, String _candidateTime,
                                   String _growTime, String _positiveTime,HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -134,7 +133,9 @@ public class MemberReturnController extends BaseController {
         if (memberReturnService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
-
+        if(StringUtils.isNotBlank(_applyTime)){
+            record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+        }
         if(StringUtils.isNotBlank(_activeTime)){
             record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
         }
@@ -149,15 +150,87 @@ public class MemberReturnController extends BaseController {
         }
 
         if (id == null) {
-            record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
-            record.setCreateTime(new Date());
-            memberReturnService.insertSelective(record);
+
+            //memberReturnService.insertSelective(record);
+            enterApplyService.memberReturn(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
         } else {
 
+            record.setStatus(null); // 更新的时候不能更新状态
             memberReturnService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberReturn:update")
+    @RequestMapping(value = "/memberReturn_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberReturn_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                    Integer id, String remark) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        Integer branchId = memberReturn.getBranchId();
+        Integer partyId = memberReturn.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        enterApplyService.applyBack(memberReturn.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝留学归国人员申请恢复组织生活：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberReturn:update")
+    @RequestMapping(value = "/memberReturn_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberReturn_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        Integer branchId = memberReturn.getBranchId();
+        Integer partyId = memberReturn.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+            memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
+            logger.info(addLog(request, SystemConstants.LOG_OW, "通过留学归国人员申请恢复组织生活：%s", id));
+        }else {
+            memberReturnService.checkMember(memberReturn.getUserId());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "审核留学归国人员申请恢复组织生活：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberReturn:update")
+    @RequestMapping(value = "/memberReturn_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberReturn_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        int loginUserId = loginUser.getId();
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        Integer partyId = memberReturn.getPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过留学归国人员申请恢复组织生活：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

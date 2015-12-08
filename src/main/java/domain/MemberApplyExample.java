@@ -622,6 +622,66 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andPassTimeIsNull() {
+            addCriterion("pass_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeIsNotNull() {
+            addCriterion("pass_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("pass_time =", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("pass_time <>", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("pass_time >", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pass_time >=", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeLessThan(Date value) {
+            addCriterionForJDBCDate("pass_time <", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pass_time <=", value, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("pass_time in", values, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("pass_time not in", values, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pass_time between", value1, value2, "passTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pass_time not between", value1, value2, "passTime");
+            return (Criteria) this;
+        }
+
         public Criteria andActiveTimeIsNull() {
             addCriterion("active_time is null");
             return (Criteria) this;

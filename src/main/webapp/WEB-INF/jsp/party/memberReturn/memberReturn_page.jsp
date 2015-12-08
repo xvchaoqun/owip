@@ -3,6 +3,9 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_RETURN_STATUS_MAP" value="<%=SystemConstants.MEMBER_RETURN_STATUS_MAP%>"/>
+<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -66,6 +69,7 @@ pageEncoding="UTF-8" %>
                         </th>
 							<th>用户</th>
 							<th>所属党组织</th>
+							<th>提交书面申请书时间</th>
 							<th>确定为入党积极分子时间</th>
 							<th>确定为发展对象时间</th>
 							<th>入党时间</th>
@@ -73,11 +77,6 @@ pageEncoding="UTF-8" %>
 							<th>状态</th>
 							<th>备注</th>
 							<th>创建时间</th>
-                        <shiro:hasPermission name="memberReturn:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -95,6 +94,7 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${not empty memberReturn.branchId}">
                                         -${branchMap.get(memberReturn.branchId).name}
                                     </c:if></td>
+								<td>${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(memberReturn.activeTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(memberReturn.candidateTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(memberReturn.growTime,'yyyy-MM-dd')}</td>
@@ -102,28 +102,28 @@ pageEncoding="UTF-8" %>
 								<td>${MEMBER_RETURN_STATUS_MAP.get(memberReturn.status)}</td>
 								<td>${memberReturn.remark}</td>
 								<td>${cm:formatDate(memberReturn.createTime,'yyyy-MM-dd HH:mm:ss')}</td>
-                            <shiro:hasPermission name="memberReturn:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberReturn.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberReturn.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberReturn.id})" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                    <button onclick="_check1(${memberReturn.id})" class="btn btn-success btn-mini">
+                                        <i class="fa fa-check"></i> 审核1
+                                    </button>
+                                    </c:if>
+                                    <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_BRANCH_VERIFY}">
+                                        <button onclick="_check2(${memberReturn.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberReturn.status!=MEMBER_RETURN_STATUS_PARTY_VERIFY}">
                                     <shiro:hasPermission name="memberReturn:edit">
                                     <button data-id="${memberReturn.id}" class="editBtn btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberReturn:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberReturn.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
+                                    </c:if>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
@@ -188,6 +188,43 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    function _deny(id){
+        bootbox.confirm("确定拒绝该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberReturn_deny",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberReturn_check1",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberReturn_check2",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));

@@ -1,9 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.Member;
 import domain.MemberOut;
 import domain.MemberOutExample;
 import domain.MemberOutExample.Criteria;
+import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,7 +13,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -108,6 +113,65 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_page";
     }
 
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping("/memberOut_deny")
+    public String memberOut_deny() {
+
+        return "party/memberOut/memberOut_deny";
+    }
+
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping(value = "/memberOut_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                     Integer id, String reason) {
+
+        //操作人应是申请人所在分党委管理员
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        Member member = memberService.get(memberOut.getUserId());
+        Integer partyId = member.getPartyId();
+        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberOutService.deny(member.getUserId(), reason);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping(value = "/memberOut_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        Member member = memberService.get(memberOut.getUserId());
+        Integer partyId = member.getPartyId();
+        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+         memberOutService.check1(member.getUserId());
+         logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping(value = "/memberOut_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+
+        memberOutService.check2(memberOut.getUserId(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
     @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
@@ -125,6 +189,7 @@ public class MemberOutController extends BaseController {
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
         if (id == null) {
+            record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
             memberOutService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加组织关系转出：%s", record.getId()));

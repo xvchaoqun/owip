@@ -4,6 +4,9 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUT_STATUS_APPLY%>"/>
+<c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -70,16 +73,12 @@ pageEncoding="UTF-8" %>
 							<th>介绍信有效期天数</th>
 							<th>办理时间</th>
 							<th>状态</th>
-                        <shiro:hasPermission name="memberOut:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${memberOuts}" var="memberOut" varStatus="st">
+                        <c:set value="${cm:getUserById(memberOut.userId)}" var="_sysUser"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -87,7 +86,7 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberOut.userId).realname}</td>
+								<td>${_sysUser.realname}</td>
 								<td>${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}</td>
 								<td>${memberOut.toTitle}</td>
 								<td>${memberOut.toUnit}</td>
@@ -95,28 +94,27 @@ pageEncoding="UTF-8" %>
 								<td>${memberOut.validDays}</td>
 								<td>${cm:formatDate(memberOut.handleTime,'yyyy-MM-dd')}</td>
 								<td>${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}</td>
-                            <shiro:hasPermission name="memberOut:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberOut.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberOut.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberOut.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                        <button onclick="_check1(${memberOut.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberOut.status==MEMBER_OUT_STATUS_PARTY_VERIFY}">
+                                        <button onclick="_check2(${memberOut.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
                                     <shiro:hasPermission name="memberOut:edit">
                                     <button data-url="${ctx}/memberOut_au?id=${memberOut.id}" class="openView btn btn-mini">
-                                        <i class="fa fa-edit"></i> 编辑
+                                        <i class="fa fa-search"></i> 查看
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberOut:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberOut.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
                                 </div>
                             </td>
                         </tr>
@@ -150,6 +148,36 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function _deny(id, realname){
+        loadModal("${ctx}/memberOut_deny?id=" + id + "&realname="+realname);
+    }
+
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberOut_check1",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberOut_check2",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));

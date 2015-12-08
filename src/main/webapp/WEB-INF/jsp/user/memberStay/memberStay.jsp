@@ -1,0 +1,174 @@
+<%@ page import="sys.constants.SystemConstants" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: fafa
+  Date: 2015/12/7
+  Time: 13:39
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系暂留申请</h4>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <td>
+                        姓名
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.realname}
+                    </td>
+                    <td>
+                        学工号
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.code}
+                    </td>
+                    <td>
+                        性别
+                    </td>
+                    <td style="min-width: 80px">
+                       ${GENDER_MAP.get(memberStay.gender)}
+                    </td>
+                    <td>
+                        年龄
+                    </td>
+                    <td style="min-width: 120px">
+                        ${memberStay.age}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        民族
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.nation}
+                    </td>
+                    <td>
+                        政治面貌
+                    </td>
+                    <td style="min-width: 80px">
+                        ${MEMBER_POLITICAL_STATUS_MAP.get(memberStay.politicalStatus)}
+                    </td>
+                    <td>
+                        身份证号
+                    </td>
+                    <td style="min-width: 80px" colspan="3">
+                        ${memberStay.idcard}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        入党时间
+                    </td>
+                    <td style="min-width: 80px">
+                        ${cm:formatDate(memberStay.growTime,'yyyy-MM-dd')}
+                    </td>
+
+                    <td>
+                        留学国别
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.country}
+                    </td>
+                    <td>
+                        出国时间
+                    </td>
+                    <td style="min-width: 120px" colspan="3">
+                        ${cm:formatDate(memberStay.abroadTime,'yyyy-MM-dd')}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        预计回国时间
+                    </td>
+                    <td style="min-width: 80px">
+                        ${cm:formatDate(memberStay.returnTime,'yyyy-MM-dd')}
+                    </td>
+
+                    <td>
+                        党费缴纳至年月
+                    </td>
+                    <td style="min-width: 120px" >
+                        ${cm:formatDate(memberStay.payTime,'yyyy-MM-dd')}
+                    </td>
+
+                    <td>
+                        手机号码
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.mobile}
+                    </td>
+
+                    <td>
+                        电子邮箱
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.email}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        国内联系人姓名
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.contactName}
+                    </td>
+                    <td>
+                        国内联系人手机号码
+                    </td>
+                    <td style="min-width: 80px">
+                        ${memberStay.contactMobile}
+                    </td>
+                    <td>
+                        状态
+                    </td>
+                    <td style="min-width: 80px" colspan="3">
+                        ${MEMBER_STAY_STATUS_MAP.get(memberStay.status)}
+
+                            <c:if test="${memberStay.status==0}">
+                                <small>
+                                    <button class="btn btn-white btn-warning btn-mini" onclick="_applyBack()">
+                                        <i class="fa fa-undo"></i>
+                                        撤销
+                                    </button>
+                                </small>
+                            </c:if>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function _applyBack(){
+        bootbox.confirm("确定撤销申请吗？", function (result) {
+            if(result){
+                $.post("${ctx}/user/memberStay_back",function(ret){
+
+                    if(ret.success){
+                        bootbox.alert("撤销成功。",function(){
+                            _reload();
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>

@@ -209,6 +209,11 @@ public class BranchMemberController extends BaseController {
             record.setIsAdmin(!branchMember.getIsAdmin());
             branchMemberService.updateByPrimaryKeySelective(record);
 
+            if(branchMember.getIsAdmin())
+                sysUserService.removeRoleBranchAdmin(branchMember.getUserId());
+            else
+                sysUserService.addRoleBranchAdmin(branchMember.getUserId());
+
             String op = branchMember.getIsAdmin()?"删除":"添加";
             logger.info(addLog(request, SystemConstants.LOG_OW, "%s党支部委员管理员权限，memberId=%s", op, id));
         }

@@ -64,6 +64,8 @@ public class MemberIn implements Serializable {
 
     private String reason;
 
+    private Date createTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -304,5 +306,13 @@ public class MemberIn implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason == null ? null : reason.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

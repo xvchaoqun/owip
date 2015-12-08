@@ -1,9 +1,6 @@
 package service.sys;
 
-import domain.SysResource;
-import domain.SysRole;
-import domain.SysUser;
-import domain.SysUserExample;
+import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import persistence.SysUserMapper;
+import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
 
 import javax.transaction.Transactional;
@@ -27,6 +25,53 @@ public class SysUserService {
 	private SysRoleService sysRoleService;
 	@Autowired
 	private SysResourceService sysResourceService;
+	@Autowired
+	private EnterApplyService enterApplyService;
+
+	public void addRolePartyAdmin(int userId){
+
+		SysUser sysUser = findById(userId);
+		addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+	}
+
+	public void removeRolePartyAdmin(int userId){
+
+		SysUser sysUser = findById(userId);
+		delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+	}
+
+	public void addRoleBranchAdmin(int userId){
+
+		SysUser sysUser = findById(userId);
+		addRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
+	}
+
+	public void removeRoleBranchAdmin(int userId){
+
+		SysUser sysUser = findById(userId);
+		delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
+	}
+
+	public void changeRoleGuestToMember(int userId, String username){
+
+		// 更新系统角色  访客->党员
+		changeRole(userId, SystemConstants.ROLE_GUEST,
+				SystemConstants.ROLE_MEMBER, username);
+	}
+
+	public void changeRoleMemberToGuest(int userId){
+
+		SysUser sysUser = findById(userId);
+		// 更新系统角色  党员->访客
+		changeRole(userId, SystemConstants.ROLE_MEMBER,
+				SystemConstants.ROLE_GUEST, sysUser.getUsername());
+		// 撤回原申请
+		EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+		if(_enterApply!=null) {
+			enterApplyService.applyBack(userId, null, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+		}
+	}
+
 
 	public boolean idDuplicate(Integer id, String username, String code){
 
@@ -93,8 +138,11 @@ public class SysUserService {
 
 	@Transactional
 	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#oldUsername"),
+			@CacheEvict(value="Menus", key="#oldUsername"),
 			@CacheEvict(value="SysUser", key="#oldUsername"),
-			@CacheEvict(value="SysUser:ID", key="#id")
+			@CacheEvict(value="SysUser:ID", key="#id"),
+			@CacheEvict(value="UserPermissions", key="#oldUsername")
 	})
 	public int deleteByPrimaryKey(Integer id, String oldUsername){
 
@@ -118,8 +166,11 @@ public class SysUserService {
 	// 删除一个角色
 	@Transactional
 	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:ID", key="#userId")
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void delRole(int userId, String role, String username){
 
@@ -140,8 +191,11 @@ public class SysUserService {
 	// 添加一个角色
 	@Transactional
 	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:ID", key="#userId")
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void addRole(int userId, String role, String username){
 
@@ -166,8 +220,11 @@ public class SysUserService {
 	// 改变角色
 	@Transactional
 	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:ID", key="#userId")
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void changeRole(int userId, String role, String toRole, String username){
 

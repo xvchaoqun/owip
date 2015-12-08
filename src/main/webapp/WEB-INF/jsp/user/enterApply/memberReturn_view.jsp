@@ -6,45 +6,144 @@
 <div class="row">
   <div class="col-xs-12">
     <!-- PAGE CONTENT BEGINS -->
-    <ul class="steps">
-      <li data-step="1" class="active">
-        <span class="step">0</span>
-        <span class="title">申请已提交</span>
-      </li>
-      <c:if test="${memberApply.stage==-1}">
-      <li data-step="2" class="active">
-        <span class="step">1</span>
-        <span class="title">未通过申请</span>
-      </li>
-      </c:if>
+    <div class="col-xs-offset-1 col-xs-10" style="padding-top: 50px">
 
-      <li data-step="1" <c:if test="${memberApply.stage>0}">class="active"</c:if>>
-        <span class="step">1</span>
-        <span class="title">申请已通过</span>
-      </li>
-      <li data-step="2" <c:if test="${memberApply.stage>1}">class="active"</c:if>>
-        <span class="step">2</span>
-        <span class="title">入党积极分子</span>
-      </li>
+      <div class="page-header">
+        <h1>
+          <i class="fa fa-check-square-o"></i>
+          留学归国党员申请信息
+        </h1>
+      </div>
+      <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+          <div class="profile-info-name">  ${(user.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 
-      <li data-step="3" <c:if test="${memberApply.stage>2}">class="active"</c:if>>
-        <span class="step">3</span>
-        <span class="title">成为发展对象</span>
-      </li>
+          <div class="profile-info-value">
+            <span class="editable">${user.code}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 分党委 </div>
 
-      <li data-step="4" <c:if test="${memberApply.stage>3}">class="active"</c:if>>
-        <span class="step">4</span>
-        <span class="title">例入发展计划</span>
-      </li>
-      <li data-step="5" <c:if test="${memberApply.stage>4}">class="active"</c:if>>
-        <span class="step">5</span>
-        <span class="title">领取志愿书</span>
-      </li>
-      <li data-step="6" <c:if test="${memberApply.stage>5}">class="active"</c:if>>
-        <span class="step">6</span>
-        <span class="title">预备党员</span>
-      </li>
-    </ul>
+          <div class="profile-info-value">
+            <span class="editable" id="signup">${partyMap.get(memberReturn.partyId).name}</span>
+          </div>
+        </div>
+        <c:if test="${memberReturn.branchId>0}">
+          <div class="profile-info-row">
+            <div class="profile-info-name"> 党支部 </div>
 
+            <div class="profile-info-value">
+              <span class="editable" id="login">${branchMap.get(memberReturn.branchId).name}</span>
+            </div>
+          </div>
+        </c:if>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 提交书面申请书时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 确定为入党积极分子时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.activeTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 确定为发展对象时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.candidateTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 入党时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.growTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 转正时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.positiveTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 备注 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" id="about">${memberReturn.remark}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 提交时间 </div>
+
+          <div class="profile-info-value">
+            <span class="editable" >${cm:formatDate(memberReturn.createTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top: 50px">
+        <ul class="steps">
+          <li data-step="1" class="complete">
+            <span class="step">0</span>
+        <span class="title">申请已提交
+        <c:if test="${memberReturn.status==0}">
+          <small>
+            <button class="btn btn-white btn-warning btn-mini" onclick="_applyBack()">
+              <i class="fa fa-undo"></i>
+              撤销
+            </button>
+          </small>
+        </c:if>
+      </span>
+      <span class="subtitle">
+        ${cm:formatDate(memberReturn.createTime,'yyyy-MM-dd')}
+      </span>
+          </li>
+          <c:if test="${memberReturn.status==-1}">
+            <li data-step="2" class="active">
+              <span class="step">1</span>
+              <span class="title">未通过申请</span>
+            </li>
+          </c:if>
+<c:if test="${memberReturn.branchId>0}">
+          <li data-step="1" <c:if test="${memberReturn.status>0}">class="complete"</c:if>>
+            <span class="step">1</span>
+            <span class="title">党支部审核</span>
+
+          </li>
+  </c:if>
+          <li data-step="2" <c:if test="${memberReturn.status>1}">class="complete"</c:if>>
+            <span class="step">2</span>
+            <span class="title">分党委审核</span>
+
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+</div>
+<script>
+  function _applyBack(){
+    bootbox.confirm("确定撤销申请吗？", function (result) {
+      if(result){
+        $.post("${ctx}/user/applyBack",function(ret){
+
+          if(ret.success){
+            bootbox.alert("撤销成功。",function(){
+              location.reload();
+            });
+          }
+        });
+      }
+    });
+  }
+</script>

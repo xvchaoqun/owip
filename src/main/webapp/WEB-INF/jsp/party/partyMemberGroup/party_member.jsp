@@ -79,7 +79,7 @@
                         <td nowrap>
                             <c:if test="${partyMember.isAdmin}">
                                 <span class="label label-success arrowed-in arrowed-in-right">管理员</span>
-                            </c:if>${cm:getUserById(partyMember.userId).username}
+                            </c:if>${cm:getUserById(partyMember.userId).realname}
                         </td>
                         <td nowrap>${typeMap.get(partyMember.typeId).name}</td>
                         <shiro:hasPermission name="partyMember:changeOrder">

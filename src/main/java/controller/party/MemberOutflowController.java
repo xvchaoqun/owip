@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberOutflow;
-import domain.MemberOutflowExample;
+import domain.*;
 import domain.MemberOutflowExample.Criteria;
-import domain.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -135,6 +134,77 @@ public class MemberOutflowController extends BaseController {
         return "party/memberOutflow/memberOutflow_page";
     }
 
+    @RequiresPermissions("memberOutflow:update")
+    @RequestMapping(value = "/memberOutflow_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOutflow_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                    Integer id, String remark) {
+
+        //操作人应是申请人所在党支部或直属党支部管理员
+        int loginUserId = loginUser.getId();
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        Integer branchId = memberOutflow.getBranchId();
+        Integer partyId = memberOutflow.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        memberOutflowService.deny(memberOutflow.getUserId());
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberOutflow:update")
+    @RequestMapping(value = "/memberOutflow_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOutflow_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在党支部或直属党支部管理员
+        int loginUserId = loginUser.getId();
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        Integer branchId = memberOutflow.getBranchId();
+        Integer partyId = memberOutflow.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+            memberOutflowService.check2(memberOutflow.getUserId(), true);
+            logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请：%s", id));
+        }else {
+            memberOutflowService.check1(memberOutflow.getUserId());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberOutflow:update")
+    @RequestMapping(value = "/memberOutflow_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOutflow_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        int loginUserId = loginUser.getId();
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        Integer partyId = memberOutflow.getPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberOutflowService.check2(memberOutflow.getUserId(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("memberOutflow:edit")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
@@ -156,11 +226,21 @@ public class MemberOutflowController extends BaseController {
         if(record.getBranchId()!=null) {
             record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
         }
+        Integer userId = record.getUserId();
+        SysUser sysUser = sysUserService.findById(userId);
+        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
+            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
+        else
+            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
 
         if (id == null) {
+            record.setCreateTime(new Date());
+            record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+
             memberOutflowService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加流出党员：%s", record.getId()));
         } else {
+            record.setStatus(null);// 不修改状态
 
             memberOutflowService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新流出党员：%s", record.getId()));

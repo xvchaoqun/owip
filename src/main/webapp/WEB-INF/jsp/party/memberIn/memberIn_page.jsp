@@ -6,6 +6,8 @@ pageEncoding="UTF-8" %>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="MEMBER_IN_STATUS_MAP" value="<%=SystemConstants.MEMBER_IN_STATUS_MAP%>"/>
+<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_IN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -85,16 +87,12 @@ pageEncoding="UTF-8" %>
 							<th>介绍信有效期天数</th>
 							<th>转出办理时间</th>
 							<th>状态</th>
-                        <shiro:hasPermission name="memberIn:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${memberIns}" var="memberIn" varStatus="st">
+                        <c:set value="${cm:getUserById(memberIn.userId)}" var="_sysUser"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -102,35 +100,36 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberIn.userId).realname}</td>
+								<td>${_sysUser.realname}</td>
 								<td>${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</td>
 								<td>${memberIn.fromUnit}</td>
 								<td>${memberIn.fromTitle}</td>
 								<td>${memberIn.validDays}</td>
 								<td>${cm:formatDate(memberIn.fromHandleTime,'yyyy-MM-dd')}</td>
 								<td>${MEMBER_IN_STATUS_MAP.get(memberIn.status)}</td>
-                            <shiro:hasPermission name="memberIn:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberIn.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberIn.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${memberIn.status==MEMBER_IN_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberIn.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                        <button onclick="_check1(${memberIn.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberIn.status==MEMBER_IN_STATUS_PARTY_VERIFY}">
+                                        <button onclick="_check2(${memberIn.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
+                                    
                                     <shiro:hasPermission name="memberIn:edit">
                                     <button data-url="${ctx}/memberIn_au?id=${memberIn.id}" class="openView btn btn-mini" data-width="1000">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberIn:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberIn.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
+                                    
                                 </div>
 
                             </td>
@@ -165,6 +164,35 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function _deny(id, realname){
+        loadModal("${ctx}/memberIn_deny?id=" + id + "&realname="+realname);
+    }
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberIn_check1",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberIn_check2",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 

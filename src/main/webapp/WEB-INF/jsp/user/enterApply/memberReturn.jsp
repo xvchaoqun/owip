@@ -3,7 +3,7 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-
+<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
     <div class="page-header">
       <h1>
         留学归国申请恢复组织生活
@@ -12,12 +12,9 @@
     <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/user/memberReturn">
       <input type="hidden" name="id" value="${memberReturn.id}">
       <div class="form-group">
-        <label class="col-xs-3 control-label">用户</label>
-        <div class="col-xs-6">
-          <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
-                  name="userId" data-placeholder="请输入账号或姓名或学工号">
-            <option value="${sysUser.id}">${sysUser.realname}</option>
-          </select>
+        <label class="col-sm-3 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+        <div class="col-sm-9">
+          <input readonly disabled type="text" value="${user.code}" />
         </div>
       </div>
       <div class="form-group">
@@ -29,28 +26,55 @@
               <option value="${cls.key}">${cls.value.name}</option>
             </c:forEach>
           </select>
+          <script>
+            $("#modalForm select[name=classId]").val("${party.classId}")
+          </script>
         </div>
       </div>
-      <div class="form-group"  id="party" style="display: none;" >
+      <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
         <div class="col-sm-offset-3 col-sm-9">
           <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                   name="partyId" data-placeholder="请选择分党委">
-            <option></option>
+            <option value="${party.id}">${party.name}</option>
           </select>
         </div>
       </div>
-      <div class="form-group" id="branch" style="display: none;" >
+      <div class="form-group" id="branch" style="${empty branch?'display: none;':''}" >
         <div class="col-sm-offset-3 col-sm-9">
           <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                   name="branchId" data-placeholder="请选择党支部">
-            <option></option>
+            <option value="${branch.id}">${branch.name}</option>
           </select>
         </div>
       </div>
       <script>
         register_class_party_branch_select($("#modalForm"), "party", "branch",
-                '${cm:getMetaTypeByCode("mt_direct_branch").id}')
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}')
       </script>
+      <div class="form-group">
+        <label class="col-xs-3 control-label">政治面貌</label>
+        <div class="col-xs-6">
+          <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+            <option></option>
+            <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+              <option value="${_status.key}">${_status.value}</option>
+            </c:forEach>
+          </select>
+          <script>
+            $("#modalForm select[name=politicalStatus]").val(${memberReturn.politicalStatus});
+          </script>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-3 control-label">提交书面申请书时间</label>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <input required class="form-control date-picker" name="_applyTime" type="text"
+                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}" />
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <label class="col-xs-3 control-label">确定为入党积极分子时间</label>
         <div class="col-xs-6">
@@ -114,9 +138,8 @@
       </div>
       </form>
       <script>
-        register_user_select($('select[name=userId]'));
         register_date($('.date-picker'));
-
+        $('#modalForm [data-rel="select2"]').select2();
         $("form").validate({
           submitHandler: function (form) {
             if(!$("#party").is(":hidden")){

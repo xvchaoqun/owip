@@ -5,6 +5,8 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
     <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberTransfer_au" id="modalForm" method="post">
@@ -201,11 +203,18 @@ pageEncoding="UTF-8"%>
 			</div>
 				</div></div>
     </form>
-<div class="modal-footer">
-    <a href="#"  class="closeView btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
-</div>
 
+<c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
+	<div class="modal-footer">
+		<a href="#" class="btn btn-default closeView">取消</a>
+		<input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
+	</div>
+</c:if>
+<c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
+	<div class="modal-footer">
+		<a href="#" class="btn btn-default closeView">返回</a>
+	</div>
+</c:if>
 <script>
 
 	$('textarea.limited').inputlimiter();

@@ -5,6 +5,24 @@
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="MEMBER_IN_STATUS_BACK" value="<%=SystemConstants.MEMBER_IN_STATUS_BACK%>"/>
+<c:if test="${memberIn.status==MEMBER_IN_STATUS_BACK}">
+  <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">
+      <i class="ace-icon fa fa-times"></i>
+    </button>
+    <strong>
+      <i class="ace-icon fa fa-times"></i>
+      返回修改
+    </strong>
+    <c:if test="${not empty memberIn.reason}">
+      :${memberIn.reason}
+    </c:if>
+
+    <br>
+  </div>
+</c:if>
     <div class="page-header">
       <h1>
         组织关系转入
@@ -15,12 +33,9 @@
   <div class="row">
     <div class="col-xs-4">
       <div class="form-group">
-        <label class="col-xs-5 control-label">用户</label>
-        <div class="col-xs-6">
-          <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
-                  name="userId" data-placeholder="请输入账号或姓名或学工号">
-            <option value="${sysUser.id}">${sysUser.realname}</option>
-          </select>
+        <label class="col-sm-5 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+        <div class="col-sm-6">
+          <input readonly disabled type="text" value="${user.code}" />
         </div>
       </div>
       <div class="form-group">
@@ -46,7 +61,7 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">年龄</label>
         <div class="col-xs-6">
-          <input required class="form-control digits" type="text" name="age" value="${memberIn.age}">
+          <input required class="form-control digits" type="text" data-rule-min="18" data-rule-max="100" name="age" value="${memberIn.age}">
         </div>
       </div>
       <div class="form-group">
@@ -266,18 +281,11 @@
 </form>
       <script>
         $('#modalForm [data-rel="select2"]').select2();
-        register_user_select($('select[name=userId]'));
         register_date($('.date-picker'));
 
         $("form").validate({
           submitHandler: function (form) {
-            if(!$("#party").is(":hidden")){
-              if($('select[name=partyId]').val()=='') {
-                bootbox.alert("请选择分党委。");
-                return;
-              }
-            }
-            if(!$("#branch").is(":hidden")){
+            if(!$("#branchDiv").is(":hidden")){
               if($('select[name=branchId]').val()=='') {
                 bootbox.alert("请选择支部。");
                 return;

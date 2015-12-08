@@ -17,21 +17,24 @@ pageEncoding="UTF-8"%>
                         <option value="${cls.key}">${cls.value.name}</option>
                     </c:forEach>
                 </select>
+                <script>
+                    $("#modalForm select[name=classId]").val("${party.classId}")
+                </script>
             </div>
         </div>
-        <div class="form-group"  id="party" style="display: none;" >
+        <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                         name="partyId" data-placeholder="请输入分党委名称">
-                    <option></option>
+                    <option value="${party.id}">${party.name}</option>
                 </select>
             </div>
         </div>
-        <div class="form-group" id="branch" style="display: none;" >
+        <div class="form-group" id="branch" style="${empty branch?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                         name="branchId" data-placeholder="请输入支部名称">
-                    <option></option>
+                    <option value="${branch.id}">${branch.name}</option>
                 </select>
             </div>
         </div>
@@ -44,48 +47,9 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-    $('#modalForm [data-rel="select2"]').select2({width:200}).on("change", function () {
-        if($(this).val()>0){
-            $("#party").show();
-        }else{
-            $('#modalForm select[name=partyId]').val(null).trigger("change");
-            $('#modalForm select[name=branchId]').val(null).trigger("change");
-            $("#party, #branch").hide();
-        }
-    });
+    register_class_party_branch_select($("#modalForm"), "party", "branch",
+            '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
 
-    $('#modalForm [data-rel="select2-ajax"]').select2({
-        width:400,
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page,
-                    classId: $('select[name=classId]').val()
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
-
-    $('#modalForm select[name=partyId]').on("change", function () {
-
-        if($(this).val()>0 && $('select[name=classId]').val()!='${cm:getMetaTypeByCode("mt_direct_branch").id}'){
-            $("#branch").show();
-        }else{
-            $('#modalForm select[name=branchId]').val(null).trigger("change");
-            $("#branch").hide();
-        }
-    });
     $("#modalForm").validate({
         submitHandler: function (form) {
             if(!$("#party").is(":hidden")){

@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">年龄</label>
 						<div class="col-xs-6">
-							<input required class="form-control digits" type="text" name="age" value="${memberIn.age}">
+							<input required class="form-control digits" data-rule-min="18" data-rule-max="100" type="text" name="age" value="${memberIn.age}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -250,12 +250,6 @@ pageEncoding="UTF-8"%>
 								<input name="hasReceipt" ${memberIn.hasReceipt?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
 								<span class="lbl"></span>
 							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">返回修改原因</label>
-						<div class="col-xs-6">
-							<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberIn.reason}</textarea>
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,8 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -81,7 +83,7 @@ pageEncoding="UTF-8" %>
 								<td>${applyOpenTime.isGlobal?"--":applyOpenTime.partyId}</td>
 								<td>${cm:formatDate(applyOpenTime.startTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(applyOpenTime.endTime,'yyyy-MM-dd')}</td>
-								<td>${applyTypeMap.get(applyOpenTime.type)}</td>
+								<td>${APPLY_STAGE_MAP.get(applyOpenTime.type)}</td>
 								<td>${applyOpenTime.isGlobal?"是":"否"}</td>
                             <shiro:hasPermission name="applyOpenTime:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">

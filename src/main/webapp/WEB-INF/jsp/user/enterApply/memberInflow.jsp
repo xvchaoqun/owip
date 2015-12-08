@@ -14,26 +14,9 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="form-group">
-        <label class="col-xs-4 control-label">用户</label>
-        <div class="col-xs-6">
-          <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
-                  name="userId" data-placeholder="请输入账号或姓名或学工号">
-            <option value="${sysUser.id}">${sysUser.realname}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-4 control-label">类别</label>
-        <div class="col-xs-6">
-          <select required data-rel="select2" name="type" data-placeholder="请选择类别">
-            <option></option>
-            <c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-              <option value="${_type.key}">${_type.value}</option>
-            </c:forEach>
-          </select>
-          <script>
-            $("#modalForm select[name=type]").val(${memberInflow.type});
-          </script>
+        <label class="col-sm-4 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+        <div class="col-sm-6">
+          <input readonly disabled type="text" value="${user.code}" />
         </div>
       </div>
 
@@ -67,7 +50,7 @@
             <c:import url="/metaTypes?__code=mc_job"/>
           </select>
           <script type="text/javascript">
-            $("#modal form select[name=originalJob]").val(${memberInflow.originalJob});
+            $("#modalForm select[name=originalJob]").val("${memberInflow.originalJob}");
           </script>
         </div>
       </div>
@@ -115,29 +98,7 @@
           <input required class="form-control" type="text" name="orLocation" value="${memberInflow.orLocation}">
         </div>
       </div>
-      <div class="form-group">
-        <label class="col-xs-4 control-label">转出单位</label>
-        <div class="col-xs-6">
-          <input required class="form-control" type="text" name="outflowUnit" value="${memberInflow.outflowUnit}">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-4 control-label">转出地</label>
-        <div class="col-xs-6" id="loc_province_container2">
-          <select required class="loc_province" name="outflowLocation" style="width:120px;" data-placeholder="请选择">
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-4 control-label">转出时间</label>
-        <div class="col-xs-6">
-          <div class="input-group">
-            <input required class="form-control date-picker" name="_outflowTime" type="text"
-                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberInflow.outflowTime,'yyyy-MM-dd')}" />
-            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-          </div>
-        </div>
-      </div>
+
       <div class="form-group">
         <label class="col-xs-4 control-label">是否持有《中国共产党流动党员活动证》</label>
         <div class="col-xs-6">
@@ -168,18 +129,12 @@
       <script>
         showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
         showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
-        register_user_select($('select[name=userId]'));
         register_date($('.date-picker'));
         $('#modalForm [data-rel="select2"]').select2();
         $("form").validate({
           submitHandler: function (form) {
-            if(!$("#party").is(":hidden")){
-              if($('select[name=partyId]').val()=='') {
-                bootbox.alert("请选择分党委。");
-                return;
-              }
-            }
-            if(!$("#branch").is(":hidden")){
+
+            if(!$("#branchDiv").is(":hidden")){
               if($('select[name=branchId]').val()=='') {
                 bootbox.alert("请选择支部。");
                 return;

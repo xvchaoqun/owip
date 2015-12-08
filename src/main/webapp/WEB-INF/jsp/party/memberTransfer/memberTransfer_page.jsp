@@ -4,6 +4,9 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_APPLY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -68,11 +71,6 @@ pageEncoding="UTF-8" %>
 							<th>转出单位</th>
 							<th>转出办理时间</th>
 							<th>状态</th>
-                        <shiro:hasPermission name="memberTransfer:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -91,28 +89,27 @@ pageEncoding="UTF-8" %>
 								<td>${memberTransfer.fromUnit}</td>
 								<td>${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}</td>
 								<td>${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}</td>
-                            <shiro:hasPermission name="memberTransfer:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberTransfer.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberTransfer.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberTransfer.id})" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                        <button onclick="_check1(${memberTransfer.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_FROM_VERIFY}">
+                                        <button onclick="_check2(${memberTransfer.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
                                     <shiro:hasPermission name="memberTransfer:edit">
                                     <button data-url="${ctx}/memberTransfer_au?id=${memberTransfer.id}" class="openView btn btn-mini" data-width="1000">
-                                        <i class="fa fa-edit"></i> 编辑
+                                        <i class="fa fa-search"></i> 查看
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberTransfer:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberTransfer.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
@@ -181,6 +178,44 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    function _deny(id){
+        bootbox.confirm("确定拒绝该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberTransfer_deny",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberTransfer_check1",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberTransfer_check2",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));

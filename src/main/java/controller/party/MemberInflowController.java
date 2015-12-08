@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberInflow;
-import domain.MemberInflowExample;
+import domain.*;
 import domain.MemberInflowExample.Criteria;
-import domain.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -136,7 +135,9 @@ public class MemberInflowController extends BaseController {
     @RequiresPermissions("memberInflow:edit")
     @RequestMapping(value = "/memberInflow_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow_au(MemberInflow record, String _flowTime, String _growTime, String _outflowTime, HttpServletRequest request) {
+    public Map do_memberInflow_au(MemberInflow record,
+                                  String _flowTime, String _growTime, String _outflowTime,
+                                  HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -164,13 +165,85 @@ public class MemberInflowController extends BaseController {
         }
 
         if (id == null) {
-            memberInflowService.insertSelective(record);
+            enterApplyService.memberInflow(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加流入党员：%s", record.getId()));
         } else {
 
             memberInflowService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新流入党员：%s", record.getId()));
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    @RequiresPermissions("memberInflow:update")
+    @RequestMapping(value = "/memberInflow_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberInflow_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                    Integer id, String remark) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        Integer branchId = memberInflow.getBranchId();
+        Integer partyId = memberInflow.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        enterApplyService.applyBack(memberInflow.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流入党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberInflow:update")
+    @RequestMapping(value = "/memberInflow_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberInflow_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //该支部管理员应是申请人所在党支部或直属党支部
+        int loginUserId = loginUser.getId();
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        Integer branchId = memberInflow.getBranchId();
+        Integer partyId = memberInflow.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+
+        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+            memberInflowService.addMember(memberInflow.getUserId(), true);
+            logger.info(addLog(request, SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
+        }else {
+            memberInflowService.checkMember(memberInflow.getUserId());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "审核流入党员申请：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberInflow:update")
+    @RequestMapping(value = "/memberInflow_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberInflow_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        int loginUserId = loginUser.getId();
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        Integer partyId = memberInflow.getPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberInflowService.addMember(memberInflow.getUserId(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

@@ -21,16 +21,16 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="ow_enter_apply" domainObjectName="EnterApply">
-      </table>
+    <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
+      </table>-->
 
       <!--<table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
       </table>-->
-      <!-- <table tableName="ow_member_stay" domainObjectName="MemberStay">
+       <table tableName="ow_member_stay" domainObjectName="MemberStay">
        </table>
-       <table tableName="ow_member_in" domainObjectName="MemberIn">
-       </table>
-       <table tableName="ow_member_out" domainObjectName="MemberOut">
+       <!--<table tableName="ow_member_in" domainObjectName="MemberIn">
+       </table>-->
+        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
        </table>-->
       <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->

@@ -1,9 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.Member;
 import domain.MemberStay;
 import domain.MemberStayExample;
 import domain.MemberStayExample.Criteria;
+import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,7 +13,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -104,6 +109,65 @@ public class MemberStayController extends BaseController {
         return "party/memberStay/memberStay_page";
     }
 
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping("/memberStay_deny")
+    public String memberStay_deny() {
+
+        return "party/memberStay/memberStay_deny";
+    }
+
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping(value = "/memberStay_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberStay_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                 Integer id, String reason) {
+
+        //操作人应是申请人所在分党委管理员
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        Member member = memberService.get(memberStay.getUserId());
+        Integer partyId = member.getPartyId();
+        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberStayService.deny(member.getUserId(), reason);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝暂留申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping(value = "/memberStay_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberStay_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        Member member = memberService.get(memberStay.getUserId());
+        Integer partyId = member.getPartyId();
+        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberStayService.check1(member.getUserId());
+        logger.info(addLog(request, SystemConstants.LOG_OW, "审核暂留申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping(value = "/memberStay_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberStay_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+
+        memberStayService.check2(memberStay.getUserId(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过暂留申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
@@ -128,9 +192,11 @@ public class MemberStayController extends BaseController {
         if(StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }
-
+        Integer userId = record.getUserId();
+        SysUser sysUser = sysUserService.findById(userId);
+        record.setCode(sysUser.getCode());
         if (id == null) {
-
+            record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
             memberStayService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加公派留学生党员申请组织关系暂留：%s", record.getId()));
@@ -150,6 +216,8 @@ public class MemberStayController extends BaseController {
         if (id != null) {
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
             modelMap.put("memberStay", memberStay);
+
+            modelMap.put("sysUser", sysUserService.findById(memberStay.getUserId()));
         }
         return "party/memberStay/memberStay_au";
     }

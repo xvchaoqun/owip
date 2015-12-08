@@ -299,3 +299,24 @@ br.xs-100 {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+/*steps*/
+.steps .subtitle{
+    color: #336199;
+    font-size: 6pt;
+}
+
+.profile-info-name{
+    width: 200px;
+}
+
+#item-content .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color:inherit;
+}
+#item-content .table tbody tr:hover td, .table tbody tr:hover th {
+    background-color:transparent;
+}
+#item-content .table-striped > tbody > tr > td:nth-of-type(odd) {
+    background-color: #f9f9f9;
+    text-align: right;
+}

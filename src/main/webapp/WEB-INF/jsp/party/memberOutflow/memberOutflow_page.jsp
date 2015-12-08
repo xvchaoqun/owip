@@ -4,6 +4,10 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
 
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
@@ -72,6 +76,8 @@ pageEncoding="UTF-8" %>
 							<th>流出原因</th>
 							<th>是否持有《中国共产党流动党员活动证》</th>
 							<th>组织关系状态</th>
+							<th>状态</th>
+							<th>申请时间</th>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -98,18 +104,30 @@ pageEncoding="UTF-8" %>
 								<td>${memberOutflow.reason}</td>
 								<td>${memberOutflow.hasPapers?"是":"否"}</td>
 								<td>${OR_STATUS_MAP.get(memberOutflow.orStatus)}</td>
+								<td>${MEMBER_OUTFLOW_STATUS_MAP.get(memberOutflow.status)}</td>
+                                <td>${cm:formatDate(memberOutflow.createTime,'yyyy-MM-dd HH:mm')}</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberOutflow.id})" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                        <button onclick="_check1(${memberOutflow.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}">
+                                        <button onclick="_check2(${memberOutflow.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
                                     <shiro:hasPermission name="memberOutflow:edit">
                                     <button onclick="_au(${memberOutflow.id})" class="btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberOutflow:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${memberOutflow.id})">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -137,6 +155,43 @@ pageEncoding="UTF-8" %>
             </c:if>
 <script>
 
+    function _deny(id){
+        bootbox.confirm("确定拒绝该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberOutflow_deny",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberOutflow_check1",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberOutflow_check2",{id:id},function(ret){
+                    if(ret.success){
+                        _reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    
     function _au(id) {
         url = "${ctx}/memberOutflow_au?cadreId=${param.cadreId}";
         if (id > 0)  url += "&id=" + id;

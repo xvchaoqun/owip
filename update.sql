@@ -1,4 +1,38 @@
 
+##12.6
+## 访客->群众
+ALTER TABLE `ow_member_apply`
+	ADD COLUMN `pass_time` DATE NULL COMMENT '通过时间' AFTER `stage`;
+
+ALTER TABLE `ow_member_return`
+	ADD COLUMN `apply_time` DATE NULL DEFAULT NULL COMMENT '提交书面申请书时间' AFTER `branch_id`;
+
+ALTER TABLE `ow_member_return`
+	CHANGE COLUMN `status` `status` TINYINT(4) NULL DEFAULT NULL COMMENT '状态，-1不通过（管理员或本人撤销） 0申请 1支部审核 2分党委审核' AFTER `positive_time`;
+
+ALTER TABLE `ow_member_return`
+	ADD COLUMN `political_status` TINYINT UNSIGNED NOT NULL COMMENT '状态，1预备 2正式' AFTER `positive_time`;
+
+ALTER TABLE `ow_member_in`
+	ADD COLUMN `create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间' AFTER `reason`;
+
+ALTER TABLE `ow_member_inflow`
+	ADD COLUMN `create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间' AFTER `outflow_status`;
+
+	ALTER TABLE `ow_member_outflow`
+	ADD COLUMN `status` TINYINT(4) NULL DEFAULT NULL COMMENT '流出状态，-1不通过 0申请 1党支部审核 2分党委审核' AFTER `or_status`,
+	ADD COLUMN `create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间' AFTER `status`;
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `apply_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间' AFTER `reason`;
+
+	ALTER TABLE `ow_member_transfer`
+	ADD COLUMN `apply_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间' AFTER `reason`;
+
+	ALTER TABLE `ow_member_transfer`
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-2本人撤回 -1返回修改 0申请 1转出分党委审批 2转入分党委审批' AFTER `from_handle_time`;
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `apply_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间' AFTER `reason`;
 ###12.4
 ALTER TABLE `ow_member_inflow`
 	ADD COLUMN `inflow_status` TINYINT NULL DEFAULT NULL COMMENT '流入状态，-1不通过 0申请 1党支部审核 2分党委审核' AFTER `or_location`,

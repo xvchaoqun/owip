@@ -6,10 +6,12 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="apply_time" property="applyTime" jdbcType="DATE" />
     <result column="active_time" property="activeTime" jdbcType="DATE" />
     <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="positive_time" property="positiveTime" jdbcType="DATE" />
+    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, active_time, candidate_time, grow_time, positive_time, 
-    status, remark, create_time
+    id, user_id, party_id, branch_id, apply_time, active_time, candidate_time, grow_time, 
+    positive_time, political_status, status, remark, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberReturnExample" >
     select
@@ -108,13 +110,15 @@
   </delete>
   <insert id="insert" parameterType="domain.MemberReturn" >
     insert into ow_member_return (id, user_id, party_id, 
-      branch_id, active_time, candidate_time, 
-      grow_time, positive_time, status, 
-      remark, create_time)
+      branch_id, apply_time, active_time, 
+      candidate_time, grow_time, positive_time, 
+      political_status, status, remark, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
-      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
+      #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberReturn" >
     insert into ow_member_return
@@ -131,6 +135,9 @@
       <if test="branchId != null" >
         branch_id,
       </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
       <if test="activeTime != null" >
         active_time,
       </if>
@@ -142,6 +149,9 @@
       </if>
       <if test="positiveTime != null" >
         positive_time,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
       </if>
       <if test="status != null" >
         status,
@@ -166,6 +176,9 @@
       <if test="branchId != null" >
         #{branchId,jdbcType=INTEGER},
       </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=DATE},
+      </if>
       <if test="activeTime != null" >
         #{activeTime,jdbcType=DATE},
       </if>
@@ -177,6 +190,9 @@
       </if>
       <if test="positiveTime != null" >
         #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
@@ -210,6 +226,9 @@
       <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.applyTime != null" >
+        apply_time = #{record.applyTime,jdbcType=DATE},
+      </if>
       <if test="record.activeTime != null" >
         active_time = #{record.activeTime,jdbcType=DATE},
       </if>
@@ -221,6 +240,9 @@
       </if>
       <if test="record.positiveTime != null" >
         positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.politicalStatus != null" >
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
@@ -242,10 +264,12 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      apply_time = #{record.applyTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
       grow_time = #{record.growTime,jdbcType=DATE},
       positive_time = #{record.positiveTime,jdbcType=DATE},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -265,6 +289,9 @@
       <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
       </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=DATE},
+      </if>
       <if test="activeTime != null" >
         active_time = #{activeTime,jdbcType=DATE},
       </if>
@@ -276,6 +303,9 @@
       </if>
       <if test="positiveTime != null" >
         positive_time = #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        political_status = #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
@@ -294,10 +324,12 @@
     set user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      apply_time = #{applyTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},
       grow_time = #{growTime,jdbcType=DATE},
       positive_time = #{positiveTime,jdbcType=DATE},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}

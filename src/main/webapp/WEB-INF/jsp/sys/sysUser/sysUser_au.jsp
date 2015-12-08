@@ -36,9 +36,7 @@
 
 				</div>
 			</div>
-
 		</div>
-		<div class="form-group"><div class="col-xs-offset-4">“其他”类型不可以申请入党</div></div>
     	<div class="form-group">
           <label class="col-xs-3 control-label">学工号</label>
           <div class="col-xs-6">

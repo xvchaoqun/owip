@@ -108,9 +108,17 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                     <c:if test="${cls==4}">
+                                        <c:set var="retireApply" value="${cm:getRetireApply(memberTeacher.userId)}"/>
+                                        <c:if test="${retireApply.status!=0}">
                                         <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-mini">
-                                            <i class="fa fa-edit"></i> 党员退休
+                                            <i class="fa fa-edit"></i> 提交党员退休
                                         </button>
+                                        </c:if>
+                                        <c:if test="${retireApply.status==0}">
+                                            <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-success btn-mini">
+                                                <i class="fa fa-check"></i> 审核党员退休
+                                            </button>
+                                        </c:if>
                                     </c:if>
                                 </div>
                             </td>

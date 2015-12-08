@@ -12,6 +12,8 @@ public class MemberReturn implements Serializable {
 
     private Integer branchId;
 
+    private Date applyTime;
+
     private Date activeTime;
 
     private Date candidateTime;
@@ -19,6 +21,8 @@ public class MemberReturn implements Serializable {
     private Date growTime;
 
     private Date positiveTime;
+
+    private Byte politicalStatus;
 
     private Byte status;
 
@@ -60,6 +64,14 @@ public class MemberReturn implements Serializable {
         this.branchId = branchId;
     }
 
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
+    }
+
     public Date getActiveTime() {
         return activeTime;
     }
@@ -90,6 +102,14 @@ public class MemberReturn implements Serializable {
 
     public void setPositiveTime(Date positiveTime) {
         this.positiveTime = positiveTime;
+    }
+
+    public Byte getPoliticalStatus() {
+        return politicalStatus;
+    }
+
+    public void setPoliticalStatus(Byte politicalStatus) {
+        this.politicalStatus = politicalStatus;
     }
 
     public Byte getStatus() {

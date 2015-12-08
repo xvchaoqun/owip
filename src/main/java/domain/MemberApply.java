@@ -20,6 +20,8 @@ public class MemberApply implements Serializable {
 
     private Byte stage;
 
+    private Date passTime;
+
     private Date activeTime;
 
     private Date candidateTime;
@@ -110,6 +112,14 @@ public class MemberApply implements Serializable {
 
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public Date getPassTime() {
+        return passTime;
+    }
+
+    public void setPassTime(Date passTime) {
+        this.passTime = passTime;
     }
 
     public Date getActiveTime() {

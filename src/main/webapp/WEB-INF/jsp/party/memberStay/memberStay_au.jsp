@@ -4,6 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
     <h3><c:if test="${memberStay!=null}">编辑</c:if><c:if test="${memberStay==null}">添加</c:if>公派留学生党员申请组织关系暂留</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberStay_au" id="modalForm" method="post">
@@ -154,19 +155,25 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-6 control-label">修改原因</label>
 				<div class="col-xs-6">
-					<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberStay.reason}</textarea>
+					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberStay.reason}</textarea>
 				</div>
 			</div>
 				</div>
 			</div>
     </form>
-<div class="modal-footer">
-    <a href="#" class="closeView btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberStay!=null}">确定</c:if><c:if test="${memberStay==null}">添加</c:if>"/>
-</div>
+<c:if test="${memberStay.status!=MEMBER_STAY_STATUS_OW_VERIFY}">
+	<div class="modal-footer">
+		<a href="#" class="btn btn-default closeView">取消</a>
+		<input type="submit" class="btn btn-primary" value="<c:if test="${memberStay!=null}">确定</c:if><c:if test="${memberStay==null}">添加</c:if>"/>
+	</div>
+</c:if>
+<c:if test="${memberStay.status==MEMBER_STAY_STATUS_OW_VERIFY}">
+	<div class="modal-footer">
+		<a href="#" class="btn btn-default closeView">返回</a>
+	</div>
+</c:if>
 
 <script>
-
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
 	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});

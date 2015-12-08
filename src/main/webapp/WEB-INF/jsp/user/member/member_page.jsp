@@ -1,0 +1,52 @@
+<%@ page import="sys.constants.SystemConstants" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+	<div class="modal-body">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="widget-box transparent" id="view-box">
+			<div class="widget-header">
+				<h4 class="widget-title lighter smaller">
+					&nbsp;
+				</h4>
+
+				<div class="widget-toolbar no-border">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="javascript:;" data-url="${ctx}/user/member_base">基本信息</a>
+						</li>
+						<li>
+							<a href="javascript:;" data-url="${ctx}/user/memberOutflow">党员流出</a>
+						</li>
+						<c:if test="${user.type==USER_TYPE_JZG}">
+						<li>
+							<a href="javascript:;" data-url="${ctx}/user/retireApply">党员退休</a>
+						</li>
+						</c:if>
+						<li>
+							<a href="javascript:;" data-url="${ctx}/user/memberOut">组织关系转出</a>
+						</li>
+						<li>
+							<a href="javascript:;" data-url="${ctx}/user/memberTransfer">校内组织关系转接</a>
+						</li>
+						<li>
+							<a href="javascript:;" data-url="${ctx}/user/memberStay">公派留学生党员申请</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="widget-body">
+				<div class="widget-main padding-4">
+					<div class="tab-content padding-8" id="item-content">
+						<c:import url="/user/member_base"/>
+					</div>
+				</div><!-- /.widget-main -->
+			</div><!-- /.widget-body -->
+		</div><!-- /.widget-box -->
+	</div>
+<script>
+	function _reload(){
+		$("#view-box .nav-tabs li.active a").click();
+	}
+</script>

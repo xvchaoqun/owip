@@ -372,6 +372,66 @@ public class MemberReturnExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyTimeIsNull() {
+            addCriterion("apply_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeIsNotNull() {
+            addCriterion("apply_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("apply_time =", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("apply_time <>", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("apply_time >", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("apply_time >=", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeLessThan(Date value) {
+            addCriterionForJDBCDate("apply_time <", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("apply_time <=", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("apply_time in", values, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("apply_time not in", values, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("apply_time between", value1, value2, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("apply_time not between", value1, value2, "applyTime");
+            return (Criteria) this;
+        }
+
         public Criteria andActiveTimeIsNull() {
             addCriterion("active_time is null");
             return (Criteria) this;
@@ -609,6 +669,66 @@ public class MemberReturnExample {
 
         public Criteria andPositiveTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("positive_time not between", value1, value2, "positiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusIsNull() {
+            addCriterion("political_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusIsNotNull() {
+            addCriterion("political_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusEqualTo(Byte value) {
+            addCriterion("political_status =", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusNotEqualTo(Byte value) {
+            addCriterion("political_status <>", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusGreaterThan(Byte value) {
+            addCriterion("political_status >", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("political_status >=", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusLessThan(Byte value) {
+            addCriterion("political_status <", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("political_status <=", value, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusIn(List<Byte> values) {
+            addCriterion("political_status in", values, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusNotIn(List<Byte> values) {
+            addCriterion("political_status not in", values, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusBetween(Byte value1, Byte value2) {
+            addCriterion("political_status between", value1, value2, "politicalStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("political_status not between", value1, value2, "politicalStatus");
             return (Criteria) this;
         }
 

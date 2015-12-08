@@ -3,10 +3,13 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="ENTER_APPLY_STATUS_MAP" value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>"/>
+<c:set var="ENTER_APPLY_TYPE_MAP" value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>"/>
 <div class="row">
   <div class="col-xs-12">
     <div id="body-content">
-      <div class="col-xs-10 col-xs-offset-1" style="padding-top: 50px;">
+      <div class="col-xs-12" style="padding-top: 50px;">
+        <div class="${fn:length(applyList)>0?"col-xs-8":"col-xs-12"}">
       <div class="well">
         <blockquote>
         <h4 class="green bolder bigger-150">申请入党</h4>
@@ -51,7 +54,31 @@
           </blockquote>
       </div>
       </div>
+        <c:if test="${fn:length(applyList)>0}">
+        <div class="col-xs-4">
+          <blockquote>
+            <h4 class="green bolder bigger-150">申请记录</h4>
+              <c:forEach var="apply" items="${applyList}">
+            <hr/>
+            <dt>
+                ${ENTER_APPLY_TYPE_MAP.get(apply.type)}
+                <dd>
+              <ul>
+                <li>提交申请时间：${cm:formatDate(apply.createTime,'yyyy-MM-dd HH:mm')}</li>
+                <li>申请状态：${ENTER_APPLY_STATUS_MAP.get(apply.status)}</li>
+                <c:if test="${not empty apply.remark}">
+                <li>备注：${apply.remark}</li>
+                </c:if>
+                <li>撤销时间：${cm:formatDate(apply.backTime,'yyyy-MM-dd HH:mm')}</li>
+              </ul>
+              </dd>
+            </dt>
 
+            </c:forEach>
+          </blockquote>
+        </div>
+        </c:if>
+      </div>
     </div>
     <div id="item-content"></div>
     </div>

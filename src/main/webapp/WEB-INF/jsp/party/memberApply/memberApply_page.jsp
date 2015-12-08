@@ -242,7 +242,7 @@ pageEncoding="UTF-8" %>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
                                                                     <c:if test="${empty memberApply.growStatus}">
                                                                         <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 领取志愿书
+                                                                            <i class="fa fa-check"></i> 发展为预备党员
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.growStatus==0}">
@@ -259,7 +259,7 @@ pageEncoding="UTF-8" %>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
                                                                     <c:if test="${empty memberApply.positiveStatus}">
                                                                         <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 发展为预备党员
+                                                                            <i class="fa fa-check"></i> 预备党员转正
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.positiveStatus==0}">

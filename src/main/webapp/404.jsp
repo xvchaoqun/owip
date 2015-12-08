@@ -1,9 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>页面不存在</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/css/font-awesome.css" />
+    <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
 </head>
 <body>
 <div style="padding-top: 100px"></div>

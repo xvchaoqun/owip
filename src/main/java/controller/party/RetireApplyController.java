@@ -3,6 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.RetireApply;
 import domain.SysUser;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,26 +30,36 @@ public class RetireApplyController extends BaseController {
 
         RetireApply retireApply = retireApplyMapper.selectByPrimaryKey(userId);
         modelMap.put("retireApply", retireApply);
-        if(retireApply!=null){
-            return "forward:/retireApply_verify";
-        }
-        return "forward:/retireApply_au";
-    }
-
-    @RequestMapping("/retireApply_au")
-    public String retireApply_au(int userId, ModelMap modelMap) {
-
-        RetireApply retireApply = retireApplyMapper.selectByPrimaryKey(userId);
-        modelMap.put("retireApply", retireApply);
 
         modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        if(retireApply!=null){
+            modelMap.put("party", partyService.findAll().get(retireApply.getPartyId()));
+            if(retireApply.getBranchId()!=null){
+                modelMap.put("branch", branchService.findAll().get(retireApply.getBranchId()));
+            }
+            if(retireApply.getStatus()==SystemConstants.RETIRE_APPLY_STATUS_UNCHECKED){
 
-        return "party/retireApply/retireApply_au";
+                return "party/retireApply/retireApply_verify";  // 审核
+            }
+        }
+
+        return "party/retireApply/retireApply_au"; // 提交或修改
     }
 
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_retireApply_au(@CurrentUser SysUser loginUser, RetireApply retireApply, HttpServletRequest request) {
+
+        //操作人应该是申请人所在党支部或直属党支部管理员
+        int loginUserId = loginUser.getId();
+        Integer branchId = retireApply.getBranchId();
+        Integer partyId = retireApply.getPartyId();
+        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean directParty = partyService.isDirectParty(partyId);
+        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
 
         retireApply.setApplyId(loginUser.getId());
         retireApply.setCreateTime(new Date());
@@ -59,22 +70,17 @@ public class RetireApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping("/retireApply_verify")
-    public String retireApply_verify(int userId, ModelMap modelMap) {
-
-        RetireApply retireApply = retireApplyMapper.selectByPrimaryKey(userId);
-        modelMap.put("retireApply", retireApply);
-        modelMap.put("party", partyService.findAll().get(retireApply.getPartyId()));
-        if(retireApply.getBranchId()!=null){
-            modelMap.put("branch", branchService.findAll().get(retireApply.getBranchId()));
-        }
-
-        return "party/retireApply/retireApply_verify";
-    }
-
     @RequestMapping(value = "/retireApply_verify", method = RequestMethod.POST)
     @ResponseBody
     public Map do_retireApply_verify(@CurrentUser SysUser loginUser, int userId, HttpServletRequest request) {
+
+        //该分党委管理员应是申请人所在的分党委
+        int loginUserId = loginUser.getId();
+        RetireApply retireApply = retireApplyService.get(userId);
+        Integer partyId = retireApply.getPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
 
         retireApplyService.verify(userId, loginUser.getId());
 

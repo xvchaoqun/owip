@@ -2,6 +2,7 @@ package controller.user;
 
 import controller.BaseController;
 import domain.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -40,8 +41,10 @@ public class EnterApplyController extends BaseController {
     @RequestMapping("/apply_page")
     public String apply_page(@CurrentUser SysUser loginUser, HttpServletResponse response, ModelMap modelMap) {
 
-        EnterApply currentApply = enterApplyService.getCurrentApply(loginUser.getId());
+        Integer userId = loginUser.getId();
+        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
         if(currentApply==null) {
+            modelMap.put("applyList", enterApplyService.findApplyList(userId));
             return "user/enterApply/apply";
         }
         switch (currentApply.getType()){
@@ -102,13 +105,10 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
     @ResponseBody
-    public Map applyBack(@CurrentUser SysUser loginUser){
+    public Map applyBack(@CurrentUser SysUser loginUser, String remark){
 
         int userId = loginUser.getId();
-        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-        if(_enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY){
-            enterApplyService.memberApplyBack(userId);
-        }
+        enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
 
         return success(FormUtils.SUCCESS);
     }
@@ -118,6 +118,8 @@ public class EnterApplyController extends BaseController {
     @ResponseBody
     public Map do_memberApply(@CurrentUser SysUser loginUser,Integer partyId,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+
+        checkAuth(loginUser);
 
         MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
@@ -130,6 +132,12 @@ public class EnterApplyController extends BaseController {
         }else{
             throw new UnauthorizedException("没有权限");
         }
+
+        Date birth = loginUser.getBirth();
+        if(birth!=null && DateUtils.intervalYearsUntilNow(birth)<18){
+            throw new RuntimeException("您未满18周岁，不能申请入党。");
+        }
+
         memberApply.setPartyId(partyId);
         memberApply.setBranchId(branchId);
         memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
@@ -146,34 +154,92 @@ public class EnterApplyController extends BaseController {
     }
 
     @RequiresRoles("guest")
-    @RequestMapping("/memberRetun_view")
-    public String memberRetun_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    @RequestMapping("/memberReturn_view")
+    public String memberReturn_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
-        MemberReturn memberRetun = memberReturnService.get(loginUser.getId());
-        modelMap.put("memberRetun", memberRetun);
+        MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
+        modelMap.put("memberReturn", memberReturn);
 
-        return "user/enterApply/memberRetun_view";
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+
+        return "user/enterApply/memberReturn_view";
     }
 
     @RequiresRoles("guest")
     @RequestMapping("/memberReturn")
     public String memberReturn(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
+        modelMap.put("user", loginUser);
+
         MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
         modelMap.put("memberReturn", memberReturn);
-        if(memberReturn==null)
-            modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+
+        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        if(memberReturn!=null){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            Integer partyId = memberReturn.getPartyId();
+            Integer branchId = memberReturn.getBranchId();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+        }
         return "user/enterApply/memberReturn";
     }
 
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn(@CurrentUser SysUser loginUser,MemberReturn memberReturn, HttpServletRequest request) {
+    public Map do_memberReturn(@CurrentUser SysUser loginUser,String _applyTime, String _activeTime, String _candidateTime,
+                               String _growTime, String _positiveTime,
+                               MemberReturn record, HttpServletRequest request) {
 
-       //
-        memberReturn.setUserId(loginUser.getId());
+        checkAuth(loginUser);
+
+        record.setUserId(loginUser.getId());
+
+
+        if(StringUtils.isNotBlank(_applyTime)){
+            record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_activeTime)){
+            Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
+            if(activeTime.before(record.getApplyTime())){
+                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+            }
+            record.setActiveTime(activeTime);
+        }
+        if(StringUtils.isNotBlank(_candidateTime)){
+
+            Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
+            if(candidateTime.before(record.getActiveTime())){
+                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+            }
+            record.setCandidateTime(candidateTime);
+        }
+        if(StringUtils.isNotBlank(_growTime)){
+
+            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+            if(growTime.before(record.getCandidateTime())){
+                throw new RuntimeException("入党时间应该在确定为发展对象之后");
+            }
+            record.setGrowTime(growTime);
+        }
+        if(StringUtils.isNotBlank(_positiveTime)){
+
+            Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
+            if(positiveTime.before(record.getGrowTime())){
+                throw new RuntimeException("转正时间应该在入党之后");
+            }
+            record.setPositiveTime(positiveTime);
+        }
+
+        enterApplyService.memberReturn(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -186,6 +252,9 @@ public class EnterApplyController extends BaseController {
         MemberIn memberIn = memberInService.get(loginUser.getId());
         modelMap.put("memberIn", memberIn);
 
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+
         return "user/enterApply/memberIn_view";
     }
 
@@ -193,10 +262,24 @@ public class EnterApplyController extends BaseController {
     @RequestMapping("/memberIn")
     public String memberIn(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
+        modelMap.put("user", loginUser);
+
         MemberIn memberIn = memberInService.get(loginUser.getId());
         modelMap.put("memberIn", memberIn);
-        if(memberIn==null)
-            modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+
+        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        if(memberIn!=null){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            Integer partyId = memberIn.getPartyId();
+            Integer branchId = memberIn.getBranchId();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+        }
 
         return "user/enterApply/memberIn";
     }
@@ -204,12 +287,62 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberIn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn(@CurrentUser SysUser loginUser, MemberIn record, HttpServletRequest request) {
+    public Map do_memberIn(@CurrentUser SysUser loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
+                           String _growTime, String _positiveTime,
+                           String _fromHandleTime, String _handleTime, HttpServletRequest request) {
 
-        //
+        checkAuth(loginUser);
+
         record.setUserId(loginUser.getId());
         record.setHasReceipt(null);
         record.setReason(null);
+
+        if(StringUtils.isNotBlank(_payTime)){
+            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_applyTime)){
+            record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_activeTime)){
+            Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
+            if(activeTime.before(record.getApplyTime())){
+                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+            }
+            record.setActiveTime(activeTime);
+        }
+        if(StringUtils.isNotBlank(_candidateTime)){
+
+            Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
+            if(candidateTime.before(record.getActiveTime())){
+                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+            }
+            record.setCandidateTime(candidateTime);
+        }
+        if(StringUtils.isNotBlank(_growTime)){
+
+            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+            if(growTime.before(record.getCandidateTime())){
+                throw new RuntimeException("入党时间应该在确定为发展对象之后");
+            }
+            record.setGrowTime(growTime);
+        }
+        if(StringUtils.isNotBlank(_positiveTime)){
+
+            Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
+            if(positiveTime.before(record.getGrowTime())){
+                throw new RuntimeException("转正时间应该在入党之后");
+            }
+            record.setPositiveTime(positiveTime);
+        }
+
+        if(StringUtils.isNotBlank(_fromHandleTime)){
+            record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_handleTime)){
+            record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
+        }
+
+        enterApplyService.memberIn(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -223,27 +356,82 @@ public class EnterApplyController extends BaseController {
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         modelMap.put("memberInflow", memberInflow);
 
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("locationMap", locationService.codeMap());
+        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
         return "user/enterApply/memberInflow_view";
     }
+
+    public void checkAuth(SysUser loginUser){
+
+        if(loginUser.getType() == SystemConstants.USER_TYPE_JZG
+                || loginUser.getType() == SystemConstants.USER_TYPE_BKS
+                || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
+            // 只允许教职工、学生申请留学归国入党申请
+        }else{
+            throw new UnauthorizedException("没有权限");
+        }
+
+        int userId = loginUser.getId();
+        // 判断是否是党员
+        Member member = memberService.get(userId);
+        if(member!=null){
+            throw new RuntimeException("你已经是党员");
+        }
+    }
+
 
     @RequiresRoles("guest")
     @RequestMapping("/memberInflow")
     public String memberInflow(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
+        modelMap.put("user", loginUser);
+
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         modelMap.put("memberInflow", memberInflow);
-        if(memberInflow==null)
-            modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        if(memberInflow!=null){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            Integer partyId = memberInflow.getPartyId();
+            Integer branchId = memberInflow.getBranchId();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+        }
         return "user/enterApply/memberInflow";
     }
 
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow(@CurrentUser SysUser loginUser,MemberInflow record,  HttpServletRequest request) {
+    public Map do_memberInflow(@CurrentUser SysUser loginUser,MemberInflow record,
+                               String _flowTime, String _growTime, String _outflowTime, HttpServletRequest request) {
 
         //
         record.setUserId(loginUser.getId());
+        record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
+        if(StringUtils.isNotBlank(_flowTime)){
+            record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_growTime)){
+            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
+        }
+        if (StringUtils.isNotBlank(_outflowTime)) {
+            record.setOutflowTime(DateUtils.parseDate(_outflowTime, DateUtils.YYYY_MM_DD));
+        }
+        if(record.getPartyId()!=null) {
+            record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
+        }
+        if(record.getBranchId()!=null) {
+            record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
+        }
+
+        enterApplyService.memberInflow(record);
 
         return success(FormUtils.SUCCESS);
     }

@@ -1,13 +1,14 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.EnterApplyExample;
-import domain.MemberApply;
+import domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
+import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
@@ -18,6 +19,26 @@ import java.util.List;
  */
 @Service
 public class EnterApplyService extends BaseMapper{
+
+    @Autowired
+    private MemberApplyService memberApplyService;
+    @Autowired
+    private MemberReturnService memberReturnService;
+    @Autowired
+    private MemberInService memberInService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private MemberInflowService memberInflowService;
+
+
+    public List<EnterApply> findApplyList(int userId){
+
+        EnterApplyExample example = new EnterApplyExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("create_time desc");
+        return enterApplyMapper.selectByExample(example);
+    }
 
     // 查询当前的有效申请
     public EnterApply getCurrentApply(int userId){
@@ -54,32 +75,197 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setCreateTime(new Date());
         enterApplyMapper.insertSelective(enterApply);
     }
-    // 申请入党-本人撤回
+
+    // 留学归国申请
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
-    public void memberApplyBack(int userId) {
+    public void memberReturn(MemberReturn record) {
+
+        int userId = record.getUserId();
+
+        record.setCreateTime(new Date());
+        record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请");
+
+        if(memberReturnService.get(userId)==null)
+            memberReturnMapper.insert(record);
+        else
+            memberReturnMapper.updateByPrimaryKey(record);
+
+        EnterApply enterApply = new EnterApply();
+        enterApply.setUserId(record.getUserId());
+        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_RETURN);
+        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setCreateTime(new Date());
+        enterApplyMapper.insertSelective(enterApply);
+    }
+
+    // 组织关系转入申请
+    @Transactional
+    public void memberIn(MemberIn record) {
+        int userId = record.getUserId();
+
+        record.setCreateTime(new Date());
+        record.setStatus(SystemConstants.MEMBER_IN_STATUS_APPLY);
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请");
+
+        if(memberInService.get(userId)==null)
+            memberInMapper.insert(record);
+        else
+            memberInMapper.updateByPrimaryKey(record);
+
+        EnterApply enterApply = new EnterApply();
+        enterApply.setUserId(record.getUserId());
+        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERIN);
+        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setCreateTime(new Date());
+        enterApplyMapper.insertSelective(enterApply);
+    }
+
+    // 流入党员（不入党员库）
+    @Transactional
+    public void memberInflow(MemberInflow record) {
+
+        int userId = record.getUserId();
+        SysUser sysUser = sysUserService.findById(userId);
+        if(sysUser.getType() == SystemConstants.USER_TYPE_JZG)
+            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
+        else if(sysUser.getType() == SystemConstants.USER_TYPE_BKS
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
+            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
+        }else{
+            throw new RuntimeException("您不是教工或学生");
+        }
+        record.setCreateTime(new Date());
+        record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请");
+
+        if(memberInflowService.get(userId)==null)
+            memberInflowMapper.insert(record);
+        else
+            memberInflowMapper.updateByPrimaryKey(record);
+
+        EnterApply enterApply = new EnterApply();
+        enterApply.setUserId(record.getUserId());
+        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW);
+        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setCreateTime(new Date());
+        enterApplyMapper.insertSelective(enterApply);
+    }
+
+    /*
+        本人或管理员撤回,
+        status:
+        SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT 本人
+        SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT 管理员
+     */
+    @Transactional
+    public void applyBack(int userId, String remark, byte status) {
+
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply==null || _enterApply.getType()!=SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY)
+        if(_enterApply==null)
             throw new DBErrorException("系统错误");
-        // 状态检查
-        MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(_memberApply==null)
-            throw new DBErrorException("系统错误");
-        if(_memberApply!=null && _memberApply.getStage()!=SystemConstants.APPLY_STAGE_INIT &&
-                _memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY){
-            throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
-        }
 
         EnterApply enterApply = new EnterApply();
         enterApply.setId(_enterApply.getId());
-        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
+        enterApply.setStatus(status);
+        enterApply.setRemark(remark);
         enterApply.setBackTime(new Date());
         enterApplyMapper.updateByPrimaryKeySelective(enterApply);
 
-        MemberApply memberApply = new MemberApply();
-        memberApply.setUserId(userId);
-        memberApply.setStage(SystemConstants.APPLY_STAGE_DENY);
-        memberApplyMapper.updateByPrimaryKeySelective(memberApply);
+        switch (_enterApply.getType()) {
+            case SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY: {
+                // 状态检查
+                MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+                if(_memberApply==null)
+                    throw new DBErrorException("系统错误");
+                if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_INIT &&
+                        _memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY){
+                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                }
+
+                MemberApply record = new MemberApply();
+                record.setStage(SystemConstants.APPLY_STAGE_DENY);
+                record.setRemark(remark);
+                MemberApplyExample example = new MemberApplyExample();
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
+                Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0);
+                }
+                break;
+            case SystemConstants.ENTER_APPLY_TYPE_RETURN: {
+
+                // 状态检查
+                MemberReturn _memberReturn = memberReturnService.get(userId);
+                if(_memberReturn==null)
+                    throw new DBErrorException("系统错误");
+                if(_memberReturn.getStatus()!=SystemConstants.MEMBER_RETURN_STATUS_APPLY &&
+                        _memberReturn.getStatus() != SystemConstants.MEMBER_RETURN_STATUS_DENY){
+                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                }
+
+                MemberReturn record = new MemberReturn();
+                record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_DENY);
+                record.setRemark(remark);
+                MemberReturnExample example = new MemberReturnExample();
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+                Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0);
+                }
+                break;
+
+            case SystemConstants.ENTER_APPLY_TYPE_MEMBERIN: {
+
+                // 状态检查
+                MemberIn _memberIn = memberInService.get(userId);
+                if(_memberIn==null)
+                    throw new DBErrorException("系统错误");
+                if(_memberIn.getStatus()!=SystemConstants.MEMBER_IN_STATUS_APPLY &&
+                        _memberIn.getStatus() != SystemConstants.MEMBER_IN_STATUS_BACK){
+                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                }
+
+                MemberIn record = new MemberIn();
+                if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT)
+                    record.setStatus(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
+                else
+                    record.setStatus(SystemConstants.MEMBER_IN_STATUS_BACK);
+                record.setReason(remark);
+                MemberInExample example = new MemberInExample();
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+                Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0);
+            }
+            break;
+            case SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW: {
+
+                // 状态检查
+                MemberInflow _memberInflow = memberInflowService.get(userId);
+                if(_memberInflow==null)
+                    throw new DBErrorException("系统错误");
+                if(_memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_APPLY &&
+                        _memberInflow.getInflowStatus() != SystemConstants.MEMBER_INFLOW_STATUS_BACK){
+                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                }
+
+                MemberInflow record = new MemberInflow();
+                record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
+                record.setReason(remark);
+                MemberInflowExample example = new MemberInflowExample();
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+                Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0);
+            }
+            break;
+            default:
+                throw new RuntimeException("参数错误");
+        }
+
     }
 }

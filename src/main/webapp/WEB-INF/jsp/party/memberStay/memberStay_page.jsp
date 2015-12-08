@@ -3,6 +3,9 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_APPLY" value="<%=SystemConstants.MEMBER_STAY_STATUS_APPLY%>"/>
+<c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -57,16 +60,12 @@ pageEncoding="UTF-8" %>
 							<th>预计回国时间</th>
 							<th>手机号码</th>
 							<th>状态</th>
-                        <shiro:hasPermission name="memberStay:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${memberStays}" var="memberStay" varStatus="st">
+                        <c:set value="${cm:getUserById(memberStay.userId)}" var="_sysUser"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -79,28 +78,28 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(memberStay.returnTime,'yyyy-MM-dd')}</td>
 								<td>${memberStay.mobile}</td>
 								<td>${MEMBER_STAY_STATUS_MAP.get(memberStay.status)}</td>
-                            <shiro:hasPermission name="memberStay:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberStay.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberStay.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${memberStay.status==MEMBER_STAY_STATUS_APPLY}">
+                                        <button onclick="_deny(${memberStay.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini">
+                                            <i class="fa fa-times"></i> 不通过
+                                        </button>
+                                        <button onclick="_check1(${memberStay.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberStay.status==MEMBER_STAY_STATUS_PARTY_VERIFY}">
+                                        <button onclick="_check2(${memberStay.id})" class="btn btn-success btn-mini">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
+
                                     <shiro:hasPermission name="memberStay:edit">
                                     <button data-url="${ctx}/memberStay_au?id=${memberStay.id}" class="openView  btn btn-mini" data-width="900">
-                                        <i class="fa fa-edit"></i> 编辑
+                                        <i class="fa fa-search"></i> 查看
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="memberStay:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberStay.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
@@ -169,6 +168,36 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    function _deny(id, realname){
+        loadModal("${ctx}/memberStay_deny?id=" + id + "&realname="+realname);
+    }
+
+    function _check1(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberStay_check1",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _check2(id){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberStay_check2",{id:id},function(ret){
+                    if(ret.success){
+                        page_reload();
+                        toastr.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));

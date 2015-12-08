@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-
+<c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
     <h3><c:if test="${memberOut!=null}">编辑</c:if><c:if test="${memberOut==null}">添加</c:if>组织关系转出</h3>
 	<hr/>
 
@@ -182,16 +182,23 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">返回修改原因</label>
 				<div class="col-xs-6">
-					<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOut.reason}</textarea>
+					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberOut.reason}</textarea>
 				</div>
 			</div>
 				</div></div>
     </form>
 
+<c:if test="${memberOut.status!=MEMBER_OUT_STATUS_OW_VERIFY}">
 <div class="modal-footer">
     <a href="#" class="btn btn-default closeView">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberOut!=null}">确定</c:if><c:if test="${memberOut==null}">添加</c:if>"/>
 </div>
+	</c:if>
+<c:if test="${memberOut.status==MEMBER_OUT_STATUS_OW_VERIFY}">
+	<div class="modal-footer">
+		<a href="#" class="btn btn-default closeView">返回</a>
+	</div>
+	</c:if>
 
 <script>
 	$('textarea.limited').inputlimiter();

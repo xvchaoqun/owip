@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberTransfer;
-import domain.MemberTransferExample;
+import domain.*;
 import domain.MemberTransferExample.Criteria;
-import domain.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -110,10 +109,69 @@ public class MemberTransferController extends BaseController {
         return "party/memberTransfer/memberTransfer_page";
     }
 
+    @RequiresPermissions("memberTransfer:update")
+    @RequestMapping(value = "/memberTransfer_deny", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberTransfer_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+                                     Integer id, String reason) {
+
+        //操作人应是申请人所在分党委管理员
+        int loginUserId = loginUser.getId();
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        Integer partyId = memberTransfer.getFromPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberTransferService.deny(memberTransfer.getUserId(), reason);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberTransfer:update")
+    @RequestMapping(value = "/memberTransfer_check1", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberTransfer_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人所在分党委管理员
+        int loginUserId = loginUser.getId();
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        Integer partyId = memberTransfer.getFromPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberTransferService.check1(memberTransfer.getUserId());
+        logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请1：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberTransfer:update")
+    @RequestMapping(value = "/memberTransfer_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberTransfer_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+
+        //操作人应是申请人转入的分党委的管理员
+        int loginUserId = loginUser.getId();
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        Integer partyId = memberTransfer.getToPartyId();
+        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 转入分党委管理员
+            throw new UnauthorizedException();
+        }
+
+        memberTransferService.check2(memberTransfer.getUserId(), false);
+        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请2：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+    
     @RequiresPermissions("memberTransfer:edit")
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_au(MemberTransfer record, String _payTime, String _fromHandleTime, HttpServletRequest request) {
+    public Map do_memberTransfer_au(MemberTransfer record,
+                                    String _payTime, String _fromHandleTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -128,12 +186,24 @@ public class MemberTransferController extends BaseController {
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
 
+        if(record.getFromPartyId().byteValue() == record.getToPartyId()){
+            return failed("转入不能是当前所在分党委");
+        }
+        Integer userId = record.getUserId();
+        SysUser sysUser = sysUserService.findById(userId);
+        record.setCode(sysUser.getCode());
+        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
+            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
+        else
+            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
+
         if (id == null) {
+            record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
             memberTransferService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加校内组织关系互转：%s", record.getId()));
         } else {
-
+            record.setStatus(null); // 不改状态
             memberTransferService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新校内组织关系互转：%s", record.getId()));
         }

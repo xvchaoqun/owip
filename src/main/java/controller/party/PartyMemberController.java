@@ -180,6 +180,11 @@ public class PartyMemberController extends BaseController {
             record.setIsAdmin(!partyMember.getIsAdmin());
             partyMemberService.updateByPrimaryKeySelective(record);
 
+            if(partyMember.getIsAdmin())
+                sysUserService.removeRolePartyAdmin(partyMember.getUserId());
+            else
+                sysUserService.addRolePartyAdmin(partyMember.getUserId());
+
             String op = partyMember.getIsAdmin()?"删除":"添加";
             logger.info(addLog(request, SystemConstants.LOG_OW, "%s基层党组织成员管理员权限，memberId=%s", op, id));
         }

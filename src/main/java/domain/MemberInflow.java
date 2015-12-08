@@ -32,11 +32,17 @@ public class MemberInflow implements Serializable {
 
     private String orLocation;
 
+    private Byte inflowStatus;
+
     private String outflowUnit;
 
     private Integer outflowLocation;
 
     private Date outflowTime;
+
+    private Byte outflowStatus;
+
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -152,6 +158,14 @@ public class MemberInflow implements Serializable {
         this.orLocation = orLocation == null ? null : orLocation.trim();
     }
 
+    public Byte getInflowStatus() {
+        return inflowStatus;
+    }
+
+    public void setInflowStatus(Byte inflowStatus) {
+        this.inflowStatus = inflowStatus;
+    }
+
     public String getOutflowUnit() {
         return outflowUnit;
     }
@@ -174,5 +188,21 @@ public class MemberInflow implements Serializable {
 
     public void setOutflowTime(Date outflowTime) {
         this.outflowTime = outflowTime;
+    }
+
+    public Byte getOutflowStatus() {
+        return outflowStatus;
+    }
+
+    public void setOutflowStatus(Byte outflowStatus) {
+        this.outflowStatus = outflowStatus;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

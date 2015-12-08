@@ -22,6 +22,7 @@
     <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List" >
     id, user_id, code, realname, gender, age, nation, idcard, political_status, grow_time, 
     country, abroad_time, return_time, pay_time, mobile, email, contact_name, contact_mobile, 
-    status, reason
+    status, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStayExample" >
     select
@@ -123,14 +124,16 @@
       grow_time, country, abroad_time, 
       return_time, pay_time, mobile, 
       email, contact_name, contact_mobile, 
-      status, reason)
+      status, reason, apply_time
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{age,jdbcType=INTEGER}, 
       #{nation,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, 
       #{growTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{abroadTime,jdbcType=DATE}, 
       #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
       #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR})
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStay" >
     insert into ow_member_stay
@@ -195,6 +198,9 @@
       <if test="reason != null" >
         reason,
       </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -256,6 +262,9 @@
       </if>
       <if test="reason != null" >
         #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -328,6 +337,9 @@
       <if test="record.reason != null" >
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
+      <if test="record.applyTime != null" >
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -354,7 +366,8 @@
       contact_name = #{record.contactName,jdbcType=VARCHAR},
       contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
-      reason = #{record.reason,jdbcType=VARCHAR}
+      reason = #{record.reason,jdbcType=VARCHAR},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -419,6 +432,9 @@
       <if test="reason != null" >
         reason = #{reason,jdbcType=VARCHAR},
       </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -442,7 +458,8 @@
       contact_name = #{contactName,jdbcType=VARCHAR},
       contact_mobile = #{contactMobile,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      reason = #{reason,jdbcType=VARCHAR}
+      reason = #{reason,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.MemberStayExample" id="selectByExampleWithRowbounds" >

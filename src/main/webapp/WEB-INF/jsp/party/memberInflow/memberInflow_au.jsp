@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 						<c:import url="/metaTypes?__code=mc_job"/>
 					</select>
 					<script type="text/javascript">
-						$("#modal form select[name=originalJob]").val(${memberInflow.originalJob});
+						$("#modalForm select[name=originalJob]").val("${memberInflow.originalJob}");
 					</script>
 				</div>
 			</div>

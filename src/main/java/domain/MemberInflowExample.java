@@ -1012,6 +1012,66 @@ public class MemberInflowExample {
             return (Criteria) this;
         }
 
+        public Criteria andInflowStatusIsNull() {
+            addCriterion("inflow_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusIsNotNull() {
+            addCriterion("inflow_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusEqualTo(Byte value) {
+            addCriterion("inflow_status =", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusNotEqualTo(Byte value) {
+            addCriterion("inflow_status <>", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusGreaterThan(Byte value) {
+            addCriterion("inflow_status >", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("inflow_status >=", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusLessThan(Byte value) {
+            addCriterion("inflow_status <", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("inflow_status <=", value, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusIn(List<Byte> values) {
+            addCriterion("inflow_status in", values, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusNotIn(List<Byte> values) {
+            addCriterion("inflow_status not in", values, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusBetween(Byte value1, Byte value2) {
+            addCriterion("inflow_status between", value1, value2, "inflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInflowStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("inflow_status not between", value1, value2, "inflowStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andOutflowUnitIsNull() {
             addCriterion("outflow_unit is null");
             return (Criteria) this;
@@ -1199,6 +1259,126 @@ public class MemberInflowExample {
 
         public Criteria andOutflowTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("outflow_time not between", value1, value2, "outflowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusIsNull() {
+            addCriterion("outflow_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusIsNotNull() {
+            addCriterion("outflow_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusEqualTo(Byte value) {
+            addCriterion("outflow_status =", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusNotEqualTo(Byte value) {
+            addCriterion("outflow_status <>", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusGreaterThan(Byte value) {
+            addCriterion("outflow_status >", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("outflow_status >=", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusLessThan(Byte value) {
+            addCriterion("outflow_status <", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("outflow_status <=", value, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusIn(List<Byte> values) {
+            addCriterion("outflow_status in", values, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusNotIn(List<Byte> values) {
+            addCriterion("outflow_status not in", values, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusBetween(Byte value1, Byte value2) {
+            addCriterion("outflow_status between", value1, value2, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutflowStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("outflow_status not between", value1, value2, "outflowStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
     }

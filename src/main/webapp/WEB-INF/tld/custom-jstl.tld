@@ -97,4 +97,10 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.String getApplyStatus(domain.MemberApply)</function-signature>
 	</function>
+
+	<function>
+		<name>getRetireApply</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.RetireApply getRetireApply(java.lang.Integer)</function-signature>
+	</function>
 </taglib>

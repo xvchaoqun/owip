@@ -32,6 +32,7 @@
     <result column="has_receipt" property="hasReceipt" jdbcType="BIT" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -95,7 +96,7 @@
     id, user_id, realname, gender, age, nation, political_status, idcard, type, to_unit, 
     party_id, branch_id, from_unit, from_title, from_address, from_phone, from_fax, from_post_code, 
     pay_time, valid_days, from_handle_time, handle_time, apply_time, active_time, candidate_time, 
-    grow_time, positive_time, has_receipt, status, reason
+    grow_time, positive_time, has_receipt, status, reason, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberInExample" >
     select
@@ -137,8 +138,8 @@
       pay_time, valid_days, from_handle_time, 
       handle_time, apply_time, active_time, 
       candidate_time, grow_time, positive_time, 
-      has_receipt, status, reason
-      )
+      has_receipt, status, reason, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
       #{gender,jdbcType=TINYINT}, #{age,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, 
       #{politicalStatus,jdbcType=TINYINT}, #{idcard,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
@@ -148,8 +149,8 @@
       #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, 
       #{handleTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
       #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}
-      )
+      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberIn" >
     insert into ow_member_in
@@ -244,6 +245,9 @@
       <if test="reason != null" >
         reason,
       </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -335,6 +339,9 @@
       </if>
       <if test="reason != null" >
         #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -437,6 +444,9 @@
       <if test="record.reason != null" >
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -473,7 +483,8 @@
       positive_time = #{record.positiveTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
-      reason = #{record.reason,jdbcType=VARCHAR}
+      reason = #{record.reason,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -568,6 +579,9 @@
       <if test="reason != null" >
         reason = #{reason,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -601,7 +615,8 @@
       positive_time = #{positiveTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
-      reason = #{reason,jdbcType=VARCHAR}
+      reason = #{reason,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.MemberInExample" id="selectByExampleWithRowbounds" >

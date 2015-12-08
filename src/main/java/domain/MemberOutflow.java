@@ -32,6 +32,10 @@ public class MemberOutflow implements Serializable {
 
     private Byte orStatus;
 
+    private Byte status;
+
+    private Date createTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -144,5 +148,21 @@ public class MemberOutflow implements Serializable {
 
     public void setOrStatus(Byte orStatus) {
         this.orStatus = orStatus;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

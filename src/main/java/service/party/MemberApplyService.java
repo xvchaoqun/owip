@@ -108,17 +108,7 @@ public class MemberApplyService extends BaseMapper {
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
                 || memberApply.getType() == SystemConstants.APPLY_TYPE_TECHER);
-        /*if (memberApply.getType() == SystemConstants.APPLY_TYPE_STU) {
-            member.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            // 2. 同步学生信息
-            snycStudent(userId, sysUser.getType(), sysUser.getCode());
 
-        } else {
-            // ++++++++++++待查询离退休状态
-            member.setType(SystemConstants.MEMBER_TYPE_TEACHER); // 教职工党员
-            // 2. 同步教职工信息
-            snycTeacher(userId, sysUser.getCode());
-        }*/
         member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员
         member.setApplyTime(memberApply.getApplyTime());

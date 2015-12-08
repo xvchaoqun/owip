@@ -12,9 +12,11 @@
                         <li class="${cls==1?'active':''}">
                             <a href="?cls=1">申请流程</a>
                         </li>
+                        <shiro:hasPermission name="applyOpenTime:*">
                         <li class="${cls==2?'active':''}">
                             <a href="?cls=2">开放时间</a>
                         </li>
+                        </shiro:hasPermission>
                         <li class="${cls==3?'active':''}">
                             <a href="?cls=3">流程日志</a>
                         </li>

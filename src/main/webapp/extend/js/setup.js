@@ -413,11 +413,12 @@ function register_class_party_branch_select($container, partyDivId, branchDivId,
     branchId = branchId || "branchId";
 
     $('select[name='+classId+']', $container).select2({width:200}).on("change", function () {
+        $('select[name='+partyId+']', $container).val(null).trigger("change");
+        $('select[name='+branchId+']', $container).val(null).trigger("change");
         if($(this).val()>0){
             $("#"+partyDivId, $container).show();
         }else{
-            $('select[name='+partyId+']', $container).val(null).trigger("change");
-            $('select[name='+branchId+']', $container).val(null).trigger("change");
+
             $("#"+partyDivId+", #"+branchDivId, $container).hide();
         }
     });
