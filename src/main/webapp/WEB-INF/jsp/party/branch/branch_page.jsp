@@ -116,6 +116,19 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
+            <div class="buttons pull-right">
+                <shiro:hasPermission name="branch:edit">
+                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                </shiro:hasPermission>
+                <c:if test="${commonList.recNum>0}">
+                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    <shiro:hasPermission name="branch:del">
+                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                    </shiro:hasPermission>
+                </c:if>
+            </div>
+            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
