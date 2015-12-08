@@ -38,6 +38,14 @@ var isJson = function(obj){
     return isjson;
 }
 
+$(document).on("click", ".table tr>td",function(){
+
+    var $tr = $(this).closest("tr");
+    $(this).closest(".table").find("tr").not($tr).removeClass("active");
+
+     $tr.addClass("active");
+})
+
 $.ajaxSetup({
     cache: false,
     dataFilter : function(data, type){

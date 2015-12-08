@@ -79,6 +79,16 @@
 .date-range-picker{
     min-width: 190px;
 }
+
+.table tr.active td{
+    background-color: #5094ce!important;
+}
+.table tr.active>td{
+    color:#fff;
+}
+.table tr.active td a, .table tr.active td a:hover{
+    color:#fff;
+}
 /*排序*/
 .order-step{
     width: 30px;
