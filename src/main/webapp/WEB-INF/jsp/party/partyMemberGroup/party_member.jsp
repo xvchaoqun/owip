@@ -63,7 +63,7 @@
             <table class="table table-striped table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
-                    <th class="col-xs-5">账号</th>
+                    <th class="col-xs-5">姓名</th>
                     <th class="col-xs-5">类别</th>
                     <shiro:hasPermission name="partyMember:changeOrder">
                         <c:if test="${!_query && commonList.recNum>1}">
