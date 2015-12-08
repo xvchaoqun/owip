@@ -15,14 +15,14 @@ pageEncoding="UTF-8" %>
 
                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                        placeholder="请输入名称">
-                <select name="partyId" data-rel="select2" data-placeholder="请输入所属党支部">
+                <select name="branchId" data-rel="select2" data-placeholder="请输入所属党支部">
                     <option></option>
                     <c:forEach items="${branchMap}" var="branch">
                         <option value="${branch.key}">${branch.value.name}</option>
                     </c:forEach>
                 </select>
                 <script>
-                    $("#searchForm select[name=partyId]").val('${param.branchId}');
+                    $("#searchForm select[name=branchId]").val('${param.branchId}');
                 </script>
 
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>

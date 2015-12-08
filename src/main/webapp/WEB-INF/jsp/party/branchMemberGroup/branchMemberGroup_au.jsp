@@ -59,7 +59,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">实际换届时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_actualTranTime" type="text"
+                        <input class="form-control date-picker" name="_actualTranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
