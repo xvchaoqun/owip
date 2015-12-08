@@ -22,9 +22,9 @@ pageEncoding="UTF-8"%>
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
-				<td rowspan="6" colspan="2" style="text-align: center;vertical-align: middle;
+				<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					照片
+					<img src="${ctx}/avatar/${extJzg.zgh}">
 				</td>
 				<td style="background-color: #f9f9f9;text-align: right">
 					姓名
@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 				<td style="background-color: #f9f9f9;text-align: right">
 					工作证号
 				</td>
-				<td  style="min-width: 150px;background-color: #fff;text-align: left">
+				<td colspan="2"  style="min-width: 150px;background-color: #fff;text-align: left">
 					${extJzg.zgh}
 				</td>
 			</tr>
@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					民族
 				</td>
-				<td>
+				<td colspan="2">
 					${extJzg.mz}
 				</td>
 			</tr>
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					年龄
 				</td>
-				<td>
+				<td colspan="2">
 					${cm:intervalYearsUntilNow(extJzg.csrq)}
 				</td>
 			</tr>
@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					加入党团时间
 				</td>
-				<td>
+				<td colspan="2">
 
 				</td>
 			</tr>
@@ -81,10 +81,10 @@ pageEncoding="UTF-8"%>
 				<td >
 					${extJzg.gj}
 				</td>
-				<td>
+				<td >
 					所在党组织
 				</td>
-				<td>
+				<td colspan="2">
 
 				</td>
 			</tr>
@@ -96,7 +96,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					证件号码
 				</td>
-				<td>
+				<td colspan="2">
 					${extJzg.sfzh}
 				</td>
 			</tr>

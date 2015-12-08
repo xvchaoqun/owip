@@ -38,10 +38,10 @@ var isJson = function(obj){
     return isjson;
 }
 
-$(document).on("click", ".table tr>td",function(){
+$(document).on("click", ".table-actived tr>td",function(){
 
     var $tr = $(this).closest("tr");
-    $(this).closest(".table").find("tr").not($tr).removeClass("active");
+    $(this).closest(".table-actived").find("tr").not($tr).removeClass("active");
 
      $tr.addClass("active");
 })

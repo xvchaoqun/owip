@@ -11,6 +11,12 @@ public class SpringProps {
 	
 	@Value("${upload.path}")
 	public String uploadPath;
+
+	@Value("${avatar.folder}")
+	public String avatarFolder;
+
+	@Value("${avatar.default}")
+	public String defaultAvatar;
 	
 	@Value("${swfTools.command}")
 	public String swfToolsCommand;

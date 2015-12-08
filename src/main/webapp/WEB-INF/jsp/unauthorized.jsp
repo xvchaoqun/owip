@@ -48,12 +48,12 @@
         <hr />
         <div class="space"></div>
         <div class="center">
-        <c:if test="${!param.__includePage}">
+        <%--<c:if test="${!param.__includePage}">
           <a href="javascript:history.back()" class="btn btn-grey">
             <i class="ace-icon fa fa-arrow-left"></i>
             返回
           </a>
-          </c:if>
+          </c:if>--%>
           <a href="/" class="btn btn-primary">
             <i class="ace-icon fa fa-home"></i>
             回到首页

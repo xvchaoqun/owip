@@ -17,7 +17,7 @@
 
         <div class="widget-body">
             <div class="widget-main no-padding">
-                <table class="table table-striped table-hover table-condensed">
+                <table class="table table-actived table-striped table-hover table-condensed">
                     <tbody>
 
                     <tr>

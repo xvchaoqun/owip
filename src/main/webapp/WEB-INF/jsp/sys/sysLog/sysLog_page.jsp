@@ -31,7 +31,7 @@
                 </form>
             </div>
             <div class="space-4"></div>
-            <table class="table table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
                     <th nowrap>模块</th>

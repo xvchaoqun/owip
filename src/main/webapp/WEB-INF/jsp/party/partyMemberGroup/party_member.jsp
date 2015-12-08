@@ -60,7 +60,7 @@
          data-url-del="${ctx}/partyMember_del"
          data-url-co="${ctx}/partyMember_changeOrder">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
                     <th class="col-xs-5">姓名</th>

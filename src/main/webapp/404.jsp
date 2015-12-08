@@ -41,10 +41,10 @@
                     <hr />
                     <div class="space"></div>
                     <div class="center">
-                        <a href="javascript:history.back()" class="btn btn-grey">
+                        <%--<a href="javascript:history.back()" class="btn btn-grey">
                             <i class="ace-icon fa fa-arrow-left"></i>
                             返回
-                        </a>
+                        </a>--%>
                         <a href="/" class="btn btn-primary">
                             <i class="ace-icon fa fa-home"></i>
                             回到首页
