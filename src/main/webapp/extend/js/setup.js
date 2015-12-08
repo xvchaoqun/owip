@@ -85,6 +85,7 @@ $.ajaxSetup({
                         }
                     }
                 }});
+            throw  new Error("login");
             //$(".modal").width(300);
         }else if(ret.msg=="filemax"){
 

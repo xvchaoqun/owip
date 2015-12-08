@@ -89,6 +89,33 @@
 .table-actived tr.active td a, .table tr.active td a:hover{
     color:#fff;
 }
+
+.bg-right{
+    background-color: #f9f9f9!important;
+    text-align: right!important;
+}
+.bg-left{
+    background-color: #fff!important;
+    text-align: left!important;
+}
+
+.widget-body .table thead:first-child tr{
+    background: #F2F2F2;
+    background-image: -webkit-linear-gradient(top, #f8f8f8 0%, #ececec 100%);
+    background-image: -o-linear-gradient(top, #f8f8f8 0%, #ececec 100%);
+    background-image: linear-gradient(to bottom, #f8f8f8 0%, #ececec 100%);
+    background-repeat: repeat-x;
+}
+/*#item-content .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color:inherit;
+}
+#item-content .table tbody tr:hover td, .table tbody tr:hover th {
+    background-color:transparent;
+}
+#item-content .table-striped > tbody > tr > td:nth-of-type(odd) {
+    background-color: #f9f9f9;
+    text-align: right;
+}*/
 /*排序*/
 .order-step{
     width: 30px;
@@ -320,13 +347,3 @@ br.xs-100 {
     width: 200px;
 }
 
-#item-content .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color:inherit;
-}
-#item-content .table tbody tr:hover td, .table tbody tr:hover th {
-    background-color:transparent;
-}
-#item-content .table-striped > tbody > tr > td:nth-of-type(odd) {
-    background-color: #f9f9f9;
-    text-align: right;
-}

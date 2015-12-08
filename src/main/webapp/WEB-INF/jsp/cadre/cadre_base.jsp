@@ -26,33 +26,33 @@ pageEncoding="UTF-8"%>
 				 width: 50px;background-color: #fff;">
 					<img src="${ctx}/avatar/${extJzg.zgh}">
 				</td>
-				<td style="background-color: #f9f9f9;text-align: right">
+
+				<td class="bg-right">
 					姓名
 				</td>
-				<td style="min-width: 150px;background-color: #fff;text-align: left">
+				<td class="bg-left"  style="min-width: 150px;">
 					${extJzg.xm}
 				</td>
 
-				<td style="background-color: #f9f9f9;text-align: right">
+				<td class="bg-right">
 					工作证号
 				</td>
-				<td colspan="2"  style="min-width: 150px;background-color: #fff;text-align: left">
+				<td class="bg-left" style="min-width: 150px;" >
 					${extJzg.zgh}
 				</td>
-			</tr>
-			<tr>
-				<td>性别</td>
-				<td >
+				<td class="bg-right">性别</td>
+				<td class="bg-left"  style="min-width: 150px;">
 					${extJzg.xb}
 				</td>
+
+			</tr>
+			<tr>
 				<td>
 					民族
 				</td>
-				<td colspan="2">
+				<td>
 					${extJzg.mz}
 				</td>
-			</tr>
-			<tr>
 				<td>出生日期</td>
 				<td >
 					${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					年龄
 				</td>
-				<td colspan="2">
+				<td>
 					${cm:intervalYearsUntilNow(extJzg.csrq)}
 				</td>
 			</tr>
@@ -72,23 +72,23 @@ pageEncoding="UTF-8"%>
 				<td>
 					加入党团时间
 				</td>
-				<td colspan="2">
+				<td>
 
 				</td>
-			</tr>
-			<tr>
+
 				<td>国家/地区</td>
 				<td >
 					${extJzg.gj}
 				</td>
+			</tr>
+			<tr>
 				<td >
 					所在党组织
 				</td>
-				<td colspan="2">
+				<td>
 
 				</td>
-			</tr>
-			<tr>
+
 				<td>证件类型</td>
 				<td >
 					${extJzg.name}
@@ -96,11 +96,10 @@ pageEncoding="UTF-8"%>
 				<td>
 					证件号码
 				</td>
-				<td colspan="2">
+				<td>
 					${extJzg.sfzh}
 				</td>
 			</tr>
-
 			<tr>
 				<td>
 					籍贯

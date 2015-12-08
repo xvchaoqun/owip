@@ -17,6 +17,12 @@ pageEncoding="UTF-8"%>
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
+				<td rowspan="6" style="text-align: center;vertical-align: middle;
+				 width: 50px;background-color: #fff;">
+					<img src="${ctx}/avatar/${memberStudent.code}">
+				</td>
+			</tr>
+			<tr>
 				<td>
 					姓名
 				</td>

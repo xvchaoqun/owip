@@ -17,6 +17,12 @@
 	<table class="table table-bordered table-striped">
 		<tbody>
 		<tr>
+			<td rowspan="7" style="text-align: center;vertical-align: middle;
+				 width: 50px;background-color: #fff;">
+				<img src="${ctx}/avatar/${memberTeacher.code}">
+			</td>
+		</tr>
+		<tr>
 			<td>
 				姓名
 			</td>
@@ -141,7 +147,7 @@
 		</tr>
 		<tr>
 
-			<td>专技岗位等级</td>
+			<td >专技岗位等级</td>
 			<td >
 				${memberTeacher.proPostLevel}
 			</td>
@@ -166,7 +172,7 @@
 		</tr>
 		<tr>
 
-			<td>行政职务</td>
+			<td colspan="2">行政职务</td>
 			<td >
 				${memberTeacher.post}
 			</td>
@@ -191,7 +197,7 @@
 		</tr>
 		<tr>
 
-			<td>婚姻状况</td>
+			<td colspan="2">婚姻状况</td>
 			<td >
 				${memberTeacher.maritalStatus}
 			</td>
@@ -216,7 +222,7 @@
 		</tr>
 		<tr>
 
-			<td>是否退休</td>
+			<td colspan="2">是否退休</td>
 			<td >
 				${memberTeacher.isRetire?"是":"否"}
 			</td>

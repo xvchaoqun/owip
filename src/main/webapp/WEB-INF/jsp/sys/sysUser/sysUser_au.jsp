@@ -40,7 +40,7 @@
     	<div class="form-group">
           <label class="col-xs-3 control-label">学工号</label>
           <div class="col-xs-6">
-			   <input class="form-control" type="text" name="code" value="${sysUser.code}">
+			   <input required class="form-control" type="text" name="code" value="${sysUser.code}">
           </div>
         </div>
     	<div class="form-group">

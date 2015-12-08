@@ -62,7 +62,12 @@
 				$(form).ajaxSubmit({
 					success:function(data){
                         //alert(data)
-                        data = JSON.parse(data);
+                        try {
+                            data = JSON.parse(data)
+                        }catch(e){
+                            location.reload();
+                        }
+                        //console.log(ret)
                         if(data.success){
                             location.href = data.url;
                         }else{
