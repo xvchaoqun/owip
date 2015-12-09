@@ -337,3 +337,38 @@
 	</tbody>
 </table>
 			</div></div></div>
+<div class="clearfix form-actions center">
+	<button class="btn btn-info  btn-pink" onclick="member_sync(${param.userId})" type="button">
+		<i class="ace-icon fa fa-refresh "></i>
+		同步数据
+	</button>
+
+	&nbsp; &nbsp; &nbsp;
+	<button class="closeView btn" type="reset">
+		<i class="ace-icon fa fa-undo"></i>
+		返回
+	</button>
+</div>
+
+<script>
+	function _reload(){
+		$("#item-content #view-box .nav-tabs li.active a").click();
+	}
+
+	function member_sync(userId){
+		var $container = $("#view-box");
+		$container.showLoading({'afterShow':
+				function() {
+					setTimeout( function(){
+						$container.hideLoading();
+					}, 2000 );
+				}})
+		$.post("${ctx}/member_sync",{userId:userId},function(ret){
+
+			if(ret.success){
+				$container.hideLoading();
+				_reload();
+			}
+		});
+	}
+</script>

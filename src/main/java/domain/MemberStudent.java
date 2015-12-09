@@ -74,7 +74,7 @@ public class MemberStudent implements Serializable {
 
     private String eduLevel;
 
-    private Byte grade;
+    private String grade;
 
     private String eduType;
 
@@ -360,12 +360,12 @@ public class MemberStudent implements Serializable {
         this.eduLevel = eduLevel == null ? null : eduLevel.trim();
     }
 
-    public Byte getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Byte grade) {
-        this.grade = grade;
+    public void setGrade(String grade) {
+        this.grade = grade == null ? null : grade.trim();
     }
 
     public String getEduType() {

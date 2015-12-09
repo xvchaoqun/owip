@@ -2,6 +2,7 @@ package service.party;
 
 import domain.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Service
 public class MemberService extends BaseMapper {
@@ -83,12 +85,52 @@ public class MemberService extends BaseMapper {
             teacher.setBirth(extJzg.getCsrq());
 
             //+++++++++++++ 同步后面一系列属性
+            teacher.setNativePlace(extJzg.getJg());
+            teacher.setNativePlace(extJzg.getMz());
+            teacher.setIdcard(extJzg.getSfzh());
+            teacher.setEducation(extJzg.getZhxlmc());
+            teacher.setDegree(extJzg.getZhxwm());
+            //teacher.setDegreeTime(); 学位授予日期
+            //teacher.setMajor(extJzg.getz); 所学专业
+            teacher.setSchool(extJzg.getXlbyxx());
+            //teacher.setSchoolType(); 毕业学校类型
+            if(extJzg.getLxrq()!=null)
+                teacher.setArriveTime(DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD));
+            teacher.setAuthorizedType(extJzg.getBzlx());
+            teacher.setStaffType(extJzg.getRylx());
+            teacher.setStaffStatus(extJzg.getRyzt());
+            teacher.setPostClass(extJzg.getGwlb());
+            teacher.setPostType(extJzg.getGwjb());
+            teacher.setOnJob(extJzg.getSfzg());
+            //teacher.setProPost(); 专业技术职务
+            teacher.setProPostLevel(extJzg.getZjgwdj());
+            teacher.setTitleLevel(extJzg.getZc()); // 职称级别
+            teacher.setManageLevel(extJzg.getGlgwdj());
+            //teacher.setOfficeLevel(extJzg.getgq);  工勤岗位等级
+            //teacher.setPost(extJzg.getXzjb());  行政职务
+            // teacher.setPostLevel(); 任职级别
+            teacher.setTalentTitle(extJzg.getRcch());
+            // teacher.setAddress(extJzg.getjz); 居住地址
+            // teacher.setMaritalStatus(); 婚姻状况
+            teacher.setEmail(extJzg.getDzxx());
+            teacher.setMobile(extJzg.getYddh());
+            teacher.setPhone(extJzg.getJtdh());
+
+            // 是否退休 :在岗，退休，病休，离校，待聘,内退,离休, NULL
+            teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
+            //teacher.setRetireTime(); 退休时间
+            teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
+
+            teacher.setCreateTime(new Date());
         }
 
         // 在职或退休，如何判断？
         teacher.setIsRetire(false);
 
-        Assert.isTrue(teacherMapper.insertSelective(teacher) == 1);
+        if(teacherMapper.selectByPrimaryKey(userId)==null)
+            teacherMapper.insertSelective(teacher);
+        else
+            teacherMapper.updateByPrimaryKey(teacher);
     }
 
     // 同步学生党员信息
@@ -115,6 +157,23 @@ public class MemberService extends BaseMapper {
                 student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyyMMdd"));
 
                 //+++++++++++++ 同步后面一系列属性
+                student.setNation(extBks.getMz());
+                student.setNativePlace(extBks.getSf());
+                student.setIdcard(extBks.getSfzh());
+                student.setType(extBks.getKslb());
+                //student.setEduLevel(extBks.getPycc()); 培养层次
+                //student.setEduType(extBks.getPylx()); 培养类型
+                //student.setEduCategory(extBks.getJylb()); 培养级别
+                student.setEduWay(extBks.getPyfs());
+                //student.setIsFullTime(extBks.get); 是否全日制
+                //student.setEnrolYear(extBks.getZsnd()+""); 招生年度
+                //student.setPeriod(extBks.getXz()+""); 学制
+                student.setGrade(extBks.getNj());
+                //student.setActualEnrolTime(DateUtils.parseDate(extBks.getSjrxny(), DateUtils.YYYYMMDD)); 实际入学年月
+                //student.setExpectGraduateTime(DateUtils.parseDate(extBks.getYjbyny(), "yyyyMM")); 预计毕业年月
+                //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
+                //student.setActualGraduateTime(DateUtils.parseDate(extBks.getSjbyny(), "yyyyMM")); 实际毕业年月
+                student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
             }
         }
 
@@ -132,12 +191,34 @@ public class MemberService extends BaseMapper {
                     student.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 // 出生年月
-                student.setBirth(DateUtils.parseDate(extYjs.getCsrq(), "yyyyMMdd"));
+                student.setBirth(DateUtils.parseDate(StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
 
                 //+++++++++++++ 同步后面一系列属性
+                student.setNation(extYjs.getMz());
+                //student.setNativePlace(extYjs.get); 籍贯
+                student.setIdcard(extYjs.getSfzh());
+                student.setType(extYjs.getXslb());
+                student.setEduLevel(extYjs.getPycc());
+                student.setEduType(extYjs.getPylx());
+                student.setEduCategory(extYjs.getJylb());
+                student.setEduWay(extYjs.getPyfs());
+                //student.setIsFullTime(extYjs.get); 是否全日制
+                student.setEnrolYear(extYjs.getZsnd()+"");
+                student.setPeriod(extYjs.getXz() + "");
+                student.setGrade(extYjs.getNj() + "");
+
+                student.setActualEnrolTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjrxny(), 0, 6), "yyyyMM"));
+                student.setExpectGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getYjbyny(), 0, 6), "yyyyMM"));
+                student.setDelayYear(extYjs.getYqbynx());
+                student.setActualGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjbyny(), 0, 6), "yyyyMM"));
+                student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
             }
         }
-        Assert.isTrue(studentMapper.insertSelective(student)==1);
+
+        if(studentMapper.selectByPrimaryKey(userId)==null)
+            studentMapper.insertSelective(student);
+        else
+            studentMapper.updateByPrimaryKey(student);
     }
 
     @Transactional

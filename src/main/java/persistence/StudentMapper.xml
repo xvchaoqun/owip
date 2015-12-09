@@ -18,7 +18,7 @@
     <result column="is_full_time" property="isFullTime" jdbcType="BIT" />
     <result column="enrol_year" property="enrolYear" jdbcType="VARCHAR" />
     <result column="period" property="period" jdbcType="VARCHAR" />
-    <result column="grade" property="grade" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="actual_enrol_time" property="actualEnrolTime" jdbcType="DATE" />
     <result column="expect_graduate_time" property="expectGraduateTime" jdbcType="DATE" />
     <result column="delay_year" property="delayYear" jdbcType="REAL" />
@@ -133,7 +133,7 @@
       #{nativePlace,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{eduLevel,jdbcType=VARCHAR}, #{eduType,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, 
       #{eduWay,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, 
-      #{period,jdbcType=VARCHAR}, #{grade,jdbcType=TINYINT}, #{actualEnrolTime,jdbcType=DATE}, 
+      #{period,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, 
       #{expectGraduateTime,jdbcType=DATE}, #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, 
       #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
@@ -260,7 +260,7 @@
         #{period,jdbcType=VARCHAR},
       </if>
       <if test="grade != null" >
-        #{grade,jdbcType=TINYINT},
+        #{grade,jdbcType=VARCHAR},
       </if>
       <if test="actualEnrolTime != null" >
         #{actualEnrolTime,jdbcType=DATE},
@@ -340,7 +340,7 @@
         period = #{record.period,jdbcType=VARCHAR},
       </if>
       <if test="record.grade != null" >
-        grade = #{record.grade,jdbcType=TINYINT},
+        grade = #{record.grade,jdbcType=VARCHAR},
       </if>
       <if test="record.actualEnrolTime != null" >
         actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
@@ -383,7 +383,7 @@
       is_full_time = #{record.isFullTime,jdbcType=BIT},
       enrol_year = #{record.enrolYear,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=VARCHAR},
-      grade = #{record.grade,jdbcType=TINYINT},
+      grade = #{record.grade,jdbcType=VARCHAR},
       actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
       expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
       delay_year = #{record.delayYear,jdbcType=REAL},
@@ -443,7 +443,7 @@
         period = #{period,jdbcType=VARCHAR},
       </if>
       <if test="grade != null" >
-        grade = #{grade,jdbcType=TINYINT},
+        grade = #{grade,jdbcType=VARCHAR},
       </if>
       <if test="actualEnrolTime != null" >
         actual_enrol_time = #{actualEnrolTime,jdbcType=DATE},
@@ -483,7 +483,7 @@
       is_full_time = #{isFullTime,jdbcType=BIT},
       enrol_year = #{enrolYear,jdbcType=VARCHAR},
       period = #{period,jdbcType=VARCHAR},
-      grade = #{grade,jdbcType=TINYINT},
+      grade = #{grade,jdbcType=VARCHAR},
       actual_enrol_time = #{actualEnrolTime,jdbcType=DATE},
       expect_graduate_time = #{expectGraduateTime,jdbcType=DATE},
       delay_year = #{delayYear,jdbcType=REAL},

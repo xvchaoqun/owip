@@ -37,7 +37,7 @@
     <result column="edu_way" property="eduWay" jdbcType="VARCHAR" />
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="edu_level" property="eduLevel" jdbcType="VARCHAR" />
-    <result column="grade" property="grade" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="edu_type" property="eduType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -150,7 +150,7 @@
       #{expectGraduateTime,jdbcType=DATE}, #{actualEnrolTime,jdbcType=DATE}, #{syncSource,jdbcType=TINYINT}, 
       #{type,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{realname,jdbcType=VARCHAR}, 
       #{enrolYear,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{eduWay,jdbcType=VARCHAR}, 
-      #{idcard,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, #{grade,jdbcType=TINYINT}, 
+      #{idcard,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
       #{eduType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStudent" >
@@ -375,7 +375,7 @@
         #{eduLevel,jdbcType=VARCHAR},
       </if>
       <if test="grade != null" >
-        #{grade,jdbcType=TINYINT},
+        #{grade,jdbcType=VARCHAR},
       </if>
       <if test="eduType != null" >
         #{eduType,jdbcType=VARCHAR},
@@ -497,7 +497,7 @@
         edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       </if>
       <if test="record.grade != null" >
-        grade = #{record.grade,jdbcType=TINYINT},
+        grade = #{record.grade,jdbcType=VARCHAR},
       </if>
       <if test="record.eduType != null" >
         edu_type = #{record.eduType,jdbcType=VARCHAR},
@@ -544,7 +544,7 @@
       edu_way = #{record.eduWay,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       edu_level = #{record.eduLevel,jdbcType=VARCHAR},
-      grade = #{record.grade,jdbcType=TINYINT},
+      grade = #{record.grade,jdbcType=VARCHAR},
       edu_type = #{record.eduType,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />

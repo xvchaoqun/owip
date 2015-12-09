@@ -26,8 +26,8 @@
 
       <!--<table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
       </table>-->
-       <table tableName="ow_member_stay" domainObjectName="MemberStay">
-       </table>
+       <!--<table tableName="ow_member_stay" domainObjectName="MemberStay">
+       </table>-->
        <!--<table tableName="ow_member_in" domainObjectName="MemberIn">
        </table>-->
         <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
@@ -46,9 +46,9 @@
 
       <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
-      <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
+      <table tableName="ow_member_student" domainObjectName="MemberStudent">
       </table>
-      <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
       </table>
       <table tableName="ow_member" domainObjectName="Member">
           <ignoreColumn column="update_time"/>

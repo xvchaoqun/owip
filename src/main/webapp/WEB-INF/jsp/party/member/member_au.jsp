@@ -8,19 +8,18 @@ pageEncoding="UTF-8"%>
     <h3>${op}党员</h3>
 	<hr/>
     <form class="form-horizontal" action="${ctx}/member_au" id="modalForm" method="post">
-        <input type="hidden" name="userId" value="${member.userId}">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group">
 					<label class="col-xs-3 control-label">账号</label>
 					<div class="col-xs-6">
-						<select ${not empty sysUser?"disabled data-theme='default'":""} required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
+						<c:if test="${not empty member}">
+							<input type="hidden" value="${member.userId}" name="userId">
+						</c:if>
+						<select ${not empty member?"disabled data-theme='default'":""} required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
 								name="userId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${sysUser.id}">${sysUser.realname}</option>
 						</select>
-						<script>
-							//$("#modalForm select[name=userId]").prop("disabled", true);
-						</script>
 					</div>
 				</div>
 				<div class="form-group">
@@ -59,7 +58,7 @@ pageEncoding="UTF-8"%>
 						</script>
 					</div>
 				</div>
-				<div class="form-group">
+				<%--<div class="form-group">
 					<label class="col-xs-3 control-label">类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="120">
@@ -72,7 +71,7 @@ pageEncoding="UTF-8"%>
 							$("#modalForm select[name=type]").val(${member.type});
 						</script>
 					</div>
-				</div>
+				</div>--%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">状态</label>
 					<div class="col-xs-6">

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.party.MemberService;
 import shiro.PasswordHelper;
 import shiro.SaltPassword;
 import shiro.ShiroUser;
@@ -29,6 +30,8 @@ public class SysUserSyncService extends BaseMapper {
     private  SysUserService sysUserService;
     @Autowired
     protected PasswordHelper passwordHelper;
+    @Autowired
+    private MemberService memberService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -42,17 +45,18 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步教职工人事库
-    public void syncJZG(){
+    public void syncJZG(boolean autoStart){
 
         if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_JZG)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-
         SysUserSync sysUserSync = new SysUserSync();
-        sysUserSync.setUserId(shiroUser.getId());
-        sysUserSync.setAutoStart(false);
+        if(!autoStart) {
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            sysUserSync.setUserId(shiroUser.getId());
+        }
+        sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
         sysUserSync.setType(SystemConstants.USER_SOURCE_JZG);
@@ -103,6 +107,11 @@ public class SysUserSyncService extends BaseMapper {
                     } else {
                         record.setId(sysUser.getId());
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+
+                        // 同步党员信息
+                        if(memberService.get(sysUser.getId())!=null)
+                            memberService.snycTeacher(sysUser.getId(), sysUser.getCode());
+
                         updateCount++;
                     }
                 }catch (Exception ex){
@@ -140,17 +149,19 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步研究生库
-    public void syncYJS(){
+    public void syncYJS(boolean autoStart){
 
         if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_YJS)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
         SysUserSync sysUserSync = new SysUserSync();
-        sysUserSync.setUserId(shiroUser.getId());
-        sysUserSync.setAutoStart(false);
+        if(!autoStart) {
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            sysUserSync.setUserId(shiroUser.getId());
+        }
+        sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
         sysUserSync.setType(SystemConstants.USER_SOURCE_YJS);
@@ -202,6 +213,11 @@ public class SysUserSyncService extends BaseMapper {
                     } else {
                         record.setId(sysUser.getId());
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+
+                        // 同步党员信息
+                        if(memberService.get(sysUser.getId())!=null)
+                            memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+
                         updateCount++;
                     }
                 }catch (Exception ex){
@@ -240,17 +256,17 @@ public class SysUserSyncService extends BaseMapper {
 
 
     // 同步本科生库
-    public void syncBks(){
+    public void syncBks(boolean autoStart){
 
         if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_BKS)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
-
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-
         SysUserSync sysUserSync = new SysUserSync();
-        sysUserSync.setUserId(shiroUser.getId());
-        sysUserSync.setAutoStart(false);
+        if(!autoStart) {
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            sysUserSync.setUserId(shiroUser.getId());
+        }
+        sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
         sysUserSync.setType(SystemConstants.USER_SOURCE_BKS);
@@ -305,6 +321,11 @@ public class SysUserSyncService extends BaseMapper {
                     } else {
                         record.setId(sysUser.getId());
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+
+                        // 同步党员信息
+                        if(memberService.get(sysUser.getId())!=null)
+                            memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+
                         updateCount++;
                     }
                 }catch (Exception ex){

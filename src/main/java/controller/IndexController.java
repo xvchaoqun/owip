@@ -42,9 +42,12 @@ public class IndexController extends BaseController {
 	public String user_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
 		modelMap.put("sysUser", loginUser);
-		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG)
-			return "teacher_base";
+		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
 
+			modelMap.put("memberTeacher", memberTeacherService.get(loginUser.getId()));
+			return "teacher_base";
+		}
+		modelMap.put("memberStudent", memberStudentService.get(loginUser.getId()));
 		return "student_base";
 	}
 

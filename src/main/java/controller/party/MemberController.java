@@ -120,6 +120,23 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 同步信息
+    @RequiresPermissions("member:sync")
+    @RequestMapping(value = "/member_sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map sync(Integer userId){
+
+        SysUser sysUser = sysUserService.findById(userId);
+        Member member = memberService.get(userId);
+        if(member!=null) {
+            if(sysUser.getType()== SystemConstants.USER_TYPE_JZG)
+                memberService.snycTeacher(sysUser.getId(), sysUser.getCode());
+            else
+                memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("member:list")
     @RequestMapping("/member")
     public String member() {

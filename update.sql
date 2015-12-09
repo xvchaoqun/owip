@@ -1,4 +1,9 @@
 
+
+###12.9
+ALTER TABLE `ow_student`
+	CHANGE COLUMN `grade` `grade` VARCHAR(10) NULL DEFAULT NULL COMMENT '年级' AFTER `period`;
+
 ##12.6
 ## 访客->群众
 ALTER TABLE `ow_member_apply`

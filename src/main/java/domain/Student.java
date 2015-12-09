@@ -36,7 +36,7 @@ public class Student implements Serializable {
 
     private String period;
 
-    private Byte grade;
+    private String grade;
 
     private Date actualEnrolTime;
 
@@ -180,12 +180,12 @@ public class Student implements Serializable {
         this.period = period == null ? null : period.trim();
     }
 
-    public Byte getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Byte grade) {
-        this.grade = grade;
+    public void setGrade(String grade) {
+        this.grade = grade == null ? null : grade.trim();
     }
 
     public Date getActualEnrolTime() {

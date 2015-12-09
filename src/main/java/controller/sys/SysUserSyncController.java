@@ -36,13 +36,13 @@ public class SysUserSyncController extends BaseController {
     public Map sync_user(int type) {
         switch (type){
             case SystemConstants.USER_SOURCE_JZG:
-                sysUserSyncService.syncJZG();
+                sysUserSyncService.syncJZG(false);
                 break;
             case SystemConstants.USER_SOURCE_YJS:
-                sysUserSyncService.syncYJS();
+                sysUserSyncService.syncYJS(false);
                 break;
             case SystemConstants.USER_SOURCE_BKS:
-                sysUserSyncService.syncBks();
+                sysUserSyncService.syncBks(false);
                 break;
         }
 

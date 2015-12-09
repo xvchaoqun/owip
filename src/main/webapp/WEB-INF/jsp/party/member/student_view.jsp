@@ -31,7 +31,3 @@
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div>
-
-    <div class="modal-footer center">
-        <a href="#" data-dismiss="modal" class="closeView btn btn-default">返回</a>
-    </div>

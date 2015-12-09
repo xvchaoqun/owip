@@ -90,12 +90,12 @@ pageEncoding="UTF-8" %>
                                     </c:if></td>
                                 <td>${cm:formatDate(memberStudent.growTime,'yyyy-MM-dd')}</td>
                                 <td>
-                                    <c:if test="${memberStudent.politicalStatus == MEMBER_POLITICAL_STATUS_GROW}">
+                                    <%--<c:if test="${memberStudent.politicalStatus == MEMBER_POLITICAL_STATUS_GROW}">
                                         未转正
                                     </c:if>
-                                    <c:if test="${memberStudent.politicalStatus == MEMBER_POLITICAL_STATUS_POSITIVE}">
+                                    <c:if test="${memberStudent.politicalStatus == MEMBER_POLITICAL_STATUS_POSITIVE}">--%>
                                         ${cm:formatDate(memberStudent.positiveTime,'yyyy-MM-dd')}
-                                    </c:if>
+                                   <%-- </c:if>--%>
                                 </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">

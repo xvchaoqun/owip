@@ -1222,52 +1222,62 @@ public class StudentExample {
             return (Criteria) this;
         }
 
-        public Criteria andGradeEqualTo(Byte value) {
+        public Criteria andGradeEqualTo(String value) {
             addCriterion("grade =", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeNotEqualTo(Byte value) {
+        public Criteria andGradeNotEqualTo(String value) {
             addCriterion("grade <>", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeGreaterThan(Byte value) {
+        public Criteria andGradeGreaterThan(String value) {
             addCriterion("grade >", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andGradeGreaterThanOrEqualTo(String value) {
             addCriterion("grade >=", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeLessThan(Byte value) {
+        public Criteria andGradeLessThan(String value) {
             addCriterion("grade <", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeLessThanOrEqualTo(Byte value) {
+        public Criteria andGradeLessThanOrEqualTo(String value) {
             addCriterion("grade <=", value, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeIn(List<Byte> values) {
+        public Criteria andGradeLike(String value) {
+            addCriterion("grade like", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeNotLike(String value) {
+            addCriterion("grade not like", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeIn(List<String> values) {
             addCriterion("grade in", values, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeNotIn(List<Byte> values) {
+        public Criteria andGradeNotIn(List<String> values) {
             addCriterion("grade not in", values, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeBetween(Byte value1, Byte value2) {
+        public Criteria andGradeBetween(String value1, String value2) {
             addCriterion("grade between", value1, value2, "grade");
             return (Criteria) this;
         }
 
-        public Criteria andGradeNotBetween(Byte value1, Byte value2) {
+        public Criteria andGradeNotBetween(String value1, String value2) {
             addCriterion("grade not between", value1, value2, "grade");
             return (Criteria) this;
         }
