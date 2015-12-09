@@ -106,7 +106,7 @@
 
       <li data-step="4" <c:if test="${memberApply.stage>3}">class="complete"</c:if>>
         <span class="step">4</span>
-        <span class="title">例入发展计划</span>
+        <span class="title">列入发展计划</span>
 <c:if test="${memberApply.stage>3}"> <span class="subtitle">
           ${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}
         </span></c:if>
