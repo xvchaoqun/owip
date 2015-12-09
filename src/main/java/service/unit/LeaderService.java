@@ -24,6 +24,7 @@ public class LeaderService extends BaseMapper {
 
         LeaderExample example = new LeaderExample();
         example.createCriteria().andTypeIdEqualTo(type);
+        example.setOrderByClause("sort_order desc");
         return leaderMapper.selectByExample(example);
     }
     // 根据校领导id和关联单位类别获取所有关联单位IDs

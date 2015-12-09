@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${extJzg.zgh}">
+					<img src="${ctx}/avatar/${extJzg.zgh}" class="avatar">
 				</td>
 
 				<td class="bg-right">
