@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.common.UnitAdminCadre;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UnitLayoutController extends BaseController {
@@ -59,11 +56,11 @@ public class UnitLayoutController extends BaseController {
         Map<Integer, MetaType> leaderTypeMap = metaTypeService.metaTypes("mc_leader_type");
 
         // key: leader.id
-        Map<Integer, List<LeaderUnit>> contactLeaderUnitMap = new HashMap<>();
-        Map<Integer, List<LeaderUnit>> managerLeaderUnitMap = new HashMap<>();
+        Map<Integer, List<LeaderUnit>> contactLeaderUnitMap = new LinkedHashMap<>();
+        Map<Integer, List<LeaderUnit>> managerLeaderUnitMap = new LinkedHashMap<>();
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
-        Map<MetaType, List<Leader>> resultMap = new HashMap<>();
+        Map<MetaType, List<Leader>> resultMap = new LinkedHashMap<>();
         for (MetaType leaderType : leaderTypeMap.values()) {
 
             List<Leader> leaders = leaderService.findLeaderByType(leaderType.getId());
