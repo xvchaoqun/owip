@@ -83,7 +83,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberTransfer.userId).realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberTransfer.userId}">
+								${cm:getUserById(memberTransfer.userId).realname}
+                                </a>
+                                </td>
 								<td>${MEMBER_TYPE_MAP.get(memberTransfer.type)}</td>
 								<td>${memberTransfer.toUnit}</td>
 								<td>${memberTransfer.fromUnit}</td>

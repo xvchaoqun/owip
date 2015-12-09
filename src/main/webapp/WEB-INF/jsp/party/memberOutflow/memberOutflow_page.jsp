@@ -90,7 +90,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberOutflow.userId).realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberOutflow.userId}">
+								${cm:getUserById(memberOutflow.userId).realname}
+                                </a>
+                                </td>
 								<td>
                                         ${memberOutflow.partyName}
                                     <c:if test="${not empty memberOutflow.branchName}">

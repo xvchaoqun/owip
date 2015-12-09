@@ -3,6 +3,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<div id="body-content">
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -80,7 +81,11 @@ pageEncoding="UTF-8" %>
                             </td>
                             <c:set value="${cm:getUserById(memberAbroad.userId)}" var="_sysUser"/>
                             <td>${_sysUser.code}</td>
-                            <td>${_sysUser.realname}</td>
+                            <td>
+                                <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberAbroad.userId}">
+                            ${_sysUser.realname}
+                            </a>
+                            </td>
                             <td>${GENDER_MAP.get(_sysUser.gender)}</td>
                             <td>${cm:formatDate(_sysUser.birth, "yyyy-MM-dd")}</td>
 								<td>${memberAbroad.partyName}
@@ -167,7 +172,7 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
-
+</div><div id="item-content"></div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
 

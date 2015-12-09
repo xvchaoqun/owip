@@ -154,8 +154,16 @@ pageEncoding="UTF-8" %>
                                                         </label>
                                                     </td>
                                                     <c:set var="user" value="${cm:getUserById(memberApply.userId)}"/>
-                                                    <td>${user.username}</td>
-                                                    <td>${user.realname}</td>
+                                                    <td>
+
+                                                    ${user.username}
+
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}">
+                                                    ${user.realname}
+                                                        </a>
+                                                    </td>
                                                     <td>${partyMap.get(memberApply.partyId).name}
                                                         <c:if test="${not empty memberApply.branchId}">
                                                         -${branchMap.get(memberApply.branchId).name}
@@ -183,7 +191,8 @@ pageEncoding="UTF-8" %>
                                                         <td>${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}</td>
                                                     </c:if>
                                                     <td>
-                                                    <a href="${ctx}/applyLog?userId=${memberApply.userId}">${cm:getApplyStatus(memberApply)}</a>
+                                                        <a href="javascript:;" class="openView" data-url="${ctx}/applyLog_person?userId=${memberApply.userId}">
+                                                    ${cm:getApplyStatus(memberApply)}</a>
                                                     </td>
                                                     <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
                                                     <td>
@@ -323,7 +332,6 @@ pageEncoding="UTF-8" %>
                             </div>
                         </div>
                     </div>
-
 <script>
     function apply_deny(userId){
         bootbox.confirm("确定拒绝该申请？", function (result) {

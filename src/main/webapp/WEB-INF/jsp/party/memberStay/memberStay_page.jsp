@@ -73,7 +73,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberStay.userId).realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberStay.userId}">
+								${cm:getUserById(memberStay.userId).realname}
+                                </a>
+                                </td>
 								<td>${cm:formatDate(memberStay.abroadTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(memberStay.returnTime,'yyyy-MM-dd')}</td>
 								<td>${memberStay.mobile}</td>

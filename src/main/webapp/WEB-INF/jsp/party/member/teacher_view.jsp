@@ -18,9 +18,18 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/memberTeacher_base?userId=${param.userId}">基本信息</a>
                         </li>
-                        <%--<li>
-                            <a href="javascript:;" data-url="${ctx}/memberTeacher_member?userId=${param.userId}">党籍信息</a>
-                        </li>--%>
+                        <li>
+                            <a href="javascript:;" data-url="">党员流出</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-url="">组织关系转出</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-url="">校内组织关系转接</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-url="">公派留学生党员申请</a>
+                        </li>
                     </ul>
                 </div>
             </div>

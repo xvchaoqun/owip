@@ -53,6 +53,24 @@ public class MemberApplyController extends BaseController {
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
+    @RequestMapping("/memberApply_view")
+    public String memberApply_view(int userId, ModelMap modelMap) {
+
+        SysUser sysUser = sysUserService.findById(userId);
+
+        modelMap.put("user", sysUser);
+        MemberApply memberApply = memberApplyService.get(sysUser.getId());
+        modelMap.put("memberApply", memberApply);
+
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+
+        return "party/memberApply/memberApply_view";
+    }
+
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_page")
     public String memberApply_page(HttpServletResponse response,
                                    @RequestParam(required = false, defaultValue = "create_time") String sort,

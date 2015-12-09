@@ -8,6 +8,7 @@ pageEncoding="UTF-8" %>
 <c:set var="MEMBER_IN_STATUS_MAP" value="<%=SystemConstants.MEMBER_IN_STATUS_MAP%>"/>
 <c:set var="MEMBER_IN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_IN_STATUS_APPLY%>"/>
 <c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -100,7 +101,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${_sysUser.realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberIn.userId}">
+								${_sysUser.realname}
+                                        </a>
+                                </td>
 								<td>${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</td>
 								<td>${memberIn.fromUnit}</td>
 								<td>${memberIn.fromTitle}</td>

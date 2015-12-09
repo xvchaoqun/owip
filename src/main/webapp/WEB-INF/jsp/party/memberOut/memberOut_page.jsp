@@ -86,7 +86,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${_sysUser.realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberOut.userId}">
+								${_sysUser.realname}
+                                </a>
+                                </td>
 								<td>${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}</td>
 								<td>${memberOut.toTitle}</td>
 								<td>${memberOut.toUnit}</td>

@@ -1,6 +1,8 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -76,7 +78,7 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td>${cm:getUserById(applyLog.userId).realname}</td>
 								<td>${cm:getUserById(applyLog.operatorId).realname}</td>
-								<td>${applyStageTypeMap.get(applyLog.stage)}</td>
+								<td>${APPLY_STAGE_MAP.get(applyLog.stage)}</td>
 								<td>${applyLog.content}</td>
 								<td>${applyLog.ip}</td>
 								<td>${cm:formatDate(applyLog.createTime,'yyyy-MM-dd HH:mm:ss')}</td>

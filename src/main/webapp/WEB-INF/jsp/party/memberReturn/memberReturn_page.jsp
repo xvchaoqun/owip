@@ -6,6 +6,7 @@ pageEncoding="UTF-8" %>
 <c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
 <c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
+<div id="body-content">
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -89,7 +90,11 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${cm:getUserById(memberReturn.userId).realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberReturn.userId}">
+								${cm:getUserById(memberReturn.userId).realname}
+                                </a>
+                                </td>
 								<td>${partyMap.get(memberReturn.partyId).name}
                                     <c:if test="${not empty memberReturn.branchId}">
                                         -${branchMap.get(memberReturn.branchId).name}
@@ -187,6 +192,7 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
+</div><div id="item-content"></div>
 <script>
 
     function _deny(id){

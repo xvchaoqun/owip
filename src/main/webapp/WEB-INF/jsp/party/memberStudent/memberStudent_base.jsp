@@ -6,6 +6,7 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_SOURCE_MAP" value="<%=SystemConstants.MEMBER_SOURCE_MAP%>"/>
 <c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="MEMBER_STATUS_MAP" value="<%=SystemConstants.MEMBER_STATUS_MAP%>"/>
 <div class="widget-box">
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
@@ -23,7 +24,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${memberStudent.code}">
+					<img src="${ctx}/avatar/${cm:getUserById(param.userId).code}">
 				</td>
 
 				<td class="bg-right">
@@ -177,14 +178,17 @@ pageEncoding="UTF-8"%>
 	</tr>
 	<tr>
 		<td class="bg-right">政治面貌</td>
-		<td class="bg-left" colspan="2">
+		<td class="bg-left">
 			${MEMBER_POLITICAL_STATUS_MAP.get(memberStudent.politicalStatus)}
 		</td>
-
+		<td class="bg-right">状态</td>
+		<td class="bg-left">
+			${MEMBER_STATUS_MAP.get(memberStudent.status)}
+		</td>
 		<td class="bg-right">
 			党内职务
 		</td>
-		<td class="bg-left" colspan="2">
+		<td class="bg-left">
 			${memberStudent.partyPost}
 		</td>
 	</tr>
@@ -254,7 +258,7 @@ pageEncoding="UTF-8"%>
 		</button>
 
 		&nbsp; &nbsp; &nbsp;
-		<button class="closeView btn" type="reset">
+		<button class="closeView btn" type="button">
 			<i class="ace-icon fa fa-undo"></i>
 			返回
 		</button>

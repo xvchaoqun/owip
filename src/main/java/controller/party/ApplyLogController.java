@@ -45,6 +45,21 @@ public class ApplyLogController extends BaseController {
         return "index";
     }
     @RequiresPermissions("applyLog:list")
+    @RequestMapping("/applyLog_person")
+    public String applyLog_person(int userId, ModelMap modelMap){
+
+        ApplyLogExample example = new ApplyLogExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("create_time desc");
+
+        List<ApplyLog> applyLogs = applyLogMapper.selectByExample(example);
+
+        modelMap.put("applyLogs", applyLogs);
+
+        return "party/applyLog/applyLog_person";
+    }
+
+    @RequiresPermissions("applyLog:list")
     @RequestMapping("/applyLog_page")
     public String applyLog_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
@@ -105,8 +120,6 @@ public class ApplyLogController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-
-        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
 
         return "party/applyLog/applyLog_page";
     }

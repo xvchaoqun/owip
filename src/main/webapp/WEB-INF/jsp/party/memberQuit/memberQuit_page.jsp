@@ -5,6 +5,7 @@ pageEncoding="UTF-8" %>
 <c:set var="RETIRE_QUIT_TYPE_MAP" value="<%=SystemConstants.RETIRE_QUIT_TYPE_MAP%>"/>
 <c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<div id="body-content">
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -89,7 +90,11 @@ pageEncoding="UTF-8" %>
                             </td>
                             <c:set value="${cm:getUserById(memberQuit.userId)}" var="_sysUser"/>
 								<td>${_sysUser.code}</td>
-								<td>${_sysUser.realname}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberQuit.userId}">
+								${_sysUser.realname}
+                                </a>
+                                </td>
                                 <td>${GENDER_MAP.get(_sysUser.gender)}</td>
                                 <td>${cm:formatDate(_sysUser.birth, "yyyy-MM-dd")}</td>
 								<td>${cm:formatDate(memberQuit.growTime, "yyyy-MM-dd")}</td>
@@ -100,16 +105,6 @@ pageEncoding="UTF-8" %>
                                 </td>
 								<td>${RETIRE_QUIT_TYPE_MAP.get(memberQuit.type)}</td>
 								<td>${cm:formatDate(memberQuit.quitTime,'yyyy-MM-dd')}</td>
-                            <shiro:hasPermission name="memberQuit:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberQuit.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${memberQuit.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
                             <td>
                                 <c:if test="${memberQuit.status==1}">
                                     已完成
@@ -137,15 +132,6 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="memberQuit:edit">
-                                            <li>
-                                                <a href="#" data-id="${memberQuit.userId}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
                                         </ul>
                                     </div>
                                 </div>
@@ -178,6 +164,7 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
+</div><div id="item-content"></div>
 <link rel="stylesheet" href="${ctx}/assets/css/daterangepicker.css" />
 <script src="${ctx}/assets/js/date-time/moment.js"></script>
 <script src="${ctx}/assets/js/date-time/daterangepicker.js"></script>
