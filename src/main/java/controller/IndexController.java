@@ -1,9 +1,12 @@
 package controller;
 
+import domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 
 @Controller
 public class IndexController extends BaseController {
@@ -25,6 +28,24 @@ public class IndexController extends BaseController {
 	public String home_page(ModelMap modelMap) {
 
 		return "index_page";
+	}
+
+	@RequiresPermissions("index:home")
+	@RequestMapping("/static_page")
+	public String static_page(ModelMap modelMap) {
+
+		return "static_page";
+	}
+
+	@RequiresPermissions("index:home")
+	@RequestMapping("/user_base")
+	public String user_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+		modelMap.put("sysUser", loginUser);
+		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG)
+			return "teacher_base";
+
+		return "student_base";
 	}
 
 	@RequestMapping("/menu")

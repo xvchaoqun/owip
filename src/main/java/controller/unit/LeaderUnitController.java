@@ -47,8 +47,8 @@ public class LeaderUnitController extends BaseController {
     @RequiresPermissions("leaderUnit:list")
     @RequestMapping("/leaderUnit_page")
     public String leaderUnit_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 //@RequestParam(required = false, defaultValue = "sort_order") String sort,
+                                 //@RequestParam(required = false, defaultValue = "asc") String order,
                                     Integer leaderId,
                                     Integer unitId,
                                     Integer typeId,
@@ -65,7 +65,7 @@ public class LeaderUnitController extends BaseController {
 
         LeaderUnitExample example = new LeaderUnitExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("typeId desc, sort_order asc");
 
         if (leaderId!=null) {
             criteria.andLeaderIdEqualTo(leaderId);
@@ -103,12 +103,12 @@ public class LeaderUnitController extends BaseController {
         if (typeId!=null) {
             searchStr += "&typeId=" + typeId;
         }
-        if (StringUtils.isNotBlank(sort)) {
+       /* if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
-        }
+        }*/
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
         return "unit/leaderUnit/leaderUnit_page";

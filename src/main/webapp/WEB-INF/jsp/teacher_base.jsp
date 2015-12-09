@@ -1,10 +1,10 @@
 <%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_SOURCE_MAP" value="<%=SystemConstants.MEMBER_SOURCE_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 <div class="widget-box">
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
@@ -22,7 +22,7 @@
 				<tr>
 					<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-						<img src="${ctx}/avatar/${memberTeacher.code}">
+						<img src="${ctx}/avatar/${sysUser.code}">
 					</td>
 					<td class="bg-right">
 						姓名
@@ -241,99 +241,4 @@
 				</tr>
 				</tbody>
 			</table>
-			</div></div></div>
-<div class="widget-box">
-	<div class="widget-header">
-		<h4 class="widget-title"><i class="fa fa-star blue"></i> 党籍信息</h4>
-
-		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
-				<i class="ace-icon fa fa-chevron-up"></i>
-			</a>
-		</div>
-	</div>
-	<div class="widget-body">
-		<div class="widget-main">
-<table class="table table-bordered table-striped">
-	<tbody>
-	<tr>
-		<td class="bg-right">
-			所属组织机构
-		</td>
-		<td class="bg-left" colspan="5">
-			${partyMap.get(memberTeacher.partyId).name}
-			<c:if test="${not empty memberTeacher.branchId}">
-				-${branchMap.get(memberTeacher.branchId).name}
-			</c:if>
-		</td>
-	</tr>
-	<tr>
-		<td class="bg-right">政治面貌</td>
-		<td class="bg-left" colspan="2">
-			${MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.politicalStatus)}
-		</td>
-		<td class="bg-right">
-			党内职务
-		</td>
-		<td class="bg-left" colspan="2">
-			${memberTeacher.partyPost}
-		</td>
-	</tr>
-	<tr>
-		<td class="bg-right">
-			入党时间
-		</td>
-		<td class="bg-left" width="150">
-			${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}
-		</td>
-		<td class="bg-right">
-			转正时间
-		</td>
-		<td class="bg-left" >
-			${cm:formatDate(memberTeacher.positiveTime,'yyyy-MM-dd')}
-		</td>
-		<td class="bg-right">
-			进入系统方式
-		</td>
-		<td class="bg-left">
-			${MEMBER_SOURCE_MAP.get(memberTeacher.source)}
-		</td>
-	</tr>
-	<tr>
-		<td class="bg-right">提交书面申请书时间</td>
-		<td  class="bg-left">
-			${cm:formatDate(memberTeacher.applyTime,'yyyy-MM-dd')}
-		</td>
-		<td class="bg-right">
-			确定为入党积极分子时间
-		</td>
-
-		<td class="bg-left">
-			${cm:formatDate(memberTeacher.activeTime,'yyyy-MM-dd')}
-		</td>
-		<td class="bg-right">
-			确定为发展对象时间
-		</td>
-		<td class="bg-left">
-			${cm:formatDate(memberTeacher.candidateTime,'yyyy-MM-dd')}
-		</td>
-	</tr>
-	<tr>
-		<td class="bg-right">
-			党内奖励
-		</td>
-		<td class="bg-left" colspan="5">
-			${memberTeacher.partyReward}
-		</td>
-	</tr>
-	<tr>
-		<td class="bg-right">
-			其他奖励
-		</td>
-		<td class="bg-left" colspan="5">
-			${memberTeacher.otherReward}
-		</td>
-	</tr>
-	</tbody>
-</table>
 			</div></div></div>

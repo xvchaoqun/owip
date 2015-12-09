@@ -18,6 +18,8 @@ public class SystemConstants {
 	public static final String ROLE_INFLOWMEMBER = "inflowMember";
 	public static final String ROLE_PARTYADMIN = "partyAdmin";
 	public static final String ROLE_BRANCHADMIN = "branchAdmin";
+	public static final String ROLE_ODADMIN = "odAdmin";
+	public static final String ROLE_CADREADMIN = "cadreAdmin";
 
 
 	public static final String LOG_LOGIN = "mt_log_login";
