@@ -6,79 +6,89 @@
 </shiro:user>
 <html>
 <head>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta charset="utf-8"/>
+<title>组织工作管理与服务一体化平台</title>
+<link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="login-body">
-<br class="xs-100">
-<div class="jumbotron">
-<div class="container">
-<div class="account-wrapper">
-
-    <div class="account-body">
-
-        <h2>组织工作管理与服务一体化平台</h2>
-
-        <form class="form account-form" method="POST" action="${ctx}/login">
-
-            <div class="form-group">
-                <input class="form-control" required name="username" type="text"  placeholder="输入账号" tabindex="1">
-            </div> <!-- /.form-group -->
-
-            <div class="form-group">
-                <input required name="passwd" type="password" class="form-control" placeholder="输入密码" tabindex="2">
-            </div> <!-- /.form-group -->
-            <div class="form-inline">
-                <input name="captcha" type="text" maxlength="4" class="col-xs-12 form-control" placeholder="输入验证码" tabindex="3">
-                <img src="${ctx}/captcha.jpg" class="captcha"/>
-            </div> <!-- /.form-group -->
-
-            <div class="form-group">
-                <button type="button" class="submitBtn btn btn-primary btn-block btn-lg btn-shadow" tabindex="4">
-                    登录
-                </button>
-            </div> <!-- /.form-group -->
-
-        </form>
-
-
-    </div> <!-- /.account-body -->
-
-
+<body>
+<div class="top">
+    <div class="w1000">
+        <div class="logo"><img src="${ctx}/extend/img/logo.png" /></div>
+        <div class="txt">组织工作管理与服务一体化平台</div>
+    </div>
 </div>
+<div class="login_box">
+    <div class="w1000">
+        <div class="login">
+            <form class="form account-form" method="POST" action="${ctx}/login">
+            <dt>登录账号</dt><dd><input name="username" class="account" type="text"/></dd>
+            <dt>登录密码</dt><dd><input name="passwd"class="password" type="password"/></dd>
+            <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4"/>
+                <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
+            <dt></dt><dd><a href="javascript:;" class="login_btn"></a></dd>
+            </form>
+        </div>
+    </div>
 </div>
-</div>
-</body>
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script src="${ctx}/extend/js/jquery.form.js"></script>
 <script>
   $(function(){
+      var ch = $(window).height();
+      $(".login_box").css("height", ch);
+
       $('img.captcha').click(function () {
           $("input[name=captcha]").val('').focus();
           $(this).attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
       })
-	  $(".submitBtn").click(function(){$("form").submit();return false;});
-	  $("form").validate({
-			submitHandler: function (form) {
-				$(form).ajaxSubmit({
-					success:function(data){
-                        //alert(data)
-                        try {
-                            data = JSON.parse(data)
-                        }catch(e){
-                            location.reload();
-                        }
-                        //console.log(ret)
-                        if(data.success){
-                            location.href = data.url;
-                        }else{
-                            //toastr.error(data.msg, '提示');
-                            //alert(data.message)
-                            $('#captcha').click()
-                        }
-					}
-				});
-			},showErrors:function(){}
-		});
+	  $(".login_btn").click(function(){
+
+          var $username = $("input[name=username]");
+          var $passwd = $("input[name=passwd]");
+          var $captcha = $("input[name=captcha]");
+          if($.trim($username.val())==""){
+                $username.focus();
+                return;
+          }
+          if($passwd.val()==""){
+              $passwd.focus();
+              return;
+          }
+          /*if($.trim($captcha.val())==""){
+              $captcha.focus();
+              return;
+          }*/
+          $(".form").ajaxSubmit({
+              success:function(data){
+                  //alert(data)
+                  try {
+                      data = JSON.parse(data)
+                  }catch(e){
+                      location.reload();
+                  }
+                  //console.log(ret)
+                  if(data.success){
+                      location.href = data.url;
+                  }else{
+                      alert(data.msg)
+                      $captcha.click()
+                  }
+              }
+          });
+      });
+
   })
   </script>
+</body>
 </html>

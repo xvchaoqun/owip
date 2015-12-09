@@ -12,7 +12,6 @@ location.href="${ctx}/extend/unsupport.html"
 <script type="text/javascript">
 	window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>"+"<"+"/script>");
 </script>
-
 <!-- <![endif]-->
 
 <!--[if IE]>
