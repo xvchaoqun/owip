@@ -396,7 +396,7 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
     });
     $('select[name='+partyId+']', $container).on("change", function () {
 
-        var $party_class = $(this).select2("data")[0].class || init_party_class;
+        var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
         //alert("${party.id}")
         if($(this).val()!=init_party_id)
             $('select[name='+branchId+']', $container).val(null).trigger("change");
