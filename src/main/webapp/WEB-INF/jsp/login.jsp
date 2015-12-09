@@ -23,10 +23,11 @@
     <div class="w1000">
         <div class="login">
             <form class="form account-form" method="POST" action="${ctx}/login">
-            <dt>登录账号</dt><dd><input name="username" class="account" type="text"/></dd>
-            <dt>登录密码</dt><dd><input name="passwd"class="password" type="password"/></dd>
-            <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4"/>
+                <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>
+                <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>
+                <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4"/>
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
+
             <dt></dt><dd><a href="javascript:;" class="login_btn"></a></dd>
             </form>
         </div>
@@ -43,52 +44,6 @@
 </script>
 <![endif]-->
 <script src="${ctx}/extend/js/jquery.form.js"></script>
-<script>
-  $(function(){
-      var ch = $(window).height();
-      $(".login_box").css("height", ch);
-
-      $('img.captcha').click(function () {
-          $("input[name=captcha]").val('').focus();
-          $(this).attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
-      })
-	  $(".login_btn").click(function(){
-
-          var $username = $("input[name=username]");
-          var $passwd = $("input[name=passwd]");
-          var $captcha = $("input[name=captcha]");
-          if($.trim($username.val())==""){
-                $username.focus();
-                return;
-          }
-          if($passwd.val()==""){
-              $passwd.focus();
-              return;
-          }
-          /*if($.trim($captcha.val())==""){
-              $captcha.focus();
-              return;
-          }*/
-          $(".form").ajaxSubmit({
-              success:function(data){
-                  //alert(data)
-                  try {
-                      data = JSON.parse(data)
-                  }catch(e){
-                      location.reload();
-                  }
-                  //console.log(ret)
-                  if(data.success){
-                      location.href = data.url;
-                  }else{
-                      alert(data.msg)
-                      $captcha.click()
-                  }
-              }
-          });
-      });
-
-  })
-  </script>
+<script src="${ctx}/extend/js/login.js"></script>
 </body>
 </html>
