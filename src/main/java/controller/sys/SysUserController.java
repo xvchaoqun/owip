@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,13 +39,26 @@ import java.util.*;
 public class SysUserController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+	@RequiresPermissions("sysUser:list")
+	@RequestMapping("/sysUser_view")
+	public String sysUser_view(int userId, ModelMap modelMap) {
+
+		SysUser sysUser = sysUserService.findById(userId);
+		modelMap.put("sysUser", sysUser);
+		modelMap.put("roleMap", sysRoleService.findAll());
+
+		return "sys/sysUser/sysUser_view";
+	}
+
+	@RequiresPermissions("sysUser:list")
 	@RequestMapping("/sysUser")
 	public String sysUser() {
 
 		return "index";
 	}
 
+	@RequiresPermissions("sysUser:list")
 	@RequestMapping("/sysUser_page")
 	public String sysUser_page(HttpServletRequest request,
 							   @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "asc") String order,
@@ -246,7 +260,7 @@ public class SysUserController extends BaseController {
 
 		return "sys/sysUser/sysUserRole";
 	}
-
+	@RequiresPermissions("sysUser:list")
 	@RequestMapping("/sysUser_export")
 	public String sysUser_export(Integer roleId, boolean locked, HttpServletResponse response,
 								 HttpServletRequest request, ModelMap modelMap) throws IOException {

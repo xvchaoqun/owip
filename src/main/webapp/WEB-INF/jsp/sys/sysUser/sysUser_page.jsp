@@ -4,57 +4,113 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="USER_SOURCE_ADMIN" value="<%=SystemConstants.USER_SOURCE_ADMIN%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+
 <div class="row">
     <div class="col-xs-12">
+        <div id="body-content">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-                <mytag:sort-form css="form-inline hidden-xs hidden-sm" id="searchForm">
 
-                    <select name="type" data-placeholder="请选择类别" class="select2 tag-input-style">
-                        <option></option>
-                        <c:forEach items="${userTypeMap}" var="userType">
-                            <option value="${userType.key}">${userType.value}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#searchForm select[name=type]").val('${param.type}');
-                    </script>
-                    <select name="roleId" data-placeholder="请选择角色" class="select2 tag-input-style">
-                        <option></option>
-                        <c:forEach items="${roleMap}" var="role">
-                            <option value="${role.key}">${role.value.description}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#searchForm select[name=roleId]").val('${param.roleId}');
-                    </script>
-                    <select name="locked" data-placeholder="状态">
-                        <option></option>
-                        <option value="0">正常账号</option>
-                        <option value="1">禁用账号</option>
-                    </select>
-                    <script>
-                        $("#searchForm select[name=locked]").val('${param.locked}');
-                    </script>
-                    <input class="form-control search-query" name="username" type="text" value="${param.username}"
-                           placeholder="请输入账号">
-                    <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
-                           placeholder="请输入姓名">
-                    <a class="btn btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
-                    <c:set var="_query" value="${not empty param.realname ||not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
-                    <c:if test="${_query}">
-                        <button type="button" class="btn btn-warning btn-sm" onclick="_reset()">
-                            <i class="fa fa-reply"></i> 重置
-                        </button>
-                    </c:if>
-                    <div class="vspace-12"></div>
-                    <div class="buttons pull-right">
-                        <a onclick="au()" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加账号</a>
-                        <a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>
+            <div class="widget-box hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <mytag:sort-form css="form-horizontal " id="searchForm">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">账号</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control search-query" name="username" type="text" value="${param.username}"
+                                                   placeholder="请输入账号">
+                                        </div>
+                                    </div>
 
-                     </div>
-                </mytag:sort-form>
-            <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">姓名</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
+                                                   placeholder="请输入姓名">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">类别</label>
+                                        <div class="col-xs-6">
+                                            <select name="type" data-placeholder="请选择" class="select2 tag-input-style">
+                                                <option></option>
+                                                <c:forEach items="${userTypeMap}" var="userType">
+                                                    <option value="${userType.key}">${userType.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=type]").val('${param.type}');
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">角色</label>
+                                        <div class="col-xs-6">
+                                            <select name="roleId" data-placeholder="请选择" class="select2 tag-input-style">
+                                                <option></option>
+                                                <c:forEach items="${roleMap}" var="role">
+                                                    <option value="${role.key}">${role.value.description}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=roleId]").val('${param.roleId}');
+                                            </script>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">状态</label>
+                                        <div class="col-xs-6">
+                                            <select name="locked" data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="0">正常账号</option>
+                                                <option value="1">禁用账号</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=locked]").val('${param.locked}');
+                                            </script>
+                                             
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="clearfix form-actions center">
+                                <a class="btn btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
+                                <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
+                                <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
+                                    <button type="button" class=" btn btn-warning btn-sm" onclick="_reset()">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </mytag:sort-form>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons pull-right">
+                <a onclick="au()" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加账号</a>
+                <a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>
+            </div>
+            <h4>&nbsp;</h4>
             <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
@@ -70,12 +126,7 @@
                     <th>类别</th>
                     <th >姓名</th>
                     <th >性别</th>
-                    <th >出生年月</th>
-                    <th >身份证</th>
-                    <th >手机</th>
-                    <th >邮箱</th>
                     <th >账号来源</th>
-                    <th>拥有角色</th>
                     <th class="hidden-480">创建时间</th>
                     <th class="hidden-480"></th>
                 </tr>
@@ -89,22 +140,17 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-                        <td nowrap>${sysUser.username}</td>
+                        <td nowrap>
+                            <a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId=${sysUser.id}">
+                        ${sysUser.username}
+                        </a>
+                        </td>
                         <td nowrap>${sysUser.code}</td>
                         <td >${userTypeMap.get(sysUser.type)}</td>
                         <td >${sysUser.realname}</td>
                         <td >${GENDER_MAP.get(sysUser.gender)}</td>
-                        <td >${cm:formatDate(sysUser.birth, "yyyy-MM-dd")}</td>
-                        <td >${sysUser.idcard}</td>
-                        <td >${sysUser.mobile}</td>
-                        <td >${sysUser.email}</td>
                         <td >${userSourceMap.get(sysUser.source)}</td>
-                        <td>
-                            <c:forEach items="${fn:split(sysUser.roleIds,',')}" var="id" varStatus="vs">
-                                ${roleMap.get(cm:parseInt(id)).description}
-                                <c:if test="${!vs.last}">,</c:if>
-                            </c:forEach>
-                        </td>
+
                         <td  class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
                         <td  class="hidden-480">
                             <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
@@ -150,8 +196,10 @@
                 </div>
             </c:if>
         </div>
+        </div><div id="item-content"></div>
     </div>
 </div>
+
 <script>
 
     $(".table th.sortable").click(function(){
