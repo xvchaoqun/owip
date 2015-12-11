@@ -170,7 +170,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function _deny(id, realname){
-        loadModal("${ctx}/memberIn_deny?id=" + id + "&realname="+realname);
+        loadModal("${ctx}/memberIn_deny?id=" + id + "&realname="+encodeURIComponent(realname));
     }
     function _check1(id){
         bootbox.confirm("确定通过该申请？", function (result) {

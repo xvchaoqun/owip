@@ -153,7 +153,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function _deny(id, realname){
-        loadModal("${ctx}/memberOut_deny?id=" + id + "&realname="+realname);
+        loadModal("${ctx}/memberOut_deny?id=" + id + "&realname="+encodeURIComponent(realname));
     }
 
     function _check1(id){
