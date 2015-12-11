@@ -12,56 +12,43 @@ pageEncoding="UTF-8"%>
 		<div class="row">
 			<div class="col-xs-4">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-5 control-label">用户</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
 							name="userId" data-placeholder="请输入账号或姓名或学工号">
-						<option value="${sysUser.id}">${sysUser.realname}</option>
+						<option value="${userBean.userId}">${userBean.realname}</option>
 					</select>
 				</div>
 			</div>
+				<c:if test="${not empty userBean}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">学工号</label>
+				<label class="col-xs-5 control-label">学工号</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="code" value="${memberStay.code}">
+                        <input disabled class="form-control" type="text" name="code" value="${userBean.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">姓名</label>
+				<label class="col-xs-5 control-label">性别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="realname" value="${memberStay.realname}">
+					<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">性别</label>
+				<label class="col-xs-5 control-label">年龄</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="gender" data-placeholder="请选择">
-						<option></option>
-						<c:forEach items="${GENDER_MAP}" var="_gender">
-							<option value="${_gender.key}">${_gender.value}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=gender]").val(${memberStay.gender});
-					</script>
+                        <input disabled class="form-control" type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年龄</label>
+				<label class="col-xs-5 control-label">民族</label>
 				<div class="col-xs-6">
-                        <input required class="form-control digits" type="text" name="age" value="${memberStay.age}">
+                        <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">民族</label>
+				<label class="col-xs-5 control-label">身份证</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="nation" value="${memberStay.nation}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">身份证</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="idcard" value="${memberStay.idcard}">
+                        <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 				</div>
 			</div>
 				</div>
@@ -69,27 +56,17 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">政治面貌</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" >
-						<option></option>
-						<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-							<option value="${_status.key}">${_status.value}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=politicalStatus]").val(${memberStay.politicalStatus});
-					</script>
+					<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">入党时间</label>
 				<div class="col-xs-6">
-					<div class="input-group">
-						<input required class="form-control date-picker" name="_growTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberStay.growTime,'yyyy-MM-dd')}" />
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-					</div>
+						<input disabled class="form-control" name="_growTime" type="text"
+							   value="${cm:formatDate(userBean.growTime,'yyyy-MM-dd')}" />
 				</div>
 			</div>
+					</c:if>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">留学国别</label>
 				<div class="col-xs-6">

@@ -4,14 +4,6 @@
   <resultMap id="BaseResultMap" type="domain.MemberStay" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="realname" property="realname" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="TINYINT" />
-    <result column="age" property="age" jdbcType="INTEGER" />
-    <result column="nation" property="nation" jdbcType="VARCHAR" />
-    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
-    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="abroad_time" property="abroadTime" jdbcType="DATE" />
     <result column="return_time" property="returnTime" jdbcType="DATE" />
@@ -83,9 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, code, realname, gender, age, nation, idcard, political_status, grow_time, 
-    country, abroad_time, return_time, pay_time, mobile, email, contact_name, contact_mobile, 
-    status, reason, apply_time
+    id, user_id, country, abroad_time, return_time, pay_time, mobile, email, contact_name, 
+    contact_mobile, status, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStayExample" >
     select
@@ -118,22 +109,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberStay" >
-    insert into ow_member_stay (id, user_id, code, 
-      realname, gender, age, 
-      nation, idcard, political_status, 
-      grow_time, country, abroad_time, 
-      return_time, pay_time, mobile, 
-      email, contact_name, contact_mobile, 
-      status, reason, apply_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{age,jdbcType=INTEGER}, 
-      #{nation,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, 
-      #{growTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{abroadTime,jdbcType=DATE}, 
-      #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
-      #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
-      )
+    insert into ow_member_stay (id, user_id, country, 
+      abroad_time, return_time, pay_time, 
+      mobile, email, contact_name, 
+      contact_mobile, status, reason, 
+      apply_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
+      #{abroadTime,jdbcType=DATE}, #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, 
+      #{mobile,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactMobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{applyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStay" >
     insert into ow_member_stay
@@ -143,30 +128,6 @@
       </if>
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="code != null" >
-        code,
-      </if>
-      <if test="realname != null" >
-        realname,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="age != null" >
-        age,
-      </if>
-      <if test="nation != null" >
-        nation,
-      </if>
-      <if test="idcard != null" >
-        idcard,
-      </if>
-      <if test="politicalStatus != null" >
-        political_status,
-      </if>
-      <if test="growTime != null" >
-        grow_time,
       </if>
       <if test="country != null" >
         country,
@@ -208,30 +169,6 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null" >
-        #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="age != null" >
-        #{age,jdbcType=INTEGER},
-      </if>
-      <if test="nation != null" >
-        #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="idcard != null" >
-        #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="politicalStatus != null" >
-        #{politicalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="growTime != null" >
-        #{growTime,jdbcType=DATE},
       </if>
       <if test="country != null" >
         #{country,jdbcType=VARCHAR},
@@ -283,30 +220,6 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.realname != null" >
-        realname = #{record.realname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.gender != null" >
-        gender = #{record.gender,jdbcType=TINYINT},
-      </if>
-      <if test="record.age != null" >
-        age = #{record.age,jdbcType=INTEGER},
-      </if>
-      <if test="record.nation != null" >
-        nation = #{record.nation,jdbcType=VARCHAR},
-      </if>
-      <if test="record.idcard != null" >
-        idcard = #{record.idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="record.politicalStatus != null" >
-        political_status = #{record.politicalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="record.growTime != null" >
-        grow_time = #{record.growTime,jdbcType=DATE},
-      </if>
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
       </if>
@@ -349,14 +262,6 @@
     update ow_member_stay
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=TINYINT},
-      age = #{record.age,jdbcType=INTEGER},
-      nation = #{record.nation,jdbcType=VARCHAR},
-      idcard = #{record.idcard,jdbcType=VARCHAR},
-      political_status = #{record.politicalStatus,jdbcType=TINYINT},
-      grow_time = #{record.growTime,jdbcType=DATE},
       country = #{record.country,jdbcType=VARCHAR},
       abroad_time = #{record.abroadTime,jdbcType=DATE},
       return_time = #{record.returnTime,jdbcType=DATE},
@@ -377,30 +282,6 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null" >
-        realname = #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="age != null" >
-        age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="nation != null" >
-        nation = #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="idcard != null" >
-        idcard = #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="politicalStatus != null" >
-        political_status = #{politicalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="growTime != null" >
-        grow_time = #{growTime,jdbcType=DATE},
       </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
@@ -441,14 +322,6 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberStay" >
     update ow_member_stay
     set user_id = #{userId,jdbcType=INTEGER},
-      code = #{code,jdbcType=VARCHAR},
-      realname = #{realname,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
-      age = #{age,jdbcType=INTEGER},
-      nation = #{nation,jdbcType=VARCHAR},
-      idcard = #{idcard,jdbcType=VARCHAR},
-      political_status = #{politicalStatus,jdbcType=TINYINT},
-      grow_time = #{growTime,jdbcType=DATE},
       country = #{country,jdbcType=VARCHAR},
       abroad_time = #{abroadTime,jdbcType=DATE},
       return_time = #{returnTime,jdbcType=DATE},

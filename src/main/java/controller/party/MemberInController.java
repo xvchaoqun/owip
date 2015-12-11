@@ -256,7 +256,7 @@ public class MemberInController extends BaseController {
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
             modelMap.put("memberIn", memberIn);
 
-            modelMap.put("sysUser", sysUserService.findById(memberIn.getUserId()));
+            modelMap.put("userBean", userBeanService.get(memberIn.getUserId()));
 
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();

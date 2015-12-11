@@ -34,10 +34,12 @@ public class UserMemberStayController extends BaseController{
     @RequestMapping("/memberStay")
     public String memberStay(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-        modelMap.put("sysUser", loginUser);
+        int userId = loginUser.getId();
 
-        MemberStay memberStay = memberStayService.get(loginUser.getId());
+        MemberStay memberStay = memberStayService.get(userId);
         modelMap.put("memberStay", memberStay);
+
+        modelMap.put("userBean", userBeanService.get(userId));
 
         if(memberStay==null || memberStay.getStatus()== SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
                 || memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_BACK)
@@ -51,12 +53,8 @@ public class UserMemberStayController extends BaseController{
     @ResponseBody
     public Map do_memberStay_au(@CurrentUser SysUser loginUser,
                                    MemberStay record,
-                                   String _growTime,
                                    String _abroadTime, String _returnTime, String _payTime,HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(_growTime)) {
-            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
-        }
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
         }
@@ -75,7 +73,6 @@ public class UserMemberStayController extends BaseController{
 
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
-        record.setCode(loginUser.getCode());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
 
         if (memberStay == null) {

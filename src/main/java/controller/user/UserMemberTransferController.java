@@ -1,5 +1,6 @@
 package controller.user;
 
+import bean.UserBean;
 import controller.BaseController;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
@@ -32,30 +33,31 @@ public class UserMemberTransferController extends BaseController{
     @RequestMapping("/memberTransfer")
     public String memberTransfer(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-        modelMap.put("sysUser", loginUser);
+        Integer userId = loginUser.getId();
+        UserBean userBean = userBeanService.get(userId);
+        modelMap.put("userBean", userBean);
 
-        MemberTransfer memberTransfer = memberTransferService.get(loginUser.getId());
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+
+        modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
+        modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
+
+        MemberTransfer memberTransfer = memberTransferService.get(userId);
         modelMap.put("memberTransfer", memberTransfer);
 
         modelMap.put("locationMap", locationService.codeMap());
         modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
         modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
+
         if(memberTransfer!=null) {
             if (memberTransfer.getToPartyId() != null) {
                 modelMap.put("toParty", partyMap.get(memberTransfer.getToPartyId()));
             }
             if (memberTransfer.getToBranchId() != null) {
                 modelMap.put("toBranch", branchMap.get(memberTransfer.getToBranchId()));
-            }
-            if (memberTransfer.getFromPartyId() != null) {
-                modelMap.put("fromParty", partyMap.get(memberTransfer.getFromPartyId()));
-            }
-            if (memberTransfer.getFromBranchId() != null) {
-                modelMap.put("fromBranch", branchMap.get(memberTransfer.getFromBranchId()));
             }
         }
 
@@ -72,6 +74,9 @@ public class UserMemberTransferController extends BaseController{
     public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,
                                    MemberTransfer record, String _payTime, String _fromHandleTime,  HttpServletRequest request) {
 
+        Integer userId = loginUser.getId();
+        UserBean userBean = userBeanService.get(userId);
+
         if(StringUtils.isNotBlank(_payTime)){
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }
@@ -79,25 +84,19 @@ public class UserMemberTransferController extends BaseController{
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
 
-        MemberTransfer memberTransfer = memberTransferService.get(loginUser.getId());
+        MemberTransfer memberTransfer = memberTransferService.get(userId);
 
         if(memberTransfer!=null && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
                 && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
-        if(record.getFromPartyId().byteValue() == record.getToPartyId()){
+        if(userBean.getPartyId().byteValue() == record.getToPartyId()){
             return failed("转入不能是当前所在分党委");
         }
 
         record.setUserId(loginUser.getId());
-        record.setCode(loginUser.getCode());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
-
-        if(loginUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
 
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);

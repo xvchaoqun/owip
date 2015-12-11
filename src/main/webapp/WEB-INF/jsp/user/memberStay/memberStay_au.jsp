@@ -45,77 +45,58 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"> ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+                            <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
                             <div class="col-sm-6">
-                                <input readonly disabled type="text" value="${sysUser.code}" />
+                                <input disabled type="text" value="${userBean.code}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">姓名</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="realname" value="${memberStay.realname}">
+                                <input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">性别</label>
                             <div class="col-xs-6">
-                                <select required data-rel="select2" name="gender" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${GENDER_MAP}" var="_gender">
-                                        <option value="${_gender.key}">${_gender.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=gender]").val(${memberStay.gender});
-                                </script>
+                                <input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">年龄</label>
                             <div class="col-xs-6">
-                                <input required class="form-control digits"
-                                       data-rule-max="100" data-rule-min="18"
-                                       type="text" name="age" value="${memberStay.age}">
+                                <input disabled class="form-control"
+                                       type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">民族</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="nation" value="${memberStay.nation}">
+                                <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">身份证</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="idcard" value="${memberStay.idcard}">
+                                <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">政治面貌</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">入党时间</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" name="_growTime" type="text"
+                                       value="${cm:formatDate(memberStay.growTime,'yyyy-MM-dd')}" />
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-4">
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">政治面貌</label>
-                            <div class="col-xs-6">
-                                <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" >
-                                    <option></option>
-                                    <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-                                        <option value="${_status.key}">${_status.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=politicalStatus]").val(${memberStay.politicalStatus});
-                                </script>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">入党时间</label>
-                            <div class="col-xs-6">
-                                <div class="input-group">
-                                    <input required class="form-control date-picker" name="_growTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberStay.growTime,'yyyy-MM-dd')}" />
-                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label class="col-xs-5 control-label">留学国别</label>
                             <div class="col-xs-6">
@@ -152,28 +133,27 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-4">
+
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">手机号码</label>
+                            <label class="col-xs-5 control-label">手机号码</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="mobile" value="${memberStay.mobile}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">电子邮箱</label>
+                            <label class="col-xs-5 control-label">电子邮箱</label>
                             <div class="col-xs-6">
                                 <input required class="form-control email" type="text" name="email" value="${memberStay.email}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">国内联系人姓名</label>
+                            <label class="col-xs-5 control-label">国内联系人姓名</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="contactName" value="${memberStay.contactName}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">国内联系人手机号码</label>
+                            <label class="col-xs-5 control-label">国内联系人手机号码</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="contactMobile" value="${memberStay.contactMobile}">
                             </div>

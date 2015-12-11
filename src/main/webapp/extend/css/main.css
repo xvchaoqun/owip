@@ -3,7 +3,8 @@
     height: 90px;
     display: table;
     width: 100%;
-    background: #006896;
+    background: #0068bf;
+    /*background: #006896;*/
     /*background: #0b3175;*/
 
 }
@@ -24,10 +25,13 @@
 }
 .navbar-buttons a{
     color: #cccccc;
+    font-weight: bolder;
     text-decoration: none;
 }
 .navbar-buttons a:hover{
-    color: #fff;
+    color: #0068bf;
+    font-weight: bolder;
+    background-color: #fff;
 }
 .ace-settings-container{
     bottom:0;
@@ -53,6 +57,9 @@
 .tab-content, .nav-tabs.background-blue{
     border: none;
 }
+/* 内部LOGO */
+.navbar .navbar-header .logo{padding-right:25px;float:left;height:58px;border-right:1px solid #fff;}
+.navbar .navbar-header .txt{float:left;height:58px;line-height:58px;font-size:30px;margin-left:25px;font-weight:bold;color:#fff}
 
 /*============table================*/
 .table{

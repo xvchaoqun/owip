@@ -74,71 +74,71 @@ pageEncoding="UTF-8"%>
 					年级
 				</td>
 				<td class="bg-left">
-					${memberStudent.grade}
+					${student.grade}
 				</td>
 				<td class="bg-right">培养类型</td>
 				<td  class="bg-left">
-					${memberStudent.eduType}
+					${student.eduType}
 				</td>
 				<td class="bg-right">
 					培养层次
 				</td>
 				<td class="bg-left">
-					${memberStudent.eduLevel}
+					${student.eduLevel}
 				</td>
 				<td  class="bg-right">
 					培养方式
 				</td>
 				<td class="bg-left">
-					${memberStudent.eduWay}
+					${student.eduWay}
 				</td>
 			</tr>
 			<tr>
 
 				<td class="bg-right">招生年度</td>
 				<td  class="bg-left">
-					${memberStudent.enrolYear}
+					${student.enrolYear}
 				</td>
 				<td class="bg-right">
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${memberStudent.isFullTime}
+					${student.isFullTime}
 				</td>
 				<td class="bg-right" >
 					学生类别
 				</td>
 				<td class="bg-left">
-					${memberStudent.type}
+					${student.type}
 				</td>
 				<td class="bg-right">教育类别</td>
 				<td  class="bg-left">
-					${memberStudent.eduCategory}
+					${student.eduCategory}
 				</td>
 			</tr>
 			<tr>
 
 				<td class="bg-right">实际入学年月</td>
 				<td  class="bg-left">
-					${memberStudent.actualEnrolTime}
+					${student.actualEnrolTime}
 				</td>
 				<td class="bg-right">
 					预计毕业年月
 				</td>
 				<td class="bg-left">
-					${memberStudent.expectGraduateTime}
+					${student.expectGraduateTime}
 				</td>
 				<td  class="bg-right">
 					实际毕业年月
 				</td>
 				<td class="bg-left">
-					${memberStudent.actualGraduateTime}
+					${student.actualGraduateTime}
 				</td>
 				<td class="bg-right">
 					延期毕业年限
 				</td>
 				<td class="bg-left">
-					${memberStudent.delayYear}
+					${student.delayYear}
 				</td>
 			</tr>
 			</tbody>

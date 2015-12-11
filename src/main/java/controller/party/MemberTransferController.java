@@ -1,5 +1,6 @@
 package controller.party;
 
+import bean.UserBean;
 import controller.BaseController;
 import domain.*;
 import domain.MemberTransferExample.Criteria;
@@ -51,7 +52,6 @@ public class MemberTransferController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "id") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
-                                    Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -70,9 +70,9 @@ public class MemberTransferController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type!=null) {
+  /*      if (type!=null) {
             criteria.andTypeEqualTo(type);
-        }
+        }*/
 
         if (export == 1) {
             memberTransfer_export(example, response);
@@ -95,9 +95,9 @@ public class MemberTransferController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(userId));
             searchStr += "&userId=" + userId;
         }
-        if (type!=null) {
+        /*if (type!=null) {
             searchStr += "&type=" + type;
-        }
+        }*/
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
@@ -106,6 +106,12 @@ public class MemberTransferController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+
         return "party/memberTransfer/memberTransfer_page";
     }
 
@@ -117,8 +123,10 @@ public class MemberTransferController extends BaseController {
 
         //操作人应是申请人所在分党委管理员
         int loginUserId = loginUser.getId();
+
         MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        Integer partyId = memberTransfer.getFromPartyId();
+        Member member = memberService.get(memberTransfer.getUserId());
+        Integer partyId = member.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
@@ -137,7 +145,8 @@ public class MemberTransferController extends BaseController {
         //操作人应是申请人所在分党委管理员
         int loginUserId = loginUser.getId();
         MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        Integer partyId = memberTransfer.getFromPartyId();
+        Member member = memberService.get(memberTransfer.getUserId());
+        Integer partyId = member.getPartyId();
         if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
@@ -186,16 +195,12 @@ public class MemberTransferController extends BaseController {
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(record.getFromPartyId().byteValue() == record.getToPartyId()){
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        if(member.getPartyId().byteValue() == record.getToPartyId()){
             return failed("转入不能是当前所在分党委");
         }
-        Integer userId = record.getUserId();
-        SysUser sysUser = sysUserService.findById(userId);
-        record.setCode(sysUser.getCode());
-        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
+
 
         if (id == null) {
             record.setApplyTime(new Date());
@@ -219,23 +224,23 @@ public class MemberTransferController extends BaseController {
             MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
             modelMap.put("memberTransfer", memberTransfer);
 
-            modelMap.put("sysUser", sysUserService.findById(memberTransfer.getUserId()));
+            Integer userId = memberTransfer.getUserId();
+            UserBean userBean = userBeanService.get(userId);
+            modelMap.put("userBean", userBean);
 
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
             modelMap.put("branchMap", branchMap);
             modelMap.put("partyMap", partyMap);
+
+            modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
+            modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
+
             if (memberTransfer.getToPartyId() != null) {
                 modelMap.put("toParty", partyMap.get(memberTransfer.getToPartyId()));
             }
             if (memberTransfer.getToBranchId() != null) {
                 modelMap.put("toBranch", branchMap.get(memberTransfer.getToBranchId()));
-            }
-            if (memberTransfer.getFromPartyId() != null) {
-                modelMap.put("fromParty", partyMap.get(memberTransfer.getFromPartyId()));
-            }
-            if (memberTransfer.getFromBranchId() != null) {
-                modelMap.put("fromBranch", branchMap.get(memberTransfer.getFromBranchId()));
             }
 
         }
@@ -277,7 +282,7 @@ public class MemberTransferController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"用户","人员类别","转入单位","转出单位","转出办理时间","状态"};
+        String[] titles = {"用户",/*"人员类别","转入单位","转出单位",*/"转出办理时间","状态"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -288,10 +293,10 @@ public class MemberTransferController extends BaseController {
 
             MemberTransfer memberTransfer = memberTransfers.get(i);
             String[] values = {
-                        memberTransfer.getUserId()+"",
+                        memberTransfer.getUserId()+"",/*
                                             memberTransfer.getType()+"",
                                             memberTransfer.getToUnit(),
-                                            memberTransfer.getFromUnit(),
+                                            memberTransfer.getFromUnit(),*/
                                             DateUtils.formatDate(memberTransfer.getFromHandleTime(), DateUtils.YYYY_MM_DD),
                                             memberTransfer.getStatus()+""
                     };

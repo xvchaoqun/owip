@@ -139,6 +139,12 @@ public class BaseController extends BaseMapper {
     protected MetaTypeService metaTypeService;
 
     @Autowired
+    protected UserBeanService userBeanService;
+    @Autowired
+    protected TeacherService teacherService;
+    @Autowired
+    protected StudentService studentService;
+    @Autowired
     protected SysUserSyncService sysUserSyncService;
     @Autowired
     protected LocationService locationService;

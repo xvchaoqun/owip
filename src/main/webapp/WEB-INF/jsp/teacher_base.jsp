@@ -28,50 +28,50 @@ pageEncoding="UTF-8"%>
 						姓名
 					</td>
 					<td class="bg-left" style="min-width: 80px">
-						${memberTeacher.realname}
+						${teacher.realname}
 					</td>
 					<td class="bg-right">
 						性别
 					</td>
 					<td class="bg-left" style="min-width: 80px">
-						${GENDER_MAP.get(memberTeacher.gender)}
+						${GENDER_MAP.get(teacher.gender)}
 					</td>
 
 					<td class="bg-right">
 						民族
 					</td>
 					<td class="bg-left" style="min-width: 120px">
-						${memberTeacher.nation}
+						${teacher.nation}
 					</td>
 					<td  class="bg-right">
 						身份证号
 					</td>
 					<td class="bg-left" style="min-width: 120px">
-						${memberTeacher.idcard}
+						${teacher.idcard}
 					</td>
 				</tr>
 				<tr>
 					<td class="bg-right">工作证号</td>
 					<td  class="bg-left">
-						${memberTeacher.code}
+						${teacher.code}
 					</td>
 					<td class="bg-right">
 						籍贯
 					</td>
 					<td class="bg-left">
-						${memberTeacher.nativePlace}
+						${teacher.nativePlace}
 					</td>
 					<td  class="bg-right">
 						最高学历
 					</td>
 					<td class="bg-left">
-						${memberTeacher.education}
+						${teacher.education}
 					</td>
 					<td class="bg-right">
 						最高学位
 					</td>
 					<td class="bg-left">
-						${memberTeacher.degree}
+						${teacher.degree}
 					</td>
 				</tr>
 				<tr>
@@ -79,164 +79,164 @@ pageEncoding="UTF-8"%>
 						学位授予日期
 					</td>
 					<td class="bg-left">
-						${memberTeacher.degreeTime}
+						${teacher.degreeTime}
 					</td>
 					<td class="bg-right">所学专业</td>
 					<td  class="bg-left">
-						${memberTeacher.major}
+						${teacher.major}
 					</td>
 					<td class="bg-right">
 						毕业学校
 					</td>
 					<td class="bg-left">
-						${memberTeacher.school}
+						${teacher.school}
 					</td>
 					<td  class="bg-right">
 						毕业学校类型
 					</td>
 					<td class="bg-left">
-						${memberTeacher.schoolType}
+						${teacher.schoolType}
 					</td>
 				</tr>
 				<tr>
 
 					<td class="bg-right">到校日期</td>
 					<td class="bg-left" >
-						${memberTeacher.arriveTime}
+						${teacher.arriveTime}
 					</td>
 					<td class="bg-right">
 						编制类别
 					</td>
 					<td class="bg-left">
-						${memberTeacher.authorizedType}
+						${teacher.authorizedType}
 					</td>
 					<td  class="bg-right">
 						人员分类
 					</td>
 					<td class="bg-left">
-						${memberTeacher.staffType}
+						${teacher.staffType}
 					</td>
 					<td class="bg-right">人员状态</td>
 					<td  class="bg-left">
-						${memberTeacher.staffStatus}
+						${teacher.staffStatus}
 					</td>
 				</tr>
 				<tr>
 
 					<td class="bg-right">岗位类别</td>
 					<td  class="bg-left">
-						${memberTeacher.postClass}
+						${teacher.postClass}
 					</td>
 					<td class="bg-right">
 						岗位子类别
 					</td>
 					<td class="bg-left">
-						${memberTeacher.postType}
+						${teacher.postType}
 					</td>
 					<td  class="bg-right">
 						在岗情况
 					</td>
 					<td class="bg-left">
-						${memberTeacher.onJob}
+						${teacher.onJob}
 					</td>
 					<td class="bg-right">
 						专业技术职务
 					</td>
 					<td class="bg-left">
-						${memberTeacher.proPost}
+						${teacher.proPost}
 					</td>
 				</tr>
 				<tr>
 
 					<td  class="bg-right">专技岗位等级</td>
 					<td  class="bg-left">
-						${memberTeacher.proPostLevel}
+						${teacher.proPostLevel}
 					</td>
 					<td class="bg-right">
 						职称级别
 					</td>
 					<td class="bg-left">
-						${memberTeacher.titleLevel}
+						${teacher.titleLevel}
 					</td>
 					<td  class="bg-right">
 						管理岗位等级
 					</td>
 					<td class="bg-left">
-						${memberTeacher.manageLevel}
+						${teacher.manageLevel}
 					</td>
 					<td class="bg-right">
 						工勤岗位等级
 					</td>
 					<td class="bg-left">
-						${memberTeacher.officeLevel}
+						${teacher.officeLevel}
 					</td>
 				</tr>
 				<tr>
 
 					<td class="bg-right" colspan="2">行政职务</td>
 					<td  class="bg-left">
-						${memberTeacher.post}
+						${teacher.post}
 					</td>
 					<td class="bg-right">
 						任职级别
 					</td>
 					<td class="bg-left">
-						${memberTeacher.postLevel}
+						${teacher.postLevel}
 					</td>
 					<td  class="bg-right">
 						人才/荣誉称号
 					</td>
 					<td class="bg-left">
-						${memberTeacher.talentTitle}
+						${teacher.talentTitle}
 					</td>
 					<td class="bg-right">
 						居住地址
 					</td>
 					<td class="bg-left">
-						${memberTeacher.address}
+						${teacher.address}
 					</td>
 				</tr>
 				<tr>
 
 					<td class="bg-right" colspan="2">婚姻状况</td>
 					<td  class="bg-left">
-						${memberTeacher.maritalStatus}
+						${teacher.maritalStatus}
 					</td>
 					<td class="bg-right">
 						联系邮箱
 					</td>
 					<td class="bg-left">
-						${memberTeacher.email}
+						${teacher.email}
 					</td>
 					<td  class="bg-right">
 						联系手机
 					</td>
 					<td class="bg-left">
-						${memberTeacher.mobile}
+						${teacher.mobile}
 					</td>
 					<td class="bg-right">
 						家庭电话
 					</td>
 					<td class="bg-left">
-						${memberTeacher.phone}
+						${teacher.phone}
 					</td>
 				</tr>
 				<tr>
 
 					<td  class="bg-right" colspan="2">是否退休</td>
 					<td class="bg-left" >
-						${memberTeacher.isRetire?"是":"否"}
+						${teacher.isRetire?"是":"否"}
 					</td>
 					<td class="bg-right">
 						退休时间
 					</td>
-					<td class="bg-left">${cm:formatDate(memberTeacher.retireTime,'yyyy-MM-dd')}
+					<td class="bg-left">${cm:formatDate(teacher.retireTime,'yyyy-MM-dd')}
 					</td>
 					<td  class="bg-right">
 						是否离休
 					</td>
 					<td  class="bg-left" colspan="3">
-						${memberTeacher.isHonorRetire?"是":"否"}
+						${teacher.isHonorRetire?"是":"否"}
 					</td>
 				</tr>
 				</tbody>

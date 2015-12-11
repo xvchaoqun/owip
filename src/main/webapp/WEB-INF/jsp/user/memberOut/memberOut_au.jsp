@@ -47,73 +47,59 @@
 				<div class="row">
 					<div class="col-xs-4">
 						<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right"> ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+						<label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
 						<div class="col-sm-6">
-							<input readonly disabled type="text" value="${sysUser.code}" />
+							<input readonly disabled type="text" value="${userBean.code}" />
 						</div>
 					</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">介绍信编号</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="code" value="${memberOut.code}">
+								<input disabled class="form-control" type="text" name="code" value="${userBean.code}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">姓名</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="realname" value="${memberOut.realname}">
+								<input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">性别</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="gender" data-placeholder="请选择">
-									<option></option>
-									<c:forEach items="${GENDER_MAP}" var="_gender">
-										<option value="${_gender.key}">${_gender.value}</option>
-									</c:forEach>
-								</select>
-								<script>
-									$("#modalForm select[name=gender]").val(${memberOut.gender});
-								</script>
+								<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">年龄</label>
 							<div class="col-xs-6">
-								<input required class="form-control digits"
-									   data-rule-max="100" data-rule-min="18"
-									   type="text" name="age" value="${memberOut.age}">
+								<input disabled class="form-control"
+									   type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">民族</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="nation" value="${memberOut.nation}">
+								<input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">政治面貌</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" >
-									<option></option>
-									<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-										<option value="${_status.key}">${_status.value}</option>
-									</c:forEach>
-								</select>
-								<script>
-									$("#modalForm select[name=politicalStatus]").val(${memberOut.politicalStatus});
-								</script>
+								<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">身份证号</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="idcard" value="${memberOut.idcard}">
+								<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 							</div>
 						</div>
+
+					</div>
+					<div class="col-xs-4">
 						<div class="form-group">
-							<label class="col-xs-3 control-label">类别</label>
+							<label class="col-xs-4 control-label">类别</label>
 							<div class="col-xs-6">
 								<select required data-rel="select2" name="type" data-placeholder="请选择"  >
 									<option></option>
@@ -126,9 +112,6 @@
 								</script>
 							</div>
 						</div>
-					</div>
-					<div class="col-xs-4">
-
 						<div class="form-group">
 							<label class="col-xs-4 control-label">转入单位抬头</label>
 							<div class="col-xs-6">

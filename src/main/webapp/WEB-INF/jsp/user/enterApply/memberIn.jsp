@@ -33,61 +33,62 @@
   <div class="row">
     <div class="col-xs-4">
       <div class="form-group">
-        <label class="col-sm-5 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+        <label class="col-sm-5 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
         <div class="col-sm-6">
-          <input readonly disabled type="text" value="${user.code}" />
+          <input disabled type="text" value="${userBean.code}" />
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">姓名</label>
         <div class="col-xs-6">
-          <input required class="form-control" type="text" name="realname" value="${memberIn.realname}">
+          <input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">性别</label>
         <div class="col-xs-6">
-          <select required data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
+          <select disabled data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
             <option></option>
             <c:forEach items="${GENDER_MAP}" var="_gender">
               <option value="${_gender.key}">${_gender.value}</option>
             </c:forEach>
           </select>
           <script>
-            $("#modalForm select[name=gender]").val(${memberIn.gender});
+            $("#modalForm select[name=gender]").val(${userBean.gender});
           </script>
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">年龄</label>
         <div class="col-xs-6">
-          <input required class="form-control digits" type="text" data-rule-min="18" data-rule-max="100" name="age" value="${memberIn.age}">
+          <input disabled class="form-control" type="text"
+                 name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">民族</label>
         <div class="col-xs-6">
-          <input required class="form-control" type="text" name="nation" value="${memberIn.nation}">
+          <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">政治面貌</label>
         <div class="col-xs-6">
-          <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+          <select disabled data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
             <option></option>
             <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
               <option value="${_status.key}">${_status.value}</option>
             </c:forEach>
           </select>
           <script>
-            $("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+            $("#modalForm select[name=politicalStatus]").val(${userBean.politicalStatus});
           </script>
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">身份证号</label>
         <div class="col-xs-6">
-          <input required class="form-control" type="text" name="idcard" value="${memberIn.idcard}">
+          <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
         </div>
       </div>
       <div class="form-group">
@@ -104,14 +105,9 @@
           </script>
         </div>
       </div>
+
       <div class="form-group">
-        <label class="col-xs-5 control-label">转入单位</label>
-        <div class="col-xs-6">
-          <input required class="form-control" type="text" name="toUnit" value="${memberIn.toUnit}">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-5 control-label">分党委</label>
+        <label class="col-xs-5 control-label">请选择分党委</label>
         <div class="col-xs-6">
           <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                   name="partyId" data-placeholder="请选择">
@@ -120,7 +116,7 @@
         </div>
       </div>
       <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-        <label class="col-xs-5 control-label">党支部</label>
+        <label class="col-xs-5 control-label">请选择党支部</label>
         <div class="col-xs-6">
           <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                   name="branchId" data-placeholder="请选择">

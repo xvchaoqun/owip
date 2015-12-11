@@ -210,7 +210,7 @@ public class MemberOutController extends BaseController {
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
             modelMap.put("memberOut", memberOut);
 
-            modelMap.put("sysUser", sysUserService.findById(memberOut.getUserId()));
+            modelMap.put("userBean", userBeanService.get(memberOut.getUserId()));
         }
         return "party/memberOut/memberOut_au";
     }

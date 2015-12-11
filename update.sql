@@ -1,4 +1,151 @@
 
+#####12.11
+ALTER TABLE `ow_member_abroad`
+	DROP COLUMN `party_name`,
+	DROP COLUMN `branch_name`,
+	DROP COLUMN `grow_time`;
+
+	ALTER TABLE `ow_member_in`
+	DROP COLUMN `realname`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `age`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `idcard`,
+	DROP COLUMN `to_unit`;
+
+	ALTER TABLE `ow_member_out`
+	DROP COLUMN `code`,
+	DROP COLUMN `realname`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `age`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `political_status`,
+	DROP COLUMN `idcard`;
+
+	ALTER TABLE `ow_member_stay`
+	DROP COLUMN `code`,
+	DROP COLUMN `realname`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `age`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `idcard`,
+	DROP COLUMN `political_status`,
+	DROP COLUMN `grow_time`;
+
+	ALTER TABLE `ow_member_transfer`
+	DROP COLUMN `code`,
+	DROP COLUMN `realname`,
+	DROP COLUMN `type`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `age`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `political_status`,
+	DROP COLUMN `idcard`,
+	DROP COLUMN `to_unit`,
+	DROP COLUMN `from_unit`,
+	DROP COLUMN `from_party_id`,
+	DROP COLUMN `from_branch_id`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_student` AS SELECT
+m.create_time,
+m.apply_time,
+m.source,
+m.positive_time,
+m.active_time,
+
+m.political_status,
+m.transfer_time,
+m.user_id,
+m.branch_id,
+m.candidate_time,
+m.party_id,
+m.grow_time,
+m.status,
+m.party_post,
+m.party_reward,
+m.other_reward,
+s.delay_year,
+s.period,
+s.code,
+s.edu_category,
+s.gender,
+s.birth,
+s.nation,
+s.actual_graduate_time,
+s.expect_graduate_time,
+s.actual_enrol_time,
+s.sync_source ,
+s.type,
+s.is_full_time,
+s.realname,
+s.enrol_year,
+s.native_place,
+s.edu_way,
+
+s.idcard,
+s.edu_level,
+s.grade,
+s.edu_type
+
+from ow_member m, ow_student s  where m.user_id = s.user_id  ;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_teacher` AS SELECT
+m.create_time,
+m.apply_time,
+m.source,
+
+m.positive_time,
+m.active_time,
+
+m.political_status,
+m.transfer_time,
+m.user_id,
+m.branch_id,
+m.candidate_time,
+m.party_id,
+m.grow_time,
+m.status,
+m.party_post,
+m.party_reward,
+m.other_reward,
+t.code,
+t.education,
+t.gender,
+t.nation,
+t.school_type,
+t.title_level,
+t.staff_status,
+t.retire_time,
+t.post_class,
+t.pro_post,
+t.major,
+t.post,
+t.school,
+t.is_retire,
+t.is_honor_retire,
+t.post_type,
+t.degree_time,
+t.manage_level,
+t.email,
+t.post_level,
+t.office_level,
+t.talent_title,
+t.address,
+t.degree,
+t.mobile,
+t.birth,
+t.authorized_type,
+t.realname,
+t.arrive_time,
+t.native_place,
+t.marital_status,
+t.staff_type,
+t.phone,
+t.idcard,
+t.on_job,
+t.pro_post_level
+from ow_member m, ow_teacher t where m.user_id=t.user_id  ;
+
 
 ###12.9
 ALTER TABLE `ow_student`

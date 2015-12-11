@@ -16,62 +16,43 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
 									name="userId" data-placeholder="请输入账号或姓名或学工号">
-								<option value="${sysUser.id}">${sysUser.realname}</option>
+								<option value="${userBean.userId}">${userBean.realname}</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">姓名</label>
-						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="realname" value="${memberIn.realname}">
-						</div>
-					</div>
+					<c:if test="${not empty userBean}">
 					<div class="form-group">
 						<label class="col-xs-5 control-label">性别</label>
 						<div class="col-xs-6">
-							<select required data-rel="select2" name="gender" data-placeholder="请选择" data-width="100">
-								<option></option>
-								<c:forEach items="${GENDER_MAP}" var="_gender">
-									<option value="${_gender.key}">${_gender.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=gender]").val(${memberIn.gender});
-							</script>
+							<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">年龄</label>
 						<div class="col-xs-6">
-							<input required class="form-control digits" data-rule-min="18" data-rule-max="100" type="text" name="age" value="${memberIn.age}">
+							<input disabled class="form-control" type="text" name="age"
+								   value="${cm:intervalYearsUntilNow(userBean.birth)}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">民族</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="nation" value="${memberIn.nation}">
+							<input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">政治面貌</label>
 						<div class="col-xs-6">
-							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
-								<option></option>
-								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-									<option value="${_status.key}">${_status.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
-							</script>
+							<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">身份证号</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="idcard" value="${memberIn.idcard}">
+							<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 						</div>
 					</div>
+					</c:if>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">类别</label>
 						<div class="col-xs-6">
@@ -86,12 +67,7 @@ pageEncoding="UTF-8"%>
 							</script>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">转入单位</label>
-						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="toUnit" value="${memberIn.toUnit}">
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label">分党委</label>
 						<div class="col-xs-6">

@@ -47,20 +47,63 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label class="col-sm-5 control-label no-padding-right"> ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+                            <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
                             <div class="col-sm-6">
-                                <input readonly disabled type="text" value="${sysUser.code}" />
+                                <input disabled type="text" value="${userBean.code}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">姓名</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">性别</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">年龄</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control digits"
+                                       type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">民族</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">政治面貌</label>
+                            <div class="col-xs-6">
+
+                                <input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">身份证号</label>
+                            <div class="col-xs-6">
+                                <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">转出组织机构</label>
+                            <div class="col-xs-6 ">
+                                <textarea disabled class="form-control">${fromParty.name}<c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
+                                </textarea>
+
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">转入单位</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="toUnit" value="${memberTransfer.toUnit}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">转入分党委</label>
+                            <label class="col-xs-3 control-label">转入分党委</label>
                             <div class="col-xs-6">
                                 <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                         name="toPartyId" data-placeholder="请选择" >
@@ -69,7 +112,7 @@
                             </div>
                         </div>
                         <div class="form-group" style="${(empty toBranch)?'display: none':''}" id="toBranchDiv">
-                            <label class="col-xs-5 control-label">转入党支部</label>
+                            <label class="col-xs-3 control-label">转入党支部</label>
                             <div class="col-xs-6">
                                 <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                                         name="toBranchId" data-placeholder="请选择">
@@ -82,108 +125,24 @@
                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}',
                                     "${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
                         </script>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">转出单位</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="fromUnit" value="${memberTransfer.fromUnit}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">转出分党委</label>
-                            <div class="col-xs-6">
-                                <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                        name="fromPartyId" data-placeholder="请选择">
-                                    <option value="${fromParty.id}">${fromParty.name}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group" style="${(empty fromBranch)?'display: none':''}" id="fromBranchDiv">
-                            <label class="col-xs-5 control-label">转出党支部</label>
-                            <div class="col-xs-6">
-                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
-                                        name="fromBranchId" data-placeholder="请选择">
-                                    <option value="${fromBranch.id}">${fromBranch.name}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <script>
-                            register_party_branch_select($("#modalForm"), "fromBranchDiv",
-                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}',
-                                    "${fromParty.id}", "${fromParty.classId}", "fromPartyId", "fromBranchId");
-                        </script>
+
 
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">姓名</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="realname" value="${memberTransfer.realname}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">性别</label>
-                            <div class="col-xs-6">
-                                <select required data-rel="select2" name="gender" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${GENDER_MAP}" var="_gender">
-                                        <option value="${_gender.key}">${_gender.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=gender]").val(${memberTransfer.gender});
-                                </script>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">年龄</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control digits"
-                                       data-rule-max="100" data-rule-min="18"
-                                       type="text" name="age" value="${memberTransfer.age}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">民族</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="nation" value="${memberTransfer.nation}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">政治面貌</label>
-                            <div class="col-xs-6">
-                                <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-                                        <option value="${_status.key}">${_status.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=politicalStatus]").val(${memberTransfer.politicalStatus});
-                                </script>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">身份证号</label>
-                            <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="idcard" value="${memberTransfer.idcard}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">转出单位联系电话</label>
+                            <label class="col-xs-3 control-label">转出单位联系电话</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="fromPhone" value="${memberTransfer.fromPhone}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">转出单位传真</label>
+                            <label class="col-xs-3 control-label">转出单位传真</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">党费缴纳至年月</label>
+                            <label class="col-xs-3 control-label">党费缴纳至年月</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
@@ -193,13 +152,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">介绍信有效期天数</label>
+                            <label class="col-xs-3 control-label">介绍信有效期天数</label>
                             <div class="col-xs-6">
                                 <input required class="form-control digits" type="text" name="validDays" value="${memberTransfer.validDays}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">转出办理时间</label>
+                            <label class="col-xs-3 control-label">转出办理时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"

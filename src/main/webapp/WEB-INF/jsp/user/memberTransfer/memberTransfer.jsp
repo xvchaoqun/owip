@@ -27,78 +27,72 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         姓名
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberTransfer.realname}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.realname}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         学工号
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberTransfer.code}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.code}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         性别
                     </td>
-                    <td style="min-width: 80px">
-                       ${GENDER_MAP.get(memberTransfer.gender)}
+                    <td class="bg-left" style="min-width: 80px">
+                       ${GENDER_MAP.get(userBean.gender)}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         年龄
                     </td>
-                    <td style="min-width: 120px">
-                        ${memberTransfer.age}
+                    <td class="bg-left" style="min-width: 120px">
+                        ${cm:intervalYearsUntilNow(userBean.birth)}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         民族
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberTransfer.nation}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.nation}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         政治面貌
                     </td>
-                    <td style="min-width: 80px">
-                        ${MEMBER_POLITICAL_STATUS_MAP.get(memberTransfer.politicalStatus)}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         身份证号
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberTransfer.idcard}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.idcard}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         类别
                     </td>
-                    <td style="min-width: 120px">
-                        ${MEMBER_TYP_MAP.get(memberTransfer.type)}
+                    <td class="bg-left" style="min-width: 120px">
+                        ${MEMBER_TYP_MAP.get(userBean.type)}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         转入组织机构
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${toParty.name}
                             <c:if test="${not empty toBranch}">
                             -${toBranch.name}
                             </c:if>
                     </td>
 
-                    <td>
-                        转出单位
-                    </td>
-                    <td style="min-width: 80px">
-                        ${memberTransfer.fromUnit}
-                    </td>
-                    <td>
+                    <td class="bg-right">
                         转出组织机构
                     </td>
-                    <td style="min-width: 120px" colspan="3">
+                    <td class="bg-left" style="min-width: 120px" colspan="5">
                         ${fromParty.name}
                         <c:if test="${not empty fromBranch}">
                             -${fromBranch.name}
@@ -106,43 +100,43 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         转出单位联系电话
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberTransfer.fromPhone}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转出单位传真
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberTransfer.fromFax}
                     </td>
 
-                    <td>
+                    <td class="bg-right">
                         党费缴纳至年月
                     </td>
-                    <td style="min-width: 120px" colspan="3">
+                    <td class="bg-left" style="min-width: 120px" colspan="3">
                         ${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         介绍信有效期天数
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberTransfer.validDays}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         办理时间
                     </td>
-                    <td style="min-width: 80px">
+                    <td  class="bg-left" style="min-width: 80px">
                         ${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         状态
                     </td>
-                    <td style="min-width: 80px" colspan="3">
+                    <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}
 
                             <c:if test="${memberTransfer.status==0}">

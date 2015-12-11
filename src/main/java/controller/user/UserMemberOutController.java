@@ -32,9 +32,11 @@ public class UserMemberOutController extends BaseController{
     @RequestMapping("/memberOut")
     public String memberOut(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-        modelMap.put("sysUser", loginUser);
+        int userId= loginUser.getId();
 
-        MemberOut memberOut = memberOutService.get(loginUser.getId());
+       modelMap.put("userBean", userBeanService.get(userId));
+
+        MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
         modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));

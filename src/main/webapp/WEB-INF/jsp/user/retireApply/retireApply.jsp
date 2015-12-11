@@ -24,38 +24,38 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         教工号
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${sysUser.realname}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         退休后所在分党委
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${party.name}
                     </td>
                     <c:if test="${not empty branch}">
-                    <td>
+                    <td class="bg-right">
                         退休后所在党支部
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                        ${branch.name}
                     </td>
                     </c:if>
-                    <td>
+                    <td class="bg-right">
                         填报时间
                     </td>
-                    <td style="min-width: 120px">
+                    <td class="bg-left" style="min-width: 120px">
                         ${cm:formatDate(retireApply.createTime,'yyyy-MM-dd HH:mm')}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         审核状态
                     </td>
-                    <td style="min-width: 80px" colspan="7">
+                    <td class="bg-left" style="min-width: 80px" colspan="7">
                         ${retireApply.status==0?"未审核":"已审核"}
                     </td>
                 </tr>

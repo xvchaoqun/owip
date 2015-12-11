@@ -24,30 +24,29 @@
     <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
       </table>-->
 
-      <!--<table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
-      </table>-->
-       <!--<table tableName="ow_member_stay" domainObjectName="MemberStay">
-       </table>-->
-       <!--<table tableName="ow_member_in" domainObjectName="MemberIn">
-       </table>-->
-        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>-->
+      <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
+      </table>
+       <table tableName="ow_member_stay" domainObjectName="MemberStay">
+       </table>
+       <table tableName="ow_member_in" domainObjectName="MemberIn">
+       </table>
+        <table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>
       <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
       <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>-->
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
-      <!--
       <table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
-      </table>-->
+      </table>
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 
       <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
-      <table tableName="ow_member_student" domainObjectName="MemberStudent">
-      </table>
+      <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
+      </table>-->
       <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
       </table>
       <table tableName="ow_member" domainObjectName="Member">

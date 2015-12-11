@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
-                <select data-rel="select2" name="type" data-placeholder="请选择类别">
+               <%-- <select data-rel="select2" name="type" data-placeholder="请选择类别">
                     <option></option>
                     <c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
                         <option value="${_type.key}">${_type.value}</option>
@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
                 </select>
                 <script>
                     $("#searchForm select[name=type]").val(${param.type});
-                </script>
+                </script>--%>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
@@ -67,8 +67,7 @@ pageEncoding="UTF-8" %>
                         </th>
 							<th>用户</th>
 							<th>类别</th>
-							<th>转入单位</th>
-							<th>转出单位</th>
+							<th>转入组织机构</th>
 							<th>转出办理时间</th>
 							<th>状态</th>
                         <th nowrap></th>
@@ -76,6 +75,7 @@ pageEncoding="UTF-8" %>
                     </thead>
                     <tbody>
                     <c:forEach items="${memberTransfers}" var="memberTransfer" varStatus="st">
+                        <c:set value="${cm:getUserById(memberTransfer.userId)}" var="_sysUser"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -85,12 +85,15 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td>
                                     <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberTransfer.userId}">
-								${cm:getUserById(memberTransfer.userId).realname}
+								${_sysUser.realname}
                                 </a>
                                 </td>
-								<td>${MEMBER_TYPE_MAP.get(memberTransfer.type)}</td>
-								<td>${memberTransfer.toUnit}</td>
-								<td>${memberTransfer.fromUnit}</td>
+								<td>${MEMBER_TYPE_MAP.get(_sysUser.type)}</td>
+								<td>${partyMap.get(memberTransfer.toPartyId).name}
+                                <c:if test="${not empty memberTransfer.toBranchId}">
+                                    ${branchMap.get(memberTransfer.toBranchId).name}
+                                </c:if>
+                                </td>
 								<td>${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}</td>
 								<td>${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}</td>
                             <td>

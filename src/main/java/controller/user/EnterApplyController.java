@@ -262,9 +262,10 @@ public class EnterApplyController extends BaseController {
     @RequestMapping("/memberIn")
     public String memberIn(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-        modelMap.put("user", loginUser);
+        int userId = loginUser.getId();
+        modelMap.put("userBean", userBeanService.get(userId));
 
-        MemberIn memberIn = memberInService.get(loginUser.getId());
+        MemberIn memberIn = memberInService.get(userId);
         modelMap.put("memberIn", memberIn);
 
         modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));

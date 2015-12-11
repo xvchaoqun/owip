@@ -171,7 +171,7 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_au(MemberStay record, String _growTime,
+    public Map do_memberStay_au(MemberStay record,
                                 String _abroadTime, String _returnTime, String _payTime,  HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -180,9 +180,6 @@ public class MemberStayController extends BaseController {
             return failed("添加重复");
         }
 
-        if(StringUtils.isNotBlank(_growTime)) {
-            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
-        }
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
         }
@@ -194,7 +191,6 @@ public class MemberStayController extends BaseController {
         }
         Integer userId = record.getUserId();
         SysUser sysUser = sysUserService.findById(userId);
-        record.setCode(sysUser.getCode());
         if (id == null) {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
@@ -217,7 +213,7 @@ public class MemberStayController extends BaseController {
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
             modelMap.put("memberStay", memberStay);
 
-            modelMap.put("sysUser", sysUserService.findById(memberStay.getUserId()));
+            modelMap.put("userBean", userBeanService.get(memberStay.getUserId()));
         }
         return "party/memberStay/memberStay_au";
     }

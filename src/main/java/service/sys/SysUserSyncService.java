@@ -109,7 +109,7 @@ public class SysUserSyncService extends BaseMapper {
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
 
                         // 同步党员信息
-                        if(memberService.get(sysUser.getId())!=null)
+                        //if(memberService.get(sysUser.getId())!=null)
                             memberService.snycTeacher(sysUser.getId(), sysUser.getCode());
 
                         updateCount++;
@@ -215,7 +215,7 @@ public class SysUserSyncService extends BaseMapper {
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
 
                         // 同步党员信息
-                        if(memberService.get(sysUser.getId())!=null)
+                        //if(memberService.get(sysUser.getId())!=null)
                             memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
 
                         updateCount++;
@@ -323,7 +323,7 @@ public class SysUserSyncService extends BaseMapper {
                         sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
 
                         // 同步党员信息
-                        if(memberService.get(sysUser.getId())!=null)
+                        //if(memberService.get(sysUser.getId())!=null)
                             memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
 
                         updateCount++;

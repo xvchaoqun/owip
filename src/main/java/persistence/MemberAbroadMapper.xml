@@ -4,9 +4,6 @@
   <resultMap id="BaseResultMap" type="domain.MemberAbroad" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="party_name" property="partyName" jdbcType="VARCHAR" />
-    <result column="branch_name" property="branchName" jdbcType="VARCHAR" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="abroad_time" property="abroadTime" jdbcType="DATE" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="expect_return_time" property="expectReturnTime" jdbcType="DATE" />
@@ -71,8 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_name, branch_name, grow_time, abroad_time, reason, expect_return_time, 
-    actual_return_time
+    id, user_id, abroad_time, reason, expect_return_time, actual_return_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberAbroadExample" >
     select
@@ -105,12 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberAbroad" >
-    insert into ow_member_abroad (id, user_id, party_name, 
-      branch_name, grow_time, abroad_time, 
+    insert into ow_member_abroad (id, user_id, abroad_time, 
       reason, expect_return_time, actual_return_time
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, 
-      #{branchName,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{abroadTime,jdbcType=DATE}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{abroadTime,jdbcType=DATE}, 
       #{reason,jdbcType=VARCHAR}, #{expectReturnTime,jdbcType=DATE}, #{actualReturnTime,jdbcType=DATE}
       )
   </insert>
@@ -122,15 +116,6 @@
       </if>
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="partyName != null" >
-        party_name,
-      </if>
-      <if test="branchName != null" >
-        branch_name,
-      </if>
-      <if test="growTime != null" >
-        grow_time,
       </if>
       <if test="abroadTime != null" >
         abroad_time,
@@ -151,15 +136,6 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="partyName != null" >
-        #{partyName,jdbcType=VARCHAR},
-      </if>
-      <if test="branchName != null" >
-        #{branchName,jdbcType=VARCHAR},
-      </if>
-      <if test="growTime != null" >
-        #{growTime,jdbcType=DATE},
       </if>
       <if test="abroadTime != null" >
         #{abroadTime,jdbcType=DATE},
@@ -190,15 +166,6 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.partyName != null" >
-        party_name = #{record.partyName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.branchName != null" >
-        branch_name = #{record.branchName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.growTime != null" >
-        grow_time = #{record.growTime,jdbcType=DATE},
-      </if>
       <if test="record.abroadTime != null" >
         abroad_time = #{record.abroadTime,jdbcType=DATE},
       </if>
@@ -220,9 +187,6 @@
     update ow_member_abroad
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      party_name = #{record.partyName,jdbcType=VARCHAR},
-      branch_name = #{record.branchName,jdbcType=VARCHAR},
-      grow_time = #{record.growTime,jdbcType=DATE},
       abroad_time = #{record.abroadTime,jdbcType=DATE},
       reason = #{record.reason,jdbcType=VARCHAR},
       expect_return_time = #{record.expectReturnTime,jdbcType=DATE},
@@ -236,15 +200,6 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="partyName != null" >
-        party_name = #{partyName,jdbcType=VARCHAR},
-      </if>
-      <if test="branchName != null" >
-        branch_name = #{branchName,jdbcType=VARCHAR},
-      </if>
-      <if test="growTime != null" >
-        grow_time = #{growTime,jdbcType=DATE},
       </if>
       <if test="abroadTime != null" >
         abroad_time = #{abroadTime,jdbcType=DATE},
@@ -264,9 +219,6 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberAbroad" >
     update ow_member_abroad
     set user_id = #{userId,jdbcType=INTEGER},
-      party_name = #{partyName,jdbcType=VARCHAR},
-      branch_name = #{branchName,jdbcType=VARCHAR},
-      grow_time = #{growTime,jdbcType=DATE},
       abroad_time = #{abroadTime,jdbcType=DATE},
       reason = #{reason,jdbcType=VARCHAR},
       expect_return_time = #{expectReturnTime,jdbcType=DATE},

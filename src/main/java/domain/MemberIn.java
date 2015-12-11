@@ -8,21 +8,9 @@ public class MemberIn implements Serializable {
 
     private Integer userId;
 
-    private String realname;
-
-    private Byte gender;
-
-    private Byte age;
-
-    private String nation;
-
     private Byte politicalStatus;
 
-    private String idcard;
-
     private Byte type;
-
-    private String toUnit;
 
     private Integer partyId;
 
@@ -84,38 +72,6 @@ public class MemberIn implements Serializable {
         this.userId = userId;
     }
 
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Byte getAge() {
-        return age;
-    }
-
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
     public Byte getPoliticalStatus() {
         return politicalStatus;
     }
@@ -124,28 +80,12 @@ public class MemberIn implements Serializable {
         this.politicalStatus = politicalStatus;
     }
 
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard == null ? null : idcard.trim();
-    }
-
     public Byte getType() {
         return type;
     }
 
     public void setType(Byte type) {
         this.type = type;
-    }
-
-    public String getToUnit() {
-        return toUnit;
-    }
-
-    public void setToUnit(String toUnit) {
-        this.toUnit = toUnit == null ? null : toUnit.trim();
     }
 
     public Integer getPartyId() {

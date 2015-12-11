@@ -14,24 +14,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="userId" value="${memberAbroad.userId}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">分党委名称</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="partyName" value="${memberAbroad.partyName}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">党支部名称</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="branchName" value="${memberAbroad.branchName}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">入党时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="growTime" value="${memberAbroad.growTime}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出国时间</label>
 				<div class="col-xs-6">

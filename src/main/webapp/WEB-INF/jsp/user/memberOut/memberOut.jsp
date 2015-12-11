@@ -29,126 +29,126 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         姓名
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberOut.realname}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.realname}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         介绍信编号
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberOut.code}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.code}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         性别
                     </td>
-                    <td style="min-width: 80px">
-                       ${GENDER_MAP.get(memberOut.gender)}
+                    <td class="bg-left" style="min-width: 80px">
+                       ${GENDER_MAP.get(userBean.gender)}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         年龄
                     </td>
-                    <td style="min-width: 120px">
-                        ${memberOut.age}
+                    <td class="bg-left" style="min-width: 120px">
+                        ${cm:intervalYearsUntilNow(userBean.birth)}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         民族
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberOut.nation}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.nation}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         政治面貌
                     </td>
-                    <td style="min-width: 80px">
-                        ${MEMBER_POLITICAL_STATUS_MAP.get(memberOut.politicalStatus)}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         身份证号
                     </td>
-                    <td style="min-width: 80px">
-                        ${memberOut.idcard}
+                    <td class="bg-left" style="min-width: 80px">
+                        ${userBean.idcard}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         类别
                     </td>
-                    <td style="min-width: 120px">
+                    <td class="bg-left" style="min-width: 120px">
                         ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         转入单位抬头
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.toTitle}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转入单位
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.toUnit}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转出单位
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.fromUnit}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转出单位地址
                     </td>
-                    <td style="min-width: 120px">
+                    <td class="bg-left" style="min-width: 120px">
                         ${memberOut.fromAddress}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         转出单位联系电话
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.fromPhone}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转出单位传真
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.fromFax}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         转出单位邮编
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.fromPostCode}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         党费缴纳至年月
                     </td>
-                    <td style="min-width: 120px">
+                    <td class="bg-left" style="min-width: 120px">
                             ${cm:formatDate(memberOut.payTime,'yyyy-MM-dd')}
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="bg-right">
                         介绍信有效期天数
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                         ${memberOut.validDays}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         办理时间
                     </td>
-                    <td style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px">
                             ${cm:formatDate(memberOut.handleTime,'yyyy-MM-dd')}
                     </td>
-                    <td>
+                    <td class="bg-right">
                         状态
                     </td>
-                    <td style="min-width: 80px" colspan="3">
+                    <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
 
                         <c:if test="${memberOut.status==0}">

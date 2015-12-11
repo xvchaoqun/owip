@@ -61,8 +61,6 @@ pageEncoding="UTF-8" %>
                         <th>姓名</th>
                         <th>性别</th>
                         <th>年龄</th>
-                        <th>所属组织机构</th>
-							<th>入党时间</th>
 							<th>出国时间</th>
 							<th>出国缘由</th>
 							<th>预计归国时间</th>
@@ -88,11 +86,7 @@ pageEncoding="UTF-8" %>
                             </td>
                             <td>${GENDER_MAP.get(_sysUser.gender)}</td>
                             <td>${cm:formatDate(_sysUser.birth, "yyyy-MM-dd")}</td>
-								<td>${memberAbroad.partyName}
-                                    <c:if test="${not empty memberAbroad.branchName}">
-                                        -${memberAbroad.branchName}
-                                    </c:if></td>
-                                <td>${cm:formatDate(memberAbroad.growTime, "yyyy-MM-dd")}</td>
+
                                 <td>${cm:formatDate(memberAbroad.abroadTime, "yyyy-MM-dd")}</td>
 								<td>${memberAbroad.reason}</td>
 								<td>${cm:formatDate(memberAbroad.expectReturnTime, "yyyy-MM-dd")}</td>

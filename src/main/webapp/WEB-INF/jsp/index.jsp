@@ -25,14 +25,19 @@
       <span class="icon-bar"></span>
     </button>
 
-    <div class="navbar-header pull-left hidden-xs hidden-sm">
+    <%--<div class="navbar-header pull-left hidden-xs hidden-sm">
       <a href="index" class="navbar-brand">
         <small>
           <i class="fa fa-connectdevelop"></i>
           北京师范大学组织工作管理与服务一体化平台
         </small>
       </a>
+    </div>--%>
+    <div class="navbar-header pull-left hidden-xs hidden-sm">
+      <div class="logo"><img src="/extend/img/logo_white.png"></div>
+      <div class="txt">组织工作管理与服务一体化平台</div>
     </div>
+
     <div class="navbar-header pull-left hidden-md hidden-lg ">
       <a href="index" class="navbar-brand">
         <small>

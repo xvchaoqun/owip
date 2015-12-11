@@ -182,7 +182,7 @@ public class MemberAbroadController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"党员","分党委名称","党支部名称","入党时间","出国时间","出国缘由","预计归国时间","实际归国时间"};
+        String[] titles = {"党员",/*"分党委名称","党支部名称","入党时间",*/"出国时间","出国缘由","预计归国时间","实际归国时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -194,9 +194,9 @@ public class MemberAbroadController extends BaseController {
             MemberAbroad memberAbroad = memberAbroads.get(i);
             String[] values = {
                         memberAbroad.getUserId()+"",
-                                            memberAbroad.getPartyName(),
+                                           /* memberAbroad.getPartyName(),
                                             memberAbroad.getBranchName(),
-                                            DateUtils.formatDate(memberAbroad.getGrowTime(), DateUtils.YYYY_MM_DD),
+                                            DateUtils.formatDate(memberAbroad.getGrowTime(), DateUtils.YYYY_MM_DD),*/
                                             memberAbroad.getAbroadTime()+"",
                                             memberAbroad.getReason()+"",
                                             DateUtils.formatDate(memberAbroad.getExpectReturnTime(), DateUtils.YYYY_MM_DD),

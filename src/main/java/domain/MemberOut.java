@@ -8,20 +8,6 @@ public class MemberOut implements Serializable {
 
     private Integer userId;
 
-    private String code;
-
-    private String realname;
-
-    private Byte gender;
-
-    private Byte age;
-
-    private String nation;
-
-    private Byte politicalStatus;
-
-    private String idcard;
-
     private Byte type;
 
     private String toTitle;
@@ -68,62 +54,6 @@ public class MemberOut implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Byte getAge() {
-        return age;
-    }
-
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
-    public Byte getPoliticalStatus() {
-        return politicalStatus;
-    }
-
-    public void setPoliticalStatus(Byte politicalStatus) {
-        this.politicalStatus = politicalStatus;
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard == null ? null : idcard.trim();
     }
 
     public Byte getType() {

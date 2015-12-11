@@ -8,22 +8,6 @@ public class MemberStay implements Serializable {
 
     private Integer userId;
 
-    private String code;
-
-    private String realname;
-
-    private Byte gender;
-
-    private Integer age;
-
-    private String nation;
-
-    private String idcard;
-
-    private Byte politicalStatus;
-
-    private Date growTime;
-
     private String country;
 
     private Date abroadTime;
@@ -62,70 +46,6 @@ public class MemberStay implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard == null ? null : idcard.trim();
-    }
-
-    public Byte getPoliticalStatus() {
-        return politicalStatus;
-    }
-
-    public void setPoliticalStatus(Byte politicalStatus) {
-        this.politicalStatus = politicalStatus;
-    }
-
-    public Date getGrowTime() {
-        return growTime;
-    }
-
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
     }
 
     public String getCountry() {
