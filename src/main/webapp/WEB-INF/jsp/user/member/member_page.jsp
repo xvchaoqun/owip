@@ -19,11 +19,6 @@
 						<li>
 							<a href="javascript:;" data-url="${ctx}/user/memberOutflow">党员流出</a>
 						</li>
-						<c:if test="${user.type==USER_TYPE_JZG}">
-						<li>
-							<a href="javascript:;" data-url="${ctx}/user/retireApply">党员退休</a>
-						</li>
-						</c:if>
 						<li>
 							<a href="javascript:;" data-url="${ctx}/user/memberOut">组织关系转出</a>
 						</li>

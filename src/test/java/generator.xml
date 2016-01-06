@@ -24,22 +24,22 @@
     <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
       </table>-->
 
-      <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
+     <!-- <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
       </table>
        <table tableName="ow_member_stay" domainObjectName="MemberStay">
        </table>
        <table tableName="ow_member_in" domainObjectName="MemberIn">
        </table>
         <table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>
+       </table>-->
       <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
       <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>-->
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
-      <table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
-      </table>
+      <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
+      </table>-->
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 
@@ -118,11 +118,13 @@
     <!--<table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">
     </table>-->
       <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
-      </table>
-      <table tableName="base_dispatch" domainObjectName="Dispatch">
       </table>-->
-    <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
-    </table>-->
+     <!-- <table tableName="base_dispatch" domainObjectName="Dispatch">
+      </table>-->
+     <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
+      </table>-->
+    <table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
+    </table>
       <!--
     <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">
     </table>

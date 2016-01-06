@@ -10,20 +10,22 @@ iframe{background: transparent;}
 
 /*登录框样式*/
 .top{width:100%;height:59px;padding:25px 0;background:url(/extend/img/top_bg.jpg) #dbf5ff top right no-repeat;}
-	.top .logo{float:left;padding-right:25px;height:58px;border-right:1px solid #333;}
-	.top .txt{height:58px;line-height:58px;float:left;margin-left:25px;font-size:30px}
-.login_box{width:100%;height:100%;min-height:600px;background:url(/extend/img/login_bg.jpg) #dbf5ff top center no-repeat;}
-	.login_box .login{width:395px;height:270px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/login.png) top center no-repeat;margin:150px  0 0 540px;}
-	.login_box .login dt{width:110px;padding:5px 0;padding-right:10px;height:40px;float:left;font-size:16px;line-height:40px;font-weight:bold;text-align:right;}
-	.login_box .login dd{width:250px;padding:5px 0;height:40px;float:left;font-size:0;}
-	.login_box .login dd .input_box{width:230px;background:#fff;border:1px solid #418bd9;height:38px;float:left;}
-	.login_box .login dd input{width:200px;font-size:16px;line-height:38px;height:38px;float:left;border:none;}
-	.login_box .login dd .input_box span{float:left;width:30px;height:38px;display:block}
-	.login_box .login dd .input_box span.account{background:url(/extend/img/account.jpg) #fff 10px 10px no-repeat;}
-	.login_box .login dd .input_box span.password{background:url(/extend/img/password.jpg) #fff 10px 10px no-repeat;}
-	.login_box .login dd input.yz{width:110px;padding-left:10px;background:#fff;border:1px solid #418bd9;height:38px;line-height:38px;float:left;}
-	.login_box .login dd img{margin-left:10px;width:100px;height:38px;vertical-align:middle;cursor:pointer;display:block;float:left;}
-	.login_box .login dd a.login_btn{ cursor: pointer; width:242px;height:37px;display:block;background:url(/extend/img/login_btn.jpg) top center no-repeat;}
+.top .logo{float:left;padding-right:25px;height:58px;border-right:1px solid #333;}
+.top .txt{height:58px;line-height:58px;float:left;margin-left:25px;font-size:30px}
+.login_box{width:100%;height:100%;min-height:600px;}
+.login_con{position:absolute;top:0;left:50%;margin-left:-500px;}
+.bg{width:100%;height:100%;}
+.login_box .login{width:395px;height:270px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/login.png) top center no-repeat;margin:150px  0 0 540px;}
+.login_box .login dt{width:110px;padding:5px 0;padding-right:10px;height:40px;float:left;font-size:16px;line-height:40px;font-weight:bold;text-align:right;}
+.login_box .login dd{width:250px;padding:5px 0;height:40px;float:left;font-size:0;}
+.login_box .login dd .input_box{width:230px;background:#fff;border:1px solid #418bd9;height:38px;float:left;}
+.login_box .login dd input{width:200px;font-size:16px;line-height:38px;height:38px;float:left;border:none;}
+.login_box .login dd .input_box span{float:left;width:30px;height:38px;display:block}
+.login_box .login dd .input_box span.account{background:url(/extend/img/account.jpg) #fff 10px 10px no-repeat;}
+.login_box .login dd .input_box span.password{background:url(/extend/img/password.jpg) #fff 10px 10px no-repeat;}
+.login_box .login dd input.yz{width:110px;padding-left:10px;background:#fff;border:1px solid #418bd9;height:38px;line-height:38px;float:left;}
+.login_box .login dd img{margin-left:10px;width:100px;height:38px;vertical-align:middle;cursor:pointer;display:block;float:left;}
+.login_box .login dd a.login_btn{ cursor: pointer; width:242px;height:37px;display:block;background:url(/extend/img/login_btn.jpg) top center no-repeat;}
 
 input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0px 1000px white inset;

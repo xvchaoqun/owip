@@ -1,4 +1,3 @@
-var ctx="";
 bootbox.setDefaults({locale:'zh_CN'});
 $.fn.select2.defaults.set("language", "zh-CN");
 $.fn.select2.defaults.set("theme", "classic");
@@ -16,8 +15,8 @@ $(document).on("change",".date-picker",function(){
     try{$(this).valid();}catch (e){}
 });
 $(document).on("click","button[type=reset],input[type=reset]",function(event){
-    $("select").val(null).trigger("change");
     var $form = $(this).closest('form')[0] || $(this).closest("#modal").find("form");
+    $("select", $form).val(null).trigger("change");
     if($form)$form.reset;
     //validator.resetForm();
     event.stopPropagation();
@@ -170,7 +169,7 @@ $(document).on('click', '.table td input[type=checkbox]' , function(){
 });
 
 //↓↓↓↓↓↓页面列表操作↓↓↓↓↓↓
-function page_reload() {
+function page_reload(fn) {
 
     $("#modal").modal('hide');
     var $div = $(".myTableDiv");
@@ -178,7 +177,7 @@ function page_reload() {
     //console.log(queryString)
     //alert($div.data("url-page"))
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
-    $target.load($div.data("url-page") + (queryString?("?"+queryString):""));
+    $target.load($div.data("url-page") + (queryString?("?"+queryString):""), function(){if(fn) fn();});
 }
 // 添加/编辑
 $(document).on("click", ".myTableDiv .editBtn", function(){
@@ -286,10 +285,17 @@ $(document).on("click", "#modal input[type=submit]", function(){$("#modal form")
 //↑↑↑↑↑↑↑↑↑列表操作↑↑↑↑↑↑↑↑↑
 
 // ↓↓↓↓↓↓弹出框列表操作↓↓↓↓↓↓
-function pop_reload() {
+function pop_reload(fn) {
 
     var $div = $(".popTableDiv");
-    $("#modal .modal-content").load($div.data("url-page"));
+    var queryString = $div.data("querystr");
+    //console.log(queryString)
+    //alert($div.data("url-page"))
+    var $target = $("#modal .modal-content");
+    $target.load($div.data("url-page") + (queryString?("?"+queryString):""), function(){if(fn) fn();});
+
+    /*var $div = $(".popTableDiv");
+    $("#modal .modal-content").load($div.data("url-page"));*/
 }
 
 // 删除
@@ -363,7 +369,13 @@ $(document).on("click", "#body-content .openView, #item-content .openView", func
     })
 });
 $(document).on("click", "#item-content .closeView", function(){
-    $("#item-content").fadeOut("fast",function(){$("#body-content").show()});
+    var $this = $(this);
+    $("#item-content").fadeOut("fast",function(){
+        if($this.hasClass("reload"))
+            page_reload(function(){$("#body-content").show()});
+        else
+            $("#body-content").show();
+    });
 });
 
 // 分党委、党支部select2联动
@@ -512,4 +524,116 @@ function register_date($date){
         todayHighlight: true,
         clearBtn:true
     })
+}
+
+// 选择发文类型
+function register_dispatchType_select($select, $year){
+    $year.on("change",function(){
+        $select.val(null).trigger("change");
+    });
+    $select.select2({
+        templateResult: formatState,
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    year: $year.val()||-1,
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+}
+// 年份-发文类型-发文， 选择任免文件
+function register_dispatch_select($dispatchTypeSelect, $year, $dispatchSelect){
+    register_dispatchType_select($dispatchTypeSelect, $year);
+    $year.on("change",function(){
+        $dispatchTypeSelect.val(null).trigger("change");
+        $dispatchSelect.val(null).trigger("change");
+    });
+    $dispatchTypeSelect.on("change",function(){
+        $dispatchSelect.val(null).trigger("change");
+    });
+    $dispatchSelect.select2({
+        templateResult: formatState,
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    dispatchTypeId: $dispatchTypeSelect.val()||'',
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    }).on("change",function(){
+        var id = $(this).val();
+        if(id>0) {
+            $("#item-content").load(ctx+"/dispatch_cadres?dispatchId="+id);
+            /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
+            $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
+
+            var dispatchType = $(this).select2("data")[0]['type']||'';
+            var year = $(this).select2("data")[0]['year']||'';
+            $dispatchTypeSelect.val(dispatchType);
+            $year.val(year);*/
+        }
+    });
+}
+
+// 根据单位状态 - 选择单位
+function register_unit_select($unitTypeSelect, $unitSelect, $unitType) {
+    $unitTypeSelect.on("change", function () {
+        $unitSelect.val(null).trigger("change");
+    })
+    $unitSelect.select2({
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    status: $unitTypeSelect.val() | '',
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.options, pagination: {
+                        more: (params.page * 10) < data.totalCount
+                    }
+                };
+            },
+            cache: true
+        }
+    }).on("change",function(){
+        var unitType = $(this).select2("data")[0]['type']||'';
+        $unitType.val(unitType);
+    });
+}
+
+// 预览发文
+function swf_preview(id, type){
+    loadModal(ctx + "/swf_preview?id="+id + "&type=" + type);
 }

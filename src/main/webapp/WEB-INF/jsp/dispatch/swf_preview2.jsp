@@ -39,7 +39,7 @@
 
  	 var xiSwfUrlStr = "${expressInstallSwf}";
       var flashvars = { 
-            SwfFile : escape("${ctx}/dspatch_swf?id=${dispatch.id}&type=${param.type}"),
+            SwfFile : escape("${ctx}/dispatch_swf?id=${dispatch.id}&type=${param.type}"),
 	  Scale : 0.6, 
 	  ZoomTransition : "easeOut",
 	  ZoomTime : 0.5,

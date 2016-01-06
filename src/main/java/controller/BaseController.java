@@ -3,12 +3,10 @@ package controller;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import service.*;
+import service.BaseMapper;
+import service.SpringProps;
 import service.cadre.*;
-import service.dispatch.DispatchCadreService;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchUnitRelateService;
-import service.dispatch.DispatchUnitService;
+import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
@@ -117,6 +115,8 @@ public class BaseController extends BaseMapper {
     protected UnitCadreTransferGroupService unitCadreTransferGroupService;
     @Autowired
     protected DispatchService dispatchService;
+    @Autowired
+    protected DispatchTypeService dispatchTypeService;
     @Autowired
     protected DispatchCadreService dispatchCadreService;
     @Autowired

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${dispatchCadre!=null}">编辑</c:if><c:if test="${dispatchCadre==null}">添加</c:if>干部发文</h3>
+    <h3><c:if test="${dispatchCadre!=null}">编辑</c:if><c:if test="${dispatchCadre==null}">添加</c:if>干部任免</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dispatchCadre_au" id="modalForm" method="post">
@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">类别</label>
             <div class="col-xs-6">
                 <c:forEach var="DISPATCH_CADRE_TYPE" items="${DISPATCH_CADRE_TYPE_MAP}">
-                <label>
+                <label class="label-text">
                     <input name="type" type="radio" class="ace" value="${DISPATCH_CADRE_TYPE.key}"
                            <c:if test="${dispatchCadre.type==DISPATCH_CADRE_TYPE.key}">checked</c:if>/>
                     <span class="lbl"> ${DISPATCH_CADRE_TYPE.value}</span>
@@ -31,21 +31,7 @@ pageEncoding="UTF-8"%>
                 </c:forEach>
             </div>
         </div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6">
-                    <select required data-rel="select2" class="form-control"
-                            name="typeId" data-placeholder="请选择干部发文类型">
-                        <option></option>
-                        <c:forEach var="metaType" items="${metaTypeMap}">
-                            <option value="${metaType.value.id}">${metaType.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val('${dispatchCadre.typeId}');
-                    </script>
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免方式</label>
 				<div class="col-xs-6">
@@ -75,7 +61,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属干部</label>
+				<label class="col-xs-3 control-label">关联干部</label>
 				<div class="col-xs-8">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">

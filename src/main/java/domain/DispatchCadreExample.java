@@ -224,6 +224,66 @@ public class DispatchCadreExample {
             return (Criteria) this;
         }
 
+        public Criteria andCadreIdIsNull() {
+            addCriterion("cadre_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIsNotNull() {
+            addCriterion("cadre_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdEqualTo(Integer value) {
+            addCriterion("cadre_id =", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotEqualTo(Integer value) {
+            addCriterion("cadre_id <>", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThan(Integer value) {
+            addCriterion("cadre_id >", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id >=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThan(Integer value) {
+            addCriterion("cadre_id <", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id <=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIn(List<Integer> values) {
+            addCriterion("cadre_id in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotIn(List<Integer> values) {
+            addCriterion("cadre_id not in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id not between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -281,66 +341,6 @@ public class DispatchCadreExample {
 
         public Criteria andTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIsNull() {
-            addCriterion("type_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIsNotNull() {
-            addCriterion("type_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdEqualTo(Integer value) {
-            addCriterion("type_id =", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotEqualTo(Integer value) {
-            addCriterion("type_id <>", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdGreaterThan(Integer value) {
-            addCriterion("type_id >", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type_id >=", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdLessThan(Integer value) {
-            addCriterion("type_id <", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("type_id <=", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIn(List<Integer> values) {
-            addCriterion("type_id in", values, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotIn(List<Integer> values) {
-            addCriterion("type_id not in", values, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("type_id between", value1, value2, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("type_id not between", value1, value2, "typeId");
             return (Criteria) this;
         }
 
@@ -461,66 +461,6 @@ public class DispatchCadreExample {
 
         public Criteria andProcedureIdNotBetween(Integer value1, Integer value2) {
             addCriterion("procedure_id not between", value1, value2, "procedureId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdIsNull() {
-            addCriterion("cadre_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdIsNotNull() {
-            addCriterion("cadre_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdEqualTo(Integer value) {
-            addCriterion("cadre_id =", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdNotEqualTo(Integer value) {
-            addCriterion("cadre_id <>", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdGreaterThan(Integer value) {
-            addCriterion("cadre_id >", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("cadre_id >=", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdLessThan(Integer value) {
-            addCriterion("cadre_id <", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdLessThanOrEqualTo(Integer value) {
-            addCriterion("cadre_id <=", value, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdIn(List<Integer> values) {
-            addCriterion("cadre_id in", values, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdNotIn(List<Integer> values) {
-            addCriterion("cadre_id not in", values, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdBetween(Integer value1, Integer value2) {
-            addCriterion("cadre_id between", value1, value2, "cadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCadreIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("cadre_id not between", value1, value2, "cadreId");
             return (Criteria) this;
         }
 

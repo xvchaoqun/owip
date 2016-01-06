@@ -164,19 +164,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/leader_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="${commonList}" uri="${ctx}/leader_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -184,10 +173,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
-    </div>
-        <div id="item-content">
-
-        </div>
+    </div><div id="item-content"> </div>
 </div>
 </div>
 <script>

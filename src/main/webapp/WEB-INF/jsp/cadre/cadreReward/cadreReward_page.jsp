@@ -13,7 +13,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-							<th>所属干部</th>
 							<th>日期</th>
 							<th>获得奖项</th>
 							<th>颁奖单位</th>
@@ -29,7 +28,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${cadreRewards}" var="cadreReward" varStatus="st">
                         <tr>
-								<td>${cadreReward.cadreId}</td>
 								<td>${cadreReward.name}</td>
 								<td>${cadreReward.type}</td>
 								<td>${cadreReward.unit}</td>
@@ -97,21 +95,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/cadreReward_page" target="#view-box .tab-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
-
-
+<wo:page commonList="${commonList}" uri="${ctx}/cadreReward_page" target="#view-box .tab-content" pageNum="5"
+         model="3"/>
 <script>
     function _au(id) {
         url = "${ctx}/cadreReward_au?type=${param.type}&cadreId=${param.cadreId}";

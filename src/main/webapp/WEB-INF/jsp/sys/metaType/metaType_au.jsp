@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
                 $(form).ajaxSubmit({
                     success:function(ret){
                         if(ret.success){
-							openView("${metaType.classId}");
+							openView("${param.classId}", "${param.pageNo}");
                             toastr.success('操作成功。', '成功');
                         }
                     }

@@ -40,6 +40,38 @@ public class MemberOutflowController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("memberOutflow:list")
+    @RequestMapping("/memberOutflow_view")
+    public String memberOutflow_view(int userId, ModelMap modelMap) {
+
+        SysUser sysUser = sysUserService.findById(userId);
+        modelMap.put("sysUser", sysUser);
+
+        MemberOutflow memberOutflow = memberOutflowService.get(sysUser.getId());
+        modelMap.put("memberOutflow", memberOutflow);
+
+        modelMap.put("locationMap", locationService.codeMap());
+        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
+        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+
+        if(memberOutflow!=null) {
+            Integer partyId = memberOutflow.getPartyId();
+            Integer branchId = memberOutflow.getBranchId();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+        }
+
+        return "party/memberOutflow/memberOutflow_view";
+    }
+
+    @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow")
     public String memberOutflow() {
 

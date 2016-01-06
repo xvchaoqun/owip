@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/dispatchCadre_au"
              data-url-page="${ctx}/dispatchCadre_page"
@@ -43,20 +44,7 @@ pageEncoding="UTF-8" %>
                                         </select>
                                     </div>
                                 </div>
-                            <div class="form-group">
-                                <label class="col-xs-3 control-label">发文类型</label>
-                                <div class="col-xs-6">
-                                    <select data-rel="select2" name="typeId" data-placeholder="请选择">
-                                        <option></option>
-                                        <c:forEach var="metaType" items="${metaTypeMap}">
-                                            <option value="${metaType.value.id}">${metaType.value.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <script type="text/javascript">
-                                        $("#searchForm select[name=typeId]").val('${param.typeId}');
-                                    </script>
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="col-xs-4">
@@ -139,9 +127,10 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             <div class="buttons pull-right">
-                <shiro:hasPermission name="dispatchCadre:edit">
+                <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
+                <%--<shiro:hasPermission name="dispatchCadre:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="700"><i class="fa fa-plus"></i> 添加</a>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
                 <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -162,17 +151,20 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>所属发文</th>
+							<th>年度</th>
+							<th>发文号</th>
+							<th>任免日期</th>
 							<th>类别</th>
-							<th>类型</th>
 							<th>任免方式</th>
 							<th>任免程序</th>
+                            <th>发文类型</th>
 							<th>工作证号</th>
 							<th>姓名</th>
                             <th>职务</th>
                             <th>职务属性</th>
 							<th>行政级别</th>
 							<th>所属单位</th>
+							<th>单位类型</th>
                         <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
@@ -183,6 +175,8 @@ pageEncoding="UTF-8" %>
                     </thead>
                     <tbody>
                     <c:forEach items="${dispatchCadres}" var="dispatchCadre" varStatus="st">
+                        <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
+                        <c:set value="${unitMap.get(dispatchCadre.unitId)}" var="unit"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -190,17 +184,20 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>${dispatchMap.get(dispatchCadre.dispatchId).code}</td>
+								<td nowrap>${dispatch.year}</td>
+								<td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">${dispatch.code}</a></td>
+								<td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
-								<td nowrap>${metaTypeMap.get(dispatchCadre.typeId).name}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
 								<td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
+                                <td nowrap>${dispatchTypeMap.get(dispatch.dispatchTypeId).name}</td>
 								<td nowrap>${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId).code}</td>
 								<td nowrap>${dispatchCadre.name}</td>
                                 <td nowrap>${dispatchCadre.post}</td>
                                 <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
 								<td nowrap>${adminLevelMap.get(dispatchCadre.adminLevelId).name}</td>
-								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
+								<td nowrap>${unit.name}</td>
+								<td nowrap>${unitTypeMap.get(unit.typeId).name}</td>
                             <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
@@ -264,19 +261,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/dispatchCadre_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+            <wo:page commonList="${commonList}" uri="${ctx}/dispatchCadre_page" target="#page-content" pageNum="5"
+                     model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -284,7 +270,9 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
-    </div>
+        </div>
+        <div id="item-content"> </div>
+</div>
 </div>
 <script>
     $('[data-rel="select2"]').select2();

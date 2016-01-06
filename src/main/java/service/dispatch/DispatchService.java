@@ -2,7 +2,7 @@ package service.dispatch;
 
 import domain.Dispatch;
 import domain.DispatchExample;
-import domain.MetaType;
+import domain.DispatchType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.sys.MetaTypeService;
 import sys.utils.NumberUtils;
 import sys.utils.PatternUtils;
 
@@ -25,8 +24,8 @@ import java.util.Map;
 public class DispatchService extends BaseMapper {
 
     @Autowired
-    private MetaTypeService metaTypeService;
-    public static String CODE_REG_STR = ".*\\[\\d{4}\\]年([\\d.]*)号";
+    private DispatchTypeService dispatchTypeService;
+    public static String CODE_REG_STR = ".*\\[\\d{4}\\]([\\d.]*)号";
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -40,15 +39,13 @@ public class DispatchService extends BaseMapper {
     }
 
     // 师党干[2015]年01号
-    public String genCode(int typeId, int year){
+    public String genCode(int dispatchTypeId, int year){
 
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        MetaType metaType = metaTypeMap.get(typeId);
-
-        String typeName = metaType.getName();
+        Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+        DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
         int num ;
         DispatchExample example = new DispatchExample();
-        example.createCriteria().andYearEqualTo(year).andTypeIdEqualTo(typeId);
+        example.createCriteria().andYearEqualTo(year).andDispatchTypeIdEqualTo(dispatchTypeId);
         example.setOrderByClause("code desc");
         List<Dispatch> dispatches = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(dispatches.size()>0){
@@ -59,7 +56,7 @@ public class DispatchService extends BaseMapper {
             num = 1;
         }
         String numStr = NumberUtils.frontCompWithZore(num, 2);
-        return String.format("%s[%s]年%s号", typeName, year, numStr);
+        return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
     }
 
     @Transactional
@@ -94,6 +91,17 @@ public class DispatchService extends BaseMapper {
         DispatchExample example = new DispatchExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         dispatchMapper.deleteByExample(example);
+    }
+    @Transactional
+    @CacheEvict(value="Dispatch:ALL", allEntries = true)
+    public void delFile(int id){
+        updateMapper.del_dispatch_file(id);
+    }
+
+    @Transactional
+    @CacheEvict(value="Dispatch:ALL", allEntries = true)
+    public void delPpt(int id){
+        updateMapper.del_dispatch_ppt(id);
     }
 
     @Transactional

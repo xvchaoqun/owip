@@ -1,11 +1,8 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.DispatchCadre;
-import domain.DispatchCadreExample;
+import domain.*;
 import domain.DispatchCadreExample.Criteria;
-import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -45,6 +42,45 @@ public class DispatchCadreController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("dispatchCadre:list")
+    @RequestMapping("/dispatch_cadres")
+    public String dispatch_cadres(Integer dispatchId, ModelMap modelMap) {
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
+        modelMap.put("dispatch", dispatch);
+
+        if(dispatch!=null) {
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
+        }
+
+        return "dispatch/dispatchCadre/dispatch_cadres";
+    }
+
+    @RequiresPermissions("dispatchCadre:list")
+    @RequestMapping("/dispatch_cadres_admin")
+    public String dispatch_cadres_admin(Integer dispatchId, ModelMap modelMap) {
+
+        if(dispatchId!=null) {
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
+            modelMap.put("dispatch", dispatch);
+
+            DispatchCadreExample example = new DispatchCadreExample();
+            example.createCriteria().andDispatchIdEqualTo(dispatchId);
+            List<DispatchCadre> dispatchCadres = dispatchCadreMapper.selectByExample(example);
+            modelMap.put("dispatchCadres", dispatchCadres);
+        }
+
+        //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
+        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
+        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        modelMap.put("unitMap", unitService.findAll());
+
+        return "dispatch/dispatchCadre/dispatch_cadres_admin";
+    }
+
+    @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre")
     public String dispatchCadre() {
 
@@ -57,7 +93,7 @@ public class DispatchCadreController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer dispatchId,
-                                    Integer typeId,
+                                    /*Integer typeId,*/
                                     Integer wayId,
                                     Integer procedureId,
                                     Integer cadreId,
@@ -83,9 +119,9 @@ public class DispatchCadreController extends BaseController {
             modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchId));
             criteria.andDispatchIdEqualTo(dispatchId);
         }
-        if (typeId!=null) {
+        /*if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
-        }
+        }*/
         if (wayId!=null) {
             criteria.andWayIdEqualTo(wayId);
         }
@@ -131,9 +167,9 @@ public class DispatchCadreController extends BaseController {
         if (dispatchId!=null) {
             searchStr += "&dispatchId=" + dispatchId;
         }
-        if (typeId!=null) {
+        /*if (typeId!=null) {
             searchStr += "&typeId=" + typeId;
-        }
+        }*/
         if (wayId!=null) {
             searchStr += "&wayId=" + wayId;
         }
@@ -161,7 +197,7 @@ public class DispatchCadreController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
+        //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
@@ -169,8 +205,8 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
         modelMap.put("cadreMap", cadreService.findAll());
-
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
+        modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
 
         return "dispatch/dispatchCadre/dispatchCadre_page";
     }
@@ -209,14 +245,12 @@ public class DispatchCadreController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
+        //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
-
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "dispatch/dispatchCadre/dispatchCadre_au";
     }
@@ -267,25 +301,35 @@ public class DispatchCadreController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属发文","类型","任免方式","任免程序","工作证号","姓名","行政级别","所属单位","备注"};
+        String[] titles = {"发文号","任免方式","任免程序","工作证号","姓名","行政级别","所属单位","备注"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
             cell.setCellStyle(MSUtils.getHeadStyle(wb));
         }
 
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+
+        Map<Integer, MetaType> wayMap = metaTypeService.metaTypes("mc_dispatch_cadre_way");
+        Map<Integer, MetaType> procedureMap = metaTypeService.metaTypes("mc_dispatch_cadre_procedure");
+        //Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         for (int i = 0; i < rownum; i++) {
 
             DispatchCadre dispatchCadre = dispatchCadres.get(i);
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId());
+            Unit unit = unitMap.get(dispatchCadre.getUnitId());
+            Cadre cadre = cadreMap.get(dispatchCadre.getCadreId());
+            SysUser user = sysUserService.findById(cadre.getUserId());
             String[] values = {
-                        dispatchCadre.getDispatchId()+"",
-                                            dispatchCadre.getTypeId()+"",
-                                            dispatchCadre.getWayId()+"",
-                                            dispatchCadre.getProcedureId()+"",
-                                            dispatchCadre.getCadreId()+"",
+                                            dispatch.getCode(),
+                                            wayMap.get(dispatchCadre.getWayId()).getName(),
+                                            procedureMap.get(dispatchCadre.getProcedureId()).getName(),
+                                            user.getCode(),
                                             dispatchCadre.getName(),
-                                            dispatchCadre.getAdminLevelId()+"",
-                                            dispatchCadre.getUnitId()+"",
+                                            adminLevelMap.get(dispatchCadre.getAdminLevelId()).getName(),
+                                            unit.getName(),
                                             dispatchCadre.getRemark()
                     };
 

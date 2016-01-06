@@ -19,7 +19,8 @@
                        placeholder="请输入代码">
                 </shiro:hasRole>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.name || not empty param.code
+                || (not empty param.sort&&param.sort!='sort_order')}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -78,7 +79,7 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-                        <td nowrap>${metaClass.name}</td>
+                        <td nowrap><a href="javascript:;" onclick="openView(${metaClass.id})">${metaClass.name}</a></td>
                         <shiro:hasRole name="admin">
                         <td nowrap class="visible-lg">${metaClass.code}</td>
                         <td nowrap class="visible-lg">${metaClass.boolAttr}</td>
@@ -88,7 +89,7 @@
                             <td nowrap>
                                 <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaClass.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                 <input type="text" value="1"
-                                       class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+                                       class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改排序步长">
                                 <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaClass.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                             </td>
                         </c:if>
@@ -157,19 +158,8 @@
                 </c:forEach>
                 </tbody>
             </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/metaClass_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="${commonList}" uri="${ctx}/metaClass_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -180,9 +170,10 @@
     </div>
 </div>
 <script>
-    function openView(classId){
-
-        loadModal( "${ctx}/metaClass_type?id="+classId);
+    function openView(classId, pageNo){
+        pageNo = pageNo||1;
+        loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
+                '<shiro:hasRole name="admin">800</shiro:hasRole><shiro:lacksRole name="admin">400</shiro:lacksRole>');
     }
     function updateRole(id) {
         loadModal( "${ctx}/metaClassRole?id=" + id);

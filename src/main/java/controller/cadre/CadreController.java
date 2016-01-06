@@ -281,7 +281,7 @@ public class CadreController extends BaseController {
 
         if (null != ids){
             cadreService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部：%s", ids));
+            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部：%s", new Object[]{ids}));
         }
         return success(FormUtils.SUCCESS);
     }

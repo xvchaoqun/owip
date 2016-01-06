@@ -161,7 +161,7 @@ public class HistoryUnitController extends BaseController {
 
         if (null != ids){
             historyUnitService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除历史单位：%s", ids));
+            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除历史单位：%s", new Object[]{ids}));
         }
         return success(FormUtils.SUCCESS);
     }

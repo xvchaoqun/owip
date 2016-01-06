@@ -45,7 +45,7 @@
             <form class="form-horizontal" action="${ctx}/user/memberTransfer_au" id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberTransfer.id}">
                 <div class="row">
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
                             <div class="col-sm-6">
@@ -92,7 +92,7 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出组织机构</label>
                             <div class="col-xs-6 ">
@@ -126,9 +126,6 @@
                                     "${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
                         </script>
 
-
-                    </div>
-                    <div class="col-xs-4">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出单位联系电话</label>
                             <div class="col-xs-6">

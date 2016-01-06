@@ -7,13 +7,22 @@
   "tables": [
 
     {
+      "table": "dispatch_type",
+      "key": "id",
+      "searchColumns": "year,name,attr",
+      "showColumns": "year,name,attr,create_time",
+      "excludeEditColumns": "id,year,create_time",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
       "table": "location",
       "key": "id",
       "searchColumns": "name",
       "showColumns": "fid,name",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
 
     {

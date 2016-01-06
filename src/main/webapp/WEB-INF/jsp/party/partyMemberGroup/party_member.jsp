@@ -34,7 +34,6 @@
                                 </select>
                             </div>
                         </div>
-                    </form>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info btn-sm" type="submit">
@@ -49,7 +48,7 @@
                                 </button>
                             </div>
                         </div>
-
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,10 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.HistoryUnit;
-import domain.HistoryUnitExample;
-import domain.Unit;
-import domain.UnitExample;
+import domain.*;
 import domain.UnitExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -33,10 +30,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UnitController extends BaseController {
@@ -367,15 +361,14 @@ public class UnitController extends BaseController {
         }
         List<Unit> units = unitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        Map<Integer, MetaType> unitTypeMap = metaTypeService.metaTypes("mc_unit_type");
+        List<Map<String, Object> > options = new ArrayList<>();
         if(null != units && units.size()>0){
-
             for(Unit unit:units){
-
-                Select2Option option = new Select2Option();
-                option.setText(unit.getName());
-                option.setId(unit.getId() + "");
-
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", unit.getName());
+                option.put("id", unit.getId());
+                option.put("type", unitTypeMap.get(unit.getTypeId()).getName());
                 options.add(option);
             }
         }

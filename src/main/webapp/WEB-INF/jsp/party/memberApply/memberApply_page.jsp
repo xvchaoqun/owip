@@ -1,16 +1,6 @@
-<%@ page import="sys.constants.SystemConstants" %>
-<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="APPLY_STAGE_INIT" value="<%=SystemConstants.APPLY_STAGE_INIT%>"/>
-<c:set var="APPLY_STAGE_PASS" value="<%=SystemConstants.APPLY_STAGE_PASS%>"/>
-<c:set var="APPLY_STAGE_ACTIVE" value="<%=SystemConstants.APPLY_STAGE_ACTIVE%>"/>
-<c:set var="APPLY_STAGE_CANDIDATE" value="<%=SystemConstants.APPLY_STAGE_CANDIDATE%>"/>
-<c:set var="APPLY_STAGE_PLAN" value="<%=SystemConstants.APPLY_STAGE_PLAN%>"/>
-<c:set var="APPLY_STAGE_DRAW" value="<%=SystemConstants.APPLY_STAGE_DRAW%>"/>
-<c:set var="APPLY_STAGE_GROW" value="<%=SystemConstants.APPLY_STAGE_GROW%>"/>
-<c:set var="APPLY_STAGE_POSITIVE" value="<%=SystemConstants.APPLY_STAGE_POSITIVE%>"/>
         <!-- PAGE CONTENT BEGINS -->
         <div class="tabbable tabs-left">
                         <%
@@ -298,19 +288,8 @@ pageEncoding="UTF-8" %>
                                             </c:forEach>
                                             </tbody>
                                         </table>
-                                        <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                                            <div class="row my_paginate_row">
-                                                <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                                                <div class="col-xs-6">
-                                                    <div class="my_paginate">
-                                                        <ul class="pagination">
-                                                            <wo:page commonList="${commonList}" uri="${ctx}/memberApply_page" target="#home2" pageNum="5"
-                                                                     model="3"/>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:if>
+                                        <wo:page commonList="${commonList}" uri="${ctx}/memberApply_page" target="#home2" pageNum="5"
+                                                 model="3"/>
                                     </c:if>
                                     <c:if test="${commonList.recNum==0}">
                                         <div class="well well-lg center">
@@ -321,15 +300,6 @@ pageEncoding="UTF-8" %>
                                         </div></div></div>
                             </div>
 
-                            <div id="profile3" class="tab-pane">
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
-                                <p>Raw denim you probably haven't heard of them jean shorts Austin.</p>
-                            </div>
-
-                            <div id="dropdown13" class="tab-pane">
-                                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
-                                <p>Raw denim you probably haven't heard of them jean shorts Austin.</p>
-                            </div>
                         </div>
                     </div>
 <script>

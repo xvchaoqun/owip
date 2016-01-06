@@ -4,11 +4,10 @@
   <resultMap id="BaseResultMap" type="domain.DispatchCadre" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="dispatch_id" property="dispatchId" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
     <result column="way_id" property="wayId" jdbcType="INTEGER" />
     <result column="procedure_id" property="procedureId" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
@@ -76,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, dispatch_id, type, type_id, way_id, procedure_id, cadre_id, name, post, post_id, 
-    admin_level_id, unit_id, remark, sort_order
+    id, dispatch_id, cadre_id, type, way_id, procedure_id, name, post, post_id, admin_level_id, 
+    unit_id, remark, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.DispatchCadreExample" >
     select
@@ -110,16 +109,16 @@
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.DispatchCadre" >
-    insert into base_dispatch_cadre (id, dispatch_id, type, 
-      type_id, way_id, procedure_id, 
-      cadre_id, name, post, 
-      post_id, admin_level_id, unit_id, 
-      remark, sort_order)
-    values (#{id,jdbcType=INTEGER}, #{dispatchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{typeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
-      #{cadreId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+    insert into base_dispatch_cadre (id, dispatch_id, cadre_id, 
+      type, way_id, procedure_id, 
+      name, post, post_id, 
+      admin_level_id, unit_id, remark, 
+      sort_order)
+    values (#{id,jdbcType=INTEGER}, #{dispatchId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
+      #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.DispatchCadre" >
     insert into base_dispatch_cadre
@@ -130,20 +129,17 @@
       <if test="dispatchId != null" >
         dispatch_id,
       </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
       <if test="type != null" >
         type,
-      </if>
-      <if test="typeId != null" >
-        type_id,
       </if>
       <if test="wayId != null" >
         way_id,
       </if>
       <if test="procedureId != null" >
         procedure_id,
-      </if>
-      <if test="cadreId != null" >
-        cadre_id,
       </if>
       <if test="name != null" >
         name,
@@ -174,20 +170,17 @@
       <if test="dispatchId != null" >
         #{dispatchId,jdbcType=INTEGER},
       </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
-      </if>
-      <if test="typeId != null" >
-        #{typeId,jdbcType=INTEGER},
       </if>
       <if test="wayId != null" >
         #{wayId,jdbcType=INTEGER},
       </if>
       <if test="procedureId != null" >
         #{procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="cadreId != null" >
-        #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -227,20 +220,17 @@
       <if test="record.dispatchId != null" >
         dispatch_id = #{record.dispatchId,jdbcType=INTEGER},
       </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
-      </if>
-      <if test="record.typeId != null" >
-        type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
       <if test="record.wayId != null" >
         way_id = #{record.wayId,jdbcType=INTEGER},
       </if>
       <if test="record.procedureId != null" >
         procedure_id = #{record.procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="record.cadreId != null" >
-        cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -272,11 +262,10 @@
     update base_dispatch_cadre
     set id = #{record.id,jdbcType=INTEGER},
       dispatch_id = #{record.dispatchId,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
-      type_id = #{record.typeId,jdbcType=INTEGER},
       way_id = #{record.wayId,jdbcType=INTEGER},
       procedure_id = #{record.procedureId,jdbcType=INTEGER},
-      cadre_id = #{record.cadreId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
@@ -294,20 +283,17 @@
       <if test="dispatchId != null" >
         dispatch_id = #{dispatchId,jdbcType=INTEGER},
       </if>
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="typeId != null" >
-        type_id = #{typeId,jdbcType=INTEGER},
       </if>
       <if test="wayId != null" >
         way_id = #{wayId,jdbcType=INTEGER},
       </if>
       <if test="procedureId != null" >
         procedure_id = #{procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="cadreId != null" >
-        cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -336,11 +322,10 @@
   <update id="updateByPrimaryKey" parameterType="domain.DispatchCadre" >
     update base_dispatch_cadre
     set dispatch_id = #{dispatchId,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
-      type_id = #{typeId,jdbcType=INTEGER},
       way_id = #{wayId,jdbcType=INTEGER},
       procedure_id = #{procedureId,jdbcType=INTEGER},
-      cadre_id = #{cadreId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},

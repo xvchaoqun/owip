@@ -1,4 +1,24 @@
 
+#####2016.1.4
+ALTER TABLE `base_dispatch`
+	DROP INDEX `FK_dispatch_base_meta_type`,
+	DROP FOREIGN KEY `FK_dispatch_base_meta_type`;
+ALTER TABLE `base_dispatch`
+	ALTER `type_id` DROP DEFAULT;
+ALTER TABLE `base_dispatch`
+	CHANGE COLUMN `type_id` `dispatch_type_id` INT(10) UNSIGNED NOT NULL COMMENT '发文类型' AFTER `year`,
+	ADD CONSTRAINT `FK_base_dispatch_base_dispatch_type` FOREIGN KEY (`dispatch_type_id`) REFERENCES `base_dispatch_type` (`id`);
+
+ALTER TABLE `base_dispatch`
+	CHANGE COLUMN `meeting_time` `meeting_time` DATE NULL COMMENT '党委常委会日期' AFTER `code`;
+
+	ALTER TABLE `base_dispatch_cadre`
+	DROP FOREIGN KEY `FK_dispatch_cadre_base_meta_type`;
+	ALTER TABLE `base_dispatch_cadre`
+	DROP INDEX `FK_dispatch_cadre_base_meta_type`;
+	ALTER TABLE `base_dispatch_cadre`
+	DROP COLUMN `type_id`;
+
 #####12.11
 ALTER TABLE `ow_member_abroad`
 	DROP COLUMN `party_name`,

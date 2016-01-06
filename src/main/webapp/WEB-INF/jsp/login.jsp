@@ -4,6 +4,7 @@
 <shiro:user>
     <c:redirect url="/"/>
 </shiro:user>
+<!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
@@ -20,7 +21,10 @@
     </div>
 </div>
 <div class="login_box">
-    <div class="w1000">
+    <div class="bg">
+        <img src="${ctx}/extend/img/login_bg.jpg" />
+    </div>
+    <div class="w1000 login_con">
         <div class="login">
             <form class="form account-form" method="POST" action="${ctx}/login">
                 <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>

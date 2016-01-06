@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import persistence.*;
 import persistence.common.CommonMapper;
 import persistence.common.CommonUnitMapper;
+import persistence.common.UpdateMapper;
 
 public class BaseMapper {
 
@@ -99,6 +100,8 @@ public class BaseMapper {
 	@Autowired
 	protected DispatchMapper dispatchMapper;
 	@Autowired
+	protected DispatchTypeMapper dispatchTypeMapper;
+	@Autowired
 	protected DispatchCadreMapper dispatchCadreMapper;
 	@Autowired
 	protected DispatchUnitMapper dispatchUnitMapper;
@@ -134,6 +137,8 @@ public class BaseMapper {
 	protected CommonUnitMapper commonUnitMapper;
 	@Autowired
 	protected CommonMapper commonMapper;
+	@Autowired
+	protected UpdateMapper updateMapper;
 	@Autowired
 	protected ExtYjsMapper extYjsMapper;
 	@Autowired

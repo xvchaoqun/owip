@@ -43,6 +43,22 @@ public class MemberOutController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
+    @RequiresPermissions("memberOut:list")
+    @RequestMapping("/memberOut_view")
+    public String memberOut_view(int userId, ModelMap modelMap) {
+
+        modelMap.put("userBean", userBeanService.get(userId));
+
+        MemberOut memberOut = memberOutService.get(userId);
+        modelMap.put("memberOut", memberOut);
+
+        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
+        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
+
+        return "party/memberOut/memberOut_view";
+    }
+
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut")
     public String memberOut() {

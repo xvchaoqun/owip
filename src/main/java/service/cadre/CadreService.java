@@ -83,7 +83,7 @@ public class CadreService extends BaseMapper {
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
-     * 3.sort_order = LAST_INSERT_ID()+1,
+     * 3.sort_order = id,
      * @param id
      * @param addNum
      */

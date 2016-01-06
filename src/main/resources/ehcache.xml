@@ -116,6 +116,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="300"
               memoryStoreEvictionPolicy="LRU" />
+       <cache name="DispatchType:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
        <cache name="Dispatch:ALL"
               eternal="false"
               maxElementsInMemory="100"

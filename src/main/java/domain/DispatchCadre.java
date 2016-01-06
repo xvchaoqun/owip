@@ -7,15 +7,13 @@ public class DispatchCadre implements Serializable {
 
     private Integer dispatchId;
 
-    private Byte type;
+    private Integer cadreId;
 
-    private Integer typeId;
+    private Byte type;
 
     private Integer wayId;
 
     private Integer procedureId;
-
-    private Integer cadreId;
 
     private String name;
 
@@ -49,20 +47,20 @@ public class DispatchCadre implements Serializable {
         this.dispatchId = dispatchId;
     }
 
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
     public Byte getType() {
         return type;
     }
 
     public void setType(Byte type) {
         this.type = type;
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
     }
 
     public Integer getWayId() {
@@ -79,14 +77,6 @@ public class DispatchCadre implements Serializable {
 
     public void setProcedureId(Integer procedureId) {
         this.procedureId = procedureId;
-    }
-
-    public Integer getCadreId() {
-        return cadreId;
-    }
-
-    public void setCadreId(Integer cadreId) {
-        this.cadreId = cadreId;
     }
 
     public String getName() {

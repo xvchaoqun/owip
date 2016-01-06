@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.Dispatch;
 import domain.DispatchExample;
 import domain.DispatchExample.Criteria;
+import domain.DispatchType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -56,7 +57,7 @@ public class DispatchController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
-                                    Integer typeId,
+                                    Integer dispatchTypeId,
                                     String code,
                                     String _pubTime,
                                     String _workTime,
@@ -79,8 +80,8 @@ public class DispatchController extends BaseController {
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (dispatchTypeId!=null) {
+            criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -137,8 +138,10 @@ public class DispatchController extends BaseController {
         if (year!=null) {
             searchStr += "&year=" + year;
         }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
+        if (dispatchTypeId!=null) {
+            searchStr += "&dispatchTypeId=" + dispatchTypeId;
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
         if (StringUtils.isNotBlank(code)) {
             searchStr += "&code=" + code;
@@ -162,7 +165,7 @@ public class DispatchController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
+        modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
 
         return "dispatch/dispatch_page";
     }
@@ -249,7 +252,7 @@ public class DispatchController extends BaseController {
 
         if (id == null) {
 
-            record.setCode(dispatchService.genCode(record.getTypeId(), record.getYear()));
+            record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             dispatchService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加发文：%s", record.getId()));
         }else {
@@ -262,8 +265,8 @@ public class DispatchController extends BaseController {
                 FileUtils.delFile(springProps.uploadPath + dispatch.getPpt()); // 删除原ppt
             }
 
-            if(dispatch.getTypeId().intValue() != record.getTypeId()){ // 修改了类型，要修改发文号
-                record.setCode(dispatchService.genCode(record.getTypeId(), record.getYear()));
+            if(dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()){ // 修改了类型，要修改发文号
+                record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }
             dispatchService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新发文：%s", record.getId()));
@@ -272,8 +275,9 @@ public class DispatchController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping("/dspatch_swf")
-    public void dspatch_swf(Integer id, @RequestParam(required = false,defaultValue = "file")String type
+    // swf内容
+    @RequestMapping("/dispatch_swf")
+    public void dispatch_swf(Integer id, @RequestParam(required = false,defaultValue = "file")String type
             , HttpServletResponse response) throws IOException{
 
         Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
@@ -293,29 +297,33 @@ public class DispatchController extends BaseController {
     }
 
     @RequestMapping("/swf_preview")
-    public String swf_preview(Integer id, @RequestParam(required = false,defaultValue = "file")String type,
+    public String swf_preview(Integer id,
+                              @RequestParam(required = false,defaultValue = "file")String type,
+                              @RequestParam(required = false,defaultValue = "1")int way,
                               ModelMap modelMap) {
+        if(id!=null) {
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+            if(dispatch!=null) {
+                String filePath = null;
+                String path = (StringUtils.equalsIgnoreCase(type, "file") ? dispatch.getFile() : dispatch.getPpt());
+                if (StringUtils.isNotBlank(path))
+                    filePath = springProps.uploadPath + path;
+                modelMap.put("dispatch", dispatch);
+                modelMap.put("filePath", filePath);
+            }
+        }
 
-        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-        String filePath = springProps.uploadPath +
-                (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
-        modelMap.put("dispatch", dispatch);
-        modelMap.put("filePath", filePath);
-        return "dispatch/swf_preview";
+        switch (way) {
+            case 1:
+                return "dispatch/swf_preview";
+            case 2:// 可以设置关闭js方法
+                return "dispatch/swf_preview2";
+            case 3: // 不弹出，在页面中打开
+                return "dispatch/swf_preview3";
+        }
+
+        return null;
     }
-    // 可以设置关闭js方法
-    @RequestMapping("/swf_preview2")
-    public String swf_preview2(Integer id, @RequestParam(required = false,defaultValue = "file")String type,
-                              ModelMap modelMap) {
-
-        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-        String filePath = springProps.uploadPath +
-                (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
-        modelMap.put("dispatch", dispatch);
-        modelMap.put("filePath", filePath);
-        return "dispatch/swf_preview2";
-    }
-
 
     @RequiresPermissions("dispatch:download")
     @RequestMapping("/dispatch_download")
@@ -344,11 +352,33 @@ public class DispatchController extends BaseController {
     @RequestMapping("/dispatch_au")
     public String dispatch_au(Integer id, ModelMap modelMap) {
 
+        Integer year = null;
         if (id != null) {
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
             modelMap.put("dispatch", dispatch);
+            year = dispatch.getYear();
+
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
         }
+
+        if(year == null) year = DateUtils.getCurrentYear();
+        modelMap.put("year", year);
+
         return "dispatch/dispatch_au";
+    }
+
+    @RequiresPermissions("dispatch:del")
+    @RequestMapping(value = "/dispatch_del_file", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dispatch_del_file(Integer id, @RequestParam String type){
+
+        if(StringUtils.equalsIgnoreCase(type, "file")){
+            dispatchService.delFile(id);
+        } else if(StringUtils.equalsIgnoreCase(type, "ppt")){
+            dispatchService.delPpt(id);
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dispatch:del")
@@ -409,7 +439,7 @@ public class DispatchController extends BaseController {
             Dispatch dispatch = dispatchs.get(i);
             String[] values = {
                         dispatch.getYear()+"",
-                                            dispatch.getTypeId()+"",
+                    dispatch.getDispatchTypeId()+"",
                                             dispatch.getCode(),
                                             DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD),
                                             DateUtils.formatDate(dispatch.getPubTime(), DateUtils.YYYY_MM_DD),
@@ -441,7 +471,7 @@ public class DispatchController extends BaseController {
 
    @RequestMapping("/dispatch_selects")
     @ResponseBody
-    public Map dispatch_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map dispatch_selects(Integer pageSize, Integer pageNo, Integer dispatchTypeId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -453,6 +483,9 @@ public class DispatchController extends BaseController {
 
         DispatchExample example = new DispatchExample();
         Criteria criteria = example.createCriteria();
+       if(dispatchTypeId!=null)
+           criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
+
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
@@ -466,14 +499,16 @@ public class DispatchController extends BaseController {
         }
         List<Dispatch> dispatchs = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+       Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+        List<Map<String, Object>> options = new ArrayList<>();
         if(null != dispatchs && dispatchs.size()>0){
 
             for(Dispatch dispatch:dispatchs){
-
-                Select2Option option = new Select2Option();
-                option.setText(dispatch.getCode());
-                option.setId(dispatch.getId() + "");
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", dispatch.getCode());
+                option.put("id", dispatch.getId());
+                option.put("year", dispatch.getYear());
+                option.put("type", dispatchTypeMap.get(dispatch.getDispatchTypeId()).getName());
 
                 options.add(option);
             }

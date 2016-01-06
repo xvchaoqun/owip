@@ -8,7 +8,7 @@ public class Dispatch implements Serializable {
 
     private Integer year;
 
-    private Integer typeId;
+    private Integer dispatchTypeId;
 
     private String code;
 
@@ -48,12 +48,12 @@ public class Dispatch implements Serializable {
         this.year = year;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getDispatchTypeId() {
+        return dispatchTypeId;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setDispatchTypeId(Integer dispatchTypeId) {
+        this.dispatchTypeId = dispatchTypeId;
     }
 
     public String getCode() {

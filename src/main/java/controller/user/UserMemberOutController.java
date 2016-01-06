@@ -29,6 +29,7 @@ public class UserMemberOutController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresRoles("member")
     @RequestMapping("/memberOut")
     public String memberOut(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 

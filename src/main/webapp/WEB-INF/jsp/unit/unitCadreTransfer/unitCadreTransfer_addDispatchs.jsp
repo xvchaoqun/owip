@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function swf_preview(id, type){
-        loadModal("${ctx}/swf_preview2?id="+id + "&type=" + type);
+        loadModal("${ctx}/swf_preview?way=2&id="+id + "&type=" + type);
     }
 
     function addDispatch(){

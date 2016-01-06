@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">流出时间</label>
                             <div class="col-xs-6">
-                                <div class="input-group">
+                                <div class="input-group" data-width="200px">
                                     <input required class="form-control date-picker" name="_flowTime" type="text"
                                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberOutflow.flowTime,'yyyy-MM-dd')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

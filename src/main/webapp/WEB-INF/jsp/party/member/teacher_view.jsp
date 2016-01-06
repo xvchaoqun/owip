@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<form class="form-horizontal" id="modalForm" method="post">
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
         <div class="widget-box transparent" id="view-box">
@@ -19,16 +18,16 @@
                             <a href="javascript:;" data-url="${ctx}/memberTeacher_base?userId=${param.userId}">基本信息</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="">党员流出</a>
+                            <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="">组织关系转出</a>
+                            <a href="javascript:;" data-url="${ctx}/memberOut_view?userId=${param.userId}">组织关系转出</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="">校内组织关系转接</a>
+                            <a href="javascript:;" data-url="${ctx}/memberTransfer_view?userId=${param.userId}">校内组织关系转接</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="">公派留学生党员申请</a>
+                            <a href="javascript:;" data-url="${ctx}/memberStay_view?userId=${param.userId}">公派留学生党员申请</a>
                         </li>
                     </ul>
                 </div>
@@ -42,4 +41,3 @@
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div>
-</form>

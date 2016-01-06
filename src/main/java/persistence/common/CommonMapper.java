@@ -61,6 +61,12 @@ public interface CommonMapper {
     void upOrder_historyUnit(@Param("unitId") int unitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
+    @Update("update base_dispatch_type set sort_order = sort_order - 1 where year=#{year} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    void downOrder_dispatchType(@Param("year") int year, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+    @Update("update base_history_unit set sort_order = sort_order + 1 where year=#{year} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    void upOrder_dispatchType(@Param("year") int year, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+
+
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search, RowBounds rowBounds);
     int countCadre(@Param("search") String search);

@@ -168,7 +168,7 @@ public class LeaderUnitController extends BaseController {
 
         if (null != ids && ids.length>0){
             leaderUnitService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", ids));
+            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
         }
 
         return success(FormUtils.SUCCESS);

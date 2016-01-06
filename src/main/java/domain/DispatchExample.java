@@ -252,63 +252,63 @@ public class DispatchExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNull() {
-            addCriterion("type_id is null");
+        public Criteria andDispatchTypeIdIsNull() {
+            addCriterion("dispatch_type_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNotNull() {
-            addCriterion("type_id is not null");
+        public Criteria andDispatchTypeIdIsNotNull() {
+            addCriterion("dispatch_type_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdEqualTo(Integer value) {
-            addCriterion("type_id =", value, "typeId");
+        public Criteria andDispatchTypeIdEqualTo(Integer value) {
+            addCriterion("dispatch_type_id =", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotEqualTo(Integer value) {
-            addCriterion("type_id <>", value, "typeId");
+        public Criteria andDispatchTypeIdNotEqualTo(Integer value) {
+            addCriterion("dispatch_type_id <>", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThan(Integer value) {
-            addCriterion("type_id >", value, "typeId");
+        public Criteria andDispatchTypeIdGreaterThan(Integer value) {
+            addCriterion("dispatch_type_id >", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type_id >=", value, "typeId");
+        public Criteria andDispatchTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_id >=", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThan(Integer value) {
-            addCriterion("type_id <", value, "typeId");
+        public Criteria andDispatchTypeIdLessThan(Integer value) {
+            addCriterion("dispatch_type_id <", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("type_id <=", value, "typeId");
+        public Criteria andDispatchTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_id <=", value, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIn(List<Integer> values) {
-            addCriterion("type_id in", values, "typeId");
+        public Criteria andDispatchTypeIdIn(List<Integer> values) {
+            addCriterion("dispatch_type_id in", values, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotIn(List<Integer> values) {
-            addCriterion("type_id not in", values, "typeId");
+        public Criteria andDispatchTypeIdNotIn(List<Integer> values) {
+            addCriterion("dispatch_type_id not in", values, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("type_id between", value1, value2, "typeId");
+        public Criteria andDispatchTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_id between", value1, value2, "dispatchTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("type_id not between", value1, value2, "typeId");
+        public Criteria andDispatchTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_id not between", value1, value2, "dispatchTypeId");
             return (Criteria) this;
         }
 

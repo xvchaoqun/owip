@@ -43,7 +43,7 @@
             <form class="form-horizontal" action="${ctx}/user/memberStay_au" id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberStay.id}">
                 <div class="row">
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
                             <div class="col-sm-6">
@@ -91,11 +91,11 @@
                             <label class="col-xs-3 control-label">入党时间</label>
                             <div class="col-xs-6">
                                 <input disabled class="form-control" name="_growTime" type="text"
-                                       value="${cm:formatDate(memberStay.growTime,'yyyy-MM-dd')}" />
+                                       value="${cm:formatDate(userBean.growTime,'yyyy-MM-dd')}" />
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
 
                         <div class="form-group">
                             <label class="col-xs-5 control-label">留学国别</label>

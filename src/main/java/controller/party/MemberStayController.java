@@ -47,6 +47,18 @@ public class MemberStayController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("memberStay:list")
+    @RequestMapping("/memberStay_view")
+    public String memberStay_view(int userId, ModelMap modelMap) {
+
+        MemberStay memberStay = memberStayService.get(userId);
+        modelMap.put("memberStay", memberStay);
+
+        modelMap.put("userBean", userBeanService.get(userId));
+
+        return "party/memberStay/memberStay_view";
+    }
+
+    @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay")
     public String memberStay() {
 

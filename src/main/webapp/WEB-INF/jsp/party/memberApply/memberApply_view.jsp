@@ -2,13 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <div class="modal-body">
     <!-- PAGE CONTENT BEGINS -->
     <div class="widget-box transparent" id="view-box">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:;" class="closeView btn btn-mini btn-success">
+                <a href="javascript:;" class="closeView reload btn btn-mini btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
@@ -157,11 +156,103 @@
                             </ul>
                         </div>
                         <div class="clearfix form-actions center">
-
-                            <button class="closeView btn" type="button">
-                                <i class="ace-icon fa fa-undo"></i>
-                                返回
+                            <div class="pull-left">
+                                <button class=" btn disabled" type="button">
+                                    <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                            <button class="btn" type="button">
+                                下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                             </button>
+                            </div>
+                            <c:choose>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_INIT}">
+                                    <button onclick="apply_pass(${memberApply.userId})" class="btn btn-success">
+                                        <i class="fa fa-check"></i> 通过
+                                    </button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger">
+                                        <i class="fa fa-times"></i> 不通过
+                                    </button>
+                                </c:when>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">
+                                    <button onclick="apply_active(${memberApply.userId})" class="btn btn-success">
+                                        <i class="fa fa-check"></i> 确定为入党积极分子
+                                    </button>
+                                </c:when>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_ACTIVE}">
+                                    <c:if test="${empty memberApply.candidateStatus}">
+                                        <button onclick="apply_candidate(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 确定为发展对象
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.candidateStatus==0}">
+                                        <button onclick="apply_candidate_check(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核
+                                        </button>
+                                    </c:if>
+                                </c:when>
+
+                                <c:when test="${memberApply.stage==APPLY_STAGE_CANDIDATE}">
+                                    <c:if test="${empty memberApply.planStatus}">
+                                        <button onclick="apply_plan(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 列入发展计划
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.planStatus==0}">
+                                        <button onclick="apply_plan_check(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核
+                                        </button>
+                                    </c:if>
+                                </c:when>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_PLAN}">
+                                    <c:if test="${empty memberApply.drawStatus}">
+                                        <button onclick="apply_draw(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 领取志愿书
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.drawStatus==0}">
+                                        <button onclick="apply_draw_check(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核
+                                        </button>
+                                    </c:if>
+                                </c:when>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
+                                    <c:if test="${empty memberApply.growStatus}">
+                                        <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 发展为预备党员
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.growStatus==0}">
+                                        <button onclick="apply_grow_check(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.growStatus==1}">
+                                        <button onclick="apply_grow_check2(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
+                                </c:when>
+                                <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
+                                    <c:if test="${empty memberApply.positiveStatus}">
+                                        <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 预备党员转正
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.positiveStatus==0}">
+                                        <button onclick="apply_positive_check(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核1
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${memberApply.positiveStatus==1}">
+                                        <button onclick="apply_positive_check2(${memberApply.userId})" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 审核2
+                                        </button>
+                                    </c:if>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
 

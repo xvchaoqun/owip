@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/dispatch_au"
              data-url-page="${ctx}/dispatch_page"
@@ -11,9 +12,6 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/dispatch_batchDel"
              data-url-co="${ctx}/dispatch_changeOrder"
              data-querystr="${pageContext.request.queryString}">
-
-
-
                 <div class="widget-box hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
@@ -56,15 +54,10 @@ pageEncoding="UTF-8" %>
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">发文类型</label>
                                             <div class="col-xs-6">
-                                                <select class="form-control" data-rel="select2" name="typeId" data-placeholder="请选择发文类型">
-                                                    <option></option>
-                                                    <c:forEach var="metaType" items="${metaTypeMap}">
-                                                        <option value="${metaType.value.id}">${metaType.value.name}</option>
-                                                    </c:forEach>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
+                                                        name="dispatchTypeId" data-placeholder="请选择发文类型">
+                                                    <option value="${dispatchType.id}">${dispatchType.name}</option>
                                                 </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=typeId]").val(${param.typeId});
-                                                </script>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -134,7 +127,7 @@ pageEncoding="UTF-8" %>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-center table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -169,25 +162,35 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td nowrap>${dispatch.year}</td>
-								<td nowrap>${metaTypeMap.get(dispatch.typeId).name}</td>
-								<td nowrap>${dispatch.code}</td>
-								<td nowrap>${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
-								<td nowrap>${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
-								<td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
-								<td nowrap><c:if test="${not empty dispatch.fileName}">
-                                    <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
-                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">预览</a>
+								<td width="50">${dispatch.year}</td>
+								<td nowrap>${dispatchTypeMap.get(dispatch.dispatchTypeId).name}</td>
+                            <c:if test="${not empty dispatch.fileName}">
+                                <td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">${dispatch.code}</a></td>
+                            </c:if>
+                            <c:if test="${empty dispatch.fileName}">
+                            <td nowrap>${dispatch.code}</td>
+                                    </c:if>
+								<td width="120">${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
+								<td width="120">${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
+								<td width="120">${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
+								<td width="100"><c:if test="${not empty dispatch.fileName}">
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">查看</a>
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" class="dispatch_del_file"
+                                       data-id="${dispatch.id}" data-type="file">删除</a>
                                 </c:if>
                                 </td>
-								<td nowrap><c:if test="${not empty dispatch.pptName}"><a href="/dispatch_download?id=${dispatch.id}&type=ppt" target="_blank">下载</a>
-                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">预览</a>
+								<td width="100"><c:if test="${not empty dispatch.pptName}">
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">查看</a>
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" class="dispatch_del_file"
+                                       data-id="${dispatch.id}" data-type="ppt">删除</a>
                                     </c:if>
                                 </td>
-								<td>${dispatch.remark}</td>
+								<td style="text-align: left">${dispatch.remark}</td>
                             <shiro:hasPermission name="dispatch:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
+                                <td width="80">
                                     <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${dispatch.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
@@ -197,6 +200,9 @@ pageEncoding="UTF-8" %>
                             </shiro:hasPermission>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
+                                    <button data-url="${ctx}/dispatch_cadres?dispatchId=${dispatch.id}" class="openView btn btn-info btn-mini">
+                                        <i class="fa fa-plus"></i> 添加干部任免
+                                    </button>
                                     <shiro:hasPermission name="dispatch:edit">
                                     <button data-id="${dispatch.id}" class="editBtn btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
@@ -248,19 +254,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/dispatch_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+            <wo:page commonList="${commonList}" uri="${ctx}/dispatch_page" target="#page-content" pageNum="5"
+                     model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -268,17 +263,47 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
+        </div>
+        <div id="item-content"> </div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+
+<link rel="stylesheet" href="${ctx}/extend/css/jquery.webui-popover.min.css" type="text/css" />
+<script src="${ctx}/extend/js/jquery.webui-popover.min.js"></script>
+<script type="text/template" id="dispatch_del_file_tpl">
+    <a class="btn btn-success btn-xs" onclick="dispatch_del_file({{=id}}, '{{=type}}')">
+        <i class="fa fa-check"></i> 确定</a>&nbsp;
+    <a class="btn btn-default btn-xs" onclick="hideDel()"><i class="fa fa-times"></i> 取消</a>
+</script>
 <script>
 
-    function swf_preview(id, type){
+    $(".dispatch_del_file").each(function(){
 
-        loadModal("${ctx}/swf_preview?id="+id + "&type=" + type);
+        var id = $(this).data('id');
+        var type = $(this).data('type');
+        $(this).webuiPopover({width:'150px',animation:'pop',
+            content:function(){
+                return  _.template($("#dispatch_del_file_tpl").html())({id:id, type:type})
+            }});
+    });
+    function hideDel(){
+        $(".dispatch_del_file").webuiPopover("hide")
     }
+    function dispatch_del_file(id, type){
+        $.post("${ctx}/dispatch_del_file",{id:id, type:type},function(data){
+            if(data.success) {
+                hideDel();
+                page_reload();
+                toastr.success('操作成功。', '成功');
+            }
+        });
+    }
+
     register_date($('.date-picker'));
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 </script>

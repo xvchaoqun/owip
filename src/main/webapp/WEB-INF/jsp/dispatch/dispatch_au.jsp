@@ -12,8 +12,8 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">年份</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
-                               data-date-format="yyyy" data-date-min-view-mode="2" value="${dispatch.year}" />
+                        <input required class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                               data-date-format="yyyy" data-date-min-view-mode="2" value="${year}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -21,13 +21,10 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发文类型</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="typeId" data-placeholder="请选择发文类型">
-                        <option></option>
-                        <c:import url="/metaTypes?__code=mc_dispatch"/>
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
+                            name="dispatchTypeId" data-placeholder="请选择发文类型">
+                        <option value="${dispatchType.id}">${dispatchType.name}</option>
                     </select>
-                    <script type="text/javascript">
-                        $("#modal form select[name=typeId]").val(${dispatch.typeId});
-                    </script>
 				</div>
 			</div>
 			<div class="form-group">
@@ -51,7 +48,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">发文日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_pubTime" type="text"
+                        <input required class="form-control date-picker" name="_pubTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -61,7 +58,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">任免日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_workTime" type="text"
+                        <input required class="form-control date-picker" name="_workTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -106,7 +103,7 @@ pageEncoding="UTF-8"%>
         //onchange:''
         //
     });
-
+    register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
     register_date($('.date-picker'));
 
     $("#modal form").validate({

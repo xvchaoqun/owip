@@ -8,9 +8,10 @@
 </div>
 <div class="modal-body">
     <div class="popTableDiv"
-         data-url-page="${ctx}/metaClass_type?id=${metaClass.id}"
+         data-url-page="${ctx}/metaClass_type"
          data-url-del="${ctx}/metaType_del"
-         data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}">
+         data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
+         data-querystr="${pageContext.request.queryString}">
         <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
@@ -24,10 +25,10 @@
                     </shiro:hasRole>
                     <shiro:hasPermission name="metaType:changeOrder">
                         <c:if test="${!_query && commonList.recNum>1}">
-                            <th nowrap>排序</th>
+                            <th style="width: 50px">排序</th>
                         </c:if>
                     </shiro:hasPermission>
-                    <th nowrap></th>
+                    <th style="width: 120px"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,7 +118,7 @@
 
     function metaType_au(id){
 
-        var url = "${ctx}/metaType_au?classId=${metaClass.id}";
+        var url = "${ctx}/metaType_au?classId=${metaClass.id}&pageNo=${commonList.pageNo}";
         if(id>0) url += "&id="+id;
 
         loadModal(url);
