@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.SelectMapper" >
+
+  <select id="selectDispatchCadrePage" resultMap="persistence.DispatchCadreMapper.BaseResultMap" parameterType="map" >
+    select dc.* from base_dispatch_cadre dc, base_dispatch d, base_dispatch_type dt
+    where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id
+    <if test="dispatchId!=null">
+      and d.id =#{dispatchId}
+    </if>
+    <if test="wayId!=null">
+      and dc.way_id =#{wayId}
+    </if>
+    <if test="procedureId!=null">
+      and dc.procedure_id =#{procedureId}
+    </if>
+    <if test="cadreId!=null">
+    and dc.cadre_id =#{cadreId}
+  </if>
+    <if test="adminLevelId!=null">
+      and dc.admin_level_id =#{adminLevelId}
+    </if>
+    <if test="unitId!=null">
+      and dc.unit_id =#{unitId}
+    </if>
+    order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
+  </select>
+
+</mapper>

@@ -14,6 +14,18 @@
 			   <input required class="form-control" type="text" name="name" value="${metaClass.name}">
           </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">所属一级目录</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="firstLevel" value="${metaClass.firstLevel}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">所属二级目录</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="secondLevel" value="${metaClass.secondLevel}">
+            </div>
+        </div>
         <shiro:hasRole name="admin">
     	<div class="form-group">
           <label class="col-xs-3 control-label">代码</label>

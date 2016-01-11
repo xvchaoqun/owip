@@ -5,6 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="first_level" property="firstLevel" jdbcType="VARCHAR" />
+    <result column="second_level" property="secondLevel" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="bool_attr" property="boolAttr" jdbcType="VARCHAR" />
     <result column="extra_attr" property="extraAttr" jdbcType="VARCHAR" />
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, role_id, name, code, bool_attr, extra_attr, sort_order, available
+    id, role_id, name, first_level, second_level, code, bool_attr, extra_attr, sort_order, 
+    available
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MetaClassExample" >
     select
@@ -104,11 +107,13 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.MetaClass" >
     insert into base_meta_class (id, role_id, name, 
-      code, bool_attr, extra_attr, 
-      sort_order, available)
+      first_level, second_level, code, 
+      bool_attr, extra_attr, sort_order, 
+      available)
     values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{boolAttr,jdbcType=VARCHAR}, #{extraAttr,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{available,jdbcType=BIT})
+      #{firstLevel,jdbcType=VARCHAR}, #{secondLevel,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{boolAttr,jdbcType=VARCHAR}, #{extraAttr,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{available,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.MetaClass" >
     insert into base_meta_class
@@ -121,6 +126,12 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="firstLevel != null" >
+        first_level,
+      </if>
+      <if test="secondLevel != null" >
+        second_level,
       </if>
       <if test="code != null" >
         code,
@@ -147,6 +158,12 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLevel != null" >
+        #{firstLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="secondLevel != null" >
+        #{secondLevel,jdbcType=VARCHAR},
       </if>
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
@@ -183,6 +200,12 @@
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.firstLevel != null" >
+        first_level = #{record.firstLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondLevel != null" >
+        second_level = #{record.secondLevel,jdbcType=VARCHAR},
+      </if>
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -208,6 +231,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      first_level = #{record.firstLevel,jdbcType=VARCHAR},
+      second_level = #{record.secondLevel,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},
       bool_attr = #{record.boolAttr,jdbcType=VARCHAR},
       extra_attr = #{record.extraAttr,jdbcType=VARCHAR},
@@ -225,6 +250,12 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLevel != null" >
+        first_level = #{firstLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="secondLevel != null" >
+        second_level = #{secondLevel,jdbcType=VARCHAR},
       </if>
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
@@ -248,6 +279,8 @@
     update base_meta_class
     set role_id = #{roleId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      first_level = #{firstLevel,jdbcType=VARCHAR},
+      second_level = #{secondLevel,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       bool_attr = #{boolAttr,jdbcType=VARCHAR},
       extra_attr = #{extraAttr,jdbcType=VARCHAR},

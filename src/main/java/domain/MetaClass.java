@@ -9,6 +9,10 @@ public class MetaClass implements Serializable {
 
     private String name;
 
+    private String firstLevel;
+
+    private String secondLevel;
+
     private String code;
 
     private String boolAttr;
@@ -43,6 +47,22 @@ public class MetaClass implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getFirstLevel() {
+        return firstLevel;
+    }
+
+    public void setFirstLevel(String firstLevel) {
+        this.firstLevel = firstLevel == null ? null : firstLevel.trim();
+    }
+
+    public String getSecondLevel() {
+        return secondLevel;
+    }
+
+    public void setSecondLevel(String secondLevel) {
+        this.secondLevel = secondLevel == null ? null : secondLevel.trim();
     }
 
     public String getCode() {

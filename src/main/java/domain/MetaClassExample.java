@@ -294,6 +294,146 @@ public class MetaClassExample {
             return (Criteria) this;
         }
 
+        public Criteria andFirstLevelIsNull() {
+            addCriterion("first_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelIsNotNull() {
+            addCriterion("first_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelEqualTo(String value) {
+            addCriterion("first_level =", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelNotEqualTo(String value) {
+            addCriterion("first_level <>", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelGreaterThan(String value) {
+            addCriterion("first_level >", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("first_level >=", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelLessThan(String value) {
+            addCriterion("first_level <", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelLessThanOrEqualTo(String value) {
+            addCriterion("first_level <=", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelLike(String value) {
+            addCriterion("first_level like", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelNotLike(String value) {
+            addCriterion("first_level not like", value, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelIn(List<String> values) {
+            addCriterion("first_level in", values, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelNotIn(List<String> values) {
+            addCriterion("first_level not in", values, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelBetween(String value1, String value2) {
+            addCriterion("first_level between", value1, value2, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstLevelNotBetween(String value1, String value2) {
+            addCriterion("first_level not between", value1, value2, "firstLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelIsNull() {
+            addCriterion("second_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelIsNotNull() {
+            addCriterion("second_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelEqualTo(String value) {
+            addCriterion("second_level =", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelNotEqualTo(String value) {
+            addCriterion("second_level <>", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelGreaterThan(String value) {
+            addCriterion("second_level >", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("second_level >=", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelLessThan(String value) {
+            addCriterion("second_level <", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelLessThanOrEqualTo(String value) {
+            addCriterion("second_level <=", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelLike(String value) {
+            addCriterion("second_level like", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelNotLike(String value) {
+            addCriterion("second_level not like", value, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelIn(List<String> values) {
+            addCriterion("second_level in", values, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelNotIn(List<String> values) {
+            addCriterion("second_level not in", values, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelBetween(String value1, String value2) {
+            addCriterion("second_level between", value1, value2, "secondLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondLevelNotBetween(String value1, String value2) {
+            addCriterion("second_level not between", value1, value2, "secondLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;

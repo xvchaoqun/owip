@@ -31,7 +31,20 @@ pageEncoding="UTF-8"%>
                 </c:forEach>
             </div>
         </div>
-
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">干部类型</label>
+                    <div class="col-xs-6">
+                        <select required data-rel="select2" name="cadreTypeId" data-placeholder="请选择干部类型">
+                            <option></option>
+                            <c:forEach var="cadreType" items="${cadreTypeMap}">
+                                <option value="${cadreType.value.id}">${cadreType.value.name}</option>
+                            </c:forEach>
+                        </select>
+                        <script type="text/javascript">
+                            $("#modalForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
+                        </script>
+                    </div>
+                </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免方式</label>
 				<div class="col-xs-6">
@@ -61,11 +74,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">关联干部</label>
+				<label class="col-xs-3 control-label">工作证号</label>
 				<div class="col-xs-8">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
-                        <option value="${cadre.id}">${sysUser.realname}</option>
+                        <option value="${cadre.id}">${sysUser.code}</option>
                     </select>
 				</div>
 			</div>
@@ -73,7 +86,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-8">
-                        <input required class="form-control" type="text" name="name" value="${dispatchCadre.name}">
+                        <input disabled class="form-control" type="text" name="_name" value="${sysUser.realname}">
 				</div>
 			</div>
             </div>
@@ -177,5 +190,5 @@ pageEncoding="UTF-8"%>
             cache: true
         }
     });
-    register_user_select($('#modalForm select[name=cadreId]'));
+    register_cadre_select($('#modalForm select[name=cadreId]'), $('#modalForm input[name=_name]'));
 </script>

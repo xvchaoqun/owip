@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import persistence.*;
 import persistence.common.CommonMapper;
 import persistence.common.CommonUnitMapper;
+import persistence.common.SelectMapper;
 import persistence.common.UpdateMapper;
 
 public class BaseMapper {
@@ -137,6 +138,8 @@ public class BaseMapper {
 	protected CommonUnitMapper commonUnitMapper;
 	@Autowired
 	protected CommonMapper commonMapper;
+	@Autowired
+	protected SelectMapper selectMapper;
 	@Autowired
 	protected UpdateMapper updateMapper;
 	@Autowired

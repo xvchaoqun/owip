@@ -633,6 +633,39 @@ function register_unit_select($unitTypeSelect, $unitSelect, $unitType) {
     });
 }
 
+// 选择干部（显示工作证号）
+function register_cadre_select($select, $name){
+    $select.select2({
+        templateResult: formatState,
+        templateSelection:function(state){ var $state = state.text;
+            if(state.code!=undefined && state.code.length>0)
+                $state = state.code;
+            return $state;
+        },
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    }).on("change",function(){
+        var name = $(this).select2("data")[0]['text']||'';
+        $name.val(name);
+    });;
+}
+
 // 预览发文
 function swf_preview(id, type){
     loadModal(ctx + "/swf_preview?id="+id + "&type=" + type);

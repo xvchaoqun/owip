@@ -56,6 +56,8 @@
                         </label>
                     </th>
                     <mytag:sort-th field="name">名称</mytag:sort-th>
+                    <th nowrap class="visible-lg">所属一级目录</th>
+                    <th nowrap class="visible-lg">所属二级目录</th>
                     <shiro:hasRole name="admin">
                     <mytag:sort-th field="code" css="visible-lg">代码</mytag:sort-th>
                     <th nowrap class="visible-lg">布尔属性名称</th>
@@ -80,6 +82,8 @@
                             </label>
                         </td>
                         <td nowrap><a href="javascript:;" onclick="openView(${metaClass.id})">${metaClass.name}</a></td>
+                        <td nowrap class="visible-lg">${metaClass.firstLevel}</td>
+                        <td nowrap class="visible-lg">${metaClass.secondLevel}</td>
                         <shiro:hasRole name="admin">
                         <td nowrap class="visible-lg">${metaClass.code}</td>
                         <td nowrap class="visible-lg">${metaClass.boolAttr}</td>

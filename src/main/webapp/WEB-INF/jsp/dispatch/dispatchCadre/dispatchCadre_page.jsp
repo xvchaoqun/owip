@@ -157,7 +157,7 @@ pageEncoding="UTF-8" %>
 							<th>类别</th>
 							<th>任免方式</th>
 							<th>任免程序</th>
-                            <th>发文类型</th>
+							<th>干部类型</th>
 							<th>工作证号</th>
 							<th>姓名</th>
                             <th>职务</th>
@@ -165,6 +165,11 @@ pageEncoding="UTF-8" %>
 							<th>行政级别</th>
 							<th>所属单位</th>
 							<th>单位类型</th>
+                            <th>发文类型</th>
+                            <th>党委常委会日期</th>
+                            <th>发文日期</th>
+                            <th>任免文件</th>
+                            <th>上会ppt</th>
                         <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
@@ -177,6 +182,7 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${dispatchCadres}" var="dispatchCadre" varStatus="st">
                         <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
                         <c:set value="${unitMap.get(dispatchCadre.unitId)}" var="unit"/>
+                        <c:set value="${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId)}" var="user"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -190,14 +196,31 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
 								<td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
-                                <td nowrap>${dispatchTypeMap.get(dispatch.dispatchTypeId).name}</td>
-								<td nowrap>${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId).code}</td>
-								<td nowrap>${dispatchCadre.name}</td>
+								<td nowrap>${cadreTypeMap.get(dispatchCadre.cadreTypeId).name}</td>
+								<td nowrap>${user.code}</td>
+								<td nowrap>${user.realname}</td>
                                 <td nowrap>${dispatchCadre.post}</td>
                                 <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
 								<td nowrap>${adminLevelMap.get(dispatchCadre.adminLevelId).name}</td>
 								<td nowrap>${unit.name}</td>
 								<td nowrap>${unitTypeMap.get(unit.typeId).name}</td>
+                                <td nowrap>${dispatchTypeMap.get(dispatch.dispatchTypeId).name}</td>
+                                <td nowrap>${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
+                                <td nowrap>${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
+                                <td width="100"><c:if test="${not empty dispatch.fileName}">
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">查看</a>
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" class="dispatch_del_file"
+                                       data-id="${dispatch.id}" data-type="file">删除</a>
+                                </c:if>
+                                </td>
+                                <td width="100"><c:if test="${not empty dispatch.pptName}">
+                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">查看</a>
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" class="dispatch_del_file"
+                                       data-id="${dispatch.id}" data-type="ppt">删除</a>
+                                </c:if>
+                                </td>
                             <shiro:hasPermission name="dispatchCadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

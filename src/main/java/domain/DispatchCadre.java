@@ -11,11 +11,11 @@ public class DispatchCadre implements Serializable {
 
     private Byte type;
 
+    private Integer cadreTypeId;
+
     private Integer wayId;
 
     private Integer procedureId;
-
-    private String name;
 
     private String post;
 
@@ -63,6 +63,14 @@ public class DispatchCadre implements Serializable {
         this.type = type;
     }
 
+    public Integer getCadreTypeId() {
+        return cadreTypeId;
+    }
+
+    public void setCadreTypeId(Integer cadreTypeId) {
+        this.cadreTypeId = cadreTypeId;
+    }
+
     public Integer getWayId() {
         return wayId;
     }
@@ -77,14 +85,6 @@ public class DispatchCadre implements Serializable {
 
     public void setProcedureId(Integer procedureId) {
         this.procedureId = procedureId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
     }
 
     public String getPost() {

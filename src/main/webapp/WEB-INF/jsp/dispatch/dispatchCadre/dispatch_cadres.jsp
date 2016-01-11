@@ -15,7 +15,7 @@
 
                 <h4 class="smaller">
                     任免文件
-                    <a href="javascript:;" class="closeView pull-right btn btn-mini btn-success"
+                    <a href="javascript:;" class="closeView reload pull-right btn btn-mini btn-success"
                        style="margin-right: 10px; top: -5px;">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>

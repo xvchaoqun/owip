@@ -6,9 +6,9 @@
     <result column="dispatch_id" property="dispatchId" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="cadre_type_id" property="cadreTypeId" jdbcType="INTEGER" />
     <result column="way_id" property="wayId" jdbcType="INTEGER" />
     <result column="procedure_id" property="procedureId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
@@ -75,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, dispatch_id, cadre_id, type, way_id, procedure_id, name, post, post_id, admin_level_id, 
-    unit_id, remark, sort_order
+    id, dispatch_id, cadre_id, type, cadre_type_id, way_id, procedure_id, post, post_id, 
+    admin_level_id, unit_id, remark, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.DispatchCadreExample" >
     select
@@ -110,13 +110,13 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.DispatchCadre" >
     insert into base_dispatch_cadre (id, dispatch_id, cadre_id, 
-      type, way_id, procedure_id, 
-      name, post, post_id, 
+      type, cadre_type_id, way_id, 
+      procedure_id, post, post_id, 
       admin_level_id, unit_id, remark, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{dispatchId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{cadreTypeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, 
+      #{procedureId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
       #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
@@ -135,14 +135,14 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="cadreTypeId != null" >
+        cadre_type_id,
+      </if>
       <if test="wayId != null" >
         way_id,
       </if>
       <if test="procedureId != null" >
         procedure_id,
-      </if>
-      <if test="name != null" >
-        name,
       </if>
       <if test="post != null" >
         post,
@@ -176,14 +176,14 @@
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
       </if>
+      <if test="cadreTypeId != null" >
+        #{cadreTypeId,jdbcType=INTEGER},
+      </if>
       <if test="wayId != null" >
         #{wayId,jdbcType=INTEGER},
       </if>
       <if test="procedureId != null" >
         #{procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
       </if>
       <if test="post != null" >
         #{post,jdbcType=VARCHAR},
@@ -226,14 +226,14 @@
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.cadreTypeId != null" >
+        cadre_type_id = #{record.cadreTypeId,jdbcType=INTEGER},
+      </if>
       <if test="record.wayId != null" >
         way_id = #{record.wayId,jdbcType=INTEGER},
       </if>
       <if test="record.procedureId != null" >
         procedure_id = #{record.procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.post != null" >
         post = #{record.post,jdbcType=VARCHAR},
@@ -264,9 +264,9 @@
       dispatch_id = #{record.dispatchId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      cadre_type_id = #{record.cadreTypeId,jdbcType=INTEGER},
       way_id = #{record.wayId,jdbcType=INTEGER},
       procedure_id = #{record.procedureId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
       admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
@@ -289,14 +289,14 @@
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="cadreTypeId != null" >
+        cadre_type_id = #{cadreTypeId,jdbcType=INTEGER},
+      </if>
       <if test="wayId != null" >
         way_id = #{wayId,jdbcType=INTEGER},
       </if>
       <if test="procedureId != null" >
         procedure_id = #{procedureId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="post != null" >
         post = #{post,jdbcType=VARCHAR},
@@ -324,9 +324,9 @@
     set dispatch_id = #{dispatchId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      cadre_type_id = #{cadreTypeId,jdbcType=INTEGER},
       way_id = #{wayId,jdbcType=INTEGER},
       procedure_id = #{procedureId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},
       admin_level_id = #{adminLevelId,jdbcType=INTEGER},

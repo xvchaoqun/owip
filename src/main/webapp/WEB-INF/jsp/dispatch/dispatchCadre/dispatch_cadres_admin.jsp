@@ -25,7 +25,20 @@
             </c:forEach>
           </div>
         </div>
-
+        <div class="form-group">
+          <label class="col-xs-3 control-label">干部类型</label>
+          <div class="col-xs-6">
+            <select required data-rel="select2" name="cadreTypeId" data-placeholder="请选择干部类型">
+              <option></option>
+              <c:forEach var="cadreType" items="${cadreTypeMap}">
+                <option value="${cadreType.value.id}">${cadreType.value.name}</option>
+              </c:forEach>
+            </select>
+            <script type="text/javascript">
+              $("#modalForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
+            </script>
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-xs-3 control-label">任免方式</label>
           <div class="col-xs-6">
@@ -55,11 +68,11 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">关联干部</label>
+          <label class="col-xs-3 control-label">工作证号</label>
           <div class="col-xs-8">
-            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+            <select data-ajax-url="${ctx}/cadre_selects"
                     name="cadreId" data-placeholder="请选择干部">
-              <option value="${cadre.id}">${sysUser.realname}</option>
+              <option></option>
             </select>
           </div>
         </div>
@@ -67,7 +80,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">姓名</label>
           <div class="col-xs-8">
-            <input required class="form-control" type="text" name="name" value="${dispatchCadre.name}">
+            <input disabled class="form-control" type="text" name="_name">
           </div>
         </div>
         <div class="form-group">
@@ -142,7 +155,7 @@
     </div>
     <div class="clearfix form-actions">
       <div class="col-md-offset-3 col-md-9">
-        <button class="btn btn-info btn-sm" type="submit" ${empty dispatch?"disabled":""}>
+        <button class="btn btn-info btn-sm" type="submit">
           <i class="ace-icon fa fa-check "></i>
           确定
         </button>
@@ -172,11 +185,12 @@
     </thead>
     <tbody>
     <c:forEach items="${dispatchCadres}" var="dispatchCadre" varStatus="st">
+      <c:set value="${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId)}" var="user"/>
       <tr>
         <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
         <td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
         <td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
-        <td nowrap>${dispatchCadre.name}</td>
+        <td nowrap>${user.realname}</td>
         <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
       </tr>
     </c:forEach>
@@ -184,6 +198,9 @@
   </table>
 </div>
 <script>
+  <c:if test="${empty dispatch}">
+  $("select, input, button, textarea", "#cadreForm").prop("disabled", true);
+  </c:if>
   $('textarea.limited').inputlimiter();
   $("#cadreForm button[type=submit]").click(function(){$("#cadreForm").submit();return false;});
   $("#cadreForm").validate({
@@ -200,6 +217,6 @@
   });
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
-  register_user_select($('#cadreForm select[name=cadreId]'));
+  register_cadre_select($('#cadreForm select[name=cadreId]'), $('#cadreForm input[name=_name]'));
   register_unit_select($('#cadreForm select[name=_unitStatus]'), $('#cadreForm select[name=unitId]'), $('#cadreForm input[name=_unitType]'));
 </script>

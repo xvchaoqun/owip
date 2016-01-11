@@ -1,4 +1,15 @@
 
+--2016.01.10
+ALTER TABLE `base_meta_class`
+	ADD COLUMN `first_level` VARCHAR(100) NULL COMMENT '所属一级目录' AFTER `name`,
+	ADD COLUMN `second_level` VARCHAR(100) NULL COMMENT '所属二级目录' AFTER `first_level`;
+
+ALTER TABLE `base_dispatch_cadre`
+	ADD COLUMN `cadre_type_id` INT UNSIGNED NOT NULL COMMENT '干部类型，关联元数据' AFTER `type`;
+
+	ALTER TABLE `base_dispatch_cadre`
+	DROP COLUMN `name`;
+
 #####2016.1.4
 ALTER TABLE `base_dispatch`
 	DROP INDEX `FK_dispatch_base_meta_type`,

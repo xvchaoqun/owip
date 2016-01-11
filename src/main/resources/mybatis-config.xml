@@ -6,7 +6,7 @@
 
 <configuration>
 	<properties>
-    	      <property name="pageSqlId" value=".*(select.*ByExample|select.*List).*$"/>
+    	      <property name="pageSqlId" value=".*(select.*ByExample|select.*List|select.*Page).*$"/>
     	      <property name="dialect" value="mysql"/>
 	</properties>
 	 <settings>

@@ -72,10 +72,12 @@ public class DispatchCadreController extends BaseController {
 
         //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
+        modelMap.put("cadreMap", cadreService.findAll());
 
         return "dispatch/dispatchCadre/dispatch_cadres_admin";
     }
@@ -97,7 +99,7 @@ public class DispatchCadreController extends BaseController {
                                     Integer wayId,
                                     Integer procedureId,
                                     Integer cadreId,
-                                    String name,
+                                    /*String name,*/
                                     Integer adminLevelId,
                                     Integer unitId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -137,9 +139,9 @@ public class DispatchCadreController extends BaseController {
 
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (StringUtils.isNotBlank(name)) {
+        /*if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
-        }
+        }*/
         if (adminLevelId!=null) {
             criteria.andAdminLevelIdEqualTo(adminLevelId);
         }
@@ -157,7 +159,10 @@ public class DispatchCadreController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchCadre> DispatchCadres = dispatchCadreMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<DispatchCadre> DispatchCadres =
+                selectMapper.selectDispatchCadrePage(dispatchId, wayId, procedureId, cadreId, adminLevelId, unitId,
+                        new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("dispatchCadres", DispatchCadres);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -179,9 +184,9 @@ public class DispatchCadreController extends BaseController {
         if (cadreId!=null) {
             searchStr += "&cadreId=" + cadreId;
         }
-        if (StringUtils.isNotBlank(name)) {
+        /*if (StringUtils.isNotBlank(name)) {
             searchStr += "&name=" + name;
-        }
+        }*/
         if (adminLevelId!=null) {
             searchStr += "&adminLevelId=" + adminLevelId;
         }
@@ -199,6 +204,7 @@ public class DispatchCadreController extends BaseController {
 
         //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
@@ -247,6 +253,7 @@ public class DispatchCadreController extends BaseController {
 
         //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre"));
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
+        modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
@@ -327,7 +334,7 @@ public class DispatchCadreController extends BaseController {
                                             wayMap.get(dispatchCadre.getWayId()).getName(),
                                             procedureMap.get(dispatchCadre.getProcedureId()).getName(),
                                             user.getCode(),
-                                            dispatchCadre.getName(),
+                    user.getRealname(),
                                             adminLevelMap.get(dispatchCadre.getAdminLevelId()).getName(),
                                             unit.getName(),
                                             dispatchCadre.getRemark()
@@ -353,7 +360,7 @@ public class DispatchCadreController extends BaseController {
         }
     }
 
-    @RequestMapping("/dispatchCadre_selects")
+    /*@RequestMapping("/dispatchCadre_selects")
     @ResponseBody
     public Map dispatchCadre_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
@@ -397,5 +404,5 @@ public class DispatchCadreController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
-    }
+    }*/
 }

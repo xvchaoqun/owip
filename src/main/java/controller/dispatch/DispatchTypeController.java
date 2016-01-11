@@ -52,6 +52,7 @@ public class DispatchTypeController extends BaseController {
     public String dispatchType_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
+                                    Short year,
                                     String name,
                                     String attr,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -69,6 +70,9 @@ public class DispatchTypeController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        if(year!=null){
+            criteria.andYearEqualTo(year);
+        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
@@ -93,6 +97,9 @@ public class DispatchTypeController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
+        if(year != null){
+            searchStr += "&year=" + year;
+        }
         if (StringUtils.isNotBlank(name)) {
             searchStr += "&name=" + name;
         }
