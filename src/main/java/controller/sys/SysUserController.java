@@ -84,7 +84,7 @@ public class SysUserController extends BaseController {
 			criteria.andRealnameLike("%" + realname + "%");
 		}
 		if(roleId!=null){
-			criteria.andRoleIdsLike("%," + roleId + "%,");
+			criteria.andRoleIdsLike("%," + roleId + ",%");
 		}
 		if(type!=null){
 			criteria.andTypeEqualTo(type);
