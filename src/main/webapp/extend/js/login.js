@@ -40,8 +40,8 @@ $(function(){
             return;
         }
         if($.trim($captcha.val())==""){
-         $captcha.focus();
-         return;
+             $captcha.focus();
+             return;
          }
         $(".form").ajaxSubmit({
             success:function(data){

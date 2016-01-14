@@ -54,7 +54,7 @@ public class MemberApplyController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_view")
-    public String memberApply_view(int userId, ModelMap modelMap) {
+    public String memberApply_view(int userId, byte stage, ModelMap modelMap) {
 
         SysUser sysUser = sysUserService.findById(userId);
 
@@ -62,12 +62,18 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(sysUser.getId());
         modelMap.put("memberApply", memberApply);
 
+        // 读取总数
+        modelMap.put("count", memberApplyService.count(null, null, stage));
+        // 下一条记录
+        modelMap.put("next", memberApplyService.next(stage, memberApply));
+        // 上一条记录
+        modelMap.put("last", memberApplyService.last(stage, memberApply));
+
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("branchMap", branchService.findAll());
 
         return "party/memberApply/memberApply_view";
     }
-
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")

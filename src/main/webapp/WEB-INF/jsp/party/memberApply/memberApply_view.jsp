@@ -23,13 +23,15 @@
             <div class="widget-main padding-4">
                 <div class="tab-content padding-8">
 
-                    <div class="col-xs-offset-1 col-xs-10" style="padding-top: 50px">
+                    <div class="col-xs-offset-1" style="padding-top: 50px; ">
 
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
                                 入党申请信息
-
+                                <c:if test="${count>0}">
+                                （总共${count}条未审核）
+                                </c:if>
                             </h1>
                         </div>
                         <div class="profile-user-info profile-user-info-striped">
@@ -157,14 +159,32 @@
                         </div>
                         <div class="clearfix form-actions center">
                             <div class="pull-left">
-                                <button class=" btn disabled" type="button">
-                                    <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
-                                </button>
+                                <c:if test="${empty last}">
+                                    <button class="btn disabled" type="button">
+                                        <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
+                                    </button>
+                                </c:if>
+                                <c:if test="${not empty last}">
+                                    <button class="openView btn"
+                                            data-url="${ctx}/memberApply_view?userId=${last.userId}&stage=${param.stage}"
+                                            type="button">
+                                        <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
+                                    </button>
+                                </c:if>
                             </div>
                             <div class="pull-right">
-                            <button class="btn" type="button">
-                                下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
-                            </button>
+                                <c:if test="${empty next}">
+                                    <button class="btn disabled" type="button">
+                                        下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
+                                    </button>
+                                </c:if>
+                                <c:if test="${not empty next}">
+                                <button class="openView btn"
+                                        data-url="${ctx}/memberApply_view?userId=${next.userId}&stage=${param.stage}"
+                                        type="button">
+                                    下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
+                                </button>
+                                    </c:if>
                             </div>
                             <c:choose>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_INIT}">

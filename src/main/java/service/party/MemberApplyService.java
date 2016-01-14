@@ -4,6 +4,7 @@ import domain.Member;
 import domain.MemberApply;
 import domain.MemberApplyExample;
 import domain.SysUser;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MemberApplyService extends BaseMapper {
@@ -30,6 +32,41 @@ public class MemberApplyService extends BaseMapper {
     public int insertSelective(MemberApply record) {
         return memberApplyMapper.insertSelective(record);
     }*/
+
+    public int count(Integer partyId, Integer branchId, Byte stage){
+
+        MemberApplyExample example = new MemberApplyExample();
+        MemberApplyExample.Criteria criteria = example.createCriteria();
+        if(stage!=null) criteria.andStageEqualTo(stage);
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        return memberApplyMapper.countByExample(example);
+    }
+
+    public MemberApply next(Byte stage, MemberApply memberApply){
+
+        MemberApplyExample example = new MemberApplyExample();
+        MemberApplyExample.Criteria criteria = example.createCriteria();
+        if(stage!=null) criteria.andStageEqualTo(stage);
+        criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
+        example.setOrderByClause("create_time desc");
+
+        List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
+    public MemberApply last(Byte stage, MemberApply memberApply){
+
+        MemberApplyExample example = new MemberApplyExample();
+        MemberApplyExample.Criteria criteria = example.createCriteria();
+        if(stage!=null) criteria.andStageEqualTo(stage);
+        criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
+        example.setOrderByClause("create_time desc");
+
+        List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
 
     @Cacheable(value = "MemberApply", key = "#userId")
     public MemberApply get(int userId) {

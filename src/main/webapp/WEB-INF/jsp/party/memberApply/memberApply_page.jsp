@@ -150,7 +150,7 @@ pageEncoding="UTF-8" %>
 
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}">
+                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}&stage=${stage}">
                                                     ${user.realname}
                                                         </a>
                                                     </td>

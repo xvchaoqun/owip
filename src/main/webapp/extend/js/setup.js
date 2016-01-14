@@ -355,8 +355,21 @@ $(document).on("click", "#view-box .nav-tabs li a", function(){
 });
 
 // 内页展示
-$(document).on("click", "#body-content .openView, #item-content .openView", function(){
+$(document).on("click", "#body-content .openView", function(){
     var $container = $("#body-content");
+    $container.showLoading({'afterShow':
+        function() {
+            setTimeout( function(){
+                $container.hideLoading();
+            }, 2000 );
+        }})
+    $.get($(this).data("url"),{},function(html){
+        $container.hideLoading().hide();
+        $("#item-content").hide().html(html).fadeIn("slow");
+    })
+});
+$(document).on("click", "#item-content .openView", function(){
+    var $container = $("#item-content");
     $container.showLoading({'afterShow':
         function() {
             setTimeout( function(){
