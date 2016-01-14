@@ -1,6 +1,7 @@
 package shiro;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
@@ -10,6 +11,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import service.SpringProps;
 import service.sys.LogService;
 import sys.constants.SystemConstants;
 import sys.utils.HttpUtils;
@@ -30,12 +32,16 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Autowired
     private LogService logService;
+    @Autowired
+    private SpringProps springProps;
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         AuthToken token = createToken(request, response);
         try {
-            /*图形验证码验证*/
-            //doCaptchaValidate((HttpServletRequest) request, token);
+            if(BooleanUtils.isTrue(springProps.useCaptcha)) {
+                /*图形验证码验证*/
+                doCaptchaValidate((HttpServletRequest) request, token);
+            }
             Subject subject = getSubject(request, response);
             subject.login(token);//正常验证
             return onLoginSuccess(token, subject, request, response);

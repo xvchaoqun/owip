@@ -4,18 +4,22 @@ import domain.SysUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import service.LoginService;
 import service.sys.SysUserService;
+import sys.constants.SystemConstants;
 
 
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     private SysUserService userService;
-
+    @Autowired
+    private LoginService loginService;
     @Autowired
     private RetryLimitHashedCredentialsMatcher credentialsMatcher;
 
@@ -40,20 +44,27 @@ public class UserRealm extends AuthorizingRealm {
         String password = null;
         String salt = "salt";
 
-
         SysUser user = userService.findByUsername(username);
-
         if (user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-
         if (user.getLocked()) {
-
             throw new LockedAccountException(); //帐号锁定
         }
 
-        password = user.getPasswd();
-        salt = user.getSalt();
+        // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
+        String inputPasswd = String.valueOf(authToken.getPassword());
+        boolean tryLogin = loginService.tryLogin(username, inputPasswd);
+        if(tryLogin){
+            password = new SimpleHash(
+                    credentialsMatcher.getHashAlgorithmName(),
+                    inputPasswd,
+                    ByteSource.Util.bytes(salt),
+                    credentialsMatcher.getHashIterations()).toHex();
+        }else {
+            password = user.getPasswd();
+            salt = user.getSalt();
+        }
 
         ShiroUser shiroUser = new ShiroUser(user.getId(), username, user.getRealname(), user.getType());
         /*User _user = new User();

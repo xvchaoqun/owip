@@ -20,7 +20,10 @@ public class SpringProps {
 	
 	@Value("${swfTools.command}")
 	public String swfToolsCommand;
-	
+
 	@Value("${username.regex}")
 	public String usernameRegex;
+
+	@Value("${login.useCaptcha}")
+	public Boolean useCaptcha;
 }

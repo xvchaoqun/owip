@@ -39,10 +39,10 @@ $(function(){
             $passwd.focus();
             return;
         }
-        /*if($.trim($captcha.val())==""){
+        if($.trim($captcha.val())==""){
          $captcha.focus();
          return;
-         }*/
+         }
         $(".form").ajaxSubmit({
             success:function(data){
                 //alert(data)

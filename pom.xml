@@ -21,6 +21,20 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>org.codehaus.xfire</groupId>
+      <artifactId>xfire-all</artifactId>
+      <version>1.2.6</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/xfire-all-1.2.6.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/jdom-1.0.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>bnu</groupId>
       <artifactId>bnu.sso</artifactId>
       <version>0.0.1-SNAPSHOT</version>
@@ -383,6 +397,24 @@
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
       <version>1.5.3</version>
+    </dependency>
+    <!-- iReport JasperReports -->
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+      <version>5.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itextasian</artifactId>
+      <version>2.1.7.js2</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/iTextAsian.jar</systemPath>
     </dependency>
   </dependencies>
 
