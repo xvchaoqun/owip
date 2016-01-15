@@ -6,6 +6,8 @@ import domain.BranchExample;
 import domain.BranchExample.Criteria;
 import domain.BranchMember;
 import domain.BranchMemberExample;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,8 +54,8 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_page")
     public String branch_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     String code,
                                     String name,
                                     Integer partyId,

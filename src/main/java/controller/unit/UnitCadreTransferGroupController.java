@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.UnitCadreTransferGroup;
 import domain.UnitCadreTransferGroupExample;
 import domain.UnitCadreTransferGroupExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -50,8 +52,8 @@ public class UnitCadreTransferGroupController extends BaseController {
     @RequiresPermissions("unitCadreTransferGroup:list")
     @RequestMapping("/unitCadreTransferGroup_page")
     public String unitCadreTransferGroup_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_cadre_transfer_group") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,

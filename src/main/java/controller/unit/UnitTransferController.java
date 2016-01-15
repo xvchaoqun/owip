@@ -5,6 +5,8 @@ import domain.DispatchUnit;
 import domain.UnitTransfer;
 import domain.UnitTransferExample;
 import domain.UnitTransferExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -99,8 +101,8 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:list")
     @RequestMapping("/unitTransfer_page")
     public String unitTransfer_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_transfer") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
                                     String subject,
                                  @RequestParam(required = false, defaultValue = "0") int export,

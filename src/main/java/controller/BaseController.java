@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
+import service.DBServcie;
 import service.SpringProps;
 import service.cadre.*;
 import service.dispatch.*;
@@ -161,7 +162,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected SpringProps springProps;
     @Autowired
-    protected Environment environment;
+    protected Environment evironment;
 
     public String addLog(HttpServletRequest request, String logType, String content, Object...params){
 

@@ -39,6 +39,8 @@ $(function(){
             $passwd.focus();
             return;
         }
+        /*$passwd.val(hex_md5($passwd.val()));*/
+
         if($.trim($captcha.val())==""){
              $captcha.focus();
              return;

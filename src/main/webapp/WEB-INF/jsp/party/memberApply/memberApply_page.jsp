@@ -50,7 +50,7 @@ pageEncoding="UTF-8" %>
                                      data-url-del="${ctx}/memberApply_del"
                                      data-url-bd="${ctx}/memberApply_batchDel"
                                      data-url-co="${ctx}/memberApply_changeOrder"
-                                     data-querystr="${pageContext.request.queryString}">
+                                     data-querystr="${cm:escape(pageContext.request.queryString)}">
                                     <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                                         <input type="hidden" name="type" value="${type}">

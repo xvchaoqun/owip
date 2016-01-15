@@ -3,6 +3,8 @@ package controller.dispatch;
 import controller.BaseController;
 import domain.*;
 import domain.DispatchCadreExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -92,8 +94,8 @@ public class DispatchCadreController extends BaseController {
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre_page")
     public String dispatchCadre_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_cadre") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer dispatchId,
                                     /*Integer typeId,*/
                                     Integer wayId,
@@ -134,8 +136,10 @@ public class DispatchCadreController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
+            if(cadre!=null) {
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
 
             criteria.andCadreIdEqualTo(cadreId);
         }

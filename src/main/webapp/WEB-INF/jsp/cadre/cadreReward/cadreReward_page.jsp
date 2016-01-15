@@ -118,7 +118,7 @@ function _del(id){
 }
 function _reload(){
     $("#modal").modal('hide');
-    $("#view-box .tab-content").load("${ctx}/cadreReward_page?${pageContext.request.queryString}");
+    $("#view-box .tab-content").load("${ctx}/cadreReward_page?${cm:escape(pageContext.request.queryString)}");
 }
 
 $('#searchForm [data-rel="select2"]').select2();

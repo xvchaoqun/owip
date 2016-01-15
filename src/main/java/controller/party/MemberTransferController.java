@@ -4,6 +4,8 @@ import bean.UserBean;
 import controller.BaseController;
 import domain.*;
 import domain.MemberTransferExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -83,8 +85,8 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_page")
     public String memberTransfer_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "id", tableName = "ow_member_transfer") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

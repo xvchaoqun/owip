@@ -58,7 +58,7 @@
     function _reload() {
 
         //$("#modal").modal('hide');
-        //$("#page-content").load("${ctx}/location_page?${pageContext.request.queryString}");
+        //$("#page-content").load("${ctx}/location_page?${cm:escape(pageContext.request.queryString)}");
         location.reload()
     }
 

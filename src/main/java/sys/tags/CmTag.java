@@ -10,6 +10,7 @@ import service.sys.MetaTypeService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.utils.HtmlEscapeUtils;
 
 import java.util.*;
 
@@ -170,5 +171,10 @@ public class CmTag {
 	public static RetireApply getRetireApply(Integer userId){
 
 		return retireApplyService.get(userId);
+	}
+
+	public static String escape(String str){
+
+		return HtmlEscapeUtils.escape(str);
 	}
 }

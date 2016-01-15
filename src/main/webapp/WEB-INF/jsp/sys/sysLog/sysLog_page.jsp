@@ -59,14 +59,10 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <div class="text-center">
-                <div class="pagination pagination-centered">
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
                         <wo:page commonList="${commonList}" uri="sysLog_page" target="#page-content" pageNum="5"
                                  model="3"/>
                     </c:if>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -93,6 +89,6 @@
     }
     function _reload() {
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysLog_page?${pageContext.request.queryString}");
+        $("#page-content").load("${ctx}/sysLog_page?${cm:escape(pageContext.request.queryString)}");
     }
 </script>

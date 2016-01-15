@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/unit_del"
              data-url-bd="${ctx}/unit_batchDel"
              data-url-co="${ctx}/unit_changeOrder?status=${status}"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="status" value="${status}">
                 <input class="form-control search-query" name="code" type="text" value="${param.code}"

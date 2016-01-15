@@ -6,6 +6,8 @@ import domain.MemberOut;
 import domain.MemberOutExample;
 import domain.MemberOutExample.Criteria;
 import domain.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -68,8 +70,8 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_page")
     public String memberOut_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,

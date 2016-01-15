@@ -154,6 +154,6 @@
     </login-config>
 
     <welcome-file-list>
-        <welcome-file>/</welcome-file>
+        <welcome-file>/index</welcome-file>
     </welcome-file-list>
 </web-app>

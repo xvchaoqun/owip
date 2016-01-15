@@ -352,4 +352,13 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        overflowToDisk="false"
        statistics="true">
 </cache>
+
+<cache name="TableColumns"
+       maxEntriesLocalHeap="200"
+       eternal="false"
+       timeToIdleSeconds="0"
+       timeToLiveSeconds="0"
+       overflowToDisk="false"
+       statistics="true">
+</cache>
 </ehcache> 

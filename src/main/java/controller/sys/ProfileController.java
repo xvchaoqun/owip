@@ -2,6 +2,8 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.SysUser;
+import org.apache.axiom.util.base64.Base64Utils;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -69,6 +71,8 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map password(@CurrentUser SysUser sysUser, String oldPassword, String password, HttpServletRequest request) {
 
+        oldPassword = new String(Base64.decodeBase64(oldPassword.getBytes()));
+        password = new String(Base64.decodeBase64(password.getBytes()));
 
         String passwordHash = passwordHelper.encryptBySalt(oldPassword, sysUser.getSalt());
         if(!StringUtils.equalsIgnoreCase(sysUser.getPasswd(), passwordHash)){

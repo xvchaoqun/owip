@@ -3,6 +3,8 @@ package controller.cadre;
 import controller.BaseController;
 import domain.*;
 import domain.CadreExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,8 +30,9 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadreController extends BaseController {
@@ -45,8 +48,8 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_page")
     public String cadre_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order",tableName = "base_cadre") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer cadreId,
                                     Integer typeId,
@@ -72,8 +75,10 @@ public class CadreController extends BaseController {
         if (cadreId!=null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
+            if(cadre!=null) {
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
             criteria.andIdEqualTo(cadreId);
         }
         if (typeId!=null) {

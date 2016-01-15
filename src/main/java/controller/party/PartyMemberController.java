@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.PartyMember;
 import domain.PartyMemberExample;
 import domain.PartyMemberExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -50,8 +52,8 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember_page")
     public String partyMember_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party_member") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer userId,
                                     Integer typeId,

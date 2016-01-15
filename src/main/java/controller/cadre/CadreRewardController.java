@@ -6,6 +6,8 @@ import domain.CadreReward;
 import domain.CadreRewardExample;
 import domain.CadreRewardExample.Criteria;
 import domain.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -50,8 +52,8 @@ public class CadreRewardController extends BaseController {
     @RequiresPermissions("cadreReward:list")
     @RequestMapping("/cadreReward_page")
     public String cadreReward_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_reward") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     byte type, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
                                  @RequestParam(required = false, defaultValue = "0") int export,

@@ -1,41 +1,65 @@
 package interceptor;
 
 import controller.BaseController;
-import org.springframework.ui.ModelMap;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.MethodParameter;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import sys.utils.IpUtils;
+import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import java.util.Set;
 
 
 public class SessionInterceptor extends BaseController implements AsyncHandlerInterceptor {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-		/*if(SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_UNIT_ADMIN)){
+        String requestURI = request.getRequestURI();
+        if(requestURI.length()>1 && requestURI.endsWith("/")){
+            response.setStatus(404);
+            return false;
+        }
+        String userAgent = RequestUtils.getUserAgent(request);
+        logger.debug("request {}, {}, {}, {}, {},request.getContentType()={}, request.getHeader(\"Cookie\")={}", new Object[]{
+                IpUtils.getRealIp(request), userAgent,
+                request.getMethod(),
+                request.getRequestURL(), RequestUtils.getQueryString(request),
+                request.getContentType(),
+                request.getHeader("Cookie")
+        });
 
-			User user = (User) request.getAttribute(Constants.CURRENT_USER);
+        /*if (handler instanceof HandlerMethod) {
 
-			// 单位管理员必须填好信息
-			if(StringUtils.isBlank(user.getRealname())
-					||StringUtils.isBlank(user.getPhone())
-					||StringUtils.isBlank(user.getMobile())
-					||StringUtils.isBlank(user.getCode())
-					||StringUtils.isBlank(user.getTitle())){
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            SortTable sortTable = method.getAnnotation(SortTable.class);
+            if(sortTable!=null) {
+                String tableName = sortTable.value();
+                String sort = request.getParameter("sort");
+                String order = request.getParameter("order");
+                Set<String> tableColumns = dbServcie.getTableColumns(tableName);
 
-				String path = (String) request.getAttribute("org.apache.catalina.core.DISPATCHER_REQUEST_PATH");
-				//System.out.println(request.getAttribute("org.apache.catalina.core.DISPATCHER_REQUEST_PATH"));
-				if(path.indexOf("/update_info")==-1 && path.indexOf("/unit_note")==-1){
-
-					response.sendRedirect(request.getContextPath() + "/update_info");
-					return false;
-				}
-			}
-		}*/
-
+                if (sort != null && !tableColumns.contains(sort)) {
+                    request.getParameterMap().remove("sort");
+                    //throw new RuntimeException("sort参数有误");
+                }
+                if (order != null && !order.equals("desc") && !order.equals("asc")) {
+                    request.getParameterMap().remove("order");
+                    //throw new RuntimeException("order参数有误");
+                }
+            }
+        }*/
         return true;
     }
 
@@ -44,12 +68,9 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                            HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
 
-        if (null != modelAndView) {
-
+        /*if (null != modelAndView) {
             ModelMap modelMap = modelAndView.getModelMap();
-            //modelMap.put("roleMap", sysRoleService.findAll());
-            //modelMap.put("metaClassMap", metaClassService.findAll());
-        }
+        }*/
     }
 
     @Override

@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.MemberStudent;
 import domain.MemberStudentExample;
 import domain.MemberStudentExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,8 +45,8 @@ public class MemberStudentController extends BaseController {
     @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_page")
     public String memberStudent_page(HttpServletResponse response,
-                                     @RequestParam(required = false, defaultValue = "grow_time") String sort,
-                                     @RequestParam(required = false, defaultValue = "desc") String order,
+                                     @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_student") String sort,
+                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                      @RequestParam(defaultValue = "1")int cls,
                                      Integer userId,
                                      @RequestParam(required = false, defaultValue = "0") int export,

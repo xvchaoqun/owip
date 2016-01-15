@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/unitCadreTransferItem_del"
              data-url-bd="${ctx}/unitCadreTransferItem_batchDel"
              data-url-co="${ctx}/unitCadreTransferItem_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="transferId" type="text" value="${param.transferId}"
                        placeholder="请输入所属任免">

@@ -87,7 +87,10 @@
 					}
 				},
 				submitHandler: function (form) {
-					
+
+					var $passwd = $("input[name=passwd]");
+					$passwd.val(hex_md5($passwd.val()));
+
 					$(form).ajaxSubmit({
 						success:function(data){
 							if(data.success){

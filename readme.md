@@ -27,6 +27,6 @@ Organization Work Integration Platform
 root
 zzgz@2015
 
-http://219.224.19.170:8080/
-admin
-111111
+http://219.224.19.170/
+admin  zzbgb6879
+

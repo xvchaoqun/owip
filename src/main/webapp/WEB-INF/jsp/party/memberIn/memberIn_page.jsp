@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/memberIn_del"
              data-url-bd="${ctx}/memberIn_batchDel"
              data-url-co="${ctx}/memberIn_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">

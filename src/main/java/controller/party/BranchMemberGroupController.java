@@ -3,6 +3,8 @@ package controller.party;
 import controller.BaseController;
 import domain.*;
 import domain.BranchMemberGroupExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -49,8 +51,8 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_page")
     public String branchMemberGroup_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer branchId,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,

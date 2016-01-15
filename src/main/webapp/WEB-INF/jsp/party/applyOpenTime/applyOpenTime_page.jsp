@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/applyOpenTime_del"
              data-url-bd="${ctx}/applyOpenTime_batchDel"
              data-url-co="${ctx}/applyOpenTime_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select name="type" data-rel="select2" data-placeholder="请选择阶段">
                     <option></option>

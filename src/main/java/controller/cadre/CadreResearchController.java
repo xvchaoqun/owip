@@ -2,6 +2,8 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.*;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -48,8 +50,8 @@ public class CadreResearchController extends BaseController {
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_page")
     public String cadreResearch_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "id",tableName = "base_cadre_research") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

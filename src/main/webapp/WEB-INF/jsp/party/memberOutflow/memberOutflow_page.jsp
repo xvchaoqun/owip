@@ -215,7 +215,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#home4").load("${ctx}/memberOutflow_page?${pageContext.request.queryString}");
+        $("#home4").load("${ctx}/memberOutflow_page?${cm:escape(pageContext.request.queryString)}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();

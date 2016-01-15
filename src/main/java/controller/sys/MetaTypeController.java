@@ -5,6 +5,8 @@ import domain.MetaClass;
 import domain.MetaType;
 import domain.MetaTypeExample;
 import domain.MetaTypeExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -58,8 +60,8 @@ public class MetaTypeController extends BaseController {
     @RequestMapping("/metaType_page")
     public String metaType_page(HttpServletRequest request,
                                  HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_type") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  String name, String code, Integer classId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

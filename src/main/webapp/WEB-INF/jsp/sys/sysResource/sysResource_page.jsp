@@ -103,6 +103,6 @@
     function _reload() {
 
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysResource_page?${pageContext.request.queryString}");
+        $("#page-content").load("${ctx}/sysResource_page?${cm:escape(pageContext.request.queryString)}");
     }
 </script>

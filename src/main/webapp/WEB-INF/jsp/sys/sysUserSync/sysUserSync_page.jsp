@@ -21,7 +21,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/sysUserSync_del"
              data-url-bd="${ctx}/sysUserSync_batchDel"
              data-url-co="${ctx}/sysUserSync_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
 
 
             <c:if test="${commonList.recNum>0}">

@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.SysUserSync;
 import domain.SysUserSyncExample;
 import domain.SysUserSyncExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -69,8 +71,8 @@ public class SysUserSyncController extends BaseController {
     @RequiresPermissions("sysUserSync:list")
     @RequestMapping("/sysUserSync_page")
     public String sysUserSync_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "start_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "start_time", tableName = "sys_user_sync") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                      Byte type,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

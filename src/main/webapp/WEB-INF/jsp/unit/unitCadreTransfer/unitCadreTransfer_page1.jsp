@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/unitCadreTransfer_del"
              data-url-bd="${ctx}/unitCadreTransfer_batchDel"
              data-url-co="${ctx}/unitCadreTransfer_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/unitCadreTransferGroup_selects"
                         name="groupId" data-placeholder="请选择所属分组">

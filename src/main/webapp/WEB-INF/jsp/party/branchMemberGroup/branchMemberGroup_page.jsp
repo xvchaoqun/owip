@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/branchMemberGroup_del"
              data-url-bd="${ctx}/branchMemberGroup_batchDel"
              data-url-co="${ctx}/branchMemberGroup_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                 <input class="form-control search-query" name="name" type="text" value="${param.name}"

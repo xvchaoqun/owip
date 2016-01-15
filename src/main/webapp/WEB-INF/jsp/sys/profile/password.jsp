@@ -93,6 +93,17 @@
       }
     },
     submitHandler: function (form) {
+
+      var b = new Base64();
+      var $oldPassword = $("input[name=oldPassword]");
+      $oldPassword.val(b.encode($oldPassword.val()));
+
+      var $password = $("input[name=password]");
+      $password.val(b.encode($password.val()));
+
+      var $repassword = $("input[name=repassword]");
+      $repassword.val(b.encode($repassword.val()));
+
       $(form).ajaxSubmit({
         success:function(data){
           if(data.success){

@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-page="${ctx}/memberQuit_page"
              data-url-co="${ctx}/memberQuit_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                 <select  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_QUIT}"

@@ -3,6 +3,8 @@ package controller.unit;
 import controller.BaseController;
 import domain.*;
 import domain.LeaderExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -46,8 +48,8 @@ public class LeaderController extends BaseController {
     @RequiresPermissions("leader:list")
     @RequestMapping("/leader_page")
     public String leader_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_leader") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer typeId,
                                     String job,
@@ -68,9 +70,11 @@ public class LeaderController extends BaseController {
 
         if (cadreId!=null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("cadre", cadre);
-            modelMap.put("sysUser", sysUser);
+            if(cadre!=null) {
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
             criteria.andCadreIdEqualTo(cadreId);
         }
         if (typeId!=null) {

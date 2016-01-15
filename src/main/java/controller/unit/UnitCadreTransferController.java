@@ -6,6 +6,8 @@ import domain.UnitCadreTransfer;
 import domain.UnitCadreTransferExample;
 import domain.UnitCadreTransferExample.Criteria;
 import domain.UnitCadreTransferGroup;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -101,8 +103,8 @@ public class UnitCadreTransferController extends BaseController {
     @RequiresPermissions("unitCadreTransfer:list")
     @RequestMapping("/unitCadreTransfer_page")
     public String unitCadreTransfer_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_cadre_transfer") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer cadreId,
                                     String _appointTime,

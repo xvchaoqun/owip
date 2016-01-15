@@ -3,6 +3,8 @@ package controller.party;
 import controller.BaseController;
 import domain.*;
 import domain.MemberQuitExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -47,8 +49,8 @@ public class MemberQuitController extends BaseController {
     @RequiresPermissions("memberQuit:list")
     @RequestMapping("/memberQuit_page")
     public String memberQuit_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_quit") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     Byte type,
                                     String _quitTime,

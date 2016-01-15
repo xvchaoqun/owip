@@ -3,6 +3,8 @@ package controller.cadre;
 import controller.BaseController;
 import domain.*;
 import domain.CadreWorkExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -45,8 +47,8 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_page")
     public String cadreWork_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer fid,
                                  @RequestParam(required = false, defaultValue = "0") int export,

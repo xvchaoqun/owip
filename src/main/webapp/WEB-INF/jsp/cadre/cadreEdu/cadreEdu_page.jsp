@@ -129,7 +129,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/cadreEdu_page?${pageContext.request.queryString}");
+        $("#view-box .tab-content").load("${ctx}/cadreEdu_page?${cm:escape(pageContext.request.queryString)}");
     }
 
     function _batchDel(){

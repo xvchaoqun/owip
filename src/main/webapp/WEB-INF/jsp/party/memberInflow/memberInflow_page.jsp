@@ -206,7 +206,7 @@
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#home4").load("${ctx}/memberInflow_page?${pageContext.request.queryString}");
+        $("#home4").load("${ctx}/memberInflow_page?${cm:escape(pageContext.request.queryString)}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();

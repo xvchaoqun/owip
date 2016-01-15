@@ -3,6 +3,8 @@ package controller.sys;
 import controller.BaseController;
 import domain.*;
 import domain.MetaClassExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -53,8 +55,8 @@ public class MetaClassController extends BaseController {
     @RequestMapping("/metaClass_page")
     public String metaClass_page(@CurrentUser SysUser loginUser,
                                  HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  String name, String code,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

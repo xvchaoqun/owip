@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/memberStudent_del"
              data-url-bd="${ctx}/memberStudent_batchDel"
              data-url-co="${ctx}/memberStudent_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="cls" value="${cls}">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"

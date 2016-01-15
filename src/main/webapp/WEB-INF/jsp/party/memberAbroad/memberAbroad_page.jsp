@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/memberAbroad_del"
              data-url-bd="${ctx}/memberAbroad_batchDel"
              data-url-co="${ctx}/memberAbroad_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:escape(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
                          name="userId" data-placeholder="请输入账号或姓名或学工号">

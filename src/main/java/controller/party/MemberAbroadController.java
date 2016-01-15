@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.MemberAbroad;
 import domain.MemberAbroadExample;
 import domain.MemberAbroadExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -47,8 +49,8 @@ public class MemberAbroadController extends BaseController {
     @RequiresPermissions("memberAbroad:list")
     @RequestMapping("/memberAbroad_page")
     public String memberAbroad_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "abroad_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "abroad_time", tableName = "ow_member_abroad") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     String _abroadTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,

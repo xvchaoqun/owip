@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.ApplyOpenTime;
 import domain.ApplyOpenTimeExample;
 import domain.ApplyOpenTimeExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,8 +41,8 @@ public class ApplyOpenTimeController extends BaseController {
     @RequiresPermissions("applyOpenTime:list")
     @RequestMapping("/applyOpenTime_page")
     public String applyOpenTime_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "id") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "id", tableName = "ow_apply_open_time") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Byte type,
                                     Integer branchId,
                                     String _startTime,

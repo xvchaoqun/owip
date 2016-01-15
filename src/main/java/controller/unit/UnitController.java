@@ -3,6 +3,8 @@ package controller.unit;
 import controller.BaseController;
 import domain.*;
 import domain.UnitExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -71,8 +73,8 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit_page")
     public String unit_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,
                                     String name,

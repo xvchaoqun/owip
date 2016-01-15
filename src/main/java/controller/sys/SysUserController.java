@@ -27,6 +27,7 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.MD5Util;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;

@@ -6,6 +6,8 @@ import domain.CadreParttime;
 import domain.CadreParttimeExample;
 import domain.CadreParttimeExample.Criteria;
 import domain.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -49,8 +51,8 @@ public class CadreParttimeController extends BaseController {
     @RequiresPermissions("cadreParttime:list")
     @RequestMapping("/cadreParttime_page")
     public String cadreParttime_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_parttime") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {

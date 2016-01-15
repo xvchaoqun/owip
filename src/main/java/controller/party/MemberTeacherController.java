@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.MemberTeacher;
 import domain.MemberTeacherExample;
 import domain.MemberTeacherExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -42,8 +44,8 @@ public class MemberTeacherController extends BaseController {
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher_page")
     public String memberTeacher_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "grow_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_teacher") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

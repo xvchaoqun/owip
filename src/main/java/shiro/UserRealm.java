@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.utils.MD5Util;
 
 
 public class UserRealm extends AuthorizingRealm {
