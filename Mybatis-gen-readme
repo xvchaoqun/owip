@@ -1,0 +1,8 @@
+
+memberMapper.xml 去掉了branch_id的插入NULL校验
+
+MemberAbroadExample、MemberApplyExample、MemberInExample、MemberInflowExample、
+MemberOutExample、MemberOutflowExample、MemberQuitExample、MemberReturnExample、
+MemberStayExample、MemberTransferExample、MemberStudentExample、MemberTeacherExample 加入了方法：
+public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList);
+

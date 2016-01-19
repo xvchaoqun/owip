@@ -1,5 +1,10 @@
 package domain;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -3597,6 +3602,26 @@ public class MemberTeacherExample {
 
         protected Criteria() {
             super();
+        }
+
+        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    || subject.hasRole(SystemConstants.ROLE_ODADMIN))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+
+            return this;
         }
     }
 

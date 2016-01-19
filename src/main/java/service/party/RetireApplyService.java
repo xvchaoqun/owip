@@ -3,6 +3,7 @@ package service.party;
 import domain.Member;
 import domain.RetireApply;
 import domain.RetireApplyExample;
+import domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,8 @@ public class RetireApplyService extends BaseMapper{
         memberMapper.updateByPrimaryKeySelective(member);
 
         // 更新系统角色  党员->访客
-        sysUserService.changeRoleMemberToGuest(userId);
+        SysUser sysUser = sysUserService.findById(userId);
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
     }
 
 }

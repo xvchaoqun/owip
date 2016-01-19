@@ -29,7 +29,7 @@
             <form class="form account-form" method="POST" action="${ctx}/login">
                 <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>
-                <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4"/>
+                <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4" value="test"/>
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
 
             <dt></dt><dd><a href="javascript:;" class="login_btn"></a></dd>

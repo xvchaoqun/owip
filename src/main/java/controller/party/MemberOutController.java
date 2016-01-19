@@ -87,6 +87,9 @@ public class MemberOutController extends BaseController {
 
         MemberOutExample example = new MemberOutExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -128,6 +131,10 @@ public class MemberOutController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+
         return "party/memberOut/memberOut_page";
     }
 
@@ -148,7 +155,7 @@ public class MemberOutController extends BaseController {
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberOut.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -167,7 +174,7 @@ public class MemberOutController extends BaseController {
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberOut.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

@@ -8,6 +8,10 @@ public class MemberOut implements Serializable {
 
     private Integer userId;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
     private Byte type;
 
     private String toTitle;
@@ -54,6 +58,22 @@ public class MemberOut implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 
     public Byte getType() {

@@ -102,6 +102,8 @@ public class MemberApplyController extends BaseController {
         MemberApplyExample example = new MemberApplyExample();
         Criteria criteria = example.createCriteria();
 
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if(type !=null) {
@@ -190,8 +192,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -216,8 +218,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -256,8 +258,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -302,8 +304,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -358,7 +360,7 @@ public class MemberApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -398,8 +400,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -444,7 +446,7 @@ public class MemberApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -486,8 +488,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -529,7 +531,7 @@ public class MemberApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -569,8 +571,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -610,7 +612,7 @@ public class MemberApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -664,8 +666,8 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         Integer branchId = memberApply.getBranchId();
         Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -707,7 +709,7 @@ public class MemberApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberApply memberApply = memberApplyService.get(userId);
         Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

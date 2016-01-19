@@ -1,6 +1,7 @@
 package controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
@@ -15,9 +16,12 @@ import service.party.*;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
+import shiro.ShiroUser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -62,11 +66,15 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
     @Autowired
+    protected BranchMemberAdminService branchMemberAdminService;
+    @Autowired
     protected BranchMemberService branchMemberService;
     @Autowired
     protected PartyService partyService;
     @Autowired
     protected PartyMemberGroupService partyMemberGroupService;
+    @Autowired
+    protected PartyMemberAdminService partyMemberAdminService;
     @Autowired
     protected PartyMemberService partyMemberService;
     @Autowired
@@ -163,6 +171,15 @@ public class BaseController extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected Environment evironment;
+
+    protected List<Integer> adminPartyIdList(){
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        return  partyMemberAdminService.adminPartyIdList(shiroUser.getId());
+    }
+    protected List<Integer> adminBranchIdList(){
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        return  branchMemberAdminService.adminBranchIdList(shiroUser.getId());
+    }
 
     public String addLog(HttpServletRequest request, String logType, String content, Object...params){
 

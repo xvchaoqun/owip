@@ -66,6 +66,9 @@ public class MemberAbroadController extends BaseController {
 
         MemberAbroadExample example = new MemberAbroadExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -115,6 +118,10 @@ public class MemberAbroadController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+
         return "party/memberAbroad/memberAbroad_page";
     }
 

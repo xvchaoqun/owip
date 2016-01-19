@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import persistence.SysUserMapper;
+import service.BaseMapper;
 import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
 
@@ -17,10 +18,8 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-public class SysUserService {
+public class SysUserService extends BaseMapper {
 
-	@Autowired
-	private SysUserMapper sysUserMapper;
 	@Autowired
 	private SysRoleService sysRoleService;
 	@Autowired
@@ -28,19 +27,39 @@ public class SysUserService {
 	@Autowired
 	private EnterApplyService enterApplyService;
 
-	public void addRolePartyAdmin(int userId){
+	/*@Transactional
+	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
+	})
+	public void addRolePartyAdmin(int userId, String username){
 
-		SysUser sysUser = findById(userId);
-		addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+		Set<String> roleStrSet = findRoles(username);
+		if(!roleStrSet.contains(SystemConstants.ROLE_PARTYADMIN)) {
+			addRole(userId, SystemConstants.ROLE_PARTYADMIN, username);
+		}
 	}
 
-	public void removeRolePartyAdmin(int userId){
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
+	})
+	public void removeRolePartyAdmin(int userId, int partyId, String username){
 
-		SysUser sysUser = findById(userId);
-		delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
-	}
+		// 如果他只是该分党委的管理员，则删除分党委管理员的角色； 否则不处理
+		List<PartyMember> userParyAdmin = commonMapper.findUserParyAdmin(userId);
 
-	public void addRoleBranchAdmin(int userId){
+		delRole(userId, SystemConstants.ROLE_PARTYADMIN, username);
+	}*/
+
+	/*public void addRoleBranchAdmin(int userId){
 
 		SysUser sysUser = findById(userId);
 		addRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
@@ -50,21 +69,34 @@ public class SysUserService {
 
 		SysUser sysUser = findById(userId);
 		delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
-	}
-
+	}*/
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
+	})
 	public void changeRoleGuestToMember(int userId, String username){
 
 		// 更新系统角色  访客->党员
 		changeRole(userId, SystemConstants.ROLE_GUEST,
 				SystemConstants.ROLE_MEMBER, username);
 	}
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="UserRoles", key="#username"),
+			@CacheEvict(value="Menus", key="#username"),
+			@CacheEvict(value="SysUser", key="#username"),
+			@CacheEvict(value="SysUser:ID", key="#userId"),
+			@CacheEvict(value="UserPermissions", key="#username")
+	})
+	public void changeRoleMemberToGuest(int userId, String username){
 
-	public void changeRoleMemberToGuest(int userId){
-
-		SysUser sysUser = findById(userId);
 		// 更新系统角色  党员->访客
 		changeRole(userId, SystemConstants.ROLE_MEMBER,
-				SystemConstants.ROLE_GUEST, sysUser.getUsername());
+				SystemConstants.ROLE_GUEST, username);
 		// 撤回原申请
 		EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
 		if(_enterApply!=null) {
@@ -188,7 +220,7 @@ public class SysUserService {
 				+ SystemConstants.USER_ROLEIDS_SEPARTOR);
 		updateByPrimaryKeySelective(record, sysUser.getUsername());
 	}
-	// 添加一个角色
+	// 添加一个角色（重复则替换）
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="UserRoles", key="#username"),

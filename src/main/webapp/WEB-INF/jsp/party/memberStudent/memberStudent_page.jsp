@@ -80,7 +80,7 @@ pageEncoding="UTF-8" %>
 								<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberStudent.userId}">
 								${memberStudent.realname}</a></td>
 								<td>${memberStudent.code}</td>
-								<td>${GENDER_MALE_MAP.get(memberStudent.gender)}</td>
+								<td>${GENDER_MAP.get(memberStudent.gender)}</td>
 								<td>${cm:intervalYearsUntilNow(memberStudent.birth)}</td>
 								<td>${memberStudent.type}</td>
 								<td>${memberStudent.grade}</td>

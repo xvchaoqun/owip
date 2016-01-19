@@ -11,7 +11,13 @@
     	<div class="form-group">
           <label class="col-xs-3 control-label">用户名</label>
           <div class="col-xs-6">
-			   <input class="form-control" type="text" name="username" value="${sysUser.username}">
+			<c:if test="${not empty sysUser}">
+			  <div class="label-text">${sysUser.username}</div>
+			</c:if>
+			  <c:if test="${empty sysUser}">
+			  <input class="form-control" type="text" name="username" value="${sysUser.username}">
+			  <span class="help-block">由5~15数字和小写字母组成</span>
+			  </c:if>
           </div>
         </div>
         <c:if test="${sysUser!=null}">
@@ -88,18 +94,18 @@
 				},
 				submitHandler: function (form) {
 
-					var $passwd = $("input[name=passwd]");
-					$passwd.val(hex_md5($passwd.val()));
+					/*var $passwd = $("input[name=passwd]");
+					$passwd.val(hex_md5($passwd.val()));*/
 
 					$(form).ajaxSubmit({
 						success:function(data){
 							if(data.success){
 								_reload();
 								toastr.success('操作成功。', '成功');
-							}else if(data.msg=="illegal"){
+							}/*else if(data.msg=="illegal"){
 
 								toastr.warning('用户名是由5~15数字和小写字母组成', '用户名格式错误');
-							}
+							}*/
 						}
 					});
 				}

@@ -37,7 +37,11 @@
                         <td nowrap>${metaType.name}</td>
                         <shiro:hasRole name="admin">
                         <td nowrap>${metaType.code}</td>
-                        <td nowrap>${metaType.boolAttr}</td>
+                        <td nowrap>
+                            <c:if test="${not empty metaType.boolAttr}">
+                                ${metaType.boolAttr?"是":"否"}
+                            </c:if>
+                        </td>
                         <td nowrap>${metaType.extraAttr}</td>
                         <td>${metaType.remark}</td>
                         </shiro:hasRole>

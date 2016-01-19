@@ -8,6 +8,10 @@ public class MemberStay implements Serializable {
 
     private Integer userId;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
     private String country;
 
     private Date abroadTime;
@@ -46,6 +50,22 @@ public class MemberStay implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 
     public String getCountry() {

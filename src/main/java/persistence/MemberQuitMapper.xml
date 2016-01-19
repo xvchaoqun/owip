@@ -3,6 +3,8 @@
 <mapper namespace="persistence.MemberQuitMapper" >
   <resultMap id="BaseResultMap" type="domain.MemberQuit" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="party_name" property="partyName" jdbcType="VARCHAR" />
     <result column="branch_name" property="branchName" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, party_name, branch_name, type, remark, grow_time, quit_time, status, create_time
+    user_id, party_id, branch_id, party_name, branch_name, type, remark, grow_time, quit_time, 
+    status, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberQuitExample" >
     select
@@ -104,20 +107,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberQuit" >
-    insert into ow_member_quit (user_id, party_name, branch_name, 
-      type, remark, grow_time, 
-      quit_time, status, create_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
-      #{quitTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into ow_member_quit (user_id, party_id, branch_id, 
+      party_name, branch_name, type, 
+      remark, grow_time, quit_time, 
+      status, create_time)
+    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{remark,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{quitTime,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberQuit" >
     insert into ow_member_quit
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
       </if>
       <if test="partyName != null" >
         party_name,
@@ -147,6 +156,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
       </if>
       <if test="partyName != null" >
         #{partyName,jdbcType=VARCHAR},
@@ -186,6 +201,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.partyName != null" >
         party_name = #{record.partyName,jdbcType=VARCHAR},
       </if>
@@ -218,6 +239,8 @@
   <update id="updateByExample" parameterType="map" >
     update ow_member_quit
     set user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
       party_name = #{record.partyName,jdbcType=VARCHAR},
       branch_name = #{record.branchName,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
@@ -233,6 +256,12 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.MemberQuit" >
     update ow_member_quit
     <set >
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
       <if test="partyName != null" >
         party_name = #{partyName,jdbcType=VARCHAR},
       </if>
@@ -262,7 +291,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.MemberQuit" >
     update ow_member_quit
-    set party_name = #{partyName,jdbcType=VARCHAR},
+    set party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      party_name = #{partyName,jdbcType=VARCHAR},
       branch_name = #{branchName,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},

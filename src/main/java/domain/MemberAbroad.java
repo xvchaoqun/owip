@@ -8,6 +8,10 @@ public class MemberAbroad implements Serializable {
 
     private Integer userId;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
     private Date abroadTime;
 
     private String reason;
@@ -32,6 +36,22 @@ public class MemberAbroad implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 
     public Date getAbroadTime() {

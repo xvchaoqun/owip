@@ -6,6 +6,10 @@ import java.util.Date;
 public class MemberQuit implements Serializable {
     private Integer userId;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
     private String partyName;
 
     private String branchName;
@@ -30,6 +34,22 @@ public class MemberQuit implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 
     public String getPartyName() {

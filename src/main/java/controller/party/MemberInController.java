@@ -28,7 +28,6 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.IpUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -71,6 +70,9 @@ public class MemberInController extends BaseController {
 
         MemberInExample example = new MemberInExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -203,8 +205,8 @@ public class MemberInController extends BaseController {
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
         Integer branchId = memberIn.getBranchId();
         Integer partyId = memberIn.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -225,7 +227,7 @@ public class MemberInController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
         Integer partyId = memberIn.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

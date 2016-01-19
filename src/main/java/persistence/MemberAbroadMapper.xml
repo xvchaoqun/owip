@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.MemberAbroad" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="abroad_time" property="abroadTime" jdbcType="DATE" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="expect_return_time" property="expectReturnTime" jdbcType="DATE" />
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, abroad_time, reason, expect_return_time, actual_return_time
+    id, user_id, party_id, branch_id, abroad_time, reason, expect_return_time, actual_return_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberAbroadExample" >
     select
@@ -101,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberAbroad" >
-    insert into ow_member_abroad (id, user_id, abroad_time, 
-      reason, expect_return_time, actual_return_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{abroadTime,jdbcType=DATE}, 
-      #{reason,jdbcType=VARCHAR}, #{expectReturnTime,jdbcType=DATE}, #{actualReturnTime,jdbcType=DATE}
-      )
+    insert into ow_member_abroad (id, user_id, party_id, 
+      branch_id, abroad_time, reason, 
+      expect_return_time, actual_return_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{abroadTime,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{expectReturnTime,jdbcType=DATE}, #{actualReturnTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberAbroad" >
     insert into ow_member_abroad
@@ -116,6 +118,12 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
       </if>
       <if test="abroadTime != null" >
         abroad_time,
@@ -136,6 +144,12 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
       </if>
       <if test="abroadTime != null" >
         #{abroadTime,jdbcType=DATE},
@@ -166,6 +180,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.abroadTime != null" >
         abroad_time = #{record.abroadTime,jdbcType=DATE},
       </if>
@@ -187,6 +207,8 @@
     update ow_member_abroad
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
       abroad_time = #{record.abroadTime,jdbcType=DATE},
       reason = #{record.reason,jdbcType=VARCHAR},
       expect_return_time = #{record.expectReturnTime,jdbcType=DATE},
@@ -200,6 +222,12 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
       </if>
       <if test="abroadTime != null" >
         abroad_time = #{abroadTime,jdbcType=DATE},
@@ -219,6 +247,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberAbroad" >
     update ow_member_abroad
     set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
       abroad_time = #{abroadTime,jdbcType=DATE},
       reason = #{reason,jdbcType=VARCHAR},
       expect_return_time = #{expectReturnTime,jdbcType=DATE},

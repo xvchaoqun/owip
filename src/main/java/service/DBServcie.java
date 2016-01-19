@@ -36,7 +36,7 @@ public class DBServcie {
                     + "where table_name='" + tablename + "' and table_schema='" + schema + "'";
 
             stat = conn.createStatement();
-            System.out.println("sql=" + sql);
+            //System.out.println("sql=" + sql);
             rs = stat.executeQuery(sql);
             while (rs != null && rs.next()) {
                 String columnName = StringUtils.lowerCase(rs.getString("column_name"));

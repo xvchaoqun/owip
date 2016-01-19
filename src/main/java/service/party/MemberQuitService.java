@@ -2,6 +2,7 @@ package service.party;
 
 import domain.Member;
 import domain.MemberQuit;
+import domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,8 @@ public class MemberQuitService extends BaseMapper {
         memberMapper.updateByPrimaryKeySelective(member);
 
         // 更新系统角色  党员->访客
-        sysUserService.changeRoleMemberToGuest(userId);
+        SysUser sysUser = sysUserService.findById(userId);
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
     }
     @Transactional
     public void del(Integer userId){

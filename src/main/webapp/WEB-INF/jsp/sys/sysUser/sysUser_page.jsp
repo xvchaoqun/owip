@@ -107,8 +107,10 @@
                 </div>
             </div>
             <div class="buttons pull-right">
+        <shiro:hasRole name="admin">
                 <a onclick="au()" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加账号</a>
-                <a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>
+                <%--<a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>--%>
+            </shiro:hasRole>
             </div>
             <h4>&nbsp;</h4>
             <c:if test="${commonList.recNum>0}">
@@ -153,6 +155,7 @@
 
                         <td  class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
                         <td  class="hidden-480">
+                            <shiro:hasRole name="admin">
                             <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
                             <button onclick="au(${sysUser.id})" class="btn btn-mini">
                                 <i class="fa fa-edit"></i> 编辑
@@ -171,6 +174,7 @@
                                     <i class="fa fa-edit"></i> 禁用
                                 </button>
                             </c:if>
+                            </shiro:hasRole>
                         </td>
                     </tr>
                 </c:forEach>

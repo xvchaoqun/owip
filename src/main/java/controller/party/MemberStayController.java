@@ -27,18 +27,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +82,9 @@ public class MemberStayController extends BaseController {
 
         MemberStayExample example = new MemberStayExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -120,6 +120,10 @@ public class MemberStayController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
+
         return "party/memberStay/memberStay_page";
     }
 
@@ -140,7 +144,7 @@ public class MemberStayController extends BaseController {
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberStay.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -159,7 +163,7 @@ public class MemberStayController extends BaseController {
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberStay.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUser.getId(), partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

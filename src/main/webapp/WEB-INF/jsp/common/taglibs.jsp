@@ -12,6 +12,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 
 <c:set var="APPLY_STAGE_INIT" value="<%=SystemConstants.APPLY_STAGE_INIT%>"/>
 <c:set var="APPLY_STAGE_PASS" value="<%=SystemConstants.APPLY_STAGE_PASS%>"/>

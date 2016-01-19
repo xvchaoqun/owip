@@ -14,11 +14,19 @@ import java.util.List;
  */
 public interface CommonMapper {
 
-    // 判断用户是否是现在分党委班子管理员(>0)
+    // 查询用户所有的成员（现任分党委管理员）
+    @Select("select pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +
+            "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pm.group_id=pmg.id")
+    List<Integer> adminPartyIdList(@Param("userId") int userId);
+    // 判断用户是否是现任分党委班子管理员(>0)
     @Select("select count(*) from ow_party_member_group pmg, ow_party_member pm " +
             "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id")
     int isPartyAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
+    // 查询用户所有的成员（现任分党委管理员）
+    @Select("select bmg.branch_id from ow_branch_member_group bmg, ow_branch_member bm " +
+            "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bm.group_id=bmg.id")
+    List<Integer> adminBranchIdList(@Param("userId") int userId);
     // 判断用户是否是现任支部委员会管理员(>0)
     @Select("select count(*) from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id")

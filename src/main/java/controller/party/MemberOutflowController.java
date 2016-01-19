@@ -101,6 +101,9 @@ public class MemberOutflowController extends BaseController {
 
         MemberOutflowExample example = new MemberOutflowExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -179,8 +182,8 @@ public class MemberOutflowController extends BaseController {
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
         Integer branchId = memberOutflow.getBranchId();
         Integer partyId = memberOutflow.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -202,8 +205,8 @@ public class MemberOutflowController extends BaseController {
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
         Integer branchId = memberOutflow.getBranchId();
         Integer partyId = memberOutflow.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -229,7 +232,7 @@ public class MemberOutflowController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
         Integer partyId = memberOutflow.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

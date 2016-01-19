@@ -68,14 +68,7 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         ShiroUser shiroUser = new ShiroUser(user.getId(), username, user.getRealname(), user.getType());
-        /*User _user = new User();
-        _user.setId(user.getId());
-        SaltPassword encrypt = passwordHelper.encrypt(username, "1");
-        _user.setSalt(encrypt.getSalt());
-        user.setSalt(encrypt.getSalt());
-        _user.setPasswd(encrypt.getPassword());
-        user.setPasswd(encrypt.getPassword());
-        userService.updateByPrimaryKeySelective(_user, username, user.getYear());*/
+
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

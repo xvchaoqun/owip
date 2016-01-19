@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
                             </a>
                             </td>
                             <td>${memberTeacher.code}</td>
-                            <td>${memberTeacher.gender}</td>
+                            <td>${GENDER_MAP.get(memberTeacher.gender)}</td>
                             <td>${cm:intervalYearsUntilNow(memberTeacher.birth)}</td>
                             <td>${memberTeacher.education}</td>
                             <td>${memberTeacher.postClass}</td>

@@ -30,9 +30,9 @@
   </appender>
     <logger name="persistence" level="debug"/>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="org.springframework.cache" level="ERROR"/>
+    <logger name="org.springframework.cache" level="debug"/>
     <logger name="org.mybatis" level="ERROR"/>
-    <logger name="net.sf.ehcache" level="ERROR"/>
+    <logger name="net.sf.ehcache" level="debug"/>
     <logger name="org.apache.ibatis" level="ERROR"/>
   <root level="debug">
   	  <appender-ref ref="debug" />

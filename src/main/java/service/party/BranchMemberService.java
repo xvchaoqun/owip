@@ -2,26 +2,29 @@ package service.party;
 
 import domain.BranchMember;
 import domain.BranchMemberExample;
-import org.apache.commons.lang.StringUtils;
+import domain.BranchMemberGroup;
+import domain.SysUser;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.sys.SysUserService;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Service
 public class BranchMemberService extends BaseMapper {
-
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private BranchMemberAdminService branchMemberAdminService;
 
     // 查询用户是否是支部管理员
-    public boolean isAdmin(Integer userId, Integer branchId){
+    public boolean isPresentAdmin(Integer userId, Integer branchId){
         if(userId==null || branchId == null) return false;
         return commonMapper.isBranchAdmin(userId, branchId)>0;
     }
@@ -37,53 +40,60 @@ public class BranchMemberService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="BranchMember:ALL", allEntries = true)
-    public int insertSelective(BranchMember record){
+    public int insertSelective(BranchMember record, boolean autoAdmin){
 
+        record.setIsAdmin(false);
         branchMemberMapper.insertSelective(record);
 
         Integer id = record.getId();
         BranchMember _record = new BranchMember();
         _record.setId(id);
         _record.setSortOrder(id);
-        return branchMemberMapper.updateByPrimaryKeySelective(_record);
+        branchMemberMapper.updateByPrimaryKeySelective(_record);
+
+        if(autoAdmin){
+            branchMemberAdminService.toggleAdmin(record);
+        }
+        return 1;
     }
     @Transactional
-    @CacheEvict(value="BranchMember:ALL", allEntries = true)
     public void del(Integer id){
 
+        BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+        if(branchMember.getIsAdmin()){
+            branchMemberAdminService.toggleAdmin(branchMember);
+        }
         branchMemberMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="BranchMember:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-
+        for (Integer id : ids) {
+            BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+            if(branchMember.getIsAdmin()){
+                branchMemberAdminService.toggleAdmin(branchMember);
+            }
+        }
         BranchMemberExample example = new BranchMemberExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         branchMemberMapper.deleteByExample(example);
     }
 
     @Transactional
-    @CacheEvict(value="BranchMember:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(BranchMember record){
-        return branchMemberMapper.updateByPrimaryKeySelective(record);
-    }
+    public int updateByPrimaryKeySelective(BranchMember record, boolean autoAdmin){
+        BranchMember old = branchMemberMapper.selectByPrimaryKey(record.getId());
+        record.setIsAdmin(old.getIsAdmin());
+        branchMemberMapper.updateByPrimaryKeySelective(record);
 
-    @Cacheable(value="BranchMember:ALL")
-    public Map<Integer, BranchMember> findAll() {
-
-        BranchMemberExample example = new BranchMemberExample();
-        example.setOrderByClause("sort_order desc");
-        List<BranchMember> branchMemberes = branchMemberMapper.selectByExample(example);
-        Map<Integer, BranchMember> map = new LinkedHashMap<>();
-        for (BranchMember branchMember : branchMemberes) {
-            map.put(branchMember.getId(), branchMember);
+        // 如果以前不是管理员，但是选择的类别是自动设定为管理员
+        if(!record.getIsAdmin() && autoAdmin){
+            record.setUserId(old.getUserId());
+            record.setGroupId(old.getGroupId());
+            branchMemberAdminService.toggleAdmin(record);
         }
-
-        return map;
+        return 1;
     }
 
     /**
@@ -93,7 +103,6 @@ public class BranchMemberService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "BranchMember:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

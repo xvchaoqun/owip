@@ -58,7 +58,8 @@ public class MemberService extends BaseMapper {
         Assert.isTrue(memberMapper.insertSelective(record)==1);
 
         // 更新系统角色  访客->党员
-        sysUserService.changeRoleGuestToMember(sysUser.getId(), sysUser.getUsername());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
     }
 
 

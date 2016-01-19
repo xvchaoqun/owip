@@ -2,25 +2,31 @@ package service.party;
 
 import domain.PartyMember;
 import domain.PartyMemberExample;
-import org.apache.commons.lang.StringUtils;
+import domain.PartyMemberGroup;
+import domain.SysUser;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.eclipse.jdt.internal.core.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.sys.SysUserService;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PartyMemberService extends BaseMapper {
 
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private PartyMemberAdminService partyMemberAdminService;
+
     // 查询用户是否是现任分党委班子的管理员
-    public boolean isAdmin(Integer userId, Integer partyId){
+    public boolean isPresentAdmin(Integer userId, Integer partyId){
         if(userId==null || partyId == null) return false;
         return commonMapper.isPartyAdmin(userId, partyId)>0;
     }
@@ -36,42 +42,63 @@ public class PartyMemberService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyMember:ALL", allEntries = true)
-    public int insertSelective(PartyMember record){
+    public int insertSelective(PartyMember record, boolean autoAdmin){
 
+        record.setIsAdmin(false);
         partyMemberMapper.insertSelective(record);
 
         Integer id = record.getId();
         PartyMember _record = new PartyMember();
         _record.setId(id);
         _record.setSortOrder(id);
-        return partyMemberMapper.updateByPrimaryKeySelective(_record);
+        partyMemberMapper.updateByPrimaryKeySelective(_record);
+
+        if(autoAdmin){
+            partyMemberAdminService.toggleAdmin(record);
+        }
+        return 1;
     }
     @Transactional
-    @CacheEvict(value="PartyMember:ALL", allEntries = true)
     public void del(Integer id){
-
+        PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+        if(partyMember.getIsAdmin()){
+            partyMemberAdminService.toggleAdmin(partyMember);
+        }
         partyMemberMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="PartyMember:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-
+        for (Integer id : ids) {
+            PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+            if(partyMember.getIsAdmin()){
+                partyMemberAdminService.toggleAdmin(partyMember);
+            }
+        }
         PartyMemberExample example = new PartyMemberExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         partyMemberMapper.deleteByExample(example);
     }
 
     @Transactional
-    @CacheEvict(value="PartyMember:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(PartyMember record){
-        return partyMemberMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(PartyMember record, boolean autoAdmin){
+
+        PartyMember old = partyMemberMapper.selectByPrimaryKey(record.getId());
+        record.setIsAdmin(old.getIsAdmin());
+        partyMemberMapper.updateByPrimaryKeySelective(record);
+
+        // 如果以前不是管理员，但是选择的类别是自动设定为管理员
+        if(!record.getIsAdmin() && autoAdmin){
+            record.setUserId(old.getUserId());
+            record.setGroupId(old.getGroupId());
+            partyMemberAdminService.toggleAdmin(record);
+        }
+        return 1;
     }
 
-    @Cacheable(value="PartyMember:ALL")
+    /*@Cacheable(value="PartyMember:ALL")
     public Map<Integer, PartyMember> findAll() {
 
         PartyMemberExample example = new PartyMemberExample();
@@ -83,7 +110,7 @@ public class PartyMemberService extends BaseMapper {
         }
 
         return map;
-    }
+    }*/
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
@@ -92,7 +119,6 @@ public class PartyMemberService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "PartyMember:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

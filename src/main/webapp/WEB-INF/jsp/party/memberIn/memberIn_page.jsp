@@ -81,6 +81,7 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+                            <th>所属组织机构</th>
 							<th>用户</th>
 							<th>类别</th>
 							<th>转出单位</th>
@@ -101,6 +102,10 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
+                            <td>${partyMap.get(memberIn.partyId).name}
+                                <c:if test="${not empty memberIn.branchId}">
+                                    -${branchMap.get(memberIn.branchId).name}
+                                </c:if></td>
 								<td>
                                     <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberIn.userId}">
 								${_sysUser.realname}

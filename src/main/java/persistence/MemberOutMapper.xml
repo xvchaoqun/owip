@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.MemberOut" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="to_title" property="toTitle" jdbcType="VARCHAR" />
     <result column="to_unit" property="toUnit" jdbcType="VARCHAR" />
@@ -79,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, type, to_title, to_unit, from_unit, from_address, from_phone, from_fax, 
-    from_post_code, pay_time, valid_days, handle_time, has_receipt, status, reason, apply_time
+    id, user_id, party_id, branch_id, type, to_title, to_unit, from_unit, from_address, 
+    from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
+    status, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberOutExample" >
     select
@@ -113,18 +116,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberOut" >
-    insert into ow_member_out (id, user_id, type, 
-      to_title, to_unit, from_unit, 
-      from_address, from_phone, from_fax, 
-      from_post_code, pay_time, valid_days, 
-      handle_time, has_receipt, status, 
-      reason, apply_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
-      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
-      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
-      #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
-      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP})
+    insert into ow_member_out (id, user_id, party_id, 
+      branch_id, type, to_title, 
+      to_unit, from_unit, from_address, 
+      from_phone, from_fax, from_post_code, 
+      pay_time, valid_days, handle_time, 
+      has_receipt, status, reason, 
+      apply_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{toTitle,jdbcType=VARCHAR}, 
+      #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
+      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
+      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{applyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberOut" >
     insert into ow_member_out
@@ -134,6 +139,12 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
       </if>
       <if test="type != null" >
         type,
@@ -187,6 +198,12 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
@@ -250,6 +267,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
       </if>
@@ -304,6 +327,8 @@
     update ow_member_out
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       to_title = #{record.toTitle,jdbcType=VARCHAR},
       to_unit = #{record.toUnit,jdbcType=VARCHAR},
@@ -328,6 +353,12 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
@@ -380,6 +411,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberOut" >
     update ow_member_out
     set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       to_title = #{toTitle,jdbcType=VARCHAR},
       to_unit = #{toUnit,jdbcType=VARCHAR},

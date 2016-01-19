@@ -79,7 +79,11 @@ pageEncoding="UTF-8" %>
 								<td nowrap><a href="${ctx}/metaType?classId=${metaType.classId}">${metaClassMap.get(metaType.classId).name}</a></td>
 								<td nowrap>${metaType.name}</td>
 								<td nowrap>${metaType.code}</td>
-								<td nowrap>${metaType.boolAttr}</td>
+								<td nowrap>
+                                    <c:if test="${not empty metaType.boolAttr}">
+                                        ${metaType.boolAttr?"是":"否"}
+                                    </c:if>
+								</td>
 								<td nowrap>${metaType.extraAttr}</td>
 								<td>${metaType.remark}</td>
                             <shiro:hasPermission name="metaType:changeOrder">

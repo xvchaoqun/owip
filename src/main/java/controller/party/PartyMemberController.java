@@ -1,9 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.MetaType;
 import domain.PartyMember;
 import domain.PartyMemberExample;
 import domain.PartyMemberExample.Criteria;
+import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,7 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
@@ -124,7 +127,6 @@ public class PartyMemberController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("partyMemberGroupMap", partyMemberGroupService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
 
         return "party/partyMember/partyMember_page";
@@ -140,14 +142,20 @@ public class PartyMemberController extends BaseController {
         if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId())) {
             return failed("添加重复");
         }
+        boolean autoAdmin = false;
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_party_member_type");
+        MetaType metaType = metaTypeMap.get(record.getTypeId());
+        Boolean boolAttr = metaType.getBoolAttr();
+        if(boolAttr!=null && boolAttr){
+            autoAdmin = true;
+        }
         if (id == null) {
 
-            record.setIsAdmin(false);
-            partyMemberService.insertSelective(record);
+            partyMemberService.insertSelective(record, autoAdmin);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加基层党组织成员：%s", record.getId()));
         } else {
 
-            partyMemberService.updateByPrimaryKeySelective(record);
+            partyMemberService.updateByPrimaryKeySelective(record, autoAdmin);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新基层党组织成员：%s", record.getId()));
         }
 
@@ -162,8 +170,6 @@ public class PartyMemberController extends BaseController {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
             modelMap.put("partyMember", partyMember);
         }
-
-        modelMap.put("partyMemberGroupMap", partyMemberGroupService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
 
         return "party/partyMember/partyMember_au";
@@ -177,15 +183,11 @@ public class PartyMemberController extends BaseController {
         if (id != null) {
 
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
-            PartyMember record = new PartyMember();
-            record.setId(partyMember.getId());
-            record.setIsAdmin(!partyMember.getIsAdmin());
-            partyMemberService.updateByPrimaryKeySelective(record);
+            partyMemberAdminService.toggleAdmin(partyMember);
 
-            if(partyMember.getIsAdmin())
-                sysUserService.removeRolePartyAdmin(partyMember.getUserId());
-            else
-                sysUserService.addRolePartyAdmin(partyMember.getUserId());
+            // test
+            /*SysUser sysUser = sysUserService.findById(partyMember.getUserId());
+            System.out.println(JSONUtils.toString(sysUser));*/
 
             String op = partyMember.getIsAdmin()?"删除":"添加";
             logger.info(addLog(request, SystemConstants.LOG_OW, "%s基层党组织成员管理员权限，memberId=%s", op, id));

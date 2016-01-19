@@ -54,8 +54,8 @@ public class RetireApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         Integer branchId = retireApply.getBranchId();
         Integer partyId = retireApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -78,7 +78,7 @@ public class RetireApplyController extends BaseController {
         int loginUserId = loginUser.getId();
         RetireApply retireApply = retireApplyService.get(userId);
         Integer partyId = retireApply.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

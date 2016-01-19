@@ -64,6 +64,8 @@ public class MemberStudentController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -104,8 +106,8 @@ public class MemberStudentController extends BaseController {
 
         modelMap.put("branchMap", branchService.findAll());
         modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
+
+        //modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
         return "party/memberStudent/memberStudent_page";
     }

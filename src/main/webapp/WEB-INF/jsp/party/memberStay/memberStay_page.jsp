@@ -55,6 +55,7 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+                        <th>所属组织机构</th>
 							<th>用户</th>
 							<th>出国时间</th>
 							<th>预计回国时间</th>
@@ -73,6 +74,10 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
+                            <td>${partyMap.get(memberStay.partyId).name}
+                                <c:if test="${not empty memberStay.branchId}">
+                                    -${branchMap.get(memberStay.branchId).name}
+                                </c:if></td>
 								<td>
                                     <a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId=${memberStay.userId}">
 								${cm:getUserById(memberStay.userId).realname}

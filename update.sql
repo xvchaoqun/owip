@@ -1,4 +1,35 @@
 
+--2016.01.19
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL AFTER `party_id`;
+
+update ow_member_out o, ow_member m set o.party_id=m.party_id, o.branch_id=m.branch_id where o.user_id=m.user_id;
+
+	ALTER TABLE `ow_member_quit`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL AFTER `party_id`;
+
+update ow_member_quit o, ow_member m set o.party_id=m.party_id, o.branch_id=m.branch_id where o.user_id=m.user_id;
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL AFTER `party_id`;
+
+update ow_member_stay o, ow_member m set o.party_id=m.party_id, o.branch_id=m.branch_id where o.user_id=m.user_id;
+
+	ALTER TABLE `ow_member_transfer`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL AFTER `party_id`;
+
+update ow_member_transfer o, ow_member m set o.party_id=m.party_id, o.branch_id=m.branch_id where o.user_id=m.user_id;
+
+ALTER TABLE `ow_member_abroad`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `party_id`;
+
+update ow_member_abroad o, ow_member m set o.party_id=m.party_id, o.branch_id=m.branch_id where o.user_id=m.user_id;
+
 --2016.01.10
 ALTER TABLE `base_meta_class`
 	ADD COLUMN `first_level` VARCHAR(100) NULL COMMENT '所属一级目录' AFTER `name`,

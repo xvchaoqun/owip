@@ -183,7 +183,6 @@ public class PartyMemberGroupController extends BaseController {
             modelMap.put("party", party);
         }
 
-        modelMap.put("partyMemberGroupMap", partyMemberGroupService.findAll());
         modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 

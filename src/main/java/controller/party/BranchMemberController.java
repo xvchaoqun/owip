@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.BranchMember;
 import domain.BranchMemberExample;
 import domain.BranchMemberExample.Criteria;
+import domain.MetaType;
+import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -136,14 +138,19 @@ public class BranchMemberController extends BaseController {
         if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId())) {
             return failed("添加重复");
         }
+        boolean autoAdmin = false;
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
+        MetaType metaType = metaTypeMap.get(record.getTypeId());
+        Boolean boolAttr = metaType.getBoolAttr();
+        if(boolAttr!=null && boolAttr){
+            autoAdmin = true;
+        }
         if (id == null) {
-
-            record.setIsAdmin(false);
-            branchMemberService.insertSelective(record);
+            branchMemberService.insertSelective(record, autoAdmin);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加基层党组织成员：%s", record.getId()));
         } else {
 
-            branchMemberService.updateByPrimaryKeySelective(record);
+            branchMemberService.updateByPrimaryKeySelective(record, autoAdmin);
             logger.info(addLog(request, SystemConstants.LOG_OW, "更新基层党组织成员：%s", record.getId()));
         }
 
@@ -206,15 +213,7 @@ public class BranchMemberController extends BaseController {
         if (id != null) {
 
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
-            BranchMember record = new BranchMember();
-            record.setId(branchMember.getId());
-            record.setIsAdmin(!branchMember.getIsAdmin());
-            branchMemberService.updateByPrimaryKeySelective(record);
-
-            if(branchMember.getIsAdmin())
-                sysUserService.removeRoleBranchAdmin(branchMember.getUserId());
-            else
-                sysUserService.addRoleBranchAdmin(branchMember.getUserId());
+            branchMemberAdminService.toggleAdmin(branchMember);
 
             String op = branchMember.getIsAdmin()?"删除":"添加";
             logger.info(addLog(request, SystemConstants.LOG_OW, "%s党支部委员管理员权限，memberId=%s", op, id));

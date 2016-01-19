@@ -67,6 +67,9 @@ public class MemberQuitController extends BaseController {
 
         MemberQuitExample example = new MemberQuitExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if(StringUtils.isNotBlank(_quitTime)) {
@@ -123,6 +126,9 @@ public class MemberQuitController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
 
         return "party/memberQuit/memberQuit_page";
     }

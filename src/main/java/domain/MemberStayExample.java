@@ -1,5 +1,10 @@
 package domain;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -249,6 +254,126 @@ public class MemberStayExample {
 
         public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIsNull() {
+            addCriterion("party_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIsNotNull() {
+            addCriterion("party_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdEqualTo(Integer value) {
+            addCriterion("party_id =", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotEqualTo(Integer value) {
+            addCriterion("party_id <>", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThan(Integer value) {
+            addCriterion("party_id >", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_id >=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThan(Integer value) {
+            addCriterion("party_id <", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("party_id <=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIn(List<Integer> values) {
+            addCriterion("party_id in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotIn(List<Integer> values) {
+            addCriterion("party_id not in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("party_id between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_id not between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNull() {
+            addCriterion("branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNotNull() {
+            addCriterion("branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdEqualTo(Integer value) {
+            addCriterion("branch_id =", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotEqualTo(Integer value) {
+            addCriterion("branch_id <>", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThan(Integer value) {
+            addCriterion("branch_id >", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_id >=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThan(Integer value) {
+            addCriterion("branch_id <", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_id <=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIn(List<Integer> values) {
+            addCriterion("branch_id in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotIn(List<Integer> values) {
+            addCriterion("branch_id not in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id not between", value1, value2, "branchId");
             return (Criteria) this;
         }
 
@@ -977,6 +1102,26 @@ public class MemberStayExample {
 
         protected Criteria() {
             super();
+        }
+
+        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    || subject.hasRole(SystemConstants.ROLE_ODADMIN))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+
+            return this;
         }
     }
 

@@ -67,6 +67,7 @@ pageEncoding="UTF-8" %>
                         </th>
 							<th>用户</th>
 							<th>类别</th>
+							<th>所属组织机构</th>
 							<th>转入组织机构</th>
 							<th>转出办理时间</th>
 							<th>状态</th>
@@ -89,6 +90,10 @@ pageEncoding="UTF-8" %>
                                 </a>
                                 </td>
 								<td>${MEMBER_TYPE_MAP.get(_sysUser.type)}</td>
+                            <td>${partyMap.get(memberTransfer.partyId).name}
+                                <c:if test="${not empty memberTransfer.branchId}">
+                                    -${branchMap.get(memberTransfer.branchId).name}
+                                </c:if></td>
 								<td>${partyMap.get(memberTransfer.toPartyId).name}
                                 <c:if test="${not empty memberTransfer.toBranchId}">
                                     ${branchMap.get(memberTransfer.toBranchId).name}

@@ -150,18 +150,21 @@ public class SysUserController extends BaseController {
 
 		sysUser.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getUsername())));
 		sysUser.setCode(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getCode())));
-
-		if(!FormUtils.usernameFormatRight(sysUser.getUsername())) {
-			return failed(FormUtils.ILLEGAL);
-		}
 		Integer id = sysUser.getId();
-		if(sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())){
 
-			return failed("用户名或学工号重复");
+		if(sysUser.getUsername()!=null) {
+			if (!FormUtils.usernameFormatRight(sysUser.getUsername())) {
+				return failed("用户名是由5~15数字和小写字母组成");
+			}
+			if (sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())) {
+				return failed("用户名或学工号重复");
+			}
 		}
-
 
 		if(id == null){
+			if(sysUser.getUsername()==null){
+				return failed("用户名不能为空");
+			}
 			sysUser.setLocked(false);
 			SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getUsername()); // 初始化密码与账号相同
 			sysUser.setSalt(encrypt.getSalt());
@@ -171,7 +174,6 @@ public class SysUserController extends BaseController {
 			sysUserService.insertSelective(sysUser);
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
 		}else{
-			
 			if(StringUtils.isBlank(sysUser.getPasswd())){
 				// 密码不变
 				sysUser.setPasswd(null);
@@ -185,14 +187,6 @@ public class SysUserController extends BaseController {
 			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
 		}
 
-		/*sysUserTypeService.delAllSysUserTypes(sysUser.getId(), year);
-		if(StringUtils.isNoneBlank(sysUserTypes)){
-			for(String type:sysUserTypes.split(",")){
-
-				sysUserTypeService.addSysUserType(sysUser.getId(), type, year);
-			}
-		}*/
-		
 		return success(FormUtils.SUCCESS);
 	}
 	@RequiresRoles("admin")

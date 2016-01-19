@@ -101,6 +101,9 @@ public class MemberTransferController extends BaseController {
 
         MemberTransferExample example = new MemberTransferExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -143,10 +146,8 @@ public class MemberTransferController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
+        modelMap.put("branchMap", branchService.findAll());
+        modelMap.put("partyMap", partyService.findAll());
 
         return "party/memberTransfer/memberTransfer_page";
     }
@@ -163,7 +164,7 @@ public class MemberTransferController extends BaseController {
         MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberTransfer.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -183,7 +184,7 @@ public class MemberTransferController extends BaseController {
         MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
         Member member = memberService.get(memberTransfer.getUserId());
         Integer partyId = member.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 
@@ -202,7 +203,7 @@ public class MemberTransferController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
         Integer partyId = memberTransfer.getToPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 转入分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 转入分党委管理员
             throw new UnauthorizedException();
         }
 

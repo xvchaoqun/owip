@@ -2,6 +2,7 @@ package service.party;
 
 import domain.MemberOut;
 import domain.MemberOutExample;
+import domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,7 +99,8 @@ public class MemberOutService extends BaseMapper {
         memberOutMapper.updateByPrimaryKeySelective(record);
         
         // 更新系统角色  党员->访客
-        sysUserService.changeRoleMemberToGuest(userId);
+        SysUser sysUser = sysUserService.findById(userId);
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
     }
     @Transactional
     public int insertSelective(MemberOut record){

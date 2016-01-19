@@ -57,6 +57,7 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+                        <th>所属组织机构</th>
                         <th>学工号</th>
                         <th>姓名</th>
                         <th>性别</th>
@@ -77,6 +78,10 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
+                            <td>${partyMap.get(memberAbroad.partyId).name}
+                                <c:if test="${not empty memberAbroad.branchId}">
+                                    -${branchMap.get(memberAbroad.branchId).name}
+                                </c:if></td>
                             <c:set value="${cm:getUserById(memberAbroad.userId)}" var="_sysUser"/>
                             <td>${_sysUser.code}</td>
                             <td>

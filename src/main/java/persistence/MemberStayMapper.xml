@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.MemberStay" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="abroad_time" property="abroadTime" jdbcType="DATE" />
     <result column="return_time" property="returnTime" jdbcType="DATE" />
@@ -75,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, country, abroad_time, return_time, pay_time, mobile, email, contact_name, 
-    contact_mobile, status, reason, apply_time
+    id, user_id, party_id, branch_id, country, abroad_time, return_time, pay_time, mobile, 
+    email, contact_name, contact_mobile, status, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStayExample" >
     select
@@ -109,16 +111,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberStay" >
-    insert into ow_member_stay (id, user_id, country, 
-      abroad_time, return_time, pay_time, 
-      mobile, email, contact_name, 
-      contact_mobile, status, reason, 
-      apply_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
-      #{abroadTime,jdbcType=DATE}, #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, 
-      #{mobile,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
-      #{contactMobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
-      #{applyTime,jdbcType=TIMESTAMP})
+    insert into ow_member_stay (id, user_id, party_id, 
+      branch_id, country, abroad_time, 
+      return_time, pay_time, mobile, 
+      email, contact_name, contact_mobile, 
+      status, reason, apply_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, #{abroadTime,jdbcType=DATE}, 
+      #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
+      #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStay" >
     insert into ow_member_stay
@@ -128,6 +132,12 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
       </if>
       <if test="country != null" >
         country,
@@ -169,6 +179,12 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
       </if>
       <if test="country != null" >
         #{country,jdbcType=VARCHAR},
@@ -220,6 +236,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
       </if>
@@ -262,6 +284,8 @@
     update ow_member_stay
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
       country = #{record.country,jdbcType=VARCHAR},
       abroad_time = #{record.abroadTime,jdbcType=DATE},
       return_time = #{record.returnTime,jdbcType=DATE},
@@ -282,6 +306,12 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
       </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
@@ -322,6 +352,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberStay" >
     update ow_member_stay
     set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
       country = #{country,jdbcType=VARCHAR},
       abroad_time = #{abroadTime,jdbcType=DATE},
       return_time = #{returnTime,jdbcType=DATE},

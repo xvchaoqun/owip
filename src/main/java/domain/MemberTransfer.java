@@ -8,6 +8,10 @@ public class MemberTransfer implements Serializable {
 
     private Integer userId;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
     private Integer toPartyId;
 
     private Integer toBranchId;
@@ -44,6 +48,22 @@ public class MemberTransfer implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 
     public Integer getToPartyId() {

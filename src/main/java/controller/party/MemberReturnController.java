@@ -68,6 +68,9 @@ public class MemberReturnController extends BaseController {
 
         MemberReturnExample example = new MemberReturnExample();
         Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
@@ -177,8 +180,8 @@ public class MemberReturnController extends BaseController {
         MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
         Integer branchId = memberReturn.getBranchId();
         Integer partyId = memberReturn.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -200,8 +203,8 @@ public class MemberReturnController extends BaseController {
         MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
         Integer branchId = memberReturn.getBranchId();
         Integer partyId = memberReturn.getPartyId();
-        boolean branchAdmin = branchMemberService.isAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isAdmin(loginUserId, partyId);
+        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
         boolean directParty = partyService.isDirectParty(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
@@ -227,7 +230,7 @@ public class MemberReturnController extends BaseController {
         int loginUserId = loginUser.getId();
         MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
         Integer partyId = memberReturn.getPartyId();
-        if(!partyMemberService.isAdmin(loginUserId, partyId)){ // 分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
             throw new UnauthorizedException();
         }
 

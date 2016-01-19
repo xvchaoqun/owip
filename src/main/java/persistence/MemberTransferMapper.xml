@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.MemberTransfer" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="to_party_id" property="toPartyId" jdbcType="INTEGER" />
     <result column="to_branch_id" property="toBranchId" jdbcType="INTEGER" />
     <result column="from_phone" property="fromPhone" jdbcType="VARCHAR" />
@@ -74,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, to_party_id, to_branch_id, from_phone, from_fax, pay_time, valid_days, 
-    from_handle_time, status, reason, apply_time
+    id, user_id, party_id, branch_id, to_party_id, to_branch_id, from_phone, from_fax, 
+    pay_time, valid_days, from_handle_time, status, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberTransferExample" >
     select
@@ -108,16 +110,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.MemberTransfer" >
-    insert into ow_member_transfer (id, user_id, to_party_id, 
-      to_branch_id, from_phone, from_fax, 
-      pay_time, valid_days, from_handle_time, 
-      status, reason, apply_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{toPartyId,jdbcType=INTEGER}, 
-      #{toBranchId,jdbcType=INTEGER}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
-      #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, 
-      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
-      )
+    insert into ow_member_transfer (id, user_id, party_id, 
+      branch_id, to_party_id, to_branch_id, 
+      from_phone, from_fax, pay_time, 
+      valid_days, from_handle_time, status, 
+      reason, apply_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{toPartyId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, 
+      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
+      #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberTransfer" >
     insert into ow_member_transfer
@@ -127,6 +129,12 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
       </if>
       <if test="toPartyId != null" >
         to_party_id,
@@ -165,6 +173,12 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
       </if>
       <if test="toPartyId != null" >
         #{toPartyId,jdbcType=INTEGER},
@@ -213,6 +227,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.toPartyId != null" >
         to_party_id = #{record.toPartyId,jdbcType=INTEGER},
       </if>
@@ -252,6 +272,8 @@
     update ow_member_transfer
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
       to_party_id = #{record.toPartyId,jdbcType=INTEGER},
       to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
       from_phone = #{record.fromPhone,jdbcType=VARCHAR},
@@ -271,6 +293,12 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
       </if>
       <if test="toPartyId != null" >
         to_party_id = #{toPartyId,jdbcType=INTEGER},
@@ -308,6 +336,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.MemberTransfer" >
     update ow_member_transfer
     set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
       to_party_id = #{toPartyId,jdbcType=INTEGER},
       to_branch_id = #{toBranchId,jdbcType=INTEGER},
       from_phone = #{fromPhone,jdbcType=VARCHAR},
