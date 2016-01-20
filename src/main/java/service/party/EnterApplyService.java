@@ -192,6 +192,7 @@ public class EnterApplyService extends BaseMapper{
 
                 MemberApply record = new MemberApply();
                 record.setStage(SystemConstants.APPLY_STAGE_DENY);
+                record.setPassTime(new Date());// 用"通过时间"记录处理时间
                 record.setRemark(remark);
                 MemberApplyExample example = new MemberApplyExample();
                 example.createCriteria().andUserIdEqualTo(userId)

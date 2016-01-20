@@ -88,7 +88,7 @@ public class MemberOutController extends BaseController {
         MemberOutExample example = new MemberOutExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -213,6 +213,12 @@ public class MemberOutController extends BaseController {
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
+
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         if (id == null) {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);

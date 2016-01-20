@@ -70,7 +70,7 @@ public class MemberInflowController extends BaseController {
         MemberInflowExample example = new MemberInflowExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 

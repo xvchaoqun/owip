@@ -94,6 +94,10 @@ public class UserMemberTransferController extends BaseController{
             return failed("转入不能是当前所在分党委");
         }
 
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);

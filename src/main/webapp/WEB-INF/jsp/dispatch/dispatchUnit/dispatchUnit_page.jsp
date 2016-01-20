@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/dispatchUnit_del"
              data-url-bd="${ctx}/dispatchUnit_batchDel"
              data-url-co="${ctx}/dispatchUnit_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                 <div class="input-group">

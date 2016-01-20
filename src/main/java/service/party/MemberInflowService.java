@@ -1,5 +1,6 @@
 package service.party;
 
+import domain.EnterApply;
 import domain.MemberInflow;
 import domain.MemberInflowExample;
 import domain.SysUser;
@@ -19,6 +20,8 @@ public class MemberInflowService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private EnterApplyService enterApplyService;
 
     public boolean idDuplicate(Integer id, Integer userId){
 
@@ -71,10 +74,17 @@ public class MemberInflowService extends BaseMapper {
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
         memberInflowMapper.updateByPrimaryKeySelective(record);
 
+        EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
+        if(_enterApply!=null && _enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+        }
+
         // 更新系统角色  访客->流入党员
         sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_GUEST,
                 SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername());
-
     }
 
     @Transactional

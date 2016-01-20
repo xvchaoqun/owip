@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">用户</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}</option>
                     </select>

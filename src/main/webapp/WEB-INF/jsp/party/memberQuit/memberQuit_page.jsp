@@ -2,9 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="RETIRE_QUIT_TYPE_MAP" value="<%=SystemConstants.RETIRE_QUIT_TYPE_MAP%>"/>
-<c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+
 <div id="body-content">
 <div class="row">
     <div class="col-xs-12">
@@ -12,7 +10,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-page="${ctx}/memberQuit_page"
              data-url-co="${ctx}/memberQuit_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                 <select  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_QUIT}"
@@ -71,11 +69,6 @@ pageEncoding="UTF-8" %>
 							<th>所属组织机构</th>
 							<th>出党原因</th>
 							<th>出党时间</th>
-                        <shiro:hasPermission name="memberQuit:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>

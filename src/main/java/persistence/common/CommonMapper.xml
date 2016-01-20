@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.CommonMapper" >
 
+  <sql id="member_selects_permits">
+    <if test="addPermits">
+      <if test="adminPartyIdList.size>0 and adminBranchIdList.size>0">
+        and (
+        party_id in
+        <foreach collection="adminPartyIdList" item="partyId"
+                 index="index" open="(" close=")" separator=",">
+          #{partyId}
+        </foreach>
+        or
+        branch_id in
+        <foreach collection="adminBranchIdList" item="branchId"
+                 index="index" open="(" close=")" separator=",">
+          #{branchId}
+        </foreach>
+        )
+      </if>
+      <if test="adminPartyIdList.size>0 and adminBranchIdList.size==0">
+        and party_id in
+        <foreach collection="adminPartyIdList" item="partyId"
+                 index="index" open="(" close=")" separator=",">
+          #{partyId}
+        </foreach>
+      </if>
+      <if test="adminPartyIdList.size==0 and adminBranchIdList.size>0">
+        and  branch_id in
+        <foreach collection="adminBranchIdList" item="branchId"
+                 index="index" open="(" close=")" separator=",">
+          #{branchId}
+        </foreach>
+      </if>
+    </if>
+  </sql>
   <select id="selectMemberList" resultMap="persistence.MemberMapper.BaseResultMap" parameterType="map" >
     select m.* from ow_member m, sys_user user where m.user_id= user.id
     <if test="type!=null">
@@ -10,6 +43,7 @@
     <if test="status!=null">
       and m.status =#{status}
     </if>
+    <include refid="member_selects_permits" />
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
@@ -23,6 +57,7 @@
     <if test="status!=null">
       and m.status =#{status}
     </if>
+    <include refid="member_selects_permits" />
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import shiro.SaltPassword;
+import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +62,9 @@ public class ProfileController extends BaseController {
 
     @RequiresPermissions("password:modify")
     @RequestMapping("/password_page")
-    public String password_page(ModelMap modelMap) {
+    public String password_page(@CurrentUser SysUser sysUser, ModelMap modelMap) {
 
+        modelMap.put("sysUser", sysUser);
         return "sys/profile/password";
     }
 
@@ -71,6 +73,9 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map password(@CurrentUser SysUser sysUser, String oldPassword, String password, HttpServletRequest request) {
 
+        if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN){
+            return failed("当前账号不允许修改密码");
+        }
         oldPassword = new String(Base64.decodeBase64(oldPassword.getBytes()));
         password = new String(Base64.decodeBase64(password.getBytes()));
 

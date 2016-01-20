@@ -64,7 +64,7 @@ public class MemberStudentController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

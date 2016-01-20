@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
 import service.DBServcie;
+import service.LoginUserService;
 import service.SpringProps;
 import service.cadre.*;
 import service.dispatch.*;
@@ -148,6 +149,8 @@ public class BaseController extends BaseMapper {
     protected MetaTypeService metaTypeService;
 
     @Autowired
+    protected LoginUserService loginUserService;
+    @Autowired
     protected UserBeanService userBeanService;
     @Autowired
     protected TeacherService teacherService;
@@ -171,15 +174,6 @@ public class BaseController extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected Environment evironment;
-
-    protected List<Integer> adminPartyIdList(){
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  partyMemberAdminService.adminPartyIdList(shiroUser.getId());
-    }
-    protected List<Integer> adminBranchIdList(){
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  branchMemberAdminService.adminBranchIdList(shiroUser.getId());
-    }
 
     public String addLog(HttpServletRequest request, String logType, String content, Object...params){
 

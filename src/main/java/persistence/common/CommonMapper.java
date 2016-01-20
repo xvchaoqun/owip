@@ -88,8 +88,14 @@ public interface CommonMapper {
     int countNotCadre(@Param("search") String search);
 
     // 根据类别、状态、账号、姓名、学工号查找党员
-    List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search, RowBounds rowBounds);
-    int countMember(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search);
+    List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+                                  @Param("addPermits")Boolean addPermits,
+                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
+    int countMember(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+                    @Param("addPermits")Boolean addPermits,
+                    @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                    @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
     // 根据发文号查找单位发文
     List<DispatchUnit> selectDispatchUnitByCodeList(@Param("search") String code, @Param("unitId") int unitId, RowBounds rowBounds);

@@ -71,7 +71,7 @@ public class MemberInController extends BaseController {
         MemberInExample example = new MemberInExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 

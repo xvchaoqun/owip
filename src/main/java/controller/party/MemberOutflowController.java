@@ -102,7 +102,7 @@ public class MemberOutflowController extends BaseController {
         MemberOutflowExample example = new MemberOutflowExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 

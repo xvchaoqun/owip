@@ -3,6 +3,8 @@ package controller;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -284,12 +286,19 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countMember(type, status, searchStr);
+        Subject subject = SecurityUtils.getSubject();
+        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        int count = commonMapper.countMember(type, status, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Member> members = commonMapper.selectMemberList(type, status, searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Member> members = commonMapper.selectMemberList(type, status, searchStr,
+                addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != members && members.size()>0){

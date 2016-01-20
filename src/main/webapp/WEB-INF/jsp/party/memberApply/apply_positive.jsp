@@ -34,6 +34,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(parseInt("${param.type}"));
                     }
                 }
             });

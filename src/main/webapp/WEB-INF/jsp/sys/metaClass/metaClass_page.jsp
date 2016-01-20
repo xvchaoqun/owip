@@ -10,7 +10,7 @@
                  data-url-del="${ctx}/metaClass_del"
                  data-url-bd="${ctx}/metaClass_batchDel"
                  data-url-co="${ctx}/metaClass_changeOrder"
-                 data-querystr="${cm:escape(pageContext.request.queryString)}">
+                 data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                        placeholder="请输入名称">

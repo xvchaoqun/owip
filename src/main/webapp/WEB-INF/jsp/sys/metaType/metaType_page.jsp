@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/metaType_del"
              data-url-bd="${ctx}/metaType_batchDel"
              data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/metaClass_selects"
                         name="classId" data-placeholder="请输入分类名称">

@@ -69,7 +69,7 @@ public class MemberReturnController extends BaseController {
         MemberReturnExample example = new MemberReturnExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 

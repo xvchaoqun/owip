@@ -68,7 +68,7 @@ public class MemberQuitController extends BaseController {
         MemberQuitExample example = new MemberQuitExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -140,7 +140,8 @@ public class MemberQuitController extends BaseController {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
-
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
         record.setGrowTime(member.getGrowTime());
 
         if(StringUtils.isNotBlank(_quitTime))

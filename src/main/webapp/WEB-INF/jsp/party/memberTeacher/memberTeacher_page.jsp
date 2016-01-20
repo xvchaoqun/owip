@@ -17,11 +17,13 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/memberTeacher_del"
              data-url-bd="${ctx}/memberTeacher_batchDel"
              data-url-co="${ctx}/memberTeacher_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="cls" value="${cls}">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+
+                <select  class="form-control" data-rel="select2-ajax"
+                         data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>

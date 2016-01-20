@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/party_del"
              data-url-bd="${ctx}/party_batchDel"
              data-url-co="${ctx}/party_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <div class="widget-box hidden-sm hidden-xs">
                 <div class="widget-header">

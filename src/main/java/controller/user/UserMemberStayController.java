@@ -1,6 +1,7 @@
 package controller.user;
 
 import controller.BaseController;
+import domain.Member;
 import domain.MemberStay;
 import domain.SysUser;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +55,11 @@ public class UserMemberStayController extends BaseController{
     public Map do_memberStay_au(@CurrentUser SysUser loginUser,
                                    MemberStay record,
                                    String _abroadTime, String _returnTime, String _payTime,HttpServletRequest request) {
+
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
 
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));

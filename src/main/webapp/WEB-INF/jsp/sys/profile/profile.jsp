@@ -10,29 +10,9 @@
 
     <form class="form-horizontal">
       <div class="tabbable">
-        <ul class="nav nav-tabs padding-16">
-          <li  class="active">
-            <a href="${ctx}/profile">
-              <i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-              基本信息
-            </a>
-          </li>
-
-          <li>
-            <a href="${ctx}/setting">
-              <i class="purple ace-icon fa fa-cog bigger-125"></i>
-              个人设置
-            </a>
-          </li>
-          <shiro:hasPermission name="password:modify">
-            <li>
-              <a href="${ctx}/password" >
-                <i class="blue ace-icon fa fa-key bigger-125"></i>
-                密码修改
-              </a>
-            </li>
-          </shiro:hasPermission>
-        </ul>
+        <jsp:include page="menu.jsp">
+          <jsp:param name="type" value="1"/>
+        </jsp:include>
 
         <div class="tab-content profile-edit-tab-content">
           <div id="edit-basic" class="tab-pane in active">

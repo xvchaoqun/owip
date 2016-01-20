@@ -24,6 +24,8 @@ public class MemberService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private ExtService extService;
+    @Autowired
+    private EnterApplyService enterApplyService;
 
     public Member get(int userId){
 
@@ -32,6 +34,14 @@ public class MemberService extends BaseMapper {
 
     @Transactional
     public void add(Member record){
+
+        EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
+        if(_enterApply!=null && _enterApply.getType()!=SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+        }
 
         Integer userId = record.getUserId();
         SysUser sysUser = sysUserService.findById(userId);

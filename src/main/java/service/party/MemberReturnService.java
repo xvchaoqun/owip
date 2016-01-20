@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.DBErrorException;
-import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -20,8 +19,6 @@ public class MemberReturnService extends BaseMapper {
 
     @Autowired
     private  MemberService memberService;
-    @Autowired
-    private SysUserService sysUserService;
 
     public boolean idDuplicate(Integer id, Integer userId){
 

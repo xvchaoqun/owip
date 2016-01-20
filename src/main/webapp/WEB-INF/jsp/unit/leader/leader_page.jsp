@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/leader_del"
              data-url-bd="${ctx}/leader_batchDel"
              data-url-co="${ctx}/leader_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"

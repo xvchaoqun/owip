@@ -12,6 +12,8 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.utils.HtmlEscapeUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 public class CmTag {
@@ -173,8 +175,24 @@ public class CmTag {
 		return retireApplyService.get(userId);
 	}
 
-	public static String escape(String str){
+	public static String encodeQueryString(String queryString){
 
-		return HtmlEscapeUtils.escape(str);
+		if(StringUtils.isBlank(queryString)) return "";
+
+		List<String> paramList = new ArrayList<>();
+		String[] paramPairs = queryString.split("&");
+		for (String paramPair : paramPairs) {
+			if(StringUtils.isBlank(paramPair)) continue;
+			String[] param = paramPair.split("=");
+			if(param.length==1){
+				paramList.add(HtmlEscapeUtils.escape(param[0]));
+				continue;
+			}
+			String paramName = HtmlEscapeUtils.escape(param[0]);
+			String paramValue = HtmlEscapeUtils.escape(param[1]);
+			paramList.add(paramName + "=" + paramValue);
+		}
+
+		return StringUtils.join(paramList, "&");
 	}
 }

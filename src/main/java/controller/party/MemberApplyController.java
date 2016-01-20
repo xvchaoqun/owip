@@ -56,20 +56,24 @@ public class MemberApplyController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_view")
-    public String memberApply_view(int userId, byte stage, ModelMap modelMap) {
+    public String memberApply_view(Integer userId, byte stage, ModelMap modelMap) {
 
-        SysUser sysUser = sysUserService.findById(userId);
-
-        modelMap.put("user", sysUser);
-        MemberApply memberApply = memberApplyService.get(sysUser.getId());
-        modelMap.put("memberApply", memberApply);
+        MemberApply currentMemberApply = null;
+        if(userId!=null) {
+            //SysUser sysUser = sysUserService.findById(userId);
+            //modelMap.put("user", sysUser);
+            currentMemberApply = memberApplyService.get(userId);
+        }else{
+            currentMemberApply = memberApplyService.next(stage, null);
+        }
+        modelMap.put("memberApply", currentMemberApply);
 
         // 读取总数
         modelMap.put("count", memberApplyService.count(null, null, stage));
         // 下一条记录
-        modelMap.put("next", memberApplyService.next(stage, memberApply));
+        modelMap.put("next", memberApplyService.next(stage, currentMemberApply));
         // 上一条记录
-        modelMap.put("last", memberApplyService.last(stage, memberApply));
+        modelMap.put("last", memberApplyService.last(stage, currentMemberApply));
 
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("branchMap", branchService.findAll());
@@ -102,7 +106,7 @@ public class MemberApplyController extends BaseController {
         MemberApplyExample example = new MemberApplyExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 

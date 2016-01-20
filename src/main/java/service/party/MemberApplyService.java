@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
+import service.LoginUserService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -26,6 +27,8 @@ public class MemberApplyService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private LoginUserService loginUserService;
 
     /*@Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
@@ -37,6 +40,9 @@ public class MemberApplyService extends BaseMapper {
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
         if(stage!=null) criteria.andStageEqualTo(stage);
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
@@ -44,25 +50,35 @@ public class MemberApplyService extends BaseMapper {
         return memberApplyMapper.countByExample(example);
     }
 
+    // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
     public MemberApply next(Byte stage, MemberApply memberApply){
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
         if(stage!=null) criteria.andStageEqualTo(stage);
-        criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
+        if(memberApply!=null)
+            criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time desc");
 
         List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return (memberApplies.size()==0)?null:memberApplies.get(0);
     }
 
+    // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
     public MemberApply last(Byte stage, MemberApply memberApply){
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
         if(stage!=null) criteria.andStageEqualTo(stage);
-        criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
-        example.setOrderByClause("create_time desc");
+        if(memberApply!=null)
+            criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
+        example.setOrderByClause("create_time asc");
 
         List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return (memberApplies.size()==0)?null:memberApplies.get(0);

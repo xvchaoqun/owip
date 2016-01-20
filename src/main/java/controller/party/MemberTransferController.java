@@ -102,7 +102,7 @@ public class MemberTransferController extends BaseController {
         MemberTransferExample example = new MemberTransferExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -237,6 +237,9 @@ public class MemberTransferController extends BaseController {
         if(member.getPartyId().byteValue() == record.getToPartyId()){
             return failed("转入不能是当前所在分党委");
         }
+
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
 
 
         if (id == null) {

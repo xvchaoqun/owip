@@ -56,6 +56,11 @@ public class UserMemberOutController extends BaseController{
     public Map do_memberOut_au(@CurrentUser SysUser loginUser,
                                    MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         if(StringUtils.isNotBlank(_payTime)){
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }

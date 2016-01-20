@@ -86,6 +86,6 @@
 
     function _reload() {
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysRole_page?${cm:escape(pageContext.request.queryString)}");
+        $("#page-content").load("${ctx}/sysRole_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

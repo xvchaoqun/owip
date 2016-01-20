@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/branchMember_del"
              data-url-bd="${ctx}/branchMember_batchDel"
              data-url-co="${ctx}/branchMember_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="groupId" type="text" value="${param.groupId}"
                        placeholder="请输入所属支部委员会">

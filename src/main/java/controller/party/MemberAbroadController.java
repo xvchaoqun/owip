@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.Member;
 import domain.MemberAbroad;
 import domain.MemberAbroadExample;
 import domain.MemberAbroadExample.Criteria;
@@ -67,7 +68,7 @@ public class MemberAbroadController extends BaseController {
         MemberAbroadExample example = new MemberAbroadExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -131,6 +132,9 @@ public class MemberAbroadController extends BaseController {
     public Map do_memberAbroad_au(MemberAbroad record, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
 
         if (userId == null) {
             memberAbroadService.insertSelective(record);

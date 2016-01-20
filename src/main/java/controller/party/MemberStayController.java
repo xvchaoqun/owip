@@ -83,7 +83,7 @@ public class MemberStayController extends BaseController {
         MemberStayExample example = new MemberStayExample();
         Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(adminPartyIdList(), adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -198,6 +198,11 @@ public class MemberStayController extends BaseController {
             return failed("添加重复");
         }
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
         }
@@ -207,8 +212,7 @@ public class MemberStayController extends BaseController {
         if(StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }
-        Integer userId = record.getUserId();
-        SysUser sysUser = sysUserService.findById(userId);
+
         if (id == null) {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);

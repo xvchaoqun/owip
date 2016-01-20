@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/dispatchType_del"
              data-url-bd="${ctx}/dispatchType_batchDel"
              data-url-co="${ctx}/dispatchType_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="input-group">
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

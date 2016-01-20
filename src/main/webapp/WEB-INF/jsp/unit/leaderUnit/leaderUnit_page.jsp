@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/leaderUnit_del"
              data-url-bd="${ctx}/leaderUnit_batchDel"
              data-url-co="${ctx}/leaderUnit_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="leaderId" type="text" value="${param.leaderId}"
                        placeholder="请输入校领导">

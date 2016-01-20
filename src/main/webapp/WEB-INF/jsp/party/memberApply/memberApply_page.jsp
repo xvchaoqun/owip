@@ -50,7 +50,7 @@ pageEncoding="UTF-8" %>
                                      data-url-del="${ctx}/memberApply_del"
                                      data-url-bd="${ctx}/memberApply_batchDel"
                                      data-url-co="${ctx}/memberApply_changeOrder"
-                                     data-querystr="${cm:escape(pageContext.request.queryString)}">
+                                     data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                                     <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
                                         <input type="hidden" name="type" value="${type}">
@@ -150,7 +150,7 @@ pageEncoding="UTF-8" %>
 
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}&stage=${stage}">
+                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}&stage=${memberApply.stage}">
                                                     ${user.realname}
                                                         </a>
                                                     </td>
@@ -303,136 +303,170 @@ pageEncoding="UTF-8" %>
                         </div>
                     </div>
 <script>
-    function apply_deny(userId){
+
+    function goto_next(type){
+        if(type==1){
+            if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )
+                $(".closeView").click();
+            else if(!$("#next").hasClass("disabled"))
+                $("#next").click();
+            else
+                $("#last").click();
+        }
+    }
+    function apply_deny(userId, type){
         bootbox.confirm("确定拒绝该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_deny",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
-    function apply_pass(userId){
+    function apply_pass(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_pass",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
-    function apply_active(userId){
-
-        loadModal("${ctx}/apply_active?userId="+userId);
+    function apply_active(userId, type){
+        var url = "${ctx}/apply_active?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url);
     }
-    function apply_candidate(userId){
-
-        loadModal("${ctx}/apply_candidate?userId="+userId);
+    function apply_candidate(userId, type){
+        var url = "${ctx}/apply_candidate?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url);
     }
-    function apply_candidate_check(userId){
+    function apply_candidate_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_candidate_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
 
-    function apply_plan(userId){
+    function apply_plan(userId, type){
 
-        loadModal("${ctx}/apply_plan?userId="+userId);
+        var url = "${ctx}/apply_plan?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url);
     }
-    function apply_plan_check(userId){
+    function apply_plan_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_plan_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
 
-    function apply_draw(userId){
+    function apply_draw(userId, type){
 
-        loadModal("${ctx}/apply_draw?userId="+userId);
+        var url = "${ctx}/apply_draw?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url);
     }
-    function apply_draw_check(userId){
+    function apply_draw_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_draw_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
 
-    function apply_grow(userId){
-
-        loadModal("${ctx}/apply_grow?userId="+userId);
+    function apply_grow(userId, type){
+        var url = "${ctx}/apply_grow?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url);
     }
-    function apply_grow_check(userId){
+    function apply_grow_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_grow_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
-    function apply_grow_check2(userId){
+    function apply_grow_check2(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_grow_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
-    function apply_positive(userId){
-
-        loadModal("${ctx}/apply_positive?userId="+userId);
+    function apply_positive(userId, type){
+        var url = "${ctx}/apply_positive?userId="+userId;
+        if(type!=undefined)
+            url += "&type="+ type;
+        loadModal(url)
     }
-    function apply_positive_check(userId){
+    function apply_positive_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_positive_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }
         });
     }
-    function apply_positive_check2(userId){
+    function apply_positive_check2(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_positive_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
                         toastr.success('操作成功。', '成功');
+                        goto_next(type);
                     }
                 });
             }

@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-del="${ctx}/partyMember_del"
              data-url-bd="${ctx}/partyMember_batchDel"
              data-url-co="${ctx}/partyMember_changeOrder"
-             data-querystr="${cm:escape(pageContext.request.queryString)}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select name="groupId" data-rel="select2" data-placeholder="请选择所属班子">
                     <option></option>

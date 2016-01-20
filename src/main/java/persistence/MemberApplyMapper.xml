@@ -389,9 +389,7 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
-      </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
       </if>
