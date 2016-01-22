@@ -54,13 +54,13 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
             if(!$("#party").is(":hidden")){
                 if($('#modalForm select[name=partyId]').val()=='') {
-                    toastr.warning('请选择分党委。', '提示');
+                    SysMsg.warning('请选择分党委。', '提示');
                     return;
                 }
             }
             if(!$("#branch").is(":hidden")){
                 if($('#modalForm select[name=branchId]').val()=='') {
-                    toastr.warning('请选择支部。', '提示');
+                    SysMsg.warning('请选择支部。', '提示');
                     return;
                 }
             }
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('提交成功。', '提示');
+                        SysMsg.success('提交成功。', '提示');
                     }
                 }
             });

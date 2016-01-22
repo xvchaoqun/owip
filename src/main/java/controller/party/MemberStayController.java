@@ -5,7 +5,6 @@ import domain.Member;
 import domain.MemberStay;
 import domain.MemberStayExample;
 import domain.MemberStayExample.Criteria;
-import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +14,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -26,12 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +41,16 @@ import java.util.Map;
 public class MemberStayController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+/*    private VerifyAuth<MemberStay> checkVerityAuth(int id){
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberStay, memberStay.getPartyId(), memberStay.getBranchId());
+    }*/
+
+    private VerifyAuth<MemberStay> checkVerityAuth2(int id){
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberStay, memberStay.getPartyId());
+    }
 
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_view")
@@ -137,18 +144,13 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+    public Map do_memberStay_deny(HttpServletRequest request,
                                  Integer id, String reason) {
 
-        //操作人应是申请人所在分党委管理员
-        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        Member member = memberService.get(memberStay.getUserId());
-        Integer partyId = member.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
+        MemberStay memberStay = verifyAuth.entity;
 
-        memberStayService.deny(member.getUserId(), reason);
+        memberStayService.deny(memberStay.getUserId(), reason);
         logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝暂留申请：%s", id));
 
         return success(FormUtils.SUCCESS);
@@ -157,19 +159,19 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check1", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberStay_check1(HttpServletRequest request, Integer id) {
 
-        //操作人应是申请人所在分党委管理员
-        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        Member member = memberService.get(memberStay.getUserId());
-        Integer partyId = member.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
+        VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
+        MemberStay memberStay = verifyAuth.entity;
+        boolean isParty = verifyAuth.isParty;
+
+        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            memberStayService.checkByParty(memberStay.getUserId(), false);
+            logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-分党委审核：%s", id));
+        }else {
+            memberStayService.check1(memberStay.getUserId());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-党总支、直属党支部审核：%s", id));
         }
-
-        memberStayService.check1(member.getUserId());
-        logger.info(addLog(request, SystemConstants.LOG_OW, "审核暂留申请：%s", id));
-
         return success(FormUtils.SUCCESS);
     }
 
@@ -177,12 +179,12 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberStay_check2(HttpServletRequest request, Integer id) {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
 
         memberStayService.check2(memberStay.getUserId(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "通过暂留申请：%s", id));
+        logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-组织部审核：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

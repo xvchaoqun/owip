@@ -99,8 +99,12 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        toastr.success('操作成功。', '成功');
+                        if("${param.type}"=="view"){
+                            _reload();
+                        }else {
+                            page_reload();
+                        }
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

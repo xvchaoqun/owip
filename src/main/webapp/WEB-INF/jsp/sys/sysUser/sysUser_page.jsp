@@ -223,7 +223,7 @@
                 $.post("${ctx}/sysUser_del", {username: username, locked:locked}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -41,6 +39,16 @@ import java.util.Map;
 public class MemberTransferController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private VerifyAuth<MemberTransfer> checkVerityAuth(int id){
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberTransfer, memberTransfer.getPartyId());
+    }
+
+    private VerifyAuth<MemberTransfer> checkVerityAuth2(int id){
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberTransfer, memberTransfer.getToPartyId());
+    }
 
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_view")
@@ -155,18 +163,11 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+    public Map do_memberTransfer_deny(HttpServletRequest request,
                                      Integer id, String reason) {
 
-        //操作人应是申请人所在分党委管理员
-        int loginUserId = loginUser.getId();
-
-        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        Member member = memberService.get(memberTransfer.getUserId());
-        Integer partyId = member.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
+        MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.deny(memberTransfer.getUserId(), reason);
         logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
@@ -177,16 +178,10 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check1", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberTransfer_check1(HttpServletRequest request, Integer id) {
 
-        //操作人应是申请人所在分党委管理员
-        int loginUserId = loginUser.getId();
-        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        Member member = memberService.get(memberTransfer.getUserId());
-        Integer partyId = member.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
+        MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.check1(memberTransfer.getUserId());
         logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请1：%s", id));
@@ -197,15 +192,10 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberTransfer_check2(HttpServletRequest request, Integer id) {
 
-        //操作人应是申请人转入的分党委的管理员
-        int loginUserId = loginUser.getId();
-        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        Integer partyId = memberTransfer.getToPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 转入分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
+        MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.check2(memberTransfer.getUserId(), false);
         logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请2：%s", id));

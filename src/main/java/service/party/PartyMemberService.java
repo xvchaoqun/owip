@@ -25,7 +25,7 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     private PartyMemberAdminService partyMemberAdminService;
 
-    // 查询用户是否是现任分党委班子的管理员
+    // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId){
         if(userId==null || partyId == null) return false;
         return commonMapper.isPartyAdmin(userId, partyId)>0;

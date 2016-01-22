@@ -14,13 +14,13 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">用户</label>
 						<div class="col-xs-6">
-							<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
+							<select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
 									name="userId" data-placeholder="请输入账号或姓名或学工号">
 								<option value="${userBean.userId}">${userBean.realname}</option>
 							</select>
 						</div>
 					</div>
-					<c:if test="${not empty userBean}">
+					<%--<c:if test="${not empty userBean}">--%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">性别</label>
 						<div class="col-xs-6">
@@ -41,18 +41,26 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">政治面貌</label>
-						<div class="col-xs-6">
-							<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
-						</div>
-					</div>
-					<div class="form-group">
 						<label class="col-xs-5 control-label">身份证号</label>
 						<div class="col-xs-6">
 							<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 						</div>
 					</div>
-					</c:if>
+					<%--</c:if>--%>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">政治面貌</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+								<option></option>
+								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+									<option value="${_status.key}">${_status.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+							</script>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">类别</label>
 						<div class="col-xs-6">
@@ -246,7 +254,7 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 			if(!$("#branchDiv").is(":hidden")){
 				if($('#modalForm select[name=branchId]').val()=='') {
-					toastr.warning("请选择支部。", "提示");
+					SysMsg.warning("请选择支部。", "提示");
 					return;
 				}
 			}
@@ -254,7 +262,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

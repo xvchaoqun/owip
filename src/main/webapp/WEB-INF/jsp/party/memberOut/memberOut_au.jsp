@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
-				<c:if test="${not empty userBean}">
+				<%--<c:if test="${not empty userBean}">--%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">介绍信编号</label>
 				<div class="col-xs-6">
@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
                         <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 				</div>
 			</div>
-				</c:if>
+				<%--</c:if>--%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">类别</label>
 					<div class="col-xs-6">
@@ -197,7 +197,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

@@ -106,7 +106,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         pop_reload($(".popTableDiv"));
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });
@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
 
         },invalidHandler:function(form, validator){
             //var errors = validator.numberOfInvalids();
-            toastr.error("请选择历史单位", '错误');
+            SysMsg.error("请选择历史单位", '错误');
         }
     });
 

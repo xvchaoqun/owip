@@ -123,7 +123,7 @@ pageEncoding="UTF-8"%>
                         showSubWork("${param.fid}");
                         </c:if>
 
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

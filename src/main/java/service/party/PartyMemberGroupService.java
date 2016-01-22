@@ -20,7 +20,7 @@ public class PartyMemberGroupService extends BaseMapper {
     private SysUserService sysUserService;
 
     // 查找现任班子
-    private  PartyMemberGroup getPresentGroup(int partyId){
+    public  PartyMemberGroup getPresentGroup(int partyId){
 
         PartyMemberGroupExample _example = new PartyMemberGroupExample();
         _example.createCriteria().andPartyIdEqualTo(partyId).andIsPresentEqualTo(true);

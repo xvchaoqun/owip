@@ -177,7 +177,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberStay_check1",{id:id},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -189,7 +189,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberStay_check2",{id:id},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

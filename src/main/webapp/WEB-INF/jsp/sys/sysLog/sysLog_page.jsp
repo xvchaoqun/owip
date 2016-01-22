@@ -74,7 +74,7 @@
                 $.post("${ctx}/sysLog_del", {id: id, type: type}, function () {
 
                     _reload();
-                    toastr.success('操作成功。', '成功');
+                    SysMsg.success('操作成功。', '成功');
                 });
             }
         });

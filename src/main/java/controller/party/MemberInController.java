@@ -12,7 +12,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -41,6 +40,16 @@ import java.util.Map;
 public class MemberInController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private VerifyAuth<MemberIn> checkVerityAuth(int id){
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberIn, memberIn.getPartyId(), memberIn.getBranchId());
+    }
+
+    private VerifyAuth<MemberIn> checkVerityAuth2(int id){
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberIn, memberIn.getPartyId());
+    }
 
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn")
@@ -200,17 +209,8 @@ public class MemberInController extends BaseController {
     @ResponseBody
     public Map do_memberIn_deny(@CurrentUser SysUser loginUser, String reason, HttpServletRequest request, Integer id) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        Integer branchId = memberIn.getBranchId();
-        Integer partyId = memberIn.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberIn> verifyAuth = checkVerityAuth(id);
+        MemberIn memberIn = verifyAuth.entity;
 
         enterApplyService.applyBack(memberIn.getUserId(), reason, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
         logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝组织关系转入：%s", id));
@@ -221,19 +221,19 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check1", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberIn_check1(HttpServletRequest request, Integer id) {
 
-        //操作人应该是应是申请人所在分党委、直属党支部管理员
-        int loginUserId = loginUser.getId();
-        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        Integer partyId = memberIn.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
+        VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
+        MemberIn memberIn = verifyAuth.entity;
+        boolean isParty = verifyAuth.isParty;
+
+        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            memberInService.checkByParty(memberIn.getUserId(),memberIn.getPoliticalStatus());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "组织关系转入-分党委审核：%s", id));
+        }else {
+            memberInService.checkMember(memberIn.getUserId());
+            logger.info(addLog(request, SystemConstants.LOG_OW, "组织关系转入-党总支、直属党支部审核：%s", id));
         }
-
-        memberInService.checkMember(memberIn.getUserId());
-        logger.info(addLog(request, SystemConstants.LOG_OW, "组织关系转入-审核1：%s", id));
-
         return success(FormUtils.SUCCESS);
     }
 
@@ -242,9 +242,8 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_check3(int id, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_memberIn_check2(int id, HttpServletRequest request) {
 
-        // 这里要添加权限验证?
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
 
         memberInService.addMember(memberIn.getUserId(),memberIn.getPoliticalStatus());

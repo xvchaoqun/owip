@@ -246,12 +246,12 @@ pageEncoding="UTF-8" %>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.growStatus==0}">
                                                                         <button onclick="apply_grow_check(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 审核1
+                                                                            <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.growStatus==1}">
                                                                         <button onclick="apply_grow_check2(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 审核2
+                                                                            <i class="fa fa-check"></i> 组织部审核
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
@@ -263,12 +263,12 @@ pageEncoding="UTF-8" %>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.positiveStatus==0}">
                                                                         <button onclick="apply_positive_check(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 审核1
+                                                                            <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.positiveStatus==1}">
                                                                         <button onclick="apply_positive_check2(${memberApply.userId})" class="btn btn-success btn-mini">
-                                                                            <i class="fa fa-check"></i> 审核2
+                                                                            <i class="fa fa-check"></i> 组织部审核
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
@@ -320,7 +320,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_deny",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -333,7 +333,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_pass",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -358,7 +358,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_candidate_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -379,7 +379,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_plan_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -400,7 +400,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_draw_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -420,7 +420,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_grow_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -433,7 +433,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_grow_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -452,7 +452,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_positive_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -465,7 +465,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_positive_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });

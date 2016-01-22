@@ -68,7 +68,7 @@ public class MemberOutService extends BaseMapper {
         memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
-    // 分党委审核通过
+    // 党总支、直属党支部审核通过
     @Transactional
     public void check1(int userId){
 
@@ -82,6 +82,13 @@ public class MemberOutService extends BaseMapper {
         memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 分党委审核通过
+    @Transactional
+    public void checkByParty(int userId, boolean isDirect){
+
+        check1(userId);
+        check2(userId, isDirect);
+    }
     // 组织部审核通过
     @Transactional
     public void check2(int userId, boolean isDirect){

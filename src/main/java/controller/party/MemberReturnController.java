@@ -1,8 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.Branch;
+import domain.MemberReturn;
+import domain.MemberReturnExample;
 import domain.MemberReturnExample.Criteria;
+import domain.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +15,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -40,6 +41,16 @@ import java.util.Map;
 public class MemberReturnController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private VerifyAuth<MemberReturn> checkVerityAuth(int id){
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberReturn, memberReturn.getPartyId(), memberReturn.getBranchId());
+    }
+
+    private VerifyAuth<MemberReturn> checkVerityAuth2(int id){
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberReturn, memberReturn.getPartyId());
+    }
 
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn")
@@ -156,7 +167,6 @@ public class MemberReturnController extends BaseController {
 
         if (id == null) {
 
-            //memberReturnService.insertSelective(record);
             enterApplyService.memberReturn(record);
             logger.info(addLog(request, SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
         } else {
@@ -172,20 +182,11 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
+    public Map do_memberReturn_deny(HttpServletRequest request,
                                     Integer id, String remark) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
-        Integer branchId = memberReturn.getBranchId();
-        Integer partyId = memberReturn.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth(id);
+        MemberReturn memberReturn = verifyAuth.entity;
 
         enterApplyService.applyBack(memberReturn.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
         logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝留学归国人员申请恢复组织生活：%s", id));
@@ -196,26 +197,19 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check1", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberReturn_check1(HttpServletRequest request, Integer id) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
-        Integer branchId = memberReturn.getBranchId();
-        Integer partyId = memberReturn.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth(id);
+        boolean isDirectBranch = verifyAuth.isDirectBranch;
+        boolean isPartyAdmin = verifyAuth.isPartyAdmin;
+        MemberReturn memberReturn = verifyAuth.entity;
 
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+        if(isDirectBranch && isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
             memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "通过留学归国人员申请恢复组织生活：%s", id));
+            logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-直属党支部审核：%s", id));
         }else {
             memberReturnService.checkMember(memberReturn.getUserId());
-            logger.info(addLog(request, SystemConstants.LOG_OW, "审核留学归国人员申请恢复组织生活：%s", id));
+            logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-党支部审核：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -224,18 +218,13 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberReturn_check2(HttpServletRequest request, Integer id) {
 
-        //操作人应是申请人所在分党委管理员
-        int loginUserId = loginUser.getId();
-        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
-        Integer partyId = memberReturn.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth2(id);
+        MemberReturn memberReturn = verifyAuth.entity;
 
         memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "通过留学归国人员申请恢复组织生活：%s", id));
+        logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-分党委、党总支审核：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

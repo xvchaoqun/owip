@@ -56,7 +56,7 @@ public class RetireApplyController extends BaseController {
         Integer partyId = retireApply.getPartyId();
         boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
         boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
+        boolean directParty = partyService.isDirectBranch(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
         }

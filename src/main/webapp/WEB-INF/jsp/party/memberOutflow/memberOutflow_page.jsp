@@ -154,7 +154,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOutflow_deny",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -166,7 +166,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOutflow_check1",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -178,7 +178,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOutflow_check2",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -197,7 +197,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOutflow_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

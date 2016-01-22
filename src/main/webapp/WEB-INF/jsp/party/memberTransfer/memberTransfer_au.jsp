@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
-				<c:if test="${not empty userBean}">
+				<%--<c:if test="${not empty userBean}">--%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">学工号</label>
 				<div class="col-xs-6">
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 
-	</c:if>
+	<%--</c:if>--%>
 			</div>
 			<div class="col-xs-4">
 				<c:if test="${not empty userBean}">
@@ -178,14 +178,14 @@ pageEncoding="UTF-8"%>
 
 			if(!$("#toBranchDiv").is(":hidden")){
 				if($('#modalForm select[name=toBranchId]').val()=='') {
-					toastr.warning("请选择转入支部。", "提示");
+					SysMsg.warning("请选择转入支部。", "提示");
 					return;
 				}
 			}
 
 			if(!$("#fromBranchDiv").is(":hidden")){
 				if($('#modalForm select[name=fromBranchId]').val()=='') {
-					toastr.warning("请选择转出支部。", "提示");
+					SysMsg.warning("请选择转出支部。", "提示");
 					return;
 				}
 			}
@@ -193,7 +193,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

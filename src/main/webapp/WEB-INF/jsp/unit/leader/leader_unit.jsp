@@ -99,7 +99,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         pop_reload($(".popTableDiv"));
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });
@@ -107,7 +107,7 @@ pageEncoding="UTF-8"%>
 
         },invalidHandler:function(form, validator){
             //var errors = validator.numberOfInvalids();
-            toastr.warning("请选择单位和类别", '错误');
+            SysMsg.warning("请选择单位和类别", '错误');
         }
     });
     $('[data-rel="select2"]').select2();

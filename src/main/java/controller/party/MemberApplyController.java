@@ -45,6 +45,16 @@ public class MemberApplyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    private VerifyAuth<MemberApply> checkVerityAuth(int userId){
+        MemberApply memberApply = memberApplyService.get(userId);
+        return super.checkVerityAuth(memberApply, memberApply.getPartyId(), memberApply.getBranchId());
+    }
+
+    private VerifyAuth<MemberApply> checkVerityAuth2(int userId){
+        MemberApply memberApply = memberApplyService.get(userId);
+        return super.checkVerityAuth2(memberApply, memberApply.getPartyId());
+    }
+    
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply")
@@ -191,19 +201,9 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_deny(int userId, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        checkVerityAuth(userId);
 
-       enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+        enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
 
        applyLogService.addApplyLog(userId, loginUser.getId(),
                     SystemConstants.APPLY_STAGE_INIT, "未通过入党申请", IpUtils.getIp(request));
@@ -217,17 +217,7 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_pass(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        checkVerityAuth(userId);
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_PASS);
@@ -251,23 +241,15 @@ public class MemberApplyController extends BaseController {
 
         return "party/memberApply/apply_active";
     }
+
     // 申请通过 成为积极分子
     @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
 
         Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
         if(activeTime.before(memberApply.getApplyTime())){
@@ -303,17 +285,10 @@ public class MemberApplyController extends BaseController {
     public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime,
                                   @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        boolean partyAdmin = verifyAuth.isPartyAdmin;
+        boolean directParty = verifyAuth.isDirectBranch;
 
         DateTime dt = new DateTime(memberApply.getActiveTime());
         DateTime afterActiveTimeOneYear = dt.plusYears(1);
@@ -348,7 +323,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_CANDIDATE, (directParty && partyAdmin)?"确定为发展对象，不需要审核":"确定为发展对象，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_CANDIDATE, (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -360,13 +335,7 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该分党委管理员应是申请人所在的分党委
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        checkVerityAuth2(userId);
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
@@ -399,17 +368,12 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //操作人应该是申请人所在党支部或直属党支部管理员
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        boolean partyAdmin = verifyAuth.isPartyAdmin;
+        boolean directParty = verifyAuth.isDirectBranch;
+        int partyId = memberApply.getPartyId();
+
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
         }
@@ -433,7 +397,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_PLAN, (directParty && partyAdmin)?"列入发展计划，不需要审核":"列入发展计划，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_PLAN, (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -446,13 +410,8 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该分党委管理员应是申请人所在的分党委
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        Integer partyId = verifyAuth.entity.getPartyId();
 
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
@@ -487,17 +446,10 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        boolean partyAdmin = verifyAuth.isPartyAdmin;
+        boolean directParty = verifyAuth.isDirectBranch;
 
         Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
         if(drawTime.before(memberApply.getPlanTime())){
@@ -519,7 +471,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_DRAW, (directParty && partyAdmin)?"领取志愿书，不需要审核":"领取志愿书，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_DRAW, (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -531,13 +483,7 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该分党委管理员应是申请人所在的分党委
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        checkVerityAuth2(userId);
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_DRAW);
@@ -570,17 +516,11 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        boolean partyAdmin = verifyAuth.isPartyAdmin;
+        boolean directParty = verifyAuth.isDirectBranch;
+
         Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
         if(growTime.before(memberApply.getDrawTime())){
             throw new RuntimeException("入党时间应该在领取志愿书之后");
@@ -600,7 +540,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, (directParty && partyAdmin)?"预备党员，不需要审核1":"预备党员，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_GROW, (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -612,13 +552,8 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该分党委管理员应是申请人所在的分党委
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        boolean isParty = verifyAuth.isParty;
 
         MemberApply record = new MemberApply();
         record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
@@ -628,9 +563,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
                 .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            memberApplyService.applyGrowCheckByParty(userId, record, example);
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核1", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_GROW, "预备党员，分党委审核", IpUtils.getIp(request));
+        }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_GROW, "预备党员，党总支审核", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -644,11 +583,9 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        // 这里要添加权限验证?
-
         memberApplyService.memberGrow(userId);
         applyLogService.addApplyLog(userId, loginUser.getId(),
-                SystemConstants.APPLY_STAGE_GROW, "预备党员，已审核2", IpUtils.getIp(request));
+                SystemConstants.APPLY_STAGE_GROW, "预备党员，组织部审核", IpUtils.getIp(request));
 
         return success(FormUtils.SUCCESS);
     }
@@ -665,17 +602,10 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer branchId = memberApply.getBranchId();
-        Integer partyId = memberApply.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectParty(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        boolean partyAdmin = verifyAuth.isPartyAdmin;
+        boolean directParty = verifyAuth.isDirectBranch;
 
         Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
         if(positiveTime.before(memberApply.getGrowTime())){
@@ -696,7 +626,7 @@ public class MemberApplyController extends BaseController {
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, (directParty && partyAdmin)?"正式党员，不需要审核1":"正式党员，已提交", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_POSITIVE, (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -709,13 +639,8 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        //该分党委管理员应是申请人所在的分党委
-        int loginUserId = loginUser.getId();
-        MemberApply memberApply = memberApplyService.get(userId);
-        Integer partyId = memberApply.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        boolean isParty = verifyAuth.isParty;
 
         MemberApply record = new MemberApply();
         record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
@@ -725,9 +650,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
                 .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            memberApplyService.applyPositiveCheckByParty(userId, record, example);
             applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核1", IpUtils.getIp(request));
+                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，分党委审核", IpUtils.getIp(request));
+        }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            applyLogService.addApplyLog(userId, loginUser.getId(),
+                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，党总支审核", IpUtils.getIp(request));
             return success(FormUtils.SUCCESS);
         }
 
@@ -741,11 +670,9 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        // 这里要添加权限验证?
-
         memberApplyService.memberPositive(userId);
         applyLogService.addApplyLog(userId, loginUser.getId(),
-                SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，已审核2", IpUtils.getIp(request));
+                SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，组织部审核", IpUtils.getIp(request));
         return success(FormUtils.SUCCESS);
     }
 

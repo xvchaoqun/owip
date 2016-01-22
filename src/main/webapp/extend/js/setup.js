@@ -6,6 +6,39 @@ $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下select2在modal里不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "positionClass": "toast-bottom-full-width",
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "0",
+    "extendedTimeOut": "0",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+var SysMsg = {};
+SysMsg.error = function(msg, title){
+
+    bootbox.alert(msg);
+    //toastr.error(msg, title);
+}
+SysMsg.warning = function(msg, title){
+    //toastr.warning(msg, title);
+    bootbox.alert(msg);
+}
+SysMsg.success = function(msg, title){
+    //toastr.success(msg, title);
+    bootbox.alert(msg);
+}
+SysMsg.info = function(msg, title){
+    //toastr.info(msg, title);
+    bootbox.dialog(msg);
+}
+
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){
     //alert(0)
     try{$(this).valid();}catch (e){}
@@ -88,19 +121,19 @@ $.ajaxSetup({
             //$(".modal").width(300);
         }else if(ret.msg=="filemax"){
 
-            toastr.warning('文件大小超过10M。', '文件大小限制');
+            SysMsg.warning('文件大小超过10M。', '文件大小限制');
         }else if(ret.msg=="wrong"){
 
         }else if(ret.msg=="duplicate"){
 
-            toastr.warning('该记录已经存在，请不要重复添加。', '重复');
+            SysMsg.warning('该记录已经存在，请不要重复添加。', '重复');
         }else
-            toastr.error(ret.msg, '操作失败');
+            SysMsg.error(ret.msg, '操作失败');
 
          return data;
     },error:function(jqXHR, textStatus, errorMsg){
         //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
-        //toastr.error('系统异常，请稍后再试。', '系统异常');
+        //SysMsg.error('系统异常，请稍后再试。', '系统异常');
     }
 });
 var _width;
@@ -198,7 +231,7 @@ $(document).on("click", ".myTableDiv .delBtn", function(){
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
                     page_reload();
-                    toastr.success('操作成功。', '成功');
+                    SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -216,7 +249,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
             page_reload();
-            toastr.success('操作成功。', '成功');
+            SysMsg.success('操作成功。', '成功');
         }
     });
 });
@@ -266,7 +299,7 @@ $(document).on("click", ".myTableDiv .batchDelBtn", function(){
         return $(item).val();
     });
     if(ids.length==0){
-        toastr.warning("请选择行", "提示");
+        SysMsg.warning("请选择行", "提示");
         return ;
     }
     bootbox.confirm("确定删除这"+ids.length+"条数据？",function(result){
@@ -274,7 +307,7 @@ $(document).on("click", ".myTableDiv .batchDelBtn", function(){
             $.post($div.data("url-bd"),{ids:ids},function(ret){
                 if(ret.success) {
                     page_reload();
-                    toastr.success('操作成功。', '成功');
+                    SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -308,7 +341,7 @@ $(document).on("click", ".popTableDiv .delBtn", function(){
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
                     pop_reload();
-                    toastr.success('操作成功。', '成功');
+                    SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -326,7 +359,7 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function(){
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
             pop_reload();
-            toastr.success('操作成功。', '成功');
+            SysMsg.success('操作成功。', '成功');
         }
     });
 });
@@ -350,7 +383,7 @@ $(document).on("click", "#view-box .nav-tabs li a", function(){
         });
     }else{
         $container.hideLoading();
-        toastr.warning("暂缓开通该功能");
+        SysMsg.warning("暂缓开通该功能");
     }
 });
 

@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadreEdu_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -138,7 +138,7 @@ pageEncoding="UTF-8" %>
             return $(item).val();
         });
         if(ids.length==0){
-            toastr.warning("请选择行", "提示");
+            SysMsg.warning("请选择行", "提示");
             return ;
         }
         bootbox.confirm("确定删除这"+ids.length+"条数据？",function(result){
@@ -146,7 +146,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadreEdu_batchDel",{ids:ids},function(ret){
                     if(ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

@@ -103,6 +103,27 @@ public class MemberApplyService extends BaseMapper {
 
         return memberApplyMapper.updateByExampleSelective(record, example);
     }
+
+    // 分党委审核预备党员信息，跳过下一步的组织部审核
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void applyGrowCheckByParty(int userId, MemberApply record, MemberApplyExample example){
+
+        if(memberApplyMapper.updateByExampleSelective(record, example)>0){
+            memberGrow(userId);
+        }
+    }
+
+    // 分党委审核预备党员信息，跳过下一步的组织部审核
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void applyPositiveCheckByParty(int userId, MemberApply record, MemberApplyExample example){
+
+        if(memberApplyMapper.updateByExampleSelective(record, example)>0){
+            memberPositive(userId);
+        }
+    }
+
     // 成为正式党员
     @Transactional
     public void memberPositive(int userId){

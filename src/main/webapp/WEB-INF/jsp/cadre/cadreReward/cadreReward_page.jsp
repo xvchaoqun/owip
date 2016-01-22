@@ -110,7 +110,7 @@ function _del(id){
             $.post("${ctx}/cadreReward_del", {id: id}, function (ret) {
                 if (ret.success) {
                     _reload();
-                    toastr.success('操作成功。', '成功');
+                    SysMsg.success('操作成功。', '成功');
                 }
             });
         }

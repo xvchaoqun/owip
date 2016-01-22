@@ -24,11 +24,18 @@ public class PartyService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
     // 是否直属党支部
-    public boolean isDirectParty(int partyId){
+    public boolean isDirectBranch(int partyId){
 
         Party party = findAll().get(partyId);
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_direct_branch");
+    }
+    // 是否分党委
+    public boolean isParty(int partyId){
+
+        Party party = findAll().get(partyId);
+        MetaType metaType = metaTypeService.findAll().get(party.getClassId());
+        return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party");
     }
 
     public boolean idDuplicate(Integer id, String code){

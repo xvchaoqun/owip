@@ -165,14 +165,9 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td >${party.code}</td>
 								<td >
-                                    <c:if test="${not empty party.url}">
-                                        <a href="${party.url}" target="_blank">
-                                                ${party.name}
-                                        </a>
-                                    </c:if>
-                                    <c:if test="${empty party.url}">
+                                <a href="javascript:;" class="openView" data-url="${ctx}/party_view?id=${party.id}">
                                         ${party.name}
-                                            </c:if>
+                                </a>
 								</td>
 
 								<td>${unitMap.get(party.unitId).name}</td>

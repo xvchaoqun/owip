@@ -96,7 +96,7 @@ pageEncoding="UTF-8" %>
 
         $.post("${ctx}/sync_stop",{id:id},function(ret){
             if (ret.success) {
-                toastr.success('操作成功。', '成功');
+                SysMsg.success('操作成功。', '成功');
                 page_reload()
             }
         })
@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/sync_user",{type:$this.data("type")},function(ret){
                     if(ret.success){
                         $btn.button('reset');
-                        toastr.success('同步成功。', '成功');
+                        SysMsg.success('同步成功。', '成功');
                         //clearTimeout(t);
                     }
                 });

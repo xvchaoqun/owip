@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
                     success:function(ret){
                         if(ret.success){
 							openView("${param.classId}", "${param.pageNo}");
-                            toastr.success('操作成功。', '成功');
+                            SysMsg.success('操作成功。', '成功');
                         }
                     }
                 });

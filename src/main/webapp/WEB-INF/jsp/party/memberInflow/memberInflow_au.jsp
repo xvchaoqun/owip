@@ -163,7 +163,7 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 			if(!$("#branchDiv").is(":hidden")){
 				if($('#modalForm select[name=branchId]').val()=='') {
-					toastr.warning("请选择支部。", "提示");
+					SysMsg.warning("请选择支部。", "提示");
 					return;
 				}
 			}
@@ -171,7 +171,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

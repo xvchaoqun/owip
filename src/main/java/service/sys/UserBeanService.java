@@ -38,21 +38,25 @@ public class UserBeanService extends BaseMapper{
 
         if(sysUser.getType()== SystemConstants.USER_TYPE_JZG){
             Teacher teacher = teacherService.get(userId);
-            userBean.setBirth(teacher.getBirth());
-            userBean.setGender(teacher.getGender());
-            userBean.setIdcard(teacher.getIdcard());
-            userBean.setNation(teacher.getNation());
-            userBean.setNativePlace(teacher.getNativePlace());
-            userBean.setRealname(teacher.getRealname());
+            if(teacher!=null) {
+                userBean.setBirth(teacher.getBirth());
+                userBean.setGender(teacher.getGender());
+                userBean.setIdcard(teacher.getIdcard());
+                userBean.setNation(teacher.getNation());
+                userBean.setNativePlace(teacher.getNativePlace());
+                userBean.setRealname(teacher.getRealname());
+            }
         }else{
 
             Student student = studentService.get(userId);
-            userBean.setBirth(student.getBirth());
-            userBean.setGender(student.getGender());
-            userBean.setIdcard(student.getIdcard());
-            userBean.setNation(student.getNation());
-            userBean.setNativePlace(student.getNativePlace());
-            userBean.setRealname(student.getRealname());
+            if(student!=null) {
+                userBean.setBirth(student.getBirth());
+                userBean.setGender(student.getGender());
+                userBean.setIdcard(student.getIdcard());
+                userBean.setNation(student.getNation());
+                userBean.setNativePlace(student.getNativePlace());
+                userBean.setRealname(student.getRealname());
+            }
         }
 
         Member member = memberService.get(userId);

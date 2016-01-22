@@ -168,7 +168,7 @@
         $.post("${ctx}/branchMember_admin", {id: $(this).data("id")}, function (data) {
             if (data.success) {
                 pop_reload();
-                toastr.success('操作成功。', '成功');
+                SysMsg.success('操作成功。', '成功');
             }
         });
     })
@@ -179,7 +179,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });
@@ -187,7 +187,7 @@
 
         }, invalidHandler: function (form, validator) {
             //var errors = validator.numberOfInvalids();
-            toastr.error("请选择用户和类别", '错误');
+            SysMsg.error("请选择用户和类别", '错误');
         }*/
     });
     register_user_select($('#modalForm select[name=userId]'));

@@ -20,7 +20,7 @@ public class BranchMemberGroupService extends BaseMapper {
     private SysUserService sysUserService;
     
     // 查找现任班子
-    private  BranchMemberGroup getPresentGroup(int branchId){
+    public  BranchMemberGroup getPresentGroup(int branchId){
 
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
         _example.createCriteria().andBranchIdEqualTo(branchId).andIsPresentEqualTo(true);

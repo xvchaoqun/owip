@@ -217,7 +217,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadre_pass", {id: id}, function (ret) {
                     if (ret.success) {
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -231,7 +231,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadre_leave", {id: id}, function (ret) {
                     if (ret.success) {
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

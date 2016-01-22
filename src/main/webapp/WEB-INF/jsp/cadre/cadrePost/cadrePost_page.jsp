@@ -218,7 +218,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadreMainWork_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -237,7 +237,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadreSubWork_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -316,7 +316,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadrePost_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

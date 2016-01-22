@@ -51,7 +51,7 @@
 							if(data.success){
 								$("#modal").modal('hide');
 								page_reload();
-								toastr.success('操作成功。', '成功');
+								SysMsg.success('操作成功。', '成功');
 							}
 						}
 					});

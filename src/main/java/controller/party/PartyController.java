@@ -1,8 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Party;
-import domain.PartyExample;
+import domain.*;
 import domain.PartyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -38,6 +37,33 @@ import java.util.*;
 public class PartyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    // 基本信息
+    @RequiresPermissions("party:list")
+    @RequestMapping("/party_base")
+    public String party_base(Integer id, ModelMap modelMap) {
+
+        Party party = partyMapper.selectByPrimaryKey(id);
+        modelMap.put("party", party);
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(id);
+        if(presentGroup!=null) {
+            PartyMemberExample example = new PartyMemberExample();
+            example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
+            example.setOrderByClause("sort_order desc");
+            List<PartyMember> PartyMembers = partyMemberMapper.selectByExample(example);
+            modelMap.put("partyMembers", PartyMembers);
+        }
+
+        modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
+        return "party/party_base";
+    }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping("/party_view")
+    public String party_show_page(HttpServletResponse response,  ModelMap modelMap) {
+
+        return "party/party_view";
+    }
 
     @RequiresPermissions("party:list")
     @RequestMapping("/party")

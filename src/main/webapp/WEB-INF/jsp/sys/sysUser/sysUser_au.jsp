@@ -101,10 +101,10 @@
 						success:function(data){
 							if(data.success){
 								_reload();
-								toastr.success('操作成功。', '成功');
+								SysMsg.success('操作成功。', '成功');
 							}/*else if(data.msg=="illegal"){
 
-								toastr.warning('用户名是由5~15数字和小写字母组成', '用户名格式错误');
+								SysMsg.warning('用户名是由5~15数字和小写字母组成', '用户名格式错误');
 							}*/
 						}
 					});

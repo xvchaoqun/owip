@@ -39,7 +39,7 @@ public class MemberInService extends BaseMapper {
         return null;
     }
 
-    // 分党委审核通过
+    // 党支部、直属党支部审核通过
     @Transactional
     public void checkMember(int userId){
 
@@ -51,6 +51,14 @@ public class MemberInService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
 
         memberInMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 分党委审核， 不需要下一步组织部审核
+    @Transactional
+    public void checkByParty(int userId, byte politicalStatus){
+
+        checkMember(userId);
+        addMember(userId, politicalStatus);
     }
 
     // 组织部审核通过

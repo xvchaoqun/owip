@@ -71,10 +71,17 @@
           <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
         </div>
       </div>
+
+      <div class="form-group">
+        <label class="col-xs-5 control-label">身份证号</label>
+        <div class="col-xs-6">
+          <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
+        </div>
+      </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">政治面貌</label>
         <div class="col-xs-6">
-          <select disabled data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+          <select data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
             <option></option>
             <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
               <option value="${_status.key}">${_status.value}</option>
@@ -83,12 +90,6 @@
           <script>
             $("#modalForm select[name=politicalStatus]").val(${userBean.politicalStatus});
           </script>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-5 control-label">身份证号</label>
-        <div class="col-xs-6">
-          <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
         </div>
       </div>
       <div class="form-group">

@@ -106,7 +106,7 @@
                 success:function(ret){
                     if(ret.success){
                         pop_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });
@@ -114,7 +114,7 @@
 
         },invalidHandler:function(form, validator){
             //var errors = validator.numberOfInvalids();
-            toastr.error("请选择关联单位", '错误');
+            SysMsg.error("请选择关联单位", '错误');
         }
     });
 

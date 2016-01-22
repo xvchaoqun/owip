@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.BranchExample;
+import domain.*;
 import domain.BranchExample.Criteria;
-import domain.BranchMember;
-import domain.BranchMemberExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -44,6 +41,32 @@ import java.util.Map;
 public class BranchController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    // 基本信息
+    @RequiresPermissions("branch:list")
+    @RequestMapping("/branch_base")
+    public String branch_base(Integer id, ModelMap modelMap) {
+
+        Branch branch = branchMapper.selectByPrimaryKey(id);
+        modelMap.put("branch", branch);
+        BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(id);
+        if(presentGroup!=null) {
+            BranchMemberExample example = new BranchMemberExample();
+            example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
+            example.setOrderByClause("sort_order desc");
+            List<BranchMember> BranchMembers = branchMemberMapper.selectByExample(example);
+            modelMap.put("branchMembers", BranchMembers);
+        }
+
+        modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
+        return "party/branch/branch_base";
+    }
+
+    @RequiresPermissions("branch:list")
+    @RequestMapping("/branch_view")
+    public String branch_show_page(HttpServletResponse response,  ModelMap modelMap) {
+
+        return "party/branch/branch_view";
+    }
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch")

@@ -86,14 +86,14 @@ pageEncoding="UTF-8" %>
                 return $(item).val();
             });
             if(ids.length>1){
-                toastr.warning("只能选择一个发文");
+                SysMsg.warning("只能选择一个发文");
                 return;
             }else{
 
                 $.post("${ctx}/cadrePost_addDispatch",{id:'${param.id}',type:'${param.type}',dispatchCadreId:ids[0]},function(ret){
                     if(ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

@@ -145,7 +145,7 @@
                 $.post("${ctx}/memberInflow_deny",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -157,7 +157,7 @@
                 $.post("${ctx}/memberInflow_check1",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -169,7 +169,7 @@
                 $.post("${ctx}/memberInflow_check2",{id:id},function(ret){
                     if(ret.success){
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -188,7 +188,7 @@
                 $.post("${ctx}/memberInflow_del", {id: id}, function (ret) {
                     if (ret.success) {
                         _reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

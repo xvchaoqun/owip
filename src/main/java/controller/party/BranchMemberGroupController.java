@@ -49,6 +49,20 @@ public class BranchMemberGroupController extends BaseController {
         return "index";
     }
     @RequiresPermissions("branchMemberGroup:list")
+    @RequestMapping("/branchMemberGroup_view")
+    public String branchMemberGroup_view(
+            @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
+            @OrderParam(required = false, defaultValue = "desc") String order,
+            Integer branchId, ModelMap modelMap) {
+
+        BranchMemberGroupExample example = new BranchMemberGroupExample();
+        example.createCriteria().andBranchIdEqualTo(branchId);
+        example.setOrderByClause(String.format("%s %s", sort, order));
+        List<BranchMemberGroup> BranchMemberGroups = branchMemberGroupMapper.selectByExample(example);
+        modelMap.put("branchMemberGroups", BranchMemberGroups);
+        return "party/branchMemberGroup/branchMemberGroup_view";
+    }
+    @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_page")
     public String branchMemberGroup_page(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,

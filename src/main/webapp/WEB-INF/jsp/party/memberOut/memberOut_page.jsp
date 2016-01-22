@@ -111,12 +111,12 @@ pageEncoding="UTF-8" %>
                                             <i class="fa fa-times"></i> 不通过
                                         </button>
                                         <button onclick="_check1(${memberOut.id})" class="btn btn-success btn-mini">
-                                            <i class="fa fa-check"></i> 审核1
+                                            <i class="fa fa-check"></i> 审核
                                         </button>
                                     </c:if>
                                     <c:if test="${memberOut.status==MEMBER_OUT_STATUS_PARTY_VERIFY}">
                                         <button onclick="_check2(${memberOut.id})" class="btn btn-success btn-mini">
-                                            <i class="fa fa-check"></i> 审核2
+                                            <i class="fa fa-check"></i> 组织部审核
                                         </button>
                                     </c:if>
                                     <shiro:hasPermission name="memberOut:edit">
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOut_check1",{id:id},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/memberOut_check2",{id:id},function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

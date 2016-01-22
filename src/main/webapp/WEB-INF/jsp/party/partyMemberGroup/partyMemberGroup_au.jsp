@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属党总支</label>
 				<div class="col-xs-6">
-                    <div class="help-block">
+                    <div class="label-text">
                         <input type="hidden" name="partyId" value="${party.id}">
                     ${party.name}
                     </div>
@@ -100,8 +100,12 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        toastr.success('操作成功。', '成功');
+                        if("${param.type}"=="view"){
+                            _reload();
+                        }else {
+                            page_reload();
+                        }
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

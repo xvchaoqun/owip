@@ -87,7 +87,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         unitCadreTransfer_page("${param.groupId}");
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

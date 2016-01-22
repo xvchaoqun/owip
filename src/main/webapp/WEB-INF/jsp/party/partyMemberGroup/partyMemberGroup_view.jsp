@@ -1,48 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="myTableDiv"
-             data-url-au="${ctx}/partyMemberGroup_au"
-             data-url-page="${ctx}/partyMemberGroup_page"
-             data-url-del="${ctx}/partyMemberGroup_del"
-             data-url-bd="${ctx}/partyMemberGroup_batchDel"
-             data-url-co="${ctx}/partyMemberGroup_changeOrder"
-             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                       placeholder="请输入名称">
-                <select name="partyId" data-rel="select2" data-placeholder="请选择所属党总支">
-                    <option></option>
-                    <c:forEach items="${partyMap}" var="party">
-                        <option value="${party.key}">${party.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#searchForm select[name=partyId]").val('${param.partyId}');
-                </script>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.partyId ||not empty param.name || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="partyMemberGroup:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>
-            </mytag:sort-form>
+<div class="buttons pull-right">
+    <button class="btn btn-primary btn-mini" onclick="_au()">
+        <i class="fa fa-users"></i> 添加分党委班子
+    </button>
+</div>
+<h4>&nbsp;</h4>
             <div class="space-4"></div>
-            <c:if test="${commonList.recNum>0}">
+
                 <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
@@ -98,7 +64,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="partyMemberGroup:edit">
-                                    <button data-id="${partyMemberGroup.id}" class="editBtn btn btn-mini">
+                                    <button onclick="_au(${partyMemberGroup.id})" class="btn btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -108,7 +74,7 @@ pageEncoding="UTF-8" %>
                                         </button>
                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="partyMemberGroup:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${partyMemberGroup.id}">
+                                    <button class="btn btn-danger btn-mini" onclick="_del(${partyMemberGroup.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -153,20 +119,32 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/partyMemberGroup_page" target="#page-content" pageNum="5"
-                         model="3"/>
-            </c:if>
-            <c:if test="${commonList.recNum==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
-        </div>
-    </div>
-</div>
 <script>
+
+    function _au(id) {
+        url = "${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}";
+        if (id > 0)  url += "&id=" + id;
+        loadModal(url);
+    }
+
+    function _del(id){
+        bootbox.confirm("确定删除该记录吗？", function (result) {
+            if (result) {
+                $.post("${ctx}/partyMemberGroup_del", {id: id}, function (ret) {
+                    if (ret.success) {
+                        _reload();
+                        SysMsg.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _reload(){
+        $("#modal").modal('hide');
+        $("#view-box .tab-content").load("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
+    }
     // 编辑成员
-    $(".myTableDiv .memberBtn").click(function(){
+    $(".memberBtn").click(function(){
         loadModal("${ctx}/party_member?id="+$(this).data("id"));
     });
 

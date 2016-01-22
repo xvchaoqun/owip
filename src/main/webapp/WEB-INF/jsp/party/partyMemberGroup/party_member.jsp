@@ -168,7 +168,7 @@
         $.post("${ctx}/partyMember_admin", {id: $(this).data("id")}, function (data) {
             if (data.success) {
                 pop_reload();
-                toastr.success('操作成功。', '成功');
+                SysMsg.success('操作成功。', '成功');
             }
         });
     })
@@ -179,7 +179,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

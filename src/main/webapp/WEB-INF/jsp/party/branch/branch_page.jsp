@@ -169,7 +169,11 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td>${branch.code}</td>
-								<td>${branch.name}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id=${branch.id}">
+                                            ${branch.name}
+                                    </a>
+                                </td>
 								<td>${partyMap.get(branch.partyId).name}</td>
 								<td>${typeMap.get(branch.typeId).name}</td>
 								<td>${unitTypeMap.get(branch.unitTypeId).name}</td>

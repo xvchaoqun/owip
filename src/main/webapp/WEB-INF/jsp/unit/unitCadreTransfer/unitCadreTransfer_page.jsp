@@ -78,7 +78,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/unitCadreTransfer_del", {id: id}, function (ret) {
                     if (ret.success) {
                         unitCadreTransfer_page("${param.groupId}");
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

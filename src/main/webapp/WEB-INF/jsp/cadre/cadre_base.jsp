@@ -635,7 +635,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        toastr.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

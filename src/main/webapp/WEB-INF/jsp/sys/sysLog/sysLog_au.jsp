@@ -105,11 +105,11 @@
 							if(data.success){
 								$("#modal").modal('hide');
 								$("#content").load("log_page");
-								toastr.success('操作成功。', '成功');
+								SysMsg.success('操作成功。', '成功');
 								
 							}else if(data.msg=="duplicate"){
 								
-								toastr.warning('该记录已经存在，请不要重复添加。', '重复');
+								SysMsg.warning('该记录已经存在，请不要重复添加。', '重复');
 							}
 						}
 					});
