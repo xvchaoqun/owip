@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,9 +69,10 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                            HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
 
-        /*if (null != modelAndView) {
+        if (null != modelAndView) {
             ModelMap modelMap = modelAndView.getModelMap();
-        }*/
+            modelMap.put("useCaptcha",springProps.useCaptcha);
+        }
     }
 
     @Override
