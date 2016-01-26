@@ -99,6 +99,33 @@ public class ProfileController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequestMapping(value="/updateAvatar", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_updateAvatar(MultipartFile _avatar, int userId) throws IOException {
+
+        SysUser sysUser = sysUserService.findById(userId);
+        String avatar = null;
+        if(_avatar!=null && !_avatar.isEmpty()){
+
+            avatar =  File.separator + userId%100 + File.separator;
+            File path = new File(springProps.avatarFolder + avatar);
+            if(!path.exists()) path.mkdirs();
+            avatar += sysUser.getUsername() +".jpg";
+
+            Thumbnails.of(_avatar.getInputStream())
+                    .size(143, 198)
+                    .outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.avatarFolder + avatar);
+        }
+
+        SysUser record = new SysUser();
+        record.setId(userId);
+        record.setAvatar(avatar);
+        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("password:modify")
     @RequestMapping("/password")
     public String password() {

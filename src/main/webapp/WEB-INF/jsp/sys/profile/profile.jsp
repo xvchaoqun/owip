@@ -234,5 +234,5 @@
       });
     }
   });
-  $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${_user.code}'}]);
+  $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${_user.username}'}]);
 </script>

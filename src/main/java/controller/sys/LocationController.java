@@ -29,7 +29,7 @@ public class LocationController extends BaseController {
     public String location_JSON(ModelMap modelMap) {
 
         modelMap.put("JSON", locationService.toJSON());
-        return "common/location_JSON";
+        return "common/location_json";
     }
 
     @RequiresPermissions("location:list")

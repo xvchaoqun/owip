@@ -130,7 +130,10 @@
                     <th >性别</th>
                     <th >账号来源</th>
                     <th class="hidden-480">创建时间</th>
+                    <th class="hidden-480">头像</th>
+                    <shiro:hasRole name="admin">
                     <th class="hidden-480"></th>
+                    </shiro:hasRole>
                 </tr>
                 </thead>
                 <tbody>
@@ -152,10 +155,16 @@
                         <td >${sysUser.realname}</td>
                         <td >${GENDER_MAP.get(sysUser.gender)}</td>
                         <td >${userSourceMap.get(sysUser.source)}</td>
-
                         <td  class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
                         <td  class="hidden-480">
-                            <shiro:hasRole name="admin">
+                            <img title="点击修改头像" src="${ctx}/avatar/${sysUser.username}?_=<%=System.currentTimeMillis()%>"
+                                 class="avatar" data-id="${sysUser.id}"
+                                 data-hasimg="${not empty sysUser.avatar}" data-username="${sysUser.username}">
+                            <%--<a href="javascript:;" class="avatar" data-id="${sysUser.id}"
+                               data-hasimg="${not empty sysUser.avatar}" data-username="${sysUser.username}">上传</a>--%>
+                        </td>
+                        <shiro:hasRole name="admin">
+                        <td  class="hidden-480">
                             <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
                             <button onclick="au(${sysUser.id})" class="btn btn-mini">
                                 <i class="fa fa-edit"></i> 编辑
@@ -174,8 +183,8 @@
                                     <i class="fa fa-edit"></i> 禁用
                                 </button>
                             </c:if>
-                            </shiro:hasRole>
                         </td>
+                        </shiro:hasRole>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -192,7 +201,18 @@
         </div><div id="item-content"></div>
     </div>
 </div>
-
+<style>
+    .avatar{
+        width: 20px;
+        cursor: pointer;
+    }
+    .ace-file-name{
+        text-align: center!important;
+    }
+    .ace-file-name img{
+        border: none!important;
+    }
+</style>
 <script>
 
     $(".table th.sortable").click(function(){
@@ -229,6 +249,97 @@
             }
         });
     }
+
+    $('.avatar').on('click', function(){
+        var modal =
+                '<div class="modal fade">\
+                  <div class="modal-dialog">\
+                   <div class="modal-content">\
+                    <div class="modal-header">\
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>\
+                        <h4 class="blue">修改头像</h4>\
+                    </div>\
+                    \
+                    <form class="no-margin" action="${ctx}/updateAvatar" method="post">\
+                     <div class="modal-body">\
+                     <input type="hidden" name="userId" value="'+$(this).data("id")+'"/>\
+                        <div class="space-4"></div>\
+                        <div style="width:75%;margin-left:12%;"><input type="file" name="_avatar" /></div>\
+                     </div>\
+                    \
+                     <div class="modal-footer center">\
+                        <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 确定</button>\
+                        <button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
+                     </div>\
+                    </form>\
+                  </div>\
+                 </div>\
+                </div>';
+
+        var modal = $(modal);
+        modal.modal("show").on("hidden", function(){
+            modal.remove();
+        });
+
+        var working = false;
+
+        var form = modal.find('form:eq(0)');
+        var file = form.find('input[type=file]').eq(0);
+        file.ace_file_input({
+            style:'well',
+            btn_choose:'点击选择新头像',
+            btn_change:null,
+            no_icon:'ace-icon fa fa-picture-o',
+            thumbnail:'small',
+            before_remove: function() {
+                //don't remove/reset files while being uploaded
+                return !working;
+            },
+            //previewSize:143,
+            previewWidth: 143,
+            previewHeight: 198,
+            allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+            allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        });
+        if($(this).data("hasimg"))
+         file.ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/'+$(this).data("username")}]);
+        form.on('submit', function(){
+            if(!file.data('ace_input_files')) return false;
+
+            //file.ace_file_input('disable');
+            form.find('button').attr('disabled', 'disabled');
+            form.find('.modal-body').append("<div class='center'><i class='ace-icon fa fa-spinner fa-spin bigger-150 orange'></i></div>");
+
+            var deferred = new $.Deferred;
+            working = true;
+            deferred.done(function() {
+
+                $(form).ajaxSubmit({
+                    success:function(ret){
+                        if(ret.success){
+                            //page_reload();
+                            form.find('button').removeAttr('disabled');
+                            form.find('input[type=file]').ace_file_input('enable');
+                            form.find('.modal-body > :last-child').remove();
+                            modal.modal("hide");
+
+                            _reload();
+                            SysMsg.success('更新成功。', '成功');
+                        }
+                    }
+                });
+                working = false;
+            });
+
+
+            setTimeout(function(){
+                deferred.resolve();
+            } , parseInt(Math.random() * 800 + 800));
+
+            return false;
+        });
+
+    });
 
     function updateUserRole(id) {
 
