@@ -75,7 +75,7 @@ public class ProfileController extends BaseController {
             avatar =  File.separator + userId%100 + File.separator;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
-            avatar += sysUser.getCode() +".jpg";
+            avatar += sysUser.getUsername() +".jpg";
 
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)

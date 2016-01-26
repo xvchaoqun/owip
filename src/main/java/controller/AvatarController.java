@@ -19,14 +19,14 @@ import java.io.OutputStream;
 @Controller
 public class AvatarController extends BaseController{
 
-    @RequestMapping("/avatar/{code}")
-    public void avatar(@PathVariable String code, HttpServletResponse response) throws IOException {
+    @RequestMapping("/avatar/{username}")
+    public void avatar(@PathVariable String username, HttpServletResponse response) throws IOException {
 
         String defaultAvatar = springProps.avatarFolder + springProps.defaultAvatar;
         //String filepath = springProps.avatarFolder + code + ".jpg";
-        SysUser sysUser = sysUserService.findByUsername(code);
+        SysUser sysUser = sysUserService.findByUsername(username);
         String filepath =  springProps.avatarFolder + File.separator + sysUser.getId()%100 + File.separator
-                + code +".jpg";
+                + username +".jpg";
         File imgFile = new File(filepath);
         if(!imgFile.exists()) {
             filepath = defaultAvatar;

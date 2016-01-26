@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${sysUser.code}">
+					<img src="${ctx}/avatar/${sysUser.username}">
 				</td>
 
 				<td class="bg-right">
