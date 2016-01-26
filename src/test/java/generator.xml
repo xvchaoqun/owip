@@ -24,24 +24,24 @@
     <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
       </table>-->
 
-     <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
+    <!-- <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
       </table>
        <table tableName="ow_member_stay" domainObjectName="MemberStay">
-       </table>
+       </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
-        <table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>
+        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>-->
       <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
       <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>-->
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
-      <table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
+      <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
       </table>
       <table tableName="ow_member_quit" domainObjectName="MemberQuit">
-      </table>
+      </table>-->
 
       <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
@@ -151,9 +151,10 @@
     <!--<table tableName="sys_log" domainObjectName="SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-   <!-- <table tableName="sys_user" domainObjectName="SysUser">
+    <table tableName="sys_user" domainObjectName="SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-    </table>--><!--
+    </table>
+      <!--
     <table tableName="sys_login_log" domainObjectName="SysLoginLog">
     </table>
     <table tableName="sys_role" domainObjectName="SysRole">

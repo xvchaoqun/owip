@@ -155,6 +155,7 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
+	//alert(JSON.stringify(Location.items[0]))
 	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
 	showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
 	$('textarea.limited').inputlimiter();

@@ -81,6 +81,8 @@ window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<
 
 <script src="${ctx}/assets/js/jquery.inputlimiter.1.3.1.js"></script>
 
+<script type="text/javascript" src="${ctx}/location_JSON"></script>
+
 <script src="${ctx}/extend/js/placeholders.jquery.js"></script>
 <script src="${ctx}/extend/js/base64.js"></script>
 <script src="${ctx}/extend/js/setup.js"></script>

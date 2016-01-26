@@ -10,6 +10,7 @@
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="TINYINT" />
     <result column="birth" property="birth" jdbcType="DATE" />
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, passwd, salt, role_ids, type, code, realname, gender, birth, idcard, 
-    mobile, email, create_time, source, locked
+    id, username, passwd, salt, role_ids, type, code, realname, avatar, gender, birth, 
+    idcard, mobile, email, create_time, source, locked
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysUserExample" >
     select
@@ -114,16 +115,16 @@
   <insert id="insert" parameterType="domain.SysUser" >
     insert into sys_user (id, username, passwd, 
       salt, role_ids, type, 
-      code, realname, gender, 
-      birth, idcard, mobile, 
-      email, create_time, source, 
-      locked)
+      code, realname, avatar, 
+      gender, birth, idcard, 
+      mobile, email, create_time, 
+      source, locked)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT}, 
-      #{locked,jdbcType=BIT})
+      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{source,jdbcType=TINYINT}, #{locked,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.SysUser" >
     insert into sys_user
@@ -151,6 +152,9 @@
       </if>
       <if test="realname != null" >
         realname,
+      </if>
+      <if test="avatar != null" >
+        avatar,
       </if>
       <if test="gender != null" >
         gender,
@@ -201,6 +205,9 @@
       </if>
       <if test="realname != null" >
         #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
         #{gender,jdbcType=TINYINT},
@@ -261,6 +268,9 @@
       <if test="record.realname != null" >
         realname = #{record.realname,jdbcType=VARCHAR},
       </if>
+      <if test="record.avatar != null" >
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.gender != null" >
         gender = #{record.gender,jdbcType=TINYINT},
       </if>
@@ -300,6 +310,7 @@
       type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       idcard = #{record.idcard,jdbcType=VARCHAR},
@@ -335,6 +346,9 @@
       </if>
       <if test="realname != null" >
         realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
         gender = #{gender,jdbcType=TINYINT},
@@ -372,6 +386,7 @@
       type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=TINYINT},
       birth = #{birth,jdbcType=DATE},
       idcard = #{idcard,jdbcType=VARCHAR},

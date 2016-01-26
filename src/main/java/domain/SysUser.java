@@ -20,6 +20,8 @@ public class SysUser implements Serializable {
 
     private String realname;
 
+    private String avatar;
+
     private Byte gender;
 
     private Date birth;
@@ -100,6 +102,14 @@ public class SysUser implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Byte getGender() {

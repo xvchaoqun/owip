@@ -238,6 +238,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="0"
               memoryStoreEvictionPolicy="LRU" />
+       <cache name="Location:JSON"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="0"
+              memoryStoreEvictionPolicy="LRU" />
 <!--shiro缓存-->
 <cache name="SysUser:ID"
        maxEntriesLocalHeap="2000"

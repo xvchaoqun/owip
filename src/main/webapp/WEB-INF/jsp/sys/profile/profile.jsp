@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
   <div class="col-xs-12">
-<div id="user-profile-3" class="user-profile row">
+<div id="user-profile" class="user-profile row">
   <div class="col-sm-offset-1 col-sm-10">
 
     <div class="space"></div>
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post" action="${ctx}/profile" enctype="multipart/form-data">
       <div class="tabbable">
         <jsp:include page="menu.jsp">
           <jsp:param name="type" value="1"/>
@@ -19,27 +19,44 @@
             <h4 class="header blue bolder smaller">基本信息</h4>
 
             <div class="row">
-              <div class="col-xs-12 col-sm-4">
-                <input type="file" />
+              <div class="col-xs-12 col-sm-4" style="width:170px">
+                <input type="file" name="_avatar"/>
               </div>
               <div class="vspace-12-sm"></div>
 
               <div class="col-xs-12 col-sm-8">
                 <div class="form-group">
                   <label class="col-sm-4 control-label no-padding-right" >账号</label>
-
                   <div class="col-sm-8">
-                      <input readonly="" type="text" id="form-input-readonly" value="<shiro:principal property="username"/>">
+                      <div class="label-text"><shiro:principal property="username"/></div>
                   </div>
                 </div>
-
+                <div class="form-group">
+                  <label class="col-sm-4 control-label no-padding-right" >身份</label>
+                  <div class="col-sm-8">
+                    <div class="label-text">
+                      <c:forEach items="${fn:split(_user.roleIds,',')}" var="id" varStatus="vs">
+                        ${roleMap.get(cm:parseInt(id)).description}
+                        <c:if test="${!vs.last}">, </c:if>
+                      </c:forEach>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label no-padding-right" >类别</label>
+                  <div class="col-sm-8">
+                    <div class="label-text">
+                      ${USER_TYPE_MAP.get(_user.type)}
+                    </div>
+                  </div>
+                </div>
                 <div class="space-4"></div>
 
                 <div class="form-group">
                   <label class="col-sm-4 control-label no-padding-right" >姓名</label>
 
                   <div class="col-sm-8">
-                    <input type="text"  />
+                    <input type="text" name="realname"  value="<shiro:principal property="realname"/>"/>
                   </div>
                 </div>
               </div>
@@ -47,15 +64,17 @@
 
             <hr />
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">年龄</label>
+              <label class="col-sm-3 control-label no-padding-right">出生年月</label>
 
               <div class="col-sm-9">
                 <div class="input-medium">
                   <div class="input-group">
-                    <input class="input-medium date-picker" id="form-field-date" type="text" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" />
-																			<span class="input-group-addon">
-																				<i class="ace-icon fa fa-calendar"></i>
-																			</span>
+                    <input name="_birth" class="input-medium date-picker" id="form-field-date"
+                           type="text" data-date-format="yyyy-mm-dd"
+                           placeholder="yyyy-mm-dd" value="${cm:formatDate(_user.birth,'yyyy-MM-dd')}"/>
+                    <span class="input-group-addon">
+                        <i class="ace-icon fa fa-calendar"></i>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -65,19 +84,20 @@
 
             <div class="form-group">
               <label class="col-sm-3 control-label no-padding-right">性别</label>
-
+              <div class="label-text">
               <div class="col-sm-9">
                 <label class="inline">
-                  <input name="form-field-radio" type="radio" class="ace" />
+                  <input name="gender" ${_user.gender==GENDER_MALE?"checked":""} type="radio" class="ace" value="${GENDER_MALE}"/>
                   <span class="lbl middle"> 男</span>
                 </label>
 
                 &nbsp; &nbsp; &nbsp;
                 <label class="inline">
-                  <input name="form-field-radio" type="radio" class="ace" />
+                  <input name="gender" ${_user.gender==GENDER_FEMALE?"checked":""} type="radio" class="ace" value="${GENDER_FEMALE}"/>
                   <span class="lbl middle"> 女</span>
                 </label>
               </div>
+                </div>
             </div>
 
             <div class="space"></div>
@@ -88,7 +108,7 @@
 
               <div class="col-sm-9">
                         <span class="input-icon input-icon-right">
-                            <input type="email" id="form-field-email" />
+                            <input name="email" type="email" id="form-field-email" value="${_user.email}"/>
                             <i class="ace-icon fa fa-envelope"></i>
                         </span>
               </div>
@@ -101,8 +121,8 @@
 
               <div class="col-sm-9">
                         <span class="input-icon input-icon-right">
-                            <input class="input-mask-phone"
-                                   type="text" id="form-field-phone"/>
+                            <input name="mobile" class="input-mask-phone"
+                                   type="text" id="form-field-phone" value="${_user.mobile}"/>
                             <i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
                         </span>
               </div>
@@ -165,7 +185,7 @@
 
       <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
-          <button class="btn btn-info" type="button">
+          <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
             保存
           </button>
@@ -178,10 +198,41 @@
         </div>
       </div>
     </form>
-  </div><!-- /.span -->
+  </div>
 </div>
   </div>
 </div>
 <script>
+  $('#user-profile')
+          .find('input[type=file]').ace_file_input({
+            style:'well',
+            btn_choose:'更换头像',
+            btn_change:null,
+            no_icon:'ace-icon fa fa-picture-o',
+            thumbnail:'large',
+            droppable:true,
+            previewWidth: 143,
+            previewHeight: 198,
+            allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+            allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+          }).end().find('button[type=reset]').on(ace.click_event, function(){
+            $('#user-profile input[type=file]').ace_file_input('reset_input');
+          })
+          .end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
+            $(this).prev().focus();
+          })
 
+  $("#user-profile form").validate({
+    submitHandler: function (form) {
+      $(form).ajaxSubmit({
+        success:function(ret){
+          if(ret.success){
+            //page_reload();
+            SysMsg.success('更新成功。', '成功');
+          }
+        }
+      });
+    }
+  });
+  $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${_user.code}'}]);
 </script>

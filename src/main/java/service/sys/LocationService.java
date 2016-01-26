@@ -2,11 +2,14 @@ package service.sys;
 
 import domain.Location;
 import domain.LocationExample;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.utils.JSONUtils;
 
 import java.util.*;
 
@@ -16,7 +19,35 @@ import java.util.*;
 @Service
 public class LocationService extends BaseMapper{
 
+    private String getParentCodeStr(Integer parentCode){
+        String parentStr = parentCode + "";
+        LocationExample example = new LocationExample();
+        example.createCriteria().andCodeEqualTo(parentCode);
+        List<Location> locations = locationMapper.selectByExample(example);
+        if(locations.size()!=1) return parentStr;
 
+        return getParentCodeStr(locations.get(0).getParentCode()) + "," + parentStr;
+    }
+    @Cacheable(value = "Location:JSON")
+    public String toJSON(){
+        Map<String, Map> items = new LinkedHashMap<>();
+        List<Integer> parentCodeList = selectMapper.selectDistinctLocationParentCode();
+        for (Integer parentCode : parentCodeList) {
+
+            String key = getParentCodeStr(parentCode);
+
+            LocationExample example = new LocationExample();
+            example.createCriteria().andParentCodeEqualTo(parentCode);
+            example.setOrderByClause("code asc");
+            List<Location> locations = locationMapper.selectByExample(example);
+            Map<Integer, String> values = new LinkedHashMap<>();
+            for (Location location : locations) {
+                values.put(location.getCode(), location.getName());
+            }
+            items.put(key, values);
+        }
+        return JSONUtils.toString(items);
+    }
     public boolean idDuplicate(Integer id, Integer code){
 
         LocationExample example = new LocationExample();
@@ -27,17 +58,29 @@ public class LocationService extends BaseMapper{
     }
 
     @Transactional
+    @Caching(evict={
+            @CacheEvict(value="Location:JSON", allEntries=true),
+            @CacheEvict(value="Location:ALL", allEntries=true)
+    })
     public int insertSelective(Location record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
         return  locationMapper.insertSelective(record);
     }
     @Transactional
+    @Caching(evict={
+            @CacheEvict(value="Location:JSON", allEntries=true),
+            @CacheEvict(value="Location:ALL", allEntries=true)
+    })
     public void del(Integer id){
         locationMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
+    @Caching(evict={
+            @CacheEvict(value="Location:JSON", allEntries=true),
+            @CacheEvict(value="Location:ALL", allEntries=true)
+    })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -48,6 +91,10 @@ public class LocationService extends BaseMapper{
     }
 
     @Transactional
+    @Caching(evict={
+            @CacheEvict(value="Location:JSON", allEntries=true),
+            @CacheEvict(value="Location:ALL", allEntries=true)
+    })
     public int updateByPrimaryKeySelective(Location record){
         return locationMapper.updateByPrimaryKeySelective(record);
     }

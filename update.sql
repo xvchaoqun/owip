@@ -1,4 +1,8 @@
-
+--2016.01.25
+ALTER TABLE `sys_user`
+	ADD COLUMN `avatar` VARCHAR(200) NULL DEFAULT NULL COMMENT '系统头像' AFTER `realname`;
+ALTER TABLE `base_location`
+	ADD UNIQUE INDEX `code` (`code`);
 --2016.01.19
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `user_id`,

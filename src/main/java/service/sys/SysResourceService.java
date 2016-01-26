@@ -2,6 +2,7 @@ package service.sys;
 
 import domain.SysResource;
 import domain.SysResourceExample;
+import org.springframework.transaction.annotation.Transactional;
 import persistence.SysResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service

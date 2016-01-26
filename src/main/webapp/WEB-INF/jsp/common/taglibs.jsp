@@ -18,8 +18,11 @@
 
 <c:set var="USER_SOURCE_ADMIN" value="<%=SystemConstants.USER_SOURCE_ADMIN%>"/>
 
+<c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
+<c:set var="GENDER_MALE" value="<%=SystemConstants.GENDER_MALE%>"/>
+<c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
 
 <c:set var="RETIRE_QUIT_TYPE_MAP" value="<%=SystemConstants.RETIRE_QUIT_TYPE_MAP%>"/>
 <c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>

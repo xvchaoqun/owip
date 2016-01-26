@@ -1,5 +1,6 @@
 package controller;
 
+import domain.SysUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,10 @@ public class AvatarController extends BaseController{
     public void avatar(@PathVariable String code, HttpServletResponse response) throws IOException {
 
         String defaultAvatar = springProps.avatarFolder + springProps.defaultAvatar;
-        String filepath = springProps.avatarFolder + code + ".jpg";
+        //String filepath = springProps.avatarFolder + code + ".jpg";
+        SysUser sysUser = sysUserService.findByUsername(code);
+        String filepath =  springProps.avatarFolder + File.separator + sysUser.getId()%100 + File.separator
+                + code +".jpg";
         File imgFile = new File(filepath);
         if(!imgFile.exists()) {
             filepath = defaultAvatar;
