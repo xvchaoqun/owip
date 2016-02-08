@@ -148,7 +148,8 @@ public class CadrePostController extends BaseController {
         List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
         modelMap.put("dispatchCadres", dispatchCadres);
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
+        //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
+        modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));

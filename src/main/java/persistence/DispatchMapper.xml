@@ -289,9 +289,9 @@
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="meetingTime != null" >
+
         meeting_time = #{meetingTime,jdbcType=DATE},
-      </if>
+
       <if test="pubTime != null" >
         pub_time = #{pubTime,jdbcType=DATE},
       </if>

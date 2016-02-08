@@ -38,7 +38,7 @@ public class DispatchService extends BaseMapper {
         return dispatchMapper.countByExample(example) > 0;
     }
 
-    // 师党干[2015]年01号
+    // 师党干[2015]01号
     public String genCode(int dispatchTypeId, int year){
 
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
@@ -63,9 +63,12 @@ public class DispatchService extends BaseMapper {
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public int insertSelective(Dispatch record){
 
-        if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(PatternUtils.match(CODE_REG_STR, record.getCode()));
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        if(StringUtils.isNotBlank(record.getCode())) {
+            if (!PatternUtils.match(CODE_REG_STR, record.getCode())) {
+                throw new RuntimeException("发文号格式有误");
+            }
+            Assert.isTrue(!idDuplicate(null, record.getCode()));
+        }
 
         dispatchMapper.insertSelective(record);
 
@@ -109,7 +112,9 @@ public class DispatchService extends BaseMapper {
     public int updateByPrimaryKeySelective(Dispatch record){
 
         if(StringUtils.isNotBlank(record.getCode())) {
-            Assert.isTrue(PatternUtils.match(CODE_REG_STR, record.getCode()));
+            if(!PatternUtils.match(CODE_REG_STR, record.getCode())){
+                throw new RuntimeException("发文号格式有误");
+            }
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
         }
 

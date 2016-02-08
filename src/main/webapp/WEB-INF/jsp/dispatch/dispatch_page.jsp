@@ -190,7 +190,7 @@ pageEncoding="UTF-8" %>
 								<td style="text-align: left">${dispatch.remark}</td>
                             <shiro:hasPermission name="dispatch:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <td width="80">
+                                <td width="80" nowrap>
                                     <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${dispatch.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
