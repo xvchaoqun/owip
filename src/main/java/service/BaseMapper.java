@@ -10,6 +10,9 @@ import persistence.common.UpdateMapper;
 public class BaseMapper {
 
 	@Autowired
+	protected PassportMapper passportMapper;
+
+	@Autowired
 	protected EnterApplyMapper enterApplyMapper;
 
 	@Autowired

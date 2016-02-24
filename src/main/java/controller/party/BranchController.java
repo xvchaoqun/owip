@@ -171,7 +171,6 @@ public class BranchController extends BaseController {
 
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
-        modelMap.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
         modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
         return "party/branch/branch_page";
@@ -195,6 +194,15 @@ public class BranchController extends BaseController {
         record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
         record.setIsEnterpriseNationalized((record.getIsEnterpriseNationalized() == null) ? false : record.getIsEnterpriseNationalized());
         record.setIsUnion((record.getIsUnion() == null) ? false : record.getIsUnion());
+        record.setIsStaff((record.getIsStaff() == null) ? false : record.getIsStaff());
+        record.setIsPrefessional((record.getIsPrefessional() == null) ? false : record.getIsPrefessional());
+        record.setIsBaseTeam((record.getIsBaseTeam() == null) ? false : record.getIsBaseTeam());
+        if(!record.getIsStaff()){
+            record.setIsPrefessional(false);
+        }
+        if(!record.getIsPrefessional()){
+            record.setIsBaseTeam(false);
+        }
 
         if (id == null) {
             record.setCreateTime(new Date());

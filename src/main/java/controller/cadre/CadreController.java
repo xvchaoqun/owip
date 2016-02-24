@@ -216,16 +216,18 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_leave(int id, HttpServletRequest request) {
+    public Map do_cadre_leave(int id, Byte status, HttpServletRequest request) {
+
+        if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
 
         Cadre record = new Cadre();
-        record.setStatus(SystemConstants.CADRE_STATUS_LEAVE);
+        record.setStatus(status);
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
 
         cadreService.updateByExampleSelective(record, example);
 
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s", id));
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
         return success(FormUtils.SUCCESS);
     }
 

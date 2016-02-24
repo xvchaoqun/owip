@@ -8,7 +8,9 @@
     <result column="short_name" property="shortName" jdbcType="VARCHAR" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
-    <result column="staff_type_id" property="staffTypeId" jdbcType="INTEGER" />
+    <result column="is_staff" property="isStaff" jdbcType="BIT" />
+    <result column="is_prefessional" property="isPrefessional" jdbcType="BIT" />
+    <result column="is_base_team" property="isBaseTeam" jdbcType="BIT" />
     <result column="unit_type_id" property="unitTypeId" jdbcType="INTEGER" />
     <result column="is_enterprise_big" property="isEnterpriseBig" jdbcType="BIT" />
     <result column="is_enterprise_nationalized" property="isEnterpriseNationalized" jdbcType="BIT" />
@@ -79,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, code, name, short_name, party_id, type_id, staff_type_id, unit_type_id, is_enterprise_big, 
-    is_enterprise_nationalized, is_union, phone, fax, email, found_time, sort_order, 
-    create_time
+    id, code, name, short_name, party_id, type_id, is_staff, is_prefessional, is_base_team, 
+    unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
+    email, found_time, sort_order, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.BranchExample" >
     select
@@ -113,21 +115,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.Branch" >
+  <insert keyProperty="id" id="insert" parameterType="domain.Branch" >
     insert into ow_branch (id, code, name, 
       short_name, party_id, type_id, 
-      staff_type_id, unit_type_id, is_enterprise_big, 
-      is_enterprise_nationalized, is_union, phone, 
-      fax, email, found_time, 
-      sort_order, create_time)
+      is_staff, is_prefessional, is_base_team, 
+      unit_type_id, is_enterprise_big, is_enterprise_nationalized, 
+      is_union, phone, fax, email, 
+      found_time, sort_order, create_time
+      )
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{shortName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{staffTypeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, 
-      #{isEnterpriseNationalized,jdbcType=BIT}, #{isUnion,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, 
-      #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, 
-      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{isStaff,jdbcType=BIT}, #{isPrefessional,jdbcType=BIT}, #{isBaseTeam,jdbcType=BIT}, 
+      #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, 
+      #{isUnion,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.Branch" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.Branch" >
     insert into ow_branch
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,8 +152,14 @@
       <if test="typeId != null" >
         type_id,
       </if>
-      <if test="staffTypeId != null" >
-        staff_type_id,
+      <if test="isStaff != null" >
+        is_staff,
+      </if>
+      <if test="isPrefessional != null" >
+        is_prefessional,
+      </if>
+      <if test="isBaseTeam != null" >
+        is_base_team,
       </if>
       <if test="unitTypeId != null" >
         unit_type_id,
@@ -201,8 +211,14 @@
       <if test="typeId != null" >
         #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="staffTypeId != null" >
-        #{staffTypeId,jdbcType=INTEGER},
+      <if test="isStaff != null" >
+        #{isStaff,jdbcType=BIT},
+      </if>
+      <if test="isPrefessional != null" >
+        #{isPrefessional,jdbcType=BIT},
+      </if>
+      <if test="isBaseTeam != null" >
+        #{isBaseTeam,jdbcType=BIT},
       </if>
       <if test="unitTypeId != null" >
         #{unitTypeId,jdbcType=INTEGER},
@@ -263,8 +279,14 @@
       <if test="record.typeId != null" >
         type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
-      <if test="record.staffTypeId != null" >
-        staff_type_id = #{record.staffTypeId,jdbcType=INTEGER},
+      <if test="record.isStaff != null" >
+        is_staff = #{record.isStaff,jdbcType=BIT},
+      </if>
+      <if test="record.isPrefessional != null" >
+        is_prefessional = #{record.isPrefessional,jdbcType=BIT},
+      </if>
+      <if test="record.isBaseTeam != null" >
+        is_base_team = #{record.isBaseTeam,jdbcType=BIT},
       </if>
       <if test="record.unitTypeId != null" >
         unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
@@ -309,7 +331,9 @@
       short_name = #{record.shortName,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
-      staff_type_id = #{record.staffTypeId,jdbcType=INTEGER},
+      is_staff = #{record.isStaff,jdbcType=BIT},
+      is_prefessional = #{record.isPrefessional,jdbcType=BIT},
+      is_base_team = #{record.isBaseTeam,jdbcType=BIT},
       unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
       is_enterprise_big = #{record.isEnterpriseBig,jdbcType=BIT},
       is_enterprise_nationalized = #{record.isEnterpriseNationalized,jdbcType=BIT},
@@ -342,8 +366,14 @@
       <if test="typeId != null" >
         type_id = #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="staffTypeId != null" >
-        staff_type_id = #{staffTypeId,jdbcType=INTEGER},
+      <if test="isStaff != null" >
+        is_staff = #{isStaff,jdbcType=BIT},
+      </if>
+      <if test="isPrefessional != null" >
+        is_prefessional = #{isPrefessional,jdbcType=BIT},
+      </if>
+      <if test="isBaseTeam != null" >
+        is_base_team = #{isBaseTeam,jdbcType=BIT},
       </if>
       <if test="unitTypeId != null" >
         unit_type_id = #{unitTypeId,jdbcType=INTEGER},
@@ -385,7 +415,9 @@
       short_name = #{shortName,jdbcType=VARCHAR},
       party_id = #{partyId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
-      staff_type_id = #{staffTypeId,jdbcType=INTEGER},
+      is_staff = #{isStaff,jdbcType=BIT},
+      is_prefessional = #{isPrefessional,jdbcType=BIT},
+      is_base_team = #{isBaseTeam,jdbcType=BIT},
       unit_type_id = #{unitTypeId,jdbcType=INTEGER},
       is_enterprise_big = #{isEnterpriseBig,jdbcType=BIT},
       is_enterprise_nationalized = #{isEnterpriseNationalized,jdbcType=BIT},

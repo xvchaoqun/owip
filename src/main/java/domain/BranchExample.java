@@ -522,63 +522,183 @@ public class BranchExample {
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdIsNull() {
-            addCriterion("staff_type_id is null");
+        public Criteria andIsStaffIsNull() {
+            addCriterion("is_staff is null");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdIsNotNull() {
-            addCriterion("staff_type_id is not null");
+        public Criteria andIsStaffIsNotNull() {
+            addCriterion("is_staff is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdEqualTo(Integer value) {
-            addCriterion("staff_type_id =", value, "staffTypeId");
+        public Criteria andIsStaffEqualTo(Boolean value) {
+            addCriterion("is_staff =", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdNotEqualTo(Integer value) {
-            addCriterion("staff_type_id <>", value, "staffTypeId");
+        public Criteria andIsStaffNotEqualTo(Boolean value) {
+            addCriterion("is_staff <>", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdGreaterThan(Integer value) {
-            addCriterion("staff_type_id >", value, "staffTypeId");
+        public Criteria andIsStaffGreaterThan(Boolean value) {
+            addCriterion("is_staff >", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("staff_type_id >=", value, "staffTypeId");
+        public Criteria andIsStaffGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_staff >=", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdLessThan(Integer value) {
-            addCriterion("staff_type_id <", value, "staffTypeId");
+        public Criteria andIsStaffLessThan(Boolean value) {
+            addCriterion("is_staff <", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("staff_type_id <=", value, "staffTypeId");
+        public Criteria andIsStaffLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_staff <=", value, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdIn(List<Integer> values) {
-            addCriterion("staff_type_id in", values, "staffTypeId");
+        public Criteria andIsStaffIn(List<Boolean> values) {
+            addCriterion("is_staff in", values, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdNotIn(List<Integer> values) {
-            addCriterion("staff_type_id not in", values, "staffTypeId");
+        public Criteria andIsStaffNotIn(List<Boolean> values) {
+            addCriterion("is_staff not in", values, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("staff_type_id between", value1, value2, "staffTypeId");
+        public Criteria andIsStaffBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_staff between", value1, value2, "isStaff");
             return (Criteria) this;
         }
 
-        public Criteria andStaffTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("staff_type_id not between", value1, value2, "staffTypeId");
+        public Criteria andIsStaffNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_staff not between", value1, value2, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIsNull() {
+            addCriterion("is_prefessional is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIsNotNull() {
+            addCriterion("is_prefessional is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalEqualTo(Boolean value) {
+            addCriterion("is_prefessional =", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotEqualTo(Boolean value) {
+            addCriterion("is_prefessional <>", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalGreaterThan(Boolean value) {
+            addCriterion("is_prefessional >", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_prefessional >=", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalLessThan(Boolean value) {
+            addCriterion("is_prefessional <", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_prefessional <=", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIn(List<Boolean> values) {
+            addCriterion("is_prefessional in", values, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotIn(List<Boolean> values) {
+            addCriterion("is_prefessional not in", values, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_prefessional between", value1, value2, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_prefessional not between", value1, value2, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIsNull() {
+            addCriterion("is_base_team is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIsNotNull() {
+            addCriterion("is_base_team is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamEqualTo(Boolean value) {
+            addCriterion("is_base_team =", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotEqualTo(Boolean value) {
+            addCriterion("is_base_team <>", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamGreaterThan(Boolean value) {
+            addCriterion("is_base_team >", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_base_team >=", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamLessThan(Boolean value) {
+            addCriterion("is_base_team <", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_base_team <=", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIn(List<Boolean> values) {
+            addCriterion("is_base_team in", values, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotIn(List<Boolean> values) {
+            addCriterion("is_base_team not in", values, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_base_team between", value1, value2, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_base_team not between", value1, value2, "isBaseTeam");
             return (Criteria) this;
         }
 

@@ -26,6 +26,7 @@ public class SystemConstants {
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";
 	public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
+	public static final String LOG_ABROAD = "mt_log_abroad";
 
 	public static final String RESOURCE_TYPE_FUNCTION = "function";
 	public static final String RESOURCE_TYPE_URL = "url";
@@ -326,11 +327,13 @@ public class SystemConstants {
 	public final static byte CADRE_STATUS_NOW = 1;
 	public final static byte CADRE_STATUS_TEMP = 2;
 	public final static byte CADRE_STATUS_LEAVE = 3;
+	public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
 	public final static Map<Byte, String>CADRE_STATUS_MAP = new LinkedHashMap<>();
 	static {
 		CADRE_STATUS_MAP.put(CADRE_STATUS_NOW, "现任干部库");
 		CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "临时干部库");
-		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任处级干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
 	}
 
 	// 干部教学课程类别

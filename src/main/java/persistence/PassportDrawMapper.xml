@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.PassportDrawMapper" >
+  <resultMap id="BaseResultMap" type="domain.PassportDraw" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="apply_id" property="applyId" jdbcType="INTEGER" />
+    <result column="passport_id" property="passportId" jdbcType="INTEGER" />
+    <result column="apply_date" property="applyDate" jdbcType="DATE" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="need_sign" property="needSign" jdbcType="BIT" />
+    <result column="files" property="files" jdbcType="VARCHAR" />
+    <result column="expect_date" property="expectDate" jdbcType="DATE" />
+    <result column="handle_date" property="handleDate" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="approve_remark" property="approveRemark" jdbcType="VARCHAR" />
+    <result column="approve_time" property="approveTime" jdbcType="TIMESTAMP" />
+    <result column="approve_ip" property="approveIp" jdbcType="VARCHAR" />
+    <result column="real_start_date" property="realStartDate" jdbcType="DATE" />
+    <result column="real_return_date" property="realReturnDate" jdbcType="DATE" />
+    <result column="real_to_country" property="realToCountry" jdbcType="VARCHAR" />
+    <result column="return_time" property="returnTime" jdbcType="DATE" />
+    <result column="return_status" property="returnStatus" jdbcType="TINYINT" />
+    <result column="return_remark" property="returnRemark" jdbcType="VARCHAR" />
+    <result column="job_certify" property="jobCertify" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, apply_id, passport_id, apply_date, start_date, end_date, reason, need_sign, 
+    files, expect_date, handle_date, remark, create_time, ip, status, user_id, approve_remark, 
+    approve_time, approve_ip, real_start_date, real_return_date, real_to_country, return_time, 
+    return_status, return_remark, job_certify
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportDrawExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_passport_draw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from abroad_passport_draw
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from abroad_passport_draw
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.PassportDrawExample" >
+    delete from abroad_passport_draw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.PassportDraw" >
+    insert into abroad_passport_draw (id, type, apply_id, 
+      passport_id, apply_date, start_date, 
+      end_date, reason, need_sign, 
+      files, expect_date, handle_date, 
+      remark, create_time, ip, 
+      status, user_id, approve_remark, 
+      approve_time, approve_ip, real_start_date, 
+      real_return_date, real_to_country, return_time, 
+      return_status, return_remark, job_certify
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{applyId,jdbcType=INTEGER}, 
+      #{passportId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{needSign,jdbcType=BIT}, 
+      #{files,jdbcType=VARCHAR}, #{expectDate,jdbcType=DATE}, #{handleDate,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{approveRemark,jdbcType=VARCHAR}, 
+      #{approveTime,jdbcType=TIMESTAMP}, #{approveIp,jdbcType=VARCHAR}, #{realStartDate,jdbcType=DATE}, 
+      #{realReturnDate,jdbcType=DATE}, #{realToCountry,jdbcType=VARCHAR}, #{returnTime,jdbcType=DATE}, 
+      #{returnStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, #{jobCertify,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.PassportDraw" >
+    insert into abroad_passport_draw
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="applyId != null" >
+        apply_id,
+      </if>
+      <if test="passportId != null" >
+        passport_id,
+      </if>
+      <if test="applyDate != null" >
+        apply_date,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="needSign != null" >
+        need_sign,
+      </if>
+      <if test="files != null" >
+        files,
+      </if>
+      <if test="expectDate != null" >
+        expect_date,
+      </if>
+      <if test="handleDate != null" >
+        handle_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="approveRemark != null" >
+        approve_remark,
+      </if>
+      <if test="approveTime != null" >
+        approve_time,
+      </if>
+      <if test="approveIp != null" >
+        approve_ip,
+      </if>
+      <if test="realStartDate != null" >
+        real_start_date,
+      </if>
+      <if test="realReturnDate != null" >
+        real_return_date,
+      </if>
+      <if test="realToCountry != null" >
+        real_to_country,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+      <if test="returnStatus != null" >
+        return_status,
+      </if>
+      <if test="returnRemark != null" >
+        return_remark,
+      </if>
+      <if test="jobCertify != null" >
+        job_certify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="passportId != null" >
+        #{passportId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="needSign != null" >
+        #{needSign,jdbcType=BIT},
+      </if>
+      <if test="files != null" >
+        #{files,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDate != null" >
+        #{expectDate,jdbcType=DATE},
+      </if>
+      <if test="handleDate != null" >
+        #{handleDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="approveRemark != null" >
+        #{approveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveIp != null" >
+        #{approveIp,jdbcType=VARCHAR},
+      </if>
+      <if test="realStartDate != null" >
+        #{realStartDate,jdbcType=DATE},
+      </if>
+      <if test="realReturnDate != null" >
+        #{realReturnDate,jdbcType=DATE},
+      </if>
+      <if test="realToCountry != null" >
+        #{realToCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="returnStatus != null" >
+        #{returnStatus,jdbcType=TINYINT},
+      </if>
+      <if test="returnRemark != null" >
+        #{returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCertify != null" >
+        #{jobCertify,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.PassportDrawExample" resultType="java.lang.Integer" >
+    select count(*) from abroad_passport_draw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update abroad_passport_draw
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.applyId != null" >
+        apply_id = #{record.applyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.passportId != null" >
+        passport_id = #{record.passportId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyDate != null" >
+        apply_date = #{record.applyDate,jdbcType=DATE},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needSign != null" >
+        need_sign = #{record.needSign,jdbcType=BIT},
+      </if>
+      <if test="record.files != null" >
+        files = #{record.files,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectDate != null" >
+        expect_date = #{record.expectDate,jdbcType=DATE},
+      </if>
+      <if test="record.handleDate != null" >
+        handle_date = #{record.handleDate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveRemark != null" >
+        approve_remark = #{record.approveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approveTime != null" >
+        approve_time = #{record.approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.approveIp != null" >
+        approve_ip = #{record.approveIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realStartDate != null" >
+        real_start_date = #{record.realStartDate,jdbcType=DATE},
+      </if>
+      <if test="record.realReturnDate != null" >
+        real_return_date = #{record.realReturnDate,jdbcType=DATE},
+      </if>
+      <if test="record.realToCountry != null" >
+        real_to_country = #{record.realToCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnTime != null" >
+        return_time = #{record.returnTime,jdbcType=DATE},
+      </if>
+      <if test="record.returnStatus != null" >
+        return_status = #{record.returnStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.returnRemark != null" >
+        return_remark = #{record.returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobCertify != null" >
+        job_certify = #{record.jobCertify,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update abroad_passport_draw
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      apply_id = #{record.applyId,jdbcType=INTEGER},
+      passport_id = #{record.passportId,jdbcType=INTEGER},
+      apply_date = #{record.applyDate,jdbcType=DATE},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      need_sign = #{record.needSign,jdbcType=BIT},
+      files = #{record.files,jdbcType=VARCHAR},
+      expect_date = #{record.expectDate,jdbcType=DATE},
+      handle_date = #{record.handleDate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      approve_remark = #{record.approveRemark,jdbcType=VARCHAR},
+      approve_time = #{record.approveTime,jdbcType=TIMESTAMP},
+      approve_ip = #{record.approveIp,jdbcType=VARCHAR},
+      real_start_date = #{record.realStartDate,jdbcType=DATE},
+      real_return_date = #{record.realReturnDate,jdbcType=DATE},
+      real_to_country = #{record.realToCountry,jdbcType=VARCHAR},
+      return_time = #{record.returnTime,jdbcType=DATE},
+      return_status = #{record.returnStatus,jdbcType=TINYINT},
+      return_remark = #{record.returnRemark,jdbcType=VARCHAR},
+      job_certify = #{record.jobCertify,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.PassportDraw" >
+    update abroad_passport_draw
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="applyId != null" >
+        apply_id = #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="passportId != null" >
+        passport_id = #{passportId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        apply_date = #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="needSign != null" >
+        need_sign = #{needSign,jdbcType=BIT},
+      </if>
+      <if test="files != null" >
+        files = #{files,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDate != null" >
+        expect_date = #{expectDate,jdbcType=DATE},
+      </if>
+      <if test="handleDate != null" >
+        handle_date = #{handleDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="approveRemark != null" >
+        approve_remark = #{approveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveIp != null" >
+        approve_ip = #{approveIp,jdbcType=VARCHAR},
+      </if>
+      <if test="realStartDate != null" >
+        real_start_date = #{realStartDate,jdbcType=DATE},
+      </if>
+      <if test="realReturnDate != null" >
+        real_return_date = #{realReturnDate,jdbcType=DATE},
+      </if>
+      <if test="realToCountry != null" >
+        real_to_country = #{realToCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="returnStatus != null" >
+        return_status = #{returnStatus,jdbcType=TINYINT},
+      </if>
+      <if test="returnRemark != null" >
+        return_remark = #{returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCertify != null" >
+        job_certify = #{jobCertify,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.PassportDraw" >
+    update abroad_passport_draw
+    set type = #{type,jdbcType=TINYINT},
+      apply_id = #{applyId,jdbcType=INTEGER},
+      passport_id = #{passportId,jdbcType=INTEGER},
+      apply_date = #{applyDate,jdbcType=DATE},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      reason = #{reason,jdbcType=VARCHAR},
+      need_sign = #{needSign,jdbcType=BIT},
+      files = #{files,jdbcType=VARCHAR},
+      expect_date = #{expectDate,jdbcType=DATE},
+      handle_date = #{handleDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      approve_remark = #{approveRemark,jdbcType=VARCHAR},
+      approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      approve_ip = #{approveIp,jdbcType=VARCHAR},
+      real_start_date = #{realStartDate,jdbcType=DATE},
+      real_return_date = #{realReturnDate,jdbcType=DATE},
+      real_to_country = #{realToCountry,jdbcType=VARCHAR},
+      return_time = #{returnTime,jdbcType=DATE},
+      return_status = #{returnStatus,jdbcType=TINYINT},
+      return_remark = #{returnRemark,jdbcType=VARCHAR},
+      job_certify = #{jobCertify,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.PassportDrawExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_passport_draw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -16,7 +16,11 @@ public class Branch implements Serializable {
 
     private Integer typeId;
 
-    private Integer staffTypeId;
+    private Boolean isStaff;
+
+    private Boolean isPrefessional;
+
+    private Boolean isBaseTeam;
 
     private Integer unitTypeId;
 
@@ -88,12 +92,28 @@ public class Branch implements Serializable {
         this.typeId = typeId;
     }
 
-    public Integer getStaffTypeId() {
-        return staffTypeId;
+    public Boolean getIsStaff() {
+        return isStaff;
     }
 
-    public void setStaffTypeId(Integer staffTypeId) {
-        this.staffTypeId = staffTypeId;
+    public void setIsStaff(Boolean isStaff) {
+        this.isStaff = isStaff;
+    }
+
+    public Boolean getIsPrefessional() {
+        return isPrefessional;
+    }
+
+    public void setIsPrefessional(Boolean isPrefessional) {
+        this.isPrefessional = isPrefessional;
+    }
+
+    public Boolean getIsBaseTeam() {
+        return isBaseTeam;
+    }
+
+    public void setIsBaseTeam(Boolean isBaseTeam) {
+        this.isBaseTeam = isBaseTeam;
     }
 
     public Integer getUnitTypeId() {

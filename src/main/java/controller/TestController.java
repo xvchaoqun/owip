@@ -74,6 +74,7 @@ public class TestController {
         ///BaseFont font = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         // 动态指定报表模板url
         model.addAttribute("url", "/WEB-INF/jasper/report2.jasper");
+        //model.addAttribute("url", "/WEB-INF/jasper/2.jasper");
         if(type!=null)
             model.addAttribute("url", "/WEB-INF/jasper/report2_noimg.jasper");
         model.addAttribute("format", "pdf"); // 报表格式

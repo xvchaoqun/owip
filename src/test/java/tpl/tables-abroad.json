@@ -1,0 +1,18 @@
+{
+  "schema": "owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "abroad_",
+  "tables": [
+    {
+      "table": "passport",
+      "key": "id",
+      "searchColumns": "cadre_id,class_id,code,type",
+      "showColumns": "cadre_id,class_id,code,authority,issue_date,expiry_date,keep_date,safe_code,is_lent,type,cancel_type,create_time",
+      "excludeEditColumns": "id,is_lent,type,cancel_type,cancel_confirm,cancel_pic,cancel_time,lost_proof,create_time",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    }
+  ]
+}

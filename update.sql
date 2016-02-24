@@ -1,3 +1,15 @@
+-- 2016-2-24
+ALTER TABLE `sys_user`
+	ADD COLUMN `sign` VARCHAR(100) NULL DEFAULT NULL COMMENT '手写签名，图片上传' AFTER `idcard`;
+
+	UPDATE `owip`.`ow_branch` SET `staff_type_id`=0 WHERE  `id`=0;
+	ALTER TABLE `ow_branch`
+	CHANGE COLUMN `staff_type_id` `is_staff` TINYINT(1) UNSIGNED NULL COMMENT '是否是教工党支部' AFTER `type_id`,
+	ADD COLUMN `is_prefessional` TINYINT(1) UNSIGNED NULL COMMENT '是否是专业教师党支部，教工党支部时才选择' AFTER `is_staff`,
+	ADD COLUMN `is_base_team` TINYINT(1) UNSIGNED NULL COMMENT '是否建立在团队，专业教师党支部时才选择' AFTER `is_prefessional`;
+
+	--删除mc_branch_staff_type
+
 --2016.01.25
 ALTER TABLE `sys_user`
 	ADD COLUMN `avatar` VARCHAR(200) NULL DEFAULT NULL COMMENT '系统头像' AFTER `realname`;

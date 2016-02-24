@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
 import service.LoginUserService;
+import service.abroad.PassportService;
 import service.SpringProps;
 import service.cadre.*;
 import service.dispatch.*;
@@ -26,6 +27,10 @@ import java.util.Map;
 
 
 public class BaseController extends BaseMapper {
+
+
+    @Autowired
+    protected PassportService passportService;
 
     @Autowired
     protected EnterApplyService enterApplyService;

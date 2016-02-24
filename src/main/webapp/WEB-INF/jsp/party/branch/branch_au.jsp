@@ -60,19 +60,32 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">在职教工党支部类型</label>
+				<label class="col-xs-5 control-label">是否是教工党支部</label>
 				<div class="col-xs-6">
-					<select required class="form-control" name="staffTypeId" data-rel="select2" data-placeholder="请选择在职教工党支部类型">
-						<option></option>
-						<c:forEach items="${staffTypeMap}" var="staffType">
-							<option value="${staffType.key}">${staffType.value.name}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=staffTypeId]").val('${branch.staffTypeId}');
-					</script>
+					<label>
+						<input name="isStaff" ${branch.isStaff?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<span class="lbl"></span>
+					</label>
 				</div>
 			</div>
+				<div class="form-group">
+					<label class="col-xs-5 control-label">是否是专业教师党支部</label>
+					<div class="col-xs-6">
+						<label>
+							<input name="isPrefessional" ${branch.isPrefessional?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<span class="lbl"></span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-5 control-label">是否建立在团队</label>
+					<div class="col-xs-6">
+						<label>
+							<input name="isBaseTeam" ${branch.isBaseTeam?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<span class="lbl"></span>
+						</label>
+					</div>
+				</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">单位属性</label>
 				<div class="col-xs-6">

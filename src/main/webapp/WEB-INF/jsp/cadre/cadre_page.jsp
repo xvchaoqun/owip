@@ -5,6 +5,7 @@ pageEncoding="UTF-8" %>
 <c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_LEAVE%>" var="CADRE_STATUS_LEAVE"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 <div class="row">
     <div class="col-xs-12">
@@ -65,7 +66,8 @@ pageEncoding="UTF-8" %>
                     <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
                         <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
                         <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
-                        <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任干部</c:if>
+                        <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任处级干部</c:if>
+                        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
                         </a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
@@ -138,7 +140,10 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                     <c:if test="${cadre.status==CADRE_STATUS_NOW}">
                                         <button onclick="_leave(${cadre.id}, '${sysUser.realname}', '${sysUser.code}')" class="btn btn-mini btn-success">
-                                            <i class="fa fa-edit"></i> 离任
+                                            <i class="fa fa-edit"></i> 处级干部离任
+                                        </button>
+                                        <button onclick="_leader_leave(${cadre.id}, '${sysUser.realname}', '${sysUser.code}')" class="btn btn-mini btn-success">
+                                        <i class="fa fa-edit"></i> 校领导离任
                                         </button>
                                     </c:if>
                                     <shiro:hasPermission name="cadre:edit">
@@ -226,9 +231,22 @@ pageEncoding="UTF-8" %>
 
     function _leave(id, realname, code){
 
-        bootbox.confirm("姓名：{0}，工号：{1}，确定移到离任干部库吗？".format(realname, code), function (result) {
+        bootbox.confirm("姓名：{0}，工号：{1}，确定移到离任处级干部库吗？".format(realname, code), function (result) {
             if (result) {
-                $.post("${ctx}/cadre_leave", {id: id}, function (ret) {
+                $.post("${ctx}/cadre_leave", {id: id, status:'${CADRE_STATUS_LEAVE}'}, function (ret) {
+                    if (ret.success) {
+                        page_reload();
+                        SysMsg.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+    function _leader_leave(id, realname, code){
+
+        bootbox.confirm("姓名：{0}，工号：{1}，确定移到离任校领导干部库吗？".format(realname, code), function (result) {
+            if (result) {
+                $.post("${ctx}/cadre_leave", {id: id, status:'${CADRE_STATUS_LEADER_LEAVE}'}, function (ret) {
                     if (ret.success) {
                         page_reload();
                         SysMsg.success('操作成功。', '成功');

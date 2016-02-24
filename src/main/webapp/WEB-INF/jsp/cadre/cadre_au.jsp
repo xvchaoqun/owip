@@ -5,13 +5,15 @@ pageEncoding="UTF-8"%>
 <c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_LEAVE%>" var="CADRE_STATUS_LEAVE"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>
         <c:if test="${status==CADRE_STATUS_TEMP}">临时干部</c:if>
         <c:if test="${status==CADRE_STATUS_NOW}">现任干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEAVE}">离任干部</c:if>
+        <c:if test="${status==CADRE_STATUS_LEAVE}">离任处级干部</c:if>
+        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">离任校领导干部</c:if>
     </h3>
 </div>
 <div class="modal-body">
