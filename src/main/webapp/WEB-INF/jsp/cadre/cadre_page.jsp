@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
 
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
 								<td nowrap>${postMap.get(cadre.postId).name}</td>
-								<td nowrap>${cadre.title}</td>
+								<td nowrap>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
 								<td>${cadre.remark}</td>
                             <shiro:hasPermission name="cadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">

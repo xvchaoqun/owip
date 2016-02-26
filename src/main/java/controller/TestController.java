@@ -46,7 +46,6 @@ public class TestController {
         testServcie.toGuest(userId);
         return FormUtils.SUCCESS;
     }
-
     @RequestMapping(value = "/report2", method = RequestMethod.GET)
     public String report2(Integer type, Model model) throws IOException, DocumentException {
 

@@ -160,7 +160,6 @@ public class PartyController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("unitMap", unitService.findAll());
         modelMap.put("classMap", metaTypeService.metaTypes("mc_party_class"));
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_part_type"));
         modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));

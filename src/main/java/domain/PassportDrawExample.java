@@ -192,6 +192,66 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
+        public Criteria andCadreIdIsNull() {
+            addCriterion("cadre_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIsNotNull() {
+            addCriterion("cadre_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdEqualTo(Integer value) {
+            addCriterion("cadre_id =", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotEqualTo(Integer value) {
+            addCriterion("cadre_id <>", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThan(Integer value) {
+            addCriterion("cadre_id >", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id >=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThan(Integer value) {
+            addCriterion("cadre_id <", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id <=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIn(List<Integer> values) {
+            addCriterion("cadre_id in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotIn(List<Integer> values) {
+            addCriterion("cadre_id not in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id not between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;

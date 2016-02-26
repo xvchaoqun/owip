@@ -11,6 +11,8 @@ public class Cadre implements Serializable {
 
     private Integer postId;
 
+    private Integer unitId;
+
     private String title;
 
     private String remark;
@@ -51,6 +53,14 @@ public class Cadre implements Serializable {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public String getTitle() {

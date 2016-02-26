@@ -3,6 +3,7 @@
 <mapper namespace="persistence.PassportDrawMapper" >
   <resultMap id="BaseResultMap" type="domain.PassportDraw" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="passport_id" property="passportId" jdbcType="INTEGER" />
@@ -89,10 +90,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, apply_id, passport_id, apply_date, start_date, end_date, reason, need_sign, 
-    files, expect_date, handle_date, remark, create_time, ip, status, user_id, approve_remark, 
-    approve_time, approve_ip, real_start_date, real_return_date, real_to_country, return_time, 
-    return_status, return_remark, job_certify
+    id, cadre_id, type, apply_id, passport_id, apply_date, start_date, end_date, reason, 
+    need_sign, files, expect_date, handle_date, remark, create_time, ip, status, user_id, 
+    approve_remark, approve_time, approve_ip, real_start_date, real_return_date, real_to_country, 
+    return_time, return_status, return_remark, job_certify
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportDrawExample" >
     select
@@ -125,32 +126,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.PassportDraw" >
-    insert into abroad_passport_draw (id, type, apply_id, 
-      passport_id, apply_date, start_date, 
-      end_date, reason, need_sign, 
-      files, expect_date, handle_date, 
-      remark, create_time, ip, 
-      status, user_id, approve_remark, 
-      approve_time, approve_ip, real_start_date, 
-      real_return_date, real_to_country, return_time, 
-      return_status, return_remark, job_certify
-      )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{applyId,jdbcType=INTEGER}, 
-      #{passportId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{needSign,jdbcType=BIT}, 
-      #{files,jdbcType=VARCHAR}, #{expectDate,jdbcType=DATE}, #{handleDate,jdbcType=DATE}, 
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{approveRemark,jdbcType=VARCHAR}, 
-      #{approveTime,jdbcType=TIMESTAMP}, #{approveIp,jdbcType=VARCHAR}, #{realStartDate,jdbcType=DATE}, 
-      #{realReturnDate,jdbcType=DATE}, #{realToCountry,jdbcType=VARCHAR}, #{returnTime,jdbcType=DATE}, 
-      #{returnStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, #{jobCertify,jdbcType=BIT}
-      )
+    insert into abroad_passport_draw (id, cadre_id, type, 
+      apply_id, passport_id, apply_date, 
+      start_date, end_date, reason, 
+      need_sign, files, expect_date, 
+      handle_date, remark, create_time, 
+      ip, status, user_id, 
+      approve_remark, approve_time, approve_ip, 
+      real_start_date, real_return_date, real_to_country, 
+      return_time, return_status, return_remark, 
+      job_certify)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{applyId,jdbcType=INTEGER}, #{passportId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{needSign,jdbcType=BIT}, #{files,jdbcType=VARCHAR}, #{expectDate,jdbcType=DATE}, 
+      #{handleDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
+      #{approveRemark,jdbcType=VARCHAR}, #{approveTime,jdbcType=TIMESTAMP}, #{approveIp,jdbcType=VARCHAR}, 
+      #{realStartDate,jdbcType=DATE}, #{realReturnDate,jdbcType=DATE}, #{realToCountry,jdbcType=VARCHAR}, 
+      #{returnTime,jdbcType=DATE}, #{returnStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, 
+      #{jobCertify,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.PassportDraw" >
     insert into abroad_passport_draw
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
       </if>
       <if test="type != null" >
         type,
@@ -234,6 +238,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
@@ -327,6 +334,9 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
       </if>
@@ -413,6 +423,7 @@
   <update id="updateByExample" parameterType="map" >
     update abroad_passport_draw
     set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       apply_id = #{record.applyId,jdbcType=INTEGER},
       passport_id = #{record.passportId,jdbcType=INTEGER},
@@ -446,6 +457,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.PassportDraw" >
     update abroad_passport_draw
     <set >
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
       </if>
@@ -529,7 +543,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.PassportDraw" >
     update abroad_passport_draw
-    set type = #{type,jdbcType=TINYINT},
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
       apply_id = #{applyId,jdbcType=INTEGER},
       passport_id = #{passportId,jdbcType=INTEGER},
       apply_date = #{applyDate,jdbcType=DATE},

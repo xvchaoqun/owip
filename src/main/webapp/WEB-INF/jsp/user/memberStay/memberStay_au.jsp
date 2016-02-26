@@ -8,10 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_STAY_STATUS_BACK" value="<%=SystemConstants.MEMBER_STAY_STATUS_BACK%>"/>
+
 <c:if test="${memberStay.status==MEMBER_STAY_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">

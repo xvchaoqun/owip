@@ -74,6 +74,8 @@ pageEncoding="UTF-8" %>
                     </thead>
                     <tbody>
                     <c:forEach items="${passports}" var="passport" varStatus="st">
+                        <c:set var="cadre" value="${cadreMap.get(passport.cadreId)}"/>
+                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -81,18 +83,21 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${passport.cadreId}</td>
-								<td>${passport.classId}</td>
+								<td>
+                                    <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
+                                            ${sysUser.realname}
+                                    </a></td>
+								<td>${passportTypeMap.get(passport.classId).name}</td>
 								<td>${passport.code}</td>
 								<td>${passport.authority}</td>
-								<td>${passport.issueDate}</td>
-								<td>${passport.expiryDate}</td>
-								<td>${passport.keepDate}</td>
+								<td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
+								<td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
+								<td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
 								<td>${passport.safeCode}</td>
-								<td>${passport.isLent}</td>
+								<td>${passport.isLent?"借出":"-"}</td>
 								<td>${passport.type}</td>
 								<td>${passport.cancelType}</td>
-								<td>${passport.createTime}</td>
+								<td>${cm:formatDate(passport.createTime,'yyyy-MM-dd HH:mm')}</td>
                             <shiro:hasPermission name="passport:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">

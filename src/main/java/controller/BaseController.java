@@ -1,15 +1,12 @@
 package controller;
 
-import domain.MemberApply;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import service.BaseMapper;
-import service.LoginUserService;
-import service.abroad.PassportService;
-import service.SpringProps;
+import service.*;
+import service.abroad.*;
 import service.cadre.*;
 import service.dispatch.*;
 import service.ext.ExtBksService;
@@ -29,6 +26,14 @@ import java.util.Map;
 public class BaseController extends BaseMapper {
 
 
+    @Autowired
+    protected PassportDrawService passportDrawService;
+    @Autowired
+    protected ApprovalLogService approvalLogService;
+    @Autowired
+    protected ApplySelfService applySelfService;
+    @Autowired
+    protected PassportApplyService passportApplyService;
     @Autowired
     protected PassportService passportService;
 
@@ -164,6 +169,8 @@ public class BaseController extends BaseMapper {
     protected SysUserSyncService sysUserSyncService;
     @Autowired
     protected LocationService locationService;
+    @Autowired
+    protected CountryService countryService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired

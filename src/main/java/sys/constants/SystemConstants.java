@@ -366,4 +366,26 @@ public class SystemConstants {
 		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_SON, "儿子");
 		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
 	}
+
+	//出行时间范围
+	public final static byte APPLY_SELF_DATE_TYPE_HOLIDAY = 1;
+	public final static byte APPLY_SELF_DATE_TYPE_SCHOOL = 2;
+	public final static byte APPLY_SELF_DATE_TYPE_OTHER = 3;
+	public final static Map<Byte, String>APPLY_SELF_DATE_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_HOLIDAY, "公众假期");
+		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_SCHOOL, "寒/暑假");
+		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_OTHER, "其他");
+	}
+
+	//领取证件类别
+	public final static byte PASSPORT_DRAW_TYPE_SELF = 1;
+	public final static byte PASSPORT_DRAW_TYPE_TW = 2;
+	public final static byte PASSPORT_DRAW_TYPE_OTHER = 3;
+	public final static Map<Byte, String>PASSPORT_DRAW_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公出访台湾");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_OTHER, "其他事务");
+	}
 }

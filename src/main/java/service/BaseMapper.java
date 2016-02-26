@@ -10,7 +10,15 @@ import persistence.common.UpdateMapper;
 public class BaseMapper {
 
 	@Autowired
+	protected PassportDrawMapper passportDrawMapper;
+	@Autowired
+	protected ApplySelfMapper applySelfMapper;
+	@Autowired
+	protected ApprovalLogMapper approvalLogMapper;
+	@Autowired
 	protected PassportMapper passportMapper;
+	@Autowired
+	protected PassportApplyMapper passportApplyMapper;
 
 	@Autowired
 	protected EnterApplyMapper enterApplyMapper;
@@ -154,4 +162,6 @@ public class BaseMapper {
 
 	@Autowired
 	protected LocationMapper locationMapper;
+	@Autowired
+	protected CountryMapper countryMapper;
 }

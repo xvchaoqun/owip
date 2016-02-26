@@ -26,6 +26,15 @@ public class CadreService extends BaseMapper {
         return cadreMapper.countByExample(example) > 0;
     }
 
+    public Cadre findByUserId(int userId){
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<Cadre> cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(cadres.size()>0) return cadres.get(0);
+
+        return null;
+    }
     @Transactional
     @CacheEvict(value="Cadre:ALL", allEntries = true)
     public int insertSelective(Cadre record){

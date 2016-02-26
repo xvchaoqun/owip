@@ -6,13 +6,49 @@
   "tablePrefix": "abroad_",
   "tables": [
     {
+      "table": "apply_self",
+      "key": "id",
+      "searchColumns": "cadre_id,apply_date,type",
+      "showColumns": "cadre_id,apply_date,type,start_date,end_date,to_country,reason,peer_staff,cost_source,need_passports,files,create_time",
+      "excludeEditColumns": "id,create_time,ip",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "approval_log",
+      "key": "id",
+      "searchColumns": "cadre_id,type_id",
+      "showColumns": "apply_id,cadre_id,type_id,status,remark,create_time",
+      "excludeEditColumns": "id,create_time,ip",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "passport_draw",
+      "key": "id",
+      "searchColumns": "cadre_id,type,passport_id,apply_date,start_date,end_date",
+      "showColumns": "cadre_id,type,apply_id,passport_id,apply_date,start_date,end_date,reason,need_sign",
+      "excludeEditColumns": "id,create_time,ip,status,user_id,approve_remark,approve_time,approve_ip,real_start_date,real_return_date,real_to_country,return_time,return_status,return_remark,job_certify",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "passport_apply",
+      "key": "id",
+      "searchColumns": "cadre_id,class_id,apply_date",
+      "showColumns": "cadre_id,class_id,apply_date,status,user_id,approve_time,expect_date,handle_date,create_time",
+      "excludeEditColumns": "id,create_time,ip",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": true
+    },
+    {
       "table": "passport",
       "key": "id",
       "searchColumns": "cadre_id,class_id,code,type",
       "showColumns": "cadre_id,class_id,code,authority,issue_date,expiry_date,keep_date,safe_code,is_lent,type,cancel_type,create_time",
       "excludeEditColumns": "id,is_lent,type,cancel_type,cancel_confirm,cancel_pic,cancel_time,lost_proof,create_time",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     }
   ]
 }

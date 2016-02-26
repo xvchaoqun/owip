@@ -382,6 +382,9 @@ form .form-actions{
 .dispatch_cadres .select-form{
     padding-bottom: 20px;
 }
+.dispatch_cadres{
+    width: 1485px;
+}
 .dispatch_cadres .dispatch{
     width: 730px;
     margin-right: 25px;
@@ -395,4 +398,25 @@ form .form-actions{
     line-height: 710px;
 }
 .dispatch_cadres .swf-file.flash{
+}
+
+.passport_apply .preview, .passport_apply .info{
+    float: left;
+}
+.passport_apply{
+    width: 1225px;
+}
+.passport_apply .preview{
+    width: 600px;
+    margin-right: 25px;
+}
+.passport_apply .info{
+    width: 600px;
+}
+.passport_apply .button{
+    padding: 30px;
+}
+.chkBox{
+    _vertical-align: -3px;/*针对IE6使用hack*/
+    vertical-align: -5px;
 }

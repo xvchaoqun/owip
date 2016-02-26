@@ -120,6 +120,7 @@ public class PassportController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
         return "abroad/passport/passport_page";
     }
 
@@ -137,14 +138,15 @@ public class PassportController extends BaseController {
         if(StringUtils.isNotBlank(_issueDate)){
             record.setIssueDate(DateUtils.parseDate(_issueDate, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_expiryDate)){
+        if(StringUtils.isNotBlank(_expiryDate)) {
             record.setExpiryDate(DateUtils.parseDate(_expiryDate, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_keepDate)){
+        if(StringUtils.isNotBlank(_keepDate)) {
             record.setKeepDate(DateUtils.parseDate(_keepDate, DateUtils.YYYY_MM_DD));
         }
 
         if (id == null) {
+            record.setCreateTime(new Date());
             passportService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国证件：%s", record.getId()));
         } else {

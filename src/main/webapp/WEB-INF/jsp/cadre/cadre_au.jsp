@@ -53,8 +53,22 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">所属单位</label>
+                <div class="col-xs-8">
+                    <select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                        <option></option>
+                        <c:forEach items="${unitMap}" var="unit">
+                            <option value="${unit.key}">${unit.value.name}</option>
+                        </c:forEach>
+                    </select>
+                    <script>
+                        $("#modalForm select[name=unitId]").val('${cadre.unitId}');
+                    </script>
+                </div>
+            </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位及职务</label>
+				<label class="col-xs-3 control-label">职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="title" value="${cadre.title}">
 				</div>

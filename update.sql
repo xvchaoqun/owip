@@ -1,3 +1,10 @@
+
+--2016.2.26
+ALTER TABLE `base_cadre`
+	ADD COLUMN `unit_id` INT(10) UNSIGNED NULL COMMENT '单位' AFTER `post_id`,
+	CHANGE COLUMN `title` `title` VARCHAR(50) NULL DEFAULT NULL COMMENT '职务' AFTER `unit_id`,
+	ADD CONSTRAINT `FK_base_cadre_base_unit` FOREIGN KEY (`unit_id`) REFERENCES `base_unit` (`id`);
+
 -- 2016-2-24
 ALTER TABLE `sys_user`
 	ADD COLUMN `sign` VARCHAR(100) NULL DEFAULT NULL COMMENT '手写签名，图片上传' AFTER `idcard`;

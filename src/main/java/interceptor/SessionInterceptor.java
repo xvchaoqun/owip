@@ -72,6 +72,12 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         if (null != modelAndView) {
             ModelMap modelMap = modelAndView.getModelMap();
             modelMap.put("useCaptcha",springProps.useCaptcha);
+
+            modelMap.put("cadreMap", cadreService.findAll());
+            modelMap.put("passportTypeMap", metaTypeService.metaTypes("mc_passport_type"));
+
+           // modelMap.put("countryMap", countryService.findAll());
+            modelMap.put("unitMap", unitService.findAll());
         }
     }
 

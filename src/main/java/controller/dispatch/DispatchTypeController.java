@@ -126,7 +126,7 @@ public class DispatchTypeController extends BaseController {
 
         Integer id = record.getId();
 
-        if (dispatchTypeService.idDuplicate(id, record.getName())) {
+        if (dispatchTypeService.idDuplicate(id, record.getName(), record.getYear())) {
             return failed("添加重复");
         }
         if (id == null) {

@@ -1,0 +1,255 @@
+package controller.abroad;
+
+import controller.BaseController;
+import domain.*;
+import domain.ApplySelfExample.Criteria;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import sys.tool.jackson.Select2Option;
+import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.MSUtils;
+import sys.constants.SystemConstants;
+
+import java.util.ArrayList;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class ApplySelfController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf")
+    public String applySelf() {
+
+        return "index";
+    }
+    @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf_page")
+    public String applySelf_page(HttpServletResponse response,
+                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
+                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                    Integer cadreId,
+                                    String applyDate,
+                                     Byte type,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ApplySelfExample example = new ApplySelfExample();
+        Criteria criteria = example.createCriteria();
+        example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+        /*if (StringUtils.isNotBlank(applyDate)) {
+            criteria.andApplyDateLike("%" + applyDate + "%");
+        }
+        if (StringUtils.isNotBlank(type)) {
+            criteria.andTypeLike("%" + type + "%");
+        }*/
+
+        if (export == 1) {
+            applySelf_export(example, response);
+            return null;
+        }
+
+        int count = applySelfMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("applySelfs", applySelfs);
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        String searchStr = "&pageSize=" + pageSize;
+
+        if (cadreId!=null) {
+            searchStr += "&cadreId=" + cadreId;
+        }
+        if (StringUtils.isNotBlank(applyDate)) {
+            searchStr += "&applyDate=" + applyDate;
+        }
+        /*if (StringUtils.isNotBlank(type)) {
+            searchStr += "&type=" + type;
+        }*/
+        if (StringUtils.isNotBlank(sort)) {
+            searchStr += "&sort=" + sort;
+        }
+        if (StringUtils.isNotBlank(order)) {
+            searchStr += "&order=" + order;
+        }
+        commonList.setSearchStr(searchStr);
+        modelMap.put("commonList", commonList);
+
+        return "abroad/applySelf/applySelf_page";
+    }
+
+    @RequiresPermissions("applySelf:edit")
+    @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_au(ApplySelf record, String _applyDate, String _startDate, String _endDate,  HttpServletRequest request) {
+
+        Integer id = record.getId();
+
+        if(StringUtils.isNotBlank(_applyDate)){
+            record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_startDate)){
+            record.setStartDate(DateUtils.parseDate(_startDate, DateUtils.YYYY_MM_DD));
+        }
+        if(StringUtils.isNotBlank(_endDate)){
+            record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
+        }
+
+        if (id == null) {
+            record.setCreateTime(new Date());
+            applySelfService.insertSelective(record);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+        } else {
+
+            applySelfService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("applySelf:edit")
+    @RequestMapping("/applySelf_au")
+    public String applySelf_au(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+            modelMap.put("applySelf", applySelf);
+
+            Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+
+        List<String> countryList = new ArrayList<>();
+        Map<Integer, Country> countryMap = countryService.findAll();
+        for (Country country : countryMap.values()) {
+            countryList.add(country.getCninfo());
+        }
+        modelMap.put("countryList", JSONUtils.toString(countryList));
+
+        return "abroad/applySelf/applySelf_au";
+    }
+
+    @RequiresPermissions("applySelf:del")
+    @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_del(HttpServletRequest request, Integer id) {
+
+        if (id != null) {
+
+            applySelfService.del(id);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("applySelf:del")
+    @RequestMapping(value = "/applySelf_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            applySelfService.batchDel(ids);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除因私出国申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    public void applySelf_export(ApplySelfExample example, HttpServletResponse response) {
+
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+        int rownum = applySelfMapper.countByExample(example);
+
+        XSSFWorkbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet();
+        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
+
+        String[] titles = {"干部","申请日期","出行时间范围","出发时间","返回时间","前往国家或地区","出国事由","同行人员","费用来源","所需证件","其他说明材料","创建时间"};
+        for (int i = 0; i < titles.length; i++) {
+            XSSFCell cell = firstRow.createCell(i);
+            cell.setCellValue(titles[i]);
+            cell.setCellStyle(MSUtils.getHeadStyle(wb));
+        }
+
+        for (int i = 0; i < rownum; i++) {
+
+            ApplySelf applySelf = applySelfs.get(i);
+            String[] values = {
+                        applySelf.getCadreId()+"",
+                                            DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD),
+                                            applySelf.getType() + "",
+                                            DateUtils.formatDate(applySelf.getStartDate(), DateUtils.YYYY_MM_DD),
+                                            DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD),
+                                            applySelf.getToCountry(),
+                                            applySelf.getReason(),
+                                            applySelf.getPeerStaff(),
+                                            applySelf.getCostSource(),
+                                            applySelf.getNeedPassports(),
+                                            applySelf.getFiles(),
+                                            DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    };
+
+            Row row = sheet.createRow(i + 1);
+            for (int j = 0; j < titles.length; j++) {
+
+                XSSFCell cell = (XSSFCell) row.createCell(j);
+                cell.setCellValue(values[j]);
+                cell.setCellStyle(MSUtils.getBodyStyle(wb));
+            }
+        }
+        try {
+            String fileName = "因私出国申请_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ServletOutputStream outputStream = response.getOutputStream();
+            fileName = new String(fileName.getBytes(), "ISO8859_1");
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+            wb.write(outputStream);
+            outputStream.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}

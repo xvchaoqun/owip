@@ -36,7 +36,7 @@ SysMsg.success = function(msg, title){
 }
 SysMsg.info = function(msg, title){
     //toastr.info(msg, title);
-    bootbox.dialog(msg);
+    bootbox.alert(msg);
 }
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){

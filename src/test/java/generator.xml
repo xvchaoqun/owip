@@ -36,10 +36,11 @@
       <table tableName="abroad_approver" domainObjectName="Approver">
       </table>
       <table tableName="abroad_approver_type" domainObjectName="ApproverType">
-      </table>
-      <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
+      </table>-->
+     <!-- <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
           <columnOverride column="files" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
+      <!--
       <table tableName="abroad_passport" domainObjectName="Passport">
       </table>
       <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
@@ -100,10 +101,11 @@
       </table>
        <table tableName="ow_party_member" domainObjectName="PartyMember">
       </table>-->
-    <table tableName="ow_branch" domainObjectName="Branch">
+<!--    <table tableName="ow_branch" domainObjectName="Branch">
     <ignoreColumn column="update_time"/>
-    </table>
-
+    </table>-->
+      <!--<table tableName="base_country" domainObjectName="Country">
+      </table>-->
       <!--<table tableName="base_location" domainObjectName="Location">
       </table>-->
       <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
@@ -158,9 +160,9 @@
     </table>
     <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
     </table>
-
+    -->
     <table tableName="base_cadre" domainObjectName="Cadre">
-    </table>-->
+    </table>
     <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
     </table>-->
       <!--

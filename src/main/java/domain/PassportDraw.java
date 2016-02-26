@@ -6,6 +6,8 @@ import java.util.Date;
 public class PassportDraw implements Serializable {
     private Integer id;
 
+    private Integer cadreId;
+
     private Byte type;
 
     private Integer applyId;
@@ -66,6 +68,14 @@ public class PassportDraw implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
     }
 
     public Byte getType() {
