@@ -382,9 +382,6 @@ form .form-actions{
 .dispatch_cadres .select-form{
     padding-bottom: 20px;
 }
-.dispatch_cadres{
-    width: 1485px;
-}
 .dispatch_cadres .dispatch{
     width: 730px;
     margin-right: 25px;
@@ -403,9 +400,7 @@ form .form-actions{
 .passport_apply .preview, .passport_apply .info{
     float: left;
 }
-.passport_apply{
-    width: 1225px;
-}
+.passport_apply
 .passport_apply .preview{
     width: 600px;
     margin-right: 25px;

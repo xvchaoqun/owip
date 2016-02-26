@@ -101,8 +101,8 @@ pageEncoding="UTF-8" %>
 
                                 <div class="clearfix form-actions center">
                                         <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                                    <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code || not empty param.sort}"/>
-                                    <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
+                                    <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
+                                    <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
                                         <button type="button" class="resetBtn btn btn-warning btn-sm">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
