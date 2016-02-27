@@ -400,13 +400,16 @@ form .form-actions{
 .passport_apply .preview, .passport_apply .info{
     float: left;
 }
-.passport_apply
+.passport_apply{
+    width: 1225px;
+}
 .passport_apply .preview{
     width: 600px;
     margin-right: 25px;
 }
 .passport_apply .info{
     width: 600px;
+    padding-left: 25px;
 }
 .passport_apply .button{
     padding: 30px;

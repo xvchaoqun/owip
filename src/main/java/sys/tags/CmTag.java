@@ -3,6 +3,7 @@ package sys.tags;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
+import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
 import service.party.RetireApplyService;
 import service.sys.MetaClassService;
@@ -11,6 +12,7 @@ import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.utils.HtmlEscapeUtils;
+import sys.utils.NumberUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -24,6 +26,7 @@ public class CmTag {
 	static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
 	static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
 	static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
+	static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
 
 
 	public static String getApplyStatus(MemberApply memberApply){
@@ -173,6 +176,14 @@ public class CmTag {
 	public static RetireApply getRetireApply(Integer userId){
 
 		return retireApplyService.get(userId);
+	}
+
+	public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year){
+
+		String numStr = NumberUtils.frontCompWithZore(code, 2);
+		Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+		DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
+		return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
 	}
 
 	public static String encodeQueryString(String queryString){

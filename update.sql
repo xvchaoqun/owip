@@ -1,4 +1,10 @@
 
+--2016.2.27
+ALTER TABLE `base_dispatch`
+	CHANGE COLUMN `code` `code` INT UNSIGNED NOT NULL COMMENT '发文号，自动生成，比如师党干[2015]年01号' AFTER `dispatch_type_id`;
+ALTER TABLE `base_dispatch`
+	DROP INDEX `code`,
+	ADD UNIQUE INDEX `year_dispatch_type_id_code` (`year`, `dispatch_type_id`, `code`);
 --2016.2.26
 ALTER TABLE `base_cadre`
 	ADD COLUMN `unit_id` INT(10) UNSIGNED NULL COMMENT '单位' AFTER `post_id`,

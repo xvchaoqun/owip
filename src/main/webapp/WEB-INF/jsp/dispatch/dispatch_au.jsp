@@ -107,6 +107,11 @@ pageEncoding="UTF-8"%>
     register_date($('.date-picker'));
 
     $("#modal form").validate({
+        rules: {
+            code: {
+                digits: true
+            }
+        },
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){

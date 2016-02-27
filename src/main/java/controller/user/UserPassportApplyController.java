@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -39,36 +39,41 @@ public class UserPassportApplyController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_au(@CurrentUser SysUser loginUser, PassportApply record,String _applyDate, String _expectDate, String _handleDate, HttpServletRequest request) {
+    public Map do_passportApply_au(int classId, @CurrentUser SysUser loginUser,  HttpServletRequest request) {
 
-        Integer id = record.getId();
-        if(StringUtils.isNotBlank(_applyDate)){
-            record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
+        PassportApply record = new PassportApply();
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+
+        record.setCadreId(cadre.getId());
+        record.setClassId(classId);
+        Date date = new Date();
+        record.setApplyDate(date);
+        record.setCreateTime(date);
+        record.setIp(IpUtils.getRealIp(request));
+        record.setStatus(false);
+
+        passportApplyService.insertSelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("cadre")
+    @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportApply_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        if (id != null) {
+            PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
+            if(passportApply.getStatus()==false && passportApply.getCadreId().intValue() == cadre.getId().intValue()) {
+                passportApplyService.del(id);
+                logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
+            }
         }
-        if(StringUtils.isNotBlank(_expectDate)){
-            record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD));
-        }
-        if(StringUtils.isNotBlank(_handleDate)) {
-            record.setHandleDate(DateUtils.parseDate(_handleDate, DateUtils.YYYY_MM_DD));
-        }
-
-        if (id == null) {
-
-            int userId= loginUser.getId();
-            Cadre cadre = cadreService.findByUserId(userId);
-            record.setCadreId(cadre.getId());
-
-            record.setCreateTime(new Date());
-            passportApplyService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
-        } else {
-
-            record.setCadreId(null);
-
-            passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));
-        }
-
         return success(FormUtils.SUCCESS);
     }
 

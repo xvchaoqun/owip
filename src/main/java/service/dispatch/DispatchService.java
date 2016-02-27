@@ -2,8 +2,6 @@ package service.dispatch;
 
 import domain.Dispatch;
 import domain.DispatchExample;
-import domain.DispatchType;
-import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.utils.NumberUtils;
-import sys.utils.PatternUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -26,48 +22,46 @@ public class DispatchService extends BaseMapper {
     @Autowired
     private DispatchTypeService dispatchTypeService;
     public static String CODE_REG_STR = ".*\\[\\d{4}\\]([\\d.]*)号";
+    // String numStr = PatternUtils.withdraw(CODE_REG_STR, code);
+    // String numStr = NumberUtils.frontCompWithZore(num, 2);
+    // String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
 
-    public boolean idDuplicate(Integer id, String code){
-
-        Assert.isTrue(StringUtils.isNotBlank(code));
+    public boolean idDuplicate(Integer id, int dispatchTypeId, int year, int code){
 
         DispatchExample example = new DispatchExample();
-        DispatchExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        DispatchExample.Criteria criteria = example.createCriteria()
+                .andCodeEqualTo(code)
+                .andDispatchTypeIdEqualTo(dispatchTypeId).andYearEqualTo(year);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return dispatchMapper.countByExample(example) > 0;
     }
 
     // 师党干[2015]01号
-    public String genCode(int dispatchTypeId, int year){
+    public int genCode(int dispatchTypeId, int year){
 
-        Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
-        DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
+        //Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+       //DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
         int num ;
         DispatchExample example = new DispatchExample();
         example.createCriteria().andYearEqualTo(year).andDispatchTypeIdEqualTo(dispatchTypeId);
         example.setOrderByClause("code desc");
         List<Dispatch> dispatches = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(dispatches.size()>0){
-            String code = dispatches.get(0).getCode();
-            String numStr = PatternUtils.withdraw(CODE_REG_STR, code);
-            num = Integer.parseInt(numStr) + 1;
+            int code = dispatches.get(0).getCode();
+            num = code + 1;
         }else{
             num = 1;
         }
-        String numStr = NumberUtils.frontCompWithZore(num, 2);
-        return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
+        return num;
     }
 
     @Transactional
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public int insertSelective(Dispatch record){
 
-        if(StringUtils.isNotBlank(record.getCode())) {
-            if (!PatternUtils.match(CODE_REG_STR, record.getCode())) {
-                throw new RuntimeException("发文号格式有误");
-            }
-            Assert.isTrue(!idDuplicate(null, record.getCode()));
+        if(record.getCode()!=null) {
+            Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()));
         }
 
         dispatchMapper.insertSelective(record);
@@ -76,6 +70,7 @@ public class DispatchService extends BaseMapper {
         Dispatch _record = new Dispatch();
         _record.setId(id);
         _record.setSortOrder(id);
+        _record.setMeetingTime(record.getMeetingTime());
         return dispatchMapper.updateByPrimaryKeySelective(_record);
     }
     @Transactional
@@ -111,11 +106,8 @@ public class DispatchService extends BaseMapper {
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(Dispatch record){
 
-        if(StringUtils.isNotBlank(record.getCode())) {
-            if(!PatternUtils.match(CODE_REG_STR, record.getCode())){
-                throw new RuntimeException("发文号格式有误");
-            }
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+        if(record.getCode()!=null) {
+            Assert.isTrue(!idDuplicate(record.getId(),record.getDispatchTypeId(), record.getYear(), record.getCode()));
         }
 
         return dispatchMapper.updateByPrimaryKeySelective(record);

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -311,7 +312,7 @@ public class DispatchUnitController extends BaseController {
                 Map<String, String> option = new HashMap<>();
                 Dispatch dispatch = dispatchMap.get(dispatchUnit.getDispatchId());
                 option.put("id", dispatchUnit.getId() + "");
-                option.put("text", dispatch.getCode());
+                option.put("text", CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()));
                 options.add(option);
             }
         }

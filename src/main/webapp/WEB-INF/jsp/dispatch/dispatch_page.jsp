@@ -95,10 +95,6 @@ pageEncoding="UTF-8" %>
 
                                     </div>
                                 </div>
-
-
-
-
                                 <div class="clearfix form-actions center">
                                         <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
@@ -165,10 +161,11 @@ pageEncoding="UTF-8" %>
 								<td width="50">${dispatch.year}</td>
 								<td nowrap>${dispatchTypeMap.get(dispatch.dispatchTypeId).name}</td>
                             <c:if test="${not empty dispatch.fileName}">
-                                <td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">${dispatch.code}</a></td>
+                                <td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">
+                                        ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</a></td>
                             </c:if>
                             <c:if test="${empty dispatch.fileName}">
-                            <td nowrap>${dispatch.code}</td>
+                            <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
                                     </c:if>
 								<td width="120">${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
 								<td width="120">${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>

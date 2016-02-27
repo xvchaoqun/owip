@@ -334,7 +334,7 @@ public class DispatchCadreController extends BaseController {
             Cadre cadre = cadreMap.get(dispatchCadre.getCadreId());
             SysUser user = sysUserService.findById(cadre.getUserId());
             String[] values = {
-                                            dispatch.getCode(),
+                                            dispatch.getCode() + "",
                                             wayMap.get(dispatchCadre.getWayId()).getName(),
                                             procedureMap.get(dispatchCadre.getProcedureId()).getName(),
                                             user.getCode(),

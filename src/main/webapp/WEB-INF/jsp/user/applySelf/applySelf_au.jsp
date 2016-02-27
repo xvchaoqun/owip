@@ -1,27 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${applySelf!=null}">编辑</c:if><c:if test="${applySelf==null}">添加</c:if>因私出国申请</h3>
-</div>
-<div class="modal-body">
+
     <form class="form-horizontal" action="${ctx}/user/applySelf_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${applySelf.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">申请日期</label>
-				<div class="col-xs-6">
-					<div class="input-group">
-						<input required class="form-control date-picker" name="_applyDate" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}" />
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-					</div>
-				</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">前往国家或地区</label>
+			<div class="col-xs-6">
+				<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
 			</div>
+		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出行时间范围</label>
+				<label class="col-xs-3 control-label">出行时间</label>
 				<div class="col-xs-6">
-					<select name="type" data-rel="select2" data-placeholder="请选择出行时间范围">
+					<select name="type" data-rel="select2" data-placeholder="请选择出行时间">
 						<option></option>
 						<c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
 							<option value="${type.key}">${type.value}</option>
@@ -32,6 +23,7 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出发时间</label>
 				<div class="col-xs-6">
@@ -52,22 +44,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">前往国家或地区</label>
-				<div class="col-xs-6">
-					<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
 
-					<%--<select name="toCountry" data-rel="select2" data-placeholder="请选择国家或地区">
-						<option></option>
-						<c:forEach items="${countryMap}" var="country">
-							<option value="${country.key}">${country.value.cninfo}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=toCountry]").val('${applySelf.toCountry}');
-					</script>--%>
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出国事由</label>
 				<div class="col-xs-6">
@@ -99,10 +76,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>--%>
     </form>
+<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding: 50px;">
+	<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
 </div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${applySelf!=null}">确定</c:if><c:if test="${applySelf==null}">添加</c:if>"/>
+<div class="modal-footer center">
+	<input id="submit" class="btn btn-success" value="提交申请"/>
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>

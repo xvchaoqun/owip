@@ -12,7 +12,7 @@ public class PassportApply implements Serializable {
 
     private Date applyDate;
 
-    private Byte status;
+    private Boolean status;
 
     private Integer userId;
 
@@ -62,11 +62,11 @@ public class PassportApply implements Serializable {
         this.applyDate = applyDate;
     }
 
-    public Byte getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

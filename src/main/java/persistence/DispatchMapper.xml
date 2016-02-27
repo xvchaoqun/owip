@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="year" property="year" jdbcType="INTEGER" />
     <result column="dispatch_type_id" property="dispatchTypeId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="INTEGER" />
     <result column="meeting_time" property="meetingTime" jdbcType="DATE" />
     <result column="pub_time" property="pubTime" jdbcType="DATE" />
     <result column="work_time" property="workTime" jdbcType="DATE" />
@@ -115,7 +115,7 @@
       ppt, ppt_name, remark, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
+      #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
       #{workTime,jdbcType=DATE}, #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{ppt,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER})
@@ -174,7 +174,7 @@
         #{dispatchTypeId,jdbcType=INTEGER},
       </if>
       <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
+        #{code,jdbcType=INTEGER},
       </if>
       <if test="meetingTime != null" >
         #{meetingTime,jdbcType=DATE},
@@ -224,7 +224,7 @@
         dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
       </if>
       <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
+        code = #{record.code,jdbcType=INTEGER},
       </if>
       <if test="record.meetingTime != null" >
         meeting_time = #{record.meetingTime,jdbcType=DATE},
@@ -263,7 +263,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=INTEGER},
       meeting_time = #{record.meetingTime,jdbcType=DATE},
       pub_time = #{record.pubTime,jdbcType=DATE},
       work_time = #{record.workTime,jdbcType=DATE},
@@ -287,11 +287,9 @@
         dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       </if>
       <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
+        code = #{code,jdbcType=INTEGER},
       </if>
-
         meeting_time = #{meetingTime,jdbcType=DATE},
-
       <if test="pubTime != null" >
         pub_time = #{pubTime,jdbcType=DATE},
       </if>
@@ -323,7 +321,7 @@
     update base_dispatch
     set year = #{year,jdbcType=INTEGER},
       dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
-      code = #{code,jdbcType=VARCHAR},
+      code = #{code,jdbcType=INTEGER},
       meeting_time = #{meetingTime,jdbcType=DATE},
       pub_time = #{pubTime,jdbcType=DATE},
       work_time = #{workTime,jdbcType=DATE},

@@ -6,7 +6,7 @@
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="class_id" property="classId" jdbcType="INTEGER" />
     <result column="apply_date" property="applyDate" jdbcType="DATE" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="BIT" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="approve_time" property="approveTime" jdbcType="TIMESTAMP" />
     <result column="expect_date" property="expectDate" jdbcType="DATE" />
@@ -114,7 +114,7 @@
       remark, create_time, ip
       )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
-      #{applyDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
+      #{applyDate,jdbcType=DATE}, #{status,jdbcType=BIT}, #{userId,jdbcType=INTEGER}, 
       #{approveTime,jdbcType=TIMESTAMP}, #{expectDate,jdbcType=DATE}, #{handleDate,jdbcType=DATE}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
       )
@@ -173,7 +173,7 @@
         #{applyDate,jdbcType=DATE},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=BIT},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
@@ -220,7 +220,7 @@
         apply_date = #{record.applyDate,jdbcType=DATE},
       </if>
       <if test="record.status != null" >
-        status = #{record.status,jdbcType=TINYINT},
+        status = #{record.status,jdbcType=BIT},
       </if>
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -254,7 +254,7 @@
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       class_id = #{record.classId,jdbcType=INTEGER},
       apply_date = #{record.applyDate,jdbcType=DATE},
-      status = #{record.status,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=BIT},
       user_id = #{record.userId,jdbcType=INTEGER},
       approve_time = #{record.approveTime,jdbcType=TIMESTAMP},
       expect_date = #{record.expectDate,jdbcType=DATE},
@@ -279,7 +279,7 @@
         apply_date = #{applyDate,jdbcType=DATE},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=BIT},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -310,7 +310,7 @@
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       class_id = #{classId,jdbcType=INTEGER},
       apply_date = #{applyDate,jdbcType=DATE},
-      status = #{status,jdbcType=TINYINT},
+      status = #{status,jdbcType=BIT},
       user_id = #{userId,jdbcType=INTEGER},
       approve_time = #{approveTime,jdbcType=TIMESTAMP},
       expect_date = #{expectDate,jdbcType=DATE},

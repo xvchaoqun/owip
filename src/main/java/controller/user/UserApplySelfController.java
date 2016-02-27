@@ -34,6 +34,14 @@ public class UserApplySelfController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresRoles("cadre")
+    @RequestMapping("/applySelf_note")
+    public String applySelf_note(ModelMap modelMap) {
+
+        modelMap.put("notice", "说明");
+        return "user/applySelf/applySelf_note";
+    }
+
+    @RequiresRoles("cadre")
     @RequestMapping("/applySelf")
     public String applySelf() {
 

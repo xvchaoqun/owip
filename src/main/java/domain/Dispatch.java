@@ -10,7 +10,7 @@ public class Dispatch implements Serializable {
 
     private Integer dispatchTypeId;
 
-    private String code;
+    private Integer code;
 
     private Date meetingTime;
 
@@ -56,12 +56,12 @@ public class Dispatch implements Serializable {
         this.dispatchTypeId = dispatchTypeId;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public Date getMeetingTime() {

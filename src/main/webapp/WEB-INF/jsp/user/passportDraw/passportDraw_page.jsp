@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
                 <div class="buttons">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加</a>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>

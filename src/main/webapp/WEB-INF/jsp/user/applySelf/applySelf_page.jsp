@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/user/applySelf_au"
              data-url-page="${ctx}/user/applySelf_page"
@@ -11,7 +12,8 @@ pageEncoding="UTF-8" %>
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
                 <div class="buttons">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 新申请</a>
+                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
+                    <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 申请说明</a>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>
@@ -122,9 +124,17 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
+        </div>
+        <div id="item-content">
+
+        </div>
     </div>
 </div>
 <script>
+
+    $("#note").click(function(){
+        loadModal("${ctx}/user/applySelf_note", 800);
+    });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

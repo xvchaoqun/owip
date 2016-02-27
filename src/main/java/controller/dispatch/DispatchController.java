@@ -24,23 +24,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.tool.jackson.Select2Option;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.util.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 
 @Controller
 public class DispatchController extends BaseController {
@@ -60,7 +59,7 @@ public class DispatchController extends BaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
                                     Integer dispatchTypeId,
-                                    String code,
+                                    Integer code,
                                     String _pubTime,
                                     String _workTime,
                                     String _meetingTime,
@@ -85,8 +84,8 @@ public class DispatchController extends BaseController {
         if (dispatchTypeId!=null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
-        if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+        if (code!=null) {
+            criteria.andCodeEqualTo(code);
         }
 
         if(StringUtils.isNotBlank(_pubTime)) {
@@ -145,7 +144,7 @@ public class DispatchController extends BaseController {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
-        if (StringUtils.isNotBlank(code)) {
+        if (code!=null) {
             searchStr += "&code=" + code;
         }
         if (StringUtils.isNotBlank(_pubTime)) {
@@ -184,8 +183,8 @@ public class DispatchController extends BaseController {
 
         Integer id = record.getId();
 
-        if (StringUtils.isNotBlank(record.getCode())
-                && dispatchService.idDuplicate(id, record.getCode())) {
+        if (record.getCode()!=null
+                && dispatchService.idDuplicate(id,record.getDispatchTypeId(), record.getYear(), record.getCode())) {
             return failed("发文号重复");
         }
 
@@ -253,8 +252,8 @@ public class DispatchController extends BaseController {
         record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
 
         if (id == null) {
-
-            record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
+            if(record.getCode()==null)
+                record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             dispatchService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加发文：%s", record.getId()));
         }else {
@@ -442,7 +441,7 @@ public class DispatchController extends BaseController {
             String[] values = {
                         dispatch.getYear()+"",
                     dispatch.getDispatchTypeId()+"",
-                                            dispatch.getCode(),
+                                            dispatch.getCode()+"",
                                             DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD),
                                             DateUtils.formatDate(dispatch.getPubTime(), DateUtils.YYYY_MM_DD),
                                             DateUtils.formatDate(dispatch.getWorkTime(), DateUtils.YYYY_MM_DD),
@@ -491,7 +490,7 @@ public class DispatchController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andCodeLike("%" + searchStr+"%");
+            criteria.andCodeEqualTo(Integer.parseInt(searchStr));
         }
 
         int count = dispatchMapper.countByExample(example);

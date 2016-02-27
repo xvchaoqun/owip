@@ -6,8 +6,6 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
-        <input type="hidden" name="id" value="${passportApply.id}">
-
 			<div class="form-group">
 				<label class="col-xs-3 control-label">申办证件名称</label>
 				<div class="col-xs-6">
@@ -24,9 +22,13 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer center">
-    <input id="next" class="btn btn-primary"data-url="${ctx}/user/passportApply_confirm" value="下一步"/>
+    <input id="next" class="btn btn-success" value="下一步"/>
+    <input id="cancel" class="btn btn-default" value="返回"/>
 </div>
 <script>
+    $("#cancel").click(function(){
+        page_reload();
+    });
     $("#next").click(function(){
         var classId = $('form select[name=classId]').val();
         if(classId==undefined || classId==''){

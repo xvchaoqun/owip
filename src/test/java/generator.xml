@@ -42,8 +42,8 @@
       </table>-->
       <!--
       <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>
-      <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
+      </table>-->
+  <!--    <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
       </table>-->
 
 
@@ -145,8 +145,8 @@
     </table>-->
       <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
       </table>-->
-     <!-- <table tableName="base_dispatch" domainObjectName="Dispatch">
-      </table>-->
+      <table tableName="base_dispatch" domainObjectName="Dispatch">
+      </table>
      <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
       </table>-->
     <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
@@ -161,8 +161,8 @@
     <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
     </table>
     -->
-    <table tableName="base_cadre" domainObjectName="Cadre">
-    </table>
+    <!--<table tableName="base_cadre" domainObjectName="Cadre">
+    </table>-->
     <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
     </table>-->
       <!--

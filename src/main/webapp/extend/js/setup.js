@@ -31,10 +31,10 @@ SysMsg.warning = function(msg, title){
     //toastr.warning(msg, title);
     bootbox.alert(msg);
 }
-SysMsg.success = function(msg, title){
+SysMsg.success = function(msg, title, callback){
     $("body").css('padding-right','0px');
     //toastr.success(msg, title);
-    bootbox.alert(msg);
+    bootbox.alert(msg, callback);
 }
 SysMsg.info = function(msg, title){
     $("body").css('padding-right','0px');
@@ -140,7 +140,7 @@ $.ajaxSetup({
     }
 });
 var _width;
-function loadModal(url, width, dragTarget){
+function loadModal(url, width, dragTarget){ // dragTarget：拖拽位置
     if(width>0){
         _width = width;
         $('#modal .modal-dialog').addClass("modal-width"+width);
