@@ -1,21 +1,113 @@
 package service.cadre;
 
-import domain.Cadre;
-import domain.CadreExample;
+import domain.*;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.sys.MetaTypeService;
+import service.sys.SysUserService;
+import sys.constants.SystemConstants;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CadreService extends BaseMapper {
+
+    @Autowired
+    private MetaTypeService metaTypeService;
+    @Autowired
+    private SysUserService sysUserService;
+
+    // 职务属性-干部 Set<cadreId>
+    public TreeNode getTree( Set<Integer> selectIdSet){
+
+        if(null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "现任干部库";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+        // 职务属性-干部
+        Map<String, List<Cadre>> cadreMap = new LinkedHashMap<>();
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+        example.setOrderByClause(" sort_order desc");
+        List<Cadre> cadres = cadreMapper.selectByExample(example);
+        for (Cadre cadre : cadres) {
+            List<Cadre> list = null;
+            MetaType postType = postMap.get(cadre.getPostId());
+            String post = postType.getName();
+            if (cadreMap.containsKey(post)) {
+                list = cadreMap.get(post);
+            }
+            if (null == list) list = new ArrayList<>();
+            list.add(cadre);
+
+            cadreMap.put(post, list);
+        }
+
+        int i = 0;
+        for (Map.Entry<String, List<Cadre>> entry : cadreMap.entrySet()) {
+
+            TreeNode titleNode = new TreeNode();
+            titleNode.title = entry.getKey();
+            titleNode.expand = (i++<1);
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+
+            for (Cadre cadre : entry.getValue()) {
+
+                TreeNode node = new TreeNode();
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                node.title = sysUser.getRealname();
+                node.key = cadre.getId() + "";
+                if (selectIdSet.contains(cadre.getId().intValue())) {
+                    node.select = true;
+                }
+                titleChildren.add(node);
+            }
+
+            rootChildren.add(titleNode);
+        }
+
+        return root;
+    }
+    @Transactional
+    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    public void leave(int id, byte status){
+
+        if(status == SystemConstants.CADRE_STATUS_LEAVE){
+
+            // 处级干部离任时，所有的证件都移动到 取消集中管理证件库
+            Passport record = new Passport();
+            record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+            record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+
+            PassportExample example = new PassportExample();
+            example.createCriteria().andCadreIdEqualTo(id).
+                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andAbolishEqualTo(false);
+            passportMapper.updateByExampleSelective(record, example);
+        }
+
+        Cadre record = new Cadre();
+        record.setStatus(status);
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+
+        cadreMapper.updateByExampleSelective(record, example);
+    }
 
     public boolean idDuplicate(Integer id, int userId){
 
@@ -69,6 +161,7 @@ public class CadreService extends BaseMapper {
     public int updateByPrimaryKeySelective(Cadre record){
         return cadreMapper.updateByPrimaryKeySelective(record);
     }
+
     @Transactional
     @CacheEvict(value="Cadre:ALL", allEntries = true)
     public int updateByExampleSelective(Cadre record, CadreExample example){

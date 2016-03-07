@@ -1,4 +1,10 @@
 
+
+--2016.2.28
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称，需用全称：院系+支部名称' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(50) NOT NULL COMMENT '简称' AFTER `name`;
+
 --2016.2.27
 ALTER TABLE `base_dispatch`
 	CHANGE COLUMN `code` `code` INT UNSIGNED NOT NULL COMMENT '发文号，自动生成，比如师党干[2015]年01号' AFTER `dispatch_type_id`;

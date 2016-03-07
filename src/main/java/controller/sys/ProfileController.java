@@ -34,6 +34,50 @@ import java.util.UUID;
 public class ProfileController extends BaseController {
 
     @RequiresPermissions("setting:view")
+    @RequestMapping("/profile_sign")
+    public String sign() {
+
+        return "index";
+    }
+
+    @RequiresPermissions("setting:view")
+    @RequestMapping("/profile_sign_page")
+    public String sign_page(ModelMap modelMap) {
+
+        return "sys/profile/profile_sign";
+    }
+
+    @RequiresPermissions("passportApply:*")
+    @RequestMapping(value = "/profile_sign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile,
+                                     MultipartFile sign) throws IOException {
+
+        String savePath =null;
+        if(sign!=null && !sign.isEmpty()) {
+            savePath = File.separator + "sign" + File.separator;
+            File path = new File(springProps.uploadPath + savePath);
+            if (!path.exists()) path.mkdirs();
+            savePath += loginUser.getId() + ".jpg";
+
+            Thumbnails.of(sign.getInputStream())
+                    .size(75, 50)
+                    .outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.uploadPath + savePath);
+        }
+
+        SysUser record = new SysUser();
+        record.setId(loginUser.getId());
+        record.setSign(savePath);
+        record.setMobile(mobile);
+
+        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername());
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("setting:view")
     @RequestMapping("/setting")
     public String setting() {
 

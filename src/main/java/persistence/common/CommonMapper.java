@@ -75,6 +75,11 @@ public interface CommonMapper {
     void upOrder_dispatchType(@Param("year") int year, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
+    @Update("update abroad_approval_order set sort_order = sort_order - 1 where applicat_type_id=#{applicatTypeId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    void downOrder_approvalOrder(@Param("applicatTypeId") int applicatTypeId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+    @Update("update abroad_approval_order set sort_order = sort_order + 1 where applicat_type_id=#{applicatTypeId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    void upOrder_approvalOrder(@Param("applicatTypeId") int applicatTypeId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search, RowBounds rowBounds);
     int countCadre(@Param("search") String search);

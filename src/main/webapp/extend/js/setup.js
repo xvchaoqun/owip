@@ -36,10 +36,10 @@ SysMsg.success = function(msg, title, callback){
     //toastr.success(msg, title);
     bootbox.alert(msg, callback);
 }
-SysMsg.info = function(msg, title){
+SysMsg.info = function(msg, title, callback){
     $("body").css('padding-right','0px');
     //toastr.info(msg, title);
-    bootbox.alert(msg);
+    bootbox.alert(msg, callback);
 }
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){

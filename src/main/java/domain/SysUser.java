@@ -28,6 +28,8 @@ public class SysUser implements Serializable {
 
     private String idcard;
 
+    private String sign;
+
     private String mobile;
 
     private String email;
@@ -134,6 +136,14 @@ public class SysUser implements Serializable {
 
     public void setIdcard(String idcard) {
         this.idcard = idcard == null ? null : idcard.trim();
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign == null ? null : sign.trim();
     }
 
     public String getMobile() {

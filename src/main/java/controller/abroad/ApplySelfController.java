@@ -19,19 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,13 +46,31 @@ public class ApplySelfController extends BaseController {
 
         return "index";
     }
+
+    @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf_view")
+    public String applySelf_view( Integer id, ModelMap modelMap) {
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+        Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+
+        modelMap.put("sysUser", sysUser);
+        modelMap.put("cadre", cadre);
+        modelMap.put("applySelf", applySelf);
+
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+
+        return "user/applySelf/applySelf_view";
+    }
+
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
-                                    String applyDate,
+                                    String _applyDate,
                                      Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -71,14 +88,27 @@ public class ApplySelfController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+
             criteria.andCadreIdEqualTo(cadreId);
         }
-        /*if (StringUtils.isNotBlank(applyDate)) {
-            criteria.andApplyDateLike("%" + applyDate + "%");
+        if(StringUtils.isNotBlank(_applyDate)) {
+            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(applyDateStart)) {
+                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(applyDateEnd)) {
+                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
+            }
         }
-        if (StringUtils.isNotBlank(type)) {
-            criteria.andTypeLike("%" + type + "%");
-        }*/
+
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
+        }
 
         if (export == 1) {
             applySelf_export(example, response);
@@ -100,12 +130,12 @@ public class ApplySelfController extends BaseController {
         if (cadreId!=null) {
             searchStr += "&cadreId=" + cadreId;
         }
-        if (StringUtils.isNotBlank(applyDate)) {
-            searchStr += "&applyDate=" + applyDate;
+        if (StringUtils.isNotBlank(_applyDate)) {
+            searchStr += "&_applyDate=" + _applyDate;
         }
-        /*if (StringUtils.isNotBlank(type)) {
+        if (type!=null) {
             searchStr += "&type=" + type;
-        }*/
+        }
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
@@ -114,6 +144,9 @@ public class ApplySelfController extends BaseController {
         }
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
+
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        modelMap.put("approverTypeMap", approverTypeMap);
 
         return "abroad/applySelf/applySelf_page";
     }
@@ -208,7 +241,7 @@ public class ApplySelfController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"干部","申请日期","出行时间范围","出发时间","返回时间","前往国家或地区","出国事由","同行人员","费用来源","所需证件","其他说明材料","创建时间"};
+        String[] titles = {"干部","申请日期","出行时间范围","出发时间","返回时间","前往国家或地区","出国事由","同行人员","费用来源","所需证件","创建时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -229,7 +262,7 @@ public class ApplySelfController extends BaseController {
                                             applySelf.getPeerStaff(),
                                             applySelf.getCostSource(),
                                             applySelf.getNeedPassports(),
-                                            applySelf.getFiles(),
+
                                             DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
                     };
 

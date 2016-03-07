@@ -25,6 +25,16 @@ import java.util.Map;
 
 public class BaseController extends BaseMapper {
 
+    @Autowired
+    protected ApplicatPostService applicatPostService;
+    @Autowired
+    protected ApplicatTypeService applicatTypeService;
+    @Autowired
+    protected ApprovalOrderService approvalOrderService;
+    @Autowired
+    protected ApproverService approverService;
+    @Autowired
+    protected ApproverTypeService approverTypeService;
 
     @Autowired
     protected PassportDrawService passportDrawService;

@@ -6,6 +6,8 @@ import java.util.Date;
 public class Passport implements Serializable {
     private Integer id;
 
+    private Integer applyId;
+
     private Integer cadreId;
 
     private Integer classId;
@@ -38,6 +40,8 @@ public class Passport implements Serializable {
 
     private Date createTime;
 
+    private Boolean abolish;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -46,6 +50,14 @@ public class Passport implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(Integer applyId) {
+        this.applyId = applyId;
     }
 
     public Integer getCadreId() {
@@ -174,5 +186,13 @@ public class Passport implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getAbolish() {
+        return abolish;
+    }
+
+    public void setAbolish(Boolean abolish) {
+        this.abolish = abolish;
     }
 }

@@ -14,11 +14,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.tool.tree.TreeNode;
 
 import java.util.*;
 
 @Service
 public class MetaTypeService extends BaseMapper {
+
+    // Set<MetaTypeId>
+    public TreeNode getTree( String classCode,  Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
+
+        if(null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "元数据属性";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, MetaType> metaTypeMap = metaTypes(classCode);
+
+        for (MetaType metaType : metaTypeMap.values()) {
+
+            TreeNode node = new TreeNode();
+            node.title = metaType.getName();
+            node.key = metaType.getId() + "";
+            if (selectIdSet.contains(metaType.getId().intValue())) {
+                node.select = true;
+            }
+            if(disabledIdSet.contains(metaType.getId().intValue()))
+                node.hideCheckbox = true;
+
+            rootChildren.add(node);
+        }
+
+        return root;
+    }
 
     // 代码中获取属性列表
     @Cacheable(value="MetaTyes", key = "#classCode")

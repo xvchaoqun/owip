@@ -74,6 +74,7 @@
 					icons.add("fa fa-database");
 					icons.add("fa fa-gear fa-spin");
 					icons.add("fa fa-caret-right");
+					icons.add("fa fa-plane");
 				%>
 				<select id="menuCssSelect" name="menuCss" data-placeholder="请选择模块图标样式">
 					<option></option>

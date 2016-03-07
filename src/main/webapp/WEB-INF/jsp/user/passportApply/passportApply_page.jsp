@@ -16,15 +16,9 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
                             <th>申请日期</th>
                             <th>申办证件名称</th>
                             <th>申请表</th>
@@ -39,70 +33,33 @@ pageEncoding="UTF-8" %>
                         <c:set var="cadre" value="${cadreMap.get(passportApply.cadreId)}"/>
                         <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${passportApply.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
 								<td><a class="openView btn btn-mini"
-                                       data-url="${ctx}/user/passportApply_confirm?type=view&classId=${passportApply.classId}">申请表</a></td>
-								<td>${passportApply.status?"组织部已备案":"组织部未备案"}</td>
+                                       data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">申请表</a></td>
+								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                     <c:if test="${!passportApply.status}">
+                                    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
+                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini">
+                                            <i class="fa fa-print"></i> 打印审批表
+                                        </button>
+                                    </c:if>
+                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${passportApply.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                      </c:if>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <li>
-                                                <a href="#" data-id="${passportApply.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/passportApply_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="${commonList}" uri="${ctx}/passportApply_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -117,6 +74,20 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    $(".printBtn").click(function(){
+        var win=window.open("${ctx}/report/passportApply?id="+ $(this).data("id"));
+        win.focus();
+        win.print();
+
+       /* var iframe = document.createElement('IFRAME');
+        iframe.style.display="none";
+        iframe.src="${ctx}/report/passportApply?id="+ $(this).data("id");
+        document.body.appendChild(iframe);
+        iframe.focus();
+        iframe.onload = function() {
+            iframe.contentWindow.print();
+        }*/
+    });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

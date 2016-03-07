@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -31,6 +32,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,16 +48,75 @@ public class PassportApplyController extends BaseController {
 
         return "index";
     }
+
+    @RequiresPermissions("passportApply:list")
+    @RequestMapping("/passportApply_check")
+    public String passportApply_check(int id, ModelMap modelMap) {
+
+        PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
+        modelMap.put("passportApply", passportApply);
+
+        return "abroad/passportApply/passportApply_check";
+    }
+
+    @RequiresPermissions("passportApply:edit")
+    @RequestMapping(value = "/passportApply_agree", method = RequestMethod.POST)
+    @ResponseBody
+    public Map passportApply_agree(@CurrentUser SysUser loginUser, int id, String _expectDate, HttpServletRequest request) {
+
+        PassportApply record = new PassportApply();
+        record.setId(id);
+        record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA));
+
+        record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_PASS);
+        record.setUserId(loginUser.getId());
+        record.setApproveTime(new Date());
+
+        passportApplyService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passportApply:edit")
+    @RequestMapping(value = "/passportApply_disagree", method = RequestMethod.POST)
+    @ResponseBody
+    public Map passportApply_disagree(@CurrentUser SysUser loginUser, int id, String remark, HttpServletRequest request) {
+
+        PassportApply record = new PassportApply();
+        record.setId(id);
+        record.setRemark(remark);
+
+        record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_NOT_PASS);
+        record.setUserId(loginUser.getId());
+        record.setApproveTime(new Date());
+
+        passportApplyService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_page")
-    public String passportApply_page(HttpServletResponse response,
+    public String passportApply_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @RequestParam(required = false, defaultValue = "0")  Byte status,
                                     Integer cadreId,
                                     Integer classId,
                                     String applyDate,
+                                    Integer year,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        // 判断下是否上传了签名 和联系电话
+        String sign = loginUser.getSign();
+        if(StringUtils.isBlank(sign)
+                || new File(springProps.uploadPath + sign).exists()==false
+                || StringUtils.isBlank(loginUser.getMobile())) {
+            return "abroad/passportApply/passportApply_sign";
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -69,16 +130,25 @@ public class PassportApplyController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        modelMap.put("status", status);
+        if(status!=0){
+            criteria.andStatusEqualTo(status);
+        }
+
         if (cadreId!=null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+
             criteria.andCadreIdEqualTo(cadreId);
         }
         if (classId!=null) {
             criteria.andClassIdEqualTo(classId);
         }
-        /*if (StringUtils.isNotBlank(applyDate)) {
-            criteria.andApplyDateLike("%" + applyDate + "%");
-        }*/
-
+        if(year!=null){
+            criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
+        }
         if (export == 1) {
             passportApply_export(example, response);
             return null;
@@ -95,6 +165,7 @@ public class PassportApplyController extends BaseController {
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         String searchStr = "&pageSize=" + pageSize;
+        searchStr += "&status=" + status;
 
         if (cadreId!=null) {
             searchStr += "&cadreId=" + cadreId;
@@ -104,6 +175,10 @@ public class PassportApplyController extends BaseController {
         }
         if (StringUtils.isNotBlank(applyDate)) {
             searchStr += "&applyDate=" + applyDate;
+        }
+
+        if (year!=null) {
+            searchStr += "&year=" + year;
         }
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;

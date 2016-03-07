@@ -378,6 +378,25 @@ public class SystemConstants {
 		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_OTHER, "其他");
 	}
 
+	//证件类别 1:集中管理证件 2:取消集中保管证件 3:丢失证件
+	public final static byte PASSPORT_TYPE_KEEP = 1;
+	public final static byte PASSPORT_TYPE_CANCEL = 2;
+	public final static byte PASSPORT_TYPE_LOST = 3;
+	public final static Map<Byte, String>PASSPORT_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_TYPE_MAP.put(PASSPORT_TYPE_KEEP, "集中管理证件");
+		PASSPORT_TYPE_MAP.put(PASSPORT_TYPE_CANCEL, "取消集中保管证件");
+		PASSPORT_TYPE_MAP.put(PASSPORT_TYPE_LOST, "丢失证件");
+	}
+	// 取消集中保管原因 1 证件过期 2 不再担任行政职务
+	public final static byte PASSPORT_CANCEL_TYPE_EXPIRE= 1;
+	public final static byte PASSPORT_CANCEL_TYPE_DISMISS = 2;
+	public final static Map<Byte, String>PASSPORT_CANCEL_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_EXPIRE, "证件过期");
+		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_DISMISS, "不再担任行政职务");
+	}
+
 	//领取证件类别
 	public final static byte PASSPORT_DRAW_TYPE_SELF = 1;
 	public final static byte PASSPORT_DRAW_TYPE_TW = 2;
@@ -387,5 +406,51 @@ public class SystemConstants {
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公出访台湾");
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_OTHER, "其他事务");
+	}
+
+	//申办证件审批状态
+	public final static byte PASSPORT_APPLY_STATUS_INIT = 0;
+	public final static byte PASSPORT_APPLY_STATUS_PASS = 1;
+	public final static byte PASSPORT_APPLY_STATUS_NOT_PASS= 2;
+	public final static Map<Byte, String> PASSPORT_APPLY_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_APPLY_STATUS_MAP.put(PASSPORT_APPLY_STATUS_INIT, "待审批");
+		PASSPORT_APPLY_STATUS_MAP.put(PASSPORT_APPLY_STATUS_PASS, "批准");
+		PASSPORT_APPLY_STATUS_MAP.put(PASSPORT_APPLY_STATUS_NOT_PASS, "未批准");
+	}
+
+	//使用证件审批状态
+	public final static byte PASSPORT_DRAW_STATUS_INIT = 0;
+	public final static byte PASSPORT_DRAW_STATUS_PASS= 1;
+	public final static byte PASSPORT_DRAW_STATUS_NOT_PASS= 2;
+	public final static Map<Byte, String> PASSPORT_DRAW_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_DRAW_STATUS_MAP.put(PASSPORT_DRAW_STATUS_INIT, "待审批");
+		PASSPORT_DRAW_STATUS_MAP.put(PASSPORT_DRAW_STATUS_PASS, "审批通过");
+		PASSPORT_DRAW_STATUS_MAP.put(PASSPORT_DRAW_STATUS_NOT_PASS, "未通过审批");
+	}
+
+	//使用证件领取状态
+	public final static byte PASSPORT_DRAW_DRAW_STATUS_UNDRAW = 0;
+	public final static byte PASSPORT_DRAW_DRAW_STATUS_DRAW= 1;
+	public final static byte PASSPORT_DRAW_DRAW_STATUS_RETURN= 2;
+	public final static byte PASSPORT_DRAW_DRAW_STATUS_ABOLISH= 3;
+	public final static Map<Byte, String> PASSPORT_DRAW_DRAW_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_UNDRAW, "未领取");
+		PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_DRAW, "已领取");
+		PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_RETURN, "已归还");
+		PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_ABOLISH, "已作废");
+	}
+
+	// 因私出国审批人类别  1本单位正职 2分管校领导 3 其他
+	public final static byte APPROVER_TYPE_UNIT = 1;
+	public final static byte APPROVER_TYPE_LEADER= 2;
+	public final static byte APPROVER_TYPE_OTHER= 3;
+	public final static Map<Byte, String> APPROVER_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPROVER_TYPE_MAP.put(APPROVER_TYPE_UNIT, "本单位正职");
+		APPROVER_TYPE_MAP.put(APPROVER_TYPE_LEADER, "分管校领导");
+		APPROVER_TYPE_MAP.put(APPROVER_TYPE_OTHER, "其他");
 	}
 }

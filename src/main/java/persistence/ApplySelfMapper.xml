@@ -13,7 +13,6 @@
     <result column="peer_staff" property="peerStaff" jdbcType="VARCHAR" />
     <result column="cost_source" property="costSource" jdbcType="VARCHAR" />
     <result column="need_passports" property="needPassports" jdbcType="VARCHAR" />
-    <result column="files" property="files" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
   </resultMap>
@@ -77,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, apply_date, type, start_date, end_date, to_country, reason, peer_staff, 
-    cost_source, need_passports, files, create_time, ip
+    cost_source, need_passports, create_time, ip
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApplySelfExample" >
     select
@@ -109,19 +108,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.ApplySelf" >
+  <insert keyProperty="id" id="insert" parameterType="domain.ApplySelf" >
     insert into abroad_apply_self (id, cadre_id, apply_date, 
       type, start_date, end_date, 
       to_country, reason, peer_staff, 
-      cost_source, need_passports, files, 
-      create_time, ip)
+      cost_source, need_passports, create_time, 
+      ip)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{type,jdbcType=TINYINT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{toCountry,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, 
-      #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, #{files,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+      #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.ApplySelf" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.ApplySelf" >
     insert into abroad_apply_self
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -156,9 +155,6 @@
       </if>
       <if test="needPassports != null" >
         need_passports,
-      </if>
-      <if test="files != null" >
-        files,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -200,9 +196,6 @@
       </if>
       <if test="needPassports != null" >
         #{needPassports,jdbcType=VARCHAR},
-      </if>
-      <if test="files != null" >
-        #{files,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -254,9 +247,6 @@
       <if test="record.needPassports != null" >
         need_passports = #{record.needPassports,jdbcType=VARCHAR},
       </if>
-      <if test="record.files != null" >
-        files = #{record.files,jdbcType=VARCHAR},
-      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -281,7 +271,6 @@
       peer_staff = #{record.peerStaff,jdbcType=VARCHAR},
       cost_source = #{record.costSource,jdbcType=VARCHAR},
       need_passports = #{record.needPassports,jdbcType=VARCHAR},
-      files = #{record.files,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -321,9 +310,6 @@
       <if test="needPassports != null" >
         need_passports = #{needPassports,jdbcType=VARCHAR},
       </if>
-      <if test="files != null" >
-        files = #{files,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -345,7 +331,6 @@
       peer_staff = #{peerStaff,jdbcType=VARCHAR},
       cost_source = #{costSource,jdbcType=VARCHAR},
       need_passports = #{needPassports,jdbcType=VARCHAR},
-      files = #{files,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

@@ -3,6 +3,7 @@
 <mapper namespace="persistence.PassportMapper" >
   <resultMap id="BaseResultMap" type="domain.Passport" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="class_id" property="classId" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
@@ -19,6 +20,7 @@
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
     <result column="lost_proof" property="lostProof" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="abolish" property="abolish" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, safe_code, 
-    is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, lost_proof, 
-    create_time
+    id, apply_id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, 
+    safe_code, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, lost_proof, 
+    create_time, abolish
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportExample" >
     select
@@ -114,24 +116,29 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.Passport" >
-    insert into abroad_passport (id, cadre_id, class_id, 
-      code, authority, issue_date, 
-      expiry_date, keep_date, safe_code, 
-      is_lent, type, cancel_type, 
-      cancel_confirm, cancel_pic, cancel_time, 
-      lost_proof, create_time)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, #{issueDate,jdbcType=DATE}, 
-      #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, #{safeCode,jdbcType=VARCHAR}, 
-      #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, #{cancelType,jdbcType=TINYINT}, 
-      #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, #{cancelTime,jdbcType=TIMESTAMP}, 
-      #{lostProof,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    insert into abroad_passport (id, apply_id, cadre_id, 
+      class_id, code, authority, 
+      issue_date, expiry_date, keep_date, 
+      safe_code, is_lent, type, 
+      cancel_type, cancel_confirm, cancel_pic, 
+      cancel_time, lost_proof, create_time, 
+      abolish)
+    values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
+      #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
+      #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
+      #{safeCode,jdbcType=VARCHAR}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
+      #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, 
+      #{cancelTime,jdbcType=TIMESTAMP}, #{lostProof,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{abolish,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.Passport" >
     insert into abroad_passport
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="applyId != null" >
+        apply_id,
       </if>
       <if test="cadreId != null" >
         cadre_id,
@@ -181,10 +188,16 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="abolish != null" >
+        abolish,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=INTEGER},
       </if>
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
@@ -234,6 +247,9 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="abolish != null" >
+        #{abolish,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.PassportExample" resultType="java.lang.Integer" >
@@ -247,6 +263,9 @@
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyId != null" >
+        apply_id = #{record.applyId,jdbcType=INTEGER},
       </if>
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -296,6 +315,9 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.abolish != null" >
+        abolish = #{record.abolish,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -304,6 +326,7 @@
   <update id="updateByExample" parameterType="map" >
     update abroad_passport
     set id = #{record.id,jdbcType=INTEGER},
+      apply_id = #{record.applyId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       class_id = #{record.classId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
@@ -319,7 +342,8 @@
       cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
       cancel_time = #{record.cancelTime,jdbcType=TIMESTAMP},
       lost_proof = #{record.lostProof,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      abolish = #{record.abolish,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -327,6 +351,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.Passport" >
     update abroad_passport
     <set >
+      <if test="applyId != null" >
+        apply_id = #{applyId,jdbcType=INTEGER},
+      </if>
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
@@ -375,12 +402,16 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="abolish != null" >
+        abolish = #{abolish,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.Passport" >
     update abroad_passport
-    set cadre_id = #{cadreId,jdbcType=INTEGER},
+    set apply_id = #{applyId,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
       class_id = #{classId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       authority = #{authority,jdbcType=VARCHAR},
@@ -395,7 +426,8 @@
       cancel_pic = #{cancelPic,jdbcType=VARCHAR},
       cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
       lost_proof = #{lostProof,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      abolish = #{abolish,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.PassportExample" id="selectByExampleWithRowbounds" >

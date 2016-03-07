@@ -3,6 +3,8 @@ package sys.tags;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
+import persistence.PassportMapper;
+import service.abroad.ApprovalLogService;
 import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
 import service.party.RetireApplyService;
@@ -27,6 +29,8 @@ public class CmTag {
 	static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
 	static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
 	static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
+	static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
+	static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
 
 
 	public static String getApplyStatus(MemberApply memberApply){
@@ -178,12 +182,28 @@ public class CmTag {
 		return retireApplyService.get(userId);
 	}
 
+	// 发文号
 	public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year){
 
 		String numStr = NumberUtils.frontCompWithZore(code, 2);
 		Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
 		DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
 		return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
+	}
+
+	// 判断因私出国申请记录是否经过了初审
+	public static Boolean hasApplySelfFirstTrial(Integer applyId){
+		return approvalLogService.hasAdminFirstTrial(applyId);
+	}
+	// 获取因私出国申请记录 的评审log
+	public static List<ApprovalLog> findApprovalLogs(Integer applyId){
+		return approvalLogService.findByApplyId(applyId);
+	}
+
+	// 证件
+	public static Passport getPassport(Integer id){
+
+		return passportMapper.selectByPrimaryKey(id);
 	}
 
 	public static String encodeQueryString(String queryString){

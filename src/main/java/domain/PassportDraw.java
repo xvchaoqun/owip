@@ -22,13 +22,9 @@ public class PassportDraw implements Serializable {
 
     private String reason;
 
+    private String costSource;
+
     private Boolean needSign;
-
-    private String files;
-
-    private Date expectDate;
-
-    private Date handleDate;
 
     private String remark;
 
@@ -48,15 +44,25 @@ public class PassportDraw implements Serializable {
 
     private Date realStartDate;
 
-    private Date realReturnDate;
+    private Date realEndDate;
 
     private String realToCountry;
 
-    private Date returnTime;
+    private Date returnDate;
 
-    private Byte returnStatus;
+    private Integer drawUserId;
+
+    private Date drawTime;
+
+    private String drawRecord;
+
+    private Date realReturnDate;
+
+    private Byte drawStatus;
 
     private String returnRemark;
+
+    private String useRecord;
 
     private Boolean jobCertify;
 
@@ -134,36 +140,20 @@ public class PassportDraw implements Serializable {
         this.reason = reason == null ? null : reason.trim();
     }
 
+    public String getCostSource() {
+        return costSource;
+    }
+
+    public void setCostSource(String costSource) {
+        this.costSource = costSource == null ? null : costSource.trim();
+    }
+
     public Boolean getNeedSign() {
         return needSign;
     }
 
     public void setNeedSign(Boolean needSign) {
         this.needSign = needSign;
-    }
-
-    public String getFiles() {
-        return files;
-    }
-
-    public void setFiles(String files) {
-        this.files = files == null ? null : files.trim();
-    }
-
-    public Date getExpectDate() {
-        return expectDate;
-    }
-
-    public void setExpectDate(Date expectDate) {
-        this.expectDate = expectDate;
-    }
-
-    public Date getHandleDate() {
-        return handleDate;
-    }
-
-    public void setHandleDate(Date handleDate) {
-        this.handleDate = handleDate;
     }
 
     public String getRemark() {
@@ -238,12 +228,12 @@ public class PassportDraw implements Serializable {
         this.realStartDate = realStartDate;
     }
 
-    public Date getRealReturnDate() {
-        return realReturnDate;
+    public Date getRealEndDate() {
+        return realEndDate;
     }
 
-    public void setRealReturnDate(Date realReturnDate) {
-        this.realReturnDate = realReturnDate;
+    public void setRealEndDate(Date realEndDate) {
+        this.realEndDate = realEndDate;
     }
 
     public String getRealToCountry() {
@@ -254,20 +244,52 @@ public class PassportDraw implements Serializable {
         this.realToCountry = realToCountry == null ? null : realToCountry.trim();
     }
 
-    public Date getReturnTime() {
-        return returnTime;
+    public Date getReturnDate() {
+        return returnDate;
     }
 
-    public void setReturnTime(Date returnTime) {
-        this.returnTime = returnTime;
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 
-    public Byte getReturnStatus() {
-        return returnStatus;
+    public Integer getDrawUserId() {
+        return drawUserId;
     }
 
-    public void setReturnStatus(Byte returnStatus) {
-        this.returnStatus = returnStatus;
+    public void setDrawUserId(Integer drawUserId) {
+        this.drawUserId = drawUserId;
+    }
+
+    public Date getDrawTime() {
+        return drawTime;
+    }
+
+    public void setDrawTime(Date drawTime) {
+        this.drawTime = drawTime;
+    }
+
+    public String getDrawRecord() {
+        return drawRecord;
+    }
+
+    public void setDrawRecord(String drawRecord) {
+        this.drawRecord = drawRecord == null ? null : drawRecord.trim();
+    }
+
+    public Date getRealReturnDate() {
+        return realReturnDate;
+    }
+
+    public void setRealReturnDate(Date realReturnDate) {
+        this.realReturnDate = realReturnDate;
+    }
+
+    public Byte getDrawStatus() {
+        return drawStatus;
+    }
+
+    public void setDrawStatus(Byte drawStatus) {
+        this.drawStatus = drawStatus;
     }
 
     public String getReturnRemark() {
@@ -276,6 +298,14 @@ public class PassportDraw implements Serializable {
 
     public void setReturnRemark(String returnRemark) {
         this.returnRemark = returnRemark == null ? null : returnRemark.trim();
+    }
+
+    public String getUseRecord() {
+        return useRecord;
+    }
+
+    public void setUseRecord(String useRecord) {
+        this.useRecord = useRecord == null ? null : useRecord.trim();
     }
 
     public Boolean getJobCertify() {

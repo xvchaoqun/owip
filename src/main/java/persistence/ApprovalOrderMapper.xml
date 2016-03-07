@@ -3,8 +3,8 @@
 <mapper namespace="persistence.ApprovalOrderMapper" >
   <resultMap id="BaseResultMap" type="domain.ApprovalOrder" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="identity_id" property="identityId" jdbcType="INTEGER" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="applicat_type_id" property="applicatTypeId" jdbcType="INTEGER" />
+    <result column="approver_type_id" property="approverTypeId" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, identity_id, type_id, sort_order
+    id, applicat_type_id, approver_type_id, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApprovalOrderExample" >
     select
@@ -98,23 +98,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.ApprovalOrder" >
-    insert into abroad_approval_order (id, identity_id, type_id, 
+  <insert keyProperty="id" id="insert" parameterType="domain.ApprovalOrder" >
+    insert into abroad_approval_order (id, applicat_type_id, approver_type_id, 
       sort_order)
-    values (#{id,jdbcType=INTEGER}, #{identityId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{applicatTypeId,jdbcType=INTEGER}, #{approverTypeId,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="domain.ApprovalOrder" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.ApprovalOrder" >
     insert into abroad_approval_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="identityId != null" >
-        identity_id,
+      <if test="applicatTypeId != null" >
+        applicat_type_id,
       </if>
-      <if test="typeId != null" >
-        type_id,
+      <if test="approverTypeId != null" >
+        approver_type_id,
       </if>
       <if test="sortOrder != null" >
         sort_order,
@@ -124,11 +124,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="identityId != null" >
-        #{identityId,jdbcType=INTEGER},
+      <if test="applicatTypeId != null" >
+        #{applicatTypeId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
-        #{typeId,jdbcType=INTEGER},
+      <if test="approverTypeId != null" >
+        #{approverTypeId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
@@ -147,11 +147,11 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.identityId != null" >
-        identity_id = #{record.identityId,jdbcType=INTEGER},
+      <if test="record.applicatTypeId != null" >
+        applicat_type_id = #{record.applicatTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null" >
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.approverTypeId != null" >
+        approver_type_id = #{record.approverTypeId,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -164,8 +164,8 @@
   <update id="updateByExample" parameterType="map" >
     update abroad_approval_order
     set id = #{record.id,jdbcType=INTEGER},
-      identity_id = #{record.identityId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
+      applicat_type_id = #{record.applicatTypeId,jdbcType=INTEGER},
+      approver_type_id = #{record.approverTypeId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -174,11 +174,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ApprovalOrder" >
     update abroad_approval_order
     <set >
-      <if test="identityId != null" >
-        identity_id = #{identityId,jdbcType=INTEGER},
+      <if test="applicatTypeId != null" >
+        applicat_type_id = #{applicatTypeId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="approverTypeId != null" >
+        approver_type_id = #{approverTypeId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -188,8 +188,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ApprovalOrder" >
     update abroad_approval_order
-    set identity_id = #{identityId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
+    set applicat_type_id = #{applicatTypeId,jdbcType=INTEGER},
+      approver_type_id = #{approverTypeId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

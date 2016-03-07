@@ -5,6 +5,7 @@ import domain.*;
 import domain.ApplySelfExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,24 +15,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
 public class UserApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresRoles("cadre")
+    @RequestMapping("/applySelf_view")
+    public String applySelf_view(@CurrentUser SysUser loginUser, Integer id, ModelMap modelMap) {
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+        if(applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
+            throw new UnauthorizedException();
+        }
+        modelMap.put("sysUser", loginUser);
+        modelMap.put("cadre", cadre);
+        modelMap.put("applySelf", applySelf);
+
+        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+
+        return "user/applySelf/applySelf_view";
+    }
 
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_note")
@@ -91,19 +109,64 @@ public class UserApplySelfController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        modelMap.put("approverTypeMap", approverTypeMap);
+
         return "user/applySelf/applySelf_page";
+    }
+
+    @RequiresRoles("cadre")
+    @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        if (id != null) {
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+            if(!CmTag.hasApplySelfFirstTrial(id) && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审时才允许删除
+
+                ApplySelfFileExample example = new ApplySelfFileExample();
+                example.createCriteria().andApplyIdEqualTo(id);
+                applySelfFileMapper.deleteByExample(example); // 先删除相关材料
+
+                applySelfService.del(id);
+                logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            }
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresRoles("cadre")
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(@CurrentUser SysUser loginUser, ApplySelf record, String _applyDate, String _startDate, String _endDate,  HttpServletRequest request) {
+    public Map do_applySelf_au(@CurrentUser SysUser loginUser,
+                               ApplySelf record,
+                               String _startDate,
+                               String _endDate,
+                               @RequestParam(value = "_files[]") MultipartFile[] _files,
+                               HttpServletRequest request) {
+        int userId= loginUser.getId();
+        List<ApplySelfFile> applySelfFiles = new ArrayList<>();
+        for (MultipartFile _file : _files) {
+            String originalFilename = _file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  File.separator
+                    + "apply_self" + File.separator + userId + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
 
-        Integer id = record.getId();
+            ApplySelfFile applySelfFile = new ApplySelfFile();
+            applySelfFile.setFileName(originalFilename);
+            applySelfFile.setFilePath(savePath);
+            applySelfFile.setCreateTime(new Date());
 
-        if(StringUtils.isNotBlank(_applyDate)){
-            record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
+            applySelfFiles.add(applySelfFile);
         }
+
+        record.setApplyDate(new Date());
+
         if(StringUtils.isNotBlank(_startDate)){
             record.setStartDate(DateUtils.parseDate(_startDate, DateUtils.YYYY_MM_DD));
         }
@@ -111,20 +174,18 @@ public class UserApplySelfController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
 
-        if (id == null) {
+        Cadre cadre = cadreService.findByUserId(userId);
+        record.setCadreId(cadre.getId());
 
-            int userId= loginUser.getId();
-            Cadre cadre = cadreService.findByUserId(userId);
-            record.setCadreId(cadre.getId());
+        record.setCreateTime(new Date());
+        record.setIp(IpUtils.getRealIp(request));
+        applySelfService.insertSelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
 
-            record.setCreateTime(new Date());
-            applySelfService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-        } else {
-            record.setCadreId(null);
-
-            applySelfService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+        Integer applyId = record.getId();
+        for (ApplySelfFile applySelfFile : applySelfFiles) {
+            applySelfFile.setApplyId(applyId);
+            applySelfFileMapper.insert(applySelfFile);
         }
 
         return success(FormUtils.SUCCESS);

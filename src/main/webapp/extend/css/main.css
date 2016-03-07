@@ -106,6 +106,7 @@
 .bg-right{
     background-color: #f9f9f9!important;
     text-align: right!important;
+    vertical-align: middle!important;
 }
 .bg-left{
     background-color: #fff!important;
@@ -129,6 +130,22 @@
     background-color: #f9f9f9;
     text-align: right;
 }*/
+
+ #view-box .table-striped > tbody > tr:nth-of-type(odd) {
+     background-color:inherit;
+ }
+#view-box .table tbody tr:hover td, .table tbody tr:hover th {
+    background-color:transparent;
+}
+#view-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+    background-color: #f9f9f9;
+    text-align: right;
+}
+#view-box  .widget-main.no-padding .table{
+
+    border: 1px solid #E5E5E5
+}
+
 /*排序*/
 .order-step{
     width: 30px;
@@ -417,4 +434,20 @@ form .form-actions{
 .chkBox{
     _vertical-align: -3px;/*针对IE6使用hack*/
     vertical-align: -5px;
+}
+input[type=checkbox].big{
+    width: 20px;
+    height: 20px;
+    _vertical-align: -2px;/*针对IE6使用hack*/
+    vertical-align: -3px;
+}
+input[type=checkbox].bigger{
+    width: 30px;
+    height: 30px;
+}
+input[type=radio].bigger{
+    width: 25px;
+    height: 25px;
+    _vertical-align: -4px;/*针对IE6使用hack*/
+    vertical-align: -6px;
 }

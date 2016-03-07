@@ -22,28 +22,30 @@
     </javaClientGenerator>
 
 
-      <!--<table tableName="abroad_apply_post" domainObjectName="ApplyPost">
+     <!-- <table tableName="abroad_applicat_type" domainObjectName="ApplicatType">
+      </table>-->
+      <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
       </table>-->
       <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
-          <columnOverride column="files" jdbcType="VARCHAR"></columnOverride>
       </table>-->
       <!--<table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
-      </table>
-      <table tableName="abroad_approval_identity" domainObjectName="ApprovalIdentity">
-      </table>
+      </table>-->
+     <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
+      </table>-->
       <table tableName="abroad_approval_order" domainObjectName="ApprovalOrder">
       </table>
-      <table tableName="abroad_approver" domainObjectName="Approver">
-      </table>
-      <table tableName="abroad_approver_type" domainObjectName="ApproverType">
+      <!--<table tableName="abroad_approver" domainObjectName="Approver">
       </table>-->
-     <!-- <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
-          <columnOverride column="files" jdbcType="VARCHAR"></columnOverride>
+      <!--<table tableName="abroad_approver_type" domainObjectName="ApproverType">
+      </table>-->
+      <!--<table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
       </table>-->
       <!--
-      <table tableName="abroad_passport" domainObjectName="Passport">
+      <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-  <!--    <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
+      <!--<table tableName="abroad_passport" domainObjectName="Passport">
+      </table>-->
+      <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
       </table>-->
 
 
@@ -145,8 +147,8 @@
     </table>-->
       <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
       </table>-->
-      <table tableName="base_dispatch" domainObjectName="Dispatch">
-      </table>
+      <!--<table tableName="base_dispatch" domainObjectName="Dispatch">
+      </table>-->
      <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
       </table>-->
     <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
@@ -177,7 +179,7 @@
     <!--<table tableName="sys_log" domainObjectName="SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-    <!--<table tableName="sys_user" domainObjectName="SysUser">
+   <!-- <table tableName="sys_user" domainObjectName="SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
       <!--

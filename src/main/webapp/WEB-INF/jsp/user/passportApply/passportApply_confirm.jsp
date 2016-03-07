@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <iframe src="/report/passportApply?classId=${param.classId}&userId=${_user.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <iframe src="/report/passportApply?classId=${param.classId}&userId=${_user.id}&id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
     <div class="info">
         <div class="alert alert-warning" style="font-size: 20px">
@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 
     $("#submit").click(function(){
         if($("#agree").is(":checked") == false){
-            $('#agree').qtip({content:'请确认信息准确无误。',show: true});
+            $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
             return false;
         }
         $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}"},function(ret){

@@ -13,12 +13,8 @@ pageEncoding="UTF-8"%>
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_passport_type"/>
                     </select>
-                    <script type="text/javascript">
-                        $("#modal form select[name=classId]").val(${passportApply.classId});
-                    </script>
 				</div>
 			</div>
-
     </form>
 </div>
 <div class="modal-footer center">

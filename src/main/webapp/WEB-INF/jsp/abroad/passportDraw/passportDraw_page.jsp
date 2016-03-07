@@ -1,38 +1,59 @@
+<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li  class="<c:if test="${type==1}">active</c:if>">
+                            <a href="?type=1"><i class="fa fa-credit-card"></i> 因私出国（境）</a>
+                        </li>
+                        <li  class="<c:if test="${type==2}">active</c:if>">
+                            <a href="?type=2"><i class="fa fa-credit-card"></i> 因公出访台湾</a>
+                        </li>
+                        <li  class="<c:if test="${type==3}">active</c:if>">
+                            <a href="?type=3"><i class="fa fa-credit-card"></i> 处理其他事务</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home4" class="tab-pane in active">
         <div class="myTableDiv"
              data-url-au="${ctx}/passportDraw_au"
              data-url-page="${ctx}/passportDraw_page"
              data-url-del="${ctx}/passportDraw_del"
              data-url-bd="${ctx}/passportDraw_batchDel"
              data-url-co="${ctx}/passportDraw_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="cadreId" type="text" value="${param.cadreId}"
-                       placeholder="请输入申请人">
-                <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                       placeholder="请输入类型">
-                <input class="form-control search-query" name="passportId" type="text" value="${param.passportId}"
-                       placeholder="请输入证件">
-                <input class="form-control search-query" name="applyDate" type="text" value="${param.applyDate}"
-                       placeholder="请输入申请日期">
-                <input class="form-control search-query" name="startDate" type="text" value="${param.startDate}"
-                       placeholder="请输入出发时间">
-                <input class="form-control search-query" name="endDate" type="text" value="${param.endDate}"
-                       placeholder="请输入返回时间">
+                <input type="hidden" name="type" value="${type}">
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value="${cadre.id}">${sysUser.realname}</option>
+                </select>
+                <%--<select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_passport_type"/>
+                </select>--%>
+                <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                    <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
+                </div>
+
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.type ||not empty param.passportId ||not empty param.applyDate ||not empty param.startDate ||not empty param.endDate || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}">
                         <i class="fa fa-reply"></i> 重置
                     </button>
                 </c:if>
                 <div class="vspace-12"></div>
-                <div class="buttons pull-right">
+               <%-- <div class="buttons pull-right">
                     <shiro:hasPermission name="passportDraw:edit">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
@@ -43,11 +64,11 @@ pageEncoding="UTF-8" %>
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
                     </c:if>
-                </div>
+                </div>--%>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -56,27 +77,36 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>申请人</th>
-							<th>类型</th>
-							<th>因私出国申请</th>
-							<th>证件</th>
-							<th>申请日期</th>
-							<th>出发时间</th>
-							<th>返回时间</th>
-							<th>出国事由</th>
-							<th>是否申请签注</th>
-                        <shiro:hasPermission name="passportDraw:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
+                        <th>申请日期</th>
+
+                        <th>工作证号</th>
+                        <th>姓名</th>
+                        <th>所在单位和职务</th>
+							<th>申请领取证件名称</th>
+                        <c:if test="${type==1}">
+							<th>因私出国（境）行程</th>
+                        </c:if>
+                            <c:if test="${type!=3}">
+							<th>是否签注</th>
+							<th>签注申请表</th>
+                            <th>打印签注申请表</th>
                             </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
+							<th>组织部审批</th>
+							<th>短信通知</th>
+							<th>领取证件</th>
+							<th>应交组织部日期</th>
+							<th>催交证件</th>
+							<th>归还证件</th>
+							<th>实交组织部日期</th>
+							<th>详情</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${passportDraws}" var="passportDraw" varStatus="st">
                         <c:set var="cadre" value="${cadreMap.get(passportDraw.cadreId)}"/>
                         <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                        <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
+                        <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
@@ -84,94 +114,118 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
+                            <td>${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>
+                            <td>${sysUser.code}</td>
+                            <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passportDraw.cadreId}">
+                                    ${sysUser.realname}
+                            </a></td>
+                            <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                            <td>${passportType.name}</td>
+                            <c:if test="${type==1}">
                             <td>
-                                <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passportDraw.cadreId}">
-                                        ${sysUser.realname}
-                                </a></td>
-								<td>${PASSPORT_DRAW_TYPE_MAP.get(passportDraw.type)}</td>
-								<td>${passportDraw.applyId}</td>
-								<td>${passportDraw.passportId}</td>
-								<td>${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(passportDraw.startDate,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(passportDraw.endDate,'yyyy-MM-dd')}</td>
-								<td>${passportDraw.reason}</td>
-								<td>${passportDraw.needSign}</td>
-                            <shiro:hasPermission name="passportDraw:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${passportDraw.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${passportDraw.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
+                                <a class="openView" href="javascript:;"
+                                   data-url="${ctx}/applySelf_view?id=${passportDraw.applyId}"> S${passportDraw.applyId}</a>
+                            </td>
                             </c:if>
-                            </shiro:hasPermission>
+                            <c:if test="${type!=3}">
+                                <c:if test="${passportType.code=='mt_passport_normal'}">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </c:if>
+                            <c:if test="${passportType.code!='mt_passport_normal'}">
+                                <td>${passportDraw.needSign?"是":"否"}</td>
+                                <c:if test="${passportDraw.needSign}">
                             <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="passportDraw:edit">
-                                    <button data-id="${passportDraw.id}" class="editBtn btn btn-mini">
-                                        <i class="fa fa-edit"></i> 编辑
+                                <a href="${ctx}/report/passportSign?id=${passportDraw.id}" target="_blank">
+                                    签注申请表
+                                </a>
+                            </td>
+                                <td>
+                                    <button data-id="${passportDraw.id}" class="printBtn btn btn-info btn-mini">
+                                        <i class="fa fa-print"></i> 打印签注申请表
                                     </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="passportDraw:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${passportDraw.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
+                                </td>
+                                </c:if>
+                                <c:if test="${!passportDraw.needSign}">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    </c:if>
+                                </c:if>
+                            </c:if>
+                            <td>
+                                <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_INIT}">
+                                <button data-url="${ctx}/passportDraw_check?id=${passportDraw.id}"  class="openView btn btn-success btn-mini">
+                                    <i class="fa fa-check"></i> 组织部审批
+                                </button>
+                                </c:if>
+                                <c:if test="${passportDraw.status!=PASSPORT_DRAW_STATUS_INIT}">
+                                    ${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}
+                                        </c:if>
+                            </td>
 
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="passportDraw:edit">
-                                            <li>
-                                                <a href="#" data-id="${passportDraw.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="passportDraw:del">
-                                            <li>
-                                                <a href="#" data-id="${passportDraw.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
+                            <td>
+                                <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_INIT}">-</c:if>
+                                <c:if test="${passportDraw.status!=PASSPORT_DRAW_STATUS_INIT}">
+                                <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
+                                        data-cls="${passportType.name}"
+                                        data-status="${passportDraw.status}" class="shortMsgBtn btn btn-warning btn-mini">
+                                    <i class="fa fa-info"></i> 短信通知
+                                </button>
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
+                                    <c:if test="${passportDraw.drawStatus==PASSPORT_DRAW_DRAW_STATUS_UNDRAW}">
+                                    <button data-url="${ctx}/passportDraw_draw?id=${passportDraw.id}" class="openView btn btn-info btn-mini">
+                                        <i class="fa fa-hand-lizard-o"></i> 领取证件
+                                    </button>
+                                    </c:if>
+                                    <c:if test="${passportDraw.drawStatus!=PASSPORT_DRAW_DRAW_STATUS_UNDRAW}">
+                                        ${PASSPORT_DRAW_DRAW_STATUS_MAP.get(passportDraw.drawStatus)}
+                                    </c:if>
+                                </c:if>
+                                <c:if test="${passportDraw.status!=PASSPORT_DRAW_STATUS_PASS}">-</c:if>
+                            </td>
+								<td>${cm:formatDate(passportDraw.returnDate,'yyyy-MM-dd')}</td>
+                            <c:set value="<%=new Date()%>" var="now"/>
+                            <c:if test="${passportDraw.drawStatus==PASSPORT_DRAW_DRAW_STATUS_DRAW}">
+                                <c:if test="${cm:compareDate(passportDraw.returnDate, now)==false}">
+                            <td>
+                                <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
+                                        data-cls="${passportType.name}"
+                                        data-drawtime="${cm:formatDate(passportDraw.drawTime,'yyyy年MM月dd日')}"
+                                        data-returndate="${cm:formatDate(passportDraw.returnDate,'yyyy年MM月dd日')}" class="returnMsgBtn btn btn-danger btn-mini">
+                                    <i class="fa fa-hand-paper-o"></i> 催交证件
+                                </button>
+                            </td>
+                                </c:if>
+                                <c:if test="${cm:compareDate(passportDraw.returnDate, now)}">
+                                    <td>-</td>
+                                </c:if>
+                            <td>
+                                <button data-url="${ctx}/passportDraw_return?id=${passportDraw.id}" class="openView btn btn-mini">
+                                    <i class="fa fa-reply"></i> 归还证件
+                                </button>
+                            </td>
+                            </c:if>
+                            <c:if test="${passportDraw.drawStatus!=PASSPORT_DRAW_DRAW_STATUS_DRAW}">
+                                <td>-</td>
+                                <td>-</td>
+                             </c:if>
+								<td>${cm:formatDate(passportDraw.realReturnDate,'yyyy-MM-dd')}</td>
+                            <td>
+                                    <button data-url="${ctx}/passportDraw_view?id=${passportDraw.id}"
+                                            class="openView btn btn-success btn-mini">
+                                        <i class="fa fa-info-circle"></i> 详情
+                                    </button>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/passportDraw_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="${commonList}" uri="${ctx}/passportDraw_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -180,8 +234,87 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
     </div>
+                    </div></div></div>
+    <div id="item-content">
+    </div>
+    </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $(".returnMsgBtn").click(function(){
+        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var drawtime = $(this).data("drawtime");
+        var returndate = $(this).data("returndate");
+        var id = $(this).data("id");
+        var name = $(this).data("name");
+        var cls = $(this).data("cls");
+         msg += name+"同志，您好！您于"+drawtime+"领取因私出国（境）证件，" +
+         "应于"+returndate+"交回组织部。目前还未交回，请于二日内将证件交到组织部（主楼A306）。谢谢！"
+
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: '确定发送',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default'
+                }
+            },
+            message: msg,
+            callback: function(result) {
+                if(result) {
+                    SysMsg.success('通知成功', '提示', function(){
+                        //page_reload();
+                    });
+                }
+            },
+            title: "催交证件"
+        });
+    });
+
+    $(".shortMsgBtn").click(function(){
+        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var status = $(this).data("status");
+        var id = $(this).data("id");
+        var name = $(this).data("name");
+        var cls = $(this).data("cls");
+        if(status=="${PASSPORT_DRAW_STATUS_PASS}")
+            msg += name+"同志，您好！您提交的领取使用"+cls
+            +"的申请（编码为：D"+id+"）已通过审批，请派人携带有效证件（教工卡、学生卡或身份证）并凭此短信到组织部（主楼A306）领取证件。谢谢！"
+        if(status=="${PASSPORT_DRAW_STATUS_NOT_PASS}")
+            msg += name+"同志，您好！您提交的领取使用"+cls+
+            "的申请（编码为：D"+id+"）未通过审批，请登录系统查看具体原因。谢谢！";
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: '确定发送',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default'
+                }
+            },
+            message: msg,
+            callback: function(result) {
+                if(result) {
+                    SysMsg.success('通知成功', '提示', function(){
+                        //page_reload();
+                    });
+                }
+            },
+            title: "短信通知"
+        });
+    });
+
+    $(".printBtn").click(function(){
+        var win=window.open("${ctx}/report/passportSign?id="+ $(this).data("id"));
+        win.focus();
+        win.print();
+    });
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

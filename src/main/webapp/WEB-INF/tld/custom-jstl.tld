@@ -27,6 +27,16 @@
 		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
 	</function>
 	<function>
+		<name>compareDate</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Boolean compareDate(java.util.Date,java.util.Date)</function-signature>
+	</function>
+	<function>
+		<name>getDayCountBetweenDate</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Integer  getDayCountBetweenDate(java.util.Date, java.util.Date)</function-signature>
+	</function>
+	<function>
 		<name>parseInt</name>
 		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.Integer parseInt(java.lang.String)</function-signature>
@@ -113,5 +123,19 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.String getDispatchCode(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
-
+	<function>
+		<name>hasApplySelfFirstTrial</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Boolean hasApplySelfFirstTrial(java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>findApprovalLogs</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.List findApprovalLogs(java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>getPassport</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.Passport getPassport(java.lang.Integer)</function-signature>
+	</function>
 </taglib>

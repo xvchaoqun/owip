@@ -98,13 +98,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.Approver" >
+  <insert keyProperty="id" id="insert" parameterType="domain.Approver" >
     insert into abroad_approver (id, cadre_id, type_id, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="domain.Approver" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.Approver" >
     insert into abroad_approver
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

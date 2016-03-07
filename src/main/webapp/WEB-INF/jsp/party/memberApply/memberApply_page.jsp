@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
                                         <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                                         <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                                         <c:if test="${_query}">
-                                            <button type="button" onclick="_reset()" class="btn btn-warning btn-sm">
+                                            <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}&stage=${stage}">
                                                 <i class="fa fa-reply"></i> 重置
                                             </button>
                                         </c:if>
@@ -473,10 +473,10 @@ pageEncoding="UTF-8" %>
         });
     }
 
-    function _reset(){
+    /*function _reset(){
 
         _tunePage(1, "", "${ctx}/memberApply_page", "#home2", "", "&type=${type}&stage=${stage}");
-    }
+    }*/
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

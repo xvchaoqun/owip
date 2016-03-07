@@ -129,9 +129,6 @@ public class CadreController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-
         return "cadre/cadre_page";
     }
 
@@ -220,12 +217,7 @@ public class CadreController extends BaseController {
 
         if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
 
-        Cadre record = new Cadre();
-        record.setStatus(status);
-        CadreExample example = new CadreExample();
-        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
-
-        cadreService.updateByExampleSelective(record, example);
+        cadreService.leave(id, status);
 
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
         return success(FormUtils.SUCCESS);

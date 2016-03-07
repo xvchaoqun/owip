@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-del="&{ctx}/${tableName}_del"
              data-url-bd="&{ctx}/${tableName}_batchDel"
              data-url-co="&{ctx}/${tableName}_changeOrder"
-             data-querystr="&{pageContext.request.queryString}">
+             data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
             <#list searchColumnBeans as column>
                 <input class="form-control search-query" name="${tbn(column.name, "tableName")}" type="text" value="&{param.${tbn(column.name, "tableName")}}"
@@ -137,19 +137,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="&{!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第&{commonList.startPos}-&{commonList.endPos}条&nbsp;&nbsp;共&{commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="&{commonList}" uri="&{ctx}/${tableName}_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="&{commonList}" uri="&{ctx}/${tableName}_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="&{commonList.recNum==0}">
                 <div class="well well-lg center">

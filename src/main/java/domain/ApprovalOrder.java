@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class ApprovalOrder implements Serializable {
     private Integer id;
 
-    private Integer identityId;
+    private Integer applicatTypeId;
 
-    private Integer typeId;
+    private Integer approverTypeId;
 
     private Integer sortOrder;
 
@@ -21,20 +21,20 @@ public class ApprovalOrder implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdentityId() {
-        return identityId;
+    public Integer getApplicatTypeId() {
+        return applicatTypeId;
     }
 
-    public void setIdentityId(Integer identityId) {
-        this.identityId = identityId;
+    public void setApplicatTypeId(Integer applicatTypeId) {
+        this.applicatTypeId = applicatTypeId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getApproverTypeId() {
+        return approverTypeId;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setApproverTypeId(Integer approverTypeId) {
+        this.approverTypeId = approverTypeId;
     }
 
     public Integer getSortOrder() {

@@ -682,6 +682,76 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
+        public Criteria andCostSourceIsNull() {
+            addCriterion("cost_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceIsNotNull() {
+            addCriterion("cost_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceEqualTo(String value) {
+            addCriterion("cost_source =", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceNotEqualTo(String value) {
+            addCriterion("cost_source <>", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceGreaterThan(String value) {
+            addCriterion("cost_source >", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceGreaterThanOrEqualTo(String value) {
+            addCriterion("cost_source >=", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceLessThan(String value) {
+            addCriterion("cost_source <", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceLessThanOrEqualTo(String value) {
+            addCriterion("cost_source <=", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceLike(String value) {
+            addCriterion("cost_source like", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceNotLike(String value) {
+            addCriterion("cost_source not like", value, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceIn(List<String> values) {
+            addCriterion("cost_source in", values, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceNotIn(List<String> values) {
+            addCriterion("cost_source not in", values, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceBetween(String value1, String value2) {
+            addCriterion("cost_source between", value1, value2, "costSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostSourceNotBetween(String value1, String value2) {
+            addCriterion("cost_source not between", value1, value2, "costSource");
+            return (Criteria) this;
+        }
+
         public Criteria andNeedSignIsNull() {
             addCriterion("need_sign is null");
             return (Criteria) this;
@@ -739,196 +809,6 @@ public class PassportDrawExample {
 
         public Criteria andNeedSignNotBetween(Boolean value1, Boolean value2) {
             addCriterion("need_sign not between", value1, value2, "needSign");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesIsNull() {
-            addCriterion("files is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesIsNotNull() {
-            addCriterion("files is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesEqualTo(String value) {
-            addCriterion("files =", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesNotEqualTo(String value) {
-            addCriterion("files <>", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesGreaterThan(String value) {
-            addCriterion("files >", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesGreaterThanOrEqualTo(String value) {
-            addCriterion("files >=", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesLessThan(String value) {
-            addCriterion("files <", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesLessThanOrEqualTo(String value) {
-            addCriterion("files <=", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesLike(String value) {
-            addCriterion("files like", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesNotLike(String value) {
-            addCriterion("files not like", value, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesIn(List<String> values) {
-            addCriterion("files in", values, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesNotIn(List<String> values) {
-            addCriterion("files not in", values, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesBetween(String value1, String value2) {
-            addCriterion("files between", value1, value2, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilesNotBetween(String value1, String value2) {
-            addCriterion("files not between", value1, value2, "files");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateIsNull() {
-            addCriterion("expect_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateIsNotNull() {
-            addCriterion("expect_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_date =", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_date <>", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("expect_date >", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_date >=", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateLessThan(Date value) {
-            addCriterionForJDBCDate("expect_date <", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_date <=", value, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateIn(List<Date> values) {
-            addCriterionForJDBCDate("expect_date in", values, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("expect_date not in", values, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("expect_date between", value1, value2, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("expect_date not between", value1, value2, "expectDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateIsNull() {
-            addCriterion("handle_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateIsNotNull() {
-            addCriterion("handle_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateEqualTo(Date value) {
-            addCriterionForJDBCDate("handle_date =", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("handle_date <>", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("handle_date >", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("handle_date >=", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateLessThan(Date value) {
-            addCriterionForJDBCDate("handle_date <", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("handle_date <=", value, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateIn(List<Date> values) {
-            addCriterionForJDBCDate("handle_date in", values, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("handle_date not in", values, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("handle_date between", value1, value2, "handleDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHandleDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("handle_date not between", value1, value2, "handleDate");
             return (Criteria) this;
         }
 
@@ -1512,63 +1392,63 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateIsNull() {
-            addCriterion("real_return_date is null");
+        public Criteria andRealEndDateIsNull() {
+            addCriterion("real_end_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateIsNotNull() {
-            addCriterion("real_return_date is not null");
+        public Criteria andRealEndDateIsNotNull() {
+            addCriterion("real_end_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateEqualTo(Date value) {
-            addCriterionForJDBCDate("real_return_date =", value, "realReturnDate");
+        public Criteria andRealEndDateEqualTo(Date value) {
+            addCriterionForJDBCDate("real_end_date =", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("real_return_date <>", value, "realReturnDate");
+        public Criteria andRealEndDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("real_end_date <>", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("real_return_date >", value, "realReturnDate");
+        public Criteria andRealEndDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("real_end_date >", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("real_return_date >=", value, "realReturnDate");
+        public Criteria andRealEndDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("real_end_date >=", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateLessThan(Date value) {
-            addCriterionForJDBCDate("real_return_date <", value, "realReturnDate");
+        public Criteria andRealEndDateLessThan(Date value) {
+            addCriterionForJDBCDate("real_end_date <", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("real_return_date <=", value, "realReturnDate");
+        public Criteria andRealEndDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("real_end_date <=", value, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateIn(List<Date> values) {
-            addCriterionForJDBCDate("real_return_date in", values, "realReturnDate");
+        public Criteria andRealEndDateIn(List<Date> values) {
+            addCriterionForJDBCDate("real_end_date in", values, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("real_return_date not in", values, "realReturnDate");
+        public Criteria andRealEndDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("real_end_date not in", values, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("real_return_date between", value1, value2, "realReturnDate");
+        public Criteria andRealEndDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("real_end_date between", value1, value2, "realEndDate");
             return (Criteria) this;
         }
 
-        public Criteria andRealReturnDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("real_return_date not between", value1, value2, "realReturnDate");
+        public Criteria andRealEndDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("real_end_date not between", value1, value2, "realEndDate");
             return (Criteria) this;
         }
 
@@ -1642,123 +1522,373 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeIsNull() {
-            addCriterion("return_time is null");
+        public Criteria andReturnDateIsNull() {
+            addCriterion("return_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeIsNotNull() {
-            addCriterion("return_time is not null");
+        public Criteria andReturnDateIsNotNull() {
+            addCriterion("return_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("return_time =", value, "returnTime");
+        public Criteria andReturnDateEqualTo(Date value) {
+            addCriterionForJDBCDate("return_date =", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("return_time <>", value, "returnTime");
+        public Criteria andReturnDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("return_date <>", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("return_time >", value, "returnTime");
+        public Criteria andReturnDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("return_date >", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("return_time >=", value, "returnTime");
+        public Criteria andReturnDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("return_date >=", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeLessThan(Date value) {
-            addCriterionForJDBCDate("return_time <", value, "returnTime");
+        public Criteria andReturnDateLessThan(Date value) {
+            addCriterionForJDBCDate("return_date <", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("return_time <=", value, "returnTime");
+        public Criteria andReturnDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("return_date <=", value, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("return_time in", values, "returnTime");
+        public Criteria andReturnDateIn(List<Date> values) {
+            addCriterionForJDBCDate("return_date in", values, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("return_time not in", values, "returnTime");
+        public Criteria andReturnDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("return_date not in", values, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("return_time between", value1, value2, "returnTime");
+        public Criteria andReturnDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("return_date between", value1, value2, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("return_time not between", value1, value2, "returnTime");
+        public Criteria andReturnDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("return_date not between", value1, value2, "returnDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusIsNull() {
-            addCriterion("return_status is null");
+        public Criteria andDrawUserIdIsNull() {
+            addCriterion("draw_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusIsNotNull() {
-            addCriterion("return_status is not null");
+        public Criteria andDrawUserIdIsNotNull() {
+            addCriterion("draw_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusEqualTo(Byte value) {
-            addCriterion("return_status =", value, "returnStatus");
+        public Criteria andDrawUserIdEqualTo(Integer value) {
+            addCriterion("draw_user_id =", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusNotEqualTo(Byte value) {
-            addCriterion("return_status <>", value, "returnStatus");
+        public Criteria andDrawUserIdNotEqualTo(Integer value) {
+            addCriterion("draw_user_id <>", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusGreaterThan(Byte value) {
-            addCriterion("return_status >", value, "returnStatus");
+        public Criteria andDrawUserIdGreaterThan(Integer value) {
+            addCriterion("draw_user_id >", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("return_status >=", value, "returnStatus");
+        public Criteria andDrawUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("draw_user_id >=", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusLessThan(Byte value) {
-            addCriterion("return_status <", value, "returnStatus");
+        public Criteria andDrawUserIdLessThan(Integer value) {
+            addCriterion("draw_user_id <", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("return_status <=", value, "returnStatus");
+        public Criteria andDrawUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("draw_user_id <=", value, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusIn(List<Byte> values) {
-            addCriterion("return_status in", values, "returnStatus");
+        public Criteria andDrawUserIdIn(List<Integer> values) {
+            addCriterion("draw_user_id in", values, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusNotIn(List<Byte> values) {
-            addCriterion("return_status not in", values, "returnStatus");
+        public Criteria andDrawUserIdNotIn(List<Integer> values) {
+            addCriterion("draw_user_id not in", values, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusBetween(Byte value1, Byte value2) {
-            addCriterion("return_status between", value1, value2, "returnStatus");
+        public Criteria andDrawUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("draw_user_id between", value1, value2, "drawUserId");
             return (Criteria) this;
         }
 
-        public Criteria andReturnStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("return_status not between", value1, value2, "returnStatus");
+        public Criteria andDrawUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("draw_user_id not between", value1, value2, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIsNull() {
+            addCriterion("draw_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIsNotNull() {
+            addCriterion("draw_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeEqualTo(Date value) {
+            addCriterion("draw_time =", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotEqualTo(Date value) {
+            addCriterion("draw_time <>", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeGreaterThan(Date value) {
+            addCriterion("draw_time >", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("draw_time >=", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeLessThan(Date value) {
+            addCriterion("draw_time <", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeLessThanOrEqualTo(Date value) {
+            addCriterion("draw_time <=", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIn(List<Date> values) {
+            addCriterion("draw_time in", values, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotIn(List<Date> values) {
+            addCriterion("draw_time not in", values, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeBetween(Date value1, Date value2) {
+            addCriterion("draw_time between", value1, value2, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotBetween(Date value1, Date value2) {
+            addCriterion("draw_time not between", value1, value2, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordIsNull() {
+            addCriterion("draw_record is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordIsNotNull() {
+            addCriterion("draw_record is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordEqualTo(String value) {
+            addCriterion("draw_record =", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordNotEqualTo(String value) {
+            addCriterion("draw_record <>", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordGreaterThan(String value) {
+            addCriterion("draw_record >", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordGreaterThanOrEqualTo(String value) {
+            addCriterion("draw_record >=", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordLessThan(String value) {
+            addCriterion("draw_record <", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordLessThanOrEqualTo(String value) {
+            addCriterion("draw_record <=", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordLike(String value) {
+            addCriterion("draw_record like", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordNotLike(String value) {
+            addCriterion("draw_record not like", value, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordIn(List<String> values) {
+            addCriterion("draw_record in", values, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordNotIn(List<String> values) {
+            addCriterion("draw_record not in", values, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordBetween(String value1, String value2) {
+            addCriterion("draw_record between", value1, value2, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawRecordNotBetween(String value1, String value2) {
+            addCriterion("draw_record not between", value1, value2, "drawRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateIsNull() {
+            addCriterion("real_return_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateIsNotNull() {
+            addCriterion("real_return_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateEqualTo(Date value) {
+            addCriterionForJDBCDate("real_return_date =", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("real_return_date <>", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("real_return_date >", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("real_return_date >=", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateLessThan(Date value) {
+            addCriterionForJDBCDate("real_return_date <", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("real_return_date <=", value, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateIn(List<Date> values) {
+            addCriterionForJDBCDate("real_return_date in", values, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("real_return_date not in", values, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("real_return_date between", value1, value2, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealReturnDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("real_return_date not between", value1, value2, "realReturnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusIsNull() {
+            addCriterion("draw_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusIsNotNull() {
+            addCriterion("draw_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusEqualTo(Byte value) {
+            addCriterion("draw_status =", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusNotEqualTo(Byte value) {
+            addCriterion("draw_status <>", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusGreaterThan(Byte value) {
+            addCriterion("draw_status >", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("draw_status >=", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusLessThan(Byte value) {
+            addCriterion("draw_status <", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("draw_status <=", value, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusIn(List<Byte> values) {
+            addCriterion("draw_status in", values, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusNotIn(List<Byte> values) {
+            addCriterion("draw_status not in", values, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusBetween(Byte value1, Byte value2) {
+            addCriterion("draw_status between", value1, value2, "drawStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("draw_status not between", value1, value2, "drawStatus");
             return (Criteria) this;
         }
 
@@ -1829,6 +1959,76 @@ public class PassportDrawExample {
 
         public Criteria andReturnRemarkNotBetween(String value1, String value2) {
             addCriterion("return_remark not between", value1, value2, "returnRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordIsNull() {
+            addCriterion("use_record is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordIsNotNull() {
+            addCriterion("use_record is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordEqualTo(String value) {
+            addCriterion("use_record =", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordNotEqualTo(String value) {
+            addCriterion("use_record <>", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordGreaterThan(String value) {
+            addCriterion("use_record >", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordGreaterThanOrEqualTo(String value) {
+            addCriterion("use_record >=", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordLessThan(String value) {
+            addCriterion("use_record <", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordLessThanOrEqualTo(String value) {
+            addCriterion("use_record <=", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordLike(String value) {
+            addCriterion("use_record like", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordNotLike(String value) {
+            addCriterion("use_record not like", value, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordIn(List<String> values) {
+            addCriterion("use_record in", values, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordNotIn(List<String> values) {
+            addCriterion("use_record not in", values, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordBetween(String value1, String value2) {
+            addCriterion("use_record between", value1, value2, "useRecord");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseRecordNotBetween(String value1, String value2) {
+            addCriterion("use_record not between", value1, value2, "useRecord");
             return (Criteria) this;
         }
 

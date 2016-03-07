@@ -6,13 +6,58 @@
   "tablePrefix": "abroad_",
   "tables": [
     {
+      "table": "approval_order",
+      "key": "id",
+      "searchColumns": "identity_id,type_id",
+      "showColumns": "identity_id,type_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "apply_post",
+      "key": "id",
+      "searchColumns": "identity_id,post_id",
+      "showColumns": "identity_id,post_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "approval_identity",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "approver",
+      "key": "id",
+      "searchColumns": "cadre_id,type_id",
+      "showColumns": "cadre_id,type_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
+      "table": "approver_type",
+      "key": "id",
+      "searchColumns": "name,type",
+      "showColumns": "name,type",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
+    },
+    {
       "table": "apply_self",
       "key": "id",
       "searchColumns": "cadre_id,apply_date,type",
       "showColumns": "cadre_id,apply_date,type,start_date,end_date,to_country,reason,peer_staff,cost_source,need_passports,files,create_time",
       "excludeEditColumns": "id,create_time,ip",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "approval_log",
@@ -21,7 +66,7 @@
       "showColumns": "apply_id,cadre_id,type_id,status,remark,create_time",
       "excludeEditColumns": "id,create_time,ip",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "passport_draw",
@@ -30,7 +75,7 @@
       "showColumns": "cadre_id,type,apply_id,passport_id,apply_date,start_date,end_date,reason,need_sign",
       "excludeEditColumns": "id,create_time,ip,status,user_id,approve_remark,approve_time,approve_ip,real_start_date,real_return_date,real_to_country,return_time,return_status,return_remark,job_certify",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "passport_apply",

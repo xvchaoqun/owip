@@ -4,22 +4,38 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/applySelf_au"
              data-url-page="${ctx}/applySelf_page"
              data-url-del="${ctx}/applySelf_del"
              data-url-bd="${ctx}/applySelf_batchDel"
              data-url-co="${ctx}/applySelf_changeOrder"
-             data-querystr="${pageContext.request.queryString}">
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="cadreId" type="text" value="${param.cadreId}"
-                       placeholder="请输入干部">
-                <input class="form-control search-query" name="applyDate" type="text" value="${param.applyDate}"
-                       placeholder="请输入申请日期">
-                <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                       placeholder="请输入出行时间范围">
+
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value="${cadre.id}">${sysUser.realname}</option>
+                </select>
+                <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                    <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
+                </div>
+                <select name="type" data-rel="select2" data-placeholder="请选择出行时间范围">
+                    <option></option>
+                    <c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
+                        <option value="${type.key}">${type.value}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("#searchForm select[name=type]").val('${param.type}');
+                </script>
+
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.applyDate ||not empty param.type || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -41,7 +57,7 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -50,23 +66,21 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>干部</th>
 							<th>申请日期</th>
-							<th>出行时间范围</th>
-							<th>出发时间</th>
-							<th>返回时间</th>
+                            <th>工作证号</th>
+                            <th>姓名</th>
+                            <th>所在单位及职务</th>
+							<th>出行时间</th>
+							<th>回国时间</th>
+							<th>出行天数</th>
 							<th>前往国家或地区</th>
-							<th>出国事由</th>
-							<th>同行人员</th>
-							<th>费用来源</th>
-							<th>所需证件</th>
-							<th>其他说明材料</th>
-							<th>创建时间</th>
-                        <shiro:hasPermission name="applySelf:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
+							<th>因私出国（境）事由</th>
+							<th>组织部初审</th>
+                        <c:forEach items="${approverTypeMap}" var="type">
+                            <th>${type.value.name}审批</th>
+                        </c:forEach>
+							<th>组织部终审</th>
+							<th>短信提醒</th>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -81,38 +95,28 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td>
-                                <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${applySelf.cadreId}">
-                                        ${sysUser.realname}
-                                </a></td>
 								<td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-								<td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
+                            <td>${sysUser.code}</td>
+                            <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${applySelf.cadreId}">
+                                    ${sysUser.realname}
+                            </a></td>
+                            <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
 								<td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
+                            <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
 								<td>${applySelf.toCountry}</td>
 								<td>${applySelf.reason}</td>
-								<td>${applySelf.peerStaff}</td>
-								<td>${applySelf.costSource}</td>
-								<td>${applySelf.needPassports}</td>
-								<td>${applySelf.files}</td>
-                            <td>${cm:formatDate(applySelf.createTime,'yyyy-MM-dd HH:mm')}</td>
-                            <shiro:hasPermission name="applySelf:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applySelf.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applySelf.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
+                                <td></td>
+                                <c:forEach items="${approverTypeMap}" var="type">
+                                    <td></td>
+                                </c:forEach>
+                                <td></td>
+                                <td></td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="applySelf:edit">
-                                    <button data-id="${applySelf.id}" class="editBtn btn btn-mini">
-                                        <i class="fa fa-edit"></i> 编辑
+                                    <button data-id="${applySelf.id}" class="detailBtn btn btn-mini">
+                                        <i class="fa fa-edit"></i> 详情
                                     </button>
-                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="applySelf:del">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${applySelf.id}">
                                         <i class="fa fa-times"></i> 删除
@@ -159,19 +163,8 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <div class="row my_paginate_row">
-                        <div class="col-xs-6">第${commonList.startPos}-${commonList.endPos}条&nbsp;&nbsp;共${commonList.recNum}条记录</div>
-                        <div class="col-xs-6">
-                            <div class="my_paginate">
-                                <ul class="pagination">
-                                    <wo:page commonList="${commonList}" uri="${ctx}/applySelf_page" target="#page-content" pageNum="5"
-                                             model="3"/>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                <wo:page commonList="${commonList}" uri="${ctx}/applySelf_page" target="#page-content" pageNum="5"
+                         model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
                 <div class="well well-lg center">
@@ -180,8 +173,13 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
     </div>
+    <div id="item-content">
+    </div>
+    </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

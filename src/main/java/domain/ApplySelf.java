@@ -26,8 +26,6 @@ public class ApplySelf implements Serializable {
 
     private String needPassports;
 
-    private String files;
-
     private Date createTime;
 
     private String ip;
@@ -120,14 +118,6 @@ public class ApplySelf implements Serializable {
 
     public void setNeedPassports(String needPassports) {
         this.needPassports = needPassports == null ? null : needPassports.trim();
-    }
-
-    public String getFiles() {
-        return files;
-    }
-
-    public void setFiles(String files) {
-        this.files = files == null ? null : files.trim();
     }
 
     public Date getCreateTime() {

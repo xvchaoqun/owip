@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
-                    <button type="button" onclick="_reset()" class="btn btn-warning btn-sm">
+                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                         <i class="fa fa-reply"></i> 重置
                     </button>
                 </c:if>
@@ -167,11 +167,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
-    function _reset(){
-
-        _tunePage(1, "", "${ctx}/memberStudent_page", "#page-content", "", "&cls=${cls}");
-    }
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

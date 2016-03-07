@@ -7,7 +7,6 @@
       基本信息
     </a>
   </li>
-
   <li class="${param.type==2?"active":""}">
     <a href="${ctx}/setting">
       <i class="purple ace-icon fa fa-cog bigger-125"></i>
@@ -24,4 +23,12 @@
       </li>
     </shiro:hasPermission>
   </c:if>
+  <shiro:hasPermission name="passportApply:*">
+  <li class="${param.type==4?"active":""}">
+    <a href="${ctx}/profile_sign">
+      <i class="purple ace-icon fa fa-pencil  bigger-125"></i>
+      手写签名
+    </a>
+  </li>
+  </shiro:hasPermission>
 </ul>

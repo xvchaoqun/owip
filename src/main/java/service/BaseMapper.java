@@ -10,9 +10,23 @@ import persistence.common.UpdateMapper;
 public class BaseMapper {
 
 	@Autowired
+	protected ApplicatPostMapper applicatPostMapper;
+	@Autowired
+	protected ApplicatTypeMapper applicatTypeMapper;
+	@Autowired
+	protected ApprovalOrderMapper approvalOrderMapper;
+	@Autowired
+	protected ApproverMapper approverMapper;
+	@Autowired
+	protected ApproverTypeMapper approverTypeMapper;
+	@Autowired
+	protected PassportDrawFileMapper passportDrawFileMapper;
+	@Autowired
 	protected PassportDrawMapper passportDrawMapper;
 	@Autowired
 	protected ApplySelfMapper applySelfMapper;
+	@Autowired
+	protected ApplySelfFileMapper applySelfFileMapper;
 	@Autowired
 	protected ApprovalLogMapper approvalLogMapper;
 	@Autowired
