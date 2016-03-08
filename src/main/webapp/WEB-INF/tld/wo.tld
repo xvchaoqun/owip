@@ -46,4 +46,19 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>approvalTd</name>
+        <tag-class>sys.tags.ApprovalTd</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>applySelfId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>view</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

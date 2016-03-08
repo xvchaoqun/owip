@@ -80,7 +80,9 @@ pageEncoding="UTF-8" %>
                             <th>${type.value.name}审批</th>
                         </c:forEach>
 							<th>组织部终审</th>
+                        <shiro:hasRole name="cadreAdmin">
 							<th>短信提醒</th>
+                        </shiro:hasRole>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -106,39 +108,10 @@ pageEncoding="UTF-8" %>
                             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
 								<td>${applySelf.toCountry}</td>
 								<td>${applySelf.reason}</td>
-                                <c:set value="${cm:getApprovalResultMap(applySelf.id)}" var="resultMap"/>
-                                <c:set var="preHasStart" value="${not empty resultMap[-1]}"/>
-                                <c:forEach items="${resultMap}" var="result" varStatus="vs">
-                                    <c:if test="${result.value==-1}">
-                                        <td>-</td>
-                                    </c:if>
-                                    <c:if test="${result.value!=-1}">
-                                        <c:if test="${vs.first || preHasStart}">
-                                            <c:if test="${empty result.value}">
-                                                <td>
-                                                    <button class="approvalBtn btn btn-success btn-mini"
-                                                            data-id="${applySelf.id}" data-approvaltypeid="${result.key}">
-                                                        <i class="fa fa-edit"></i> 审批
-                                                    </button>
-                                                </td>
-                                            </c:if>
-                                            <c:if test="${result.value==0}">
-                                                <td>未通过</td>
-                                            </c:if>
-                                            <c:if test="${result.value==1}">
-                                                <td>通过</td>
-                                            </c:if>
-                                        </c:if>
-                                        <c:if test="${!vs.first && !preHasStart}">
-                                            <td style="background-color: lightgrey">未启动</td>
-                                        </c:if>
-                                        <c:set var="preHasStart" value="${not empty result.value}"/>
-                                    </c:if>
-                                </c:forEach>
-
-                                <td>短信提醒</td>
+                                <wo:approvalTd applySelfId="${applySelf.id}" view="false"/>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
                                     <button data-url="${ctx}/applySelf_view?id=${applySelf.id}"
                                             class="openView btn btn-success btn-mini">
                                         <i class="fa fa-info-circle"></i> 详情
@@ -175,6 +148,38 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $(".shortMsgBtn").click(function(){
+        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var id = $(this).data("id");
+        var status = $(this).data("status");
+        var name = $(this).data("name");
+        if(status)
+            msg += name+"同志，您好！您的因私出国（境）申请已通过审批，请登录系统继续申请领取因私出国（境）证件。谢谢！"
+        else
+            msg += name+"同志，您好！您的因私出国（境）申请未通过审批，请登录系统查看。谢谢！";
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: '确定发送',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default'
+                }
+            },
+            message: msg,
+            callback: function(result) {
+                if(result) {
+                    SysMsg.success('通知成功', '提示', function(){
+                        //page_reload();
+                    });
+                }
+            },
+            title: "短信通知"
+        });
+    });
+
     $(".approvalBtn").click(function(){
 
         loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));

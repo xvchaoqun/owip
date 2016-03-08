@@ -451,3 +451,8 @@ input[type=radio].bigger{
     _vertical-align: -4px;/*针对IE6使用hack*/
     vertical-align: -6px;
 }
+
+.not_approval{
+    background-color: #f1f1f1;
+
+}

@@ -87,6 +87,7 @@ public class ApplySelfService extends BaseMapper {
         // value: -1不需要审批 0未通过 1通过 null未审批
         return resultMap;
     }
+
     // 查找用户可以审批的干部（非管理员）
     public Set<Integer> findApprovalCadreIdSet(int userId){
 
