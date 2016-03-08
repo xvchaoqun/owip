@@ -49,7 +49,7 @@ pageEncoding="UTF-8" %>
 							<th>类型</th>
                             <th>包含干部</th>
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
+                                <th nowrap class="hidden-480">审批顺序</th>
                             </c:if>
                         <th nowrap></th>
                     </tr>
@@ -66,9 +66,11 @@ pageEncoding="UTF-8" %>
 								<td>${approverType.name}</td>
 								<td>${APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
+                                    <c:if test="${approverType.type==APPROVER_TYPE_OTHER}">
                                     <button data-id="${approverType.id}" class="selectCadreBtn btn btn-primary btn-mini">
                                         <i class="fa fa-th-list"></i>  包含干部
                                     </button>
+                                    </c:if>
 								</td>
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">
@@ -80,7 +82,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${approverType.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${approverType.id}" class="editBtn btn btn-primary btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${approverType.id}">

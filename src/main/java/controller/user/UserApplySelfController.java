@@ -23,7 +23,9 @@ import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -31,6 +33,25 @@ import java.util.*;
 public class UserApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+/*    @RequiresRoles("cadre")
+    @RequestMapping("/applySelf_download")
+    public void applySelf_download(@CurrentUser SysUser loginUser,
+                                   Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
+        
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        Integer applyId = applySelfFile.getApplyId();
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
+        if(applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
+            throw new UnauthorizedException();
+        }
+
+        DownloadUtils.download(request, response,
+                springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
+    }*/
 
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_view")
@@ -45,6 +66,9 @@ public class UserApplySelfController extends BaseController {
         modelMap.put("sysUser", loginUser);
         modelMap.put("cadre", cadre);
         modelMap.put("applySelf", applySelf);
+
+        List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
+        modelMap.put("files", files);
 
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
 

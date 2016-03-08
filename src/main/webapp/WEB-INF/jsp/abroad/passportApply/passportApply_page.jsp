@@ -159,7 +159,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                     </c:if>
                                     <shiro:hasPermission name="passportApply:edit">
-                                    <button data-id="${passportApply.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${passportApply.id}" class="editBtn btn btn-primary btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>

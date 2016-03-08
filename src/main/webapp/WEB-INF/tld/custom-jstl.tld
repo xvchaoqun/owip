@@ -138,4 +138,9 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.Passport getPassport(java.lang.Integer)</function-signature>
 	</function>
+	<function>
+		<name>getApprovalResultMap</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.Map getApprovalResultMap(java.lang.Integer)</function-signature>
+	</function>
 </taglib>

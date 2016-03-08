@@ -10,41 +10,137 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.AssertTrue;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("applySelf:approval")
+    @RequestMapping("/applySelf_approval")
+    public String applySelf_approval() {
+
+        return "abroad/applySelf/applySelf_approval";
+    }
+    @RequiresPermissions("applySelf:approval")
+    @RequestMapping(value = "/applySelf_approval", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_approval(@CurrentUser SysUser loginUser,
+                                     int applySelfId, int approvalTypeId,
+                                     int status, String remark, HttpServletRequest request) {
+
+        int userId = loginUser.getId();
+        if(!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
+            throw new RuntimeException("您没有权限进行审批");
+
+        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
+        Integer result = approvalResultMap.get(approvalTypeId);
+        if(result!=null && result!=-1){
+            throw new RuntimeException("重复审批");
+        }
+        if(result!=null && result==-1){
+            throw new RuntimeException("不需该审批人身份进行审批");
+        }
+        if(approvalTypeId==-1){ // 管理员初审
+            Assert.isTrue(result==null);
+            SecurityUtils.getSubject().checkRole("cadreAdmin");
+        }
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        if(approvalTypeId>0){
+            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
+                Integer key = entry.getKey();
+                if(key != approvalTypeId){
+                    Integer preResult = approvalResultMap.get(key);
+                    if(preResult==null || preResult==0)
+                        throw new RuntimeException(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
+                }
+                if(key == approvalTypeId) break;
+            }
+        }
+        if(approvalTypeId==0){
+            // 验证前面的审批均已完成（通过或未通过）
+            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
+                Integer key = entry.getKey();
+                if(key != 0){
+                    Integer preResult = approvalResultMap.get(key);
+                    if(preResult==null && preResult!=-1)
+                        throw new RuntimeException(entry.getValue().getName() + "未完成审批");
+                }
+            }
+        }
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        ApprovalLog record = new ApprovalLog();
+        record.setApplyId(applySelfId);
+        if(approvalTypeId>0)
+            record.setTypeId(approvalTypeId);
+        if(approvalTypeId==-1){
+            record.setOdType((byte)0); // 初审
+        }
+        if(approvalTypeId==0){
+            record.setOdType((byte)1); // 终审
+        }
+        record.setStatus(status==1);
+        record.setRemark(remark);
+        record.setCadreId(cadre.getId());
+        record.setCreateTime(new Date());
+        record.setIp(IpUtils.getRealIp(request));
+        approvalLogMapper.insert(record);
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf")
     public String applySelf() {
 
         return "index";
+    }
+
+    @RequiresPermissions("applySelf:download")
+    @RequestMapping("/applySelf_download")
+    public void applySelf_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+        ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
+
+        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) { // 干部管理员有下载权限
+            int userId = loginUser.getId();
+            Cadre cadre = cadreService.findByUserId(userId);
+            Integer applyId = applySelfFile.getApplyId();
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId); // 本人有下载权限
+            if (applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
+
+                Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId()); // 审批人有下载权限
+                if(!cadreIdSet.contains(applySelf.getCadreId()))
+                    throw new UnauthorizedException();
+            }
+        }
+
+        DownloadUtils.download(request, response,
+                springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
     }
 
     @RequiresPermissions("applySelf:list")
@@ -59,6 +155,9 @@ public class ApplySelfController extends BaseController {
         modelMap.put("cadre", cadre);
         modelMap.put("applySelf", applySelf);
 
+        List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
+        modelMap.put("files", files);
+
         modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
 
         return "user/applySelf/applySelf_view";
@@ -66,7 +165,7 @@ public class ApplySelfController extends BaseController {
 
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf_page")
-    public String applySelf_page(HttpServletResponse response,
+    public String applySelf_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
@@ -86,6 +185,23 @@ public class ApplySelfController extends BaseController {
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")){ //干部管理员可以全部看到，其他审批人需要过滤
+
+            int userId= loginUser.getId();
+            Cadre cadre = cadreService.findByUserId(userId);
+            if(cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW){ // 现任干部才有审批权限
+                criteria.andIdIsNull();
+            }else {
+                Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId());
+                List<Integer> careIdList = new ArrayList<>();
+                careIdList.addAll(cadreIdSet);
+                if(cadreIdSet.isEmpty())
+                    criteria.andIdIsNull();
+                else
+                    criteria.andCadreIdIn(careIdList);
+            }
+        }
 
         if (cadreId!=null) {
             Cadre cadre = cadreService.findAll().get(cadreId);

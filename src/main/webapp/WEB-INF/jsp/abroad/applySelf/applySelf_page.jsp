@@ -106,57 +106,53 @@ pageEncoding="UTF-8" %>
                             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
 								<td>${applySelf.toCountry}</td>
 								<td>${applySelf.reason}</td>
-                                <td></td>
-                                <c:forEach items="${approverTypeMap}" var="type">
-                                    <td></td>
+                                <c:set value="${cm:getApprovalResultMap(applySelf.id)}" var="resultMap"/>
+                                <c:set var="preHasStart" value="${not empty resultMap[-1]}"/>
+                                <c:forEach items="${resultMap}" var="result" varStatus="vs">
+                                    <c:if test="${result.value==-1}">
+                                        <td>-</td>
+                                    </c:if>
+                                    <c:if test="${result.value!=-1}">
+                                        <c:if test="${vs.first || preHasStart}">
+                                            <c:if test="${empty result.value}">
+                                                <td>
+                                                    <button class="approvalBtn btn btn-success btn-mini"
+                                                            data-id="${applySelf.id}" data-approvaltypeid="${result.key}">
+                                                        <i class="fa fa-edit"></i> 审批
+                                                    </button>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${result.value==0}">
+                                                <td>未通过</td>
+                                            </c:if>
+                                            <c:if test="${result.value==1}">
+                                                <td>通过</td>
+                                            </c:if>
+                                        </c:if>
+                                        <c:if test="${!vs.first && !preHasStart}">
+                                            <td style="background-color: lightgrey">未启动</td>
+                                        </c:if>
+                                        <c:set var="preHasStart" value="${not empty result.value}"/>
+                                    </c:if>
                                 </c:forEach>
-                                <td></td>
-                                <td></td>
+
+                                <td>短信提醒</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${applySelf.id}" class="detailBtn btn btn-mini">
-                                        <i class="fa fa-edit"></i> 详情
+                                    <button data-url="${ctx}/applySelf_view?id=${applySelf.id}"
+                                            class="openView btn btn-success btn-mini">
+                                        <i class="fa fa-info-circle"></i> 详情
                                     </button>
+                                    <shiro:hasPermission name="applySelf:edit">
+                                        <button class="editBtn btn btn-primary btn-mini" data-id="${applySelf.id}">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </button>
+                                    </shiro:hasPermission>
                                      <shiro:hasPermission name="applySelf:del">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${applySelf.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="applySelf:edit">
-                                            <li>
-                                                <a href="#" data-id="${applySelf.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="applySelf:del">
-                                            <li>
-                                                <a href="#" data-id="${applySelf.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -179,6 +175,10 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $(".approvalBtn").click(function(){
+
+        loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
+    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

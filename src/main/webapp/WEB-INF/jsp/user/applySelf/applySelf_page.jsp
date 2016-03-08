@@ -56,11 +56,48 @@ pageEncoding="UTF-8" %>
 								<td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
 								<td>${applySelf.toCountry}</td>
 								<td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-                                <td></td>
-                            <c:forEach items="${approverTypeMap}" var="type">
-                                <td></td>
+
+                                <%--<c:set value="${cm:getApprovalResultMap(applySelf.id)}" var="resultMap"/>
+                                <c:forEach items="${resultMap}" var="result" varStatus="vs">
+                                    <c:if test="${result.value==-1}">
+                                        <td>-</td>
+                                    </c:if>
+                                    <c:if test="${empty result.value}">
+                                        <td>未审批</td>
+                                    </c:if>
+                                    <c:if test="${result.value==0}">
+                                        <td>未通过</td>
+                                    </c:if>
+                                    <c:if test="${result.value==1}">
+                                        <td>通过</td>
+                                    </c:if>
+                                </c:forEach>--%>
+                            <c:set value="${cm:getApprovalResultMap(applySelf.id)}" var="resultMap"/>
+                            <c:set var="preHasStart" value="${not empty resultMap[-1]}"/>
+                            <c:forEach items="${resultMap}" var="result" varStatus="vs">
+                                <c:if test="${result.value==-1}">
+                                    <td>-</td>
+                                </c:if>
+                                <c:if test="${result.value!=-1}">
+                                    <c:if test="${vs.first || preHasStart}">
+                                        <c:if test="${empty result.value}">
+                                            <td>
+                                                未审批
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${result.value==0}">
+                                            <td>未通过</td>
+                                        </c:if>
+                                        <c:if test="${result.value==1}">
+                                            <td>通过</td>
+                                        </c:if>
+                                    </c:if>
+                                    <c:if test="${!vs.first && !preHasStart}">
+                                        <td style="background-color: lightgrey">未启动</td>
+                                    </c:if>
+                                    <c:set var="preHasStart" value="${not empty result.value}"/>
+                                </c:if>
                             </c:forEach>
-                                <td></td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <button class="openView btn btn-success btn-mini"

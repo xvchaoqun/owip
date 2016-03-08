@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${applicatType.name}-审批顺序</h3>
+    <h3>${applicatType.name}-审批人身份</h3>
 </div>
 <div class="modal-body">
         <div class="widget-box">
@@ -55,9 +55,9 @@
                 <thead>
                 <tr>
                     <th class="col-xs-5">审批人身份</th>
-                    <c:if test="${!_query && commonList.recNum>1}">
+                    <%--<c:if test="${!_query && commonList.recNum>1}">
                         <th nowrap>审批顺序</th>
-                    </c:if>
+                    </c:if>--%>
                     <th nowrap></th>
                 </tr>
                 </thead>
@@ -65,7 +65,7 @@
                 <c:forEach items="${approvalOrders}" var="approvalOrder" varStatus="st">
                     <tr>
                         <td nowrap>${approverTypeMap.get(approvalOrder.approverTypeId).name}</td>
-                        <c:if test="${!_query && commonList.recNum>1}">
+                        <%--<c:if test="${!_query && commonList.recNum>1}">
                             <td nowrap>
                                 <a href="#"
                                    <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
@@ -79,7 +79,7 @@
                                    class="changeOrderBtn" data-id="${approvalOrder.id}" data-direction="-1"
                                    title="下降"><i class="fa fa-arrow-down"></i></a></td>
                             </td>
-                        </c:if>
+                        </c:if>--%>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${approvalOrder.id}">

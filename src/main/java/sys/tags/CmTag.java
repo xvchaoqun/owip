@@ -4,6 +4,7 @@ import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
+import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
@@ -31,6 +32,7 @@ public class CmTag {
 	static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
 	static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
 	static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
+	static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
 
 
 	public static String getApplyStatus(MemberApply memberApply){
@@ -225,5 +227,10 @@ public class CmTag {
 		}
 
 		return StringUtils.join(paramList, "&");
+	}
+
+	public static Map<Integer, Integer> getApprovalResultMap(Integer applySelfId){
+
+		return applySelfService.getApprovalResultMap(applySelfId);
 	}
 }

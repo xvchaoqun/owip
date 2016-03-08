@@ -5,7 +5,6 @@ import domain.ApplicatType;
 import domain.ApplicatTypeExample;
 import domain.ApplicatTypeExample.Criteria;
 import domain.ApprovalOrder;
-import domain.ApprovalOrderExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -88,16 +87,12 @@ public class ApplicatTypeController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ApprovalOrderExample example = new ApprovalOrderExample();
-        ApprovalOrderExample.Criteria criteria = example.createCriteria().andApplicatTypeIdEqualTo(id);
-        example.setOrderByClause(String.format("%s %s", "sort_order", "desc"));
-
-        int count = approvalOrderMapper.countByExample(example);
+        int count = selectMapper.countApprovalOrders(id);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ApprovalOrder> approvalOrders = approvalOrderMapper.selectByExampleWithRowbounds(example,
+        List<ApprovalOrder> approvalOrders = selectMapper.selectApprovalOrderList(id,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("approvalOrders", approvalOrders);
 

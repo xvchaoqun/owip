@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                         </th>
 							<th>申请人身份</th>
 							<th>包含职务</th>
-							<th>审批顺序</th>
+							<th>审批人身份</th>
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap class="hidden-480">排序</th>
                             </c:if>
@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
                             </td>
                             <td>
                                 <button data-id="${applicatType.id}" class="approvalOrderBtn btn btn-warning btn-mini">
-                                    <i class="fa fa-th-list"></i>  审批顺序
+                                    <i class="fa fa-th-list"></i>  审批人身份
                                 </button>
                             </td>
                             <c:if test="${!_query && commonList.recNum>1}">
@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${applicatType.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${applicatType.id}" class="editBtn btn btn-primary btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${applicatType.id}">

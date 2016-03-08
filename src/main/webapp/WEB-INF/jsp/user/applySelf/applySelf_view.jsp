@@ -82,8 +82,12 @@
     </td>
   </tr>
   <tr>
-    <td class="bg-right">本次领取证件用途</td>
-    <td colspan="5" class="bg-left"></td>
+    <td class="bg-right">其他说明材料</td>
+    <td colspan="5" class="bg-left">
+      <c:forEach items="${files}" var="file">
+          <a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a>
+      </c:forEach>
+    </td>
   </tr>
   <tr>
     <td class="bg-right">申请人签字</td>
