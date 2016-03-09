@@ -1,13 +1,18 @@
 package controller.abroad;
 
+import bean.XlsPassport;
+import bean.XlsUpload;
 import controller.BaseController;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -35,10 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class PassportController extends BaseController {
@@ -375,6 +378,45 @@ public class PassportController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @RequiresPermissions("passport:import")
+    @RequestMapping("/passport_import")
+    public String passport_import(ModelMap modelMap) {
+
+        return "abroad/passport/passport_import";
+    }
+
+    @RequiresPermissions("passport:import")
+    @RequestMapping(value="/passport_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_import( HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        //User sessionUser = getAdminSessionUser(request);
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        List<XlsPassport> passports = new ArrayList<XlsPassport>();
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        for (int k = 0; k < workbook.getNumberOfSheets(); k++) {
+            XSSFSheet sheet = workbook.getSheetAt(k);
+
+            String sheetName = sheet.getSheetName();
+
+            if(StringUtils.equals(sheetName, "证件")){
+
+                passports.addAll(XlsUpload.fetchPassports(sheet));
+            }
+        }
+
+        int successCount = passportService.importPassports(passports, SystemConstants.PASSPORT_TYPE_KEEP);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", passports.size());
+
+        return resultMap;
     }
 
     /*@RequestMapping("/passport_selects")

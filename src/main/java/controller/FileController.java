@@ -4,7 +4,6 @@ import domain.SysUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.SpringProps;
 import shiro.CurrentUser;
 import sys.utils.FileUtils;
 
@@ -13,12 +12,34 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 
 /**
  * Created by fafa on 2015/12/8.
  */
 @Controller
 public class FileController extends BaseController{
+
+    @RequestMapping(value = "/attach/passport")
+    public void unitXlsx(HttpServletResponse response) throws IOException{
+
+        String path =  FileController.class.getResource("/").getPath() + "passport.xlsx";
+        byte[] data = FileUtils.getBytes(path);
+        File file = new File(path);
+        long length = file.length();
+
+        String fileName = "证件录入样表.xlsx";
+
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        response.addHeader("Content-Length", "" + length);
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(data);
+        outputStream.flush();
+        outputStream.close();
+    }
 
     // 图片
     @RequestMapping("/img")

@@ -1,21 +1,70 @@
 package service.abroad;
 
-import domain.Passport;
-import domain.PassportApply;
-import domain.PassportExample;
+import bean.XlsPassport;
+import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.cadre.CadreService;
+import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.*;
 
 @Service
 public class PassportService extends BaseMapper {
 
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private CadreService cadreService;
+    @Transactional
+    public int importPassports(final List<XlsPassport> passports, byte type) {
+
+        //int duplicate = 0;
+        int success = 0;
+        for(XlsPassport uRow: passports){
+
+            Passport record = new Passport();
+
+            String userCode = uRow.getUserCode();
+            SysUser sysUser = sysUserService.findByUsername(userCode);
+            Cadre cadre = cadreService.findByUserId(sysUser.getId());
+            record.setCadreId(cadre.getId());
+            record.setType(type);
+
+            int passportType = uRow.getPassportType();
+            record.setClassId(passportType);
+
+            record.setCode(uRow.getCode());
+
+            record.setAuthority(uRow.getAuthority());
+
+            record.setIssueDate(uRow.getIssueDate());
+            record.setExpiryDate(uRow.getExpiryDate());
+            record.setKeepDate(uRow.getKeepDate());
+
+            record.setSafeCode(uRow.getSafeCode());
+            record.setCreateTime(new Date());
+            record.setAbolish(false);
+
+            if (idDuplicate(null, record.getCadreId(), record.getClassId(), record.getCode())) {
+                MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
+                throw  new RuntimeException("导入失败，工作证号："+uRow.getCode() + "["+ mcPassportType.getName() + "]重复");
+            }
+
+            passportMapper.insertSelective(record);
+
+            success++;
+        }
+
+        return success;
+    }
     public List<Passport> findByCadreId(int cadreId){
 
        return selectMapper.selectPassportList(cadreId, null, null, null, false, new RowBounds());

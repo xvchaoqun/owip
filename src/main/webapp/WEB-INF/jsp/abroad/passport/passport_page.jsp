@@ -58,9 +58,9 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="passport:edit">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
                     </shiro:hasPermission>
+                    <a class="importBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                     <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="passport:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
                      </shiro:hasPermission>
@@ -243,6 +243,10 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    $(".importBtn").click(function(){
+        loadModal("${ctx}/passport_import");
+    });
 
     $(".shortMsgBtn").click(function(){
         var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
