@@ -29,6 +29,7 @@ public class CadreService extends BaseMapper {
     private UnitService unitService;
 
     @Transactional
+    @CacheEvict(value="Cadre:ALL", allEntries = true)
     public int importCadres(final List<XlsCadre> cadres, byte status) {
         //int duplicate = 0;
         int success = 0;
