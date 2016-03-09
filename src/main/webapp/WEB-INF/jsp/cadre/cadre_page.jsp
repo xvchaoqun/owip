@@ -91,7 +91,8 @@ pageEncoding="UTF-8" %>
 							<th>工号</th>
 							<th nowrap>行政级别</th>
 							<th>职务属性</th>
-							<th nowrap>单位及职务</th>
+							<th nowrap>所属单位</th>
+							<th nowrap>所在单位及职务</th>
 							<th>备注</th>
                         <shiro:hasPermission name="cadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
@@ -116,7 +117,8 @@ pageEncoding="UTF-8" %>
 
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
 								<td nowrap>${postMap.get(cadre.postId).name}</td>
-								<td nowrap>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+								<td nowrap>${unitMap.get(cadre.unitId).name}</td>
+								<td nowrap>${cadre.title}</td>
 								<td>${cadre.remark}</td>
                             <shiro:hasPermission name="cadre:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
