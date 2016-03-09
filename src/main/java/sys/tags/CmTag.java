@@ -13,12 +13,11 @@ import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
+import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.utils.HtmlEscapeUtils;
 import sys.utils.NumberUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 public class CmTag {
@@ -33,6 +32,7 @@ public class CmTag {
     static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
     static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
     static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
+    static UnitService unitService = (UnitService) context.getBean("unitService");
 
 
     public static String getApplyStatus(MemberApply memberApply) {
@@ -130,6 +130,13 @@ public class CmTag {
         return metaClassMap.get(code);
     }
 
+    public static MetaType getMetaTypeByName(String classCode, String name) {
+
+        if (StringUtils.isBlank(name)) return null;
+
+        return metaTypeService.findByName(classCode, StringUtils.trim(name));
+    }
+
     public static MetaType getMetaTypeByCode(String code) {
 
         if (StringUtils.isBlank(code)) return null;
@@ -160,6 +167,12 @@ public class CmTag {
 
         return sysUserService.findByUsername(username);
     }
+
+    public static Unit findUnitByCode(String code) {
+
+        return unitService.findUnitByCode(StringUtils.trim(code));
+    }
+
 
     // 判断类别ID和代码是否匹配，比如判断党组织是否是直属党支部
     public static Boolean typeEqualsCode(Integer typeId, String code) {

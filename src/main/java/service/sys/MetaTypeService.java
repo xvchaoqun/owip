@@ -105,6 +105,25 @@ public class MetaTypeService extends BaseMapper {
         return metaTypeMapper.countByExample(example) == 0;
     }
 
+    // 根据名称查找（唯一），用于数据导入时
+    public MetaType findByName(String classCode, String name){
+        Integer classId = null;
+        {
+            MetaClassExample example = new MetaClassExample();
+            example.createCriteria().andCodeEqualTo(classCode).andAvailableEqualTo(true);
+            List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
+            if (metaClasses.size() == 0) return null;
+            MetaClass metaClass = metaClasses.get(0);
+            classId = metaClass.getId();
+        }
+
+        MetaTypeExample example = new MetaTypeExample();
+        example.createCriteria().andClassIdEqualTo(classId).andAvailableEqualTo(true).andNameEqualTo(name);
+        List<MetaType> metaTypes = metaTypeMapper.selectByExample(example);
+        if(metaTypes.size()>0) return metaTypes.get(0);
+        return null;
+    }
+
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "MetaType:ALL", allEntries = true),

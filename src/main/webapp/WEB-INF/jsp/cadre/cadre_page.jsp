@@ -2,11 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_LEAVE%>" var="CADRE_STATUS_LEAVE"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -70,6 +65,8 @@ pageEncoding="UTF-8" %>
                         <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
                         </a>
                     </shiro:hasPermission>
+                    <a class="importBtn btn btn-primary btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -214,7 +211,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
+    $(".importBtn").click(function(){
+        loadModal("${ctx}/cadre_import?status=${status}");
+    });
     function _pass(id, realname, code){
 
         bootbox.confirm("姓名：{0}，工号：{1}，确定通过常委会任命吗？".format(realname, code), function (result) {

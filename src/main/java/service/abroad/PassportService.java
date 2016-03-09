@@ -34,7 +34,9 @@ public class PassportService extends BaseMapper {
 
             String userCode = uRow.getUserCode();
             SysUser sysUser = sysUserService.findByUsername(userCode);
+            if(sysUser== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
             Cadre cadre = cadreService.findByUserId(sysUser.getId());
+            if(sysUser== null) throw  new RuntimeException("干部："+sysUser.getRealname()+"不存在");
             record.setCadreId(cadre.getId());
             record.setType(type);
 
@@ -55,10 +57,10 @@ public class PassportService extends BaseMapper {
 
             if (idDuplicate(null, record.getCadreId(), record.getClassId(), record.getCode())) {
                 MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
-                throw  new RuntimeException("导入失败，工作证号："+uRow.getCode() + "["+ mcPassportType.getName() + "]重复");
+                throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode() + "["+ mcPassportType.getName() + "]重复");
             }
 
-            passportMapper.insertSelective(record);
+            add(record, null);
 
             success++;
         }
@@ -94,8 +96,8 @@ public class PassportService extends BaseMapper {
 
         if(applyId!=null){ // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            org.eclipse.jdt.internal.core.Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue());
-            org.eclipse.jdt.internal.core.Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue());
+            Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue());
+            Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue());
 
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);

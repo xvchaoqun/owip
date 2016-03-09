@@ -28,6 +28,15 @@ public class UnitService extends BaseMapper {
         return unitMapper.selectByExample(example);
     }
 
+    public Unit findUnitByCode(String code){
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andCodeEqualTo(code);
+        List<Unit> units = unitMapper.selectByExample(example);
+        if(units.size()>0) return units.get(0);
+        return null;
+    }
+
     // 查找正在运转单位
     public List<Unit> findRunUnits(int unitId){
 

@@ -5,14 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
+import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 
 /**
  * Created by fafa on 2015/12/8.
@@ -20,25 +21,18 @@ import java.net.URLEncoder;
 @Controller
 public class FileController extends BaseController{
 
+    @RequestMapping(value = "/attach/cadre")
+    public void cadreXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+        String path =  FileController.class.getResource("/").getPath() + "cadre.xlsx";
+        DownloadUtils.download(request, response, path, "干部录入样表.xlsx");
+    }
+
     @RequestMapping(value = "/attach/passport")
-    public void unitXlsx(HttpServletResponse response) throws IOException{
+    public void passportXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
         String path =  FileController.class.getResource("/").getPath() + "passport.xlsx";
-        byte[] data = FileUtils.getBytes(path);
-        File file = new File(path);
-        long length = file.length();
-
-        String fileName = "证件录入样表.xlsx";
-
-        fileName = URLEncoder.encode(fileName, "UTF-8");
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-        response.addHeader("Content-Length", "" + length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(data);
-        outputStream.flush();
-        outputStream.close();
+        DownloadUtils.download(request, response,  path, "证件录入样表.xlsx");
     }
 
     // 图片

@@ -1,5 +1,7 @@
 package controller.cadre;
 
+import bean.XlsCadre;
+import bean.XlsUpload;
 import controller.BaseController;
 import domain.*;
 import domain.CadreExample.Criteria;
@@ -7,10 +9,13 @@ import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -22,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -31,6 +38,8 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -358,5 +367,44 @@ public class CadreController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @RequiresPermissions("cadre:import")
+    @RequestMapping("/cadre_import")
+    public String cadre_import(byte status, ModelMap modelMap) {
+
+        modelMap.put("status", status);
+        return "cadre/cadre_import";
+    }
+
+    @RequiresPermissions("cadre:import")
+    @RequestMapping(value="/cadre_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_import( HttpServletRequest request, Byte status) throws InvalidFormatException, IOException {
+
+        //User sessionUser = getAdminSessionUser(request);
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        List<XlsCadre> cadres = new ArrayList<XlsCadre>();
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        for (int k = 0; k < workbook.getNumberOfSheets(); k++) {
+            XSSFSheet sheet = workbook.getSheetAt(k);
+
+            String sheetName = sheet.getSheetName();
+            if(StringUtils.equals(sheetName, "干部")){
+
+                cadres.addAll(XlsUpload.fetchCadres(sheet));
+            }
+        }
+
+        int successCount = cadreService.importCadres(cadres, status);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", cadres.size());
+
+        return resultMap;
     }
 }

@@ -1,5 +1,6 @@
 package service.cadre;
 
+import bean.XlsCadre;
 import domain.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
+import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -22,7 +25,40 @@ public class CadreService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private UnitService unitService;
 
+    @Transactional
+    public int importCadres(final List<XlsCadre> cadres, byte status) {
+        //int duplicate = 0;
+        int success = 0;
+        for(XlsCadre uRow: cadres){
+
+            Cadre record = new Cadre();
+            String userCode = uRow.getUserCode();
+            SysUser sysUser = sysUserService.findByUsername(userCode);
+            if(sysUser== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            record.setUserId(sysUser.getId());
+            record.setStatus(status);
+            record.setTypeId(uRow.getAdminLevel());
+            record.setPostId(uRow.getPostId());
+            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
+            if(unit==null){
+                throw  new RuntimeException("单位编号："+uRow.getUnitCode()+"不存在");
+            }
+            record.setUnitId(unit.getId());
+            record.setTitle(uRow.getTitle());
+            record.setRemark(uRow.getRemark());
+
+            if (idDuplicate(null, sysUser.getId())) {
+                throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode()+"重复");
+            }
+
+            insertSelective(record);
+            success++;
+        }
+        return success;
+    }
     // 职务属性-干部 Set<cadreId>
     public TreeNode getTree( Set<Integer> selectIdSet){
 
