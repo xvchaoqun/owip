@@ -352,7 +352,6 @@ public class PassportDrawController extends BaseController {
         modelMap.put("cadre", cadre);
         modelMap.put("passportDraw", passportDraw);
 
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
 
         if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());

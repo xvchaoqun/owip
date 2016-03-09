@@ -6,6 +6,7 @@ import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,18 +24,36 @@ public class ApprovalLogService extends BaseMapper {
                 return true;
             }
         }
+        // 如果没有组织部初审，则审批记录肯定为空
         Assert.isTrue(approvalLogs.size() == 0);
         return false;
     }
 
-    public List<ApprovalLog> findByApplyId(int applyId){
+    public List<ApprovalLog> findByApplyId(int applySefId){
 
         ApprovalLogExample example = new ApprovalLogExample();
-        example.createCriteria().andApplyIdEqualTo(applyId);
+        example.createCriteria().andApplyIdEqualTo(applySefId);
         example.setOrderByClause("create_time asc");
 
         return approvalLogMapper.selectByExample(example);
     }
+
+    public ApprovalLog getApprovalLog(int applySefId, int approverTypeId) {
+
+        ApprovalLogExample example = new ApprovalLogExample();
+        ApprovalLogExample.Criteria criteria = example.createCriteria().andApplyIdEqualTo(applySefId);
+        if(approverTypeId==-1){
+           criteria.andTypeIdIsNull().andOdTypeEqualTo(SystemConstants.APPROVER_LOG_OD_TYPE_FIRST);
+        }else if(approverTypeId==0){
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(SystemConstants.APPROVER_LOG_OD_TYPE_LAST);
+        }else{
+            criteria.andTypeIdEqualTo(approverTypeId);
+        }
+        List<ApprovalLog> approvalLogs = approvalLogMapper.selectByExample(example);
+        if(approvalLogs.size()>0) return approvalLogs.get(0);
+        return null;
+    }
+
 
     @Transactional
     public int insertSelective(ApprovalLog record){

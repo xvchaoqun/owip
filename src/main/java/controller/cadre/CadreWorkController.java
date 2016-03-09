@@ -211,7 +211,6 @@ public class CadreWorkController extends BaseController {
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 

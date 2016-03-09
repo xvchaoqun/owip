@@ -67,7 +67,6 @@ public class UnitTransferController extends BaseController {
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
         modelMap.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));

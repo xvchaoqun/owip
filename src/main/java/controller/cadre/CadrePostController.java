@@ -69,7 +69,6 @@ public class CadrePostController extends BaseController {
         modelMap.put("dispatchCadreMap", dispatchCadreService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
 
         return "cadre/cadrePost/cadrePost_page";
@@ -153,7 +152,6 @@ public class CadrePostController extends BaseController {
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
@@ -271,7 +269,6 @@ public class CadrePostController extends BaseController {
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 
@@ -395,7 +392,6 @@ public class CadrePostController extends BaseController {
         modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
 

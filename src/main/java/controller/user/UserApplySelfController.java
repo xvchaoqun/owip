@@ -70,7 +70,22 @@ public class UserApplySelfController extends BaseController {
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
 
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(id);
+        modelMap.put("approvalResultMap", approvalResultMap);
+        modelMap.put("approverTypeMap", approverTypeService.findAll());
+
+        // 本年度的申请记录
+        ApplySelfExample example = new ApplySelfExample();
+        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadre.getId());
+        Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
+        criteria.andApplyDateBetween(DateUtils.parseDate(currentYear +"-01-01 00:00:00", DateUtils.YYYY_MM_DD),
+                DateUtils.parseDate(currentYear +"-12-30 23:59:59", DateUtils.YYYY_MM_DD));
+        example.setOrderByClause("create_time desc");
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+        modelMap.put("currentYear", currentYear);
+        modelMap.put("applySelfs", applySelfs);
+
+        modelMap.put("justView", true);
 
         return "user/applySelf/applySelf_view";
     }

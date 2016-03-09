@@ -12,6 +12,7 @@ import service.cadre.CadreService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
@@ -24,13 +25,17 @@ public class ApprovalTd extends BodyTagSupport {
     private boolean view;
     @Override
     public int doStartTag() {
-        //HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+        HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
         WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
         ApplySelfService applySelfService = (ApplySelfService) wac.getBean("applySelfService");
 
 
         String btnTd = "<td><button class=\"approvalBtn btn btn-success btn-mini\"\n" +
                 "        data-id=\"%s\" data-approvaltypeid=\"%s\">\n" +
+                "        <i class=\"fa fa-edit\"></i> 审批\n" +
+                "        </button></td>";
+        String _btnTd = "<td><button class=\"openView btn btn-success btn-mini\"\n" +
+                "        data-url=\"%s/applySelf_view?type=aproval&id=%s&approvalTypeId=%s\">\n" +
                 "        <i class=\"fa fa-edit\"></i> 审批\n" +
                 "        </button></td>";
         String td = "";
@@ -43,7 +48,7 @@ public class ApprovalTd extends BodyTagSupport {
         Integer firstVal = vals[0];
         if(firstVal==null) {
             if(view) td = "<td>未审批</td>";
-            else td = String.format(btnTd, applySelfId, -1);
+            else td = String.format(_btnTd, request.getContextPath(), applySelfId, -1);
         }else if (firstVal==0){
             td = "<td>未通过</td>";
         }else{

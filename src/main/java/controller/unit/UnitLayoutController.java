@@ -79,7 +79,6 @@ public class UnitLayoutController extends BaseController {
         modelMap.put("mLeaderUnitMap", managerLeaderUnitMap);
 
         modelMap.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("cadreMap", cadreService.findAll());
         modelMap.put("unitMap", unitService.findAll());
 

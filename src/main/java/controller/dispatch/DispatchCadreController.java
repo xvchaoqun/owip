@@ -77,7 +77,6 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("cadreMap", cadreService.findAll());
 
@@ -211,7 +210,6 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("dispatchMap", dispatchService.findAll());
         modelMap.put("cadreMap", cadreService.findAll());
@@ -260,7 +258,6 @@ public class DispatchCadreController extends BaseController {
         modelMap.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
         modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
         modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("unitMap", unitService.findAll());
 
         return "dispatch/dispatchCadre/dispatchCadre_au";

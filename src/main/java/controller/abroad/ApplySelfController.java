@@ -45,6 +45,7 @@ public class ApplySelfController extends BaseController {
 
         return "abroad/applySelf/applySelf_approval";
     }
+
     @RequiresPermissions("applySelf:approval")
     @RequestMapping(value = "/applySelf_approval", method = RequestMethod.POST)
     @ResponseBody
@@ -53,40 +54,40 @@ public class ApplySelfController extends BaseController {
                                      int status, String remark, HttpServletRequest request) {
 
         int userId = loginUser.getId();
-        if(!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
+        if (!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
             throw new RuntimeException("您没有权限进行审批");
 
         Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
         Integer result = approvalResultMap.get(approvalTypeId);
-        if(result!=null && result!=-1){
+        if (result != null && result != -1) {
             throw new RuntimeException("重复审批");
         }
-        if(result!=null && result==-1){
+        if (result != null && result == -1) {
             throw new RuntimeException("不需该审批人身份进行审批");
         }
-        if(approvalTypeId==-1){ // 管理员初审
-            Assert.isTrue(result==null);
+        if (approvalTypeId == -1) { // 管理员初审
+            Assert.isTrue(result == null);
             SecurityUtils.getSubject().checkRole("cadreAdmin");
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        if(approvalTypeId>0){
+        if (approvalTypeId > 0) {
             for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
                 Integer key = entry.getKey();
-                if(key != approvalTypeId){
+                if (key != approvalTypeId) {
                     Integer preResult = approvalResultMap.get(key);
-                    if(preResult==null || preResult==0)
+                    if (preResult == null || preResult == 0)
                         throw new RuntimeException(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
                 }
-                if(key == approvalTypeId) break;
+                if (key == approvalTypeId) break;
             }
         }
-        if(approvalTypeId==0){
+        if (approvalTypeId == 0) {
             // 验证前面的审批均已完成（通过或未通过）
             for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
                 Integer key = entry.getKey();
-                if(key != 0){
+                if (key != 0) {
                     Integer preResult = approvalResultMap.get(key);
-                    if(preResult==null && preResult!=-1)
+                    if (preResult == null && preResult != -1)
                         throw new RuntimeException(entry.getValue().getName() + "未完成审批");
                 }
             }
@@ -95,15 +96,15 @@ public class ApplySelfController extends BaseController {
         Cadre cadre = cadreService.findByUserId(userId);
         ApprovalLog record = new ApprovalLog();
         record.setApplyId(applySelfId);
-        if(approvalTypeId>0)
+        if (approvalTypeId > 0)
             record.setTypeId(approvalTypeId);
-        if(approvalTypeId==-1){
-            record.setOdType((byte)0); // 初审
+        if (approvalTypeId == -1) {
+            record.setOdType((byte) 0); // 初审
         }
-        if(approvalTypeId==0){
-            record.setOdType((byte)1); // 终审
+        if (approvalTypeId == 0) {
+            record.setOdType((byte) 1); // 终审
         }
-        record.setStatus(status==1);
+        record.setStatus(status == 1);
         record.setRemark(remark);
         record.setCadreId(cadre.getId());
         record.setCreateTime(new Date());
@@ -122,11 +123,11 @@ public class ApplySelfController extends BaseController {
 
     @RequiresPermissions("applySelf:download")
     @RequestMapping("/applySelf_download")
-    public void applySelf_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public void applySelf_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
-        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) { // 干部管理员有下载权限
+        if (!SecurityUtils.getSubject().hasRole("cadreAdmin")) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             Cadre cadre = cadreService.findByUserId(userId);
             Integer applyId = applySelfFile.getApplyId();
@@ -134,7 +135,7 @@ public class ApplySelfController extends BaseController {
             if (applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
 
                 Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId()); // 审批人有下载权限
-                if(!cadreIdSet.contains(applySelf.getCadreId()))
+                if (!cadreIdSet.contains(applySelf.getCadreId()))
                     throw new UnauthorizedException();
             }
         }
@@ -145,10 +146,11 @@ public class ApplySelfController extends BaseController {
 
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf_view")
-    public String applySelf_view( Integer id, ModelMap modelMap) {
+    public String applySelf_view(Integer id, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
-        Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
+        Integer cadreId = applySelf.getCadreId();
+        Cadre cadre = cadreService.findAll().get(cadreId);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", sysUser);
@@ -158,7 +160,21 @@ public class ApplySelfController extends BaseController {
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
 
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
+        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(id);
+        modelMap.put("approvalResultMap", approvalResultMap);
+        modelMap.put("approverTypeMap", approverTypeService.findAll());
+
+
+        // 本年度的申请记录
+        ApplySelfExample example = new ApplySelfExample();
+        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
+        Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
+        criteria.andApplyDateBetween(DateUtils.parseDate(currentYear +"-01-01 00:00:00", DateUtils.YYYY_MM_DD),
+                DateUtils.parseDate(currentYear +"-12-30 23:59:59", DateUtils.YYYY_MM_DD));
+        example.setOrderByClause("create_time desc");
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+        modelMap.put("currentYear", currentYear);
+        modelMap.put("applySelfs", applySelfs);
 
         return "user/applySelf/applySelf_view";
     }
@@ -168,9 +184,9 @@ public class ApplySelfController extends BaseController {
     public String applySelf_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                    String _applyDate,
-                                     Byte type,
+                                 Integer cadreId,
+                                 String _applyDate,
+                                 Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -186,24 +202,24 @@ public class ApplySelfController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")){ //干部管理员可以全部看到，其他审批人需要过滤
+        if (!SecurityUtils.getSubject().hasRole("cadreAdmin")) { //干部管理员可以全部看到，其他审批人需要过滤
 
-            int userId= loginUser.getId();
+            int userId = loginUser.getId();
             Cadre cadre = cadreService.findByUserId(userId);
-            if(cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW){ // 现任干部才有审批权限
+            if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW) { // 现任干部才有审批权限
                 criteria.andIdIsNull();
-            }else {
+            } else {
                 Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId());
                 List<Integer> careIdList = new ArrayList<>();
                 careIdList.addAll(cadreIdSet);
-                if(cadreIdSet.isEmpty())
+                if (cadreIdSet.isEmpty())
                     criteria.andIdIsNull();
                 else
                     criteria.andCadreIdIn(careIdList);
             }
         }
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
@@ -211,7 +227,7 @@ public class ApplySelfController extends BaseController {
 
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if(StringUtils.isNotBlank(_applyDate)) {
+        if (StringUtils.isNotBlank(_applyDate)) {
             String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(applyDateStart)) {
@@ -222,7 +238,7 @@ public class ApplySelfController extends BaseController {
             }
         }
 
-        if (type!=null) {
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
 
@@ -243,13 +259,13 @@ public class ApplySelfController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             searchStr += "&cadreId=" + cadreId;
         }
         if (StringUtils.isNotBlank(_applyDate)) {
             searchStr += "&_applyDate=" + _applyDate;
         }
-        if (type!=null) {
+        if (type != null) {
             searchStr += "&type=" + type;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -270,17 +286,17 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:edit")
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(ApplySelf record, String _applyDate, String _startDate, String _endDate,  HttpServletRequest request) {
+    public Map do_applySelf_au(ApplySelf record, String _applyDate, String _startDate, String _endDate, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_applyDate)){
+        if (StringUtils.isNotBlank(_applyDate)) {
             record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_startDate)){
+        if (StringUtils.isNotBlank(_startDate)) {
             record.setStartDate(DateUtils.parseDate(_startDate, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_endDate)){
+        if (StringUtils.isNotBlank(_endDate)) {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
 
@@ -340,7 +356,7 @@ public class ApplySelfController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             applySelfService.batchDel(ids);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除因私出国申请：%s", StringUtils.join(ids, ",")));
         }
@@ -357,7 +373,7 @@ public class ApplySelfController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"干部","申请日期","出行时间范围","出发时间","返回时间","前往国家或地区","出国事由","同行人员","费用来源","所需证件","创建时间"};
+        String[] titles = {"干部", "申请日期", "出行时间范围", "出发时间", "返回时间", "前往国家或地区", "出国事由", "同行人员", "费用来源", "所需证件", "创建时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -368,19 +384,19 @@ public class ApplySelfController extends BaseController {
 
             ApplySelf applySelf = applySelfs.get(i);
             String[] values = {
-                        applySelf.getCadreId()+"",
-                                            DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD),
-                                            applySelf.getType() + "",
-                                            DateUtils.formatDate(applySelf.getStartDate(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD),
-                                            applySelf.getToCountry(),
-                                            applySelf.getReason(),
-                                            applySelf.getPeerStaff(),
-                                            applySelf.getCostSource(),
-                                            applySelf.getNeedPassports(),
+                    applySelf.getCadreId() + "",
+                    DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD),
+                    applySelf.getType() + "",
+                    DateUtils.formatDate(applySelf.getStartDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD),
+                    applySelf.getToCountry(),
+                    applySelf.getReason(),
+                    applySelf.getPeerStaff(),
+                    applySelf.getCostSource(),
+                    applySelf.getNeedPassports(),
 
-                                            DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-                    };
+                    DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {

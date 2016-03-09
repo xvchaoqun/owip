@@ -157,7 +157,6 @@ public class CadreController extends BaseController {
 
         modelMap.put("unitMap", unitService.findAll());
         modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         // 主职
         modelMap.put("cadreMainWork", cadreMainWorkService.getByCadreId(id));
 

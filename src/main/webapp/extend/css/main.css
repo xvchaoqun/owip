@@ -415,8 +415,8 @@ form .form-actions{
 }
 
 .passport_apply .preview, .passport_apply .info{
-    float: left;
-}
+     float: left;
+ }
 .passport_apply{
     width: 1225px;
 }
@@ -431,6 +431,26 @@ form .form-actions{
 .passport_apply .button{
     padding: 30px;
 }
+
+.applySelf .preview, .applySelf .info{
+    float: left;
+}
+.applySelf{
+    width: 1375px;
+}
+.applySelf .preview{
+    width: 750px;
+    margin-right: 25px;
+}
+.applySelf .info{
+    width: 600px;
+    padding-left: 25px;
+}
+.applySelf .button{
+    padding: 30px;
+}
+
+
 .chkBox{
     _vertical-align: -3px;/*针对IE6使用hack*/
     vertical-align: -5px;

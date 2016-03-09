@@ -120,7 +120,6 @@ public class LeaderController extends BaseController {
         modelMap.put("commonList", commonList);
 
         modelMap.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
-        modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
         modelMap.put("cadreMap", cadreService.findAll());
 
         return "unit/leader/leader_page";

@@ -453,4 +453,8 @@ public class SystemConstants {
 		APPROVER_TYPE_MAP.put(APPROVER_TYPE_LEADER, "分管校领导");
 		APPROVER_TYPE_MAP.put(APPROVER_TYPE_OTHER, "其他");
 	}
+
+	// 管理员审批类型，0初审，1终审（type_id为null时）
+	public final static byte APPROVER_LOG_OD_TYPE_FIRST = 0;
+	public final static byte APPROVER_LOG_OD_TYPE_LAST = 1;
 }
