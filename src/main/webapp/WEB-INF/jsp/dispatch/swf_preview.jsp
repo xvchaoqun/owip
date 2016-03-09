@@ -16,7 +16,9 @@
 <c:if test="${not empty dispatch && not empty filePath}">
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${dispatch.year}-${dispatch.code}</h3>
+    <h3>
+            ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}
+    </h3>
   </div>
   <div class="modal-body">
 	   <div class="txt" id="flashContent">

@@ -191,7 +191,8 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td nowrap>${dispatch.year}</td>
-								<td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">${dispatch.code}</a></td>
+								<td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">
+								${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</a></td>
 								<td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
