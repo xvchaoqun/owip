@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -219,6 +220,22 @@ public class CadreController extends BaseController {
         cadreService.leave(id, status);
 
         logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
+        return success(FormUtils.SUCCESS);
+    }
+
+    // for test 给所有的干部加上干部身份
+    @RequiresRoles("admin")
+    @RequestMapping(value = "/cadre_addAllCadreRole")
+    @ResponseBody
+    public Map do_cadre_addAllCadreRole() {
+
+        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        for (Cadre cadre : cadreMap.values()) {
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            // 添加干部身份
+            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername());
+        }
+
         return success(FormUtils.SUCCESS);
     }
 

@@ -75,18 +75,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $(".printBtn").click(function(){
-        var win=window.open("${ctx}/report/passportApply?id="+ $(this).data("id"));
-        win.focus();
-        win.print();
-
-       /* var iframe = document.createElement('IFRAME');
-        iframe.style.display="none";
-        iframe.src="${ctx}/report/passportApply?id="+ $(this).data("id");
-        document.body.appendChild(iframe);
-        iframe.focus();
-        iframe.onload = function() {
-            iframe.contentWindow.print();
-        }*/
+        printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"))
     });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

@@ -140,9 +140,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $(".printBtn").click(function(){
-        var win=window.open("${ctx}/report/passportSign?id="+ $(this).data("id"));
-        win.focus();
-        win.print();
+        printWindow("${ctx}/report/passportSign?id="+ $(this).data("id"));
     });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

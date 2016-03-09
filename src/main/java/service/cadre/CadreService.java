@@ -131,6 +131,10 @@ public class CadreService extends BaseMapper {
     @CacheEvict(value="Cadre:ALL", allEntries = true)
     public int insertSelective(Cadre record){
 
+        SysUser sysUser = sysUserService.findById(record.getUserId());
+        // 添加干部身份
+        sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername());
+
         cadreMapper.insertSelective(record);
         Integer id = record.getId();
         Cadre _record = new Cadre();

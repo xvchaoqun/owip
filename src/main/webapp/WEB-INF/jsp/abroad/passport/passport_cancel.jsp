@@ -35,11 +35,8 @@ pageEncoding="UTF-8"%>
 </div>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
-    $("#print").click(function(){ // 兼容谷歌
-        //$("#myframe").jqprint();
-        var myframe = document.getElementById("myframe");
-        myframe.focus();
-        myframe.contentWindow.print();
+    $("#print").click(function(){
+        printWindow("/report/cancel?id=${param.id}");
     });
 
     $('#modalForm input[type=file]').ace_file_input({

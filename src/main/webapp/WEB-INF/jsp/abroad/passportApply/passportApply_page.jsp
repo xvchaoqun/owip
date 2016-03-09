@@ -194,17 +194,8 @@ pageEncoding="UTF-8" %>
     $(".handleBtn").click(function(){
         loadModal("${ctx}/passport_au?applyId="+ $(this).data("id"));
     });
-
-    // 打印
     $(".printBtn").click(function(){
-        var iframe = document.createElement('IFRAME');
-        iframe.style.display="none";
-        iframe.src="${ctx}/report/passportApply?id="+ $(this).data("id");
-        document.body.appendChild(iframe);
-        iframe.focus();
-        iframe.onload = function() {
-            iframe.contentWindow.print();
-        }
+        printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"));
     });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

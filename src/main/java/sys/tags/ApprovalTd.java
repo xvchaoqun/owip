@@ -11,6 +11,7 @@ import service.abroad.ApplySelfService;
 import service.cadre.CadreService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
+import shiro.ShiroUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -29,12 +30,13 @@ public class ApprovalTd extends BodyTagSupport {
         WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
         ApplySelfService applySelfService = (ApplySelfService) wac.getBean("applySelfService");
 
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
-        String btnTd = "<td><button class=\"approvalBtn btn btn-success btn-mini\"\n" +
+        String btnTd = "<td><button %s class=\"approvalBtn btn %s btn-mini\"\n" +
                 "        data-id=\"%s\" data-approvaltypeid=\"%s\">\n" +
                 "        <i class=\"fa fa-edit\"></i> 审批\n" +
                 "        </button></td>";
-        String _btnTd = "<td><button class=\"openView btn btn-success btn-mini\"\n" +
+        String _btnTd = "<td><button %s class=\"openView btn %s btn-mini\"\n" +
                 "        data-url=\"%s/applySelf_view?type=aproval&id=%s&approvalTypeId=%s\">\n" +
                 "        <i class=\"fa fa-edit\"></i> 审批\n" +
                 "        </button></td>";
@@ -47,8 +49,14 @@ public class ApprovalTd extends BodyTagSupport {
 
         Integer firstVal = vals[0];
         if(firstVal==null) {
-            if(view) td = "<td>未审批</td>";
-            else td = String.format(_btnTd, request.getContextPath(), applySelfId, -1);
+            if(view)
+                td = "<td>未审批</td>";
+            else {
+                boolean canApproval = applySelfService.canApproval(shiroUser.getId(), applySelfId, -1);
+                String disabled = canApproval?"":"disabled";
+                String style = canApproval?"btn-success":"btn-default";
+                td = String.format(_btnTd, disabled, style,  request.getContextPath(), applySelfId, -1);
+            }
         }else if (firstVal==0){
             td = "<td>未通过</td>";
         }else{
@@ -68,8 +76,12 @@ public class ApprovalTd extends BodyTagSupport {
                 if(val==null){
                     if(view)
                         td += "<td>未审批</td>";
-                     else
-                        td += String.format(btnTd, applySelfId, keys[i]);
+                     else {
+                        boolean canApproval = applySelfService.canApproval(shiroUser.getId(), applySelfId, keys[i]);
+                        String disabled = canApproval?"":"disabled";
+                        String style = canApproval?"btn-success":"btn-default";
+                        td += String.format(btnTd, disabled, style, applySelfId, keys[i]);
+                    }
                     goToNext = false;
                 }else if(val == 0 ){
                     td += "<td>未通过</td>";
@@ -87,8 +99,12 @@ public class ApprovalTd extends BodyTagSupport {
             if(lastVal==null) {
                 if (view)
                     td += "<td>未审批</td>";
-                else
-                    td += String.format(btnTd, applySelfId, 0);
+                else {
+                    boolean canApproval = applySelfService.canApproval(shiroUser.getId(), applySelfId, 0);
+                    String disabled = canApproval?"":"disabled";
+                    String style = canApproval?"btn-success":"btn-default";
+                    td += String.format(btnTd, disabled,style,  applySelfId, 0);
+                }
             }else if(lastVal == 0 ){
                 td += "<td>未通过</td>";
             }else if(lastVal == 1 ){

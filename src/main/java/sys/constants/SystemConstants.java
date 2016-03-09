@@ -14,6 +14,7 @@ public class SystemConstants {
 	// 系统角色（与数据库对应的角色字符串不可以修改！）
 	public static final String ROLE_ADMIN = "admin";
 	public static final String ROLE_GUEST = "guest";
+	public static final String ROLE_CADRE= "cadre";
 	public static final String ROLE_MEMBER = "member";
 	public static final String ROLE_INFLOWMEMBER = "inflowMember";
 	public static final String ROLE_PARTYADMIN = "partyAdmin";
