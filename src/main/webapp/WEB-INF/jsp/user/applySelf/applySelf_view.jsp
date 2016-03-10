@@ -153,7 +153,7 @@
                         <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
                         <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
                         <td>${applySelf.toCountry}</td>
-                        <td>${applySelf.reason}</td>
+                        <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
                         <td>
                           <c:set var="firstApprovalLog" value="${cm:getApprovalLog(applySelf.id, -1)}"/>
                           <c:set var="lastApprovalLog" value="${cm:getApprovalLog(applySelf.id, 0)}"/>

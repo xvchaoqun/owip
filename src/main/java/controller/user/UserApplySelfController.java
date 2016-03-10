@@ -23,9 +23,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -163,7 +161,7 @@ public class UserApplySelfController extends BaseController {
         Cadre cadre = cadreService.findByUserId(userId);
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
-            if(!CmTag.hasApplySelfFirstTrial(id) && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审时才允许删除
+            if(CmTag.getAdminFirstTrialStatus(id)==null && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审时才允许删除
 
                 ApplySelfFileExample example = new ApplySelfFileExample();
                 example.createCriteria().andApplyIdEqualTo(id);
@@ -212,15 +210,20 @@ public class UserApplySelfController extends BaseController {
         if(StringUtils.isNotBlank(_endDate)){
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
+        if(record.getId()==null) {
+            Cadre cadre = cadreService.findByUserId(userId);
+            record.setCadreId(cadre.getId());
+            record.setCreateTime(new Date());
+            record.setIp(IpUtils.getRealIp(request));
+            record.setStatus(true);// 提交
+            applySelfService.insertSelective(record);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+        }else{
 
-        Cadre cadre = cadreService.findByUserId(userId);
-        record.setCadreId(cadre.getId());
-
-        record.setCreateTime(new Date());
-        record.setIp(IpUtils.getRealIp(request));
-        applySelfService.insertSelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-
+            record.setStatus(true);// 重新提交
+            applySelfService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+        }
         Integer applyId = record.getId();
         for (ApplySelfFile applySelfFile : applySelfFiles) {
             applySelfFile.setApplyId(applyId);
@@ -231,12 +234,33 @@ public class UserApplySelfController extends BaseController {
     }
 
     @RequiresRoles("cadre")
+    @RequestMapping(value = "/applySelfFile_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelfFile_del(@CurrentUser SysUser loginUser, Integer id) {
+
+        ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfFile.getApplyId());
+
+        Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
+        if((firstTrialStatus==null||firstTrialStatus==0)
+                && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审或初审未通过时才允许删除
+            applySelfFileMapper.deleteByPrimaryKey(id);
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("cadre")
     @RequestMapping("/applySelf_au")
     public String applySelf_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
+
+            List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
+            modelMap.put("files", files);
         }
 
         List<String> countryList = new ArrayList<>();

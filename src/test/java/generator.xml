@@ -26,14 +26,14 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
       </table>-->
-      <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
-      </table>-->
+      <table tableName="abroad_apply_self" domainObjectName="ApplySelf">
+      </table>
       <!--<table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
       </table>-->
      <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
       </table>-->
-      <table tableName="abroad_approval_order" domainObjectName="ApprovalOrder">
-      </table>
+      <!--<table tableName="abroad_approval_order" domainObjectName="ApprovalOrder">
+      </table>-->
       <!--<table tableName="abroad_approver" domainObjectName="Approver">
       </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="ApproverType">

@@ -107,7 +107,7 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
                             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
 								<td>${applySelf.toCountry}</td>
-								<td>${applySelf.reason}</td>
+								<td>${fn:replace(applySelf.reason, '+++', ',')}</td>
                                 <wo:approvalTd applySelfId="${applySelf.id}" view="false"/>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">

@@ -1,5 +1,9 @@
 
 --2016.3.10
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `status` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否提交，组织部初审可以打回' AFTER `ip`;
+
+--2016.3.10
 ALTER TABLE `ow_member`
 	ADD CONSTRAINT `FK_ow_member_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
 	ADD CONSTRAINT `FK_ow_member_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);

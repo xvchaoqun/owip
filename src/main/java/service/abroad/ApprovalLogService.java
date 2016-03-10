@@ -15,18 +15,18 @@ import java.util.List;
 public class ApprovalLogService extends BaseMapper {
 
 
-    // 判断申请记录 是否经过了初审
-    public boolean hasAdminFirstTrial(int applyId){
+    // 获取申请记录 初审结果  审批结果: -1不需要审批 0未通过 1通过 null未审批
+    public Integer getAdminFirstTrialStatus(int applyId){
 
         List<ApprovalLog> approvalLogs = findByApplyId(applyId);
         for (ApprovalLog approvalLog : approvalLogs) {
             if(approvalLog.getTypeId()==null && approvalLog.getOdType()==0){
-                return true;
+                return approvalLog.getStatus()?1:0;
             }
         }
         // 如果没有组织部初审，则审批记录肯定为空
         Assert.isTrue(approvalLogs.size() == 0);
-        return false;
+        return null;
     }
 
     public List<ApprovalLog> findByApplyId(int applySefId){

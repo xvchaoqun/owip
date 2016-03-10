@@ -124,9 +124,9 @@
 		<function-signature>java.lang.String getDispatchCode(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
-		<name>hasApplySelfFirstTrial</name>
+		<name>getAdminFirstTrialStatus</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.Boolean hasApplySelfFirstTrial(java.lang.Integer)</function-signature>
+		<function-signature>java.lang.Integer getAdminFirstTrialStatus(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>findApprovalLogs</name>

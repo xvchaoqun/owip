@@ -63,11 +63,19 @@ pageEncoding="UTF-8" %>
                                             data-url="${ctx}/user/applySelf_view?id=${applySelf.id}">
                                         <i class="fa fa-info-circle"></i> 详情
                                     </button>
-                                    <c:if test="${!cm:hasApplySelfFirstTrial(applySelf.id)}">
+                                    <c:set var="firstStatus" value="${cm:getAdminFirstTrialStatus(applySelf.id)}"/>
+                                    <c:if test="${firstStatus==null || firstStatus==0}"> <!--没有经过审批获审批不通过，可以重新提交-->
+                                        <button class="openView btn btn-primary btn-mini"
+                                                data-url="${ctx}/user/applySelf_au?id=${applySelf.id}&edit=1">
+                                            <i class="fa fa-edit"></i> 修改提交
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${firstStatus==null}"> <!--没有经过审批才可以删除-->
                                         <button class="delBtn btn btn-danger btn-mini" data-id="${applySelf.id}">
                                             <i class="fa fa-times"></i> 删除
                                         </button>
                                     </c:if>
+
                                 </div>
                             </td>
                         </tr>

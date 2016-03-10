@@ -100,6 +100,12 @@ public class ApplySelfController extends BaseController {
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
             record.setOdType((byte) 0); // 初审
+            if(status!=1){ // 不通过，打回申请
+                ApplySelf applySelf = new ApplySelf();
+                applySelf.setId(applySelfId);
+                applySelf.setStatus(false); // 打回
+                applySelfService.updateByPrimaryKeySelective(applySelf);
+            }
         }
         if (approvalTypeId == 0) {
             record.setOdType((byte) 1); // 终审
@@ -202,7 +208,10 @@ public class ApplySelfController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+
         if (!SecurityUtils.getSubject().hasRole("cadreAdmin")) { //干部管理员可以全部看到，其他审批人需要过滤
+
+            criteria.andStatusEqualTo(true); // 只看已提交的记录
 
             int userId = loginUser.getId();
             Cadre cadre = cadreService.findByUserId(userId);
@@ -302,10 +311,11 @@ public class ApplySelfController extends BaseController {
 
         if (id == null) {
             record.setCreateTime(new Date());
+            record.setStatus(true);// 提交
             applySelfService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {
-
+            //record.setStatus(true);
             applySelfService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         }

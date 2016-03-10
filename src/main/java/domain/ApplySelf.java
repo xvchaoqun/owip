@@ -30,6 +30,8 @@ public class ApplySelf implements Serializable {
 
     private String ip;
 
+    private Boolean status;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -134,5 +136,13 @@ public class ApplySelf implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

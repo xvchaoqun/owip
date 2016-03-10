@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 
     <form class="form-horizontal" action="${ctx}/user/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="${applySelf.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出行时间</label>
 				<div class="col-xs-6">
@@ -13,7 +14,7 @@ pageEncoding="UTF-8"%>
 						</c:forEach>
 					</select>
 					<script>
-						$("#modalForm select[name=type]").val('${applySelf.type}');
+						$("#applyForm select[name=type]").val('${applySelf.type}');
 					</script>
 				</div>
 			</div>
@@ -95,17 +96,30 @@ pageEncoding="UTF-8"%>
 					<button type="button" onclick="addFile()" class="btn btn-mini"><i class="fa fa-plus"></i></button>
 				</div>
 			</div>
+		<c:if test="${fn:length(files)>0}">
+		<div class="form-group" id="fileGroup">
+			<label class="col-xs-3 control-label">已上传材料</label>
+			<div class="col-xs-3">
+				<c:forEach items="${files}" var="file">
+					<div id="file${file.id}" class="file row well well-sm col-xs-12">
+						<div class="col-xs-9 ">
+						<a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a></div>
+						<div class="col-xs-3"><a href="javascript:;" onclick="_delFile(${file.id}, '${file.fileName}')">删除</a></div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		</c:if>
     </form>
-<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding: 50px;">
+<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding-bottom: 50px;">
 	<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
 </div>
 <div class="modal-footer center">
-	<input id="submit" class="btn btn-success" value="提交申请"/>
+	<input id="submit" class="btn btn-success" value="${param.edit==1?"修改提交":"提交申请"}"/>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input class="closeView btn btn-default" value="返回"/>
 </div>
 <style>
-
 	input[type=radio], input[type=checkbox]{
 		width: 20px;
 		height: 20px;
@@ -126,6 +140,40 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+	<c:forEach var="reason" items="${fn:split(applySelf.reason,'+++')}">
+	$("input[name=_reason][value='${reason}']").prop("checked", true);
+	</c:forEach>
+	<c:forEach var="peerStaff" items="${fn:split(applySelf.peerStaff,'+++')}">
+	$("input[name=_peerStaff][value='${peerStaff}']").prop("checked", true);
+	</c:forEach>
+	var costSource = '${applySelf.costSource}';
+	if(costSource=='自费')
+		$("input[name=_costSource][value='自费']").prop("checked", true);
+	else {
+		$("input[name=_costSource][value='其他来源']").prop("checked", true);
+		$("input[name=_costSource_other]").val(costSource.split(":")[1]);
+	}
+	<c:forEach var="needPassports" items="${fn:split(applySelf.needPassports,',')}">
+	$("input[name=_needPassports][value='${needPassports}']").prop("checked", true);
+	</c:forEach>
+
+	function _delFile(id, name){
+		bootbox.confirm("确定删除'"+name+"'吗？", function (result) {
+			if (result) {
+				$.post("${ctx}/user/applySelfFile_del",{id:id},function(ret){
+					if(ret.success){
+						SysMsg.success("删除成功",'',function(){
+							$("#file"+id).remove();
+							if($("#fileGroup").find(".file").length==0){
+								$("#fileGroup").remove();
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
 	ace_file_input($('input[type=file]'))
 	function ace_file_input($file){
 		$file.ace_file_input({

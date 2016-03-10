@@ -210,9 +210,9 @@ public class CmTag {
         return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
     }
 
-    // 判断因私出国申请记录是否经过了初审
-    public static Boolean hasApplySelfFirstTrial(Integer applyId) {
-        return approvalLogService.hasAdminFirstTrial(applyId);
+    // 获取因私出国申请记录 初审 结果
+    public static Integer getAdminFirstTrialStatus(Integer applyId) {
+        return approvalLogService.getAdminFirstTrialStatus(applyId);
     }
 
     // 获取因私出国申请记录 的评审log
