@@ -13,7 +13,7 @@
       "showColumns": "year,name,attr,create_time",
       "excludeEditColumns": "id,year,create_time",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "location",
@@ -159,6 +159,15 @@
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
+    },
+    {
+      "table": "cadre_tutor",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "type,name,title",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
     },
     {
       "table": "unit_transfer",

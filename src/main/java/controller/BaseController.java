@@ -137,6 +137,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreEduService cadreEduService;
     @Autowired
+    protected CadreTutorService cadreTutorService;
+    @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
     protected UnitCadreTransferService unitCadreTransferService;

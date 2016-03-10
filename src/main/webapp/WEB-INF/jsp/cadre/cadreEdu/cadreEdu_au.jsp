@@ -12,12 +12,6 @@ pageEncoding="UTF-8"%>
         	<input type="hidden" name="id" value="${cadreEdu.id}">
         	<input type="hidden" name="cadreId" value="${cadre.id}">
 			<div class="form-group">
-				<label class="col-xs-5 control-label">所属干部</label>
-				<div class="col-xs-6">
-					<input type="text" value="${sysUser.realname}" disabled>
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-xs-5 control-label">学历</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="eduId" data-placeholder="请选择">
@@ -61,7 +55,9 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="schoolType" data-placeholder="请选择">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_school"/>
+						<c:forEach items="${CADRE_SCHOOL_TYPE_MAP}" var="schoolType">
+							<option value="${schoolType.key}">${schoolType.value}</option>
+						</c:forEach>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=schoolType]").val(${cadreEdu.schoolType});
@@ -73,7 +69,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 					<input required class="form-control date-picker" name="_enrolTime" type="text"
-						   data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy-MM-dd')}" />
+						   data-date-min-view-mode="1"
+						   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -83,7 +80,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 					<input required class="form-control date-picker" name="_finishTime" type="text"
-						   data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreEdu.finishTime,'yyyy-MM-dd')}" />
+						   data-date-min-view-mode="1"
+						   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -109,10 +107,19 @@ pageEncoding="UTF-8"%>
 			</div>
 			</div>
 			<div class="col-xs-6">
+				<div class="form-group">
+					<label class="col-xs-4 control-label">是否获得学位</label>
+					<div class="col-xs-6">
+						<label>
+							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<span class="lbl"></span>
+						</label>
+					</div>
+				</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">学位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
+                        <input disabled class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
 				</div>
 			</div>
 				<div class="form-group">
@@ -131,7 +138,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">学位授予国家</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="degreeCountry" value="${cadreEdu.degreeCountry}">
+                        <input class="form-control" type="text" name="degreeCountry" value="${cadreEdu.degreeCountry}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -151,18 +158,6 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">导师姓名</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">导师目前所在单位及职务</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="tutorUnit" value="${cadreEdu.tutorUnit}">
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
 					<textarea class="form-control" name="remark" rows="5">${cadreEdu.remark}</textarea>
@@ -177,6 +172,44 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	function hasDegreeChange(){
+		if($("input[name=hasDegree]").prop("checked")){
+			$("input[name=degree]").prop("disabled", false).attr("required", "required");
+		}else{
+			$("input[name=degree]").val('').prop("disabled", true).removeAttr("required");
+		}
+	}
+	$("input[name=hasDegree]").click(function(){
+		hasDegreeChange();
+	});
+	hasDegreeChange();
+
+	function schoolTypeChange(){
+		var $schoolType = $("select[name=schoolType]");
+		if($schoolType.val()=='${CADRE_SCHOOL_TYPE_THIS_SCHOOL}' || $schoolType.val()=='${CADRE_SCHOOL_TYPE_DOMESTIC}'){
+			$("input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
+		}else{
+			$("input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
+		}
+	}
+	$("select[name=schoolType]").change(function(){
+		schoolTypeChange();
+	});
+	schoolTypeChange();
+
+	$("input[name=school]").keyup(function(){
+		var $degreeUnit = $("input[name=degreeUnit]");
+		if($degreeUnit.val()==''||$(this).val().startWith($degreeUnit.val())){
+			$degreeUnit.val($(this).val());
+		}
+	})
+
+	$("input[name=_finishTime]").on('changeDate ',function(ev){
+		var $_degreeTime = $("input[name=_degreeTime]")
+		if($_degreeTime.val()==''){
+			$_degreeTime.val(ev.date.format("yyyy-MM-dd"));
+		}
+	})
 
 	register_date($('.date-picker'));
 

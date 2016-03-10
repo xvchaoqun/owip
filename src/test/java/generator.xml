@@ -26,8 +26,8 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
       </table>-->
-      <table tableName="abroad_apply_self" domainObjectName="ApplySelf">
-      </table>
+     <!-- <table tableName="abroad_apply_self" domainObjectName="ApplySelf">
+      </table>-->
       <!--<table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
       </table>-->
      <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
@@ -134,8 +134,10 @@
       </table>-->
       <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
        </table>-->
-      <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
-      </table>-->
+      <table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+      </table>
+      <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
+      </table>
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
         <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->

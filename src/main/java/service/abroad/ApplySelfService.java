@@ -132,16 +132,15 @@ public class ApplySelfService extends BaseMapper {
     public boolean canApproval(int userId, int applySelfId, int approvalTypeId) {
 
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW)
+        if (approvalTypeId <= 0) {
+            return SecurityUtils.getSubject().hasRole("cadreAdmin");
+        }else if (cadre==null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW) {
             return false; // 必须是现任干部才有审批权限
+        }
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
         int targetCadreId = applySelf.getCadreId(); // 待审批的干部
         Cadre targetCadre = cadreService.findAll().get(targetCadreId);
-
-        if (approvalTypeId <= 0) {
-            return SecurityUtils.getSubject().hasRole("cadreAdmin");
-        }
 
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(approvalTypeId);
         Byte type = approverType.getType();

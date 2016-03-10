@@ -9,18 +9,17 @@
     <result column="school" property="school" jdbcType="VARCHAR" />
     <result column="dep" property="dep" jdbcType="VARCHAR" />
     <result column="major" property="major" jdbcType="VARCHAR" />
-    <result column="school_type" property="schoolType" jdbcType="INTEGER" />
+    <result column="school_type" property="schoolType" jdbcType="TINYINT" />
     <result column="enrol_time" property="enrolTime" jdbcType="DATE" />
     <result column="finish_time" property="finishTime" jdbcType="DATE" />
     <result column="school_len" property="schoolLen" jdbcType="TINYINT" />
     <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
+    <result column="has_degree" property="hasDegree" jdbcType="BIT" />
     <result column="degree" property="degree" jdbcType="VARCHAR" />
     <result column="is_high_degree" property="isHighDegree" jdbcType="BIT" />
     <result column="degree_country" property="degreeCountry" jdbcType="VARCHAR" />
     <result column="degree_unit" property="degreeUnit" jdbcType="VARCHAR" />
     <result column="degree_time" property="degreeTime" jdbcType="DATE" />
-    <result column="tutor_name" property="tutorName" jdbcType="VARCHAR" />
-    <result column="tutor_unit" property="tutorUnit" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -83,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, edu_id, is_high_edu, school, dep, major, school_type, enrol_time, finish_time, 
-    school_len, learn_style, degree, is_high_degree, degree_country, degree_unit, degree_time, 
-    tutor_name, tutor_unit, remark
+    school_len, learn_style, has_degree, degree, is_high_degree, degree_country, degree_unit, 
+    degree_time, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreEduExample" >
     select
@@ -121,16 +120,16 @@
       is_high_edu, school, dep, 
       major, school_type, enrol_time, 
       finish_time, school_len, learn_style, 
-      degree, is_high_degree, degree_country, 
-      degree_unit, degree_time, tutor_name, 
-      tutor_unit, remark)
+      has_degree, degree, is_high_degree, 
+      degree_country, degree_unit, degree_time, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, 
-      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=INTEGER}, #{enrolTime,jdbcType=DATE}, 
+      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, #{enrolTime,jdbcType=DATE}, 
       #{finishTime,jdbcType=DATE}, #{schoolLen,jdbcType=TINYINT}, #{learnStyle,jdbcType=INTEGER}, 
-      #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, 
-      #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, 
-      #{tutorUnit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{hasDegree,jdbcType=BIT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
+      #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.CadreEdu" >
     insert into base_cadre_edu
@@ -171,6 +170,9 @@
       <if test="learnStyle != null" >
         learn_style,
       </if>
+      <if test="hasDegree != null" >
+        has_degree,
+      </if>
       <if test="degree != null" >
         degree,
       </if>
@@ -185,12 +187,6 @@
       </if>
       <if test="degreeTime != null" >
         degree_time,
-      </if>
-      <if test="tutorName != null" >
-        tutor_name,
-      </if>
-      <if test="tutorUnit != null" >
-        tutor_unit,
       </if>
       <if test="remark != null" >
         remark,
@@ -219,7 +215,7 @@
         #{major,jdbcType=VARCHAR},
       </if>
       <if test="schoolType != null" >
-        #{schoolType,jdbcType=INTEGER},
+        #{schoolType,jdbcType=TINYINT},
       </if>
       <if test="enrolTime != null" >
         #{enrolTime,jdbcType=DATE},
@@ -232,6 +228,9 @@
       </if>
       <if test="learnStyle != null" >
         #{learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="hasDegree != null" >
+        #{hasDegree,jdbcType=BIT},
       </if>
       <if test="degree != null" >
         #{degree,jdbcType=VARCHAR},
@@ -247,12 +246,6 @@
       </if>
       <if test="degreeTime != null" >
         #{degreeTime,jdbcType=DATE},
-      </if>
-      <if test="tutorName != null" >
-        #{tutorName,jdbcType=VARCHAR},
-      </if>
-      <if test="tutorUnit != null" >
-        #{tutorUnit,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -290,7 +283,7 @@
         major = #{record.major,jdbcType=VARCHAR},
       </if>
       <if test="record.schoolType != null" >
-        school_type = #{record.schoolType,jdbcType=INTEGER},
+        school_type = #{record.schoolType,jdbcType=TINYINT},
       </if>
       <if test="record.enrolTime != null" >
         enrol_time = #{record.enrolTime,jdbcType=DATE},
@@ -303,6 +296,9 @@
       </if>
       <if test="record.learnStyle != null" >
         learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="record.hasDegree != null" >
+        has_degree = #{record.hasDegree,jdbcType=BIT},
       </if>
       <if test="record.degree != null" >
         degree = #{record.degree,jdbcType=VARCHAR},
@@ -318,12 +314,6 @@
       </if>
       <if test="record.degreeTime != null" >
         degree_time = #{record.degreeTime,jdbcType=DATE},
-      </if>
-      <if test="record.tutorName != null" >
-        tutor_name = #{record.tutorName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.tutorUnit != null" >
-        tutor_unit = #{record.tutorUnit,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -342,18 +332,17 @@
       school = #{record.school,jdbcType=VARCHAR},
       dep = #{record.dep,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
-      school_type = #{record.schoolType,jdbcType=INTEGER},
+      school_type = #{record.schoolType,jdbcType=TINYINT},
       enrol_time = #{record.enrolTime,jdbcType=DATE},
       finish_time = #{record.finishTime,jdbcType=DATE},
       school_len = #{record.schoolLen,jdbcType=TINYINT},
       learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      has_degree = #{record.hasDegree,jdbcType=BIT},
       degree = #{record.degree,jdbcType=VARCHAR},
       is_high_degree = #{record.isHighDegree,jdbcType=BIT},
       degree_country = #{record.degreeCountry,jdbcType=VARCHAR},
       degree_unit = #{record.degreeUnit,jdbcType=VARCHAR},
       degree_time = #{record.degreeTime,jdbcType=DATE},
-      tutor_name = #{record.tutorName,jdbcType=VARCHAR},
-      tutor_unit = #{record.tutorUnit,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -381,7 +370,7 @@
         major = #{major,jdbcType=VARCHAR},
       </if>
       <if test="schoolType != null" >
-        school_type = #{schoolType,jdbcType=INTEGER},
+        school_type = #{schoolType,jdbcType=TINYINT},
       </if>
       <if test="enrolTime != null" >
         enrol_time = #{enrolTime,jdbcType=DATE},
@@ -394,6 +383,9 @@
       </if>
       <if test="learnStyle != null" >
         learn_style = #{learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="hasDegree != null" >
+        has_degree = #{hasDegree,jdbcType=BIT},
       </if>
       <if test="degree != null" >
         degree = #{degree,jdbcType=VARCHAR},
@@ -410,12 +402,6 @@
       <if test="degreeTime != null" >
         degree_time = #{degreeTime,jdbcType=DATE},
       </if>
-      <if test="tutorName != null" >
-        tutor_name = #{tutorName,jdbcType=VARCHAR},
-      </if>
-      <if test="tutorUnit != null" >
-        tutor_unit = #{tutorUnit,jdbcType=VARCHAR},
-      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -430,18 +416,17 @@
       school = #{school,jdbcType=VARCHAR},
       dep = #{dep,jdbcType=VARCHAR},
       major = #{major,jdbcType=VARCHAR},
-      school_type = #{schoolType,jdbcType=INTEGER},
+      school_type = #{schoolType,jdbcType=TINYINT},
       enrol_time = #{enrolTime,jdbcType=DATE},
       finish_time = #{finishTime,jdbcType=DATE},
       school_len = #{schoolLen,jdbcType=TINYINT},
       learn_style = #{learnStyle,jdbcType=INTEGER},
+      has_degree = #{hasDegree,jdbcType=BIT},
       degree = #{degree,jdbcType=VARCHAR},
       is_high_degree = #{isHighDegree,jdbcType=BIT},
       degree_country = #{degreeCountry,jdbcType=VARCHAR},
       degree_unit = #{degreeUnit,jdbcType=VARCHAR},
       degree_time = #{degreeTime,jdbcType=DATE},
-      tutor_name = #{tutorName,jdbcType=VARCHAR},
-      tutor_unit = #{tutorUnit,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

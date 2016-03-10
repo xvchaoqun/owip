@@ -363,7 +363,9 @@ public class DispatchController extends BaseController {
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
         }
 
-        if(year == null) year = DateUtils.getCurrentYear();
+        if(year == null) {
+            year = DateUtils.getCurrentYear();
+        }
         modelMap.put("year", year);
 
         return "dispatch/dispatch_au";

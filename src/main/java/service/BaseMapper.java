@@ -118,6 +118,8 @@ public class BaseMapper {
 	@Autowired
 	protected CadreEduMapper cadreEduMapper;
 	@Autowired
+	protected CadreTutorMapper cadreTutorMapper;
+	@Autowired
 	protected UnitTransferMapper unitTransferMapper;
 	@Autowired
 	protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;

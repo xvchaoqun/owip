@@ -337,6 +337,25 @@ public class SystemConstants {
 		CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
 	}
 
+	// 干部学习经历 学校类型 1本校 2境内 3境外
+	public final static byte CADRE_SCHOOL_TYPE_THIS_SCHOOL = 1;
+	public final static byte CADRE_SCHOOL_TYPE_DOMESTIC = 2;
+	public final static byte CADRE_SCHOOL_TYPE_ABROAD = 3;
+	public final static Map<Byte, String>CADRE_SCHOOL_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_SCHOOL_TYPE_MAP.put(CADRE_SCHOOL_TYPE_THIS_SCHOOL, "本校");
+		CADRE_SCHOOL_TYPE_MAP.put(CADRE_SCHOOL_TYPE_DOMESTIC, "境内");
+		CADRE_SCHOOL_TYPE_MAP.put(CADRE_SCHOOL_TYPE_ABROAD, "境外");
+	}
+	// 干部学习经历 导师类型 1硕士研究生导师 2 博士研究生导师
+	public final static byte CADRE_TUTOR_TYPE_MASTER = 1;
+	public final static byte CADRE_TUTOR_TYPE_DOCTOR = 2;
+	public final static Map<Byte, String>CADRE_TUTOR_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_TUTOR_TYPE_MAP.put(CADRE_TUTOR_TYPE_MASTER, "硕士研究生导师");
+		CADRE_TUTOR_TYPE_MAP.put(CADRE_TUTOR_TYPE_DOCTOR, "博士研究生导师");
+	}
+
 	// 干部教学课程类别
 	public final static byte CADRE_COURSE_TYPE_BKS = 1;
 	public final static byte CADRE_COURSE_TYPE_SS = 2;

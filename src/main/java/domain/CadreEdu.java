@@ -18,7 +18,7 @@ public class CadreEdu implements Serializable {
 
     private String major;
 
-    private Integer schoolType;
+    private Byte schoolType;
 
     private Date enrolTime;
 
@@ -27,6 +27,8 @@ public class CadreEdu implements Serializable {
     private Byte schoolLen;
 
     private Integer learnStyle;
+
+    private Boolean hasDegree;
 
     private String degree;
 
@@ -37,10 +39,6 @@ public class CadreEdu implements Serializable {
     private String degreeUnit;
 
     private Date degreeTime;
-
-    private String tutorName;
-
-    private String tutorUnit;
 
     private String remark;
 
@@ -102,11 +100,11 @@ public class CadreEdu implements Serializable {
         this.major = major == null ? null : major.trim();
     }
 
-    public Integer getSchoolType() {
+    public Byte getSchoolType() {
         return schoolType;
     }
 
-    public void setSchoolType(Integer schoolType) {
+    public void setSchoolType(Byte schoolType) {
         this.schoolType = schoolType;
     }
 
@@ -140,6 +138,14 @@ public class CadreEdu implements Serializable {
 
     public void setLearnStyle(Integer learnStyle) {
         this.learnStyle = learnStyle;
+    }
+
+    public Boolean getHasDegree() {
+        return hasDegree;
+    }
+
+    public void setHasDegree(Boolean hasDegree) {
+        this.hasDegree = hasDegree;
     }
 
     public String getDegree() {
@@ -180,22 +186,6 @@ public class CadreEdu implements Serializable {
 
     public void setDegreeTime(Date degreeTime) {
         this.degreeTime = degreeTime;
-    }
-
-    public String getTutorName() {
-        return tutorName;
-    }
-
-    public void setTutorName(String tutorName) {
-        this.tutorName = tutorName == null ? null : tutorName.trim();
-    }
-
-    public String getTutorUnit() {
-        return tutorUnit;
-    }
-
-    public void setTutorUnit(String tutorUnit) {
-        this.tutorUnit = tutorUnit == null ? null : tutorUnit.trim();
     }
 
     public String getRemark() {

@@ -1,5 +1,35 @@
 
+
 --2016.3.10
+-- 删除元数据 学校类型
+ALTER TABLE `base_cadre_edu`
+	ALTER `school_type` DROP DEFAULT;
+ALTER TABLE `base_cadre_edu`
+	CHANGE COLUMN `school_type` `school_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '学校类型， 1本校 2境内 3境外' AFTER `major`,
+	ADD COLUMN `has_degree` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否获得学位' AFTER `learn_style`,
+	DROP COLUMN `tutor_name`,
+	DROP COLUMN `tutor_unit`,
+	DROP INDEX `FK_base_cadre_edu_base_meta_type_2`,
+	DROP FOREIGN KEY `FK_base_cadre_edu_base_meta_type_2`;
+
+CREATE TABLE `base_cadre_tutor` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属干部',
+	`name` VARCHAR(50) NOT NULL COMMENT '导师姓名',
+	`title` VARCHAR(100) NOT NULL COMMENT '所在单位及职务（职称）',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1硕士生导师 2博士生导师',
+	PRIMARY KEY (`id`),
+	INDEX `FK_base_cadre_tutor_base_cadre` (`cadre_id`),
+	CONSTRAINT `FK_base_cadre_tutor_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `base_cadre` (`id`)
+)
+COMMENT='导师信息'
+ENGINE=InnoDB
+;
+
+
+
+
+--2016.3.10 已更新
 ALTER TABLE `abroad_apply_self`
 	ADD COLUMN `status` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否提交，组织部初审可以打回' AFTER `ip`;
 

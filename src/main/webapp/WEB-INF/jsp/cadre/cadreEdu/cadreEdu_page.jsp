@@ -3,112 +3,157 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
         <!-- PAGE CONTENT BEGINS -->
-            <div class="buttons pull-right">
-                <shiro:hasPermission name="cadreEdu:edit">
-                <a class="btn btn-info btn-sm" onclick="_au()" data-width="900"><i class="fa fa-plus"></i> 添加学习经历</a>
-                </shiro:hasPermission>
-                <c:if test="${commonList.recNum>0}">
-                <shiro:hasPermission name="cadreEdu:del">
-                 <a class="btn btn-danger btn-sm" onclick="_batchDel()"><i class="fa fa-times"></i> 批量删除</a>
-                 </shiro:hasPermission>
+ <div class="buttons pull-right">
+    <shiro:hasPermission name="cadreEdu:edit">
+        <a class="btn btn-info btn-sm" onclick="_au()" data-width="900"><i class="fa fa-plus"></i> 添加学习经历</a>
+    </shiro:hasPermission>
+</div>
+<h4>&nbsp;</h4>
+<div class="space-4"></div>
+<table class="table table-actived  table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>学历</th>
+        <th>最高学历</th>
+        <th>毕业学校</th>
+        <th>院系</th>
+        <th>所学专业</th>
+        <th>学校类型</th>
+        <th>入学时间</th>
+        <th>毕业时间</th>
+        <th>学制</th>
+        <th>学习方式</th>
+        <th>学位</th>
+        <th>最高学位</th>
+        <th>学位授予国家</th>
+        <th>学位授予单位</th>
+        <th>学位授予日期</th>
+        <shiro:hasPermission name="cadreEdu:changeOrder">
+            <c:if test="${!_query && commonList.recNum>1}">
+                <th nowrap class="hidden-480">排序</th>
+            </c:if>
+        </shiro:hasPermission>
+        <th nowrap></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${cadreEdus}" var="cadreEdu" varStatus="st">
+        <tr>
+            <td>${eduMap.get(cadreEdu.eduId).name}</td>
+            <td>${cadreEdu.isHighEdu?"是":"否"}</td>
+            <td>${cadreEdu.school}</td>
+            <td>${cadreEdu.dep}</td>
+            <td>${cadreEdu.major}</td>
+            <td>${CADRE_SCHOOL_TYPE_MAP.get(cadreEdu.schoolType)}</td>
+            <td>${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}</td>
+            <td>${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}</td>
+            <td>${cadreEdu.schoolLen}</td>
+            <td>${cadreEdu.learnStyle}</td>
+            <td>${cadreEdu.degree}</td>
+            <td>${cadreEdu.isHighDegree?"是":"否"}</td>
+            <td>${cadreEdu.degreeCountry}</td>
+            <td>${cadreEdu.degreeUnit}</td>
+            <td>${cm:formatDate(cadreEdu.degreeTime, 'yyyy-MM-dd')}</td>
+            <shiro:hasPermission name="cadreEdu:changeOrder">
+                <c:if test="${!_query && commonList.recNum>1}">
+                    <td class="hidden-480">
+                        <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                        <input type="text" value="1"
+                               class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+                        <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                    </td>
                 </c:if>
-            </div>
-            <h4>&nbsp;</h4>
-            <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
-                    <thead>
-                    <tr>
-							<th>所属干部</th>
-							<th>学历</th>
-							<th>毕业学校</th>
-							<th>院系</th>
-							<th>入学时间</th>
-							<th>毕业时间</th>
-							<th>学位</th>
-                        <shiro:hasPermission name="cadreEdu:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${cadreEdus}" var="cadreEdu" varStatus="st">
-                        <tr>
-								<td>${cm:getUserById(cadreMap.get(cadreEdu.cadreId).userId).realname}</td>
-								<td>${eduMap.get(cadreEdu.eduId).name}</td>
-								<td>${cadreEdu.school}</td>
-								<td>${cadreEdu.dep}</td>
-								<td>${cm:formatDate(cadreEdu.enrolTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(cadreEdu.finishTime,'yyyy-MM-dd')}</td>
-								<td>${cadreEdu.degree}</td>
-                            <shiro:hasPermission name="cadreEdu:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreEdu:edit">
-                                    <button onclick="_au(${cadreEdu.id})" class="btn btn-mini">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreEdu:del">
-                                    <button  onclick="_del(${cadreEdu.id})" class="btn btn-danger btn-mini">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="cadreEdu:edit">
-                                            <li>
-                                                <a href="#" data-id="${cadreEdu.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadreEdu:del">
-                                            <li>
-                                                <a href="#" data-id="${cadreEdu.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+            </shiro:hasPermission>
+            <td>
+                <div class="hidden-sm hidden-xs action-buttons">
+                    <shiro:hasPermission name="cadreEdu:edit">
+                        <button onclick="_au(${cadreEdu.id})" class="btn btn-mini">
+                            <i class="fa fa-edit"></i> 编辑
+                        </button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="cadreEdu:del">
+                        <button  onclick="_del(${cadreEdu.id})" class="btn btn-danger btn-mini">
+                            <i class="fa fa-times"></i> 删除
+                        </button>
+                    </shiro:hasPermission>
+                </div>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
                 <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#view-box .tab-content" pageNum="5"
                          model="3"/>
+<div class="space-4"></div>
+<div class="buttons pull-right">
+        <a class="btn btn-info btn-sm" onclick="_auTutor()" data-width="900"><i class="fa fa-plus"></i> 添加导师信息</a>
+</div>
+<h4>&nbsp;</h4>
+<div class="space-4"></div>
+<table class="table table-actived  table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th></th>
+        <th>姓名</th>
+        <th>所在单位及职务(职称)</th>
+        <shiro:hasPermission name="cadreTutor:changeOrder">
+            <c:if test="${!_query && commonList.recNum>1}">
+                <th nowrap class="hidden-480">排序</th>
+            </c:if>
+        </shiro:hasPermission>
+        <th nowrap></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${cadreTutors}" var="cadreTutor" varStatus="st">
+        <tr>
+            <td>${CADRE_TUTOR_TYPE_MAP.get(cadreTutor.type)}</td>
+            <td>${cadreTutor.name}</td>
+            <td>${cadreTutor.title}</td>
+            <shiro:hasPermission name="cadreEdu:changeOrder">
+                <c:if test="${!_query && commonList.recNum>1}">
+                    <td class="hidden-480">
+                        <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                        <input type="text" value="1"
+                               class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+                        <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreEdu.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                    </td>
+                </c:if>
+            </shiro:hasPermission>
+            <td>
+                <div class="hidden-sm hidden-xs action-buttons">
+                    <shiro:hasPermission name="cadreEdu:edit">
+                        <button onclick="_auTutor(${cadreTutor.id})" class="btn btn-mini">
+                            <i class="fa fa-edit"></i> 编辑
+                        </button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="cadreEdu:del">
+                        <button  onclick="_delTutor(${cadreTutor.id})" class="btn btn-danger btn-mini">
+                            <i class="fa fa-times"></i> 删除
+                        </button>
+                    </shiro:hasPermission>
+                </div>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 <script>
+
+   /* $(".changeOrderBtn").click(function(){
+        var id = $(this).data("id");
+        var direction = parseInt($(this).data("direction"));
+        var step = $(this).closest("td").find("input").val();
+        var addNum = (parseInt(step)||1)*direction;
+        $.post("${ctx}/cadre_changeOrder",{id:id, addNum:addNum},function(ret){
+            if(ret.success) {
+                page_reload();
+                SysMsg.success('操作成功。', '成功');
+            }
+        });
+    });*/
+
+
     function _au(id) {
         url = "${ctx}/cadreEdu_au?cadreId=${param.cadreId}";
         if (id > 0)  url += "&id=" + id;
