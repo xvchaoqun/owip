@@ -30,7 +30,7 @@
     </div>
     <div class="widget-body" style="display: block;">
       <div class="widget-main no-padding">
-        <table class="table table-striped table-bordered table-hover table-condensed">
+        <table class="table table-bordered table-hover table-condensed">
           <thead>
           <tr>
             <th>编号</th>
