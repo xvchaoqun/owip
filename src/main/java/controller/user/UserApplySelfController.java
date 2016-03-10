@@ -221,6 +221,10 @@ public class UserApplySelfController extends BaseController {
         }else{
 
             record.setStatus(true);// 重新提交
+            ApprovalLogExample example = new ApprovalLogExample();
+            example.createCriteria().andApplyIdEqualTo(record.getId());
+            approvalLogMapper.deleteByExample(example);
+
             applySelfService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         }
