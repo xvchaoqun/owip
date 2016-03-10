@@ -206,9 +206,11 @@
   <tr>
     <td>证件拍照</td>
     <td colspan="5" class="bg-left">
+      <c:if test="${not empty passportDraw.drawRecord}">
       <a href="${ctx}/img?path=${passportDraw.drawRecord}" target="_blank">
         <img src="${ctx}/img?path=${passportDraw.drawRecord}"  style="max-height: 50px"/>
       </a>
+      </c:if>
     </td>
   </tr>
   <tr>
@@ -239,9 +241,11 @@
   <tr>
     <td>使用记录拍照</td>
     <td colspan="5" class="bg-left">
+    <c:if test="${not empty passportDraw.useRecord}">
       <a href="${ctx}/img?path=${passportDraw.useRecord}" target="_blank">
         <img src="${ctx}/img?path=${passportDraw.useRecord}"  style="max-height: 50px"/>
       </a>
+      </c:if>
     </td>
   </tr>
   <tr>
