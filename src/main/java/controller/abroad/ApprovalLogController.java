@@ -52,7 +52,7 @@ public class ApprovalLogController extends BaseController {
     public String approvalLog_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
+                                    Integer userId,
                                     Integer typeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -69,8 +69,8 @@ public class ApprovalLogController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(true);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (cadreId!=null) {
-            criteria.andCadreIdEqualTo(cadreId);
+        if (userId!=null) {
+            criteria.andUserIdEqualTo(userId);
         }
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
@@ -93,8 +93,8 @@ public class ApprovalLogController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
+        if (userId!=null) {
+            searchStr += "&userId=" + userId;
         }
         if (typeId!=null) {
             searchStr += "&typeId=" + typeId;
@@ -190,7 +190,7 @@ public class ApprovalLogController extends BaseController {
             ApprovalLog approvalLog = approvalLogs.get(i);
             String[] values = {
                         approvalLog.getApplyId()+"",
-                                            approvalLog.getCadreId()+"",
+                                            approvalLog.getUserId()+"",
                                             approvalLog.getTypeId()+"",
                                             approvalLog.getStatus()+"",
                                             approvalLog.getRemark(),

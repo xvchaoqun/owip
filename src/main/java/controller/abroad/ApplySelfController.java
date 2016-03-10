@@ -93,7 +93,6 @@ public class ApplySelfController extends BaseController {
             }
         }
 
-        Cadre cadre = cadreService.findByUserId(userId);
         ApprovalLog record = new ApprovalLog();
         record.setApplyId(applySelfId);
         if (approvalTypeId > 0)
@@ -112,7 +111,7 @@ public class ApplySelfController extends BaseController {
         }
         record.setStatus(status == 1);
         record.setRemark(remark);
-        record.setCadreId(cadre.getId());
+        record.setUserId(userId);
         record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
         approvalLogMapper.insert(record);

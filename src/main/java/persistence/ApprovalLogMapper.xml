@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.ApprovalLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="apply_id" property="applyId" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
     <result column="od_type" property="odType" jdbcType="TINYINT" />
     <result column="status" property="status" jdbcType="BIT" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, apply_id, cadre_id, type_id, od_type, status, remark, create_time, ip
+    id, apply_id, user_id, type_id, od_type, status, remark, create_time, ip
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApprovalLogExample" >
     select
@@ -104,11 +104,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ApprovalLog" >
-    insert into abroad_approval_log (id, apply_id, cadre_id, 
+    insert into abroad_approval_log (id, apply_id, user_id, 
       type_id, od_type, status, 
       remark, create_time, ip
       )
-    values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{typeId,jdbcType=INTEGER}, #{odType,jdbcType=TINYINT}, #{status,jdbcType=BIT}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
       )
@@ -122,8 +122,8 @@
       <if test="applyId != null" >
         apply_id,
       </if>
-      <if test="cadreId != null" >
-        cadre_id,
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="typeId != null" >
         type_id,
@@ -151,8 +151,8 @@
       <if test="applyId != null" >
         #{applyId,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null" >
-        #{cadreId,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="typeId != null" >
         #{typeId,jdbcType=INTEGER},
@@ -189,8 +189,8 @@
       <if test="record.applyId != null" >
         apply_id = #{record.applyId,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
-        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.typeId != null" >
         type_id = #{record.typeId,jdbcType=INTEGER},
@@ -219,7 +219,7 @@
     update abroad_approval_log
     set id = #{record.id,jdbcType=INTEGER},
       apply_id = #{record.applyId,jdbcType=INTEGER},
-      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
       od_type = #{record.odType,jdbcType=TINYINT},
       status = #{record.status,jdbcType=BIT},
@@ -236,8 +236,8 @@
       <if test="applyId != null" >
         apply_id = #{applyId,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null" >
-        cadre_id = #{cadreId,jdbcType=INTEGER},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="typeId != null" >
         type_id = #{typeId,jdbcType=INTEGER},
@@ -263,7 +263,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.ApprovalLog" >
     update abroad_approval_log
     set apply_id = #{applyId,jdbcType=INTEGER},
-      cadre_id = #{cadreId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
       od_type = #{odType,jdbcType=TINYINT},
       status = #{status,jdbcType=BIT},

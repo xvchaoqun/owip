@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td>${approvalLog.applyId}</td>
-								<td>${approvalLog.cadreId}</td>
+								<td>${approvalLog.userId}</td>
 								<td>${approvalLog.typeId}</td>
 								<td>${approvalLog.status}</td>
 								<td>${approvalLog.remark}</td>

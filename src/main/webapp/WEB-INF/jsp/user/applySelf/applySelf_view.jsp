@@ -100,8 +100,7 @@
                   <tr>
                     <td colspan="7"   class="bg-left">
                       <c:if test="${not empty approvalLog}">
-                        <c:set var="cadre" value="${cadreMap.get(approvalLog.cadreId)}"/>
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                        <c:set var="sysUser" value="${cm:getUserById(approvalLog.userId)}"/>
                         意见：${approvalLog.remark}<br/>
                         审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}<br/>
                         <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>

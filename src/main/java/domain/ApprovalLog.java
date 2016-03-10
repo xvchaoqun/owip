@@ -8,7 +8,7 @@ public class ApprovalLog implements Serializable {
 
     private Integer applyId;
 
-    private Integer cadreId;
+    private Integer userId;
 
     private Integer typeId;
 
@@ -40,12 +40,12 @@ public class ApprovalLog implements Serializable {
         this.applyId = applyId;
     }
 
-    public Integer getCadreId() {
-        return cadreId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setCadreId(Integer cadreId) {
-        this.cadreId = cadreId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getTypeId() {

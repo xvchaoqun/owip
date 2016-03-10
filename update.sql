@@ -1,5 +1,16 @@
 
 
+
+ALTER TABLE `abroad_approval_log`
+	CHANGE COLUMN `cadre_id` `user_id` INT(10) UNSIGNED NOT NULL COMMENT '审批人' AFTER `apply_id`,
+	DROP FOREIGN KEY `FK_abroad_apply_approval_base_cadre`;
+	ALTER TABLE `abroad_approval_log`
+	DROP INDEX `FK_abroad_apply_approval_base_cadre`;
+
+	ALTER TABLE `abroad_approval_log`
+	ADD CONSTRAINT `FK_abroad_approval_log_sys_user` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`);
+
+
 --2016.3.10
 -- 删除元数据 学校类型
 ALTER TABLE `base_cadre_edu`
