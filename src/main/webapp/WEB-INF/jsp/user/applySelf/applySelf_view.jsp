@@ -9,6 +9,9 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row applySelf">
   <div class="preview">
+    <div class="center">
+      <button class="closeView btn btn-default btn-block" style="margin-bottom:10px;font-size: 10px">返回</button>
+    </div>
             <table class="table table-bordered table-striped">
               <tbody>
               <tr>
@@ -172,7 +175,9 @@
                     </tbody>
                   </table>
                 </div></div></div>
-
+    <div class="center">
+      <button class="closeView btn btn-default btn-block" style="margin-top:10px;font-size: 10px">返回</button>
+    </div>
           </div>
 
   <div class="info">
@@ -191,9 +196,7 @@
       </div>
     </div>
     </c:if>
-    <div class="center" style="margin-top: 40px">
-      <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
-    </div>
+
   </div>
 
 </div>

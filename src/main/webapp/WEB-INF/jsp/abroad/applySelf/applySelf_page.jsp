@@ -102,7 +102,7 @@ pageEncoding="UTF-8" %>
                             <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${applySelf.cadreId}">
                                     ${sysUser.realname}
                             </a></td>
-                            <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                            <td>${cadre.title}</td>
 								<td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
                             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
