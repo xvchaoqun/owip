@@ -17,8 +17,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/memberStudent_au"
              data-url-page="${ctx}/memberStudent_page"
-             data-url-del="${ctx}/memberStudent_del"
-             data-url-bd="${ctx}/memberStudent_batchDel"
+             data-url-del="${ctx}/member_del"
              data-url-co="${ctx}/memberStudent_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">

@@ -1,5 +1,54 @@
 
 
+ALTER TABLE `ow_member`
+	ADD CONSTRAINT `FK_ow_member_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_apply_log`
+	ADD CONSTRAINT `FK_ow_apply_log_sys_user` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`),
+	ADD CONSTRAINT `FK_ow_apply_log_sys_user_2` FOREIGN KEY (`operator_id`) REFERENCES `sys_user` (`id`);
+
+	ALTER TABLE `ow_branch`
+	ADD CONSTRAINT `FK_ow_branch_base_meta_type` FOREIGN KEY (`type_id`) REFERENCES `base_meta_type` (`id`),
+	ADD CONSTRAINT `FK_ow_branch_base_meta_type_2` FOREIGN KEY (`unit_type_id`) REFERENCES `base_meta_type` (`id`);
+
+	ALTER TABLE `ow_branch_member_group`
+	ADD CONSTRAINT `FK_ow_branch_member_group_base_dispatch_unit` FOREIGN KEY (`dispatch_unit_id`) REFERENCES `base_dispatch_unit` (`id`);
+
+	ALTER TABLE `ow_member_abroad`
+	ADD CONSTRAINT `FK_ow_member_abroad_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_abroad_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_in`
+	ADD CONSTRAINT `FK_ow_member_in_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_in_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_inflow`
+	ADD CONSTRAINT `FK_ow_member_inflow_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_inflow_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_out`
+	ADD CONSTRAINT `FK_ow_member_out_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_out_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_outflow`
+	ADD CONSTRAINT `FK_ow_member_outflow_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_outflow_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_quit`
+	ADD CONSTRAINT `FK_ow_member_quit_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_quit_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_stay`
+	ADD CONSTRAINT `FK_ow_member_stay_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_stay_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`);
+
+	ALTER TABLE `ow_member_transfer`
+	ADD CONSTRAINT `FK_ow_member_transfer_ow_party` FOREIGN KEY (`party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_transfer_ow_branch` FOREIGN KEY (`branch_id`) REFERENCES `ow_branch` (`id`),
+	ADD CONSTRAINT `FK_ow_member_transfer_ow_party_2` FOREIGN KEY (`to_party_id`) REFERENCES `ow_party` (`id`),
+	ADD CONSTRAINT `FK_ow_member_transfer_ow_branch_2` FOREIGN KEY (`to_branch_id`) REFERENCES `ow_branch` (`id`);
+
 --2016.2.28
 ALTER TABLE `ow_branch`
 	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称，需用全称：院系+支部名称' AFTER `code`,

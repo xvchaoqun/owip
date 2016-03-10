@@ -110,12 +110,12 @@ public class MemberController extends BaseController {
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_del(HttpServletRequest request, Integer userId) {
+    public Map do_member_del(HttpServletRequest request, Integer id) {
 
-        if (userId != null) {
+        if (id != null) {
 
-            memberService.del(userId);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", userId));
+            memberService.del(id);
+            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

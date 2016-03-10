@@ -77,15 +77,15 @@ public class XlsUpload {
 
 			cell = row.getCell(4);
 			if (null != cell){
-				passportRow.setIssueDate(DateUtils.parseDate(getCell(cell), DateUtils.YYYY_MM_DD));
+				passportRow.setIssueDate(cell.getDateCellValue());
 			}
 			cell = row.getCell(5);
 			if (null != cell){
-				passportRow.setExpiryDate(DateUtils.parseDate(getCell(cell), DateUtils.YYYY_MM_DD));
+				passportRow.setExpiryDate(cell.getDateCellValue());
 			}
 			cell = row.getCell(6);
 			if (null != cell){
-				passportRow.setKeepDate(DateUtils.parseDate(getCell(cell), DateUtils.YYYY_MM_DD));
+				passportRow.setKeepDate(cell.getDateCellValue());
 			}
 
 			cell = row.getCell(7);
@@ -163,6 +163,7 @@ public class XlsUpload {
 		return cadreRows;
 	}
 	public static String getCell(XSSFCell cell) {
+
 		if (cell == null)
 			return "";
 		switch (cell.getCellType()) {

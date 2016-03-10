@@ -14,8 +14,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/memberTeacher_au"
              data-url-page="${ctx}/memberTeacher_page"
-             data-url-del="${ctx}/memberTeacher_del"
-             data-url-bd="${ctx}/memberTeacher_batchDel"
+             data-url-del="${ctx}/member_del"
              data-url-co="${ctx}/memberTeacher_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
@@ -109,6 +108,10 @@ pageEncoding="UTF-8" %>
                                             data-url="${ctx}/member_au?userId=${memberTeacher.userId}">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
+                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberTeacher.userId}">
+                                        <i class="fa fa-times"></i> 删除
+                                    </button>
+
                                     <c:if test="${cls==4}">
                                         <c:set var="retireApply" value="${cm:getRetireApply(memberTeacher.userId)}"/>
                                         <c:if test="${retireApply.status!=0}">
