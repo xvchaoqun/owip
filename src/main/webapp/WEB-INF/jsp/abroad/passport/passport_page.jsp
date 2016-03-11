@@ -19,6 +19,9 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==4}">active</c:if>">
                         <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
                     </li>
+                    <li  class="<c:if test="${status==5}">active</c:if>">
+                        <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -43,10 +46,20 @@ pageEncoding="UTF-8" %>
                 <script type="text/javascript">
                     $("#searchForm select[name=classId]").val(${param.classId});
                 </script>
+                <select data-rel="select2" name="safeBoxId" data-placeholder="保险柜">
+                    <option></option>
+                    <c:forEach items="${safeBoxMap}" var="safeBox">
+                        <option value="${safeBox.key}">${safeBox.value.code}</option>
+                    </c:forEach>
+                </select>
+                <script type="text/javascript">
+                    $("#searchForm select[name=safeBoxId]").val(${param.safeBoxId});
+                </script>
                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                        placeholder="请输入证件号码">
                 <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId ||not empty param.code ||not empty param.type || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
+                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                         <i class="fa fa-reply"></i> 重置
@@ -74,10 +87,18 @@ pageEncoding="UTF-8" %>
                         </shiro:hasPermission>
                     </div>
                 </c:if>
+                <c:if test="${status==5}">
+                    <div class="buttons pull-right">
+                        <shiro:hasPermission name="safeBox:edit">
+                            <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
+                        </shiro:hasPermission>
+                    </div>
+                </c:if>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <div class="table-container">
+                    <table style="min-width: 1900px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -99,7 +120,7 @@ pageEncoding="UTF-8" %>
 							<th>集中保管日期</th>
 							<th>存放保险柜编号</th>
 							<th>是否借出</th>
-                            <c:if test="${status==4}">
+                            <c:if test="${status==4 || status==5}">
 							<th>类型</th>
                             </c:if>
                                 </c:if>
@@ -137,7 +158,7 @@ pageEncoding="UTF-8" %>
                                 <c:if test="${passport.type!=PASSPORT_TYPE_LOST}">
 								<td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
-								<td>${passport.safeCode}</td>
+								<td>${safeBoxMap.get(passport.safeBoxId).code}</td>
 								<td>${passport.isLent?"借出":"-"}</td>
                                 </c:if>
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
@@ -147,15 +168,15 @@ pageEncoding="UTF-8" %>
                                     </a>
                                 </th>
                             </c:if>
-                                <c:if test="${status==4}">
+                                <c:if test="${status==4 || status==5}">
                                     <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
                                 </c:if>
                                 <c:if test="${status==PASSPORT_TYPE_CANCEL}">
                                     <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}</td>
                                     <td>${passport.cancelConfirm?"已确认":"未确认"}</td>
                                 </c:if>
+
                             <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${status==PASSPORT_TYPE_CANCEL}">
                                         <button data-id="${passport.id}"
                                                 data-type="${passport.cancelType}"
@@ -186,47 +207,12 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="passport:edit">
-                                            <li>
-                                                <a href="#" data-id="${passport.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="passport:del">
-                                            <li>
-                                                <a href="#" data-id="${passport.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/passport_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -243,6 +229,11 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    function openView_safeBox(pageNo){
+        pageNo = pageNo||1;
+        loadModal( "${ctx}/safeBox_page?pageNo="+pageNo, '400');
+    }
 
     $(".importBtn").click(function(){
         loadModal("${ctx}/passport_import");

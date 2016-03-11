@@ -67,6 +67,12 @@ pageEncoding="UTF-8"%>
                     </script>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职务</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="post" value="${cadre.post}">
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所在单位及职务</label>
 				<div class="col-xs-6">

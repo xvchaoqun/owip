@@ -129,7 +129,7 @@
     }
 
     $('#modalForm [data-rel="select2"]').select2();
-    $("#modal .adminBtn").click(function () {
+   /* $("#modal .adminBtn").click(function () {
 
         $.post("${ctx}/metaType_admin", {id: $(this).data("id")}, function (data) {
             if (data.success) {
@@ -137,7 +137,7 @@
                 SysMsg.success('操作成功。', '成功');
             }
         });
-    })
+    })*/
 
     $("#modal form").validate({
         submitHandler: function (form) {

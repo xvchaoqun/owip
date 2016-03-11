@@ -1,5 +1,6 @@
 package sys.tags;
 
+import bean.ApprovalResult;
 import domain.ApplySelf;
 import domain.Cadre;
 import domain.SysUser;
@@ -9,7 +10,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import persistence.ApplySelfMapper;
 import service.abroad.ApplySelfService;
 import service.cadre.CadreService;
-import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 
@@ -42,13 +42,13 @@ public class ApprovalTd extends BodyTagSupport {
                 "        </button></td>";
         String td = "";
 
-        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
+        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
         int size = approvalResultMap.size();
-        Integer[] vals = approvalResultMap.values().toArray(new Integer[size]);
+        ApprovalResult[] vals = approvalResultMap.values().toArray(new ApprovalResult[size]);
         Integer[] keys = approvalResultMap.keySet().toArray( new Integer[size]);
 
-        Integer firstVal = vals[0];
-        if(firstVal==null) {
+        ApprovalResult firstVal = vals[0];
+        if(firstVal.getValue()==null) {
             if(view)
                 td = "<td>未审批</td>";
             else {
@@ -57,7 +57,7 @@ public class ApprovalTd extends BodyTagSupport {
                 String style = canApproval?"btn-success":"btn-default";
                 td = String.format(_btnTd, disabled, style,  request.getContextPath(), applySelfId, -1);
             }
-        }else if (firstVal==0){
+        }else if (firstVal.getValue()==0){
             td = "<td>未通过</td>";
         }else{
             td = "<td>通过</td>";
@@ -65,15 +65,15 @@ public class ApprovalTd extends BodyTagSupport {
         boolean goToNext = true;
         int last = 0;
         for (int i = 1; i < size-1; i++) {
-            Integer val = vals[i];
-            if(val !=null && val == -1) {
+            ApprovalResult val = vals[i];
+            if(val.getValue() !=null && val.getValue() == -1) {
                 td += "<td>-</td>";
                 last++;
-            } else if(firstVal==null || firstVal==0 || goToNext==false){
+            } else if(firstVal.getValue()==null || firstVal.getValue()==0 || goToNext==false){
                 td += "<td class='not_approval'></td>";
                 goToNext = false;
             } else {
-                if(val==null){
+                if(val.getValue()==null){
                     if(view)
                         td += "<td>未审批</td>";
                      else {
@@ -83,20 +83,20 @@ public class ApprovalTd extends BodyTagSupport {
                         td += String.format(btnTd, disabled, style, applySelfId, keys[i]);
                     }
                     goToNext = false;
-                }else if(val == 0 ){
+                }else if(val.getValue() == 0 ){
                     td += "<td>未通过</td>";
                     goToNext = false;
                     last++;
-                }else if(val == 1 ){
+                }else if(val.getValue() == 1 ){
                     td += "<td>通过</td>";
                     last++;
                 }
             }
         }
 
-        Integer lastVal = vals[size-1];
+        ApprovalResult lastVal = vals[size-1];
         if(last==size-2){
-            if(lastVal==null) {
+            if(lastVal.getValue()==null) {
                 if (view)
                     td += "<td>未审批</td>";
                 else {
@@ -105,9 +105,9 @@ public class ApprovalTd extends BodyTagSupport {
                     String style = canApproval?"btn-success":"btn-default";
                     td += String.format(btnTd, disabled,style,  applySelfId, 0);
                 }
-            }else if(lastVal == 0 ){
+            }else if(lastVal.getValue() == 0 ){
                 td += "<td>未通过</td>";
-            }else if(lastVal == 1 ){
+            }else if(lastVal.getValue() == 1 ){
                 td += "<td>通过</td>";
             }
         }else{
@@ -121,11 +121,11 @@ public class ApprovalTd extends BodyTagSupport {
             Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
-            if((firstVal!=null && firstVal==0)||(lastVal!=null)) { //初审未通过，或者终审完成，需要短信提醒
+            if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
                 td += String.format("<td><button data-id=\"%s\" data-status=\"%s\" data-name=\"%s\"" +
                         "        class=\"shortMsgBtn btn btn-primary btn-mini\">\n" +
                         "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
-                        "        </button></td>", applySelfId, (lastVal!=null && lastVal==1), sysUser.getRealname());
+                        "        </button></td>", applySelfId, (lastVal.getValue()!=null && lastVal.getValue()==1), sysUser.getRealname());
             }else{
                 td +="<td></td>";
             }

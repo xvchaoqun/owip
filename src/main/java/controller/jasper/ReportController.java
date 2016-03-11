@@ -43,7 +43,7 @@ public class ReportController extends BaseController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", user.getRealname());
         map.put("code", user.getCode());
-        map.put("unit", unit + "-" + title);
+        map.put("unit", title); // 所属单位及职务
         String check1 = "";
         String check2 = "";
         if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE)
@@ -83,7 +83,7 @@ public class ReportController extends BaseController {
         SysUser user = sysUserService.findById(userId);
         Cadre cadre = cadreService.findByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
-        String title = cadre.getTitle();
+        String post = cadre.getPost();
 
         String to = "self";
         if(CmTag.typeEqualsCode(classId, "mt_passport_hk"))
@@ -97,7 +97,7 @@ public class ReportController extends BaseController {
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
         map.put("unit", unit);
-        map.put("title", title);
+        map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + to + ".jpg" );
 
         String sign = ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png";

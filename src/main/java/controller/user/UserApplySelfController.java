@@ -1,5 +1,6 @@
 package controller.user;
 
+import bean.ApprovalResult;
 import controller.BaseController;
 import domain.*;
 import domain.ApplySelfExample.Criteria;
@@ -68,7 +69,7 @@ public class UserApplySelfController extends BaseController {
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
 
-        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(id);
+        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
         modelMap.put("approverTypeMap", approverTypeService.findAll());
 
@@ -215,12 +216,19 @@ public class UserApplySelfController extends BaseController {
             record.setCadreId(cadre.getId());
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
+
             record.setStatus(true);// 提交
+            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setIsFinish(false);
+
             applySelfService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         }else{
 
             record.setStatus(true);// 重新提交
+            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setIsFinish(false);
+
             ApprovalLogExample example = new ApprovalLogExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
             approvalLogMapper.deleteByExample(example);

@@ -68,7 +68,8 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <div class="table-container">
+                <table style="min-width: 1200px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -158,11 +159,11 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-print"></i> 打印审批表
                                     </button>
                                     </c:if>
-                                    <shiro:hasPermission name="passportApply:edit">
+                                   <%-- <shiro:hasPermission name="passportApply:edit">
                                     <button data-id="${passportApply.id}" class="editBtn btn btn-primary btn-mini">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                     </shiro:hasPermission>
+                                     </shiro:hasPermission>--%>
                                      <shiro:hasPermission name="passportApply:del">
                                     <button class="delBtn btn btn-danger btn-mini" data-id="${passportApply.id}">
                                         <i class="fa fa-times"></i> 删除
@@ -174,6 +175,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/passportApply_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>

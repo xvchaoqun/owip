@@ -32,6 +32,14 @@ public class ApplySelf implements Serializable {
 
     private Boolean status;
 
+    private Boolean isFinish;
+
+    private Integer flowNode;
+
+    private String flowNodes;
+
+    private String flowUsers;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -144,5 +152,37 @@ public class ApplySelf implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Boolean getIsFinish() {
+        return isFinish;
+    }
+
+    public void setIsFinish(Boolean isFinish) {
+        this.isFinish = isFinish;
+    }
+
+    public Integer getFlowNode() {
+        return flowNode;
+    }
+
+    public void setFlowNode(Integer flowNode) {
+        this.flowNode = flowNode;
+    }
+
+    public String getFlowNodes() {
+        return flowNodes;
+    }
+
+    public void setFlowNodes(String flowNodes) {
+        this.flowNodes = flowNodes == null ? null : flowNodes.trim();
+    }
+
+    public String getFlowUsers() {
+        return flowUsers;
+    }
+
+    public void setFlowUsers(String flowUsers) {
+        this.flowUsers = flowUsers == null ? null : flowUsers.trim();
     }
 }

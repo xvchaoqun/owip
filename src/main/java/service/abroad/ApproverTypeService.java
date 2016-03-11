@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 
 @Service
 public class ApproverTypeService extends BaseMapper {
 
-    public Set<Integer> getCadreIds (Integer typeId){
+    // 查询某类审批人身份 已设定的审批人 Set<干部ID>
+    public Set<Integer> findApproverCadreIds(Integer typeId){
 
         Set<Integer> selectIdSet = new HashSet<Integer>();
         ApproverExample example = new ApproverExample();
@@ -32,8 +34,9 @@ public class ApproverTypeService extends BaseMapper {
         return selectIdSet;
     }
 
+    // 为某类审批人身份 设定审批人<干部ID>
     @Transactional
-    public void updateCadreIds(int typeId, Integer[] cadreIds){
+    public void updateApproverCadreIds(int typeId, Integer[] cadreIds){
 
         ApproverExample example = new ApproverExample();
         example.createCriteria().andTypeIdEqualTo(typeId);
@@ -55,13 +58,35 @@ public class ApproverTypeService extends BaseMapper {
         }
     }
 
+   // 获得本单位正职身份
+    public ApproverType getMainPostApproverType(){
+
+        ApproverTypeExample example = new ApproverTypeExample();
+        example.createCriteria().andTypeEqualTo(SystemConstants.APPROVER_TYPE_UNIT);
+        List<ApproverType> approverTypes = approverTypeMapper.selectByExample(example);
+        if(approverTypes.size()>0) return approverTypes.get(0);
+        return null;
+    }
+    // 获得分管校领导身份
+    public ApproverType getLeaderApproverType(){
+
+        ApproverTypeExample example = new ApproverTypeExample();
+        example.createCriteria().andTypeEqualTo(SystemConstants.APPROVER_TYPE_LEADER);
+        List<ApproverType> approverTypes = approverTypeMapper.selectByExample(example);
+        if(approverTypes.size()>0) return approverTypes.get(0);
+        return null;
+    }
+
     public boolean idDuplicate(Integer id, String name, byte type){
 
         Assert.isTrue(StringUtils.isNotBlank(name));
 
         ApproverTypeExample example = new ApproverTypeExample();
         ApproverTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
-        if(type==1||type==2) criteria.andTypeEqualTo(type); // 1本单位正职 2分管校领导 只能有一个
+        if(type== SystemConstants.APPROVER_TYPE_UNIT
+                ||type==SystemConstants.APPROVER_TYPE_LEADER) {
+            criteria.andTypeEqualTo(type); // 1本单位正职 2分管校领导 只能有一个
+        }
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return approverTypeMapper.countByExample(example) > 0;

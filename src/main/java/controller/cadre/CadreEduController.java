@@ -110,6 +110,7 @@ public class CadreEduController extends BaseController {
 
         modelMap.put("cadreMap", cadreService.findAll());
         modelMap.put("eduMap", metaTypeService.metaTypes("mc_edu"));
+        modelMap.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
 
         return "cadre/cadreEdu/cadreEdu_page";
     }

@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
             <td>${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}</td>
             <td>${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}</td>
             <td>${cadreEdu.schoolLen}</td>
-            <td>${cadreEdu.learnStyle}</td>
+            <td>${learnStyleMap.get(cadreEdu.learnStyle).name}</td>
             <td>${cadreEdu.degree}</td>
             <td>${cadreEdu.isHighDegree?"是":"否"}</td>
             <td>${cadreEdu.degreeCountry}</td>

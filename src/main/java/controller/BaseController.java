@@ -46,6 +46,8 @@ public class BaseController extends BaseMapper {
     protected PassportApplyService passportApplyService;
     @Autowired
     protected PassportService passportService;
+    @Autowired
+    protected SafeBoxService safeBoxService;
 
     @Autowired
     protected EnterApplyService enterApplyService;

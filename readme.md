@@ -30,3 +30,16 @@ zzgz@2015
 http://219.224.19.170/
 admin  zzbgb6879
 
+
+
+短信接口：
+Https请求方式: POST
+URL地址： https://weixin.bnu.edu.cn/sms/massms.php?id=2
+内容是json格式（UTF-8编码）
+{
+   "mobile": "18612345678",
+   "content": "短信内容"
+}
+参数说明：
+mobile表示手机号（多个手机号用英文;分割，一次不超过400个）
+content表示发送的短信内容，长度不超过350字

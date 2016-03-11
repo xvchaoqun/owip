@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">存放保险柜编号</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="safeCode" value="${passport.safeCode}">
+                        <input required class="form-control" type="text" name="safeBoxId" value="${passport.safeBoxId}">
 				</div>
 			</div>
         </c:if>

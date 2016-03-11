@@ -1031,6 +1031,266 @@ public class ApplySelfExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andIsFinishIsNull() {
+            addCriterion("is_finish is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishIsNotNull() {
+            addCriterion("is_finish is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishEqualTo(Boolean value) {
+            addCriterion("is_finish =", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishNotEqualTo(Boolean value) {
+            addCriterion("is_finish <>", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishGreaterThan(Boolean value) {
+            addCriterion("is_finish >", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_finish >=", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishLessThan(Boolean value) {
+            addCriterion("is_finish <", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_finish <=", value, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishIn(List<Boolean> values) {
+            addCriterion("is_finish in", values, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishNotIn(List<Boolean> values) {
+            addCriterion("is_finish not in", values, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finish between", value1, value2, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finish not between", value1, value2, "isFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeIsNull() {
+            addCriterion("flow_node is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeIsNotNull() {
+            addCriterion("flow_node is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeEqualTo(Integer value) {
+            addCriterion("flow_node =", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeNotEqualTo(Integer value) {
+            addCriterion("flow_node <>", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeGreaterThan(Integer value) {
+            addCriterion("flow_node >", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("flow_node >=", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLessThan(Integer value) {
+            addCriterion("flow_node <", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLessThanOrEqualTo(Integer value) {
+            addCriterion("flow_node <=", value, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeIn(List<Integer> values) {
+            addCriterion("flow_node in", values, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeNotIn(List<Integer> values) {
+            addCriterion("flow_node not in", values, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeBetween(Integer value1, Integer value2) {
+            addCriterion("flow_node between", value1, value2, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("flow_node not between", value1, value2, "flowNode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesIsNull() {
+            addCriterion("flow_nodes is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesIsNotNull() {
+            addCriterion("flow_nodes is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesEqualTo(String value) {
+            addCriterion("flow_nodes =", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesNotEqualTo(String value) {
+            addCriterion("flow_nodes <>", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesGreaterThan(String value) {
+            addCriterion("flow_nodes >", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesGreaterThanOrEqualTo(String value) {
+            addCriterion("flow_nodes >=", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesLessThan(String value) {
+            addCriterion("flow_nodes <", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesLessThanOrEqualTo(String value) {
+            addCriterion("flow_nodes <=", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesLike(String value) {
+            addCriterion("flow_nodes like", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesNotLike(String value) {
+            addCriterion("flow_nodes not like", value, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesIn(List<String> values) {
+            addCriterion("flow_nodes in", values, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesNotIn(List<String> values) {
+            addCriterion("flow_nodes not in", values, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesBetween(String value1, String value2) {
+            addCriterion("flow_nodes between", value1, value2, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodesNotBetween(String value1, String value2) {
+            addCriterion("flow_nodes not between", value1, value2, "flowNodes");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersIsNull() {
+            addCriterion("flow_users is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersIsNotNull() {
+            addCriterion("flow_users is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersEqualTo(String value) {
+            addCriterion("flow_users =", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersNotEqualTo(String value) {
+            addCriterion("flow_users <>", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersGreaterThan(String value) {
+            addCriterion("flow_users >", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersGreaterThanOrEqualTo(String value) {
+            addCriterion("flow_users >=", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersLessThan(String value) {
+            addCriterion("flow_users <", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersLessThanOrEqualTo(String value) {
+            addCriterion("flow_users <=", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersLike(String value) {
+            addCriterion("flow_users like", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersNotLike(String value) {
+            addCriterion("flow_users not like", value, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersIn(List<String> values) {
+            addCriterion("flow_users in", values, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersNotIn(List<String> values) {
+            addCriterion("flow_users not in", values, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersBetween(String value1, String value2) {
+            addCriterion("flow_users between", value1, value2, "flowUsers");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowUsersNotBetween(String value1, String value2) {
+            addCriterion("flow_users not between", value1, value2, "flowUsers");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

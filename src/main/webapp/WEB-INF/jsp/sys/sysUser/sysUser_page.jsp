@@ -114,7 +114,8 @@
             </div>
             <h4>&nbsp;</h4>
             <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1200px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
                     <th class="center">
@@ -189,6 +190,7 @@
                 </c:forEach>
                 </tbody>
             </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/sysUser_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>

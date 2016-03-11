@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -24,7 +23,6 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,8 +37,8 @@ public class ApproverTypeController extends BaseController {
     @ResponseBody
     public Map selectCadres_tree(int id) throws IOException {
 
-        Set<Integer> selectIdSet = approverTypeService.getCadreIds(id);
-        //Set<Integer> disabledIdSet = approverTypeService.getCadreIds(null);
+        Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
+        //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
         //disabledIdSet.removeAll(selectIdSet);
         TreeNode tree = cadreService.getTree(selectIdSet);
 
@@ -63,7 +61,7 @@ public class ApproverTypeController extends BaseController {
     @ResponseBody
     public Map do_select_cadres(Integer id, @RequestParam(value="cadreIds[]",required=false) Integer[] cadreIds) {
 
-        approverTypeService.updateCadreIds(id, cadreIds);
+        approverTypeService.updateApproverCadreIds(id, cadreIds);
         return success(FormUtils.SUCCESS);
     }
 

@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
                     <div class="col-xs-6">
                         <div class="input-group">
                             <input ${passportApply.status==PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control date-picker" name="_expectDate" type="text"
-                                   data-date-format="yyyy年mm月dd日" value="${cm:formatDate(passportApply.expectDate,'yyyy年mm月dd日')}" />
+                                   data-date-format="yyyy年MM月dd日" value="${cm:formatDate(passportApply.expectDate,'yyyy年MM月dd日')}" />
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
             <button id="print" class="btn btn-info2 btn-block" style="font-size: 30px">打印审批表</button>
     </c:if>
-            <button class="closeView reload btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
+            <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
     </div>
 </div>

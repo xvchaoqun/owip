@@ -1,5 +1,6 @@
 package service.abroad;
 
+import bean.ApprovalResult;
 import domain.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class ApplySelfService extends BaseMapper {
 
     /**
      * <审批人身份id，审批结果>
-     * 审批人身份id: -1 初审  0 终审  >0 其他
-     * 审批结果: -1不需要审批 0未通过 1通过 null未审批
+     * 审批人身份id: -1 初审  0 终审  >0 (approvalType.id)
+     * 审批结果: ApprovalResult.value -1不需要审批 0未通过 1通过 null未审批
      */
-    public Map<Integer, Integer> getApprovalResultMap(int id) {
+    public Map<Integer, ApprovalResult> getApprovalResultMap(int applyId) {
 
-        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Integer cadreId = applySelf.getCadreId();
         Cadre cadre = cadreService.findAll().get(cadreId);
         Integer postId = cadre.getPostId();
@@ -55,45 +56,92 @@ public class ApplySelfService extends BaseMapper {
             }
         }
 
-        int firstApproverTypeId = -1; // 初审管理员，伪ID
-        int lastApproverTypeId = 0; // 终审管理员，伪ID
-
-        Map<Integer, Integer> approvalResult = new HashMap<>();
+        Map<Integer, Integer> resultMap = new HashMap<>();
+        Map<Integer, ApprovalLog> approvalLogMap = new HashMap<>();
         { // 已审批的记录
             ApprovalLogExample example = new ApprovalLogExample();
             example.createCriteria().andApplyIdEqualTo(applySelf.getId());
             List<ApprovalLog> approvalLogs = approvalLogMapper.selectByExample(example);
 
             for (ApprovalLog approvalLog : approvalLogs) {
+                Integer typeId = null;
+                Integer value = null;
                 if (approvalLog.getTypeId() == null) {
                     if (approvalLog.getOdType() == 0) { // 初审
-                        approvalResult.put(firstApproverTypeId, approvalLog.getStatus() ? 1 : 0);
+                        typeId = SystemConstants.APPROVER_TYPE_ID_OD_FIRST;
+                        value = approvalLog.getStatus() ? 1 : 0;
+                        //approvalResult.put(SystemConstants.APPROVER_TYPE_ID_OD_FIRST, approvalLog.getStatus() ? 1 : 0);
                     }
                     if (approvalLog.getOdType() == 1) { // 终审
-                        approvalResult.put(lastApproverTypeId, approvalLog.getStatus() ? 1 : 0);
+                        typeId = SystemConstants.APPROVER_TYPE_ID_OD_LAST;
+                        value = approvalLog.getStatus() ? 1 : 0;
+                        //approvalResult.put(SystemConstants.APPROVER_TYPE_ID_OD_LAST, approvalLog.getStatus() ? 1 : 0);
                     }
                 } else {
-                    approvalResult.put(approvalLog.getTypeId(), approvalLog.getStatus() ? 1 : 0);
+                    typeId = approvalLog.getTypeId();
+                    value = approvalLog.getStatus() ? 1 : 0;
+                    //approvalResult.put(approvalLog.getTypeId(), approvalLog.getStatus() ? 1 : 0);
                 }
+                resultMap.put(typeId, value);
+                approvalLogMap.put(typeId, approvalLog);
             }
         }
 
-        Map<Integer, Integer> resultMap = new LinkedHashMap<>();
-        resultMap.put(firstApproverTypeId, approvalResult.get(firstApproverTypeId)); // 初审
+        Map<Integer, ApprovalResult> approvalResultMap = new LinkedHashMap<>();
+        approvalResultMap.put(SystemConstants.APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(resultMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST),
+                approvalLogMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST))); // 初审
+
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         for (ApproverType approverType : approverTypeMap.values()) {
             if (needApprovalTypeSet.contains(approverType.getId()))
-                resultMap.put(approverType.getId(), approvalResult.get(approverType.getId()));
+                approvalResultMap.put(approverType.getId(), new ApprovalResult(resultMap.get(approverType.getId()), approvalLogMap.get(approverType.getId())));
             else
-                resultMap.put(approverType.getId(), -1);
+                approvalResultMap.put(approverType.getId(), new ApprovalResult(-1, null));
         }
-        resultMap.put(lastApproverTypeId, approvalResult.get(lastApproverTypeId)); // 终审
+
+        approvalResultMap.put(SystemConstants.APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(resultMap.get(SystemConstants.APPROVER_TYPE_ID_OD_LAST),
+                approvalLogMap.get(SystemConstants.APPROVER_TYPE_ID_OD_LAST))); // 终审
 
         // value: -1不需要审批 0未通过 1通过 null未审批
-        return resultMap;
+        return approvalResultMap;
     }
 
-    // 查找用户可以审批的干部（非管理员）
+    // 如果是本单位正职，返回单位ID
+    public Integer getMainPostUnitId(int userId){
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre!=null) {
+            MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
+            if (postType.getBoolAttr()){
+                cadre.getUnitId();
+            }
+        }
+        return null;
+    }
+    // 如果是分管校领导，返回分管单位ID列表
+    public List<Integer> getLeaderUnitIds(int userId){
+
+        List<Integer> unitIds = new ArrayList<>();
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre!=null) {
+            MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
+            unitIds = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
+        }
+        return unitIds;
+    }
+
+    // 如果是其他审批身份，返回需要审批的职务属性
+    public List<Integer> getApprovalPostIds(int userId, int approverTypeId){
+
+        List<Integer> postIds = new ArrayList<>();
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre!=null) {
+            postIds = selectMapper.getApprovalPostIds_approverTypeId(cadre.getId(), approverTypeId);
+        }
+        return postIds;
+    }
+
+    // 查找用户可以审批的干部（非管理员） Set<干部ID>
     public Set<Integer> findApprovalCadreIdSet(int userId) {
 
         // 待审批的干部
@@ -103,6 +151,7 @@ public class ApplySelfService extends BaseMapper {
         List<Integer> unitIds = new ArrayList<>();
         // 如果是本单位正职
         Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre==null) return cadreIdSet; // 不可能出现的情况
         int cadreId = cadre.getId();
         MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
         if (postType.getBoolAttr()) unitIds.add(cadre.getUnitId());
@@ -121,7 +170,7 @@ public class ApplySelfService extends BaseMapper {
             }
         }
 
-        // 其他审批人身份 的所在单位 给定一个干部id，查找他需要审批的干部
+        // 其他审批人身份的干部，查找他需要审批的干部
         List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds(cadreId);
         cadreIdSet.addAll(approvalCadreIds);
 

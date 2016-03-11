@@ -1,19 +1,27 @@
 package service.abroad;
 
+import bean.ApprovalResult;
+import domain.ApplySelf;
 import domain.ApprovalLog;
 import domain.ApprovalLogExample;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.internal.core.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ApprovalLogService extends BaseMapper {
 
+    @Autowired
+    private ApplySelfService applySelfService;
 
     // 获取申请记录 初审结果  审批结果: -1不需要审批 0未通过 1通过 null未审批
     public Integer getAdminFirstTrialStatus(int applyId){
@@ -53,14 +61,65 @@ public class ApprovalLogService extends BaseMapper {
         if(approvalLogs.size()>0) return approvalLogs.get(0);
         return null;
     }
+    
+    @Transactional
+    public synchronized void add(ApprovalLog record){
 
+/*        Integer typeId = record.getTypeId();// 审批人身份ID
+        if(typeId==null){
+            if(record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_FIRST){
+                typeId = SystemConstants.APPROVER_TYPE_ID_OD_FIRST; //初审
+            }
+            if(record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
+                typeId = SystemConstants.APPROVER_TYPE_ID_OD_LAST; // 终审
+            }
+        }*/
+        // 先完成审批记录，再更新申请记录审批字段
+        insertSelective(record);
+
+        Integer applyId = record.getApplyId();
+        Integer nextFlowNode = null; // 下一个审批身份
+        List<Integer> flowNodes = new ArrayList<>(); // 已审批身份类型,（按顺序排序，逗号分隔）
+        List<Integer> flowUsers = new ArrayList<>(); // 已审批的审批人ID，（按顺序排序，逗号分隔）
+        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applyId);
+        for (Map.Entry<Integer, ApprovalResult> entry : approvalResultMap.entrySet()) {
+            Integer flowNode = entry.getKey();
+            ApprovalResult approvalResult = entry.getValue();
+            if(approvalResult.getValue()==null){ // 未审批
+                if(nextFlowNode == null){
+                    nextFlowNode = flowNode;
+                }
+                if(flowNode == SystemConstants.APPROVER_TYPE_ID_OD_FIRST)
+                    break; // 还没经过组织部初审
+                else
+                    continue;
+            }
+            if(approvalResult.getValue()==-1) continue; //不需要审批
+
+            // 已审批（未通过或通过）
+            flowNodes.add(flowNode);
+            flowUsers.add(approvalResult.getApprovalLog().getUserId());
+        }
+        ApplySelf applySelf = new ApplySelf();
+        applySelf.setId(applyId);
+        applySelf.setFlowNode(nextFlowNode); // 下一个审批身份
+        applySelf.setFlowNodes(StringUtils.join(flowNodes, ",")); // 已完成审批的 审批身份
+        applySelf.setFlowUsers(StringUtils.join(flowUsers, ",")); // 已完成审批（未通过或通过）的 审批人
+
+        if(record.getTypeId()==null && record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
+            applySelf.setIsFinish(true); // 终审完成
+        }
+
+        // 立刻更新申请记录的相关审批结果字段（供查询使用）
+        applySelfService.updateByPrimaryKeySelective(applySelf);
+    }
 
     @Transactional
     public int insertSelective(ApprovalLog record){
 
         return approvalLogMapper.insertSelective(record);
     }
-    @Transactional
+    /*@Transactional
     public void del(Integer id){
 
         approvalLogMapper.deleteByPrimaryKey(id);
@@ -79,5 +138,5 @@ public class ApprovalLogService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(ApprovalLog record){
         return approvalLogMapper.updateByPrimaryKeySelective(record);
-    }
+    }*/
 }

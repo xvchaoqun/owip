@@ -26,10 +26,10 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
       </table>-->
-     <!-- <table tableName="abroad_apply_self" domainObjectName="ApplySelf">
+      <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
       </table>-->
-      <table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
-      </table>
+     <!-- <table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
+      </table>-->
      <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
       </table>-->
       <!--<table tableName="abroad_approval_order" domainObjectName="ApprovalOrder">
@@ -43,7 +43,9 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-      <!--<table tableName="abroad_passport" domainObjectName="Passport">
+    <!--  <table tableName="abroad_passport" domainObjectName="Passport">
+      </table>-->
+      <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
       </table>-->
@@ -165,8 +167,8 @@
     <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
     </table>
     -->
-    <!--<table tableName="base_cadre" domainObjectName="Cadre">
-    </table>-->
+    <table tableName="base_cadre" domainObjectName="Cadre">
+    </table>
     <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
     </table>-->
       <!--

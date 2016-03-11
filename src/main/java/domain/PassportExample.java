@@ -692,73 +692,63 @@ public class PassportExample {
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeIsNull() {
-            addCriterion("safe_code is null");
+        public Criteria andSafeBoxIdIsNull() {
+            addCriterion("safe_box_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeIsNotNull() {
-            addCriterion("safe_code is not null");
+        public Criteria andSafeBoxIdIsNotNull() {
+            addCriterion("safe_box_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeEqualTo(String value) {
-            addCriterion("safe_code =", value, "safeCode");
+        public Criteria andSafeBoxIdEqualTo(Integer value) {
+            addCriterion("safe_box_id =", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeNotEqualTo(String value) {
-            addCriterion("safe_code <>", value, "safeCode");
+        public Criteria andSafeBoxIdNotEqualTo(Integer value) {
+            addCriterion("safe_box_id <>", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeGreaterThan(String value) {
-            addCriterion("safe_code >", value, "safeCode");
+        public Criteria andSafeBoxIdGreaterThan(Integer value) {
+            addCriterion("safe_box_id >", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("safe_code >=", value, "safeCode");
+        public Criteria andSafeBoxIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("safe_box_id >=", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeLessThan(String value) {
-            addCriterion("safe_code <", value, "safeCode");
+        public Criteria andSafeBoxIdLessThan(Integer value) {
+            addCriterion("safe_box_id <", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeLessThanOrEqualTo(String value) {
-            addCriterion("safe_code <=", value, "safeCode");
+        public Criteria andSafeBoxIdLessThanOrEqualTo(Integer value) {
+            addCriterion("safe_box_id <=", value, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeLike(String value) {
-            addCriterion("safe_code like", value, "safeCode");
+        public Criteria andSafeBoxIdIn(List<Integer> values) {
+            addCriterion("safe_box_id in", values, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeNotLike(String value) {
-            addCriterion("safe_code not like", value, "safeCode");
+        public Criteria andSafeBoxIdNotIn(List<Integer> values) {
+            addCriterion("safe_box_id not in", values, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeIn(List<String> values) {
-            addCriterion("safe_code in", values, "safeCode");
+        public Criteria andSafeBoxIdBetween(Integer value1, Integer value2) {
+            addCriterion("safe_box_id between", value1, value2, "safeBoxId");
             return (Criteria) this;
         }
 
-        public Criteria andSafeCodeNotIn(List<String> values) {
-            addCriterion("safe_code not in", values, "safeCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSafeCodeBetween(String value1, String value2) {
-            addCriterion("safe_code between", value1, value2, "safeCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSafeCodeNotBetween(String value1, String value2) {
-            addCriterion("safe_code not between", value1, value2, "safeCode");
+        public Criteria andSafeBoxIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("safe_box_id not between", value1, value2, "safeBoxId");
             return (Criteria) this;
         }
 

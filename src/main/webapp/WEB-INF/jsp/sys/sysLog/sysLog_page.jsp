@@ -31,7 +31,8 @@
                 </form>
             </div>
             <div class="space-4"></div>
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1700px"class="table table-actived table-striped table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
                     <th nowrap>模块</th>
@@ -59,10 +60,9 @@
                 </c:forEach>
                 </tbody>
             </table>
-                    <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                        <wo:page commonList="${commonList}" uri="sysLog_page" target="#page-content" pageNum="5"
-                                 model="3"/>
-                    </c:if>
+                </div>
+                <wo:page commonList="${commonList}" uri="sysLog_page" target="#page-content" pageNum="5"
+                         model="3"/>
         </div>
     </div>
 </div>

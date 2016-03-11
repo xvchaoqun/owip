@@ -28,8 +28,7 @@
   <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
       select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
   </select>
-  <select id="selectPassportList" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
-    select  p.* from abroad_passport p, base_unit u,base_cadre c, base_meta_type mt
+  <sql id="where_selectPassportList">
     <where>
       <if test="cadreId!=null">
         and p.cadre_id =#{cadreId}
@@ -42,33 +41,104 @@
       </if>
       <if test="type!=null">
         and p.type =#{type}
+      </if>
+      <if test="safeBoxId!=null">
+        <if test="safeBoxId==0">
+          and p.safe_box_id is not null
+        </if>
+        <if test="safeBoxId!=0">
+        and p.safe_box_id =#{safeBoxId}
+        </if>
       </if>
       <if test="abolish!=null">
         and p.abolish =#{abolish}
       </if>
       and p.cadre_id=c.id and c.unit_id=u.id and p.class_id=mt.id
     </where>
+  </sql>
+  <select id="selectPassportList" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
+    select  p.* from abroad_passport p, base_unit u,base_cadre c, base_meta_type mt
+    <include refid="where_selectPassportList"/>
     order by u.sort_order desc, mt.sort_order desc
   </select>
 
   <select id="countPassport" parameterType="map" resultType="java.lang.Integer" >
-    select count(p.id) from abroad_passport p
-    <where>
-      <if test="cadreId!=null">
-        and p.cadre_id =#{cadreId}
-      </if>
-      <if test="classId!=null">
-        and p.class_id =#{classId}
-      </if>
-      <if test="code!=null">
-        and p.code =#{code}
-      </if>
-      <if test="type!=null">
-        and p.type =#{type}
-      </if>
-      <if test="abolish!=null">
-        and p.abolish =#{abolish}
-      </if>
-    </where>
+    select  count(p.id) from abroad_passport p, base_unit u,base_cadre c, base_meta_type mt
+    <include refid="where_selectPassportList"/>
   </select>
+
+  <sql id="Where_selectNotApproval" >
+    where aas.cadre_id=bc.id and aas.status=1
+    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+      and (
+    </if>
+    <if test="approverTypeUnitIdListMap != null">
+      <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+        ( aas.flow_node = #{approverTypeId} and bc.unit_id in
+        <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+          #{unitId}
+        </foreach>
+        )
+      </foreach>
+    </if>
+    <if test="approverTypePostIdListMap != null">
+      <if test="approverTypeUnitIdListMap != null"> or </if>
+      <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+        (aas.flow_node = #{approverTypeId} and bc.post_id in
+        <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+          #{postId}
+        </foreach>
+        )
+      </foreach>
+    </if>
+    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+      )
+    </if>
+ </sql>
+  <select id="selectNotApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
+    select aas.* from abroad_apply_self aas, base_cadre bc
+    <include refid="Where_selectNotApproval" />
+    order by aas.create_time desc
+  </select>
+  <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer" >
+    select count(aas.id) from abroad_apply_self aas, base_cadre bc
+    <include refid="Where_selectNotApproval" />
+  </select>
+
+  <sql id="Where_hasApprovalList">
+    where aas.cadre_id=bc.id  and aas.status=1
+    and (
+    concat(',',aas.flow_users,',') like '%,${flowUserId},%'
+    <if test="approverTypeUnitIdListMap != null">
+      or
+      <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+        ( concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.unit_id in
+        <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+          #{unitId}
+        </foreach>
+        )
+      </foreach>
+    </if>
+    <if test="approverTypePostIdListMap != null">
+      or
+      <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+        (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_id in
+        <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+          #{postId}
+        </foreach>
+        )
+      </foreach>
+    </if>
+    )
+  </sql>
+  <select id="selectHasApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
+    select aas.* from abroad_apply_self aas, base_cadre bc
+    <include refid="Where_hasApprovalList" />
+    order by aas.create_time desc
+  </select>
+  <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer" >
+    select count(aas.id) from abroad_apply_self aas, base_cadre bc
+    <include refid="Where_hasApprovalList" />
+  </select>
+
 </mapper>

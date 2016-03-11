@@ -29,12 +29,11 @@
     </encoder>
   </appender>
   <logger name="persistence" level="debug"/>
-  <logger name="org.springframework" level="debug"/>
+  <logger name="org.springframework" level="ERROR"/>
   <logger name="org.springframework.cache" level="ERROR"/>
   <logger name="org.mybatis" level="ERROR"/>
   <logger name="org.apache.ibatis" level="ERROR"/>
   <root level="debug">
-  	  <appender-ref ref="debug" />
-  	  <appender-ref ref="info" />
+      <appender-ref ref="STDOUT" />
   </root>
 </configuration>

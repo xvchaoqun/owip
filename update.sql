@@ -1,6 +1,54 @@
 
 
+--2016.3.11
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `node` INT NOT NULL COMMENT '下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）' AFTER `status`,
+	ADD COLUMN `flow` VARCHAR(50) NOT NULL COMMENT '已审批身份类型,（按顺序排序，逗号分隔）' AFTER `node`;
 
+ALTER TABLE `abroad_apply_self`
+	CHANGE COLUMN `node` `flow_node` INT(11) NOT NULL COMMENT '下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）' AFTER `status`,
+	CHANGE COLUMN `flow` `flow_nodes` VARCHAR(100) NULL COMMENT '已审批身份类型,（按顺序排序，逗号分隔）' AFTER `flow_node`,
+	ADD COLUMN `flow_users` VARCHAR(100) NULL COMMENT '已审批的审批人USER_ID，（按顺序排序，逗号分隔）' AFTER `flow_nodes`;
+
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `is_finish` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否完成终审' AFTER `status`;
+
+
+CREATE TABLE `abroad_safe_box` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`code` VARCHAR(50) NOT NULL COMMENT '保险柜编号',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	PRIMARY KEY (`id`)
+)
+COMMENT='保险柜'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=11
+;
+
+
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `safe_code` `safe_box_id` VARCHAR(50) NULL DEFAULT '' COMMENT '存放保险柜' AFTER `keep_date`;
+
+insert into abroad_safe_box(code) select  distinct safe_box_id from abroad_passport where safe_box_id is not null and safe_box_id!='';
+update abroad_passport ap , abroad_safe_box asb set ap.safe_box_id=asb.id where ap.safe_box_id=asb.code;
+
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `safe_box_id` `safe_box_id` INT UNSIGNED NULL COMMENT '存放保险柜' AFTER `keep_date`,
+	ADD CONSTRAINT `FK_abroad_passport_abroad_safe_box` FOREIGN KEY (`safe_box_id`) REFERENCES `abroad_safe_box` (`id`);
+
+update abroad_safe_box set sort_order =id
+
+
+ALTER TABLE `base_cadre`
+	CHANGE COLUMN `title` `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位及职务' AFTER `unit_id`,
+	ADD COLUMN `post` VARCHAR(50) NULL DEFAULT NULL COMMENT '职务' AFTER `title`;
+
+update base_cadre set post=title;
+
+
+--2016.3.10
 ALTER TABLE `abroad_approval_log`
 	CHANGE COLUMN `cadre_id` `user_id` INT(10) UNSIGNED NOT NULL COMMENT '审批人' AFTER `apply_id`,
 	DROP FOREIGN KEY `FK_abroad_apply_approval_base_cadre`;

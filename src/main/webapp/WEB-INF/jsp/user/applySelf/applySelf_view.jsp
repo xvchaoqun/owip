@@ -88,7 +88,7 @@
                 <td colspan="5" class="bg-left">申请人：${sysUser.realname} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  申请日期：${cm:formatDate(applySelf.applyDate, "yyyy年 MM月 dd日")}</td>
               </tr>
               <c:forEach items="${approvalResultMap}" var="result">
-                <c:if test="${result.value!=-1}">
+                <c:if test="${result.value.value!=-1}">
                   <c:set var="approvalLog" value="${cm:getApprovalLog(applySelf.id, result.key)}"/>
                   <tr>
                     <td colspan="7" style="text-align: center">
@@ -108,7 +108,7 @@
                         审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}<br/>
                         <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                       </c:if>
-                      审批状态：${result.value==null?"未审批":(result.value==0?"未通过":"通过")}
+                      审批状态：${result.value.value==null?"未审批":(result.value.value==0?"未通过":"通过")}
                     </td>
                   </tr>
                 </c:if>

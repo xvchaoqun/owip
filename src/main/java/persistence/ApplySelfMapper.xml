@@ -16,6 +16,10 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="BIT" />
+    <result column="is_finish" property="isFinish" jdbcType="BIT" />
+    <result column="flow_node" property="flowNode" jdbcType="INTEGER" />
+    <result column="flow_nodes" property="flowNodes" jdbcType="VARCHAR" />
+    <result column="flow_users" property="flowUsers" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, apply_date, type, start_date, end_date, to_country, reason, peer_staff, 
-    cost_source, need_passports, create_time, ip, status
+    cost_source, need_passports, create_time, ip, status, is_finish, flow_node, flow_nodes, 
+    flow_users
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApplySelfExample" >
     select
@@ -114,12 +119,14 @@
       type, start_date, end_date, 
       to_country, reason, peer_staff, 
       cost_source, need_passports, create_time, 
-      ip, status)
+      ip, status, is_finish, flow_node, 
+      flow_nodes, flow_users)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{type,jdbcType=TINYINT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{toCountry,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, 
       #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT})
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
+      #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.ApplySelf" >
     insert into abroad_apply_self
@@ -166,6 +173,18 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="isFinish != null" >
+        is_finish,
+      </if>
+      <if test="flowNode != null" >
+        flow_node,
+      </if>
+      <if test="flowNodes != null" >
+        flow_nodes,
+      </if>
+      <if test="flowUsers != null" >
+        flow_users,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -209,6 +228,18 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=BIT},
+      </if>
+      <if test="isFinish != null" >
+        #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null" >
+        #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null" >
+        #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null" >
+        #{flowUsers,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +294,18 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.isFinish != null" >
+        is_finish = #{record.isFinish,jdbcType=BIT},
+      </if>
+      <if test="record.flowNode != null" >
+        flow_node = #{record.flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowNodes != null" >
+        flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowUsers != null" >
+        flow_users = #{record.flowUsers,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +326,11 @@
       need_passports = #{record.needPassports,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=BIT}
+      status = #{record.status,jdbcType=BIT},
+      is_finish = #{record.isFinish,jdbcType=BIT},
+      flow_node = #{record.flowNode,jdbcType=INTEGER},
+      flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      flow_users = #{record.flowUsers,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +377,18 @@
       <if test="status != null" >
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="isFinish != null" >
+        is_finish = #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null" >
+        flow_node = #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null" >
+        flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null" >
+        flow_users = #{flowUsers,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -347,7 +406,11 @@
       need_passports = #{needPassports,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
-      status = #{status,jdbcType=BIT}
+      status = #{status,jdbcType=BIT},
+      is_finish = #{isFinish,jdbcType=BIT},
+      flow_node = #{flowNode,jdbcType=INTEGER},
+      flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      flow_users = #{flowUsers,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.ApplySelfExample" id="selectByExampleWithRowbounds" >

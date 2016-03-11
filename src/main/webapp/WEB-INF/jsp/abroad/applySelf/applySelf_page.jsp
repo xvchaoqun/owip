@@ -5,6 +5,18 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li  class="<c:if test="${status==0}">active</c:if>">
+                        <a href="?status=0"><i class="fa fa-circle-o"></i> 未完成审批</a>
+                    </li>
+                    <li  class="<c:if test="${status==1}">active</c:if>">
+                        <a href="?status=1"><i class="fa fa-check"></i> 已完成审批</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="home4" class="tab-pane in active">
         <div class="myTableDiv"
              data-url-au="${ctx}/applySelf_au"
              data-url-page="${ctx}/applySelf_page"
@@ -13,7 +25,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/applySelf_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-
+                <input type="hidden" name="status" value="${status}">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${cadre.id}">${sysUser.realname}</option>
@@ -57,7 +69,8 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1800px"  class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -116,6 +129,7 @@ pageEncoding="UTF-8" %>
                                             class="openView btn btn-success btn-mini">
                                         <i class="fa fa-info-circle"></i> 详情
                                     </button>
+                                    <c:if test="${status==0}">
                                     <shiro:hasPermission name="applySelf:edit">
                                         <button class="editBtn btn btn-primary btn-mini" data-id="${applySelf.id}">
                                             <i class="fa fa-edit"></i> 编辑
@@ -126,12 +140,14 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
+                                    </c:if>
                                 </div>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/applySelf_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -142,6 +158,7 @@ pageEncoding="UTF-8" %>
             </c:if>
         </div>
     </div>
+                </div></div></div>
     <div id="item-content">
     </div>
     </div>

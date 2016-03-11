@@ -131,9 +131,9 @@ public class PassportApplyController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         modelMap.put("status", status);
-        if(status!=0){
+        //if(status!=0){
             criteria.andStatusEqualTo(status);
-        }
+       // }
 
         if (cadreId!=null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
@@ -212,8 +212,8 @@ public class PassportApplyController extends BaseController {
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
         } else {
 
-            passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));
+           /* passportApplyService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*/
         }
 
         return success(FormUtils.SUCCESS);

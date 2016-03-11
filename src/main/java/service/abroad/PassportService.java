@@ -23,6 +23,8 @@ public class PassportService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private SafeBoxService safeBoxService;
     @Transactional
     public int importPassports(final List<XlsPassport> passports, byte type) {
 
@@ -51,7 +53,11 @@ public class PassportService extends BaseMapper {
             record.setExpiryDate(uRow.getExpiryDate());
             record.setKeepDate(uRow.getKeepDate());
 
-            record.setSafeCode(uRow.getSafeCode());
+            //
+            SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
+            if(safeBox==null)
+                if(sysUser== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
+            record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setAbolish(false);
 
@@ -69,7 +75,7 @@ public class PassportService extends BaseMapper {
     }
     public List<Passport> findByCadreId(int cadreId){
 
-       return selectMapper.selectPassportList(cadreId, null, null, null, false, new RowBounds());
+       return selectMapper.selectPassportList(cadreId, null, null, null, null, false, new RowBounds());
     }
 
     public boolean idDuplicate(Integer id, int cadreId, int classId, String code){
@@ -152,7 +158,7 @@ public class PassportService extends BaseMapper {
 
         Date now = new Date();
         List<Passport> passports = selectMapper.selectPassportList(null, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, false, new RowBounds());
+                SystemConstants.PASSPORT_TYPE_KEEP, null, false, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if(expiryDate.before(now)){

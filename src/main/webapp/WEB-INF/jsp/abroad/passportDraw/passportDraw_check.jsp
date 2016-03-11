@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="center" style="margin-top: 40px">
-            <button class="closeView reload btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
+            <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
     </div>
 </div>

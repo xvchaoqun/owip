@@ -12,7 +12,7 @@
       "showColumns": "identity_id,type_id",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "apply_post",
@@ -21,7 +21,7 @@
       "showColumns": "identity_id,post_id",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "approval_identity",
@@ -30,7 +30,7 @@
       "showColumns": "name",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "approver",
@@ -39,7 +39,7 @@
       "showColumns": "cadre_id,type_id",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "approver_type",
@@ -48,7 +48,7 @@
       "showColumns": "name,type",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ABROAD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "apply_self",
@@ -94,6 +94,15 @@
       "excludeEditColumns": "id,is_lent,type,cancel_type,cancel_confirm,cancel_pic,cancel_time,lost_proof,create_time",
       "logType":"SystemConstants.LOG_ABROAD",
       "ignore": true
+    }
+    ,{
+      "table": "safe_box",
+      "key": "id",
+      "searchColumns": "code",
+      "showColumns": "id,code",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": false
     }
   ]
 }

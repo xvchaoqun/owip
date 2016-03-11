@@ -22,7 +22,7 @@ public class Passport implements Serializable {
 
     private Date keepDate;
 
-    private String safeCode;
+    private Integer safeBoxId;
 
     private Boolean isLent;
 
@@ -116,12 +116,12 @@ public class Passport implements Serializable {
         this.keepDate = keepDate;
     }
 
-    public String getSafeCode() {
-        return safeCode;
+    public Integer getSafeBoxId() {
+        return safeBoxId;
     }
 
-    public void setSafeCode(String safeCode) {
-        this.safeCode = safeCode == null ? null : safeCode.trim();
+    public void setSafeBoxId(Integer safeBoxId) {
+        this.safeBoxId = safeBoxId;
     }
 
     public Boolean getIsLent() {

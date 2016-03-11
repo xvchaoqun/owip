@@ -59,7 +59,8 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1600px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -170,6 +171,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/memberReturn_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>

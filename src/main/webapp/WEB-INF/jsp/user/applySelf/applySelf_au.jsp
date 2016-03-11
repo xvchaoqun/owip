@@ -149,7 +149,7 @@ pageEncoding="UTF-8"%>
 	var costSource = '${applySelf.costSource}';
 	if(costSource=='自费')
 		$("input[name=_costSource][value='自费']").prop("checked", true);
-	else {
+	else if(costSource.startWith("其他来源:")){
 		$("input[name=_costSource][value='其他来源']").prop("checked", true);
 		$("input[name=_costSource_other]").val(costSource.split(":")[1]);
 	}
@@ -318,7 +318,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        SysMsg.success('操作成功。', '成功', function(){
+                        SysMsg.success('申请成功。', '成功', function(){
 							page_reload();
 						});
                     }

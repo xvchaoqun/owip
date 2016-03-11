@@ -15,6 +15,8 @@ public class Cadre implements Serializable {
 
     private String title;
 
+    private String post;
+
     private String remark;
 
     private Integer sortOrder;
@@ -69,6 +71,14 @@ public class Cadre implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public String getRemark() {

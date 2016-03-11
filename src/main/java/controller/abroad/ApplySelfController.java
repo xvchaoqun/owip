@@ -1,5 +1,6 @@
 package controller.abroad;
 
+import bean.ApprovalResult;
 import controller.BaseController;
 import domain.*;
 import domain.ApplySelfExample.Criteria;
@@ -13,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,6 @@ import sys.utils.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.AssertTrue;
 import java.io.IOException;
 import java.util.*;
 
@@ -57,8 +58,8 @@ public class ApplySelfController extends BaseController {
         if (!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
             throw new RuntimeException("您没有权限进行审批");
 
-        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
-        Integer result = approvalResultMap.get(approvalTypeId);
+        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
+        Integer result = approvalResultMap.get(approvalTypeId).getValue();
         if (result != null && result != -1) {
             throw new RuntimeException("重复审批");
         }
@@ -74,7 +75,7 @@ public class ApplySelfController extends BaseController {
             for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
                 Integer key = entry.getKey();
                 if (key != approvalTypeId) {
-                    Integer preResult = approvalResultMap.get(key);
+                    Integer preResult = approvalResultMap.get(key).getValue();
                     if (preResult == null || preResult == 0)
                         throw new RuntimeException(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
                 }
@@ -86,7 +87,7 @@ public class ApplySelfController extends BaseController {
             for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
                 Integer key = entry.getKey();
                 if (key != 0) {
-                    Integer preResult = approvalResultMap.get(key);
+                    Integer preResult = approvalResultMap.get(key).getValue();
                     if (preResult == null && preResult != -1)
                         throw new RuntimeException(entry.getValue().getName() + "未完成审批");
                 }
@@ -98,7 +99,7 @@ public class ApplySelfController extends BaseController {
         if (approvalTypeId > 0)
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
-            record.setOdType((byte) 0); // 初审
+            record.setOdType(SystemConstants.APPROVER_LOG_OD_TYPE_FIRST); // 初审
             if(status!=1){ // 不通过，打回申请
                 ApplySelf applySelf = new ApplySelf();
                 applySelf.setId(applySelfId);
@@ -107,23 +108,17 @@ public class ApplySelfController extends BaseController {
             }
         }
         if (approvalTypeId == 0) {
-            record.setOdType((byte) 1); // 终审
+            record.setOdType(SystemConstants.APPROVER_LOG_OD_TYPE_LAST); // 终审
         }
         record.setStatus(status == 1);
         record.setRemark(remark);
         record.setUserId(userId);
         record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
-        approvalLogMapper.insert(record);
+
+        approvalLogService.add(record);
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("applySelf:list")
-    @RequestMapping("/applySelf")
-    public String applySelf() {
-
-        return "index";
     }
 
     @RequiresPermissions("applySelf:download")
@@ -149,11 +144,14 @@ public class ApplySelfController extends BaseController {
                 springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
     }
 
-    @RequiresPermissions("applySelf:list")
+    @RequiresPermissions("applySelf:view")
     @RequestMapping("/applySelf_view")
     public String applySelf_view(Integer id, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+
+        // 判断一下查看权限++++++++++++++++++++???
+
         Integer cadreId = applySelf.getCadreId();
         Cadre cadre = cadreService.findAll().get(cadreId);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
@@ -165,10 +163,9 @@ public class ApplySelfController extends BaseController {
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
 
-        Map<Integer, Integer> approvalResultMap = applySelfService.getApprovalResultMap(id);
+        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
         modelMap.put("approverTypeMap", approverTypeService.findAll());
-
 
         // 本年度的申请记录
         ApplySelfExample example = new ApplySelfExample();
@@ -185,15 +182,27 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf")
+    public String applySelf() {
+
+        return "index";
+    }
+
+    @RequiresPermissions("applySelf:list")
+    @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "create_time") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                  Integer cadreId,
                                  String _applyDate,
-                                 Byte type,
+                                 Byte type, // 出行时间范围
+                                 // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
+                                 @RequestParam(required = false, defaultValue = "0")  int status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        modelMap.put("status", status);
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -207,25 +216,24 @@ public class ApplySelfController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+         criteria.andIsFinishEqualTo(status==1);
 
-        if (!SecurityUtils.getSubject().hasRole("cadreAdmin")) { //干部管理员可以全部看到，其他审批人需要过滤
+       /* if(!SecurityUtils.getSubject().hasRole("cadreAdmin")){ //干部管理员可以全部看到，其他审批人需要过滤
 
-            criteria.andStatusEqualTo(true); // 只看已提交的记录
-
-            int userId = loginUser.getId();
+            int userId= loginUser.getId();
             Cadre cadre = cadreService.findByUserId(userId);
-            if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW) { // 现任干部才有审批权限
+            if(cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW){ // 现任干部才有审批权限
                 criteria.andIdIsNull();
-            } else {
+            }else {
                 Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId());
                 List<Integer> careIdList = new ArrayList<>();
                 careIdList.addAll(cadreIdSet);
-                if (cadreIdSet.isEmpty())
+                if(cadreIdSet.isEmpty())
                     criteria.andIdIsNull();
                 else
                     criteria.andCadreIdIn(careIdList);
             }
-        }
+        }*/
 
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
@@ -266,7 +274,7 @@ public class ApplySelfController extends BaseController {
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         String searchStr = "&pageSize=" + pageSize;
-
+        searchStr += "&status=" + status;
         if (cadreId != null) {
             searchStr += "&cadreId=" + cadreId;
         }
@@ -289,6 +297,96 @@ public class ApplySelfController extends BaseController {
         modelMap.put("approverTypeMap", approverTypeMap);
 
         return "abroad/applySelf/applySelf_page";
+    }
+
+    @RequiresRoles("cadre")
+    @RequiresPermissions("applySelf:approvalList")
+    @RequestMapping("/applySelfList")
+    public String applySelfList() {
+
+        return "index";
+    }
+
+    // 非管理员  审批人身份 审批记录
+    @RequiresRoles("cadre")
+    @RequiresPermissions("applySelf:approvalList")
+    @RequestMapping("/applySelfList_page")
+    public String applySelfList_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
+                                     @RequestParam(required = false, defaultValue = "0")  int status, // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        modelMap.put("status", status);
+
+        Integer userId = loginUser.getId();
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        //==============================================
+        Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
+        Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
+        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+        ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+        // 本单位正职
+        Integer mainPostUnitId = applySelfService.getMainPostUnitId(userId);
+        if(mainPostUnitId!=null) {
+            List unitIds = new ArrayList();
+            unitIds.add(mainPostUnitId);
+            approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
+        }
+        // 分管校领导
+        List<Integer> leaderUnitIds = applySelfService.getLeaderUnitIds(userId);
+        if(leaderUnitIds.size()>0){
+            approverTypeUnitIdListMap.put(leaderApproverType.getId(), leaderUnitIds);
+        }
+
+        // 其他身份
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        for (ApproverType approverType : approverTypeMap.values()) {
+            if(approverType.getType() ==SystemConstants.APPROVER_TYPE_OTHER){
+                List<Integer> approvalPostIds = applySelfService.getApprovalPostIds(userId, approverType.getId());
+                if(leaderUnitIds.size()>0){
+                    approverTypePostIdListMap.put(leaderApproverType.getId(), approvalPostIds);
+                }
+            }
+        }
+        if(approverTypeUnitIdListMap.size()==0) approverTypeUnitIdListMap = null;
+        if(approverTypePostIdListMap.size()==0) approverTypePostIdListMap = null;
+        //==============================================
+
+        int count = 0;
+        if(status==0)
+            count = selectMapper.countNotApproval(approverTypeUnitIdListMap, approverTypePostIdListMap);
+        if(status==1)
+            count = selectMapper.countHasApproval(approverTypeUnitIdListMap, approverTypePostIdListMap, loginUser.getId());
+
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<ApplySelf> applySelfs = null;
+        if(status==0)
+            applySelfs= selectMapper.selectNotApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
+        if(status==1)
+            applySelfs= selectMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap, loginUser.getId(),
+                    new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        modelMap.put("applySelfs", applySelfs);
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        String searchStr = "&pageSize=" + pageSize;
+        searchStr += "&status=" + status;
+
+        commonList.setSearchStr(searchStr);
+        modelMap.put("commonList", commonList);
+
+        modelMap.put("approverTypeMap", approverTypeMap);
+
+        return "abroad/applySelf/applySelfList_page";
     }
 
     @RequiresPermissions("applySelf:edit")

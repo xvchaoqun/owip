@@ -11,7 +11,7 @@
     <result column="issue_date" property="issueDate" jdbcType="DATE" />
     <result column="expiry_date" property="expiryDate" jdbcType="DATE" />
     <result column="keep_date" property="keepDate" jdbcType="DATE" />
-    <result column="safe_code" property="safeCode" jdbcType="VARCHAR" />
+    <result column="safe_box_id" property="safeBoxId" jdbcType="INTEGER" />
     <result column="is_lent" property="isLent" jdbcType="BIT" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="cancel_type" property="cancelType" jdbcType="TINYINT" />
@@ -82,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, apply_id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, 
-    safe_code, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, lost_proof, 
-    create_time, abolish
+    safe_box_id, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, 
+    lost_proof, create_time, abolish
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportExample" >
     select
@@ -119,14 +119,14 @@
     insert into abroad_passport (id, apply_id, cadre_id, 
       class_id, code, authority, 
       issue_date, expiry_date, keep_date, 
-      safe_code, is_lent, type, 
+      safe_box_id, is_lent, type, 
       cancel_type, cancel_confirm, cancel_pic, 
       cancel_time, lost_proof, create_time, 
       abolish)
     values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
       #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
-      #{safeCode,jdbcType=VARCHAR}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
+      #{safeBoxId,jdbcType=INTEGER}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
       #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, 
       #{cancelTime,jdbcType=TIMESTAMP}, #{lostProof,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{abolish,jdbcType=BIT})
@@ -161,8 +161,8 @@
       <if test="keepDate != null" >
         keep_date,
       </if>
-      <if test="safeCode != null" >
-        safe_code,
+      <if test="safeBoxId != null" >
+        safe_box_id,
       </if>
       <if test="isLent != null" >
         is_lent,
@@ -220,8 +220,8 @@
       <if test="keepDate != null" >
         #{keepDate,jdbcType=DATE},
       </if>
-      <if test="safeCode != null" >
-        #{safeCode,jdbcType=VARCHAR},
+      <if test="safeBoxId != null" >
+        #{safeBoxId,jdbcType=INTEGER},
       </if>
       <if test="isLent != null" >
         #{isLent,jdbcType=BIT},
@@ -288,8 +288,8 @@
       <if test="record.keepDate != null" >
         keep_date = #{record.keepDate,jdbcType=DATE},
       </if>
-      <if test="record.safeCode != null" >
-        safe_code = #{record.safeCode,jdbcType=VARCHAR},
+      <if test="record.safeBoxId != null" >
+        safe_box_id = #{record.safeBoxId,jdbcType=INTEGER},
       </if>
       <if test="record.isLent != null" >
         is_lent = #{record.isLent,jdbcType=BIT},
@@ -334,7 +334,7 @@
       issue_date = #{record.issueDate,jdbcType=DATE},
       expiry_date = #{record.expiryDate,jdbcType=DATE},
       keep_date = #{record.keepDate,jdbcType=DATE},
-      safe_code = #{record.safeCode,jdbcType=VARCHAR},
+      safe_box_id = #{record.safeBoxId,jdbcType=INTEGER},
       is_lent = #{record.isLent,jdbcType=BIT},
       type = #{record.type,jdbcType=TINYINT},
       cancel_type = #{record.cancelType,jdbcType=TINYINT},
@@ -375,8 +375,8 @@
       <if test="keepDate != null" >
         keep_date = #{keepDate,jdbcType=DATE},
       </if>
-      <if test="safeCode != null" >
-        safe_code = #{safeCode,jdbcType=VARCHAR},
+      <if test="safeBoxId != null" >
+        safe_box_id = #{safeBoxId,jdbcType=INTEGER},
       </if>
       <if test="isLent != null" >
         is_lent = #{isLent,jdbcType=BIT},
@@ -418,7 +418,7 @@
       issue_date = #{issueDate,jdbcType=DATE},
       expiry_date = #{expiryDate,jdbcType=DATE},
       keep_date = #{keepDate,jdbcType=DATE},
-      safe_code = #{safeCode,jdbcType=VARCHAR},
+      safe_box_id = #{safeBoxId,jdbcType=INTEGER},
       is_lent = #{isLent,jdbcType=BIT},
       type = #{type,jdbcType=TINYINT},
       cancel_type = #{cancelType,jdbcType=TINYINT},

@@ -78,7 +78,8 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1900px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -92,6 +93,7 @@ pageEncoding="UTF-8" %>
 							<th nowrap>行政级别</th>
 							<th>职务属性</th>
 							<th nowrap>所属单位</th>
+							<th nowrap>职务</th>
 							<th nowrap>所在单位及职务</th>
 							<th>备注</th>
                         <shiro:hasPermission name="cadre:changeOrder">
@@ -118,6 +120,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
 								<td nowrap>${postMap.get(cadre.postId).name}</td>
 								<td nowrap>${unitMap.get(cadre.unitId).name}</td>
+								<td nowrap>${cadre.post}</td>
 								<td nowrap>${cadre.title}</td>
 								<td>${cadre.remark}</td>
                             <shiro:hasPermission name="cadre:changeOrder">
@@ -196,6 +199,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/cadre_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>

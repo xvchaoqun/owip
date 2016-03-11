@@ -44,6 +44,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="300"
               memoryStoreEvictionPolicy="LRU" />
+       <cache name="SafeBox:ALL"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
 
 
        <cache name="UnitAdmin:ALL"

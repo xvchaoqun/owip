@@ -63,7 +63,8 @@ public class PassportController extends BaseController {
                                 Integer cadreId,
                                 Integer classId,
                                 String code,
-                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件
+                                Integer safeBoxId,
+                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5：保险柜管理
                                 @RequestParam(required = false, defaultValue = "1") byte status,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -79,8 +80,11 @@ public class PassportController extends BaseController {
         modelMap.put("status", status);
         Boolean abolish = (status == 4);
         Byte type = null;
-        if (status != 4) {
+        if (status < 4) {
             type = status;
+        }
+        if(status==5 && safeBoxId==null){
+            safeBoxId = 0; // see sql 保险柜不为空
         }
 
         if (cadreId != null) {
@@ -97,13 +101,13 @@ public class PassportController extends BaseController {
             return null;
         }*/
 
-        int count = selectMapper.countPassport(cadreId, classId, code, type, abolish);
+        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, abolish);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (cadreId, classId, code, type, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (cadreId, classId, code, type, safeBoxId, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("passports", passports);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -120,7 +124,7 @@ public class PassportController extends BaseController {
             searchStr += "&code=" + code;
         }
         if (type != null) {
-            searchStr += "&type=" + type;
+            searchStr += "&status=" + status;
         }
 
         if (StringUtils.isNotBlank(sort)) {
@@ -353,7 +357,7 @@ public class PassportController extends BaseController {
                     DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(passport.getKeepDate(), DateUtils.YYYY_MM_DD),
-                    passport.getSafeCode(),
+                    passport.getSafeBoxId()+"",
                     passport.getIsLent() + "",
                     passport.getType() + "",
                     passport.getCancelType() + "",

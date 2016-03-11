@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.CadreMapper" >
-  <resultMap id="BaseResultMap" type="domain.Cadre" >
+<mapper namespace="persistence.SafeBoxMapper" >
+  <resultMap id="BaseResultMap" type="domain.SafeBox" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
-    <result column="post_id" property="postId" jdbcType="INTEGER" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, type_id, post_id, unit_id, title, post, remark, sort_order, status
+    id, code, remark, sort_order
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SafeBoxExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre
+    from abroad_safe_box
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,52 +85,33 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre
+    from abroad_safe_box
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre
+    delete from abroad_safe_box
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.CadreExample" >
-    delete from base_cadre
+  <delete id="deleteByExample" parameterType="domain.SafeBoxExample" >
+    delete from abroad_safe_box
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.Cadre" >
-    insert into base_cadre (id, user_id, type_id, 
-      post_id, unit_id, title, 
-      post, remark, sort_order, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+  <insert keyProperty="id" id="insert" parameterType="domain.SafeBox" >
+    insert into abroad_safe_box (id, code, remark, 
+      sort_order)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id"  id="insertSelective" parameterType="domain.Cadre" >
-    insert into base_cadre
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.SafeBox" >
+    insert into abroad_safe_box
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="typeId != null" >
-        type_id,
-      </if>
-      <if test="postId != null" >
-        post_id,
-      </if>
-      <if test="unitId != null" >
-        unit_id,
-      </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="post != null" >
-        post,
+      <if test="code != null" >
+        code,
       </if>
       <if test="remark != null" >
         remark,
@@ -144,31 +119,13 @@
       <if test="sortOrder != null" >
         sort_order,
       </if>
-      <if test="status != null" >
-        status,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="typeId != null" >
-        #{typeId,jdbcType=INTEGER},
-      </if>
-      <if test="postId != null" >
-        #{postId,jdbcType=INTEGER},
-      </if>
-      <if test="unitId != null" >
-        #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="post != null" >
-        #{post,jdbcType=VARCHAR},
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -176,40 +133,22 @@
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.CadreExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre
+  <select id="countByExample" parameterType="domain.SafeBoxExample" resultType="java.lang.Integer" >
+    select count(*) from abroad_safe_box
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre
+    update abroad_safe_box
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.typeId != null" >
-        type_id = #{record.typeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.postId != null" >
-        post_id = #{record.postId,jdbcType=INTEGER},
-      </if>
-      <if test="record.unitId != null" >
-        unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.post != null" >
-        post = #{record.post,jdbcType=VARCHAR},
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -217,50 +156,26 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre
+    update abroad_safe_box
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      post = #{record.post,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT}
+      sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.Cadre" >
-    update base_cadre
+  <update id="updateByPrimaryKeySelective" parameterType="domain.SafeBox" >
+    update abroad_safe_box
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="typeId != null" >
-        type_id = #{typeId,jdbcType=INTEGER},
-      </if>
-      <if test="postId != null" >
-        post_id = #{postId,jdbcType=INTEGER},
-      </if>
-      <if test="unitId != null" >
-        unit_id = #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="post != null" >
-        post = #{post,jdbcType=VARCHAR},
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -268,32 +183,23 @@
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.Cadre" >
-    update base_cadre
-    set user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      post = #{post,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="domain.SafeBox" >
+    update abroad_safe_box
+    set code = #{code,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT}
+      sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.CadreExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.SafeBoxExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre
+    from abroad_safe_box
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

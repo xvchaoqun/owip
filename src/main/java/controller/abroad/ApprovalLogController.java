@@ -110,7 +110,7 @@ public class ApprovalLogController extends BaseController {
         return "abroad/approvalLog/approvalLog_page";
     }
 
-    @RequiresPermissions("approvalLog:edit")
+    /*@RequiresPermissions("approvalLog:edit")
     @RequestMapping(value = "/approvalLog_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_approvalLog_au(ApprovalLog record, HttpServletRequest request) {
@@ -140,9 +140,9 @@ public class ApprovalLogController extends BaseController {
             modelMap.put("approvalLog", approvalLog);
         }
         return "abroad/approvalLog/approvalLog_au";
-    }
+    }*/
 
-    @RequiresPermissions("approvalLog:del")
+    /*@RequiresPermissions("approvalLog:del")
     @RequestMapping(value = "/approvalLog_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_approvalLog_del(HttpServletRequest request, Integer id) {
@@ -167,7 +167,7 @@ public class ApprovalLogController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void approvalLog_export(ApprovalLogExample example, HttpServletResponse response) {
 
