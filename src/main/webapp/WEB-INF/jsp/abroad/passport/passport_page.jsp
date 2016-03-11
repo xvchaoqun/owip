@@ -98,7 +98,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <div class="table-container">
-                    <table style="min-width: 1900px" class="table table-actived table-striped table-bordered table-hover table-condensed">
+                    <table style="min-width: 2000px" class="table table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">

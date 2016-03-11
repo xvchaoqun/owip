@@ -123,9 +123,8 @@ public class PassportController extends BaseController {
         if (StringUtils.isNotBlank(code)) {
             searchStr += "&code=" + code;
         }
-        if (type != null) {
-            searchStr += "&status=" + status;
-        }
+
+        searchStr += "&status=" + status;
 
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
