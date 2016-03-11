@@ -10,7 +10,8 @@ pageEncoding="UTF-8" %>
 </div>
 <h4>&nbsp;</h4>
 <div class="space-4"></div>
-<table class="table table-actived  table-bordered table-hover table-condensed">
+<div class="table-container">
+    <table style="min-width: 1900px" class="table table-actived  table-bordered table-hover table-condensed">
     <thead>
     <tr>
         <th>学历</th>
@@ -82,6 +83,7 @@ pageEncoding="UTF-8" %>
     </c:forEach>
     </tbody>
 </table>
+    </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/cadreEdu_page" target="#view-box .tab-content" pageNum="5"
                          model="3"/>
 <div class="space-4"></div>
