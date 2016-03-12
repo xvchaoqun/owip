@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
 </div>
 <div class="modal-body">
             <c:if test="${fn:length(dispatchUnits)>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">

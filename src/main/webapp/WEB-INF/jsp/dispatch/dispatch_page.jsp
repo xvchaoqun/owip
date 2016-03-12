@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 1300px" class="table table-center table-actived table-striped table-bordered table-hover table-condensed">
+                <table style="min-width: 1300px" class="table table-center table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -171,14 +171,14 @@ pageEncoding="UTF-8" %>
 								<td width="120">${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}</td>
 								<td width="120">${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
 								<td width="120">${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
-								<td width="100"><c:if test="${not empty dispatch.fileName}">
+								<td nowrap><c:if test="${not empty dispatch.fileName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">查看</a>
                                     &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"
                                        data-id="${dispatch.id}" data-type="file">删除</a>
                                 </c:if>
                                 </td>
-								<td width="100"><c:if test="${not empty dispatch.pptName}">
+								<td nowrap><c:if test="${not empty dispatch.pptName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">查看</a>
                                     &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"

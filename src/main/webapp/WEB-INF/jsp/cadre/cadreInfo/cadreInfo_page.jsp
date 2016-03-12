@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
     </c:if>
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
 							<th>手机号</th>

@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="col-xs-3">
                         <label>
-                            <input name="isPresent" ${unitAdminGroup.isPresent?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+                            <input name="isPresent" ${unitAdminGroup.isPresent?"checked":""}  type="checkbox" />
                             <span class="lbl"></span>
                         </label>
                     </div>
@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
+    $("#modalForm :checkbox").bootstrapSwitch();
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {

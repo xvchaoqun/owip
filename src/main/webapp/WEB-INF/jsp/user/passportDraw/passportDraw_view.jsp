@@ -30,7 +30,7 @@
     </div>
     <div class="widget-body" style="display: block;">
       <div class="widget-main no-padding">
-        <table class="table table-bordered table-hover table-condensed">
+        <table class="table table-bordered table-hover">
           <thead>
           <tr>
             <th>编号</th>
@@ -80,7 +80,7 @@
       </div>
       <div class="widget-body" style="display: block;">
         <div class="widget-main no-padding">
-          <table class="table table-striped table-bordered table-hover table-condensed">
+          <table class="table table-striped table-bordered table-hover">
             <thead>
             <tr>
               <th>申请日期</th>

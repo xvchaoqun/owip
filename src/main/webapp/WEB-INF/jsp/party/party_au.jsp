@@ -97,11 +97,9 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">组织类别</label>
 					<div class="col-xs-8">
-						<select required class="form-control" name="typeId" data-rel="select2" data-placeholder="请选择组织类别">
+						<select required data-rel="select2" name="typeId" data-placeholder="请选择组织类别">
 							<option></option>
-							<c:forEach items="${typeMap}" var="type">
-								<option value="${type.key}">${type.value.name}</option>
-							</c:forEach>
+							<c:import url="/metaTypes?__code=mc_party_type"/>
 						</select>
 						<script>
 							$("#modalForm select[name=typeId]").val('${party.typeId}');
@@ -126,28 +124,19 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">所在单位是否独立法人</label>
 					<div class="col-xs-8">
-						<label>
-							<input name="isSeparate" ${party.isSeparate?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
-							<span class="lbl"></span>
-						</label>
+							<input name="isSeparate" ${party.isSeparate?"checked":""} type="checkbox" />
 					</div>
 				</div>
 			<div class="form-group enterprise">
 				<label class="col-xs-3 control-label">是否大中型</label>
 				<div class="col-xs-8">
-					<label>
-						<input name="isEnterpriseBig" ${party.isEnterpriseBig?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
-						<span class="lbl"></span>
-					</label>
+						<input name="isEnterpriseBig" ${party.isEnterpriseBig?"checked":""}  type="checkbox" />
 				</div>
 			</div>
 			<div class="form-group enterprise">
 				<label class="col-xs-3 control-label">是否国有独资</label>
 				<div class="col-xs-8">
-					<label>
-						<input name="isEnterpriseNationalized" ${party.isEnterpriseNationalized?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
-						<span class="lbl"></span>
-					</label>
+						<input name="isEnterpriseNationalized" ${party.isEnterpriseNationalized?"checked":""} type="checkbox" />
 				</div>
 			</div>
 
@@ -166,7 +155,7 @@ pageEncoding="UTF-8"%>
 	}
 </style>
 <script>
-
+	$("#modal :checkbox").bootstrapSwitch();
 	register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {

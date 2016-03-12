@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label">是否最高学历</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isHighEdu" ${cadreEdu.isHighEdu?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isHighEdu" ${cadreEdu.isHighEdu?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-4 control-label">是否获得学位</label>
 					<div class="col-xs-6">
 						<label>
-							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
 						</label>
 					</div>
@@ -130,7 +130,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">是否为最高学位</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isHighDegree" ${cadreEdu.isHighDegree?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isHighDegree" ${cadreEdu.isHighDegree?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -172,6 +172,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){
 		if($("input[name=hasDegree]").prop("checked")){
 			$("input[name=degree]").prop("disabled", false).attr("required", "required");
@@ -179,6 +180,11 @@ pageEncoding="UTF-8"%>
 			$("input[name=degree]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
+	$('input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
+		console.log(this); // DOM element
+		console.log(event); // jQuery event
+		console.log(state); // true | false
+	});
 	$("input[name=hasDegree]").click(function(){
 		hasDegreeChange();
 	});

@@ -29,7 +29,7 @@
     <div class="widget-body">
       <div class="widget-main padding-4">
         <div class="tab-content padding-8">
-          <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+          <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>
               <th>申请人</th>

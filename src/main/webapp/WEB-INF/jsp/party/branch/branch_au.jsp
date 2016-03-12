@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label">是否是教工党支部</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isStaff" ${branch.isStaff?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isStaff" ${branch.isStaff?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-5 control-label">是否是专业教师党支部</label>
 					<div class="col-xs-6">
 						<label>
-							<input name="isPrefessional" ${branch.isPrefessional?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<input name="isPrefessional" ${branch.isPrefessional?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
 						</label>
 					</div>
@@ -81,7 +81,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-5 control-label">是否建立在团队</label>
 					<div class="col-xs-6">
 						<label>
-							<input name="isBaseTeam" ${branch.isBaseTeam?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+							<input name="isBaseTeam" ${branch.isBaseTeam?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
 						</label>
 					</div>
@@ -135,7 +135,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label">是否为大中型</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isEnterpriseBig" ${branch.isEnterpriseBig?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isEnterpriseBig" ${branch.isEnterpriseBig?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -144,7 +144,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label">是否国有独资</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isEnterpriseNationalized" ${branch.isEnterpriseNationalized?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isEnterpriseNationalized" ${branch.isEnterpriseNationalized?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -153,7 +153,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label">是否联合党支部</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isUnion" ${branch.isUnion?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isUnion" ${branch.isUnion?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -175,7 +175,7 @@ pageEncoding="UTF-8"%>
 	}
 </style>
 <script>
-
+	$("#modal :checkbox").bootstrapSwitch();
 	register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {

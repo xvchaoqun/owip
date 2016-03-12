@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
 <h4>&nbsp;</h4>
 <div class="space-4"></div>
 <div class="table-container">
-    <table style="min-width: 1900px" class="table table-actived  table-bordered table-hover table-condensed">
+    <table style="min-width: 1900px" class="table table-actived  table-bordered table-hover">
     <thead>
     <tr>
         <th>学历</th>
@@ -88,11 +88,11 @@ pageEncoding="UTF-8" %>
                          model="3"/>
 <div class="space-4"></div>
 <div class="buttons pull-right">
-        <a class="btn btn-info btn-sm" onclick="_auTutor()" data-width="900"><i class="fa fa-plus"></i> 添加导师信息</a>
+        <a class="btn btn-primary btn-sm" onclick="_auTutor()" data-width="900"><i class="fa fa-plus"></i> 添加导师信息</a>
 </div>
 <h4>&nbsp;</h4>
 <div class="space-4"></div>
-<table class="table table-actived  table-bordered table-hover table-condensed">
+<table class="table table-actived  table-bordered table-hover">
     <thead>
     <tr>
         <th></th>

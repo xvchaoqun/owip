@@ -13,7 +13,7 @@
          data-url-co="${ctx}/safeBox_changeOrder"
          data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>编号</th>

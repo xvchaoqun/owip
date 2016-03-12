@@ -39,6 +39,7 @@
 <![endif]-->
 
 <!-- extend -->
+<link rel="stylesheet" href="${ctx}/extend/css/bootstrap-switch.min.css" />
 <link href="${ctx}/extend/css/skin/ui.dynatree.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${ctx}/extend/css/showLoading.css" />
 <link rel="stylesheet" href="${ctx}/extend/css/toastr.css" />

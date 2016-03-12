@@ -18,6 +18,9 @@ body{
 .nav-tabs.tab-color-blue > li > a:focus {
     background-color: #337ab7;
 }
+.tags .tag{
+    background-color: #1482C5;
+}
 /**************/
 
 .navbar{

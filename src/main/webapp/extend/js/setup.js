@@ -6,6 +6,11 @@ $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下select2在modal里不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
+$.fn.bootstrapSwitch.defaults.onText = "是";
+$.fn.bootstrapSwitch.defaults.offText= "否";
+$.fn.bootstrapSwitch.defaults.onColor= "success";
+$.fn.bootstrapSwitch.defaults.offColor= "danger";
+
 toastr.options = {
     "closeButton": true,
     "debug": false,

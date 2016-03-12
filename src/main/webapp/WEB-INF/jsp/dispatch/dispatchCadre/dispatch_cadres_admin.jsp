@@ -173,7 +173,7 @@
 </div>
 
 <div style="padding-top: 20px">
-  <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+  <table class="table table-actived table-striped table-bordered table-hover">
     <thead>
     <tr>
       <th>类别</th>

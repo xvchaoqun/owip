@@ -25,7 +25,7 @@
          data-url-del="${ctx}/dispatchUnitRelate_del"
          data-url-co="${ctx}/dispatchUnitRelate_changeOrder">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="col-xs-10">关联单位</th>

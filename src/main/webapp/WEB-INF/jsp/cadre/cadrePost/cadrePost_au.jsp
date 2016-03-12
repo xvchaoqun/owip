@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否现任职级</label>
 				<div class="col-xs-6">
                     <label>
-                        <input name="isPresent" ${cadrePost.isPresent?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+                        <input name="isPresent" ${cadrePost.isPresent?"checked":""}  type="checkbox" />
                         <span class="lbl"></span>
                     </label>
 				</div>
@@ -82,6 +82,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $("#modal :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
 
     register_date($('.date-picker'));

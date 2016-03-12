@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
     </div></h3>
 </div>
 <div class="modal-body">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
 							<th>关联干部</th>

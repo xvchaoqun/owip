@@ -32,7 +32,7 @@
             </div>
             <div class="space-4"></div>
             <div class="table-container">
-                <table style="min-width: 1700px"class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table style="min-width: 1700px"class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th nowrap>模块</th>

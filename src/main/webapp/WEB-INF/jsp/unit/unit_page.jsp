@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
                                     </shiro:hasPermission>
                                     </c:if>
                                     <shiro:hasPermission name="unit:history">
-                                        <button class="historyBtn btn btn-default btn-mini btn-xs" data-id="${unit.id}">
+                                        <button class="historyBtn btn btn-primary btn-mini btn-xs" data-id="${unit.id}">
                                             <i class="fa fa-history"></i> 编辑历史单位
                                         </button>
                                     </shiro:hasPermission>

@@ -231,7 +231,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">是否有回执</label>
 						<div class="col-xs-6">
 							<label>
-								<input name="hasReceipt" ${memberIn.hasReceipt?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+								<input name="hasReceipt" ${memberIn.hasReceipt?"checked":""}  type="checkbox" />
 								<span class="lbl"></span>
 							</label>
 						</div>
@@ -247,6 +247,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
 	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});

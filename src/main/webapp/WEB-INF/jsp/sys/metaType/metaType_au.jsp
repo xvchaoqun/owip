@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">布尔属性</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="boolAttr" class="ace ace-switch ace-switch-7" type="checkbox" ${metaType.boolAttr?"checked":""}/>
+						<input name="boolAttr"  type="checkbox" ${metaType.boolAttr?"checked":""}/>
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -60,6 +60,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
         $("#modal form").validate({
             submitHandler: function (form) {

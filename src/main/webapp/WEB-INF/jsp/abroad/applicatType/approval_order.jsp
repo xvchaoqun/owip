@@ -51,7 +51,7 @@
          data-url-del="${ctx}/applicatType/approvalOrder_del"
          data-url-co="${ctx}/applicatType/approvalOrder_changeOrder?applicatTypeId=${applicatType.id}">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="col-xs-5">审批人身份</th>

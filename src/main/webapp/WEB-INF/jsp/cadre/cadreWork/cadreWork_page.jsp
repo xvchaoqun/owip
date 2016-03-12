@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
                 </div>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+                <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
 							<th>开始日期</th>

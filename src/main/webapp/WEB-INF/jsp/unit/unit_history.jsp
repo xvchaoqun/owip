@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
          data-url-del="${ctx}/historyUnit_del"
          data-url-co="${ctx}/historyUnit_changeOrder">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="col-xs-10">历史单位</th>

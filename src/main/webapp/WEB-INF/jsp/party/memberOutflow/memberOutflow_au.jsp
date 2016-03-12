@@ -113,7 +113,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否持有《中国共产党流动党员活动证》</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="hasPapers" ${memberOutflow.hasPapers?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="hasPapers" ${memberOutflow.hasPapers?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
-
+	$("#modalForm :checkbox").bootstrapSwitch();
 	showLocation("${memberOutflow.province}");
 
 	$('textarea.limited').inputlimiter();

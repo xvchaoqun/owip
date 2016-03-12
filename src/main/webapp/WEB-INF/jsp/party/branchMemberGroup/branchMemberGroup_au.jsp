@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否现任班子</label>
 				<div class="col-xs-6">
                     <label>
-                        <input name="isPresent" ${branchMemberGroup.isPresent?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+                        <input name="isPresent" ${branchMemberGroup.isPresent?"checked":""}  type="checkbox" />
                         <span class="lbl"></span>
                     </label>
 				</div>
@@ -92,7 +92,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
+    $("#modal :checkbox").bootstrapSwitch();
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {

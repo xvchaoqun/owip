@@ -8,7 +8,7 @@
 
             <a href="javascript:au()" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加角色</a>
             <div class="space-4"></div>
-            <table class="table table-bordered table-striped table-condensed">
+            <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>名称</th>

@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-striped table-bordered table-hover table-condensed">
+			<table class="table table-striped table-bordered table-hover">
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>

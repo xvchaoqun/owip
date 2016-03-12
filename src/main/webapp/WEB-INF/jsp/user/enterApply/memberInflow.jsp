@@ -103,7 +103,7 @@
         <label class="col-xs-4 control-label">是否持有《中国共产党流动党员活动证》</label>
         <div class="col-xs-6">
           <label>
-            <input name="hasPapers" ${memberInflow.hasPapers?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+            <input name="hasPapers" ${memberInflow.hasPapers?"checked":""}  type="checkbox" />
             <span class="lbl"></span>
           </label>
         </div>
@@ -127,6 +127,7 @@
 </form>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
       <script>
+        $("#modalForm :checkbox").bootstrapSwitch();
         showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
         showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
         register_date($('.date-picker'));

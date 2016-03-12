@@ -131,7 +131,7 @@
 
               <div class="widget-body">
                 <div class="widget-main no-padding">
-                  <table class="table table-bordered table-hover table-condensed">
+                  <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
                       <th>序号</th>

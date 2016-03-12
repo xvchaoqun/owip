@@ -13,7 +13,7 @@
          data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
          data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover table-condensed">
+            <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>名称</th>

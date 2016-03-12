@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">是否正职</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isPositive" ${cadreMainWork.isPositive?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isPositive" ${cadreMainWork.isPositive?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -106,7 +106,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">是否双肩挑</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isDouble" ${cadreMainWork.isDouble?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+						<input name="isDouble" ${cadreMainWork.isDouble?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -130,7 +130,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
+	$("#modal :checkbox").bootstrapSwitch();
 	register_date($('.date-picker'));
 
     $("#modal form").validate({

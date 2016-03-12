@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否管理员</label>
 				<div class="col-xs-6">
                     <label>
-                        <input name="isAdmin" ${unitAdmin.isAdmin?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
+                        <input name="isAdmin" ${unitAdmin.isAdmin?"checked":""}  type="checkbox" />
                         <span class="lbl"></span>
                     </label>
 				</div>
@@ -58,6 +58,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $("#modalForm :checkbox").bootstrapSwitch();
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

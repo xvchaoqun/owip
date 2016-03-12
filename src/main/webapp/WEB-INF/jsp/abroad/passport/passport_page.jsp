@@ -98,7 +98,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <div class="table-container">
-                    <table style="min-width: 2000px" class="table table-actived table-striped table-bordered table-hover table-condensed">
+                    <table style="min-width: 2000px" class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -109,7 +109,7 @@ pageEncoding="UTF-8" %>
                         </th>
 							<th>工作证号</th>
 							<th>姓名</th>
-							<th>所在单位和职务</th>
+							<th>所在单位及职务</th>
 							<th>职位属性</th>
 							<th>证件名称</th>
 							<th>证件号码</th>
@@ -149,7 +149,7 @@ pageEncoding="UTF-8" %>
                             <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                                     ${sysUser.realname}
                             </a></td>
-                            <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                            <td>${cadre.title}</td>
                             <td>${postMap.get(cadre.postId).name}</td>
 								<td>${passportTypeMap.get(passport.classId).name}</td>
 								<td>${passport.code}</td>

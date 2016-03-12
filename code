@@ -9,10 +9,9 @@ register_user_select($('#modalForm select[name=userId]'));
 register_date($('.date-picker'));
 
 是否
-<label>
-	<input name="isEnterpriseBig" ${branch.isEnterpriseBig?"checked":""} class="ace ace-switch ace-switch-5" type="checkbox" />
-	<span class="lbl"></span>
-</label>
+${branch.isEnterpriseBig?"checked":""}
+$("#modalForm :checkbox").bootstrapSwitch();
+data-on-text="开" data-off-text="关"
 record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
 
 类别选择
