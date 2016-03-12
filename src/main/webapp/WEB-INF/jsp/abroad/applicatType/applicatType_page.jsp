@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
 
                 <%--<input class="form-control search-query" name="name" type="text" value="${param.name}"
                        placeholder="请输入申请人身份">
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -66,12 +66,12 @@ pageEncoding="UTF-8" %>
                             </td>
 								<td>${applicatType.name}</td>
                             <td>
-                                <button data-id="${applicatType.id}" class="selectPostBtn btn btn-success btn-mini">
+                                <button data-id="${applicatType.id}" class="selectPostBtn btn btn-success btn-mini btn-xs">
                                     <i class="fa fa-th-list"></i>  包含职务
                                 </button>
                             </td>
                             <td>
-                                <button data-id="${applicatType.id}" class="approvalOrderBtn btn btn-warning btn-mini">
+                                <button data-id="${applicatType.id}" class="approvalOrderBtn btn btn-warning btn-mini btn-xs">
                                     <i class="fa fa-th-list"></i>  审批人身份
                                 </button>
                             </td>
@@ -85,16 +85,16 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${applicatType.id}" class="editBtn btn btn-primary btn-mini">
+                                    <button data-id="${applicatType.id}" class="editBtn btn btn-primary btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${applicatType.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applicatType.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

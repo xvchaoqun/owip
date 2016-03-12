@@ -35,20 +35,25 @@ pageEncoding="UTF-8" %>
                         <tr>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
-								<td><a class="openView btn btn-mini"
-                                       data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">申请表</a></td>
+								<td>
+                                    <button class="openView btn btn-default btn-mini btn-xs"
+                                            data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
+                                        <i class="fa fa-file-o"></i> 申请表
+                                    </button>
+                                </td>
+
 								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
-                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini">
+                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini btn-xs">
                                             <i class="fa fa-print"></i> 打印审批表
                                         </button>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${passportApply.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportApply.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                      </c:if>

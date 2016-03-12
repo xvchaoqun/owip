@@ -45,7 +45,7 @@ pageEncoding="UTF-8" %>
                            data-date-format="yyyy" placeholder="年份" data-date-min-view-mode="2" value="${param.year}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.year ||not empty param.cadreId ||not empty param.classId ||not empty param.applyDate || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
@@ -140,12 +140,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${status==1  && passportApply.status==PASSPORT_APPLY_STATUS_PASS && empty passportApply.handleDate}">
-                                        <button data-id="${passportApply.id}" class="handleBtn btn btn-success btn-mini">
+                                        <button data-id="${passportApply.id}" class="handleBtn btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-hand-paper-o"></i> 交证件
                                         </button>
                                     </c:if>
                                     <button data-id="${passportApply.id}"
-                                            class="openView btn ${passportApply.status==PASSPORT_APPLY_STATUS_INIT?"btn-success":"btn-warning"} btn-mini"
+                                            class="openView btn ${passportApply.status==PASSPORT_APPLY_STATUS_INIT?"btn-success":"btn-warning"} btn-mini btn-xs"
                                             data-url="${ctx}/passportApply_check?id=${passportApply.id}">
                                         <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
                                             <i class="fa fa-check-square-o"></i> 审批
@@ -155,17 +155,17 @@ pageEncoding="UTF-8" %>
                                         </c:if>
                                     </button>
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
-                                    <button data-id="${passportApply.id}" class="printBtn btn  btn-info btn-mini">
+                                    <button data-id="${passportApply.id}" class="printBtn btn  btn-info btn-mini btn-xs">
                                         <i class="fa fa-print"></i> 打印审批表
                                     </button>
                                     </c:if>
                                    <%-- <shiro:hasPermission name="passportApply:edit">
-                                    <button data-id="${passportApply.id}" class="editBtn btn btn-primary btn-mini">
+                                    <button data-id="${passportApply.id}" class="editBtn btn btn-primary btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>--%>
                                      <shiro:hasPermission name="passportApply:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${passportApply.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportApply.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

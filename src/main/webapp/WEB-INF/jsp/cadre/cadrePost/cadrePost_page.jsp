@@ -53,7 +53,7 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(cadreMainWork.postTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(cadreMainWork.startTime,'yyyy-MM-dd')}</td>
 								<td>${dispatchMap.get(dispatchCadreMap.get(cadreMainWork.dispatchCadreId).dispatchId).code}
-                                <a class="btn btn-mini btn-primary" onclick="cadreMainWork_selectDispatch(${cadreMainWork.id})">
+                                <a class="btn btn-mini btn-xs btn-primary" onclick="cadreMainWork_selectDispatch(${cadreMainWork.id})">
                                     ${cadreMainWork.dispatchCadreId==null?"选择":"修改"}</a>
                                 </td>
 								<td>${cadreMainWork.isDouble?"是":"否"}</td>
@@ -61,13 +61,13 @@ pageEncoding="UTF-8" %>
 								<td>${cm:intervalYearsUntilNow(cadreMainWork.startTime)}</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                        <button onclick="cadreMainWork_au(${cadreMainWork.id})" class="btn btn-mini btn-warning">
+                                        <button onclick="cadreMainWork_au(${cadreMainWork.id})" class="btn btn-mini btn-xs btn-warning">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
-                                        <button onclick="cadreMainWork_addDispatchs(${cadreMainWork.id})" class="btn btn-mini">
+                                        <button onclick="cadreMainWork_addDispatchs(${cadreMainWork.id})" class="btn btn-default btn-mini btn-xs">
                                             <i class="fa fa-edit"></i> 关联任免文件
                                         </button>
-                                    <button class="btn btn-danger btn-mini" onclick="cadreMainWork_del(${cadreMainWork.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="cadreMainWork_del(${cadreMainWork.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                 </div>
@@ -117,18 +117,18 @@ pageEncoding="UTF-8" %>
             <td>${cm:formatDate(cadreSubWork.startTime,'yyyy-MM-dd')}</td>
             <td>
                     ${dispatchMap.get(dispatchCadreMap.get(cadreSubWork.dispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-primary" onclick="cadreSubWork_selectDispatch(${cadreSubWork.id})">
+                <a class="btn btn-mini btn-xs btn-primary" onclick="cadreSubWork_selectDispatch(${cadreSubWork.id})">
                         ${cadreSubWork.dispatchCadreId==null?"选择":"修改"}</a>
             </td>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
-                        <button onclick="cadreSubWork_au(${cadreSubWork.id})" class="btn btn-mini btn-warning">
+                        <button onclick="cadreSubWork_au(${cadreSubWork.id})" class="btn btn-mini btn-xs btn-warning">
                             <i class="fa fa-edit"></i> 编辑
                         </button>
-                        <button onclick="cadreSubWork_addDispatchs(${cadreSubWork.id})" class="btn btn-mini">
+                        <button onclick="cadreSubWork_addDispatchs(${cadreSubWork.id})" class="btn btn-default btn-mini btn-xs">
                             <i class="fa fa-edit"></i> 关联任免文件
                         </button>
-                        <button class="btn btn-danger btn-mini" onclick="cadreSubWork_del(${cadreSubWork.id})">
+                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadreSubWork_del(${cadreSubWork.id})">
                             <i class="fa fa-times"></i> 删除
                         </button>
                 </div>
@@ -179,22 +179,22 @@ pageEncoding="UTF-8" %>
             <td>${cm:formatDate(cadrePost.startTime,'yyyy-MM-dd')}</td>
             <td>
                     ${dispatchMap.get(dispatchCadreMap.get(cadrePost.startDispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-primary" onclick="cadrePost_selectStartDispatch(${cadrePost.id})">
+                <a class="btn btn-mini btn-xs btn-primary" onclick="cadrePost_selectStartDispatch(${cadrePost.id})">
                         ${cadrePost.startDispatchCadreId==null?"选择":"修改"}</a>
             </td>
             <td>${cm:formatDate(cadrePost.endTime,'yyyy-MM-dd')}</td>
             <td>
                     ${dispatchMap.get(dispatchCadreMap.get(cadrePost.endDispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-primary" onclick="cadrePost_selectEndDispatch(${cadrePost.id})">
+                <a class="btn btn-mini btn-xs btn-primary" onclick="cadrePost_selectEndDispatch(${cadrePost.id})">
                         ${cadrePost.endDispatchCadreId==null?"选择":"修改"}
             </td>
             <td>${cadrePost.remark}</td>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
-                        <button onclick="cadrePost_au(${cadrePost.id})" class="btn btn-mini btn-warning">
+                        <button onclick="cadrePost_au(${cadrePost.id})" class="btn btn-mini btn-xs btn-warning">
                             <i class="fa fa-edit"></i> 编辑
                         </button>
-                        <button class="btn btn-danger btn-mini" onclick="cadrePost_del(${cadrePost.id})">
+                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadrePost_del(${cadrePost.id})">
                             <i class="fa fa-times"></i> 删除
                         </button>
                 </div>

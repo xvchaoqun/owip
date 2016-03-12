@@ -47,14 +47,14 @@ pageEncoding="UTF-8"%>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="leaderUnit:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${leaderUnit.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${leaderUnit.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
-                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                    <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                     </button>
 

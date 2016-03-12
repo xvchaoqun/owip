@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                     register_party_branch_select($("#searchForm"), "branchDiv",
                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                 </script>
-                <a class="btn btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
+                <a class="btn btn-default btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="btn btn-warning btn-sm" onclick="_reset()">
@@ -115,20 +115,20 @@ pageEncoding="UTF-8" %>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_APPLY}">
-                                        <button onclick="_deny(${memberOutflow.id})" class="btn btn-danger btn-mini">
+                                        <button onclick="_deny(${memberOutflow.id})" class="btn btn-danger btn-mini btn-xs">
                                             <i class="fa fa-times"></i> 不通过
                                         </button>
-                                        <button onclick="_check1(${memberOutflow.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check1(${memberOutflow.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核1
                                         </button>
                                     </c:if>
                                     <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}">
-                                        <button onclick="_check2(${memberOutflow.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check2(${memberOutflow.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核2
                                         </button>
                                     </c:if>
                                     <shiro:hasPermission name="memberOutflow:edit">
-                                    <button onclick="_au(${memberOutflow.id})" class="btn btn-mini">
+                                    <button onclick="_au(${memberOutflow.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>

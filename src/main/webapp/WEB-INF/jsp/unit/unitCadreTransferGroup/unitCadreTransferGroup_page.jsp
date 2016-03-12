@@ -38,15 +38,15 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="unitCadreTransferGroup:edit">
-                                    <button onclick="_au(${unitCadreTransferGroup.id})" class="btn btn-mini">
+                                    <button onclick="_au(${unitCadreTransferGroup.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                    <button onclick="unitCadreTransfer_page(${unitCadreTransferGroup.id})" class="btn btn-mini btn-warning">
+                                    <button onclick="unitCadreTransfer_page(${unitCadreTransferGroup.id})" class="btn btn-mini btn-xs btn-warning">
                                         <i class="fa fa-th-list"></i> 编辑任职列表
                                     </button>
                                      <shiro:hasPermission name="unitCadreTransferGroup:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${unitCadreTransferGroup.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${unitCadreTransferGroup.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

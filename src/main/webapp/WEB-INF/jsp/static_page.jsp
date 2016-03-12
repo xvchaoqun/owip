@@ -150,7 +150,7 @@
 
                   <div class="widget-toolbar no-border">
                     <div class="inline dropdown-hover">
-                      <button class="btn btn-minier btn-info2">
+                      <button class="btn btn-mini btn-xs btn-info">
                         全部
                         <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                       </button>

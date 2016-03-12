@@ -32,7 +32,7 @@ pageEncoding="UTF-8" %>
                 <script>
                     $("#searchForm select[name=type]").val(${param.type});
                 </script>--%>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -105,27 +105,27 @@ pageEncoding="UTF-8" %>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_APPLY}">
-                                        <button onclick="_deny(${memberTransfer.id})" class="btn btn-danger btn-mini">
+                                        <button onclick="_deny(${memberTransfer.id})" class="btn btn-danger btn-mini btn-xs">
                                             <i class="fa fa-times"></i> 不通过
                                         </button>
-                                        <button onclick="_check1(${memberTransfer.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check1(${memberTransfer.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核1
                                         </button>
                                     </c:if>
                                     <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_FROM_VERIFY}">
-                                        <button onclick="_check2(${memberTransfer.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check2(${memberTransfer.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核2
                                         </button>
                                     </c:if>
                                     <shiro:hasPermission name="memberTransfer:edit">
-                                    <button data-url="${ctx}/memberTransfer_au?id=${memberTransfer.id}" class="openView btn btn-mini" data-width="1000">
+                                    <button data-url="${ctx}/memberTransfer_au?id=${memberTransfer.id}" class="openView btn btn-default btn-mini btn-xs" data-width="1000">
                                         <i class="fa fa-search"></i> 查看
                                     </button>
                                      </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

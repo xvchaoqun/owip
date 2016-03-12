@@ -220,6 +220,17 @@ public class CadreController extends BaseController {
     }
 
     @RequiresPermissions("cadre:edit")
+    @RequestMapping("/cadre_leave")
+    public String cadre_leave(int id, HttpServletResponse response,  ModelMap modelMap) {
+
+        Cadre cadre = cadreService.findAll().get(id);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "cadre/cadre_leave";
+    }
+
+    @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_leave(int id, Byte status, HttpServletRequest request) {

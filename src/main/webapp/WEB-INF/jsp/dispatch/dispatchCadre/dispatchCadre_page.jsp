@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
 
                     <div class="clearfix form-actions center">
 
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.dispatchId ||not empty param.typeId ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId ||not empty param.adminLevelId ||not empty param.unitId ||  not empty param.sort}"/>
                 <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -192,8 +192,13 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td nowrap>${dispatch.year}</td>
-								<td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">
-								${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</a></td>
+                                    <c:if test="${not empty dispatch.fileName}">
+                            <td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">
+                                    ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</a></td>
+                            </c:if>
+                            <c:if test="${empty dispatch.fileName}">
+                                <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
+                            </c:if>
 								<td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
@@ -211,14 +216,14 @@ pageEncoding="UTF-8" %>
                                 <td nowrap>${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}</td>
                                 <td width="100"><c:if test="${not empty dispatch.fileName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">查看</a>
-                                    &nbsp;&nbsp;
+                                    &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"
                                        data-id="${dispatch.id}" data-type="file">删除</a>
                                 </c:if>
                                 </td>
                                 <td width="100"><c:if test="${not empty dispatch.pptName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">查看</a>
-                                    &nbsp;&nbsp;
+                                    &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"
                                        data-id="${dispatch.id}" data-type="ppt">删除</a>
                                 </c:if>
@@ -236,19 +241,19 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="dispatchCadre:edit">
-                                    <button data-id="${dispatchCadre.id}" class="editBtn btn btn-mini" data-width="700">
+                                    <button data-id="${dispatchCadre.id}" class="editBtn btn btn-default btn-mini btn-xs" data-width="700">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="dispatchCadre:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${dispatchCadre.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${dispatchCadre.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

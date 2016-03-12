@@ -32,15 +32,15 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="unitAdminGroup:edit">
-                                    <button onclick="_au(${unitAdminGroup.id})" class="btn btn-mini">
+                                    <button onclick="_au(${unitAdminGroup.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                    <button onclick="unitAdmin_page(${unitAdminGroup.id})" class="btn btn-primary btn-mini">
+                                    <button onclick="unitAdmin_page(${unitAdminGroup.id})" class="btn btn-primary btn-mini btn-xs">
                                         <i class="fa fa-user"></i> 编辑成员
                                     </button>
                                      <shiro:hasPermission name="unitAdminGroup:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${unitAdminGroup.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${unitAdminGroup.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

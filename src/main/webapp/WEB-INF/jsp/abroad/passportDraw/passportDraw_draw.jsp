@@ -60,7 +60,7 @@
                         <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                         <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
                         <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
-                        <td>${passport.safeCode}</td>
+                        <td>${safeBoxMap.get(passport.safeBoxId).code}</td>
                         <td>${passport.isLent?"借出":"-"}</td>
                         <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
                     </tr>

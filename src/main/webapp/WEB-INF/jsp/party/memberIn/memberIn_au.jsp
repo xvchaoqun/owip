@@ -241,7 +241,7 @@ pageEncoding="UTF-8"%>
 
 
     </form>
-<div class="modal-footer">
+<div class="modal-footer center">
     <a href="#" class="closeView btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberIn!=null}">确定</c:if><c:if test="${memberIn==null}">添加</c:if>"/>
 </div>

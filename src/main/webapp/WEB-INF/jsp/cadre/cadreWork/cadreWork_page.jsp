@@ -40,25 +40,25 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreWork:edit">
-                                        <button onclick="_au(${cadreWork.id})" class="btn btn-mini">
+                                        <button onclick="_au(${cadreWork.id})" class="btn btn-default btn-mini btn-xs">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
-                                        <button onclick="showSubWork(${cadreWork.id})" class="btn btn-mini btn-warning">
+                                        <button onclick="showSubWork(${cadreWork.id})" class="btn btn-mini btn-xs btn-warning">
                                             <i class="fa fa-edit"></i> 编辑期间工作
                                         </button>
-                                        <button onclick="showDispatch(${cadreWork.id})" class="btn btn-mini">
+                                        <button onclick="showDispatch(${cadreWork.id})" class="btn btn-default btn-mini btn-xs">
                                             <i class="fa fa-edit"></i> 关联任免文件
                                         </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreWork:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${cadreWork.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${cadreWork.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

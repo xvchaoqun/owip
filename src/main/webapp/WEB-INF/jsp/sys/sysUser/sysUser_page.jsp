@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="clearfix form-actions center">
-                                <a class="btn btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
+                                <a class="btn btn-default btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
                                 <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
                                 <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
                                     <button type="button" class=" btn btn-warning btn-sm" onclick="_reset()">
@@ -167,20 +167,20 @@
                         <shiro:hasRole name="admin">
                         <td  class="hidden-480">
                             <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
-                            <button onclick="au(${sysUser.id})" class="btn btn-mini">
+                            <button onclick="au(${sysUser.id})" class="btn btn-default btn-mini btn-xs">
                                 <i class="fa fa-edit"></i> 编辑
                             </button>
                             </c:if>
-                            <button class="btn btn-warning btn-mini" onclick="updateUserRole(${sysUser.id})">
+                            <button class="btn btn-warning btn-mini btn-xs" onclick="updateUserRole(${sysUser.id})">
                                 <i class="fa fa-pencil"></i> 修改角色
                             </button>
                             <c:if test="${sysUser.locked}">
-                            <button onclick="_del('${sysUser.username}', 0)" class="btn btn-success btn-mini">
+                            <button onclick="_del('${sysUser.username}', 0)" class="btn btn-success btn-mini btn-xs">
                                 <i class="fa fa-edit"></i> 解禁
                             </button>
                             </c:if>
                             <c:if test="${!sysUser.locked}">
-                                <button onclick="_del('${sysUser.username}', 1)" class="btn btn-danger btn-mini">
+                                <button onclick="_del('${sysUser.username}', 1)" class="btn btn-danger btn-mini btn-xs">
                                     <i class="fa fa-edit"></i> 禁用
                                 </button>
                             </c:if>
@@ -271,7 +271,7 @@
                     \
                      <div class="modal-footer center">\
                         <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 确定</button>\
-                        <button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
                      </div>\
                     </form>\
                   </div>\

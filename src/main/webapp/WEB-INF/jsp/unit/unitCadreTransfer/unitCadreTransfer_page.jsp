@@ -31,16 +31,16 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="unitCadreTransfer:edit">
-                                    <button onclick="unitCadreTransfer_au(${unitCadreTransfer.id})" class="btn btn-mini">
+                                    <button onclick="unitCadreTransfer_au(${unitCadreTransfer.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
 
-                                    <button onclick="unitCadreTransfer_addDispatchs(${unitCadreTransfer.id})" class="btn btn-mini btn-purple">
+                                    <button onclick="unitCadreTransfer_addDispatchs(${unitCadreTransfer.id})" class="btn btn-mini btn-xs btn-purple">
                                         <i class="fa fa-file"></i> 相关发文
                                     </button>
                                      <shiro:hasPermission name="unitCadreTransfer:del">
-                                    <button class="btn btn-danger btn-mini" onclick="unitCadreTransfer_del(${unitCadreTransfer.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="unitCadreTransfer_del(${unitCadreTransfer.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

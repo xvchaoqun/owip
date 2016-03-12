@@ -69,7 +69,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${!sysUserSync.isStop}">
-                                    <button class="btn btn-danger btn-mini" onclick="_stop(${sysUserSync.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_stop(${sysUserSync.id})">
                                         <i class="fa fa-stop-circle-o"></i> 强制结束
                                     </button>
                                     </c:if>

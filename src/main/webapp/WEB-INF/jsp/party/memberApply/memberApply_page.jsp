@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
                                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                         </script>
 
-                                        <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                        <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                         <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                                         <c:if test="${_query}">
                                             <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}&stage=${stage}">
@@ -189,26 +189,26 @@ pageEncoding="UTF-8" %>
                                                         <div class="hidden-sm hidden-xs action-buttons">
                                                             <c:choose>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_INIT}">
-                                                                    <button onclick="apply_pass(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                    <button onclick="apply_pass(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                         <i class="fa fa-check"></i> 通过
                                                                     </button>
-                                                                    <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger btn-mini">
+                                                                    <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger btn-mini btn-xs">
                                                                         <i class="fa fa-times"></i> 不通过
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">
-                                                                    <button onclick="apply_active(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                    <button onclick="apply_active(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                         <i class="fa fa-check"></i> 确定为入党积极分子
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_ACTIVE}">
                                                                     <c:if test="${empty memberApply.candidateStatus}">
-                                                                        <button onclick="apply_candidate(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_candidate(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 确定为发展对象
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.candidateStatus==0}">
-                                                                        <button onclick="apply_candidate_check(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_candidate_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
@@ -216,58 +216,58 @@ pageEncoding="UTF-8" %>
 
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_CANDIDATE}">
                                                                     <c:if test="${empty memberApply.planStatus}">
-                                                                        <button onclick="apply_plan(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_plan(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 列入发展计划
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.planStatus==0}">
-                                                                        <button onclick="apply_plan_check(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_plan_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_PLAN}">
                                                                     <c:if test="${empty memberApply.drawStatus}">
-                                                                        <button onclick="apply_draw(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_draw(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 领取志愿书
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.drawStatus==0}">
-                                                                        <button onclick="apply_draw_check(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_draw_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
                                                                     <c:if test="${empty memberApply.growStatus}">
-                                                                        <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 发展为预备党员
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.growStatus==0}">
-                                                                        <button onclick="apply_grow_check(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_grow_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.growStatus==1}">
-                                                                        <button onclick="apply_grow_check2(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_grow_check2(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 组织部审核
                                                                         </button>
                                                                     </c:if>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
                                                                     <c:if test="${empty memberApply.positiveStatus}">
-                                                                        <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 预备党员转正
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.positiveStatus==0}">
-                                                                        <button onclick="apply_positive_check(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_positive_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 审核
                                                                         </button>
                                                                     </c:if>
                                                                     <c:if test="${memberApply.positiveStatus==1}">
-                                                                        <button onclick="apply_positive_check2(${memberApply.userId})" class="btn btn-success btn-mini">
+                                                                        <button onclick="apply_positive_check2(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
                                                                             <i class="fa fa-check"></i> 组织部审核
                                                                         </button>
                                                                     </c:if>
@@ -276,7 +276,7 @@ pageEncoding="UTF-8" %>
                                                         </div>
                                                         <div class="hidden-md hidden-lg">
                                                             <div class="inline pos-rel">
-                                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                                                     <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                                                 </button>
 

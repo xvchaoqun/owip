@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
             </c:if>
         </div>
         <div class="center" style="margin-top: 40px">
-            <button id="print" class="btn btn-info2 btn-block" style="font-size: 30px">打印确认单</button>
+            <button id="print" class="btn btn-info btn-block" style="font-size: 30px">打印确认单</button>
             <button class="closeView reload btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
     </div>

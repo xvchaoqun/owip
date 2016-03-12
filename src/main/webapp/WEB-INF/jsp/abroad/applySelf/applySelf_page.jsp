@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
                     $("#searchForm select[name=type]").val('${param.type}');
                 </script>
 
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -126,17 +126,17 @@ pageEncoding="UTF-8" %>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <button data-url="${ctx}/applySelf_view?id=${applySelf.id}"
-                                            class="openView btn btn-success btn-mini">
+                                            class="openView btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-info-circle"></i> 详情
                                     </button>
                                     <c:if test="${status==0}">
                                     <shiro:hasPermission name="applySelf:edit">
-                                        <button class="editBtn btn btn-primary btn-mini" data-id="${applySelf.id}">
+                                        <button class="editBtn btn btn-primary btn-mini btn-xs" data-id="${applySelf.id}">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="applySelf:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${applySelf.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applySelf.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

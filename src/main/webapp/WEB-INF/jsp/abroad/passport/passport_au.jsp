@@ -86,9 +86,17 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">存放保险柜编号</label>
+				<label class="col-xs-3 control-label">存放保险柜</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="safeBoxId" value="${passport.safeBoxId}">
+                    <select required data-rel="select2" name="safeBoxId" data-placeholder="保险柜">
+                        <option></option>
+                        <c:forEach items="${safeBoxMap}" var="safeBox">
+                            <option value="${safeBox.key}">${safeBox.value.code}</option>
+                        </c:forEach>
+                    </select>
+                    <script type="text/javascript">
+                        $("#modalForm select[name=safeBoxId]").val(${passport.safeBoxId});
+                    </script>
 				</div>
 			</div>
         </c:if>

@@ -35,7 +35,7 @@
                                 </button>
 
                                 &nbsp; &nbsp; &nbsp;
-                                <button class="btn btn-sm" type="reset">
+                                <button class="btn btn-default btn-sm" type="reset">
                                     <i class="ace-icon fa fa-undo"></i>
                                     重置
                                 </button>
@@ -82,7 +82,7 @@
                         </c:if>--%>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${approvalOrder.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${approvalOrder.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                             </div>

@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 					<div class="files">
 						<input class="form-control" type="file" name="_files[]" />
 					</div>
-					<button type="button" onclick="addFile()" class="btn btn-mini"><i class="fa fa-plus"></i></button>
+					<button type="button" onclick="addFile()" class="btn btn-default btn-mini btn-xs"><i class="fa fa-plus"></i></button>
 				</div>
 			</div>
 		<c:if test="${fn:length(files)>0}">

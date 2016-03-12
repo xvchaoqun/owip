@@ -24,10 +24,10 @@
                         <td>${sysRole.description }</td>
                         <td>
                             <div class="buttons">
-                                <button class="btn btn-warning btn-mini" onclick="au(${sysRole.id})">
+                                <button class="btn btn-warning btn-mini btn-xs" onclick="au(${sysRole.id})">
                                     <i class="fa fa-edit"></i>  更新权限
                                 </button>
-                                <a href="javascript:;" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini">
+                                <a href="javascript:;" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
                                     <i class="fa fa-times"></i> 删除</a>
                             </div>
 

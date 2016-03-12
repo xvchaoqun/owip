@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                          name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}</option>
                 </select>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
@@ -104,23 +104,23 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
-                                    <button class="openView btn btn-mini"
+                                    <button class="openView btn btn-default btn-mini btn-xs"
                                             data-url="${ctx}/member_au?userId=${memberTeacher.userId}">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${memberTeacher.userId}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${memberTeacher.userId}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
 
                                     <c:if test="${cls==4}">
                                         <c:set var="retireApply" value="${cm:getRetireApply(memberTeacher.userId)}"/>
                                         <c:if test="${retireApply.status!=0}">
-                                        <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-mini">
+                                        <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-default btn-mini btn-xs">
                                             <i class="fa fa-edit"></i> 提交党员退休
                                         </button>
                                         </c:if>
                                         <c:if test="${retireApply.status==0}">
-                                            <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-success btn-mini">
+                                            <button onclick="_retireApply(${memberTeacher.userId})" class="btn btn-success btn-mini btn-xs">
                                                 <i class="fa fa-check"></i> 审核党员退休
                                             </button>
                                         </c:if>

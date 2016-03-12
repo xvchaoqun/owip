@@ -40,9 +40,7 @@ pageEncoding="UTF-8" %>
                             <th>${type.value.name}审批</th>
                         </c:forEach>
 							<th>组织部终审</th>
-                        <shiro:hasRole name="cadreAdmin">
-							<th>短信提醒</th>
-                        </shiro:hasRole>
+
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -65,7 +63,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <button data-url="${ctx}/applySelf_view?id=${applySelf.id}"
-                                            class="openView btn btn-success btn-mini">
+                                            class="openView btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-info-circle"></i> 详情
                                     </button>
                                 </div>

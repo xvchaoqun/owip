@@ -32,7 +32,7 @@ pageEncoding="UTF-8" %>
                 <script>
                     $("#searchForm select[name=type]").val(${param.type});
                 </script>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -107,20 +107,20 @@ pageEncoding="UTF-8" %>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
-                                        <button onclick="_deny(${memberOut.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini">
+                                        <button onclick="_deny(${memberOut.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini btn-xs">
                                             <i class="fa fa-times"></i> 不通过
                                         </button>
-                                        <button onclick="_check1(${memberOut.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check1(${memberOut.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
                                     </c:if>
                                     <c:if test="${memberOut.status==MEMBER_OUT_STATUS_PARTY_VERIFY}">
-                                        <button onclick="_check2(${memberOut.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check2(${memberOut.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 组织部审核
                                         </button>
                                     </c:if>
                                     <shiro:hasPermission name="memberOut:edit">
-                                    <button data-url="${ctx}/memberOut_au?id=${memberOut.id}" class="openView btn btn-mini">
+                                    <button data-url="${ctx}/memberOut_au?id=${memberOut.id}" class="openView btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-search"></i> 查看
                                     </button>
                                      </shiro:hasPermission>

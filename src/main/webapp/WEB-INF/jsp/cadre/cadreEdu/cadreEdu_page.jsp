@@ -68,12 +68,12 @@ pageEncoding="UTF-8" %>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
                     <shiro:hasPermission name="cadreEdu:edit">
-                        <button onclick="_au(${cadreEdu.id})" class="btn btn-mini">
+                        <button onclick="_au(${cadreEdu.id})" class="btn btn-default btn-mini btn-xs">
                             <i class="fa fa-edit"></i> 编辑
                         </button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="cadreEdu:del">
-                        <button  onclick="_del(${cadreEdu.id})" class="btn btn-danger btn-mini">
+                        <button  onclick="_del(${cadreEdu.id})" class="btn btn-danger btn-mini btn-xs">
                             <i class="fa fa-times"></i> 删除
                         </button>
                     </shiro:hasPermission>
@@ -125,12 +125,12 @@ pageEncoding="UTF-8" %>
             <td>
                 <div class="hidden-sm hidden-xs action-buttons">
                     <shiro:hasPermission name="cadreEdu:edit">
-                        <button onclick="_auTutor(${cadreTutor.id})" class="btn btn-mini">
+                        <button onclick="_auTutor(${cadreTutor.id})" class="btn btn-default btn-mini btn-xs">
                             <i class="fa fa-edit"></i> 编辑
                         </button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="cadreEdu:del">
-                        <button  onclick="_delTutor(${cadreTutor.id})" class="btn btn-danger btn-mini">
+                        <button  onclick="_delTutor(${cadreTutor.id})" class="btn btn-danger btn-mini btn-xs">
                             <i class="fa fa-times"></i> 删除
                         </button>
                     </shiro:hasPermission>

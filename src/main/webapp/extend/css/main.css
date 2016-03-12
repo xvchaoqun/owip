@@ -1,4 +1,25 @@
 
+/**************/
+.main-container {
+    min-width: 1000px;
+}
+.main-content{
+    min-width: 1000px;
+}
+.navbar-default, html{
+    min-width: 1190px;
+}
+.breadcrumb,
+.nav-list > li > a,
+body{
+    font-size: 14px;
+}
+.nav-tabs.tab-color-blue > li > a,
+.nav-tabs.tab-color-blue > li > a:focus {
+    background-color: #337ab7;
+}
+/**************/
+
 .navbar{
     height: 90px;
     display: table;
@@ -64,7 +85,8 @@
 
 /*============table================*/
 .table-container{
-    overflow-x: auto;
+    overflow: auto;
+    max-height: 500px;
 }
 
 .table{

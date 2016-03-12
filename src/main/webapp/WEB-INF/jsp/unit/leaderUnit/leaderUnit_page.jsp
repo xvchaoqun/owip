@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
                        placeholder="请输入所属单位">
                 <input class="form-control search-query" name="typeId" type="text" value="${param.typeId}"
                        placeholder="请输入类别">
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.leaderId ||not empty param.unitId ||not empty param.typeId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -86,19 +86,19 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="leaderUnit:edit">
-                                    <button data-id="${leaderUnit.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${leaderUnit.id}" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="leaderUnit:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${leaderUnit.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${leaderUnit.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

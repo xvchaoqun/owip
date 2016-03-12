@@ -45,7 +45,7 @@ pageEncoding="UTF-8" %>
                     <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
                 </div>
 
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}">
@@ -143,7 +143,7 @@ pageEncoding="UTF-8" %>
                                 </a>
                             </td>
                                 <td>
-                                    <button data-id="${passportDraw.id}" class="printBtn btn btn-info btn-mini">
+                                    <button data-id="${passportDraw.id}" class="printBtn btn btn-info btn-mini btn-xs">
                                         <i class="fa fa-print"></i> 打印签注申请表
                                     </button>
                                 </td>
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_INIT}">
-                                <button data-url="${ctx}/passportDraw_check?id=${passportDraw.id}"  class="openView btn btn-success btn-mini">
+                                <button data-url="${ctx}/passportDraw_check?id=${passportDraw.id}"  class="openView btn btn-success btn-mini btn-xs">
                                     <i class="fa fa-check"></i> 组织部审批
                                 </button>
                                 </c:if>
@@ -170,7 +170,7 @@ pageEncoding="UTF-8" %>
                                 <c:if test="${passportDraw.status!=PASSPORT_DRAW_STATUS_INIT}">
                                 <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
                                         data-cls="${passportType.name}"
-                                        data-status="${passportDraw.status}" class="shortMsgBtn btn btn-warning btn-mini">
+                                        data-status="${passportDraw.status}" class="shortMsgBtn btn btn-warning btn-mini btn-xs">
                                     <i class="fa fa-info"></i> 短信通知
                                 </button>
                                 </c:if>
@@ -178,7 +178,7 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
                                     <c:if test="${passportDraw.drawStatus==PASSPORT_DRAW_DRAW_STATUS_UNDRAW}">
-                                    <button data-url="${ctx}/passportDraw_draw?id=${passportDraw.id}" class="openView btn btn-info btn-mini">
+                                    <button data-url="${ctx}/passportDraw_draw?id=${passportDraw.id}" class="openView btn btn-info btn-mini btn-xs">
                                         <i class="fa fa-hand-lizard-o"></i> 领取证件
                                     </button>
                                     </c:if>
@@ -196,7 +196,7 @@ pageEncoding="UTF-8" %>
                                 <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
                                         data-cls="${passportType.name}"
                                         data-drawtime="${cm:formatDate(passportDraw.drawTime,'yyyy年MM月dd日')}"
-                                        data-returndate="${cm:formatDate(passportDraw.returnDate,'yyyy年MM月dd日')}" class="returnMsgBtn btn btn-danger btn-mini">
+                                        data-returndate="${cm:formatDate(passportDraw.returnDate,'yyyy年MM月dd日')}" class="returnMsgBtn btn btn-danger btn-mini btn-xs">
                                     <i class="fa fa-hand-paper-o"></i> 催交证件
                                 </button>
                             </td>
@@ -205,7 +205,7 @@ pageEncoding="UTF-8" %>
                                     <td>-</td>
                                 </c:if>
                             <td>
-                                <button data-url="${ctx}/passportDraw_return?id=${passportDraw.id}" class="openView btn btn-mini">
+                                <button data-url="${ctx}/passportDraw_return?id=${passportDraw.id}" class="openView btn btn-default btn-mini btn-xs">
                                     <i class="fa fa-reply"></i> 归还证件
                                 </button>
                             </td>
@@ -217,7 +217,7 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(passportDraw.realReturnDate,'yyyy-MM-dd')}</td>
                             <td>
                                     <button data-url="${ctx}/passportDraw_view?id=${passportDraw.id}"
-                                            class="openView btn btn-success btn-mini">
+                                            class="openView btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-info-circle"></i> 详情
                                     </button>
                             </td>

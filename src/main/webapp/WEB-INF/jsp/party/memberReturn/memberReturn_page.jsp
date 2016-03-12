@@ -36,7 +36,7 @@ pageEncoding="UTF-8" %>
                     register_party_branch_select($("#searchForm"), "branchDiv",
                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                 </script>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -111,21 +111,21 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_APPLY}">
-                                        <button onclick="_deny(${memberReturn.id})" class="btn btn-danger btn-mini">
+                                        <button onclick="_deny(${memberReturn.id})" class="btn btn-danger btn-mini btn-xs">
                                             <i class="fa fa-times"></i> 不通过
                                         </button>
-                                    <button onclick="_check1(${memberReturn.id})" class="btn btn-success btn-mini">
+                                    <button onclick="_check1(${memberReturn.id})" class="btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-check"></i> 审核1
                                     </button>
                                     </c:if>
                                     <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_BRANCH_VERIFY}">
-                                        <button onclick="_check2(${memberReturn.id})" class="btn btn-success btn-mini">
+                                        <button onclick="_check2(${memberReturn.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核2
                                         </button>
                                     </c:if>
                                     <c:if test="${memberReturn.status!=MEMBER_RETURN_STATUS_PARTY_VERIFY}">
                                     <shiro:hasPermission name="memberReturn:edit">
-                                    <button data-id="${memberReturn.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${memberReturn.id}" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -133,7 +133,7 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

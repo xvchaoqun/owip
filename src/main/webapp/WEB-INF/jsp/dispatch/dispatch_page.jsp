@@ -96,9 +96,9 @@ pageEncoding="UTF-8" %>
                                     </div>
                                 </div>
                                 <div class="clearfix form-actions center">
-                                        <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                        <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
-                                    <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
+                                    <c:if test="${_query || not empty param.sort}">&nbsp;
                                         <button type="button" class="resetBtn btn btn-warning btn-sm">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -123,7 +123,8 @@ pageEncoding="UTF-8" %>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-center table-actived table-striped table-bordered table-hover table-condensed">
+            <div class="table-container">
+                <table style="min-width: 1300px" class="table table-center table-actived table-striped table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
                         <th class="center">
@@ -172,14 +173,14 @@ pageEncoding="UTF-8" %>
 								<td width="120">${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
 								<td width="100"><c:if test="${not empty dispatch.fileName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">查看</a>
-                                    &nbsp;&nbsp;
+                                    &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"
                                        data-id="${dispatch.id}" data-type="file">删除</a>
                                 </c:if>
                                 </td>
 								<td width="100"><c:if test="${not empty dispatch.pptName}">
                                     <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">查看</a>
-                                    &nbsp;&nbsp;
+                                    &nbsp;
                                     <a href="javascript:void(0)" class="dispatch_del_file"
                                        data-id="${dispatch.id}" data-type="ppt">删除</a>
                                     </c:if>
@@ -187,7 +188,7 @@ pageEncoding="UTF-8" %>
 								<td style="text-align: left">${dispatch.remark}</td>
                             <shiro:hasPermission name="dispatch:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <td width="80" nowrap>
+                                <td width="100" nowrap>
                                     <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${dispatch.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
@@ -197,23 +198,23 @@ pageEncoding="UTF-8" %>
                             </shiro:hasPermission>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-url="${ctx}/dispatch_cadres?dispatchId=${dispatch.id}" class="openView btn btn-info btn-mini">
+                                    <button data-url="${ctx}/dispatch_cadres?dispatchId=${dispatch.id}" class="openView btn btn-info btn-mini btn-xs">
                                         <i class="fa fa-plus"></i> 添加干部任免
                                     </button>
                                     <shiro:hasPermission name="dispatch:edit">
-                                    <button data-id="${dispatch.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${dispatch.id}" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="dispatch:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${dispatch.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${dispatch.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 
@@ -251,6 +252,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
             <wo:page commonList="${commonList}" uri="${ctx}/dispatch_page" target="#page-content" pageNum="5"
                      model="3"/>
             </c:if>

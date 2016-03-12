@@ -102,7 +102,7 @@ pageEncoding="UTF-8" %>
 
 
                             <div class="clearfix form-actions center">
-                                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                 <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId || not empty param.code || not empty param.sort}"/>
                                 <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -188,33 +188,33 @@ pageEncoding="UTF-8" %>
                             <td >
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="party:edit">
-                                    <button data-id="${party.id}" data-width="900" class="editBtn btn btn-mini">
+                                    <button data-id="${party.id}" data-width="900" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
 
                                     <c:if test="${cm:typeEqualsCode(party.classId,'mt_direct_branch')}">
                                         <shiro:hasPermission name="member:edit">
-                                        <button data-url="${ctx}/member_au?partyId=${party.id}" class="openView btn btn-success btn-mini">
+                                        <button data-url="${ctx}/member_au?partyId=${party.id}" class="openView btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-user"></i> 添加党员
                                         </button>
                                         </shiro:hasPermission>
                                     </c:if>
 
                                     <shiro:hasPermission name="partyMemberGroup:edit">
-                                        <button data-id="${party.id}" class="addPartyMemberGroupBtn btn btn-primary btn-mini">
+                                        <button data-id="${party.id}" class="addPartyMemberGroupBtn btn btn-primary btn-mini btn-xs">
                                             <i class="fa fa-users"></i> 添加分党委班子
                                         </button>
                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="party:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${party.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${party.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

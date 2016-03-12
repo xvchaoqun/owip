@@ -98,7 +98,7 @@
 
                         <c:if test="${memberOutflow.status==0}">
                             <small>
-                                <button class="btn btn-white btn-warning btn-mini" onclick="_applyBack()">
+                                <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>
                                     撤销
                                 </button>

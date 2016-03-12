@@ -32,7 +32,7 @@ pageEncoding="UTF-8" %>
                                                     </span>
                     <input placeholder="请选择出党时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_quitTime" value="${param._quitTime}"/>
                 </div>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId ||not empty param.type ||not empty param._quitTime || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -105,7 +105,7 @@ pageEncoding="UTF-8" %>
                                 <c:if test="${memberQuit.status!=1}">
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="memberQuit:edit">
-                                    <button onclick="_au(${memberQuit.userId})" class="editBtn btn btn-mini">
+                                    <button onclick="_au(${memberQuit.userId})" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

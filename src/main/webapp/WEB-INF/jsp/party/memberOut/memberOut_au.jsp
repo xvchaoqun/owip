@@ -176,13 +176,13 @@ pageEncoding="UTF-8"%>
     </form>
 
 <c:if test="${memberOut.status!=MEMBER_OUT_STATUS_OW_VERIFY}">
-<div class="modal-footer">
+<div class="modal-footer center">
     <a href="#" class="btn btn-default closeView">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberOut!=null}">确定</c:if><c:if test="${memberOut==null}">添加</c:if>"/>
 </div>
 	</c:if>
 <c:if test="${memberOut.status==MEMBER_OUT_STATUS_OW_VERIFY}">
-	<div class="modal-footer">
+	<div class="modal-footer center">
 		<a href="#" class="btn btn-default closeView">返回</a>
 	</div>
 	</c:if>

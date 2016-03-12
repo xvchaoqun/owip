@@ -98,22 +98,22 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
                                         <c:if test="${passportType.code != 'mt_passport_normal' && passportDraw.needSign}">
                                             <button data-url="${ctx}/user/passportDraw_self_sign?type=view&passportId=${passportDraw.passportId}"
-                                                    class="openView btn btn-success btn-mini" data-id="${passportDraw.id}">
+                                                    class="openView btn btn-success btn-mini btn-xs" data-id="${passportDraw.id}">
                                                 <i class="fa fa-eye"></i> 签注申请表
                                             </button>
-                                            <button class="printBtn btn btn-info btn-mini" data-id="${passportDraw.id}">
+                                            <button class="printBtn btn btn-info btn-mini btn-xs" data-id="${passportDraw.id}">
                                                 <i class="fa fa-print"></i> 打印签注申请表
                                             </button>
                                         </c:if>
                                         <c:if test="${passportType.code != 'mt_passport_normal' && !passportDraw.needSign}">
                                             <button data-url="${ctx}/user/passportDraw_self_sign?type=add&id=${passportDraw.id}&passportId=${passportDraw.passportId}"
-                                                    class="openView btn btn-default btn-mini">
+                                                    class="openView btn btn-default btn-mini btn-xs">
                                                 <i class="fa fa-plus"></i> 办理签注
                                             </button>
                                         </c:if>
                                     </c:if>
                                     <c:if test="${passportDraw.status==0}">
-                                        <button class="delBtn btn btn-danger btn-mini" data-id="${passportDraw.id}">
+                                        <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportDraw.id}">
                                             <i class="fa fa-times"></i> 删除
                                         </button>
                                     </c:if>

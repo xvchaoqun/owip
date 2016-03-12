@@ -43,19 +43,19 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreParttime:edit">
-                                    <button onclick="_au(${cadreParttime.id})" class="btn btn-mini">
+                                    <button onclick="_au(${cadreParttime.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreParttime:del">
-                                    <button class="delBtn btn btn-danger btn-mini" onclick="_del(${cadreParttime.id})">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" onclick="_del(${cadreParttime.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

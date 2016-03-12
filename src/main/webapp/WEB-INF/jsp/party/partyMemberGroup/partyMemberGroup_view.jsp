@@ -2,7 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="buttons pull-right">
-    <button class="btn btn-primary btn-mini" onclick="_au()">
+    <button class="btn btn-primary btn-mini btn-xs" onclick="_au()">
         <i class="fa fa-users"></i> 添加分党委班子
     </button>
 </div>
@@ -64,24 +64,24 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="partyMemberGroup:edit">
-                                    <button onclick="_au(${partyMemberGroup.id})" class="btn btn-mini">
+                                    <button onclick="_au(${partyMemberGroup.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                     <shiro:hasPermission name="partyMember:list">
-                                        <button data-id="${partyMemberGroup.id}" class="memberBtn btn btn-primary btn-mini">
+                                        <button data-id="${partyMemberGroup.id}" class="memberBtn btn btn-primary btn-mini btn-xs">
                                             <i class="fa fa-user"></i> 编辑委员
                                         </button>
                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="partyMemberGroup:del">
-                                    <button class="btn btn-danger btn-mini" onclick="_del(${partyMemberGroup.id})">
+                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${partyMemberGroup.id})">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

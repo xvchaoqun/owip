@@ -104,7 +104,7 @@ pageEncoding="UTF-8" %>
 
 
                             <div class="clearfix form-actions center">
-                                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                 <c:set var="_query" value="${not empty param._foundTime || not empty param.code
                                 ||not empty param.name ||not empty param.partyId
                                 ||not empty param.typeId ||not empty param.unitTypeId || not empty param.sort}"/>
@@ -195,29 +195,29 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="branch:edit">
-                                    <button data-id="${branch.id}" data-width="900" class="editBtn btn btn-mini">
+                                    <button data-id="${branch.id}" data-width="900" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                     <shiro:hasPermission name="member:edit">
-                                        <button data-url="${ctx}/member_au?partyId=${branch.partyId}&branchId=${branch.id}" class="openView btn btn-success btn-mini">
+                                        <button data-url="${ctx}/member_au?partyId=${branch.partyId}&branchId=${branch.id}" class="openView btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-user"></i> 添加党员
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="branchMemberGroup:edit">
-                                        <button data-id="${branch.id}" class="addBranchMemberGroupBtn btn btn-primary btn-mini">
+                                        <button data-id="${branch.id}" class="addBranchMemberGroupBtn btn btn-primary btn-mini btn-xs">
                                             <i class="fa fa-users"></i> 添加支部委员会
                                         </button>
                                     </shiro:hasPermission>
                                      <shiro:hasPermission name="branch:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${branch.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${branch.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

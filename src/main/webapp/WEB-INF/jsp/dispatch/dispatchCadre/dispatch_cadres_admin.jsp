@@ -161,7 +161,7 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="btn btn-sm" type="reset">
+        <button class="btn btn-default btn-sm" type="reset">
           <i class="ace-icon fa fa-undo"></i>
           重置
         </button>

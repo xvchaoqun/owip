@@ -57,7 +57,7 @@ pageEncoding="UTF-8" %>
                 </script>
                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                        placeholder="请输入证件号码">
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
                 ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
@@ -162,11 +162,11 @@ pageEncoding="UTF-8" %>
 								<td>${passport.isLent?"借出":"-"}</td>
                                 </c:if>
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
-                                <th>
+                                <td>
                                     <a href="${ctx}/passport_lostProof_download?id=${passport.id}" target="_blank">
                                     丢失证明
                                     </a>
-                                </th>
+                                </td>
                             </c:if>
                                 <c:if test="${status==4 || status==5}">
                                     <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
@@ -182,28 +182,28 @@ pageEncoding="UTF-8" %>
                                                 data-type="${passport.cancelType}"
                                                 data-name="${sysUser.realname}"
                                                 data-cls="${passportTypeMap.get(passport.classId).name}"
-                                                class="shortMsgBtn btn btn-primary btn-mini">
+                                                class="shortMsgBtn btn btn-primary btn-mini btn-xs">
                                             <i class="fa fa-info-circle"></i> 短信通知
                                         </button>
                                     </c:if>
                                     <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-                                        <button data-url="${ctx}/passport_cancel?id=${passport.id}" class="openView btn btn-success btn-mini">
+                                        <button data-url="${ctx}/passport_cancel?id=${passport.id}" class="openView btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check-circle-o"></i> 确认单
                                         </button>
                                     </c:if>
 
                                     <shiro:hasPermission name="passport:edit">
-                                    <button data-id="${passport.id}" class="editBtn btn btn-primary btn-mini">
+                                    <button data-id="${passport.id}" class="editBtn btn btn-primary btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                     <c:if test="${!passport.abolish}">
-                                    <button class="abolishBtn btn btn-warning btn-mini" data-id="${passport.id}">
+                                    <button class="abolishBtn btn btn-warning btn-mini btn-xs" data-id="${passport.id}">
                                         <i class="fa fa-times"></i> 作废
                                     </button>
                                     </c:if>
                                      <shiro:hasPermission name="passport:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${passport.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passport.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

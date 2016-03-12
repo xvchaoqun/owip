@@ -18,7 +18,7 @@
                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                        placeholder="请输入代码">
                 </shiro:hasRole>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.name || not empty param.code
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
                 <c:if test="${_query}">
@@ -104,19 +104,19 @@
                             <div class="hidden-sm hidden-xs action-buttons">
 
                              <shiro:hasPermission name="metaClass:edit">
-                            <button data-id="${metaClass.id}" class="editBtn btn btn-mini">
+                            <button data-id="${metaClass.id}" class="editBtn btn btn-default btn-mini btn-xs">
                                 <i class="fa fa-edit"></i> 编辑
                             </button>
-                                 <button onclick="openView(${metaClass.id})"  class="btn btn-mini btn-success">
+                                 <button onclick="openView(${metaClass.id})"  class="btn btn-mini btn-xs btn-success">
                                      <i class="fa fa-bars"></i> 编辑属性
                                  </button>
                              </shiro:hasPermission>
                                 <shiro:hasRole name="admin">
-                                    <button class="btn btn-warning btn-mini" onclick="updateRole(${metaClass.id})">
+                                    <button class="btn btn-warning btn-mini btn-xs" onclick="updateRole(${metaClass.id})">
                                         <i class="fa fa-pencil"></i> 修改角色
                                     </button>
                              <shiro:hasPermission name="metaClass:del">
-                            <button class="delBtn btn btn-danger btn-mini" data-id="${metaClass.id}">
+                            <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${metaClass.id}">
                                 <i class="fa fa-times"></i> 删除
                             </button>
                              </shiro:hasPermission>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
-                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                    <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                     </button>
 

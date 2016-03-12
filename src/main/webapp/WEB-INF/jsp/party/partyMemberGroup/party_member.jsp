@@ -42,7 +42,7 @@
                                 </button>
 
                                 &nbsp; &nbsp; &nbsp;
-                                <button class="btn btn-sm" type="reset">
+                                <button class="btn btn-default btn-sm" type="reset">
                                     <i class="ace-icon fa fa-undo"></i>
                                     重置
                                 </button>
@@ -102,25 +102,25 @@
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="partyMember:edit">
                                     <c:if test="${!partyMember.isAdmin}">
-                                        <button class="adminBtn btn btn-success btn-mini" data-id="${partyMember.id}">
+                                        <button class="adminBtn btn btn-success btn-mini btn-xs" data-id="${partyMember.id}">
                                             <i class="fa fa-times"></i> 设为管理员
                                         </button>
                                     </c:if>
                                     <c:if test="${partyMember.isAdmin}">
-                                        <button class="adminBtn btn btn-danger btn-mini" data-id="${partyMember.id}">
+                                        <button class="adminBtn btn btn-danger btn-mini btn-xs" data-id="${partyMember.id}">
                                             <i class="fa fa-times"></i> 删除管理员
                                         </button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="partyMember:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${partyMember.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${partyMember.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
-                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown"
                                             data-position="auto">
                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                     </button>

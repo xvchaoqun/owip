@@ -47,12 +47,12 @@
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="safeBox:edit">
-                                    <button onclick="safeBox_au(${safeBox.id})" class="btn btn-mini">
+                                    <button onclick="safeBox_au(${safeBox.id})" class="btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="safeBox:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${safeBox.id}">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${safeBox.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                 </shiro:hasPermission>

@@ -257,16 +257,19 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
     });
 });
 // 搜索
-$(document).on("click", ".myTableDiv .searchBtn", function(){
+$(document).on("click", " .searchBtn", function(){
 
+    //var $div = $(".myTableDiv");
     var $div = $(this).closest(".myTableDiv");
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
     //alert($target)
     _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
+    //_tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("#searchForm").serialize());
 });
 // 重置
-$(document).on("click", ".myTableDiv .resetBtn", function(){
+$(document).on("click", " .resetBtn", function(){
 
+    //var $div = $(".myTableDiv");
     var $div = $(this).closest(".myTableDiv");
     var querystr = $(this).data("querystr");
 
