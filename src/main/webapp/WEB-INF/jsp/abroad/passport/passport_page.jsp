@@ -31,6 +31,7 @@ pageEncoding="UTF-8" %>
              data-url-page="${ctx}/passport_page"
              data-url-del="${ctx}/passport_del"
              data-url-bd="${ctx}/passport_batchDel"
+             data-url-ba="${ctx}/passport_abolish"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
@@ -74,8 +75,11 @@ pageEncoding="UTF-8" %>
                     <a class="importBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                     <c:if test="${commonList.recNum>0}">
+                        <a class="batchAbolishBtn btn btn-warning btn-sm">
+                            <i class="fa fa-times"></i> 作废
+                        </a>
                     <shiro:hasPermission name="passport:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
@@ -149,7 +153,7 @@ pageEncoding="UTF-8" %>
                             <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                                     ${sysUser.realname}
                             </a></td>
-                            <td>${cadre.title}</td>
+                            <td style="text-align: left">${cadre.title}</td>
                             <td>${postMap.get(cadre.postId).name}</td>
 								<td>${passportTypeMap.get(passport.classId).name}</td>
 								<td>${passport.code}</td>
@@ -197,7 +201,7 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                    <c:if test="${!passport.abolish}">
+                                    <%--<c:if test="${!passport.abolish}">
                                     <button class="abolishBtn btn btn-warning btn-mini btn-xs" data-id="${passport.id}">
                                         <i class="fa fa-times"></i> 作废
                                     </button>
@@ -206,7 +210,7 @@ pageEncoding="UTF-8" %>
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passport.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
-                                      </shiro:hasPermission>
+                                      </shiro:hasPermission>--%>
                             </td>
                         </tr>
                     </c:forEach>
@@ -228,6 +232,11 @@ pageEncoding="UTF-8" %>
     </div>
     </div>
 </div>
+<style>
+    table thead tr th,table tbody tr td{
+        text-align: center;!important;
+    }
+</style>
 <script>
 
     function openView_safeBox(pageNo){
@@ -280,7 +289,7 @@ pageEncoding="UTF-8" %>
         loadModal("${ctx}/passport_cancel_confirm?id="+$(this).data("id"));
     });
 
-    $(".abolishBtn").click(function(){
+   /* $(".abolishBtn").click(function(){
         var id = $(this).data("id");
         bootbox.confirm("确定作废该证件吗？", function (result) {
             if (result) {
@@ -292,7 +301,7 @@ pageEncoding="UTF-8" %>
                 });
             }
         });
-    });
+    });*/
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('[data-rel="select2-ajax"]'));

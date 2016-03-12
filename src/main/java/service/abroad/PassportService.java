@@ -122,6 +122,20 @@ public class PassportService extends BaseMapper {
     }
 
     @Transactional
+    public void abolish(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        PassportExample example = new PassportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Passport record = new Passport();
+        record.setAbolish(true);
+
+        passportMapper.updateByExample(record, example);
+    }
+
+    @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;

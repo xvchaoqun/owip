@@ -57,14 +57,15 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出单位</a>
                     <shiro:hasPermission name="unit:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+            <div class="table-container">
+                <table style="min-width: 1300px" class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -134,11 +135,11 @@ pageEncoding="UTF-8" %>
                                             <i class="fa fa-history"></i> 编辑历史单位
                                         </button>
                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="unit:del">
+                                     <%--<shiro:hasPermission name="unit:del">
                                         <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${unit.id}">
                                             <i class="fa fa-times"></i> 删除
                                         </button>
-                                      </shiro:hasPermission>
+                                      </shiro:hasPermission>--%>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
@@ -173,6 +174,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/unit_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>

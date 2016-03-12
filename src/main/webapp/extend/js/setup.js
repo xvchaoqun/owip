@@ -302,6 +302,29 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
     var $div = $(this).closest(".myTableDiv");
     location.href = $div.data("url-page") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
+// 批量作废
+$(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
+
+    var $div = $(this).closest(".myTableDiv");
+    var ids = $.map($(".myTableDiv .table td :checkbox:checked"),function(item, index){
+        return $(item).val();
+    });
+    if(ids.length==0){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+    bootbox.confirm("确定作废这"+ids.length+"条数据？",function(result){
+        if(result){
+            $.post($div.data("url-ba"),{ids:ids},function(ret){
+                if(ret.success) {
+                    page_reload();
+                    SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
+
 // 批量删除
 $(document).on("click", ".myTableDiv .batchDelBtn", function(){
 

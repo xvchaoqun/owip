@@ -135,7 +135,7 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchCadre:del">
-                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                     </shiro:hasPermission>
                 </c:if>
             </div>
@@ -245,11 +245,11 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="dispatchCadre:del">
+                                    <%-- <shiro:hasPermission name="dispatchCadre:del">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${dispatchCadre.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
-                                      </shiro:hasPermission>
+                                      </shiro:hasPermission>--%>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
@@ -274,7 +274,7 @@ pageEncoding="UTF-8" %>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="dispatchCadre:del">
+                                            <%--<shiro:hasPermission name="dispatchCadre:del">
                                             <li>
                                                 <a href="#" data-id="${dispatchCadre.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
@@ -282,7 +282,7 @@ pageEncoding="UTF-8" %>
                                                     </span>
                                                 </a>
                                             </li>
-                                            </shiro:hasPermission>
+                                            </shiro:hasPermission>--%>
                                         </ul>
                                     </div>
                                 </div>

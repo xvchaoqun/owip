@@ -289,15 +289,12 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:abolish")
     @RequestMapping(value = "/passport_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_abolish(HttpServletRequest request, Integer id) {
+    public Map do_passport_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
 
-        if (id != null) {
+        if (null != ids && ids.length > 0) {
 
-            Passport record = new Passport();
-            record.setId(id);
-            record.setAbolish(true);
-            passportService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废证件：%s", id));
+            passportService.abolish(ids);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废证件：%s",  StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
