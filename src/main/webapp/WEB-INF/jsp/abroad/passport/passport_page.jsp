@@ -4,7 +4,96 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content">
+        <div id="body-content" class="myTableDiv"
+             data-url-au="${ctx}/passport_au"
+             data-url-page="${ctx}/passport_page"
+             data-url-del="${ctx}/passport_del"
+             data-url-bd="${ctx}/passport_batchDel"
+             data-url-ba="${ctx}/passport_abolish"
+             data-url-co="${ctx}/passport_changeOrder"
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <div class="widget-box hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <mytag:sort-form css="form-horizontal " id="searchForm">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">姓名</label>
+                                        <div class="col-xs-6">
+                                            <div class="input-group">
+                                                <input type="hidden" name="status" value="${status}">
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                    <option value="${cadre.id}">${sysUser.realname}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">证件名称</label>
+                                        <div class="col-xs-6">
+                                            <select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
+                                                <option></option>
+                                                <c:import url="/metaTypes?__code=mc_passport_type"/>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=classId]").val(${param.classId});
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">保险柜</label>
+                                        <div class="col-xs-6">
+                                            <select data-rel="select2" name="safeBoxId" data-placeholder="请选择保险柜">
+                                                <option></option>
+                                                <c:forEach items="${safeBoxMap}" var="safeBox">
+                                                    <option value="${safeBox.key}">${safeBox.value.code}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=safeBoxId]").val(${param.safeBoxId});
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">证件号码</label>
+                                        <div class="col-xs-6">
+                                            <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                                   placeholder="请输入证件号码">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="clearfix form-actions center">
+                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
+                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
+                                <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </mytag:sort-form>
+                    </div>
+                </div>
+            </div>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
@@ -22,83 +111,46 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==5}">active</c:if>">
                         <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
                     </li>
+
+                    <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
+                        <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="passport:edit">
+                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
+                                </shiro:hasPermission>
+                                <a class="importBtn btn btn-success btn-sm tooltip-success"
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
+                                <c:if test="${commonList.recNum>0}">
+                                    <a class="batchAbolishBtn btn btn-warning btn-sm">
+                                        <i class="fa fa-times"></i> 作废
+                                    </a>
+                                    <shiro:hasPermission name="passport:del">
+                                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                                    </shiro:hasPermission>
+                                </c:if>
+                            </div>
+                        </c:if>
+                        <c:if test="${status==3}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="passport:edit">
+                                    <a class="addLostBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
+                                </shiro:hasPermission>
+                            </div>
+                        </c:if>
+                        <c:if test="${status==5}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="safeBox:edit">
+                                    <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
+                                </shiro:hasPermission>
+                            </div>
+                        </c:if>
+                    </div>
                 </ul>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-        <div class="myTableDiv"
-             data-url-au="${ctx}/passport_au"
-             data-url-page="${ctx}/passport_page"
-             data-url-del="${ctx}/passport_del"
-             data-url-bd="${ctx}/passport_batchDel"
-             data-url-ba="${ctx}/passport_abolish"
-             data-url-co="${ctx}/passport_changeOrder"
-             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input type="hidden" name="status" value="${status}">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
-                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${cadre.id}">${sysUser.realname}</option>
-                </select>
-                <select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
-                    <option></option>
-                    <c:import url="/metaTypes?__code=mc_passport_type"/>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=classId]").val(${param.classId});
-                </script>
-                <select data-rel="select2" name="safeBoxId" data-placeholder="保险柜">
-                    <option></option>
-                    <c:forEach items="${safeBoxMap}" var="safeBox">
-                        <option value="${safeBox.key}">${safeBox.value.code}</option>
-                    </c:forEach>
-                </select>
-                <script type="text/javascript">
-                    $("#searchForm select[name=safeBoxId]").val(${param.safeBoxId});
-                </script>
-                <input class="form-control search-query" name="code" type="text" value="${param.code}"
-                       placeholder="请输入证件号码">
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
-                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-                <div class="vspace-12"></div>
-                <c:if test="${status==PASSPORT_TYPE_KEEP}">
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="passport:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
-                    </shiro:hasPermission>
-                    <a class="importBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
-                    <c:if test="${commonList.recNum>0}">
-                        <a class="batchAbolishBtn btn btn-warning btn-sm">
-                            <i class="fa fa-times"></i> 作废
-                        </a>
-                    <shiro:hasPermission name="passport:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>
-                </c:if>
-                <c:if test="${status==3}">
-                    <div class="buttons pull-right">
-                        <shiro:hasPermission name="passport:edit">
-                            <a class="addLostBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
-                        </shiro:hasPermission>
-                    </div>
-                </c:if>
-                <c:if test="${status==5}">
-                    <div class="buttons pull-right">
-                        <shiro:hasPermission name="safeBox:edit">
-                            <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
-                        </shiro:hasPermission>
-                    </div>
-                </c:if>
-            </mytag:sort-form>
+        <div >
+
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <div class="table-container">

@@ -117,7 +117,6 @@ pageEncoding="UTF-8" %>
                         </shiro:hasPermission>
                     </c:if>
                 </div>
-                <div class="space-4"></div>
             </ul>
 
             <div class="tab-content">
