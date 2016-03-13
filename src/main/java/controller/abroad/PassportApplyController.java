@@ -6,6 +6,8 @@ import domain.PassportApply;
 import domain.PassportApplyExample;
 import domain.PassportApplyExample.Criteria;
 import domain.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -100,8 +102,8 @@ public class PassportApplyController extends BaseController {
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_page")
     public String passportApply_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "0")  Byte status,
                                     Integer cadreId,
                                     Integer classId,

@@ -25,9 +25,11 @@
     </if>
     order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
   </select>
-  <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
+ <!-- <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
       select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
-  </select>
+  </select>-->
+
+  <!-- 以下是根据指定的排序规则，读取证件列表-->
   <sql id="where_selectPassportList">
     <where>
       <if test="cadreId!=null">
@@ -48,7 +50,11 @@
         </if>
         <if test="safeBoxId!=0">
         and p.safe_box_id =#{safeBoxId}
+          and (p.type=1 or (p.type=2 and p.cancel_confirm=0)) <!-- 集中保管或 未确认的取消集中保管，才在保险柜里-->
         </if>
+      </if>
+      <if test="cancelConfirm!=null">
+        and p.cancel_confirm =#{cancelConfirm}
       </if>
       <if test="abolish!=null">
         and p.abolish =#{abolish}
@@ -67,6 +73,7 @@
     <include refid="where_selectPassportList"/>
   </select>
 
+  <!-- 以下是有审核权限的干部读取因私出访申请列表， 分为待审批、已审批-->
   <sql id="Where_selectNotApproval" >
     where aas.cadre_id=bc.id and aas.status=1
     <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
@@ -95,6 +102,7 @@
       )
     </if>
  </sql>
+  <!--待审批-->
   <select id="selectNotApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
     select aas.* from abroad_apply_self aas, base_cadre bc
     <include refid="Where_selectNotApproval" />
@@ -104,7 +112,6 @@
     select count(aas.id) from abroad_apply_self aas, base_cadre bc
     <include refid="Where_selectNotApproval" />
   </select>
-
   <sql id="Where_hasApprovalList">
     where aas.cadre_id=bc.id  and aas.status=1
     and (
@@ -131,6 +138,7 @@
     </if>
     )
   </sql>
+  <!-- 已审批 -->
   <select id="selectHasApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
     select aas.* from abroad_apply_self aas, base_cadre bc
     <include refid="Where_hasApprovalList" />
@@ -139,6 +147,29 @@
   <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer" >
     select count(aas.id) from abroad_apply_self aas, base_cadre bc
     <include refid="Where_hasApprovalList" />
+  </select>
+
+  <!-- 根据保险柜编号，读取统计 集中管理证件和未确认取消管理证件-->
+  <select id="listAllSafeBoxs" resultType="bean.SafeBoxBean">
+    /*select asb.id as id, asb.code as code, asb.remark as remark,
+    count(ap.id) as totalCount, group_concat(bc.unit_id) as unitIds,
+    sum(if(ap.type=1, 1, 0)) as keepCount from abroad_safe_box asb ,
+    abroad_passport ap, base_cadre bc
+    where ap.safe_box_id=asb.id and
+    (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0))
+    and ap.cadre_id=bc.id
+    group by asb.id order by asb.sort_order desc*/
+
+    select asb.id as id, asb.code as code, asb.remark as remark,
+    count(aap.id) as totalCount, group_concat(DISTINCT aap.unit_id) as unitIds,
+    sum(if(aap.type=1, 1, 0)) as keepCount, asb.sort_order from abroad_safe_box asb
+
+    left join
+
+    (select ap.id, ap.safe_box_id, ap.type, bc.unit_id from abroad_passport ap , base_cadre bc
+    where (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.abolish=0 and ap.cadre_id=bc.id ) as aap
+
+    on aap.safe_box_id=asb.id group by asb.id order by asb.sort_order desc
   </select>
 
 </mapper>

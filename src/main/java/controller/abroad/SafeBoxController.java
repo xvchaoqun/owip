@@ -1,16 +1,9 @@
 package controller.abroad;
 
+import bean.SafeBoxBean;
 import controller.BaseController;
 import domain.SafeBox;
-import domain.SafeBoxExample;
-import domain.SafeBoxExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,19 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
-import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
+import sys.tool.paging.CommonList;
+import sys.utils.FormUtils;
 
-import java.util.ArrayList;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +36,10 @@ public class SafeBoxController extends BaseController {
     @RequiresPermissions("safeBox:list")
     @RequestMapping("/safeBox_page")
     public String safeBox_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 //@SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_safe_box") String sort,
+                                 //@OrderParam(required = false, defaultValue = "desc") String order,
+                                 // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件
+                                 @RequestParam(required = false, defaultValue = "1") byte status,
                                     String code,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -63,7 +51,7 @@ public class SafeBoxController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        SafeBoxExample example = new SafeBoxExample();
+        /*SafeBoxExample example = new SafeBoxExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -76,22 +64,28 @@ public class SafeBoxController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SafeBox> safeBoxs = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("safeBoxs", safeBoxs);
+        List<SafeBox> safeBoxs = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));*/
+
+        List<SafeBoxBean> safeBoxBeans = selectMapper.listAllSafeBoxs();
+        int count = safeBoxBeans.size();
+        modelMap.put("safeBoxBeans", safeBoxBeans);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         String searchStr = "&pageSize=" + pageSize;
 
+        modelMap.put("status", status);
+        searchStr += "&status=" + status;
+
         if (StringUtils.isNotBlank(code)) {
             searchStr += "&code=" + code;
         }
-        if (StringUtils.isNotBlank(sort)) {
+       /* if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
-        }
+        }*/
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
         return "abroad/safeBox/safeBox_page";

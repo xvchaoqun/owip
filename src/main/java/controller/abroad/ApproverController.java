@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.Approver;
 import domain.ApproverExample;
 import domain.ApproverExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -47,8 +49,8 @@ public class ApproverController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approver_page")
     public String approver_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_approver") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer typeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

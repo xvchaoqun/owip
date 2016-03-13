@@ -56,4 +56,45 @@ public class CadreEduService extends BaseMapper {
     public int updateByPrimaryKeySelective(CadreEdu record){
         return cadreEduMapper.updateByPrimaryKeySelective(record);
     }
+
+    /**
+     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     * @param id
+     * @param addNum
+     */
+    @Transactional
+    public void changeOrder(int id, int cadreId, int addNum) {
+
+        if(addNum == 0) return ;
+
+        CadreEdu entity = cadreEduMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+
+        CadreEduExample example = new CadreEduExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<CadreEdu> overEntities = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            CadreEdu targetEntity = overEntities.get(overEntities.size()-1);
+
+            if (addNum > 0)
+                commonMapper.downOrder_cadreEdu(cadreId, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder_cadreEdu(cadreId, baseSortOrder, targetEntity.getSortOrder());
+
+            CadreEdu record = new CadreEdu();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            cadreEduMapper.updateByPrimaryKeySelective(record);
+        }
+    }
 }

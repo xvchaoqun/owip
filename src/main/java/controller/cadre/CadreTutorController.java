@@ -47,7 +47,7 @@ public class CadreTutorController extends BaseController {
 
         return "index";
     }
-    @RequiresPermissions("cadreTutor:list")
+    /*@RequiresPermissions("cadreTutor:list")
     @RequestMapping("/cadreTutor_page")
     public String cadreTutor_page(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
@@ -101,7 +101,7 @@ public class CadreTutorController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
         return "cadre/cadreTutor/cadreTutor_page";
-    }
+    }*/
 
     @RequiresPermissions("cadreTutor:edit")
     @RequestMapping(value = "/cadreTutor_au", method = RequestMethod.POST)
@@ -150,7 +150,6 @@ public class CadreTutorController extends BaseController {
     @RequestMapping(value = "/cadreTutor_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
 
         if (null != ids && ids.length>0){
             cadreTutorService.batchDel(ids);

@@ -174,20 +174,19 @@ pageEncoding="UTF-8"%>
 <script>
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){
-		if($("input[name=hasDegree]").prop("checked")){
+		if($("input[name=hasDegree]").bootstrapSwitch("state")){
 			$("input[name=degree]").prop("disabled", false).attr("required", "required");
 		}else{
 			$("input[name=degree]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
 	$('input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
-		console.log(this); // DOM element
+		/*console.log(this); // DOM element
 		console.log(event); // jQuery event
-		console.log(state); // true | false
-	});
-	$("input[name=hasDegree]").click(function(){
+		console.log(state); // true | false*/
 		hasDegreeChange();
 	});
+
 	hasDegreeChange();
 
 	function schoolTypeChange(){
@@ -224,8 +223,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功',function(){
+							_reload();
+						});
                     }
                 }
             });

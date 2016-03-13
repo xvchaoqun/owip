@@ -6,6 +6,9 @@ package controller;
 import domain.${TableName};
 import domain.${TableName}Example;
 import domain.${TableName}Example.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,8 +55,8 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:list")
     @RequestMapping("/${tableName}_page")
     public String ${tableName}_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                 <#list searchColumnBeans as column>
                                     <#if column.type=="varchar"||column.type=="text"||column.type=="datetime"||column.type=="date">String<#elseif column.type=="int">Integer</#if> ${tbn(column.name, "tableName")},
                                 </#list>

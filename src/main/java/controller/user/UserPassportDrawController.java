@@ -3,6 +3,8 @@ package controller.user;
 import controller.BaseController;
 import domain.*;
 import domain.PassportDrawExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -198,8 +200,8 @@ public class UserPassportDrawController extends BaseController {
     @RequestMapping("/passportDraw_page")
     public String passportDraw_page(@CurrentUser SysUser loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
-                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {

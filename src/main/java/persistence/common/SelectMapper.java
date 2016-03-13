@@ -1,9 +1,7 @@
 package persistence.common;
 
-import domain.ApplySelf;
-import domain.ApprovalOrder;
-import domain.DispatchCadre;
-import domain.Passport;
+import bean.SafeBoxBean;
+import domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -68,12 +66,14 @@ public interface SelectMapper {
                                       @Param("code") String code,
                                       @Param("type") Byte type,
                                       @Param("safeBoxId") Integer safeBoxId,
+                                      @Param("cancelConfirm") Byte cancelConfirm,
                                       @Param("abolish") Boolean abolish, RowBounds rowBounds);
     Integer countPassport(@Param("cadreId") Integer cadreId,
                               @Param("classId") Integer classId,
                               @Param("code") String code,
                               @Param("type") Byte type,
                               @Param("safeBoxId") Integer safeBoxId,
+                              @Param("cancelConfirm") Byte cancelConfirm,
                               @Param("abolish") Boolean abolish);
     // 获取干部证件
    // List<Passport> selectCadrePassports(@Param("cadreId") Integer cadreId);
@@ -102,4 +102,5 @@ public interface SelectMapper {
              @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
              @Param("flowUserId") Integer flowUserId);
 
+    List<SafeBoxBean> listAllSafeBoxs();
 }

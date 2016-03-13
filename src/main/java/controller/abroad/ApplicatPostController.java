@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.ApplicatPost;
 import domain.ApplicatPostExample;
 import domain.ApplicatPostExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -47,8 +49,8 @@ public class ApplicatPostController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatPost_page")
     public String applicatPost_page(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                    @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_applicat_post") String sort,
+                                    @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer typeId,
                                     Integer postId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

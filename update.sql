@@ -1,4 +1,13 @@
 
+--2016-3-13
+ALTER TABLE `base_cadre_edu`
+	ADD COLUMN `sort_order` INT UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `remark`;
+
+	update base_cadre_edu set sort_order=id;
+
+update abroad_passport set cancel_confirm=0 where cancel_confirm is null;
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `cancel_confirm` `cancel_confirm` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否已确认' AFTER `cancel_type`;
 
 --2016.3.11
 ALTER TABLE `abroad_apply_self`

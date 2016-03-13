@@ -100,7 +100,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.CadreTutor" >
+  <insert keyProperty="id" id="insert" parameterType="domain.CadreTutor" >
     insert into base_cadre_tutor (id, cadre_id, name, 
       title, type, sort_order
       )
@@ -108,7 +108,7 @@
       #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="domain.CadreTutor" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.CadreTutor" >
     insert into base_cadre_tutor
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

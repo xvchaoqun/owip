@@ -4,6 +4,8 @@ import bean.ApprovalResult;
 import controller.BaseController;
 import domain.*;
 import domain.ApplySelfExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -106,8 +108,8 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(@CurrentUser SysUser loginUser,
-                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {

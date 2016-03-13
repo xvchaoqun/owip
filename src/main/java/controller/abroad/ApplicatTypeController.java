@@ -5,6 +5,8 @@ import domain.ApplicatType;
 import domain.ApplicatTypeExample;
 import domain.ApplicatTypeExample.Criteria;
 import domain.ApprovalOrder;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -157,8 +159,8 @@ public class ApplicatTypeController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType_page")
     public String applicatType_page(HttpServletResponse response,
-                                        @RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                        @RequestParam(required = false, defaultValue = "desc") String order,
+                                        @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_applicat_type") String sort,
+                                        @OrderParam(required = false, defaultValue = "desc") String order,
                                         @RequestParam(defaultValue = "1") int cls,
                                         String name,
                                         @RequestParam(required = false, defaultValue = "0") int export,

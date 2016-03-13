@@ -51,7 +51,7 @@ public class CadreEduController extends BaseController {
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
     public String cadreEdu_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_edu") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -111,6 +111,8 @@ public class CadreEduController extends BaseController {
         modelMap.put("cadreMap", cadreService.findAll());
         modelMap.put("eduMap", metaTypeService.metaTypes("mc_edu"));
         modelMap.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
+
+        modelMap.put("cadreTutors", cadreTutorService.findAll(cadreId).values());
 
         return "cadre/cadreEdu/cadreEdu_page";
     }
@@ -197,6 +199,16 @@ public class CadreEduController extends BaseController {
             logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreEdu:changeOrder")
+    @RequestMapping(value = "/cadreEdu_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
+
+        cadreEduService.changeOrder(id, cadreId, addNum);
+        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部学习经历调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

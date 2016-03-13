@@ -12,7 +12,63 @@ pageEncoding="UTF-8" %>
              data-url-ba="${ctx}/passport_abolish"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <div class="widget-box hidden-sm hidden-xs">
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li  class="<c:if test="${status==1}">active</c:if>">
+                        <a href="?status=1"><i class="fa fa-circle-o"></i> 集中管理证件</a>
+                    </li>
+                    <li  class="<c:if test="${status==2}">active</c:if>">
+                        <a href="?status=2"><i class="fa fa-circle-o"></i> 取消集中管理证件</a>
+                    </li>
+                    <li  class="<c:if test="${status==3}">active</c:if>">
+                        <a href="?status=3"><i class="fa fa-circle-o"></i> 丢失的证件</a>
+                    </li>
+                    <li  class="<c:if test="${status==4}">active</c:if>">
+                        <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
+                    </li>
+                    <li  class="<c:if test="${status==5}">active</c:if>">
+                        <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
+                    </li>
+
+                    <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
+                        <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="passport:edit">
+                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
+                                </shiro:hasPermission>
+                                <a class="importBtn btn btn-success btn-sm tooltip-success"
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
+                                <c:if test="${commonList.recNum>0}">
+                                    <a class="batchAbolishBtn btn btn-warning btn-sm">
+                                        <i class="fa fa-times"></i> 作废
+                                    </a>
+                                    <shiro:hasPermission name="passport:del">
+                                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                                    </shiro:hasPermission>
+                                </c:if>
+                            </div>
+                        </c:if>
+                        <c:if test="${status==3}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="passport:edit">
+                                    <a class="addLostBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
+                                </shiro:hasPermission>
+                            </div>
+                        </c:if>
+                        <c:if test="${status==5}">
+                            <div class="buttons pull-right">
+                                <shiro:hasPermission name="safeBox:edit">
+                                    <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
+                                </shiro:hasPermission>
+                            </div>
+                        </c:if>
+                    </div>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="home4" class="tab-pane in active">
+            <div class="widget-box collapsed hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
@@ -85,7 +141,7 @@ pageEncoding="UTF-8" %>
                                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
                 ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
                                 <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>
@@ -94,63 +150,6 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
-            <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o"></i> 集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-circle-o"></i> 取消集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==3}">active</c:if>">
-                        <a href="?status=3"><i class="fa fa-circle-o"></i> 丢失的证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==4}">active</c:if>">
-                        <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==5}">active</c:if>">
-                        <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
-                    </li>
-
-                    <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                        <c:if test="${status==PASSPORT_TYPE_KEEP}">
-                            <div class="buttons pull-right">
-                                <shiro:hasPermission name="passport:edit">
-                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
-                                </shiro:hasPermission>
-                                <a class="importBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
-                                <c:if test="${commonList.recNum>0}">
-                                    <a class="batchAbolishBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-times"></i> 作废
-                                    </a>
-                                    <shiro:hasPermission name="passport:del">
-                                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
-                                    </shiro:hasPermission>
-                                </c:if>
-                            </div>
-                        </c:if>
-                        <c:if test="${status==3}">
-                            <div class="buttons pull-right">
-                                <shiro:hasPermission name="passport:edit">
-                                    <a class="addLostBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
-                                </shiro:hasPermission>
-                            </div>
-                        </c:if>
-                        <c:if test="${status==5}">
-                            <div class="buttons pull-right">
-                                <shiro:hasPermission name="safeBox:edit">
-                                    <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
-                                </shiro:hasPermission>
-                            </div>
-                        </c:if>
-                    </div>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
-        <div >
-
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <div class="table-container">
@@ -277,7 +276,6 @@ pageEncoding="UTF-8" %>
                     <h4 class="green lighter">暂无记录</h4>
                 </div>
             </c:if>
-        </div>
     </div>
                 </div></div></div>
     <div id="item-content">

@@ -4,6 +4,8 @@ import bean.ApprovalResult;
 import controller.BaseController;
 import domain.*;
 import domain.ApplySelfExample.Criteria;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -192,8 +194,8 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                 @RequestParam(required = false, defaultValue = "desc") String order,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer cadreId,
                                  String _applyDate,
                                  Byte type, // 出行时间范围

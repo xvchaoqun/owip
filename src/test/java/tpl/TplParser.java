@@ -79,7 +79,7 @@ public class TplParser {
 			List<ColumnBean> listPageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
 			genPageJsp(tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
 
-			genController(tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
+			genController(tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
 
 			String savePageExcludeColumns = tableNode.path("excludeEditColumns").getTextValue();
 			List<ColumnBean> savePageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
@@ -88,7 +88,7 @@ public class TplParser {
 		}
 	}
 	
-	public static void genController(String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
+	public static void genController(String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
 									 String logType, String cnTableName, List<ColumnBean> tableColumns, String outpath) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
@@ -97,6 +97,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 		
 		Map root = new HashMap();
+		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
 		root.put("searchColumnBeans",  searchColumnBeans);

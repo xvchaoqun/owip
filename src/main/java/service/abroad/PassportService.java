@@ -60,6 +60,7 @@ public class PassportService extends BaseMapper {
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setAbolish(false);
+            record.setCancelConfirm(false);
 
             if (idDuplicate(null, record.getCadreId(), record.getClassId(), record.getCode())) {
                 MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
@@ -75,7 +76,7 @@ public class PassportService extends BaseMapper {
     }
     public List<Passport> findByCadreId(int cadreId){
 
-       return selectMapper.selectPassportList(cadreId, null, null, null, null, false, new RowBounds());
+       return selectMapper.selectPassportList(cadreId, null, null, null, null, null, false, new RowBounds());
     }
 
     public boolean idDuplicate(Integer id, int cadreId, int classId, String code){
@@ -172,7 +173,7 @@ public class PassportService extends BaseMapper {
 
         Date now = new Date();
         List<Passport> passports = selectMapper.selectPassportList(null, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, null, false, new RowBounds());
+                SystemConstants.PASSPORT_TYPE_KEEP, null, null, false, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if(expiryDate.before(now)){

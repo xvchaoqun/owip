@@ -10,13 +10,14 @@
         <div id="body-content">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-
-            <div class="widget-box hidden-sm hidden-xs">
+            <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username
+            ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
+            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
                         <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-up"></i>
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
                 </div>
@@ -95,8 +96,8 @@
 
                             <div class="clearfix form-actions center">
                                 <a class="btn btn-default btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
-                                <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
-                                <c:if test="${_query}">&nbsp; &nbsp; &nbsp;
+
+                                <c:if test="${_query}">&nbsp;
                                     <button type="button" class=" btn btn-warning btn-sm" onclick="_reset()">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>

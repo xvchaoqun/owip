@@ -136,10 +136,10 @@
       </table>-->
       <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
        </table>-->
-     <!-- <table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+      <table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>
-      <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
-      </table>-->
+      <!--  <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
+       </table>-->
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
         <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
@@ -167,8 +167,8 @@
     <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
     </table>
     -->
-    <table tableName="base_cadre" domainObjectName="Cadre">
-    </table>
+   <!-- <table tableName="base_cadre" domainObjectName="Cadre">
+    </table>-->
     <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
     </table>-->
       <!--

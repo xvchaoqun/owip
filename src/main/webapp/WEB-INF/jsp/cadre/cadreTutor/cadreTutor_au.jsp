@@ -8,28 +8,31 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreTutor_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreTutor.id}">
+        <input type="hidden" name="cadreId" value="${param.cadreId}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属干部</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="cadreId" value="${cadreTutor.cadreId}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">导师姓名</label>
+				<label class="col-xs-4 control-label">导师姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cadreTutor.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所在单位及职务（职称）</label>
+				<label class="col-xs-4 control-label">所在单位及职务（职称）</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="title" value="${cadreTutor.title}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-4 control-label">类型</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${cadreTutor.type}">
+                    <select required data-rel="select2" name="type" data-placeholder="请选择">
+                        <option></option>
+                        <c:forEach items="${CADRE_TUTOR_TYPE_MAP}" var="_type">
+                            <option value="${_type.key}">${_type.value}</option>
+                        </c:forEach>
+                    </select>
+                    <script>
+                        $("#modalForm select[name=type]").val(${cadreTutor.type});
+                    </script>
 				</div>
 			</div>
     </form>
@@ -45,8 +48,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功', function(){
+                            _reload();
+                        });
                     }
                 }
             });

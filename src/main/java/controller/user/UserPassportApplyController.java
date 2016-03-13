@@ -5,6 +5,8 @@ import domain.Cadre;
 import domain.PassportApply;
 import domain.PassportApplyExample;
 import domain.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -109,8 +111,8 @@ public class UserPassportApplyController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping("/passportApply_page")
     public String passportApply_page(@CurrentUser SysUser loginUser,
-                                     @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                     @RequestParam(required = false, defaultValue = "desc") String order,
+                                     @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
+                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                      Integer pageSize, Integer pageNo, ModelMap modelMap) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;

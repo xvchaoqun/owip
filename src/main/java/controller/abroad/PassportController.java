@@ -4,6 +4,8 @@ import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.*;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -54,17 +56,27 @@ public class PassportController extends BaseController {
 
         return "index";
     }
-
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_page")
-    public String passport_page(HttpServletResponse response,
-                                @RequestParam(required = false, defaultValue = "create_time") String sort,
-                                @RequestParam(required = false, defaultValue = "desc") String order,
+    public String passport_page(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5：保险柜管理
+                                    @RequestParam(required = false, defaultValue = "1") byte status, ModelMap modelMap){
+        modelMap.put("status", status);
+        if(status==5) {
+            return "forward:/safeBox_page";
+        }else{
+            return "forward:/passportList_page";
+        }
+    }
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/passportList_page")
+    public String passportList_page(HttpServletResponse response,
+                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
+                                @OrderParam(required = false, defaultValue = "desc") String order,
                                 Integer cadreId,
                                 Integer classId,
                                 String code,
                                 Integer safeBoxId,
-                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5：保险柜管理
+                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件
                                 @RequestParam(required = false, defaultValue = "1") byte status,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -83,9 +95,6 @@ public class PassportController extends BaseController {
         if (status < 4) {
             type = status;
         }
-        if(status==5 && safeBoxId==null){
-            safeBoxId = 0; // see sql 保险柜不为空
-        }
 
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
@@ -101,13 +110,13 @@ public class PassportController extends BaseController {
             return null;
         }*/
 
-        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, abolish);
+        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, null, abolish);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (cadreId, classId, code, type, safeBoxId, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (cadreId, classId, code, type, safeBoxId, null, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("passports", passports);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -136,6 +145,58 @@ public class PassportController extends BaseController {
         modelMap.put("commonList", commonList);
 
         return "abroad/passport/passport_page";
+    }
+
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/safeBoxPassportList")
+    public String safeBoxPassportList(HttpServletResponse response,
+                                    @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
+                                    @OrderParam(required = false, defaultValue = "desc") String order,
+                                    Byte type,
+                                    Byte cancelConfirm,
+                                    Integer safeBoxId,
+                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm, false);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<Passport> passports = selectMapper.selectPassportList
+                (null, null, null, type, safeBoxId, cancelConfirm, false, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("passports", passports);
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        String searchStr = "&pageSize=" + pageSize;
+
+        if (type != null) {
+            searchStr += "&type=" + type;
+        }
+        if (cancelConfirm != null) {
+            searchStr += "&cancelConfirm=" + cancelConfirm;
+        }
+        if (safeBoxId!=null) {
+            searchStr += "&safeBoxId=" + safeBoxId;
+        }
+
+        if (StringUtils.isNotBlank(sort)) {
+            searchStr += "&sort=" + sort;
+        }
+        if (StringUtils.isNotBlank(order)) {
+            searchStr += "&order=" + order;
+        }
+        commonList.setSearchStr(searchStr);
+        modelMap.put("commonList", commonList);
+
+        return "abroad/passport/safeBoxPassportList";
     }
 
     @RequiresPermissions("passport:edit")
@@ -220,6 +281,7 @@ public class PassportController extends BaseController {
             else
                 record.setType(type);
 
+            record.setCancelConfirm(false);
             record.setAbolish(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);

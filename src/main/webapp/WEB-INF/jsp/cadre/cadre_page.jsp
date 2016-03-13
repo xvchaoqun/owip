@@ -12,12 +12,14 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/cadre_batchDel"
              data-url-co="${ctx}/cadre_changeOrder?status=${status}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <div class="widget-box hidden-sm hidden-xs">
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
+            ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
+            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
                         <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-up"></i>
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
                 </div>
@@ -80,8 +82,8 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
-                                <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
+
+                                <c:if test="${_query || not empty param.sort}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
