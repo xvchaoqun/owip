@@ -31,8 +31,10 @@
                     </li>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                        <a class="editBtn btn btn-default btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>
+                        <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>
                         <shiro:hasPermission name="safeBox:del">
+                            <a class="exportBtn btn btn-primary btn-sm tooltip-success"
+                               data-rel="tooltip" data-placement="top" title="导出所有证件"><i class="fa fa-download"></i> 导出</a>
                             <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                         </shiro:hasPermission>
                     </div>
