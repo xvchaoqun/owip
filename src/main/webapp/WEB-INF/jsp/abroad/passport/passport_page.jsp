@@ -12,7 +12,8 @@ pageEncoding="UTF-8" %>
              data-url-ba="${ctx}/passport_abolish"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
+                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
@@ -68,12 +69,12 @@ pageEncoding="UTF-8" %>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-            <div class="widget-box collapsed hidden-sm hidden-xs">
+            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
                         <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-up"></i>
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
                 </div>
@@ -138,9 +139,8 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                                <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
-                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
-                                <c:if test="${_query || not empty param.sort}">&nbsp; &nbsp; &nbsp;
+
+                                <c:if test="${_query || not empty param.sort}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
