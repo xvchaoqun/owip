@@ -483,7 +483,7 @@ public class PassportController extends BaseController {
                         passport.getCode(),
                         DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD),
-                        SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(passport.getType()),
+                        SystemConstants.PASSPORT_TYPE_MAP.get(passport.getType()),
                         BooleanUtils.isTrue(passport.getIsLent())?"借出":"-"
                 };
 
