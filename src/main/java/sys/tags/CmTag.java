@@ -204,6 +204,8 @@ public class CmTag {
     // 发文号
     public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {
 
+        if(code==null || dispatchTypeId == null || year==null) return null;
+
         String numStr = NumberUtils.frontCompWithZore(code, 2);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
