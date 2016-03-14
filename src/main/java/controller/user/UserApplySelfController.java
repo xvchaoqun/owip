@@ -9,6 +9,7 @@ import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +96,9 @@ public class UserApplySelfController extends BaseController {
     @RequestMapping("/applySelf_note")
     public String applySelf_note(ModelMap modelMap) {
 
-        modelMap.put("notice", "说明");
+        SysConfig SysConfig = sysConfigService.get();
+        modelMap.put("notice", SysConfig.getApplySelfNote());
+
         return "user/applySelf/applySelf_note";
     }
 

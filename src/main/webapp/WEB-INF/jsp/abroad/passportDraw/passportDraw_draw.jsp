@@ -119,6 +119,7 @@
         $('input[type=file]').ace_file_input('reset_input');
     });
 
+    var msg;
     $("input[type=submit]").click(function(){
         if($('input[type=file]').val()==''){
             SysMsg.info('请选择证件拍照');
@@ -130,11 +131,10 @@
             });
             return;
         }
-        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
         var name = $(this).data("name");
         var date = (new Date($('input[name=_retrunDate]').val())).format("yyyy年M月d日")
         var cls = $(this).data("cls");
-        msg += name+"同志，您好！您的"+cls+"已领取，请按照申请的行程出行，并请于"+date+"之前将证件交回组织部。谢谢！"
+        msg = name+"同志，您好！您的"+cls+"已领取，请按照申请的行程出行，并请于"+date+"之前将证件交回组织部。谢谢！"
 
         bootbox.confirm({
             buttons: {
@@ -147,7 +147,7 @@
                     className: 'btn-default'
                 }
             },
-            message: msg,
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' + msg + '</p>',
             callback: function(result) {
                 if(result) {
                     $("#modalForm").submit();return false;
@@ -161,9 +161,13 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.hideAll();
-                        SysMsg.success('领取成功。', '成功',function(){
-                            page_reload();
-                        });
+                        $.post("${ctx}/shortMsg", {type:'领取证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                            if(ret.success) {
+                                SysMsg.success('通知成功', '提示', function () {
+                                    page_reload();
+                                });
+                            }
+                        })
                     }
                 }
             });

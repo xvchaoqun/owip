@@ -172,4 +172,18 @@
     on aap.safe_box_id=asb.id group by asb.id order by asb.sort_order desc
   </select>
 
+  <select id="passportCount" resultType="java.lang.Integer">
+    select count(ap.id) from abroad_passport ap where (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and abolish=0
+  </select>
+  <select id="passportStatByClass" resultType="bean.PassportStatByClassBean">
+    select class_id as classId, count(*) as num from abroad_passport
+    where (type=1 or (type=2 and cancel_confirm=0)) and abolish=0
+    group by class_id
+  </select>
+
+  <select id="passportStatByPost" resultType="bean.PassportStatByPostBean">
+    select bc.post_id as postId, count(*) as num from abroad_passport ap, base_cadre bc where
+    (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.abolish=0 and ap.cadre_id = bc.id
+    group by bc.post_id
+  </select>
 </mapper>

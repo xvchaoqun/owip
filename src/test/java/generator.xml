@@ -136,8 +136,8 @@
       </table>-->
       <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
        </table>-->
-      <table tableName="base_cadre_edu" domainObjectName="CadreEdu">
-      </table>
+      <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+      </table>-->
       <!--  <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
        </table>-->
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
@@ -180,6 +180,9 @@
     </table>
     <table tableName="base_history_unit" domainObjectName="HistoryUnit">
     </table>-->
+      <!--<table tableName="base_short_msg" domainObjectName="ShortMsg">
+      </table>-->
+
     <!--<table tableName="sys_log" domainObjectName="SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
@@ -194,6 +197,11 @@
     <table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
+
+      <table tableName="sys_config" domainObjectName="SysConfig">
+          <columnOverride column="apply_self_note" jdbcType="VARCHAR"></columnOverride>
+      </table>
+
       <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
       </table>-->
 

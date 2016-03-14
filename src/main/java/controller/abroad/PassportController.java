@@ -1,5 +1,7 @@
 package controller.abroad;
 
+import bean.PassportStatByClassBean;
+import bean.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.BaseController;
@@ -63,7 +65,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_page")
     public String passport_page(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5：保险柜管理
-                                    @RequestParam(required = false, defaultValue = "1") byte status,
+                                    @RequestParam(required = false, defaultValue = "0") byte status,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     HttpServletResponse response,
                                     ModelMap modelMap){
@@ -74,11 +76,26 @@ public class PassportController extends BaseController {
         }
 
         modelMap.put("status", status);
-        if(status==5) {
+        if(status==0){
+            return "forward:/passport_stat";
+        }else if(status==5) {
             return "forward:/safeBox_page";
         }else{
             return "forward:/passportList_page";
         }
+    }
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/passport_stat")
+    public String passport_stat(ModelMap modelMap){
+
+        List<PassportStatByClassBean> classBeans = selectMapper.passportStatByClass();
+        List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost();
+
+        modelMap.put("totalCount", selectMapper.passportCount());
+        modelMap.put("classBeans", classBeans);
+        modelMap.put("postBeans", postBeans);
+
+        return "abroad/passport/passport_stat";
     }
     @RequiresPermissions("passport:list")
     @RequestMapping("/passportList_page")
@@ -89,7 +106,7 @@ public class PassportController extends BaseController {
                                 Integer classId,
                                 String code,
                                 Integer safeBoxId,
-                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件
+                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
                                 @RequestParam(required = false, defaultValue = "1") byte status,
                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
 

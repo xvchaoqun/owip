@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
 <script>
 
     $("#note").click(function(){
-        loadModal("${ctx}/user/applySelf_note", 800);
+        loadModal("${ctx}/user/applySelf_note", 650);
     });
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

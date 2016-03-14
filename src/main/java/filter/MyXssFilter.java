@@ -1,5 +1,6 @@
 package filter;
 
+import org.apache.commons.lang.StringUtils;
 import sys.filter.XssHttpServletRequestWrapper;
 
 import javax.servlet.*;
@@ -19,6 +20,11 @@ public class MyXssFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
+        String requestURI = ((HttpServletRequest) request).getRequestURI();
+        if(StringUtils.equals(requestURI, "/applySelf_note")){
+            filterChain.doFilter(request, response);
+            return;
+        }
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(
                 (HttpServletRequest) request);
         filterChain.doFilter(xssRequest, response);

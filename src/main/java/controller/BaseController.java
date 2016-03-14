@@ -192,7 +192,11 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected SysResourceService sysResourceService;
     @Autowired
+    protected ShortMsgService shortMsgService;
+    @Autowired
     protected LogService logService;
+    @Autowired
+    protected SysConfigService sysConfigService;
     @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired

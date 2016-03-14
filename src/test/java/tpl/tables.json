@@ -167,7 +167,7 @@
       "showColumns": "type,name,title",
       "excludeEditColumns": "id,sort_order",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "unit_transfer",
@@ -303,6 +303,15 @@
       "excludeEditColumns": "id,create_time,sort_order,status",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
+    },
+    {
+      "table": "short_msg",
+      "key": "id",
+      "searchColumns": "receiver_id,mobile",
+      "showColumns": "receiver_id,type,mobile,content,create_time,ip,status,ret",
+      "excludeEditColumns": "id,create_time,ip,status,ret",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
     }
   ]
 }

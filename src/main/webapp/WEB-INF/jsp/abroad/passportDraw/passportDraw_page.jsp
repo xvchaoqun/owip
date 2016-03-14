@@ -168,7 +168,9 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_INIT}">-</c:if>
                                 <c:if test="${passportDraw.status!=PASSPORT_DRAW_STATUS_INIT}">
-                                <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
+                                <button data-id="${passportDraw.id}"
+                                        data-userid="${sysUser.id}"
+                                        data-name="${sysUser.realname}"
                                         data-cls="${passportType.name}"
                                         data-status="${passportDraw.status}" class="shortMsgBtn btn btn-warning btn-mini btn-xs">
                                     <i class="fa fa-info"></i> 短信通知
@@ -193,7 +195,8 @@ pageEncoding="UTF-8" %>
                             <c:if test="${passportDraw.drawStatus==PASSPORT_DRAW_DRAW_STATUS_DRAW}">
                                 <c:if test="${cm:compareDate(passportDraw.returnDate, now)==false}">
                             <td>
-                                <button data-id="${passportDraw.id}" data-name="${sysUser.realname}"
+                                <button data-id="${passportDraw.id}"
+                                        data-userid="${sysUser.id}"
                                         data-cls="${passportType.name}"
                                         data-drawtime="${cm:formatDate(passportDraw.drawTime,'yyyy年MM月dd日')}"
                                         data-returndate="${cm:formatDate(passportDraw.returnDate,'yyyy年MM月dd日')}" class="returnMsgBtn btn btn-danger btn-mini btn-xs">
@@ -244,10 +247,10 @@ pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $(".returnMsgBtn").click(function(){
-        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var msg = '';
         var drawtime = $(this).data("drawtime");
         var returndate = $(this).data("returndate");
-        var id = $(this).data("id");
+        var userid = $(this).data("userid");
         var name = $(this).data("name");
         var cls = $(this).data("cls");
          msg += name+"同志，您好！您于"+drawtime+"领取因私出国（境）证件，" +
@@ -264,12 +267,16 @@ pageEncoding="UTF-8" %>
                     className: 'btn-default'
                 }
             },
-            message: msg,
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+                    $.post("${ctx}/shortMsg", {type:'催交证件',content: msg, userId:userid}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "催交证件"
@@ -277,9 +284,10 @@ pageEncoding="UTF-8" %>
     });
 
     $(".shortMsgBtn").click(function(){
-        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var msg = '';
         var status = $(this).data("status");
         var id = $(this).data("id");
+        var userid = $(this).data("userid");
         var name = $(this).data("name");
         var cls = $(this).data("cls");
         if(status=="${PASSPORT_DRAW_STATUS_PASS}")
@@ -299,12 +307,16 @@ pageEncoding="UTF-8" %>
                     className: 'btn-default'
                 }
             },
-            message: msg,
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+                    $.post("${ctx}/shortMsg", {type:'领取证件',content: msg, userId:userid}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "短信通知"

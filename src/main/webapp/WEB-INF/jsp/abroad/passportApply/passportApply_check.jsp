@@ -85,6 +85,9 @@ pageEncoding="UTF-8"%>
         });
     });
     $("#agree_msg").click(function(){
+        var msg = '${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，组织部已备案。' +
+        '请登录系统打印申请表，并到党委/校长办公室机要室（房间号？）找郭宁老师盖章。' +
+        '领取新证件之后，请尽快交到组织部（主楼A306）集中保管。谢谢！';
         bootbox.confirm({
             buttons: {
                 confirm: {
@@ -96,14 +99,16 @@ pageEncoding="UTF-8"%>
                     className: 'btn-default'
                 }
             },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，组织部已备案。' +
-            '请登录系统打印申请表，并到党委/校长办公室机要室（房间号？）找郭宁老师盖章。' +
-            '领取新证件之后，请尽快交到组织部（主楼A306）集中保管。谢谢！</p>',
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+                    $.post("${ctx}/shortMsg", {type:'申办证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "短信通知"
@@ -123,7 +128,7 @@ pageEncoding="UTF-8"%>
             }
         });
     });
-
+    var msg = '${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，因不符合要求未予审批。请登录系统查看具体原因，谢谢！';
     $("#disagree_msg").click(function(){
         bootbox.confirm({
             buttons: {
@@ -136,12 +141,16 @@ pageEncoding="UTF-8"%>
                     className: 'btn-default'
                 }
             },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，因不符合要求未予审批。请登录系统查看具体原因，谢谢！</p>',
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+                    $.post("${ctx}/shortMsg", {type:'申办证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "短信通知"

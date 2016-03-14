@@ -32,6 +32,41 @@ public class MemberService extends BaseMapper {
          return memberMapper.selectByPrimaryKey(userId);
     }
 
+    // 后台数据库中导入党员数据后，需要同步信息、更新状态
+    @Transactional
+    public void dbUpdate(int userId){
+
+        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+        if(_enterApply!=null && _enterApply.getType()!=SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+        }
+
+        SysUser sysUser = sysUserService.findById(userId);
+        Byte type = sysUser.getType();
+        if(type== SystemConstants.USER_TYPE_JZG){
+
+            // 同步教职工信息到ow_member_teacher表
+            snycTeacher(userId, sysUser.getCode());
+        }else if(type==SystemConstants.USER_TYPE_BKS){
+
+            // 同步本科生信息到 ow_member_student表
+            snycStudent(userId, type, sysUser.getCode());
+        }else if(type==SystemConstants.USER_TYPE_YJS){
+
+            // 同步研究生信息到 ow_member_student表
+            snycStudent(userId, type, sysUser.getCode());
+        }else{
+            throw new DBErrorException("添加失败，该账号不是教工或学生");
+        }
+
+        // 更新系统角色  访客->党员
+        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
+    }
+
     @Transactional
     public void add(Member record){
 

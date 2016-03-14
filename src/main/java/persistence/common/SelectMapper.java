@@ -1,5 +1,7 @@
 package persistence.common;
 
+import bean.PassportStatByClassBean;
+import bean.PassportStatByPostBean;
 import bean.SafeBoxBean;
 import domain.*;
 import org.apache.ibatis.annotations.Param;
@@ -103,4 +105,10 @@ public interface SelectMapper {
              @Param("flowUserId") Integer flowUserId);
 
     List<SafeBoxBean> listAllSafeBoxs();
+
+    int passportCount();
+
+    List<PassportStatByClassBean> passportStatByClass();
+
+    List<PassportStatByPostBean> passportStatByPost();
 }

@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,20 @@ import java.util.Map;
 public class MemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    // for test 后台数据库中导入党员数据后，需要同步信息、更新状态
+    @RequiresRoles("admin")
+    @RequestMapping(value = "/member_dbUpdate")
+    @ResponseBody
+    public Map dbUpdate(){
+
+        List<Member> members = memberMapper.selectByExample(new MemberExample());
+        for (Member member : members) {
+            memberService.dbUpdate(member.getUserId());
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)

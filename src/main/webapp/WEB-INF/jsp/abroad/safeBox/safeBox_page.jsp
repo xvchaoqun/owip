@@ -14,21 +14,7 @@
 
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o"></i> 集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-circle-o"></i> 取消集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==3}">active</c:if>">
-                        <a href="?status=3"><i class="fa fa-circle-o"></i> 丢失的证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==4}">active</c:if>">
-                        <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==5}">active</c:if>">
-                        <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
-                    </li>
+                    <jsp:include page="/WEB-INF/jsp/abroad/passport/menu.jsp"/>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>

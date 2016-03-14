@@ -26,4 +26,10 @@ public class SpringProps {
 
 	@Value("${login.useCaptcha}")
 	public Boolean useCaptcha;
+
+	@Value("${shortMsg.send}")
+	public Boolean shortMsgSend;
+
+	@Value("${shortMsg.url}")
+	public String shortMsgUrl;
 }

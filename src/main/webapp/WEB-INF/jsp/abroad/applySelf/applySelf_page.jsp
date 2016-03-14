@@ -13,6 +13,12 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==1}">active</c:if>">
                         <a href="?status=1"><i class="fa fa-check"></i> 已完成审批</a>
                     </li>
+
+                    <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
+                        <shiro:hasPermission name="safeBox:edit">
+                            <a class="btn btn-success btn-sm" onclick="_note()"><i class="fa fa-plus"></i> 申请说明</a>
+                        </shiro:hasPermission>
+                    </div>
                 </ul>
 
                 <div class="tab-content">
@@ -165,9 +171,14 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    function  _note(){
+
+        loadModal("${ctx}/applySelf_note", 650);
+    }
     $(".shortMsgBtn").click(function(){
-        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var msg = '';
         var id = $(this).data("id");
+        var userid = $(this).data("userid");
         var status = $(this).data("status");
         var name = $(this).data("name");
         if(status)
@@ -185,12 +196,17 @@ pageEncoding="UTF-8" %>
                     className: 'btn-default'
                 }
             },
-            message: msg,
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg + '</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+
+                    $.post("${ctx}/shortMsg", {type:'因私出国',content: msg, userId:userid}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "短信通知"

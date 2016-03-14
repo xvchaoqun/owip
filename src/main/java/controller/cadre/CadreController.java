@@ -161,6 +161,12 @@ public class CadreController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+        modelMap.put("member", memberService.get(sysUser.getId()));
+
         // 人事信息
         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
         modelMap.put("extJzg", extJzg);

@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                 <input class="form-control search-query" name="${tbn(column.name, "tableName")}" type="text" value="&{param.${tbn(column.name, "tableName")}}"
                        placeholder="请输入${column.comments}">
             </#list>
-                <a class="searchBtn btn btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="&{<#list searchColumnBeans as column>not empty param.${tbn(column.name, "tableName")} ||</#list> not empty param.code || not empty param.sort}"/>
                 <c:if test="&{_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">

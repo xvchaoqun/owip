@@ -16,21 +16,7 @@ pageEncoding="UTF-8" %>
                 ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o"></i> 集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-circle-o"></i> 取消集中管理证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==3}">active</c:if>">
-                        <a href="?status=3"><i class="fa fa-circle-o"></i> 丢失的证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==4}">active</c:if>">
-                        <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
-                    </li>
-                    <li  class="<c:if test="${status==5}">active</c:if>">
-                        <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
-                    </li>
+                    <jsp:include page="menu.jsp"/>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <c:if test="${status==PASSPORT_TYPE_KEEP}">
@@ -235,6 +221,7 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${status==PASSPORT_TYPE_CANCEL}">
                                         <button data-id="${passport.id}"
                                                 data-type="${passport.cancelType}"
+                                                data-userid="${sysUser.id}"
                                                 data-name="${sysUser.realname}"
                                                 data-cls="${passportTypeMap.get(passport.classId).name}"
                                                 class="shortMsgBtn btn btn-primary btn-mini btn-xs">
@@ -299,10 +286,11 @@ pageEncoding="UTF-8" %>
     });
 
     $(".shortMsgBtn").click(function(){
-        var msg = '<p style="padding:30px;font-size:20px;text-indent: 2em; ">';
+        var msg = '';
         var cancelType = $(this).data("type");
         var name = $(this).data("name");
         var cls = $(this).data("cls");
+        var userid = $(this).data("userid");
         if(cancelType==1)
             msg += name+"同志，您好！因证件过期，您所持有的"+cls+"不再纳入集中管理范围。" +
             "请到组织部（主楼A306）取回证件，谢谢！联系电话：58808302、58806879。"
@@ -320,12 +308,16 @@ pageEncoding="UTF-8" %>
                     className: 'btn-default'
                 }
             },
-            message: msg,
+            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+ msg + '</p>',
             callback: function(result) {
                 if(result) {
-                    SysMsg.success('通知成功', '提示', function(){
-                        //page_reload();
-                    });
+                    $.post("${ctx}/shortMsg", {type:'取消集中管理',content: msg, userId: userid}, function(ret){
+                        if(ret.success) {
+                            SysMsg.success('通知成功', '提示', function () {
+                                //page_reload();
+                            });
+                        }
+                    })
                 }
             },
             title: "短信通知"

@@ -67,13 +67,14 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td >
-					${extJzg.zzmm}
+					<%--${extJzg.zzmm}--%>
+						${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
 				</td>
 				<td>
 					加入党团时间
 				</td>
 				<td>
-
+					${cm:formatDate(member.growTime,'yyyy-MM-dd')}
 				</td>
 
 				<td>国家/地区</td>
@@ -86,7 +87,10 @@ pageEncoding="UTF-8"%>
 					所在党组织
 				</td>
 				<td>
-
+					${partyMap.get(member.partyId).name}
+					<c:if test="${not empty member.branchId}">
+						-${branchMap.get(member.branchId).name}
+					</c:if>
 				</td>
 
 				<td>证件类型</td>

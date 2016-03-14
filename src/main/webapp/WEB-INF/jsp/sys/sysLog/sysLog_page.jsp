@@ -5,6 +5,7 @@
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
+        <div id="body-content">
         <div class="col-sm-12">
             <div class="buttons">
                 <form class="form-inline" id="searchForm">
@@ -63,7 +64,9 @@
                 </div>
                 <wo:page commonList="${commonList}" uri="sysLog_page" target="#page-content" pageNum="5"
                          model="3"/>
-        </div>
+        </div>  </div>
+            <div id="item-content">
+            </div>
     </div>
 </div>
 <script>

@@ -164,6 +164,9 @@ public class BaseMapper {
 	protected MetaTypeMapper metaTypeMapper;
 
 	@Autowired
+	protected SysConfigMapper sysConfigMapper;
+
+	@Autowired
 	protected CommonUnitMapper commonUnitMapper;
 	@Autowired
 	protected CommonMapper commonMapper;
@@ -182,4 +185,6 @@ public class BaseMapper {
 	protected LocationMapper locationMapper;
 	@Autowired
 	protected CountryMapper countryMapper;
+	@Autowired
+	protected ShortMsgMapper shortMsgMapper;
 }

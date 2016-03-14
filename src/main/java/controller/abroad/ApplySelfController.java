@@ -42,6 +42,26 @@ public class ApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("applySelf:note")
+    @RequestMapping("/applySelf_note")
+    public String applySelf_note(ModelMap modelMap) {
+
+        SysConfig SysConfig = sysConfigService.get();
+        modelMap.put("sysConfig", SysConfig);
+
+        return "abroad/applySelf/applySelf_note";
+    }
+
+    @RequiresPermissions("applySelf:note")
+    @RequestMapping(value="/applySelf_note", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_note(String notice, ModelMap modelMap) {
+
+        sysConfigService.updateApplySelfNote(notice);
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("applySelf:approval")
     @RequestMapping("/applySelf_approval")
     public String applySelf_approval() {
