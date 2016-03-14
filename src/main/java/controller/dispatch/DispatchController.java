@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -508,7 +509,7 @@ public class DispatchController extends BaseController {
 
             for(Dispatch dispatch:dispatchs){
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", dispatch.getCode());
+                option.put("text", CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()));
                 option.put("id", dispatch.getId());
                 option.put("year", dispatch.getYear());
                 option.put("type", dispatchTypeMap.get(dispatch.getDispatchTypeId()).getName());

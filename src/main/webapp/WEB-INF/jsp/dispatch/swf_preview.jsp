@@ -29,11 +29,11 @@
   <a href="#" data-dismiss="modal" class="btn btn-default"><i class="fa fa-reply"></i> 关闭</a>
   </div>
   <style>
-	.modal-body{
-		max-height:none;
+      .modal .modal-body{
+		max-height:none!important;
 	}
 	.modal-content{
-		width: 742px;
+		width: 742px!important;
 	}
 </style>
   <script type="text/javascript" src="<c:url value="/extend/flexpaper/js/swfobject/swfobject.js"/>"></script>

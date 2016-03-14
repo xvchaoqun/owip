@@ -26,12 +26,12 @@
   <a href="#" onclick="closeSwfPreview()" class="btn btn-default">关闭</a>
   </div>
   <style>
-	.modal-body{
-		max-height:none;
-	}
-	.modal-content{
-		width: 742px;
-	}
+      .modal .modal-body{
+          max-height:none!important;
+      }
+      .modal-content{
+          width: 742px!important;
+      }
 </style>
   <script type="text/javascript" src="<c:url value="/extend/flexpaper/js/swfobject/swfobject.js"/>"></script>
   <script>
