@@ -114,7 +114,7 @@ public class CadreWorkController extends BaseController {
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_admin_level"));
 
         if(fid!=null)
-            return "cadre/cadreWork/cadreWork_page2";
+            return "cadre/cadreWork/cadreWork_during_page";
 
         return "cadre/cadreWork/cadreWork_page";
     }

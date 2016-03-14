@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
-                ||not empty param.safeBoxId ||not empty param.type || not empty param.code || not empty param.sort}"/>
+                ||not empty param.safeBoxId ||not empty param.type || not empty param.code }"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <jsp:include page="menu.jsp"/>

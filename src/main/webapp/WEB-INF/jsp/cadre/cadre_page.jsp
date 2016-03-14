@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/cadre_changeOrder?status=${status}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
-            ||not empty param.postId ||not empty param.title || not empty param.code || not empty param.sort}"/>
+            ||not empty param.postId ||not empty param.title || not empty param.code }"/>
             <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>

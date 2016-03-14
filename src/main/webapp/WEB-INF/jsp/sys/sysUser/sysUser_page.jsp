@@ -11,7 +11,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
             <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username
-            ||not empty param.roleId ||not empty param.typeId || not empty param.locked || not empty param.sort}"/>
+            ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>

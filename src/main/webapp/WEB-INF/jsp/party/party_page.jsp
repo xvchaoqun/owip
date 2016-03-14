@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
-            || not empty param.code || not empty param.sort}"/>
+            || not empty param.code}"/>
             <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
