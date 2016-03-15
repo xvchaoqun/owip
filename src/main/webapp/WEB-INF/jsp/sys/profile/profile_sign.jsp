@@ -22,7 +22,7 @@
         <input required type="file" name="sign" />
 
       </div>
-      <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的图片</span>
+      <div style="float: left">* 为了使显示效果最佳，推荐使用300*200大小的图片</div>
     </div>
     <div class="form-group" style="padding-top: 20px">
       <label class="col-xs-3 control-label">联系电话</label>
@@ -40,6 +40,11 @@
               <button  id="submit" class="btn btn-info" type="button">
                 <i class="ace-icon fa fa-check bigger-110"></i>
                 保存
+              </button>
+              &nbsp; &nbsp;
+              <button class="btn" type="reset">
+                <i class="ace-icon fa fa-undo bigger-110"></i>
+                重置
               </button>
             </div>
           </div>
@@ -75,7 +80,9 @@
     allowExt: ['jpg', 'jpeg', 'png', 'gif'],
     allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   }).end().find('button[type=reset]').on(ace.click_event, function(){
-    $('input[type=file]').ace_file_input('reset_input');
+    <c:if test="${not empty _user.sign}">
+    $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);
+    </c:if>
   });
   <c:if test="${not empty _user.sign}">
   $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);

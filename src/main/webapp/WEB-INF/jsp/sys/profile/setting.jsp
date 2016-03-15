@@ -15,8 +15,8 @@
         </jsp:include>
 
         <div class="tab-content profile-edit-tab-content">
-
-          <div>
+          暂无
+          <%--<div>
             <div class="space-10"></div>
             <div>
               <label class="inline">
@@ -33,7 +33,7 @@
                 <span class="lbl"> 邮件通知</span>
               </label>
             </div>
-          </div>
+          </div>--%>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 /* Component styles */
-@font-face {
+/*@font-face {
 	font-family: 'Blokk';
 	src: url('../fonts/blokk/BLOKKRegular.eot');
 	src: url('../fonts/blokk/BLOKKRegular.eot?#iefix') format('embedded-opentype'),
@@ -7,7 +7,7 @@
 	url('../fonts/blokk/BLOKKRegular.svg#BLOKKRegular') format('svg');
 	font-weight: normal;
 	font-style: normal;
-}
+}*/
 .table-container {
 	line-height: 1.5em;
 	/*margin: 0 auto;*/
@@ -16,7 +16,7 @@
 	min-width: 1000px;
 	overflow: hidden;
 }
-.table-container .filler {
+/*.table-container .filler {
 	font-family: "Blokk", Arial, sans-serif;
 	color: #d3d3d3;
 }
@@ -36,7 +36,7 @@ td.err {
 	font-size: 0.75em;
 	text-align: center;
 	line-height: 1;
-}
+}*/
 /*th {
 	background-color: #31bc86;
 	font-weight: bold;
@@ -46,13 +46,13 @@ td.err {
 tbody th {
 	background-color: #2ea879;
 }*/
-tbody tr:nth-child(2n-1) {
+/*tbody tr:nth-child(2n-1) {
 	background-color: #f5f5f5;
 	transition: all .125s ease-in-out;
 }
 tbody tr:hover {
 	background-color: rgba(129,208,177,.3);
-}
+}*/
 
 /* For appearance */
 .sticky-wrap {
@@ -94,9 +94,9 @@ tbody tr:hover {
 }
 
 /* Not needed for sticky header/column functionality */
-td.user-name {
+/*td.user-name {
 	text-transform: capitalize;
-}
+}*/
 .sticky-wrap.overflow-y {
 	overflow-y: auto;
 	max-height: 50vh;

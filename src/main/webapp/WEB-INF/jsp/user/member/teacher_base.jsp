@@ -330,7 +330,7 @@
 	</tbody>
 </table>
 			</div></div></div>
-<style>
+<%--<style>
 	#item-content .table-striped > tbody > tr:nth-of-type(odd) {
 		background-color:inherit;
 	}
@@ -341,4 +341,4 @@
 		background-color: #f9f9f9;
 		text-align: right;
 	}
-</style>
+</style>--%>

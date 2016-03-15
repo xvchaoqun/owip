@@ -77,7 +77,13 @@
                         类别
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
+                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)} &nbsp;
+                            <c:if test="${memberOut.type==MEMBER_INOUT_TYPE_INSIDE}">
+                                <button class="btn btn-white btn-primary" id="print">
+                                    <i class="fa fa-print"></i>
+                                    打印介绍信
+                                </button>
+                            </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -150,14 +156,12 @@
                     </td>
                     <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
-
+                            &nbsp;
                         <c:if test="${memberOut.status==0}">
-                            <small>
-                                <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
+                                <button class="btn btn-white btn-warning" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>
-                                    撤销
+                                    撤销申请
                                 </button>
-                            </small>
                         </c:if>
                     </td>
                 </tr>
@@ -167,6 +171,10 @@
     </div>
 </div>
 <script>
+    $("#print").click(function(){
+        printWindow("${ctx}/report/member_in_bj?userId=${memberOut.userId}");
+    });
+
     function _applyBack(){
         bootbox.confirm("确定撤销申请吗？", function (result) {
             if(result){

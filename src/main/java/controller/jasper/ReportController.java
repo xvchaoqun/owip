@@ -7,10 +7,14 @@ import domain.*;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ConfigUtil;
@@ -32,7 +36,14 @@ public class ReportController extends BaseController {
 
 
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(int userId, Integer type, Model model) throws IOException, DocumentException {
+    public String member_out_bj(@CurrentUser SysUser loginUser, int userId, Integer type, Model model) throws IOException, DocumentException {
+
+        // 本人或组织部管理员或管理员才可以操作
+       if(loginUser.getId().intValue()!=userId &&
+               !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ODADMIN)&&
+               !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
+           throw new UnauthorizedException();
+       }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = getMemberOutInfoMap(userId);
@@ -52,7 +63,14 @@ public class ReportController extends BaseController {
     }
 
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(int userId, Model model) throws IOException, DocumentException {
+    public String member_in_bj(@CurrentUser SysUser loginUser, int userId, Model model) throws IOException, DocumentException {
+
+        // 本人或组织部管理员或管理员才可以操作
+        if(loginUser.getId().intValue()!=userId &&
+                !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ODADMIN)&&
+                !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
+            throw new UnauthorizedException();
+        }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = getMemberOutInfoMap(userId);
@@ -103,7 +121,7 @@ public class ReportController extends BaseController {
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUser user = sysUserService.findById(cadre.getUserId());
-        String unit = unitService.findAll().get(cadre.getUnitId()).getName();
+        //String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String title = cadre.getTitle();
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
@@ -251,7 +269,7 @@ public class ReportController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/report", method = RequestMethod.GET)
     public String report(Model model) throws IOException, DocumentException {
         // 报表数据源
         JRDataSource jrDataSource = new JRBeanCollectionDataSource(JavaBeanPerson.getList());
@@ -263,5 +281,5 @@ public class ReportController extends BaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
-    }
+    }*/
 }

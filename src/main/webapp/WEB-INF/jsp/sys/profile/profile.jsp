@@ -24,83 +24,79 @@
               </div>
               <div class="vspace-12-sm"></div>
 
-              <div class="col-xs-12 col-sm-8">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label no-padding-right" >账号</label>
-                  <div class="col-sm-8">
-                      <div class="label-text"><shiro:principal property="username"/></div>
+              <div class="row col-xs-12 col-sm-8">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label no-padding-right" >账号</label>
+                    <div class="col-sm-8">
+                        <div class="label-text"><shiro:principal property="username"/></div>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-4 control-label no-padding-right" >身份</label>
-                  <div class="col-sm-8">
-                    <div class="label-text">
-                      <c:forEach items="${fn:split(_user.roleIds,',')}" var="id" varStatus="vs">
-                        ${roleMap.get(cm:parseInt(id)).description}
-                        <c:if test="${!vs.last}">, </c:if>
-                      </c:forEach>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label no-padding-right" >身份</label>
+                    <div class="col-sm-8">
+                      <div class="label-text">
+                        <c:forEach items="${fn:split(_user.roleIds,',')}" var="id" varStatus="vs">
+                          ${roleMap.get(cm:parseInt(id)).description}
+                          <c:if test="${!vs.last}">, </c:if>
+                        </c:forEach>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label no-padding-right" >类别</label>
+                    <div class="col-sm-8">
+                      <div class="label-text">
+                        ${USER_TYPE_MAP.get(_user.type)}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="space-4"></div>
+
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label no-padding-right" >姓名</label>
+
+                    <div class="col-sm-8">
+                      <input type="text" name="realname"  value="<shiro:principal property="realname"/>"/>
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-4 control-label no-padding-right" >类别</label>
-                  <div class="col-sm-8">
-                    <div class="label-text">
-                      ${USER_TYPE_MAP.get(_user.type)}
-                    </div>
+                <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label no-padding-right">出生年月</label>
+                        <div class="col-sm-3">
+                          <div class="input-medium">
+                            <div class="input-group">
+                              <input name="_birth" class="input-medium date-picker" id="form-field-date"
+                                     type="text" data-date-format="yyyy-mm-dd"
+                                     placeholder="yyyy-mm-dd" value="${cm:formatDate(_user.birth,'yyyy-MM-dd')}"/>
+                        <span class="input-group-addon">
+                            <i class="ace-icon fa fa-calendar"></i>
+                        </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label no-padding-right">性别</label>
+                        <div class="label-text">
+                          <div class="col-sm-8">
+                            <label class="inline">
+                              <input name="gender" ${_user.gender==GENDER_MALE?"checked":""} type="radio" class="ace" value="${GENDER_MALE}"/>
+                              <span class="lbl middle"> 男</span>
+                            </label>
+                            <label class="inline">
+                              <input name="gender" ${_user.gender==GENDER_FEMALE?"checked":""} type="radio" class="ace" value="${GENDER_FEMALE}"/>
+                              <span class="lbl middle"> 女</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                   </div>
-                </div>
-                <div class="space-4"></div>
-
-                <div class="form-group">
-                  <label class="col-sm-4 control-label no-padding-right" >姓名</label>
-
-                  <div class="col-sm-8">
-                    <input type="text" name="realname"  value="<shiro:principal property="realname"/>"/>
-                  </div>
-                </div>
               </div>
             </div>
 
-            <hr />
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">出生年月</label>
 
-              <div class="col-sm-9">
-                <div class="input-medium">
-                  <div class="input-group">
-                    <input name="_birth" class="input-medium date-picker" id="form-field-date"
-                           type="text" data-date-format="yyyy-mm-dd"
-                           placeholder="yyyy-mm-dd" value="${cm:formatDate(_user.birth,'yyyy-MM-dd')}"/>
-                    <span class="input-group-addon">
-                        <i class="ace-icon fa fa-calendar"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">性别</label>
-              <div class="label-text">
-              <div class="col-sm-9">
-                <label class="inline">
-                  <input name="gender" ${_user.gender==GENDER_MALE?"checked":""} type="radio" class="ace" value="${GENDER_MALE}"/>
-                  <span class="lbl middle"> 男</span>
-                </label>
-
-                &nbsp; &nbsp; &nbsp;
-                <label class="inline">
-                  <input name="gender" ${_user.gender==GENDER_FEMALE?"checked":""} type="radio" class="ace" value="${GENDER_FEMALE}"/>
-                  <span class="lbl middle"> 女</span>
-                </label>
-              </div>
-                </div>
-            </div>
-
-            <div class="space"></div>
             <h4 class="header blue bolder smaller">联系方式</h4>
 
             <div class="form-group">
@@ -216,12 +212,15 @@
             allowExt: ['jpg', 'jpeg', 'png', 'gif'],
             allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
           }).end().find('button[type=reset]').on(ace.click_event, function(){
-            $('#user-profile input[type=file]').ace_file_input('reset_input');
+            //$('#user-profile input[type=file]').ace_file_input('reset_input');
+            $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${_user.username}'}]);
           })
-          .end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
-            $(this).prev().focus();
-          })
-
+  $('.date-picker').datepicker({
+    language:"zh-CN",
+    autoclose: true,
+    todayHighlight: true,
+    defaultViewDate:{year:1980}
+  })
   $("#user-profile form").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({

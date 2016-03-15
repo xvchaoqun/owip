@@ -54,9 +54,9 @@
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/></a>
       </li>
-      <li class="<c:if test="${_path=='/setting'}">active</c:if>">
+      <%--<li class="<c:if test="${_path=='/setting'}">active</c:if>">
         <a href="${ctx}/setting"><i class="ace-icon fa fa-cog"></i> 个人设置</a>
-      </li>
+      </li>--%>
       <li>
         <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
       </li>

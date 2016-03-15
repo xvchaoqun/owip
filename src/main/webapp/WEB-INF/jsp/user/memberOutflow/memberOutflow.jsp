@@ -95,12 +95,12 @@
                 <td class="bg-right">申请状态</td>
                 <td  class="bg-left">
                     ${MEMBER_OUTFLOW_STATUS_MAP.get(memberOutflow.status)}
-
+                        &nbsp;
                         <c:if test="${memberOutflow.status==0}">
                             <small>
-                                <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
+                                <button class="btn btn-white btn-warning" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>
-                                    撤销
+                                    撤销申请
                                 </button>
                             </small>
                         </c:if>
