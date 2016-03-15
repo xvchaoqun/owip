@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
 <div class="row passport_apply">
     <c:if test="${passportDraw.needSign}">
     <div class="preview">
-        <iframe id="myframe" src="/report/passportSign?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <iframe id="myframe" src="${ctx}/report/passportSign?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
     </c:if>
     <div class="info">

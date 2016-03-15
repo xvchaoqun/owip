@@ -53,6 +53,16 @@ public class MemberOutController extends BaseController {
     }
 
     @RequiresPermissions("memberOut:list")
+    @RequestMapping("/memberOut/printPreview")
+    public String memberOut_printPreview(int userId, ModelMap modelMap) {
+
+        MemberOut memberOut = memberOutService.get(userId);
+        modelMap.put("memberOut", memberOut);
+
+        return "party/memberOut/print_preview";
+    }
+
+    @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_view")
     public String memberOut_view(int userId, ModelMap modelMap) {
 

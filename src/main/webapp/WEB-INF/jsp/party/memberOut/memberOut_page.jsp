@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUT_STATUS_APPLY%>"/>
 <c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
@@ -56,7 +56,8 @@ pageEncoding="UTF-8" %>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+            <div class="table-container">
+                <table style="min-width: 1800px"  class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -74,6 +75,7 @@ pageEncoding="UTF-8" %>
 							<th>介绍信有效期天数</th>
 							<th>办理时间</th>
 							<th>状态</th>
+							<th>打印</th>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -103,6 +105,20 @@ pageEncoding="UTF-8" %>
 								<td>${memberOut.validDays}</td>
 								<td>${cm:formatDate(memberOut.handleTime,'yyyy-MM-dd')}</td>
 								<td>${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}</td>
+                                <td>
+                                    <c:if test="${memberOut.type==MEMBER_INOUT_TYPE_INSIDE}">
+                                    <button data-url="${ctx}/memberOut/printPreview?userId=${memberOut.userId}"
+                                            class="openView btn btn-primary btn-mini btn-xs">
+                                        <i class="fa fa-print"></i> 打印介绍信
+                                    </button>
+                                    </c:if>
+                                    <c:if test="${memberOut.type==MEMBER_INOUT_TYPE_OUTSIDE}">
+                                        <button data-url="${ctx}/memberOut/printPreview?userId=${memberOut.userId}"
+                                                class="openView btn btn-warning btn-mini btn-xs">
+                                            <i class="fa fa-print"></i> 介绍信套打
+                                        </button>
+                                    </c:if>
+                                </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
@@ -130,6 +146,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/memberOut_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -146,6 +163,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+   stickheader();
+
     function _deny(id, realname){
         loadModal("${ctx}/memberOut_deny?id=" + id + "&realname="+encodeURIComponent(realname));
     }

@@ -7,7 +7,7 @@
     min-width: 1000px;
 }
 .navbar-default, html{
-    min-width: 1190px;
+    min-width: 1290px;
 }
 .breadcrumb,
 .nav-list > li > a,
@@ -20,6 +20,9 @@ body{
 }
 .tags .tag{
     background-color: #1482C5;
+}
+.footer{
+    padding-top: 0px;
 }
 /**************/
 
@@ -87,10 +90,10 @@ body{
 .navbar .navbar-header .txt{float:left;height:58px;line-height:58px;font-size:30px;margin-left:25px;font-weight:bold;color:#fff}
 
 /*============table================*/
-.table-container{
+/*.table-container{
     overflow: auto;
     max-height: 500px;
-}
+}*/
 
 .table{
     margin-bottom: 0px;
@@ -111,7 +114,7 @@ body{
     cursor: pointer;
     background-position: right;
     background-repeat: no-repeat;
-    padding-right: 30px;
+    /*padding-right: 30px;*/
 }
 .date-range-picker{
     min-width: 190px;

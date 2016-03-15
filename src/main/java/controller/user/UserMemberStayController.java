@@ -56,7 +56,8 @@ public class UserMemberStayController extends BaseController{
                                    MemberStay record,
                                    String _abroadTime, String _returnTime, String _payTime,HttpServletRequest request) {
 
-        Integer userId = record.getUserId();
+        //Integer userId = record.getUserId();
+        Integer userId = loginUser.getId();
         Member member = memberService.get(userId);
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
@@ -71,7 +72,7 @@ public class UserMemberStayController extends BaseController{
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }
 
-        MemberStay memberStay = memberStayService.get(loginUser.getId());
+        MemberStay memberStay = memberStayService.get(userId);
 
         if(memberStay!=null && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
                 && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_BACK)

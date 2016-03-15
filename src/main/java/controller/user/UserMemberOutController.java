@@ -56,7 +56,8 @@ public class UserMemberOutController extends BaseController{
     public Map do_memberOut_au(@CurrentUser SysUser loginUser,
                                    MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
-        Integer userId = record.getUserId();
+        //Integer userId = record.getUserId();
+        Integer userId = loginUser.getId();
         Member member = memberService.get(userId);
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
@@ -68,7 +69,7 @@ public class UserMemberOutController extends BaseController{
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
-        MemberOut memberOut = memberOutService.get(loginUser.getId());
+        MemberOut memberOut = memberOutService.get(userId);
 
         if(memberOut!=null && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
                 && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_BACK)

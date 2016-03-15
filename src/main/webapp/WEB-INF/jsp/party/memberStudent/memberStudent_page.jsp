@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/memberStudent_au"
              data-url-page="${ctx}/memberStudent_page"
-             data-url-del="${ctx}/member_del"
+             data-url-bd="${ctx}/member_batchDel"
              data-url-co="${ctx}/memberStudent_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
@@ -42,12 +42,15 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     </c:if>
+                    <a class="batchDelBtn btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> 删除
+                    </a>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 1500px" class="table table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 1500px" class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -105,47 +108,6 @@ pageEncoding="UTF-8" %>
                                             data-url="${ctx}/member_au?userId=${memberStudent.userId}">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-
-                                     <shiro:hasPermission name="memberStudent:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${memberStudent.userId}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="memberStudent:edit">
-                                            <li>
-                                                <a href="#" data-id="${memberStudent.userId}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="memberStudent:del">
-                                            <li>
-                                                <a href="#" data-id="${memberStudent.userId}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -168,7 +130,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
+    stickheader();
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));

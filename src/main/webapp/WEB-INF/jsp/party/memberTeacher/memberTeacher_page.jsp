@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/memberTeacher_au"
              data-url-page="${ctx}/memberTeacher_page"
-             data-url-del="${ctx}/member_del"
+             data-url-bd="${ctx}/member_batchDel"
              data-url-co="${ctx}/memberTeacher_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
@@ -41,11 +41,15 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     </c:if>
+                    <a class="batchDelBtn btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> 删除
+                    </a>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+            <div class="table-container">
+                <table style="min-width: 1500px"class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -108,9 +112,6 @@ pageEncoding="UTF-8" %>
                                             data-url="${ctx}/member_au?userId=${memberTeacher.userId}">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${memberTeacher.userId}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
 
                                     <c:if test="${cls==4}">
                                         <c:set var="retireApply" value="${cm:getRetireApply(memberTeacher.userId)}"/>
@@ -131,6 +132,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/memberTeacher_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -146,7 +148,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
+stickheader();
     function _retireApply(userId){
 
         loadModal("${ctx}/retireApply?userId="+userId);

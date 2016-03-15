@@ -26,7 +26,7 @@
 							<a href="javascript:;" data-url="${ctx}/user/memberTransfer">校内组织关系转接</a>
 						</li>
 						<li>
-							<a href="javascript:;" data-url="${ctx}/user/memberStay">公派留学生党员申请</a>
+							<a href="javascript:;" data-url="${ctx}/user/memberStay">公派留学生党员申请组织关系暂留</a>
 						</li>
 					</ul>
 				</div>

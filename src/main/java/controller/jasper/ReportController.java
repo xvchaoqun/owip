@@ -1,5 +1,6 @@
 package controller.jasper;
 
+import bean.UserBean;
 import com.lowagie.text.DocumentException;
 import controller.BaseController;
 import domain.*;
@@ -28,6 +29,72 @@ import java.util.Map;
 @Controller
 @RequestMapping("/report")
 public class ReportController extends BaseController {
+
+
+    @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
+    public String member_out_bj(int userId, Integer type, Model model) throws IOException, DocumentException {
+
+        List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
+        Map<String, Object> map = getMemberOutInfoMap(userId);
+        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_out_bj.jpg" );
+        if(type!=null && type==1){
+            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+        }
+        data.add(map);
+        // 报表数据源
+        JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
+
+        model.addAttribute("url", "/WEB-INF/jasper/member_out_bj.jasper");
+        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("jrMainDataSource", jrDataSource);
+
+        return "iReportView"; // 对应jasper-defs.xml中的bean id
+    }
+
+    @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
+    public String member_in_bj(int userId, Model model) throws IOException, DocumentException {
+
+        List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
+        Map<String, Object> map = getMemberOutInfoMap(userId);
+        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_in_bj.jpg" );
+        data.add(map);
+        // 报表数据源
+        JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
+
+        model.addAttribute("url", "/WEB-INF/jasper/member_in_bj.jasper");
+        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("jrMainDataSource", jrDataSource);
+
+        return "iReportView"; // 对应jasper-defs.xml中的bean id
+    }
+
+    // 获取组织关系转出相关信息
+    public  Map<String, Object> getMemberOutInfoMap(int userId){
+
+        MemberOut memberOut = memberOutService.get(userId);
+        UserBean userBean = userBeanService.get(userId);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", userBean.getRealname());
+        map.put("from", memberOut.getFromUnit());
+        map.put("to", memberOut.getToUnit());
+        map.put("check1", userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW?"√":""); // 预备党员
+        map.put("check2", userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE?"√":""); // 正式党员
+        map.put("male", userBean.getGender()==SystemConstants.GENDER_MALE?"√":"");
+        map.put("female", userBean.getGender()==SystemConstants.GENDER_FEMALE?"√":"");
+        map.put("age", DateUtils.intervalYearsUntilNow(userBean.getBirth()));
+        map.put("nation", userBean.getNation());
+        map.put("payYear", DateUtils.getYear(memberOut.getPayTime()));
+        map.put("payMonth", DateUtils.getMonth(memberOut.getPayTime()));
+        map.put("validDays", memberOut.getValidDays());
+        map.put("mobile", userBean.getMobile()); // 联系方式
+        map.put("phone", memberOut.getFromPhone()); // 原组织关系联系方式
+        map.put("fax", memberOut.getFromFax()); //
+        map.put("postCode", memberOut.getFromPostCode());
+        map.put("idcard", userBean.getIdcard());
+
+        return map;
+    }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
     public String big(Integer id, Model model) throws IOException, DocumentException {

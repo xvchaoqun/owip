@@ -135,6 +135,18 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("member:del")
+    @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids){
+            memberService.batchDel(ids);
+            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除党员：%s", new Object[]{ids}));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     // 同步信息
     @RequiresPermissions("member:sync")
     @RequestMapping(value = "/member_sync", method = RequestMethod.POST)

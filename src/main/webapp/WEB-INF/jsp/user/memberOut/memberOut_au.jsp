@@ -32,7 +32,7 @@
 </c:if>
 <div class="widget-box">
 	<div class="widget-header">
-		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 党员流出申请</h4>
+		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系转出申请</h4>
 
 		<div class="widget-toolbar">
 			<a href="#" data-action="collapse">
@@ -200,7 +200,6 @@
 	register_date($('.date-picker'));
 	$("#modalForm").validate({
 		submitHandler: function (form) {
-
 			$(form).ajaxSubmit({
 				success:function(ret){
 					if(ret.success){

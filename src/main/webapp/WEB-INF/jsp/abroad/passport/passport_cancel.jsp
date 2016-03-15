@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <iframe id="myframe" src="/report/cancel?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <iframe id="myframe" src="${ctx}/report/cancel?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
     <div class="info">
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function(){
-        printWindow("/report/cancel?id=${param.id}");
+        printWindow("${ctx}/report/cancel?id=${param.id}");
     });
 
     $('#modalForm input[type=file]').ace_file_input({

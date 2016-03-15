@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 1800px"  class="table table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 1800px"  class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -171,6 +171,8 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    stickheader();
+
     function  _note(){
 
         loadModal("${ctx}/applySelf_note", 650);

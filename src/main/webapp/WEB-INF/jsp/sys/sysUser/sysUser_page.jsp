@@ -116,7 +116,7 @@
             <h4>&nbsp;</h4>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 1200px" class="table table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 1200px" class="overflow-y table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="center">
@@ -218,6 +218,8 @@
 </style>
 <script>
 
+    stickheader();
+    
     $(".table th.sortable").click(function(){
 
         var $this = $(this);

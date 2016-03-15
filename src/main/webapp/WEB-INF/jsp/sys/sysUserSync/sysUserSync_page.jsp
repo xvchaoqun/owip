@@ -25,7 +25,8 @@ pageEncoding="UTF-8" %>
 
 
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+                <div class="table-container">
+                    <table style="min-width: 1200px" class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -79,6 +80,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
+                    </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/sysUserSync_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -91,7 +93,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
+stickheader()
     function _stop(id){
 
         $.post("${ctx}/sync_stop",{id:id},function(ret){

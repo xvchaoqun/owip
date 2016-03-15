@@ -33,7 +33,7 @@
             </div>
             <div class="space-4"></div>
             <div class="table-container">
-                <table style="min-width: 1700px"class="table table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 1200px"class="overflow-y table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th nowrap>模块</th>
@@ -70,6 +70,8 @@
     </div>
 </div>
 <script>
+    stickheader();
+
     function del(id, type) {
 
         bootbox.confirm("确定删除该记录吗？", function (result) {

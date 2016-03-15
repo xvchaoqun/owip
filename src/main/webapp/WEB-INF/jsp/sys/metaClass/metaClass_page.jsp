@@ -46,7 +46,8 @@
             </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover">
+                <div class="table-container">
+                    <table style="min-width: 1200px"class="overflow-y table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="center">
@@ -162,6 +163,7 @@
                 </c:forEach>
                 </tbody>
             </table>
+                    </div>
                 <wo:page commonList="${commonList}" uri="${ctx}/metaClass_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
@@ -174,6 +176,7 @@
     </div>
 </div>
 <script>
+    stickheader();
     function openView(classId, pageNo){
         pageNo = pageNo||1;
         loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,

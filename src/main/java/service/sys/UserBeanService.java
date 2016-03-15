@@ -35,6 +35,7 @@ public class UserBeanService extends BaseMapper{
         userBean.setUserId(userId);
         userBean.setCode(sysUser.getCode());
         userBean.setType(sysUser.getType());
+        userBean.setMobile(sysUser.getMobile());
 
         if(sysUser.getType()== SystemConstants.USER_TYPE_JZG){
             Teacher teacher = teacherService.get(userId);

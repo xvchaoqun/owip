@@ -27,7 +27,7 @@
 </c:if>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系暂留申请</h4>
+        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 公派留学生党员申请组织关系暂留</h4>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">

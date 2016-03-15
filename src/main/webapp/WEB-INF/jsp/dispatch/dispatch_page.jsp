@@ -126,7 +126,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 1300px" class="table table-center table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 1300px" class="overflow-y table table-center table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -278,7 +278,7 @@ pageEncoding="UTF-8" %>
     <a class="btn btn-default btn-xs" onclick="hideDel()"><i class="fa fa-times"></i> 取消</a>
 </script>
 <script>
-
+    stickheader();
     $(".dispatch_del_file").each(function(){
 
         var id = $(this).data('id');

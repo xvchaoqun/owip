@@ -6,15 +6,15 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
         <div class="myTableDiv"
-             data-url-au="${ctx}/branch_au"
-             data-url-page="${ctx}/branch_page"
-             data-url-del="${ctx}/branch_del"
-             data-url-bd="${ctx}/branch_batchDel"
-             data-url-co="${ctx}/branch_changeOrder"
+             data-url-au="${ctx}/party_au"
+             data-url-page="${ctx}/party_page"
+             data-url-del="${ctx}/party_del"
+             data-url-bd="${ctx}/party_batchDel"
+             data-url-co="${ctx}/party_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param._foundTime || not empty param.code
-                                ||not empty param.name ||not empty param.partyId
-                                ||not empty param.typeId ||not empty param.unitTypeId}"/>
+            <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
+            ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
+            || not empty param.code}"/>
             <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -32,41 +32,39 @@ pageEncoding="UTF-8" %>
                                     <div class="form-group">
                                         <label class="col-xs-3 control-label">编号</label>
                                         <div class="col-xs-6">
-                                            <input class="form-control search-query" name="code" type="text" value="${param.code}"            placeholder="请输入编号">
+                                            <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-xs-3 control-label">名称</label>
                                         <div class="col-xs-6">
-                                            <input class="form-control search-query" name="name" type="text"
-                                                   value="${param.name}"   placeholder="请输入名称">
+                                            <input class="form-control search-query" name="name" type="text" value="${param.name}"            placeholder="请输入名称">
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">成立时间</label>
+                                        <label class="col-xs-3 control-label">所属单位</label>
                                         <div class="col-xs-6">
-                                            <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar bigger-110"></i>
-                                                    </span>
-                                                <input placeholder="请选择成立时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_foundTime" value="${param._foundTime}"/>
-                                            </div>
+                                            <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
+                                                <option></option>
+                                                  <c:forEach items="${unitMap}" var="unit"> 
+                                                    <option value="${unit.key}">${unit.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">分党委</label>
+                                        <label class="col-xs-3 control-label">组织类别</label>
                                         <div class="col-xs-6">
-                                            <select name="partyId" data-rel="select2" data-placeholder="请选择"> 
+                                            <select name="classId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:forEach items="${partyMap}" var="party">  <c:if
-                                                        test="${not cm:typeEqualsCode(party.value.classId,'mt_direct_branch')}"> 
-                                                    <option value="${party.key}">${party.value.name}</option>
-                                                      </c:if>  </c:forEach>  </select> 
-                                            <script>         $("#searchForm select[name=partyId]").val('${param.partyId}');     </script>
+                                                  <c:forEach items="${classMap}" var="cls"> 
+                                                    <option value="${cls.key}">${cls.value.name}</option>
+                                                      </c:forEach>  </select> 
+                                            <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                                              
                                         </div>
                                     </div>
@@ -74,7 +72,7 @@ pageEncoding="UTF-8" %>
                                 <div class="col-xs-4">
 
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">类别</label>
+                                        <label class="col-xs-3 control-label">组织类型</label>
                                         <div class="col-xs-6">
                                             <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
@@ -90,13 +88,12 @@ pageEncoding="UTF-8" %>
                                     <div class="form-group">
                                         <label class="col-xs-3 control-label">单位属性</label>
                                         <div class="col-xs-6">
-                                            <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性"> 
+                                            <select name="unitTypeId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${unitTypeMap}" var="unitType"> 
                                                     <option value="${unitType.key}">${unitType.value.name}</option>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
-                                             
                                         </div>
                                     </div>
 
@@ -119,14 +116,15 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
+
             <div class="buttons pull-right">
-                <shiro:hasPermission name="branch:edit">
+                <shiro:hasPermission name="party:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
                 <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="branch:del">
+                    <shiro:hasPermission name="party:del">
                         <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                     </shiro:hasPermission>
                 </c:if>
@@ -134,8 +132,7 @@ pageEncoding="UTF-8" %>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-            <div class="table-container">
-                <table style="min-width: 1900px" class="overflow-y table table-actived table-striped table-bordered table-hover">
+                <table id="example"  class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th class="center">
@@ -144,16 +141,14 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>编号</th>
-                        <th>所属党总支</th>
+                        <mytag:sort-th field="code">编号</mytag:sort-th>
 							<th>名称</th>
-							<th>类别</th>
-							<th>单位属性</th>
+							<th>所属单位</th>
+							<th>党总支类别</th>
+							<%--<th>组织类别</th>--%>
+							<%--<th>所在单位属性</th>--%>
 							<th>联系电话</th>
-							<th>传真</th>
-							<th>邮箱</th>
-							<th>成立时间</th>
-                        <shiro:hasPermission name="branch:changeOrder">
+                        <shiro:hasPermission name="party:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
                             </c:if>
@@ -162,57 +157,59 @@ pageEncoding="UTF-8" %>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${branchs}" var="branch" varStatus="st">
+                    <c:forEach items="${partys}" var="party" varStatus="st">
                         <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${branch.id}" class="ace">
+                                    <input type="checkbox" value="${party.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>${branch.code}</td>
-                            <td>${partyMap.get(branch.partyId).name}</td>
-								<td>
-                                    <a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id=${branch.id}">
-                                            ${branch.name}
-                                    </a>
-                                </td>
+								<td >${party.code}</td>
+								<td >
+                                <a href="javascript:;" class="openView" data-url="${ctx}/party_view?id=${party.id}">
+                                        ${party.name}
+                                </a>
+								</td>
 
-								<td>${typeMap.get(branch.typeId).name}</td>
-								<td>${unitTypeMap.get(branch.unitTypeId).name}</td>
-								<td>${branch.phone}</td>
-								<td>${branch.fax}</td>
-								<td>${branch.email}</td>
-								<td>${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}</td>
-                            <shiro:hasPermission name="branch:changeOrder">
+								<td>${unitMap.get(party.unitId).name}</td>
+								<td>${classMap.get(party.classId).name}</td>
+								<%--<td>${typeMap.get(party.typeId).name}</td>--%>
+								<%--<td>${unitTypeMap.get(party.unitTypeId).name}</td>--%>
+								<td>${party.phone}</td>
+                            <shiro:hasPermission name="party:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branch.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${party.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branch.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${party.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
-                            <td>
+                            <td >
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="branch:edit">
-                                    <button data-id="${branch.id}" data-width="900" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <shiro:hasPermission name="party:edit">
+                                    <button data-id="${party.id}" data-width="900" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                    <shiro:hasPermission name="member:edit">
-                                        <button data-url="${ctx}/member_au?partyId=${branch.partyId}&branchId=${branch.id}" class="openView btn btn-success btn-mini btn-xs">
+
+                                    <c:if test="${cm:typeEqualsCode(party.classId,'mt_direct_branch')}">
+                                        <shiro:hasPermission name="member:edit">
+                                        <button data-url="${ctx}/member_au?partyId=${party.id}" class="openView btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-user"></i> 添加党员
                                         </button>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="branchMemberGroup:edit">
-                                        <button data-id="${branch.id}" class="addBranchMemberGroupBtn btn btn-primary btn-mini btn-xs">
-                                            <i class="fa fa-users"></i> 添加支部委员会
+                                        </shiro:hasPermission>
+                                    </c:if>
+
+                                    <shiro:hasPermission name="partyMemberGroup:edit">
+                                        <button data-id="${party.id}" class="addPartyMemberGroupBtn btn btn-primary btn-mini btn-xs">
+                                            <i class="fa fa-users"></i> 添加分党委班子
                                         </button>
                                     </shiro:hasPermission>
-                                     <%--<shiro:hasPermission name="branch:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${branch.id}">
+                                     <%--<shiro:hasPermission name="party:del">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${party.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>--%>
@@ -231,18 +228,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="branch:edit">
+                                            <shiro:hasPermission name="party:edit">
                                             <li>
-                                                <a href="#" data-id="${branch.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${party.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="branch:del">
+                                            <shiro:hasPermission name="party:del">
                                             <li>
-                                                <a href="#" data-id="${branch.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${party.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -257,8 +254,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                </div>
-                <wo:page commonList="${commonList}" uri="${ctx}/branch_page" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/party_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
@@ -271,11 +267,34 @@ pageEncoding="UTF-8" %>
         <div id="item-content"></div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<style>
+    /* Ensure that the demo table scrolls */
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 1000px;
+        margin: 0 auto;
+    }
+</style>
+<link rel="stylesheet" href="${ctx}/extend/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="${ctx}/extend/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="${ctx}/extend/css/fixedColumns.bootstrap.min.css" />
+<script src="${ctx}/extend/js/jquery.dataTables.min.js"></script>
+<script src="${ctx}/extend/js/dataTables.bootstrap.min.js"></script>
+<script src="${ctx}/extend/js/dataTables.fixedColumns.min.js"></script>
 <script>
-    stickheader();
-    $(".myTableDiv .addBranchMemberGroupBtn").click(function(){
-        loadModal("${ctx}/branchMemberGroup_au?branchId="+$(this).data("id"));
+    var table = $('#example').DataTable( {
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        ordering: false,
+        info:false,
+        searching:false,
+        fixedColumns:  true
+    } );
+    $(".myTableDiv .addPartyMemberGroupBtn").click(function(){
+
+        loadModal("${ctx}/partyMemberGroup_au?partyId="+$(this).data("id"));
     })
 
     $('[data-rel="select2"]').select2();

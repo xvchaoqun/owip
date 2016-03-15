@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-            <table class="table tree table-bordered table-striped">
+            <table class="table table-actived tree table-bordered table-striped">
                 <thead>
                 <tr>
                     <th class="col-xs-3">名称</th>

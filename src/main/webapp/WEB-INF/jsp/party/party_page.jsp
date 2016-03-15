@@ -132,8 +132,8 @@ pageEncoding="UTF-8" %>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-            <div class="table-container">
-                <table style="min-width: 1300px" class="table table-actived table-striped table-bordered table-hover">
+                <div class="table-container">
+                <table style="min-width: 1300px" class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -269,8 +269,9 @@ pageEncoding="UTF-8" %>
         <div id="item-content"></div>
     </div>
 </div>
-<script>
 
+<script>
+    stickheader();
     $(".myTableDiv .addPartyMemberGroupBtn").click(function(){
 
         loadModal("${ctx}/partyMemberGroup_au?partyId="+$(this).data("id"));

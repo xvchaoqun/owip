@@ -19,6 +19,7 @@ public class UserBean implements Serializable{
     public String nation; // 民族
     public String idcard;
     public String nativePlace; // 籍贯
+    public String mobile; // 联系电话
 
     //+++++++以下是党员基础信息
     public Byte politicalStatus; // 政治面貌
@@ -96,6 +97,14 @@ public class UserBean implements Serializable{
 
     public void setNativePlace(String nativePlace) {
         this.nativePlace = nativePlace;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public Byte getPoliticalStatus() {
