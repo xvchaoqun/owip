@@ -6,7 +6,7 @@ import domain.MemberTeacherExample;
 import domain.MemberTeacherExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import org.apache.commons.lang3.StringUtils;
+import mixin.MemberTeacherMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,12 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberTeacherController extends BaseController {
@@ -41,15 +45,30 @@ public class MemberTeacherController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher_page")
-    public String memberTeacher_page(HttpServletResponse response,
+    public String memberTeacher_page(
+            @RequestParam(defaultValue = "1")int cls,
+            Integer userId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        return "party/memberTeacher/memberTeacher_page";
+    }
+
+    @RequiresPermissions("memberTeacher:list")
+    @RequestMapping("/memberTeacher_data")
+    public void memberTeacher_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_teacher") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -96,7 +115,7 @@ public class MemberTeacherController extends BaseController {
 
         if (export == 1) {
             memberTeacher_export(example, response);
-            return null;
+            return;
         }
 
         int count = memberTeacherMapper.countByExample(example);
@@ -105,32 +124,17 @@ public class MemberTeacherController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberTeacher> MemberTeachers = memberTeacherMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("memberTeachers", MemberTeachers);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", MemberTeachers);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
-            searchStr += "&userId=" + userId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        modelMap.put("cls", cls);
-        searchStr += "&cls=" + cls;
-
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-
-        return "party/memberTeacher/memberTeacher_page";
+        JSONUtils.jsonp(resultMap, MemberTeacher.class, MemberTeacherMixin.class);
+        return;
     }
 
     // 基本信息 + 党籍信息

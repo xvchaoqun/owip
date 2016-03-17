@@ -17044,7 +17044,7 @@ img.editable-click:hover {
   font-family: FontAwesome;
   font-size: 14px;
 }
-.ui-jqgrid .ui-jqgrid-view {
+/*.ui-jqgrid .ui-jqgrid-view {
   z-index: auto;
 }
 .ui-jqgrid .ui-jqgrid-view,
@@ -17228,7 +17228,7 @@ img.editable-click:hover {
   border-right: 1px solid #E1E1E1 !important;
   text-align: left !important;
 }
-/* checkbox container */
+ checkbox container
 .ui-jqgrid-labels th[id*="_cb"]:first-child > div {
   padding-top: 0;
   text-align: center !important;
@@ -17736,7 +17736,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
   .ui-jqgrid .ui-jqgrid-pager > .ui-pager-control > .ui-pg-table > tbody > tr > td#grid-pager_center > .ui-pg-table {
     width: 300px;
   }
-}
+}*/
 .dd {
   position: relative;
   display: block;

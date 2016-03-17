@@ -14,9 +14,11 @@
 <link rel="stylesheet" href="${ctx}/extend/css/bootstrap-theme-3.3.5.css" />
 <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-datepicker3.css" />
+
+<link rel="stylesheet" href="${ctx}/extend/css/ui.jqgrid-bootstrap.css" />
+
 <!-- text fonts -->
 <%--<link rel="stylesheet" href="${ctx}/assets/css/ace-fonts.css" />--%>
-
 <!-- ace styles -->
 <link rel="stylesheet" href="${ctx}/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 

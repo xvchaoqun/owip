@@ -146,7 +146,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
             <div class="table-container">
-                <table style="min-width: 2000px" class="table table-actived table-striped table-bordered table-hover">
+                <table style="min-width: 2000px" class="overflow-y table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -309,6 +309,7 @@ pageEncoding="UTF-8" %>
 </div>
 </div>
 <script>
+    stickheader()
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=cadreId]'));

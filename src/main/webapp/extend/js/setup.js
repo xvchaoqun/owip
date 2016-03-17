@@ -11,6 +11,43 @@ $.fn.bootstrapSwitch.defaults.offText= "否";
 $.fn.bootstrapSwitch.defaults.onColor= "success";
 $.fn.bootstrapSwitch.defaults.offColor= "danger";
 
+
+//$.jgrid.defaults.width = '100%';
+$.jgrid.defaults.responsive = true;
+$.jgrid.defaults.styleUI = 'Bootstrap';
+$.jgrid.defaults.prmNames={page:"pageNo",rows:"pageSize", sort:"sort",order:"order"};
+//$.jgrid.defaults.width=$(window).width()-$(".nav-list").width()-50;
+//$.jgrid.defaults.height=$(window).height()-390;
+$.jgrid.defaults.viewrecords = true;
+$.jgrid.defaults.shrinkToFit = false;
+$.jgrid.defaults.rowNum = 20;
+$.jgrid.defaults.multiselect = true;
+$.jgrid.defaults.multiboxonly = true;
+$.jgrid.defaults.mtype = "GET";
+$.jgrid.defaults.datatype = "jsonp";
+$.jgrid.defaults.loadui = "disable";
+$.jgrid.defaults.pager = "#jqGridPager";
+$.jgrid.defaults.sortorder = "desc";
+$.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
+    $(".jqEditBtn").click();
+}
+$(window).on('resize.jqGrid', function () {
+    $("#jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    $("#jqGrid").setGridHeight($(window).height()-390-$(".widget-box").height());
+})
+//resize on sidebar collapse/expand
+$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
+    if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+        //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+        setTimeout(function() {
+            $(window).triggerHandler('resize.jqGrid');
+        }, 0);
+    }
+})
+$(document).on('shown.ace.widget hidden.ace.widget', function(ev) {
+    $(window).triggerHandler('resize.jqGrid');
+});
+
 toastr.options = {
     "closeButton": true,
     "debug": false,
@@ -231,6 +268,38 @@ $(document).on("click", ".myTableDiv .editBtn", function(){
     if((id > 0))url = url.split("?")[0] + "?id="+id;
     loadModal(url, $(this).data("width"));
 });
+
+// 编辑 for jqgrid
+$(document).on("click", ".myTableDiv .jqEditBtn", function(){
+
+    var openBy = $(this).data("open-by");
+    var idName = $(this).data("id-name") || 'id';
+    var grid = $("#jqGrid");
+    var id  = grid.getGridParam("selrow");
+    if(!id){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+    var $div = $(this).closest("div.myTableDiv");
+    var url = $div.data("url-au");
+    if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
+    if(openBy=='page'){
+        var $container = $("#body-content");
+        $container.showLoading({'afterShow':
+            function() {
+                setTimeout( function(){
+                    $container.hideLoading();
+                }, 2000 );
+            }})
+        $.get(url,{},function(html){
+            $container.hideLoading().hide();
+            $("#item-content").hide().html(html).fadeIn("slow");
+        })
+    }else{
+        loadModal(url, $(this).data("width"));
+    }
+});
+
 // 删除
 $(document).on("click", ".myTableDiv .delBtn", function(){
 
@@ -263,9 +332,26 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
         }
     });
 });
+// 调序 for jqgird
+$(document).on("click", ".myTableDiv .jqOrderBtn", function(){
+
+    var id = $(this).data("id");
+    var direction = parseInt($(this).data("direction"));
+    var step = $(this).closest("td").find("input").val();
+    var addNum = (parseInt(step)||1)*direction;
+    var $div = $(this).closest(".myTableDiv");
+    //console.log($div.data("url-co"))
+    $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
+        if(ret.success) {
+            $("#jqGrid").trigger("reloadGrid");
+            SysMsg.success('操作成功。', '成功');
+        }
+    });
+});
 // 搜索
 $(document).on("click", " .searchBtn", function(){
 
+    //alert($("div.myTableDiv #searchForm").serialize())
     //var $div = $(".myTableDiv");
     var $div = $(this).closest(".myTableDiv");
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
@@ -273,6 +359,20 @@ $(document).on("click", " .searchBtn", function(){
     _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
     //_tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("#searchForm").serialize());
 });
+// 搜索 for jqgrid
+$(document).on("click", " .jgSearchBtn", function(){
+
+    //var $div = $(".myTableDiv");
+    var $div = $(this).closest(".myTableDiv");
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    //alert($target)
+    $target.renderUrl({
+        url : $div.data("url-page"),
+        op : "",
+        params : $("div.myTableDiv #searchForm").serialize()
+    });
+});
+
 // 重置
 $(document).on("click", " .resetBtn", function(){
 
@@ -304,6 +404,13 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
     var $div = $(this).closest(".myTableDiv");
     location.href = $div.data("url-page") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
+// 导出 for jqgrid
+$(document).on("click", ".myTableDiv .jqExportBtn", function(){
+
+    var $div = $(this).closest(".myTableDiv");
+    location.href = $div.data("url-export") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
+});
+
 // 批量作废
 $(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
 
@@ -343,6 +450,29 @@ $(document).on("click", ".myTableDiv .batchDelBtn", function(){
             $.post($div.data("url-bd"),{ids:ids},function(ret){
                 if(ret.success) {
                     page_reload();
+                    SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
+
+// 批量删除 for jqgrid
+$(document).on("click", ".myTableDiv .jqDelBtn", function(){
+
+    var $div = $(this).closest(".myTableDiv");
+    var grid = $("#jqGrid");
+    var ids  = grid.getGridParam("selarrrow");
+
+    if(ids.length==0){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+    bootbox.confirm("确定删除这<span  class='label label-lg label-danger arrowed-in arrowed-in-right'>"+ids.length+"条</span>数据？",function(result){
+        if(result){
+            $.post($div.data("url-bd"),{ids:ids},function(ret){
+                if(ret.success) {
+                    grid.trigger("reloadGrid");
                     SysMsg.success('操作成功。', '成功');
                 }
             });

@@ -7,6 +7,7 @@ import domain.DispatchExample.Criteria;
 import domain.DispatchType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.DispatchMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,10 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +53,18 @@ public class DispatchController extends BaseController {
     }
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch_page")
-    public String dispatch_page(HttpServletResponse response,
+    public String dispatch_page(Integer dispatchTypeId,ModelMap modelMap) {
+
+        if (dispatchTypeId!=null) {
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
+        }
+
+        return "dispatch/dispatch_page";
+    }
+    @RequiresPermissions("dispatch:list")
+    @RequestMapping("/dispatch_data")
+    public void dispatch_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
@@ -65,7 +74,7 @@ public class DispatchController extends BaseController {
                                     String _workTime,
                                     String _meetingTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -122,7 +131,7 @@ public class DispatchController extends BaseController {
 
         if (export == 1) {
             dispatch_export(example, response);
-            return null;
+            return;
         }
 
         int count = dispatchMapper.countByExample(example);
@@ -131,45 +140,16 @@ public class DispatchController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Dispatch> Dispatchs = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("dispatchs", Dispatchs);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", Dispatchs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (year!=null) {
-            searchStr += "&year=" + year;
-        }
-        if (dispatchTypeId!=null) {
-            searchStr += "&dispatchTypeId=" + dispatchTypeId;
-            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
-            modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
-        }
-        if (code!=null) {
-            searchStr += "&code=" + code;
-        }
-        if (StringUtils.isNotBlank(_pubTime)) {
-            searchStr += "&_pubTime=" + _pubTime;
-        }
-        if (StringUtils.isNotBlank(_workTime)) {
-            searchStr += "&_workTime=" + _workTime;
-        }
-        if (StringUtils.isNotBlank(_meetingTime)) {
-            searchStr += "&_meetingTime=" + _meetingTime;
-        }
-
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
-
-        return "dispatch/dispatch_page";
+        JSONUtils.jsonp(resultMap, Dispatch.class, DispatchMixin.class);
+        return;
     }
 
     @RequiresPermissions("dispatch:edit")

@@ -6,6 +6,7 @@ import domain.MemberStudentExample;
 import domain.MemberStudentExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MemberStudentMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,15 +21,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberStudentController extends BaseController {
@@ -43,8 +49,8 @@ public class MemberStudentController extends BaseController {
     }
 
     @RequiresPermissions("memberStudent:list")
-    @RequestMapping("/memberStudent_page")
-    public String memberStudent_page(HttpServletResponse response,
+    @RequestMapping("/memberStudent_page1")
+    public String memberStudent_page1(HttpServletResponse response,
                                      @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_student") String sort,
                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                      @RequestParam(defaultValue = "1")int cls,
@@ -110,6 +116,71 @@ public class MemberStudentController extends BaseController {
         //modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
         return "party/memberStudent/memberStudent_page";
+    }
+
+    @RequiresPermissions("memberStudent:list")
+    @RequestMapping("/memberStudent_page")
+    public String memberStudent_page(
+                                  @RequestParam(defaultValue = "1")int cls,
+                                  Integer userId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        return "party/memberStudent/memberStudent_page";
+    }
+    @RequiresPermissions("memberStudent:list")
+    @RequestMapping("/memberStudent_data")
+    public void memberStudent_data(HttpServletResponse response,
+                                     @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_student") String sort,
+                                     @OrderParam(required = false, defaultValue = "desc") String order,
+                                     @RequestParam(defaultValue = "1")int cls,
+                                     Integer userId,
+                                     @RequestParam(required = false, defaultValue = "0") int export,
+                                     Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        MemberStudentExample example = new MemberStudentExample();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+        example.setOrderByClause(String.format("%s %s", sort, order));
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+
+        if (export == 1) {
+            memberStudent_export(example, response);
+            return;
+        }
+
+        int count = memberStudentMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<MemberStudent> memberStudents = memberStudentMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", memberStudents);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        JSONUtils.jsonp(resultMap, MemberStudent.class, MemberStudentMixin.class);
+        return;
     }
 
     // 基本信息 + 党籍信息

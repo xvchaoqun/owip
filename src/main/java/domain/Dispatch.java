@@ -1,5 +1,7 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +13,10 @@ public class Dispatch implements Serializable {
     private Integer dispatchTypeId;
 
     private Integer code;
+
+    public String getDispatchCode(){
+        return CmTag.getDispatchCode(code, dispatchTypeId, year);
+    }
 
     private Date meetingTime;
 

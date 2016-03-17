@@ -9,7 +9,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <springsecurity.version>3.1.0.RELEASE</springsecurity.version>
-    <spring.version>4.0.6.RELEASE</spring.version>
+    <spring.version>4.1.3.RELEASE</spring.version>
     <shiro.version>1.2.4</shiro.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

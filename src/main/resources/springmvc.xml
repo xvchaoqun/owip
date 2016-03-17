@@ -46,8 +46,8 @@
 		</property>
 	</bean>
 	<bean id="mappingJacksonHttpMessageConverter"
-		  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-
+		  class="sys.CallbackMappingJackson2HttpMessageConverter">
+		<property name="callbackName" value="callback" />
 		<property name="prefixJson" value="false" />
 		<property name="objectMapper">
 			<bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">

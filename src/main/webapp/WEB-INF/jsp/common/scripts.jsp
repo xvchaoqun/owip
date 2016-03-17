@@ -87,6 +87,9 @@ window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<
 
 <script type="text/javascript" src="${ctx}/location_JSON"></script>
 
+<script src="${ctx}/extend/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/extend/js/jqGrid/i18n/grid.locale-cn.js"></script>
+
 <script src="${ctx}/extend/js/placeholders.jquery.js"></script>
 <script src="${ctx}/extend/js/base64.js"></script>
 <script src="${ctx}/extend/js/jquery.ba-throttle-debounce.js"></script>
