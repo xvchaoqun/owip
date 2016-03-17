@@ -36,7 +36,8 @@
                                 <div class="buttons pull-right">
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
                                         <i class="fa fa-plus"></i> 添加党员</a>
-                                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                                       data-open-by="page" data-id-name="userId">
                                         <i class="fa fa-edit"></i> 修改信息</a>
                                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">

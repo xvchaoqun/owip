@@ -112,12 +112,16 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
 
-                <div class="buttons pull-right">
+                <div class="buttons pull-right" style="margin-right: 20px">
                     <shiro:hasPermission name="dispatch:edit">
                         <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 修改信息</a>
+                    <a class="jqOpenViewBtn btn btn-success btn-sm"
+                       data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres">
+                        <i class="fa fa-plus"></i> 添加干部任免
+                    </a>
                         <a class="exportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="dispatch:del">

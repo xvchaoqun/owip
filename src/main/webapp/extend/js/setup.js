@@ -300,6 +300,36 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
     }
 });
 
+// 打开窗口 for jqgrid
+$(document).on("click", ".jqOpenViewBtn", function(){
+
+    var openBy = $(this).data("open-by");
+    var idName = $(this).data("id-name") || 'id';
+    var grid = $("#jqGrid");
+    var id  = grid.getGridParam("selrow");
+    if(!id){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+    var url = $(this).data("url");
+    if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
+    if(openBy=='page'){
+        var $container = $("#body-content");
+        $container.showLoading({'afterShow':
+            function() {
+                setTimeout( function(){
+                    $container.hideLoading();
+                }, 2000 );
+            }})
+        $.get(url,{},function(html){
+            $container.hideLoading().hide();
+            $("#item-content").hide().html(html).fadeIn("slow");
+        })
+    }else{
+        loadModal(url, $(this).data("width"));
+    }
+});
+
 // 删除
 $(document).on("click", ".myTableDiv .delBtn", function(){
 
