@@ -5,10 +5,8 @@ import com.lowagie.text.DocumentException;
 import controller.BaseController;
 import domain.*;
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +20,7 @@ import sys.utils.DateUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/1/12.
@@ -247,6 +242,13 @@ public class ReportController extends BaseController {
                 SysUser _user = sysUserService.findById(passportApply.getUserId()); // 审核人
                 sign = springProps.uploadPath + _user.getSign();
                 mobile = _user.getMobile();
+            }
+
+            Date expectDate = passportApply.getExpectDate();
+            if(expectDate!=null) {
+                map.put("year", DateUtils.getYear(expectDate));
+                map.put("month", DateUtils.getMonth(expectDate));
+                map.put("day", DateUtils.getDay(expectDate));
             }
         }
         map.put("sign", sign);

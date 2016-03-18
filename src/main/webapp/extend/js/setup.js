@@ -84,7 +84,11 @@ SysMsg.success = function(msg, title, callback){
 SysMsg.info = function(msg, title, callback){
     $("body").css('padding-right','0px');
     //toastr.info(msg, title);
-    bootbox.alert(msg, callback);
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
 }
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){

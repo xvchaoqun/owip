@@ -178,40 +178,8 @@ pageEncoding="UTF-8" %>
         loadModal("${ctx}/applySelf_note", 650);
     }
     $(".shortMsgBtn").click(function(){
-        var msg = '';
         var id = $(this).data("id");
-        var userid = $(this).data("userid");
-        var status = $(this).data("status");
-        var name = $(this).data("name");
-        if(status)
-            msg += name+"同志，您好！您的因私出国（境）申请已通过审批，请登录系统继续申请领取因私出国（境）证件。谢谢！"
-        else
-            msg += name+"同志，您好！您的因私出国（境）申请未通过审批，请登录系统查看。谢谢！";
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg + '</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {type:'applySelf',id:id}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "短信通知"
-        });
+        loadModal("${ctx}/shortMsg_view?id={0}&type=applySelf".format(id));
     });
 
     $(".approvalBtn").click(function(){

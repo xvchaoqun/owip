@@ -286,6 +286,7 @@ pageEncoding="UTF-8" %>
     });
 
     $(".shortMsgBtn").click(function(){
+
         var msg = '';
         var cancelType = $(this).data("type");
         var name = $(this).data("name");

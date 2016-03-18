@@ -47,6 +47,11 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS}">
+                                        <button data-remark="${passportApply.remark}" class="remarkBtn btn btn-warning btn-mini btn-xs">
+                                            <i class="fa fa-info-circle"></i> 未批准原因
+                                        </button>
+                                    </c:if>
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
                                         <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini btn-xs">
                                             <i class="fa fa-print"></i> 打印审批表
@@ -82,6 +87,12 @@ pageEncoding="UTF-8" %>
     $(".printBtn").click(function(){
         printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"))
     });
+    $(".remarkBtn").click(function(){
+        SysMsg.info('<p style="padding:20px;font-size:25px;text-indent: 2em; ">'+$(this).data("remark")+'</p>'
+                ,'<h3 class="label label-warning" style="font-size: 20px; height: 30px;">未批准原因</h3>');
+    });
+
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

@@ -247,81 +247,13 @@ pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $(".returnMsgBtn").click(function(){
-        var msg = '';
         var id = $(this).data("id");
-        var drawtime = $(this).data("drawtime");
-        var returndate = $(this).data("returndate");
-        var userid = $(this).data("userid");
-        var name = $(this).data("name");
-        var cls = $(this).data("cls");
-         msg += name+"同志，您好！您于"+drawtime+"领取因私出国（境）证件，" +
-         "应于"+returndate+"交回组织部。目前还未交回，请于二日内将证件交到组织部（主楼A306）。谢谢！"
-
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {id:id, type:'passportDrawReturn'}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "催交证件"
-        });
+        loadModal("${ctx}/shortMsg_view?id={0}&type=passportDrawReturn".format(id));
     });
 
     $(".shortMsgBtn").click(function(){
-        var msg = '';
-        var status = $(this).data("status");
         var id = $(this).data("id");
-        var userid = $(this).data("userid");
-        var name = $(this).data("name");
-        var cls = $(this).data("cls");
-        if(status=="${PASSPORT_DRAW_STATUS_PASS}")
-            msg += name+"同志，您好！您提交的领取使用"+cls
-            +"的申请（编码为：D"+id+"）已通过审批，请派人携带有效证件（教工卡、学生卡或身份证）并凭此短信到组织部（主楼A306）领取证件。谢谢！"
-        if(status=="${PASSPORT_DRAW_STATUS_NOT_PASS}")
-            msg += name+"同志，您好！您提交的领取使用"+cls+
-            "的申请（编码为：D"+id+"）未通过审批，请登录系统查看具体原因。谢谢！";
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {id:id, type:'passportDrawApply'}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "短信通知"
-        });
+        loadModal("${ctx}/shortMsg_view?id={0}&type=passportDrawApply".format(id));
     });
 
     $(".printBtn").click(function(){

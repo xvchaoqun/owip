@@ -259,7 +259,10 @@ public class PassportController extends BaseController {
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-
+        if(applyId!=null) { // 交证件
+            PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
+            record.setCadreId(_passportApply.getCadreId());
+        }
         MetaType passportType = CmTag.getMetaType("mc_passport_type", record.getClassId());
         if (passportService.idDuplicate(id, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
             return failed(passportType.getName() + "重复，请先作废现有的" + passportType.getName());

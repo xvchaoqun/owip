@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
-        <c:if test="${not empty param.applyId}">交证件</c:if>
+        <c:if test="${not empty param.applyId}">新办理的证件集中保管</c:if>
         <c:if test="${empty param.applyId}">
         <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>${param.type==3?"丢失":""}证件信息
         </c:if>
@@ -15,6 +15,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${passport.id}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="type" value="${param.type}">
+<c:if test="${empty param.applyId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
 				<div class="col-xs-6">
@@ -27,6 +28,7 @@ pageEncoding="UTF-8"%>
                     </select>
 				</div>
 			</div>
+    </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">证件名称</label>
 				<div class="col-xs-6">
@@ -51,7 +53,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发证机关</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="authority" value="${passport.authority}">
+                        <input required class="form-control" type="text" name="authority"
+                               value="${not empty param.applyId?"公安部出入境管理局":passport.authority}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -124,6 +127,9 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal('hide');
                         SysMsg.success('提交成功。', '成功',function(){
                             $("#jqGrid").trigger("reloadGrid");
+                            <c:if test="${not empty param.applyId}">
+                            page_reload()
+                            </c:if>
                         });
                     }
                 }

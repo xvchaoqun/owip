@@ -9,9 +9,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row applySelf">
   <div class="preview">
-    <div class="center">
-      <button class="closeView btn btn-default btn-block" style="margin-bottom:10px;font-size: 10px">返回</button>
-    </div>
             <table class="table table-bordered table-striped">
               <tbody>
               <tr>
@@ -116,71 +113,72 @@
               </tbody>
             </table>
 
-            <div class="widget-box transparent">
-              <div class="widget-header widget-header-flat">
-                <h4 class="widget-title lighter">
-                  <i class="ace-icon fa fa-info-circle"></i>
-                  ${currentYear}年度所有的因私出国（境）申请记录
-                </h4>
-                <div class="widget-toolbar">
-                  <a href="#" data-action="collapse">
-                    <i class="ace-icon fa fa-chevron-up"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="widget-body">
-                <div class="widget-main no-padding">
-                  <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                      <th>序号</th>
-                      <th>申请日期</th>
-                      <th>出行时间</th>
-                      <th>回国时间</th>
-                      <th>出行天数</th>
-                      <th>前往国家或地区</th>
-                      <th>因私出国（境）事由</th>
-                      <th>审批情况</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${applySelfs}" var="applySelf" varStatus="st">
-                      <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
-                      <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                      <tr>
-                        <td>S${applySelf.id}</td>
-                        <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-                        <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
-                        <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
-                        <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
-                        <td>${applySelf.toCountry}</td>
-                        <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-                        <td>
-                          <c:set var="firstApprovalLog" value="${cm:getApprovalLog(applySelf.id, -1)}"/>
-                          <c:set var="lastApprovalLog" value="${cm:getApprovalLog(applySelf.id, 0)}"/>
-                          <c:if test="${empty firstApprovalLog || (firstApprovalLog.status && empty lastApprovalLog)}">
-                            待审批
-                          </c:if>
-                          <c:if test="${(firstApprovalLog!=null && !firstApprovalLog.status)||
-                          (lastApprovalLog!=null && !lastApprovalLog.status)}">
-                            未通过审批
-                          </c:if>
-                          <c:if test="${lastApprovalLog.status}">
-                            通过审批
-                          </c:if>
-                        </td>
-                      </tr>
-                    </c:forEach>
-                    </tbody>
-                  </table>
-                </div></div></div>
-    <div class="center">
-      <button class="closeView btn btn-default btn-block" style="margin-top:10px;font-size: 10px">返回</button>
-    </div>
           </div>
 
   <div class="info">
+    <div style="border: 1px dashed #aaaaaa;padding: 20px">
+      <div class="widget-box transparent">
+        <div class="widget-header widget-header-flat">
+          <h4 class="widget-title lighter">
+            <i class="ace-icon fa fa-info-circle"></i>
+            ${currentYear}年度所有的因私出国（境）申请记录
+          </h4>
+          <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+              <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="widget-body">
+          <div class="widget-main no-padding">
+            <div style="min-width: 400px;">
+            <table  id="logTable" style="min-width: 800px" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>序号</th>
+                <th>申请日期</th>
+                <th>出行时间</th>
+                <th>回国时间</th>
+                <th>出行天数</th>
+                <th>前往国家或地区</th>
+                <th>因私出国（境）事由</th>
+                <th>审批情况</th>
+              </tr>
+              </thead>
+              <tbody>
+              <c:forEach items="${applySelfs}" var="applySelf" varStatus="st">
+                <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
+                <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                <tr>
+                  <td>S${applySelf.id}</td>
+                  <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
+                  <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
+                  <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
+                  <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
+                  <td nowrap>${applySelf.toCountry}</td>
+                  <td nowrap>${fn:replace(applySelf.reason, '+++', ',')}</td>
+                  <td nowrap>
+                    <c:set var="firstApprovalLog" value="${cm:getApprovalLog(applySelf.id, -1)}"/>
+                    <c:set var="lastApprovalLog" value="${cm:getApprovalLog(applySelf.id, 0)}"/>
+                    <c:if test="${empty firstApprovalLog || (firstApprovalLog.status && empty lastApprovalLog)}">
+                      待审批
+                    </c:if>
+                    <c:if test="${(firstApprovalLog!=null && !firstApprovalLog.status)||
+                            (lastApprovalLog!=null && !lastApprovalLog.status)}">
+                      未通过审批
+                    </c:if>
+                    <c:if test="${lastApprovalLog.status}">
+                      通过审批
+                    </c:if>
+                  </td>
+                </tr>
+              </c:forEach>
+              </tbody>
+            </table>
+            </div>
+          </div></div></div>
+      </div>
     <c:if test="${param.type=='aproval'}">
     <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
         <div style="font-size: 30px; padding-bottom: 10px">组织部初审意见：</div>
@@ -196,12 +194,15 @@
       </div>
     </div>
     </c:if>
-
+    <div class="center">
+      <button class="closeView btn btn-success btn-block" style="margin-top:20px;font-size: 20px">返回</button>
+    </div>
   </div>
 
 </div>
-<c:if test="${param.type=='aproval'}">
 <script>
+  stickheader($("#logTable"));
+<c:if test="${param.type=='aproval'}">
   $("#agree").click(function(){
       if($("#agree").prop("checked")) {
         $("#disagree").prop("checked", false);
@@ -249,5 +250,5 @@
       });
     }
   });
-</script>
   </c:if>
+</script>

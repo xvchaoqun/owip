@@ -88,15 +88,16 @@ pageEncoding="UTF-8" %>
                 <c:if test="${status==0}">
 							<th>审批状态</th>
                 </c:if>
+                <c:if test="${status!=0}">
 							<th>审批人</th>
-                <c:if test="${status==0}">
-							<th>审批日期</th>
                 </c:if>
                     <c:if test="${status==1}">
 							<th>应交日期</th>
 							<th>实交日期</th>
                     </c:if>
-							<th>备注</th>
+                        <c:if test="${status==2}">
+                            <th nowrap>未批准原因</th>
+                        </c:if>
                         <th nowrap></th>
                     </tr>
                     </thead>
@@ -122,24 +123,30 @@ pageEncoding="UTF-8" %>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
                             <c:if test="${status==0}">
 								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td></c:if>
-                            <td>
-                                <c:if test="${not empty passportApply.userId}">
-                                <c:set var="_sysUser" value="${cm:getUserById(passportApply.userId)}"/>
-                                <a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId=${_sysUser.id}">
-                                    ${_sysUser.realname}
-                                </a>
-                                </c:if>
-                            </td>
-                            <c:if test="${status==0}">
-								<td>${cm:formatDate(passportApply.approveTime,'yyyy-MM-dd')}</td></c:if>
+                            <c:if test="${status!=0}">
+                                <td>
+                                    <c:if test="${not empty passportApply.userId}">
+                                        <c:set var="_sysUser" value="${cm:getUserById(passportApply.userId)}"/>
+                                        <a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId=${_sysUser.id}">
+                                                ${_sysUser.realname}
+                                        </a>
+                                    </c:if>
+                                </td>
+                            </c:if>
+
                             <c:if test="${status==1}">
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</td>
                             </c:if>
+                            <c:if test="${status==2}">
                                 <td>${passportApply.remark}</td>
+                            </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${status==1  && passportApply.status==PASSPORT_APPLY_STATUS_PASS && empty passportApply.handleDate}">
+                                        <button data-id="${passportApply.id}" class="returnMsgBtn btn btn-danger btn-mini btn-xs">
+                                            <i class="fa fa-hand-paper-o"></i> 催交证件
+                                        </button>
                                         <button data-id="${passportApply.id}" class="handleBtn btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-hand-paper-o"></i> 交证件
                                         </button>
@@ -154,11 +161,11 @@ pageEncoding="UTF-8" %>
                                             <i class="fa fa-info-circle"></i> 申请表
                                         </c:if>
                                     </button>
-                                    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
+                                    <%--<c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
                                     <button data-id="${passportApply.id}" class="printBtn btn  btn-info btn-mini btn-xs">
                                         <i class="fa fa-print"></i> 打印审批表
                                     </button>
-                                    </c:if>
+                                    </c:if>--%>
                                    <%-- <shiro:hasPermission name="passportApply:edit">
                                     <button data-id="${passportApply.id}" class="editBtn btn btn-primary btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
@@ -192,6 +199,11 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    $(".returnMsgBtn").click(function() {
+        var id = $(this).data("id");
+        loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplyDraw".format(id));
+    });
     // 交证件
     $(".handleBtn").click(function(){
         loadModal("${ctx}/passport_au?applyId="+ $(this).data("id"));

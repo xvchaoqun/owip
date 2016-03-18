@@ -76,7 +76,8 @@ public class PassportService extends BaseMapper {
     }
     public List<Passport> findByCadreId(int cadreId){
 
-       return selectMapper.selectPassportList(cadreId, null, null, null, null, null, false, new RowBounds());
+       return selectMapper.selectPassportList(cadreId, null, null,
+               SystemConstants.PASSPORT_TYPE_KEEP, null, null, false, new RowBounds());
     }
 
     public boolean idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
@@ -100,7 +101,7 @@ public class PassportService extends BaseMapper {
             // 其他三个“取消集中管理、丢失证件、作废证件”中，一个人可以有两本护照。
             PassportExample example2 = new PassportExample();
             PassportExample.Criteria criteria2 =
-                    example2.createCriteria().andCadreIdEqualTo(cadreId)
+                    example2.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                             .andClassIdEqualTo(classId).andAbolishEqualTo(false);
             if (id != null) criteria2.andIdNotEqualTo(id);
 
@@ -125,6 +126,7 @@ public class PassportService extends BaseMapper {
             passportApply.setHandleDate(new Date());
             passportApplyMapper.updateByPrimaryKeySelective(passportApply);
 
+            record.setCadreId(_passportApply.getCadreId()); // 确认
             record.setApplyId(applyId);
         }
 

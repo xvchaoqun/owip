@@ -529,9 +529,12 @@ form .form-actions{
 input[type=checkbox].big{
     width: 20px;
     height: 20px;
-    _vertical-align: -2px;/*针对IE6使用hack*/
-    vertical-align: -3px;
+    /*_vertical-align: -2px;*//*针对IE6使用hack*//*
+    vertical-align: -3px;*/
+    _vertical-align: -6px;/*针对IE6使用hack*/
+    vertical-align: -6px;
 }
+
 input[type=checkbox].bigger{
     width: 30px;
     height: 30px;

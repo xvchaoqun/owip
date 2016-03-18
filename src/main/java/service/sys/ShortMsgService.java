@@ -100,6 +100,16 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
             bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportApplyDraw")){
+            PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORTAPPLY_DRAW;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportApply.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passportApply.getPassportClass();
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
+            bean.setContent(msg);
         }else if(StringUtils.equals(type, "passportDraw")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);

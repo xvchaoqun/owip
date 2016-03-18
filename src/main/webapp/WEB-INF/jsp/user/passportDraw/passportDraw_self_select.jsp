@@ -70,7 +70,7 @@
       <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
       <div style="float: left; margin-right: 40px;">
         <input type="checkbox" class="big" name="passportId" value="${passport.id}"
-               data-sign="${passportType.code != 'mt_passport_normal'}" class="big"> ${passportType.name}
+               data-sign="${passportType.code != 'mt_passport_normal'}"> ${passportType.name}
         <c:if test="${passportType.code != 'mt_passport_normal'}">
           <span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>
         </c:if>

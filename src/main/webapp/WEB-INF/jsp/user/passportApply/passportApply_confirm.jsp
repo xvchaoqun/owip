@@ -29,7 +29,6 @@ pageEncoding="UTF-8"%>
             </c:if>
     </div>
 </div>
-
 <script>
     $("#back").click(function(){
         $("#apply-content").load("${ctx}/user/passportApply_select");
@@ -41,14 +40,14 @@ pageEncoding="UTF-8"%>
             $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
             return false;
         }
+
+
         $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}"},function(ret){
             if(ret.success){
-                SysMsg.success('您的申请已提交，组织部备案之后会短信提醒您，' +
-                '然后请再次登录系统下载审批表并到党委/校长办公室机要室（房间号？）' +
-                '找郭宁老师盖章。谢谢！', '提示', function(){
-                    page_reload();
-                });
-
+                loadModal("${ctx}/alert?title=温馨提示&content=您的申请已提交，组织部备案之后会短信提醒您，" +
+                "然后请再次登录系统下载审批表并到党委/校长办公室机要室（A402A）" +
+                "找郭宁老师盖章。谢谢！", 800);
+                page_reload();
             }
         });
     });

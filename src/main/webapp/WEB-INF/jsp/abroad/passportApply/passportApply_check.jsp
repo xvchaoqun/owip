@@ -6,6 +6,48 @@ pageEncoding="UTF-8"%>
         <iframe id="myframe" src="${ctx}/report/passportApply?id=${passportApply.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
     <div class="info">
+        <div style="border: 1px dashed #aaaaaa;padding: 20px">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-flat">
+                    <h4 class="widget-title lighter">
+                        <i class="ace-icon fa fa-info-circle"></i>
+                        当前拥有的证件列表
+                    </h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div style="min-width: 400px;">
+                            <table  id="logTable" style="min-width: 500px;" class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>证件名称</th>
+                                    <th>证件号码</th>
+                                    <th>发证日期</th>
+                                    <th>有效期</th>
+                                    <th>是否借出</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${passports}" var="passport" varStatus="st">
+                                    <tr>
+                                        <td nowrap>${passportTypeMap.get(passport.classId).name}</td>
+                                        <td nowrap>${passport.code}</td>
+                                        <td nowrap>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
+                                        <td nowrap>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
+                                        <td nowrap>${passport.isLent?"借出":"-"}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div></div></div>
+        </div>
     <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS}">
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
             <form class="form-horizontal">
@@ -14,7 +56,7 @@ pageEncoding="UTF-8"%>
                     <div class="col-xs-6">
                         <div class="input-group">
                             <input ${passportApply.status==PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control date-picker" name="_expectDate" type="text"
-                                   data-date-format="yyyy年MM月dd日" value="${cm:formatDate(passportApply.expectDate,'yyyy年MM月dd日')}" />
+                                   data-date-format="yyyy年mm月dd日" value="${cm:formatDate(passportApply.expectDate,'yyyy年MM月dd日')}" />
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -60,7 +102,7 @@ pageEncoding="UTF-8"%>
 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passportApply.classId)}"/>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
-
+    stickheader($("#logTable"));
     $("#print").click(function(){ // 兼容谷歌
         //$("#myframe").jqprint();
         var myframe = document.getElementById("myframe");
@@ -78,41 +120,15 @@ pageEncoding="UTF-8"%>
             if(ret.success){
                 SysMsg.success('审批成功', '提示', function(){
 
-                    $("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    location.href="${ctx}/passportApply?status=1";
                 });
 
             }
         });
     });
     $("#agree_msg").click(function(){
-        var msg = '${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，组织部已备案。' +
-        '请登录系统打印申请表，并到党委/校长办公室机要室（房间号？）找郭宁老师盖章。' +
-        '领取新证件之后，请尽快交到组织部（主楼A306）集中保管。谢谢！';
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {id:'${passportApply.id}', type:'passportApplyPass'}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "短信通知"
-        });
+        loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyPass");
     });
     $("#disagree").click(function(){
         var remark = $("textarea[name=remark]").val().trim();
@@ -123,38 +139,15 @@ pageEncoding="UTF-8"%>
         $.post("${ctx}/passportApply_disagree",{id:"${param.id}", remark:remark },function(ret){
             if(ret.success){
                 SysMsg.success('提交成功', '提示', function(){
-                    $("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    location.href="${ctx}/passportApply?status=2";
                 });
             }
         });
     });
-    var msg = '${sysUser.realname}同志，您好！您提交的办理${passportType.name}的申请，因不符合要求未予审批。请登录系统查看具体原因，谢谢！';
+
     $("#disagree_msg").click(function(){
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {id:'${passportApply.id}', type:'passportApplyUnPass'}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "短信通知"
-        });
+        loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyUnPass");
     });
 
     $('.date-picker').datepicker({

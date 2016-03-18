@@ -57,6 +57,7 @@ public class PassportApplyController extends BaseController {
 
         PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
         modelMap.put("passportApply", passportApply);
+        modelMap.put("passports", passportService.findByCadreId(passportApply.getCadreId()));
 
         return "abroad/passportApply/passportApply_check";
     }
@@ -68,7 +69,11 @@ public class PassportApplyController extends BaseController {
 
         PassportApply record = new PassportApply();
         record.setId(id);
-        record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA));
+        Date date = DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA);
+        if(date==null || date.before(new Date())){
+            throw new RuntimeException("证件应交回日期有误");
+        }
+        record.setExpectDate(date);
 
         record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_PASS);
         record.setUserId(loginUser.getId());

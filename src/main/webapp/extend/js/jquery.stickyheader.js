@@ -1,6 +1,7 @@
 //$(function(){
-function stickheader() {
-	$('table').each(function () {
+function stickheader($table) {
+	$table = $table || $('table');
+	$table.each(function () {
 		if ($(this).find('thead').length > 0 && $(this).find('th').length > 0) {
 			// Clone <thead>
 			var $w = $(window),
