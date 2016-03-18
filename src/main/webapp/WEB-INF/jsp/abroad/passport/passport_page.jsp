@@ -189,7 +189,7 @@ pageEncoding="UTF-8" %>
             } },
             </c:if>
             <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-            { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 100 },
+            { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 140 },
             { label:'状态', align:'center', name: 'cancelConfirm', width: 100, formatter:function(cellvalue){
                 return cellvalue?"已确认":"未确认";
             } }
