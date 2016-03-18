@@ -485,9 +485,27 @@ public class SystemConstants {
 	// 短信提醒类别
 	public final static String SHORT_MSG_KEY_PASSPORT_EXPIRE = "passport.expire";
 	public final static String SHORT_MSG_KEY_PASSPORT_DISMISS = "passport.dismiss";
+	public final static String SHORT_MSG_KEY_APPLYSELF_PASS = "applySelf.pass";
+	public final static String SHORT_MSG_KEY_APPLYSELF_UNPASS = "applySelf.unpass";
+	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_PASS = "passportApply.pass";
+	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS = "passportApply.unpass";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW = "passportDraw";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW_RETURN = "passportDraw.return";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS = "passportDraw.pass";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS = "passportDraw.unpass";
+
+
 	public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
 	static {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_EXPIRE, "取消集中管理-证件到期");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_DISMISS, "取消集中管理-不再担任职务");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_APPLYSELF_PASS, "因私出国申请-通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_APPLYSELF_UNPASS, "因私出国申请-不通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_PASS, "申办证件-通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS, "申办证件-不通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW, "因私出国申请-领取证件");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_RETURN, "催交证件");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS, "申请使用证件-通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
 	}
 }

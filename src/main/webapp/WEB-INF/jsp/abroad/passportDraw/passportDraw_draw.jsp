@@ -161,7 +161,7 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.hideAll();
-                        $.post("${ctx}/shortMsg", {type:'领取证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                        $.post("${ctx}/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
                             if(ret.success) {
                                 SysMsg.success('通知成功', '提示', function () {
                                     page_reload();

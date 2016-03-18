@@ -201,8 +201,7 @@ pageEncoding="UTF-8" %>
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg + '</p>',
             callback: function(result) {
                 if(result) {
-
-                    $.post("${ctx}/shortMsg", {type:'因私出国',content: msg, userId:userid}, function(ret){
+                    $.post("${ctx}/shortMsg", {type:'applySelf',id:id}, function(ret){
                         if(ret.success) {
                             SysMsg.success('通知成功', '提示', function () {
                                 //page_reload();

@@ -1,5 +1,6 @@
 package service.sys;
 
+import bean.ApprovalResult;
 import bean.ShortMsgBean;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
+import service.abroad.ApplySelfService;
 import service.abroad.PassportService;
 import service.sys.SysUserService;
 import sys.ShortMsgPropertyUtils;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -35,6 +38,8 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private PassportService passportService;
     @Autowired
+    private ApplySelfService applySelfService;
+    @Autowired
     private SpringProps springProps;
 
     public ShortMsgBean getShortMsgBean(Integer sender, Integer receiver, String type, Integer id){
@@ -44,17 +49,99 @@ public class ShortMsgService extends BaseMapper {
         bean.setReceiver(receiver);
 
         if(StringUtils.equals(type, "passport")){
-            bean.setType("取消集中管理");
+
             Passport passport = passportMapper.selectByPrimaryKey(id);
             String key = SystemConstants.SHORT_MSG_KEY_PASSPORT_EXPIRE;
             if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS){
                 key = SystemConstants.SHORT_MSG_KEY_PASSPORT_DISMISS;
             }
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
             String msgTpl = ShortMsgPropertyUtils.msg(key);
             SysUser user = passport.getUser();
             bean.setReceiver(user.getId()); // 覆盖
             MetaType passportClass = passport.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "applySelf")){
+
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_APPLYSELF_PASS;
+            Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
+            ApprovalResult lastVal = approvalResultMap.get(0);
+            boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
+            if(!status)
+                key = SystemConstants.SHORT_MSG_KEY_APPLYSELF_UNPASS;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = applySelf.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            String msg = MessageFormat.format(msgTpl, user.getRealname());
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportApplyPass")){
+
+            PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORTAPPLY_PASS;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportApply.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passportApply.getPassportClass();
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportApplyUnPass")){
+
+            PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportApply.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passportApply.getPassportClass();
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportDraw")){
+
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportDraw.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passportDraw.getPassportClass();
+            String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName(), returnDate);
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportDrawReturn")){
+
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_RETURN;
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportDraw.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            //MetaType passportClass = passportDraw.getPassportClass();
+            String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), "yyyy年MM月dd日");
+            String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), drawTime, returnDate);
+            bean.setContent(msg);
+        }else if(StringUtils.equals(type, "passportDrawApply")){
+
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            String key = "";
+            if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_PASS){
+                key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS;
+            }
+            if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS){
+                key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS;
+            }
+
+            bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passportDraw.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passportDraw.getPassportClass();
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName(), passportDraw.getId());
             bean.setContent(msg);
         }
 

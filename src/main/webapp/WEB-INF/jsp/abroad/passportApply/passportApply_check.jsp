@@ -102,7 +102,7 @@ pageEncoding="UTF-8"%>
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    $.post("${ctx}/shortMsg", {type:'申办证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                    $.post("${ctx}/shortMsg", {id:'${passportApply.id}', type:'passportApplyPass'}, function(ret){
                         if(ret.success) {
                             SysMsg.success('通知成功', '提示', function () {
                                 //page_reload();
@@ -144,7 +144,7 @@ pageEncoding="UTF-8"%>
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    $.post("${ctx}/shortMsg", {type:'申办证件',content: msg, userId:'${sysUser.id}'}, function(ret){
+                    $.post("${ctx}/shortMsg", {id:'${passportApply.id}', type:'passportApplyUnPass'}, function(ret){
                         if(ret.success) {
                             SysMsg.success('通知成功', '提示', function () {
                                 //page_reload();

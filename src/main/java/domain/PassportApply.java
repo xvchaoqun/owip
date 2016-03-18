@@ -1,9 +1,26 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class PassportApply implements Serializable {
+    public SysUser getUser(){
+
+        Cadre cadre = getCadre();
+        return CmTag.getUserById(cadre.getUserId());
+    }
+    public Cadre getCadre(){
+
+        return CmTag.getCadreById(cadreId);
+    }
+    public MetaType getPassportClass(){
+
+        Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
+        return passportClassMap.get(classId);
+    }
     private Integer id;
 
     private Integer cadreId;

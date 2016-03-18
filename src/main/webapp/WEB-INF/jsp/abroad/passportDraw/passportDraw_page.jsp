@@ -248,6 +248,7 @@ pageEncoding="UTF-8" %>
 <script>
     $(".returnMsgBtn").click(function(){
         var msg = '';
+        var id = $(this).data("id");
         var drawtime = $(this).data("drawtime");
         var returndate = $(this).data("returndate");
         var userid = $(this).data("userid");
@@ -270,7 +271,7 @@ pageEncoding="UTF-8" %>
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    $.post("${ctx}/shortMsg", {type:'催交证件',content: msg, userId:userid}, function(ret){
+                    $.post("${ctx}/shortMsg", {id:id, type:'passportDrawReturn'}, function(ret){
                         if(ret.success) {
                             SysMsg.success('通知成功', '提示', function () {
                                 //page_reload();
@@ -310,7 +311,7 @@ pageEncoding="UTF-8" %>
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' +msg+'</p>',
             callback: function(result) {
                 if(result) {
-                    $.post("${ctx}/shortMsg", {type:'领取证件',content: msg, userId:userid}, function(ret){
+                    $.post("${ctx}/shortMsg", {id:id, type:'passportDrawApply'}, function(ret){
                         if(ret.success) {
                             SysMsg.success('通知成功', '提示', function () {
                                 //page_reload();
