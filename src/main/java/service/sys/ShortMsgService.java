@@ -1,11 +1,10 @@
 package service.sys;
 
+import bean.ShortMsgBean;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import domain.ShortMsg;
-import domain.ShortMsgExample;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,9 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
+import service.abroad.PassportService;
 import service.sys.SysUserService;
+import sys.ShortMsgPropertyUtils;
+import sys.constants.SystemConstants;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Service
@@ -30,9 +33,40 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
+    private PassportService passportService;
+    @Autowired
     private SpringProps springProps;
 
-    public boolean send(int sender, int receiver, String content, String type, String ip){
+    public ShortMsgBean getShortMsgBean(Integer sender, Integer receiver, String type, Integer id){
+
+        ShortMsgBean bean = new ShortMsgBean();
+        bean.setSender(sender);
+        bean.setReceiver(receiver);
+
+        if(StringUtils.equals(type, "passport")){
+            bean.setType("取消集中管理");
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.SHORT_MSG_KEY_PASSPORT_EXPIRE;
+            if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS){
+                key = SystemConstants.SHORT_MSG_KEY_PASSPORT_DISMISS;
+            }
+            String msgTpl = ShortMsgPropertyUtils.msg(key);
+            SysUser user = passport.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            MetaType passportClass = passport.getPassportClass();
+            String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
+            bean.setContent(msg);
+        }
+
+        return bean;
+    }
+
+    public boolean send(ShortMsgBean shortMsgBean, String ip){
+
+        int sender = shortMsgBean.getSender();
+        int receiver = shortMsgBean.getReceiver();
+        String content = shortMsgBean.getContent();
+        String type = shortMsgBean.getType();
 
         SysUser sysUser = sysUserService.findById(receiver);
         if(sysUser==null){

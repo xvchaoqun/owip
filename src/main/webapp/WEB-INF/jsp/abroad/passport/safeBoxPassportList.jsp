@@ -20,65 +20,35 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <div class="table-container">
-                    <table style="min-width: 2000px" class="table table-actived table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" class="ace checkAll">
-                                    <span class="lbl"></span>
-                                </label>
-                            </th>
-                            <th>工作证号</th>
-                            <th>姓名</th>
-                            <th>所在单位及职务</th>
-                            <th>证件名称</th>
-                            <th>证件号码</th>
-                            <th>发证日期</th>
-                            <th>有效期</th>
-                            <th>集中保管日期</th>
-                            <th>证件状态</th>
-                            <th>是否借出</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${passports}" var="passport" varStatus="st">
-                            <c:set var="cadre" value="${cadreMap.get(passport.cadreId)}"/>
-                            <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                            <tr>
-                                <td class="center">
-                                    <label class="pos-rel">
-                                        <input type="checkbox" value="${passport.id}" class="ace">
-                                        <span class="lbl"></span>
-                                    </label>
-                                </td>
-                                <td>${sysUser.code}</td>
-                                <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
-                                        ${sysUser.realname}
-                                </a></td>
-                                <td style="text-align: left">${cadre.title}</td>
-                                <td>${passportTypeMap.get(passport.classId).name}</td>
-                                <td>${passport.code}</td>
-                                <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
-                                <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
-                                <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
-                                <td>${passport.isLent?"借出":"-"}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-                <wo:page commonList="${commonList}" uri="${ctx}/safeBoxPassportList" target="#item-content" pageNum="5"
-                         model="3"/>
+                <table id="jqGrid" class="table-striped"> </table>
+                <div id="jqGridPager"> </div>
             </div>
         </div><!-- /.widget-main -->
     </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
-<style>
-    table thead tr th, table tbody tr td {
-        text-align: center;
-    !important;
-    }
-</style>
+<script>
+    $("#jqGrid").jqGrid({
+        //forceFit:true,
+        url: '${ctx}/safeBoxPassportList_data?callback=?&$safeBoxId=${param.safeBoxId}',
+        colModel: [
+            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
+            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
+                        .format(rowObject.user.id, cellvalue);
+            } ,frozen:true },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
+            { label: '职位属性', align:'center', name: 'cadre.postType.name', width: 200 },
+            { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
+            { label: '证件号码', align:'center', name: 'code', width: 100 },
+            { label:'发证日期', align:'center', name: 'issueDate', width: 100 },
+            { label:'有效期', align:'center', name: 'expiryDate', width: 100 },
+            { label:'集中保管日期', align:'center', name: 'keepDate', width: 120 },
+            { label:'证件状态', align:'center', name: 'passportType', width: 130 },
+            { label:'是否借出', align:'center', name: 'isLent', width: 100, formatter:function(cellvalue){
+                return cellvalue?"借出":"-";
+            } }
+        ]
+    })/*.jqGrid("setFrozenColumns")*/;
+    $(window).triggerHandler('resize.jqGrid');
+
+</script>

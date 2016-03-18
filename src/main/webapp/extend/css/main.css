@@ -116,8 +116,11 @@ body{
 .ui-th-column:not(:first-child){
     text-align: center!important;
 }
-.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td{
+/*.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td{
     white-space: inherit;
+}*/
+.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td a:hover{
+    color: inherit;
 }
 /*.table-bordered > thead > tr > th,
  .table-bordered{

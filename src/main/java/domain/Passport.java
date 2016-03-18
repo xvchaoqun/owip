@@ -1,9 +1,37 @@
 package domain;
 
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class Passport implements Serializable {
+
+    public SysUser getUser(){
+
+        Cadre cadre = getCadre();
+        return CmTag.getUserById(cadre.getUserId());
+    }
+    public Cadre getCadre(){
+
+        return CmTag.getCadreById(cadreId);
+    }
+    public String getPassportType(){
+
+        return SystemConstants.PASSPORT_TYPE_MAP.get(type);
+    }
+    public MetaType getPassportClass(){
+
+        Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
+        return passportClassMap.get(classId);
+    }
+    public SafeBox getSafeBox(){
+
+        return CmTag.getSafeBoxMap().get(safeBoxId);
+    }
+
     private Integer id;
 
     private Integer applyId;

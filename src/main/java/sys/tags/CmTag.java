@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
+import service.abroad.SafeBoxService;
+import service.cadre.CadreService;
 import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
 import service.party.RetireApplyService;
@@ -24,6 +26,7 @@ public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
+    static CadreService cadreService = (CadreService) context.getBean("cadreService");
     static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
     static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
@@ -33,6 +36,7 @@ public class CmTag {
     static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
     static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
     static UnitService unitService = (UnitService) context.getBean("unitService");
+    static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
 
 
     public static String getApplyStatus(MemberApply memberApply) {
@@ -115,6 +119,13 @@ public class CmTag {
         return sysResourceService.getByUrl(_path);
     }
 
+    public static Map<Integer, MetaType> getMetaTypes(String classCode) {
+
+        if (StringUtils.isBlank(classCode)) return null;
+
+        return metaTypeService.metaTypes(classCode);
+    }
+
     public static MetaType getMetaType(String classCode, Integer id) {
 
         if (StringUtils.isBlank(classCode) || id == null) return null;
@@ -156,6 +167,12 @@ public class CmTag {
             parentIdSet.add(Integer.parseInt(str));
         }
         return parentIdSet;
+    }
+
+    public static Cadre getCadreById(Integer id) {
+
+        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        return cadreMap.get(id);
     }
 
     public static SysUser getUserById(Integer id) {
@@ -222,6 +239,10 @@ public class CmTag {
         return approvalLogService.findByApplyId(applyId);
     }
 
+    public static Map<Integer, SafeBox> getSafeBoxMap(){
+
+        return safeBoxService.findAll();
+    }
     // 证件
     public static Passport getPassport(Integer id) {
 

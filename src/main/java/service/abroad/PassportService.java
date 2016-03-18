@@ -62,7 +62,7 @@ public class PassportService extends BaseMapper {
             record.setAbolish(false);
             record.setCancelConfirm(false);
 
-            if (idDuplicate(null, record.getCadreId(), record.getClassId(), record.getCode())) {
+            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
                 MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
                 throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode() + "["+ mcPassportType.getName() + "]重复");
             }
@@ -79,27 +79,34 @@ public class PassportService extends BaseMapper {
        return selectMapper.selectPassportList(cadreId, null, null, null, null, null, false, new RowBounds());
     }
 
-    public boolean idDuplicate(Integer id, int cadreId, int classId, String code){
+    public boolean idDuplicate(Integer id, byte type, int cadreId, int classId, String code){
 
         Assert.isTrue(StringUtils.isNotBlank(code));
 
+        // 证件号码不允许重复
         PassportExample example = new PassportExample();
         PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andAbolishEqualTo(false);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
-        PassportExample example2 = new PassportExample();
-        PassportExample.Criteria criteria2 =
-                example2.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andClassIdEqualTo(classId).andAbolishEqualTo(false);
-        if(id!=null) criteria2.andIdNotEqualTo(id);
+        if(type==SystemConstants.PASSPORT_TYPE_KEEP) {
+            //“集中管理证件”中不存在同一个人有两本护照（或者港澳通行证、台湾通行证）就可以。
+            // 其他三个“取消集中管理、丢失证件、作废证件”中，一个人可以有两本护照。
+            PassportExample example2 = new PassportExample();
+            PassportExample.Criteria criteria2 =
+                    example2.createCriteria().andCadreIdEqualTo(cadreId)
+                            .andClassIdEqualTo(classId).andAbolishEqualTo(false);
+            if (id != null) criteria2.andIdNotEqualTo(id);
 
-        return passportMapper.countByExample(example) > 0 || passportMapper.countByExample(example2) > 0;
+            return passportMapper.countByExample(example) > 0 || passportMapper.countByExample(example2) > 0;
+        }
+
+        return passportMapper.countByExample(example) > 0;
     }
 
     @Transactional
     public int add(Passport record, Integer applyId){
 
-        Assert.isTrue(!idDuplicate(null, record.getCadreId(), record.getClassId(), record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
 
         if(applyId!=null){ // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
@@ -133,7 +140,7 @@ public class PassportService extends BaseMapper {
         Passport record = new Passport();
         record.setAbolish(true);
 
-        passportMapper.updateByExample(record, example);
+        passportMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -149,11 +156,11 @@ public class PassportService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(Passport record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getClassId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 
-    public Map<Integer, Passport> findAll() {
+   /* public Map<Integer, Passport> findAll() {
 
         PassportExample example = new PassportExample();
         example.createCriteria();
@@ -165,7 +172,7 @@ public class PassportService extends BaseMapper {
         }
 
         return map;
-    }
+    }*/
 
     // 证件过期扫描， 过期的证件转移到取消集中管理证件数据库
     @Transactional

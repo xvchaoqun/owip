@@ -1,8 +1,18 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
+import java.util.Map;
 
 public class Cadre implements Serializable {
+
+    public MetaType getPostType(){
+
+        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
+        return postMap.get(postId);
+    }
+
     private Integer id;
 
     private Integer userId;

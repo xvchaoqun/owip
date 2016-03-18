@@ -31,9 +31,12 @@ $.jgrid.defaults.sortorder = "desc";
 $.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
     $(".jqEditBtn").click();
 }
+$.jgrid.defaults.onPaging= function(){
+    $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+}
 $(window).on('resize.jqGrid', function () {
     $("#jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
-    $("#jqGrid").setGridHeight($(window).height()-390-$(".widget-box").height());
+    $("#jqGrid").setGridHeight($(window).height()-390-$(".widget-up-jqgrid").height());
 })
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
@@ -312,7 +315,9 @@ $(document).on("click", ".jqOpenViewBtn", function(){
         return ;
     }
     var url = $(this).data("url");
+    var querystr = $(this).data("querystr");
     if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
+    url += (querystr&&querystr!='')?(querystr):"";
     if(openBy=='page'){
         var $container = $("#body-content");
         $container.showLoading({'afterShow':
@@ -441,13 +446,17 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
     location.href = $div.data("url-export") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
 
-// 批量作废
+// 批量作废 for jqgrid
 $(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
 
     var $div = $(this).closest(".myTableDiv");
-    var ids = $.map($(".myTableDiv .table td :checkbox:checked"),function(item, index){
-        return $(item).val();
-    });
+    var grid = $("#jqGrid");
+    var ids  = grid.getGridParam("selarrrow");
+
+    if(ids.length==0){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
     if(ids.length==0){
         SysMsg.warning("请选择行", "提示");
         return ;
@@ -456,7 +465,7 @@ $(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
         if(result){
             $.post($div.data("url-ba"),{ids:ids},function(ret){
                 if(ret.success) {
-                    page_reload();
+                    grid.trigger("reloadGrid");
                     SysMsg.success('操作成功。', '成功');
                 }
             });
@@ -958,4 +967,11 @@ function printWindow(url){
             iframe.contentWindow.print();
         }
     }
+}
+
+/**jqgrid**/
+function realnameFormatter(cellvalue, options, rowObject){
+
+    return '<a href="javascript:;" class="openView" data-url="{0}/member_view?userId={1}">{2}</a>'
+        .format(ctx, rowObject.userId, cellvalue);
 }

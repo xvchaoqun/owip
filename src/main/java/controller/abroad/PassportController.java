@@ -8,10 +8,10 @@ import controller.BaseController;
 import domain.*;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.PassportMixin;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
@@ -37,7 +37,7 @@ import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -97,9 +97,31 @@ public class PassportController extends BaseController {
 
         return "abroad/passport/passport_stat";
     }
+
     @RequiresPermissions("passport:list")
     @RequestMapping("/passportList_page")
-    public String passportList_page(HttpServletResponse response,
+    public String passportList_page(
+            Integer cadreId,
+            // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
+            @RequestParam(required = false, defaultValue = "1") byte status,
+            Integer userId, ModelMap modelMap) {
+
+        modelMap.put("status", status);
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if (cadreId != null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+        return "abroad/passport/passport_page";
+    }
+
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/passport_data")
+    public void passport_data(HttpServletResponse response,
                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                 Integer cadreId,
@@ -108,7 +130,7 @@ public class PassportController extends BaseController {
                                 Integer safeBoxId,
                                 // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
                                 @RequestParam(required = false, defaultValue = "1") byte status,
-                                Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -118,18 +140,10 @@ public class PassportController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        modelMap.put("status", status);
         Boolean abolish = (status == 4);
         Byte type = null;
         if (status < 4) {
             type = status;
-        }
-
-        if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
         }
 
         code = StringUtils.trimToNull(code);
@@ -141,45 +155,35 @@ public class PassportController extends BaseController {
         }
         List<Passport> passports = selectMapper.selectPassportList
                 (cadreId, classId, code, type, safeBoxId, null, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("passports", passports);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passports);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId != null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (classId != null) {
-            searchStr += "&classId=" + classId;
-        }
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-
-        searchStr += "&status=" + status;
-
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        return "abroad/passport/passport_page";
+        JSONUtils.jsonp(resultMap, Passport.class, PassportMixin.class);
+        return;
     }
 
     @RequiresPermissions("passport:list")
     @RequestMapping("/safeBoxPassportList")
-    public String safeBoxPassportList(HttpServletResponse response,
+    public String safeBoxPassportList(){
+
+        return "abroad/passport/safeBoxPassportList";
+    }
+
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/safeBoxPassportList_data")
+    public void safeBoxPassportList_data(HttpServletResponse response,
                                     @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                     Byte type,
                                     Byte cancelConfirm,
                                     Integer safeBoxId,
-                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -195,32 +199,17 @@ public class PassportController extends BaseController {
         }
         List<Passport> passports = selectMapper.selectPassportList
                 (null, null, null, type, safeBoxId, cancelConfirm, false, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("passports", passports);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passports);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (type != null) {
-            searchStr += "&type=" + type;
-        }
-        if (cancelConfirm != null) {
-            searchStr += "&cancelConfirm=" + cancelConfirm;
-        }
-        if (safeBoxId!=null) {
-            searchStr += "&safeBoxId=" + safeBoxId;
-        }
-
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        return "abroad/passport/safeBoxPassportList";
+        JSONUtils.jsonp(resultMap, Passport.class, PassportMixin.class);
+        return;
     }
 
     @RequiresPermissions("passport:edit")
@@ -272,7 +261,7 @@ public class PassportController extends BaseController {
         Integer id = record.getId();
 
         MetaType passportType = CmTag.getMetaType("mc_passport_type", record.getClassId());
-        if (passportService.idDuplicate(id, record.getCadreId(), record.getClassId(), record.getCode())) {
+        if (passportService.idDuplicate(id, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
             return failed(passportType.getName() + "重复，请先作废现有的" + passportType.getName());
         }
 

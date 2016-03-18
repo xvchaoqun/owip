@@ -480,4 +480,14 @@ public class SystemConstants {
 	// 管理员审批类型，0初审，1终审（type_id为null时）
 	public final static byte APPROVER_LOG_OD_TYPE_FIRST = 0;
 	public final static byte APPROVER_LOG_OD_TYPE_LAST = 1;
+
+
+	// 短信提醒类别
+	public final static String SHORT_MSG_KEY_PASSPORT_EXPIRE = "passport.expire";
+	public final static String SHORT_MSG_KEY_PASSPORT_DISMISS = "passport.dismiss";
+	public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
+	static {
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_EXPIRE, "取消集中管理-证件到期");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_DISMISS, "取消集中管理-不再担任职务");
+	}
 }

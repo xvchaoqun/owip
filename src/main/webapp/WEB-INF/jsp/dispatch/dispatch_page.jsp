@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code
             ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
-                <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">
+                <div class="widget-up-jqgrid widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
@@ -139,7 +139,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.webui-popover.min.css" type="text/css" />
 <script src="${ctx}/extend/js/jquery.webui-popover.min.js"></script>
 <script type="text/template" id="dispatch_del_file_tpl">
@@ -148,12 +147,9 @@ pageEncoding="UTF-8" %>
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-times"></i> 取消</a>
 </script>
 <script type="text/template" id="sort_tpl">
-    <div style="height: 19px">
 <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1"
-       class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
 <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-    </div>
 </script>
 
 <script>
@@ -172,7 +168,6 @@ pageEncoding="UTF-8" %>
     }
     register_date($('.date-picker'));
     $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
     register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 
     $("#jqGrid").jqGrid({
@@ -186,9 +181,12 @@ pageEncoding="UTF-8" %>
                 else return cellvalue;
             }, frozen:true },
                 <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter:function(cellvalue, options, rowObject){
-                //console.log(options)
-                return _.template($("#sort_tpl").html())({id:rowObject.id})
+            { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
+               /* var page = $(this).getGridParam('page'); // current page
+                var row = $(this).getRowData(rowObject.id);
+                console.log(row)*/
+                //var rowData = this.p.data[this.p._index[rowObject.id]]
+                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
             </c:if>
             { label: '党委常委会日期', align:'center', name: 'meetingTime', width: 130 },
@@ -219,6 +217,7 @@ pageEncoding="UTF-8" %>
                         return  _.template($("#dispatch_del_file_tpl").html())({id:id, type:type})
                     }});
             });
+            $('[data-rel="tooltip"]').tooltip();
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

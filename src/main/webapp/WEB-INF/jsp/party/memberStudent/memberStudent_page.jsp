@@ -69,16 +69,12 @@
         var branch = rowObject.branch;
         return party + ((branch=='')?'':'-'+branch);
     }
-    function nameFormatter(cellvalue, options, rowObject){
 
-        return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                .format(rowObject.userId, cellvalue);
-    }
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 75, formatter:nameFormatter ,frozen:true },
+            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 75, formatter:realnameFormatter ,frozen:true },
             { label: '学生证号', align:'center', name: 'code', width: 100 ,frozen:true},
             { label: '性别', align:'center', name: 'gender', width: 55 },
             { label: '年龄', align:'center', name: 'age', width: 55 },

@@ -20,36 +20,46 @@ pageEncoding="UTF-8" %>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <c:if test="${status==PASSPORT_TYPE_KEEP}">
-                            <div class="buttons pull-right">
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加证件信息</a>
                                 </shiro:hasPermission>
                                 <a class="importBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
-                                <c:if test="${commonList.recNum>0}">
+                                   data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
                                     <a class="batchAbolishBtn btn btn-warning btn-sm">
                                         <i class="fa fa-times"></i> 作废
                                     </a>
                                     <shiro:hasPermission name="passport:del">
-                                        <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
                                     </shiro:hasPermission>
-                                </c:if>
-                            </div>
                         </c:if>
+                        <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+                            <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                    data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
+                                <i class="fa fa-info-circle"></i> 短信通知
+                            </button>
+                        </c:if>
+                        <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+                            <a class="jqOpenViewBtn btn btn-success btn-sm"
+                               data-open-by="page" data-url="${ctx}/passport_cancel">
+                                <i class="fa fa-check-circle-o"></i> 确认单
+                            </a>
+                        </c:if>
+
                         <c:if test="${status==3}">
-                            <div class="buttons pull-right">
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="addLostBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
-                            </div>
                         </c:if>
                         <c:if test="${status==5}">
-                            <div class="buttons pull-right">
                                 <shiro:hasPermission name="safeBox:edit">
                                     <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
                                 </shiro:hasPermission>
-                            </div>
                         </c:if>
+                        <shiro:hasPermission name="passport:edit">
+                            <button class="jqEditBtn btn btn-primary btn-sm">
+                                <i class="fa fa-edit"></i> 修改信息
+                            </button>
+                        </shiro:hasPermission>
                     </div>
                 </ul>
 
@@ -137,145 +147,57 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <c:if test="${commonList.recNum>0}">
-                <div class="table-container">
-                    <table style="min-width: 2000px" class="overflow-y table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
-							<th>工作证号</th>
-							<th>姓名</th>
-							<th>所在单位及职务</th>
-							<th>职位属性</th>
-							<th>证件名称</th>
-							<th>证件号码</th>
-							<th>发证机关</th>
-							<th>发证日期</th>
-							<th>有效期</th>
-                            <c:if test="${status!=PASSPORT_TYPE_LOST}">
-							<th>集中保管日期</th>
-							<th>存放保险柜编号</th>
-							<th>是否借出</th>
-                            <c:if test="${status==4 || status==5}">
-							<th>类型</th>
-                            </c:if>
-                                </c:if>
-                <c:if test="${passport.type==PASSPORT_TYPE_LOST}">
-                    <th>丢失证明</th>
-                    </c:if>
-                            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-							<th>取消集中保管原因</th>
-							<th>状态</th>
-                            </c:if>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${passports}" var="passport" varStatus="st">
-                        <c:set var="cadre" value="${cadreMap.get(passport.cadreId)}"/>
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                        <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${passport.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-                            <td>${sysUser.code}</td>
-                            <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
-                                    ${sysUser.realname}
-                            </a></td>
-                            <td style="text-align: left">${cadre.title}</td>
-                            <td>${postMap.get(cadre.postId).name}</td>
-								<td>${passportTypeMap.get(passport.classId).name}</td>
-								<td>${passport.code}</td>
-								<td>${passport.authority}</td>
-								<td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
-                                <c:if test="${passport.type!=PASSPORT_TYPE_LOST}">
-								<td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
-								<td>${safeBoxMap.get(passport.safeBoxId).code}</td>
-								<td>${passport.isLent?"借出":"-"}</td>
-                                </c:if>
-                            <c:if test="${status==PASSPORT_TYPE_LOST}">
-                                <td>
-                                    <a href="${ctx}/passport_lostProof_download?id=${passport.id}" target="_blank">
-                                    丢失证明
-                                    </a>
-                                </td>
-                            </c:if>
-                                <c:if test="${status==4 || status==5}">
-                                    <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
-                                </c:if>
-                                <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-                                    <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}</td>
-                                    <td>${passport.cancelConfirm?"已确认":"未确认"}</td>
-                                </c:if>
-
-                            <td>
-                                    <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-                                        <button data-id="${passport.id}"
-                                                data-type="${passport.cancelType}"
-                                                data-userid="${sysUser.id}"
-                                                data-name="${sysUser.realname}"
-                                                data-cls="${passportTypeMap.get(passport.classId).name}"
-                                                class="shortMsgBtn btn btn-primary btn-mini btn-xs">
-                                            <i class="fa fa-info-circle"></i> 短信通知
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${status==PASSPORT_TYPE_CANCEL}">
-                                        <button data-url="${ctx}/passport_cancel?id=${passport.id}" class="openView btn btn-success btn-mini btn-xs">
-                                            <i class="fa fa-check-circle-o"></i> 确认单
-                                        </button>
-                                    </c:if>
-
-                                    <shiro:hasPermission name="passport:edit">
-                                    <button data-id="${passport.id}" class="editBtn btn btn-primary btn-mini btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                    <%--<c:if test="${!passport.abolish}">
-                                    <button class="abolishBtn btn btn-warning btn-mini btn-xs" data-id="${passport.id}">
-                                        <i class="fa fa-times"></i> 作废
-                                    </button>
-                                    </c:if>
-                                     <shiro:hasPermission name="passport:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passport.id}">
-                                        <i class="fa fa-times"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>--%>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                </div>
-                <wo:page commonList="${commonList}" uri="${ctx}/passport_page" target="#page-content" pageNum="5"
-                         model="3"/>
-            </c:if>
-            <c:if test="${commonList.recNum==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
+            <table id="jqGrid" class="table-striped"> </table>
+            <div id="jqGridPager"> </div>
     </div>
                 </div></div></div>
     <div id="item-content">
     </div>
     </div>
 </div>
-<style>
-    table thead tr th,table tbody tr td{
-        text-align: center;!important;
-    }
-</style>
+
 <script>
-    stickheader();
+    $("#jqGrid").jqGrid({
+        //forceFit:true,
+        url: '${ctx}/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
+            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
+                        .format(rowObject.user.id, cellvalue);
+    } ,frozen:true },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
+            { label: '职位属性', align:'center', name: 'cadre.postType.name', width: 200 },
+            { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
+            { label: '证件号码', align:'center', name: 'code', width: 100 },
+            { label:'发证机关', align:'center',name: 'authority', width: 180},
+            { label:'发证日期', align:'center', name: 'issueDate', width: 100 },
+            { label:'有效期', align:'center', name: 'expiryDate', width: 100 },
+            <c:if test="${status!=PASSPORT_TYPE_LOST}">
+            { label:'集中保管日期', align:'center', name: 'keepDate', width: 120 },
+            { label:'存放保险柜编号', align:'center', name: 'safeBox.code', width: 130 },
+            { label:'是否借出', align:'center', name: 'isLent', width: 100, formatter:function(cellvalue){
+                return cellvalue?"借出":"-";
+            } },
+            </c:if>
+            <c:if test="${status==4 || status==5}">
+            { label:'类型', align:'center', name: 'passportType', width: 100 },
+            </c:if>
+            <c:if test="${status==PASSPORT_TYPE_LOST}">
+            { label:'丢失证明', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
+                return '<a href="${ctx}/passport_lostProof_download?id={0}" target="_blank">丢失证明</a>'.format(rowObject.id);
+            } },
+            </c:if>
+            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+            { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 100 },
+            { label:'状态', align:'center', name: 'cancelConfirm', width: 100, formatter:function(cellvalue){
+                return cellvalue?"已确认":"未确认";
+            } }
+            </c:if>
+        ]
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
+
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;
         loadModal( "${ctx}/safeBox_page?pageNo="+pageNo, '400');
@@ -285,45 +207,6 @@ pageEncoding="UTF-8" %>
         loadModal("${ctx}/passport_import");
     });
 
-    $(".shortMsgBtn").click(function(){
-        var msg = '';
-        var cancelType = $(this).data("type");
-        var name = $(this).data("name");
-        var cls = $(this).data("cls");
-        var userid = $(this).data("userid");
-        if(cancelType==1)
-            msg += name+"同志，您好！因证件过期，您所持有的"+cls+"不再纳入集中管理范围。" +
-            "请到组织部（主楼A306）取回证件，谢谢！联系电话：58808302、58806879。"
-        if(cancelType==2)
-            msg += name+"同志，您好！因您不再担任行政职务，您所持有的"+cls+"不再纳入集中管理范围。" +
-            "请您到组织部（主楼A306）取回证件，谢谢！联系电话：58808302、58806879。";
-        bootbox.confirm({
-            buttons: {
-                confirm: {
-                    label: '确定发送',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default'
-                }
-            },
-            message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">'+ msg + '</p>',
-            callback: function(result) {
-                if(result) {
-                    $.post("${ctx}/shortMsg", {type:'取消集中管理',content: msg, userId: userid}, function(ret){
-                        if(ret.success) {
-                            SysMsg.success('通知成功', '提示', function () {
-                                //page_reload();
-                            });
-                        }
-                    })
-                }
-            },
-            title: "短信通知"
-        });
-    });
-
     $(".addLostBtn").click(function(){
         loadModal("${ctx}/passport_au?type=${PASSPORT_TYPE_LOST}");
     });
@@ -331,19 +214,6 @@ pageEncoding="UTF-8" %>
         loadModal("${ctx}/passport_cancel_confirm?id="+$(this).data("id"));
     });
 
-   /* $(".abolishBtn").click(function(){
-        var id = $(this).data("id");
-        bootbox.confirm("确定作废该证件吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/passport_abolish", {id: id}, function (ret) {
-                    if (ret.success) {
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    });*/
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('[data-rel="select2-ajax"]'));

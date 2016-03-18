@@ -1,12 +1,9 @@
 package controller.sys;
 
+import bean.ShortMsgBean;
 import controller.BaseController;
-import domain.ShortMsg;
-import domain.ShortMsgExample;
+import domain.*;
 import domain.ShortMsgExample.Criteria;
-import domain.SysUser;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -16,9 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
+import sys.ShortMsgPropertyUtils;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -26,6 +23,7 @@ import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +32,29 @@ public class ShortMsgController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("shortMsg:view")
+    @RequestMapping("/shortMsg_view")
+    public String shortMsg_view(@CurrentUser SysUser loginUser,
+                                String type, // passport
+                                Integer id, ModelMap modelMap) {
+
+        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
+        modelMap.put("shortMsgBean", shortMsgBean);
+
+        return "sys/shortMsg/short_msg_view";
+    }
+
     @RequiresPermissions("ShortMsg:*")
     @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsg(@CurrentUser SysUser loginUser, int userId, String content, String type,
-                           HttpServletRequest request) {
+    public Map do_shortMsg(@CurrentUser SysUser loginUser, String type, Integer id, HttpServletRequest request) {
 
-        if(shortMsgService.send(loginUser.getId(), userId, content, type, IpUtils.getRealIp(request))){
+        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
+
+        if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
             return success(FormUtils.SUCCESS);
         }
+
         return failed(FormUtils.FAILED);
     }
 
