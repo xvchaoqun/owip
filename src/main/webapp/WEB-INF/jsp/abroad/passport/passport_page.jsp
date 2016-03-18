@@ -65,7 +65,7 @@ pageEncoding="UTF-8" %>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <div class="widget-up-jqgrid widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">

@@ -29,7 +29,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/safeBoxPassportList_data?callback=?&$safeBoxId=${param.safeBoxId}',
+        url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}',
         colModel: [
             { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
             { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
