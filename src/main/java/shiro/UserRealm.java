@@ -53,10 +53,20 @@ public class UserRealm extends AuthorizingRealm {
             throw new LockedAccountException(); //帐号锁定
         }
 
-        // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
         String inputPasswd = String.valueOf(authToken.getPassword());
-        boolean tryLogin = loginService.tryLogin(username, inputPasswd);
-        if(tryLogin){
+
+        if(user.getSource()!=SystemConstants.USER_SOURCE_ADMIN ){
+            // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
+            boolean tryLogin;
+            try{
+                tryLogin = loginService.tryLogin(username, inputPasswd);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                throw new RuntimeException("单点登录服务器错误，请稍后重试");
+            }
+            if(!tryLogin){
+                throw new IncorrectCredentialsException();
+            }
             password = new SimpleHash(
                     credentialsMatcher.getHashAlgorithmName(),
                     inputPasswd,
@@ -68,7 +78,6 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         ShiroUser shiroUser = new ShiroUser(user.getId(), username, user.getRealname(), user.getType());
-
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
