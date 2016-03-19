@@ -161,6 +161,8 @@ protected boolean onLoginFailure(AuthenticationToken token,
             resultMap.put("msg", "账号被锁定");
         }else if ("InspectorFinishException".equals(message)) {
             resultMap.put("msg", "该账号已经测评完成");
+        }else if("SSOException".equals(message)){
+            resultMap.put("msg", "单点登录服务器错误，请稍后重试");
         }else {
             resultMap.put("msg", "系统错误");
         }

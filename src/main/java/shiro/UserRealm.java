@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
-import sys.utils.MD5Util;
 
 
 public class UserRealm extends AuthorizingRealm {
@@ -62,7 +61,7 @@ public class UserRealm extends AuthorizingRealm {
                 tryLogin = loginService.tryLogin(username, inputPasswd);
             }catch (Exception ex){
                 ex.printStackTrace();
-                throw new RuntimeException("单点登录服务器错误，请稍后重试");
+                throw new SSOException();
             }
             if(!tryLogin){
                 throw new IncorrectCredentialsException();
