@@ -215,12 +215,12 @@ public class PassportController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm==1);
+        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm!=null&&cancelConfirm==1);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (null, null, null, type, safeBoxId, cancelConfirm==1, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (null, null, null, type, safeBoxId, cancelConfirm!=null&&cancelConfirm==1, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

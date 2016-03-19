@@ -58,7 +58,7 @@ $(function(){
                     location.href = data.url;
                 }else{
                     alert(data.msg)
-                    $captcha.click()
+                    $('img.captcha').click()
                 }
             }
         });
