@@ -51,10 +51,22 @@
                     return rowObject.applySelf.endDate;
                 return cellvalue;
             }},
-            { label: '前往国家或地区', align:'center', name: 'realToCountry', width: 150 },
-            { label:'因私出国境事由', align:'center', name: 'reason', width: 150 },
+            { label: '前往国家或地区', align:'center', name: 'realToCountry',width: 150 , formatter:function(cellvalue, options, rowObject){
+                if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
+                    return rowObject.applySelf.toCountry;
+                if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')
+                    return '台湾';
+                if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
+                    return '-';
+                return cellvalue;
+            }},
+            { label:'因私出国境事由', align:'center', name: 'reason', width: 150, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
+                    return rowObject.applySelf.reason;
+                return cellvalue;
+            } },
             { label:'借出日期', align:'center', name: 'drawTime', width: 100 },
-            { label:'归还日期', align:'center', name: 'returnDate', width: 100 }
+            { label:'归还日期', align:'center', name: 'realReturnDate', width: 100 }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
