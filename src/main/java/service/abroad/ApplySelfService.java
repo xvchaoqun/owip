@@ -233,6 +233,10 @@ public class ApplySelfService extends BaseMapper {
         return applySelfFileMapper.selectByExample(example);
     }
 
+    public ApplySelf get(int id){
+
+        return applySelfMapper.selectByPrimaryKey(id);
+    }
     @Transactional
     public int insertSelective(ApplySelf record) {
 

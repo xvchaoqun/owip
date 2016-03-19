@@ -22,7 +22,7 @@
                         <a href="?status=3"><i class="fa fa-circle-o"></i> 丢失的证件</a>
                     </li>
                     <li  class="<c:if test="${status==4}">active</c:if>">
-                        <a href="?status=4"><i class="fa fa-times"></i> 已作废证件</a>
+                        <a href="?status=4"><i class="fa fa-trash"></i> 已作废证件</a>
                     </li>
                     <li  class="<c:if test="${status==5}">active</c:if>">
                         <a href="?status=5"><i class="fa fa-inbox"></i> 保险柜管理</a>
@@ -77,7 +77,7 @@
                                                 </shiro:hasPermission>
                                                 <shiro:hasPermission name="safeBox:del">
                                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${safeBox.id}">
-                                                        <i class="fa fa-times"></i> 删除
+                                                        <i class="fa fa-trash"></i> 删除
                                                     </button>
                                                 </shiro:hasPermission>
                                             </div>

@@ -18,9 +18,9 @@
     <result column="cancel_confirm" property="cancelConfirm" jdbcType="BIT" />
     <result column="cancel_pic" property="cancelPic" jdbcType="VARCHAR" />
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+    <result column="lost_time" property="lostTime" jdbcType="TIMESTAMP" />
     <result column="lost_proof" property="lostProof" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="abolish" property="abolish" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +83,7 @@
   <sql id="Base_Column_List" >
     id, apply_id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, 
     safe_box_id, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, 
-    lost_proof, create_time, abolish
+    lost_time, lost_proof, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportExample" >
     select
@@ -121,15 +121,15 @@
       issue_date, expiry_date, keep_date, 
       safe_box_id, is_lent, type, 
       cancel_type, cancel_confirm, cancel_pic, 
-      cancel_time, lost_proof, create_time, 
-      abolish)
+      cancel_time, lost_time, lost_proof, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
       #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
       #{safeBoxId,jdbcType=INTEGER}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
       #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, 
-      #{cancelTime,jdbcType=TIMESTAMP}, #{lostProof,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{abolish,jdbcType=BIT})
+      #{cancelTime,jdbcType=TIMESTAMP}, #{lostTime,jdbcType=TIMESTAMP}, #{lostProof,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.Passport" >
     insert into abroad_passport
@@ -182,14 +182,14 @@
       <if test="cancelTime != null" >
         cancel_time,
       </if>
+      <if test="lostTime != null" >
+        lost_time,
+      </if>
       <if test="lostProof != null" >
         lost_proof,
       </if>
       <if test="createTime != null" >
         create_time,
-      </if>
-      <if test="abolish != null" >
-        abolish,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -241,14 +241,14 @@
       <if test="cancelTime != null" >
         #{cancelTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lostTime != null" >
+        #{lostTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="lostProof != null" >
         #{lostProof,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="abolish != null" >
-        #{abolish,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -309,14 +309,14 @@
       <if test="record.cancelTime != null" >
         cancel_time = #{record.cancelTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.lostTime != null" >
+        lost_time = #{record.lostTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.lostProof != null" >
         lost_proof = #{record.lostProof,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.abolish != null" >
-        abolish = #{record.abolish,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -341,9 +341,9 @@
       cancel_confirm = #{record.cancelConfirm,jdbcType=BIT},
       cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
       cancel_time = #{record.cancelTime,jdbcType=TIMESTAMP},
+      lost_time = #{record.lostTime,jdbcType=TIMESTAMP},
       lost_proof = #{record.lostProof,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      abolish = #{record.abolish,jdbcType=BIT}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -396,14 +396,14 @@
       <if test="cancelTime != null" >
         cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lostTime != null" >
+        lost_time = #{lostTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="lostProof != null" >
         lost_proof = #{lostProof,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="abolish != null" >
-        abolish = #{abolish,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -425,9 +425,9 @@
       cancel_confirm = #{cancelConfirm,jdbcType=BIT},
       cancel_pic = #{cancelPic,jdbcType=VARCHAR},
       cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      lost_time = #{lostTime,jdbcType=TIMESTAMP},
       lost_proof = #{lostProof,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      abolish = #{abolish,jdbcType=BIT}
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.PassportExample" id="selectByExampleWithRowbounds" >

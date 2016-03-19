@@ -11,7 +11,7 @@
 	    <property name="suppressAllComments" value="true"/>
 	  </commentGenerator>
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-    connectionURL="jdbc:mysql://localhost:3306/owip?useUnicode=true&amp;characterEncoding=UTF8"
+    connectionURL="jdbc:mysql://localhost:3306/owip20160314?useUnicode=true&amp;characterEncoding=UTF8"
     userId="root" password="123" />
     <javaModelGenerator targetPackage="domain" targetProject="src/main/java" >
     	<property name="trimStrings" value="true" />
@@ -43,8 +43,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-    <!--  <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>-->
+      <table tableName="abroad_passport" domainObjectName="Passport">
+      </table>
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
@@ -198,9 +198,9 @@
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-      <table tableName="sys_config" domainObjectName="SysConfig">
+      <!--<table tableName="sys_config" domainObjectName="SysConfig">
           <columnOverride column="apply_self_note" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
 
       <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
       </table>-->

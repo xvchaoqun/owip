@@ -1122,6 +1122,66 @@ public class PassportExample {
             return (Criteria) this;
         }
 
+        public Criteria andLostTimeIsNull() {
+            addCriterion("lost_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeIsNotNull() {
+            addCriterion("lost_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeEqualTo(Date value) {
+            addCriterion("lost_time =", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeNotEqualTo(Date value) {
+            addCriterion("lost_time <>", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeGreaterThan(Date value) {
+            addCriterion("lost_time >", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("lost_time >=", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeLessThan(Date value) {
+            addCriterion("lost_time <", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeLessThanOrEqualTo(Date value) {
+            addCriterion("lost_time <=", value, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeIn(List<Date> values) {
+            addCriterion("lost_time in", values, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeNotIn(List<Date> values) {
+            addCriterion("lost_time not in", values, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeBetween(Date value1, Date value2) {
+            addCriterion("lost_time between", value1, value2, "lostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTimeNotBetween(Date value1, Date value2) {
+            addCriterion("lost_time not between", value1, value2, "lostTime");
+            return (Criteria) this;
+        }
+
         public Criteria andLostProofIsNull() {
             addCriterion("lost_proof is null");
             return (Criteria) this;
@@ -1249,66 +1309,6 @@ public class PassportExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishIsNull() {
-            addCriterion("abolish is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishIsNotNull() {
-            addCriterion("abolish is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishEqualTo(Boolean value) {
-            addCriterion("abolish =", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishNotEqualTo(Boolean value) {
-            addCriterion("abolish <>", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishGreaterThan(Boolean value) {
-            addCriterion("abolish >", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("abolish >=", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishLessThan(Boolean value) {
-            addCriterion("abolish <", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishLessThanOrEqualTo(Boolean value) {
-            addCriterion("abolish <=", value, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishIn(List<Boolean> values) {
-            addCriterion("abolish in", values, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishNotIn(List<Boolean> values) {
-            addCriterion("abolish not in", values, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishBetween(Boolean value1, Boolean value2) {
-            addCriterion("abolish between", value1, value2, "abolish");
-            return (Criteria) this;
-        }
-
-        public Criteria andAbolishNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("abolish not between", value1, value2, "abolish");
             return (Criteria) this;
         }
     }

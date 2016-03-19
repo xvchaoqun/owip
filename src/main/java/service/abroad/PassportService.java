@@ -59,7 +59,6 @@ public class PassportService extends BaseMapper {
                 if(sysUser== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
-            record.setAbolish(false);
             record.setCancelConfirm(false);
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
@@ -77,7 +76,7 @@ public class PassportService extends BaseMapper {
     public List<Passport> findByCadreId(int cadreId){
 
        return selectMapper.selectPassportList(cadreId, null, null,
-               SystemConstants.PASSPORT_TYPE_KEEP, null, null, false, new RowBounds());
+               SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
     }
 
     public boolean idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
@@ -86,7 +85,7 @@ public class PassportService extends BaseMapper {
 
         // 证件号码不允许重复
         PassportExample example = new PassportExample();
-        PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andAbolishEqualTo(false);
+        PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
         if(id!=null){
             criteria.andIdNotEqualTo(id);
             Passport passport = passportMapper.selectByPrimaryKey(id);
@@ -102,7 +101,7 @@ public class PassportService extends BaseMapper {
             PassportExample example2 = new PassportExample();
             PassportExample.Criteria criteria2 =
                     example2.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
-                            .andClassIdEqualTo(classId).andAbolishEqualTo(false);
+                            .andClassIdEqualTo(classId);
             if (id != null) criteria2.andIdNotEqualTo(id);
 
             return passportMapper.countByExample(example) > 0 || passportMapper.countByExample(example2) > 0;
@@ -147,11 +146,24 @@ public class PassportService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
         Passport record = new Passport();
-        record.setAbolish(true);
+        record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+        record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH);
 
         passportMapper.updateByExampleSelective(record, example);
     }
+    @Transactional
+    public void lost(Integer[] ids){
 
+        if(ids==null || ids.length==0) return;
+
+        PassportExample example = new PassportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Passport record = new Passport();
+        record.setType(SystemConstants.PASSPORT_TYPE_LOST);
+
+        passportMapper.updateByExampleSelective(record, example);
+    }
     @Transactional
     public void batchDel(Integer[] ids){
 
@@ -189,7 +201,7 @@ public class PassportService extends BaseMapper {
 
         Date now = new Date();
         List<Passport> passports = selectMapper.selectPassportList(null, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, null, null, false, new RowBounds());
+                SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if(expiryDate.before(now)){

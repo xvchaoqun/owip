@@ -71,7 +71,7 @@
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="metaType:del">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${metaType.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>

@@ -68,7 +68,7 @@ pageEncoding="UTF-8" %>
                                             <i class="fa fa-edit"></i> 关联任免文件
                                         </button>
                                     <button class="btn btn-danger btn-mini btn-xs" onclick="cadreMainWork_del(${cadreMainWork.id})">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </div>
                             </td>
@@ -129,7 +129,7 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-edit"></i> 关联任免文件
                         </button>
                         <button class="btn btn-danger btn-mini btn-xs" onclick="cadreSubWork_del(${cadreSubWork.id})">
-                            <i class="fa fa-times"></i> 删除
+                            <i class="fa fa-trash"></i> 删除
                         </button>
                 </div>
             </td>
@@ -195,7 +195,7 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-edit"></i> 编辑
                         </button>
                         <button class="btn btn-danger btn-mini btn-xs" onclick="cadrePost_del(${cadrePost.id})">
-                            <i class="fa fa-times"></i> 删除
+                            <i class="fa fa-trash"></i> 删除
                         </button>
                 </div>
             </td>

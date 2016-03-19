@@ -49,7 +49,7 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="memberOut:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
 
                                     <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
                                         <button onclick="_deny(${memberOut.id}, '${_sysUser.realname}')" class="btn btn-danger btn-mini btn-xs">
-                                            <i class="fa fa-times"></i> 不通过
+                                            <i class="fa fa-trash"></i> 不通过
                                         </button>
                                         <button onclick="_check1(${memberOut.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核

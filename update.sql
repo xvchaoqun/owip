@@ -1,4 +1,14 @@
 
+-- 2016-3-19
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `cancel_type` `cancel_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '取消集中保管原因，1证件过期 2不再担任行政职务3证件作废' AFTER `type`;
+
+	update abroad_passport set type=2 ,cancel_type=3, abolish=0 where abolish=1;
+ALTER TABLE `abroad_passport` DROP COLUMN `abolish`;
+
+ALTER TABLE `abroad_passport`
+	ADD COLUMN `lost_time` DATETIME NULL DEFAULT NULL COMMENT '丢失日期' AFTER `cancel_time`;
+
 --2016-3-13
 ALTER TABLE `base_cadre_edu`
 	ADD COLUMN `sort_order` INT UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `remark`;

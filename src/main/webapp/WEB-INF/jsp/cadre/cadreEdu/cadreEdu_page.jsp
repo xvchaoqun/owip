@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
      <c:if test="${fn:length(cadreEdus)>0}">
      <shiro:hasPermission name="cadreEdu:del">
          <button  onclick="_batchDel()" class="btn btn-danger btn-sm">
-             <i class="fa fa-times"></i> 删除
+             <i class="fa fa-trash"></i> 删除
          </button>
      </shiro:hasPermission>
      </c:if>
@@ -107,7 +107,7 @@ pageEncoding="UTF-8" %>
 <c:if test="${fn:length(cadreTutors)>0}">
         <shiro:hasPermission name="cadreTutor:del">
             <button  onclick="tutor_batchDel()" class="btn btn-danger btn-sm">
-                <i class="fa fa-times"></i> 删除
+                <i class="fa fa-trash"></i> 删除
             </button>
         </shiro:hasPermission>
     </c:if>

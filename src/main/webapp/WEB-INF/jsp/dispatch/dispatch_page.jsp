@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
                         <a class="exportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="dispatch:del">
-                            <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                            <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
 
                 </div>
@@ -144,7 +144,7 @@ pageEncoding="UTF-8" %>
 <script type="text/template" id="dispatch_del_file_tpl">
     <a class="btn btn-success btn-sm" onclick="dispatch_del_file({{=id}}, '{{=type}}')">
         <i class="fa fa-check"></i> 确定</a>&nbsp;
-    <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-times"></i> 取消</a>
+    <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
 <script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>

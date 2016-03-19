@@ -62,13 +62,14 @@ public class PassportController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_page")
-    public String passport_page(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5：保险柜管理
-                                    @RequestParam(required = false, defaultValue = "0") byte status,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    HttpServletResponse response,
-                                    ModelMap modelMap){
+    public String passport_page(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件  5：保险柜管理
+                                @RequestParam(required = false, defaultValue = "1") byte status,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                HttpServletResponse response,
+                                ModelMap modelMap) {
 
         if (export == 1) {
             safeBoxPassport_export(response);
@@ -76,17 +77,18 @@ public class PassportController extends BaseController {
         }
 
         modelMap.put("status", status);
-        if(status==0){
+        if (status == 0) {
             return "forward:/passport_stat";
-        }else if(status==5) {
+        } else if (status == 5) {
             return "forward:/safeBox_page";
-        }else{
+        } else {
             return "forward:/passportList_page";
         }
     }
+
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_stat")
-    public String passport_stat(ModelMap modelMap){
+    public String passport_stat(ModelMap modelMap) {
 
         List<PassportStatByClassBean> classBeans = selectMapper.passportStatByClass();
         List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost();
@@ -122,15 +124,15 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_data")
     public void passport_data(HttpServletResponse response,
-                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
-                                @OrderParam(required = false, defaultValue = "desc") String order,
-                                Integer cadreId,
-                                Integer classId,
-                                String code,
-                                Integer safeBoxId,
-                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
-                                @RequestParam(required = false, defaultValue = "1") byte status,
-                                Integer pageSize, Integer pageNo) throws IOException {
+                              @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
+                              @OrderParam(required = false, defaultValue = "desc") String order,
+                              Integer cadreId,
+                              Integer classId,
+                              String code,
+                              Integer safeBoxId,
+                              // 1:集中管理证件 2:取消集中保管证件（未确认） 3:丢失证件  4:取消集中保管证件（已确认） 5 保险柜管理
+                              @RequestParam(required = false, defaultValue = "1") byte status,
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -140,21 +142,28 @@ public class PassportController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        Boolean abolish = (status == 4);
         Byte type = null;
         if (status < 4) {
             type = status;
         }
+        Boolean cancelConfirm = null;
+        if(status==2){
+            cancelConfirm = false;
+        }
+        if(status==4){
+            cancelConfirm = true;
+            type=2;
+        }
 
         code = StringUtils.trimToNull(code);
 
-        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, null, abolish);
+        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, cancelConfirm);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (cadreId, classId, code, type, safeBoxId, null, abolish, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (cadreId, classId, code, type, safeBoxId, cancelConfirm, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -169,8 +178,21 @@ public class PassportController extends BaseController {
     }
 
     @RequiresPermissions("passport:list")
+    @RequestMapping("/passport_useLogs")
+    public String passport_useLogs(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        modelMap.put("cadre", cadre);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "abroad/passport/passport_useLogs";
+    }
+    @RequiresPermissions("passport:list")
     @RequestMapping("/safeBoxPassportList")
-    public String safeBoxPassportList(){
+    public String safeBoxPassportList() {
 
         return "abroad/passport/safeBoxPassportList";
     }
@@ -178,12 +200,12 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/safeBoxPassportList_data")
     public void safeBoxPassportList_data(HttpServletResponse response,
-                                    @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
-                                    @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Byte type,
-                                    Byte cancelConfirm,
-                                    Integer safeBoxId,
-                                    Integer pageSize, Integer pageNo) throws IOException {
+                                         @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
+                                         @OrderParam(required = false, defaultValue = "desc") String order,
+                                         Byte type,
+                                         Byte cancelConfirm,
+                                         Integer safeBoxId,
+                                         Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -193,12 +215,12 @@ public class PassportController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm, false);
+        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm==1);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (null, null, null, type, safeBoxId, cancelConfirm, false, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (null, null, null, type, safeBoxId, cancelConfirm==1, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -253,13 +275,15 @@ public class PassportController extends BaseController {
     @RequestMapping(value = "/passport_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passport_au(Passport record, Integer applyId,
-                              String _issueDate, String _expiryDate, String _keepDate,
+                              String _issueDate, String _expiryDate,
+                              String _keepDate,
                               Byte type,
+                              String _lostTime,
                               MultipartFile _lostProof,
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-        if(applyId!=null) { // 交证件
+        if (applyId != null) { // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
             record.setCadreId(_passportApply.getCadreId());
         }
@@ -277,8 +301,11 @@ public class PassportController extends BaseController {
         if (StringUtils.isNotBlank(_keepDate)) {
             record.setKeepDate(DateUtils.parseDate(_keepDate, DateUtils.YYYY_MM_DD));
         }
+        if (StringUtils.isNotBlank(_lostTime)) {
+            record.setLostTime(DateUtils.parseDate(_lostTime, DateUtils.YYYY_MM_DD));
+        }
 
-        if(type!=null && type==SystemConstants.PASSPORT_TYPE_LOST) {
+        if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
 
             if (_lostProof == null || _lostProof.isEmpty()) throw new RuntimeException("请选择丢失证明文件");
             String fileName = UUID.randomUUID().toString();
@@ -292,13 +319,12 @@ public class PassportController extends BaseController {
         }
 
         if (id == null) {
-            if(type==null)
+            if (type == null)
                 record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
             else
                 record.setType(type);
 
             record.setCancelConfirm(false);
-            record.setAbolish(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
@@ -314,7 +340,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:download")
     @RequestMapping("/passport_lostProof_download")
     public void passport_lostProof_download(Integer id,
-                                  HttpServletResponse response) throws IOException {
+                                            HttpServletResponse response) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         String lostProof = passport.getLostProof();
@@ -325,7 +351,7 @@ public class PassportController extends BaseController {
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
-        String fileName = URLEncoder.encode( sysUser.getRealname()+ "-"+ passportType.getName() +"（丢失证明）"+FileUtils.getExtention(lostProof), "UTF-8");
+        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName() + "（丢失证明）" + FileUtils.getExtention(lostProof), "UTF-8");
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
         response.addHeader("Content-Length", "" + bytes.length);
@@ -364,6 +390,50 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_au";
     }
 
+    @RequiresPermissions("passport:lost")
+    @RequestMapping("/passport_lost")
+    public String passport_lost(Integer id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        modelMap.put("cadre", cadre);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "abroad/passport/passport_lost";
+    }
+
+    // 从集中管理证件库 -> 丢失证件库
+    @RequiresPermissions("passport:lost")
+    @RequestMapping(value = "/passport_lost", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_lost(HttpServletRequest request, Integer id, String _lostTime,
+                                MultipartFile _lostProof) {
+
+        Passport record = new Passport();
+        record.setId(id);
+        if (StringUtils.isNotBlank(_lostTime)) {
+            record.setLostTime(DateUtils.parseDate(_lostTime, DateUtils.YYYY_MM_DD));
+        }
+        if (_lostProof == null || _lostProof.isEmpty()) throw new RuntimeException("请选择丢失证明文件");
+        String fileName = UUID.randomUUID().toString();
+        String realPath = File.separator
+                + "passport_cancel" + File.separator
+                + fileName;
+        String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
+        String savePath = realPath + ext;
+        FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
+        record.setLostProof(savePath);
+
+        record.setType(SystemConstants.PASSPORT_TYPE_LOST);
+        passportService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("passport:abolish")
     @RequestMapping(value = "/passport_abolish", method = RequestMethod.POST)
     @ResponseBody
@@ -372,7 +442,7 @@ public class PassportController extends BaseController {
         if (null != ids && ids.length > 0) {
 
             passportService.abolish(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废证件：%s",  StringUtils.join(ids, ",")));
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废证件：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -438,26 +508,26 @@ public class PassportController extends BaseController {
 
             Integer safeBoxId = safeBox.getId();
             List<Passport> passports = selectMapper.selectPassportList(null, null, null, null,
-                    safeBoxId, null, false, new RowBounds());
+                    safeBoxId, null, new RowBounds());
             int size = passports.size();
-            if(size==0) continue;
+            if (size == 0) continue;
 
             PassportExample example = new PassportExample();
             example.createCriteria().andSafeBoxIdEqualTo(safeBoxId).
-                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andAbolishEqualTo(false);
+                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
             int keepCount = passportMapper.countByExample(example);
 
             Row header = sheet.createRow(rowNum);
-            header.setHeight((short)(35.7*18));
+            header.setHeight((short) (35.7 * 18));
             Cell headerCell = header.createCell(0);
             headerCell.setCellValue(String.format("保险柜%s：证件总数%s本，其中集中管理%s本，取消集中管理（未确认）%s本。",
-                    safeBox.getCode(), size, keepCount, size-keepCount));
+                    safeBox.getCode(), size, keepCount, size - keepCount));
             headerCell.setCellStyle(getBgColorStyle(wb));
 
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
             XSSFRow firstRow = (XSSFRow) sheet.createRow(rowNum++);
-            firstRow.setHeight((short)(35.7*12));
+            firstRow.setHeight((short) (35.7 * 12));
             String[] titles = {"序号", "工作证号", "姓名", "所在单位及职务", "证件名称", "证件号码",
                     "发证件日期", "有效期", "证件状态", "是否借出"};
             for (int i = 0; i < titles.length; i++) {
@@ -467,16 +537,16 @@ public class PassportController extends BaseController {
 
                 //sheet.setColumnWidth(i, (short) (35.7*100));
             }
-            sheet.setColumnWidth(0, (short) (35.7*50));
-            sheet.setColumnWidth(1, (short) (35.7*100));
-            sheet.setColumnWidth(2, (short) (35.7*50));
-            sheet.setColumnWidth(3, (short) (35.7*300));
-            sheet.setColumnWidth(4, (short) (35.7*150));
-            sheet.setColumnWidth(5, (short) (35.7*100));
-            sheet.setColumnWidth(6, (short) (35.7*100));
-            sheet.setColumnWidth(7, (short) (35.7*100));
-            sheet.setColumnWidth(8, (short) (35.7*120));
-            sheet.setColumnWidth(9, (short) (35.7*100));
+            sheet.setColumnWidth(0, (short) (35.7 * 50));
+            sheet.setColumnWidth(1, (short) (35.7 * 100));
+            sheet.setColumnWidth(2, (short) (35.7 * 50));
+            sheet.setColumnWidth(3, (short) (35.7 * 300));
+            sheet.setColumnWidth(4, (short) (35.7 * 150));
+            sheet.setColumnWidth(5, (short) (35.7 * 100));
+            sheet.setColumnWidth(6, (short) (35.7 * 100));
+            sheet.setColumnWidth(7, (short) (35.7 * 100));
+            sheet.setColumnWidth(8, (short) (35.7 * 120));
+            sheet.setColumnWidth(9, (short) (35.7 * 100));
 
             for (int i = 0; i < size; i++) {
                 Passport passport = passports.get(i);
@@ -484,7 +554,7 @@ public class PassportController extends BaseController {
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
                 String[] values = {
-                        String.valueOf(i+1),
+                        String.valueOf(i + 1),
                         sysUser.getCode(),
                         sysUser.getRealname(),
                         cadre.getTitle(),
@@ -493,11 +563,11 @@ public class PassportController extends BaseController {
                         DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD),
                         SystemConstants.PASSPORT_TYPE_MAP.get(passport.getType()),
-                        BooleanUtils.isTrue(passport.getIsLent())?"借出":"-"
+                        BooleanUtils.isTrue(passport.getIsLent()) ? "借出" : "-"
                 };
 
                 Row row = sheet.createRow(rowNum++);
-                row.setHeight((short)(35.7*18));
+                row.setHeight((short) (35.7 * 18));
                 for (int j = 0; j < titles.length; j++) {
 
                     XSSFCell cell = (XSSFCell) row.createCell(j);
@@ -519,8 +589,7 @@ public class PassportController extends BaseController {
         }
     }
 
-    public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb)
-    {
+    public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
         // 创建单元格样式
         XSSFCellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
@@ -539,8 +608,7 @@ public class PassportController extends BaseController {
         return cellStyle;
     }
 
-    public static XSSFCellStyle getHeadStyle(XSSFWorkbook wb)
-    {
+    public static XSSFCellStyle getHeadStyle(XSSFWorkbook wb) {
         // 创建单元格样式
         XSSFCellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
@@ -564,7 +632,7 @@ public class PassportController extends BaseController {
         return cellStyle;
     }
 
-    private static XSSFCellStyle getBgColorStyle(XSSFWorkbook wb){
+    private static XSSFCellStyle getBgColorStyle(XSSFWorkbook wb) {
 
         XSSFCellStyle cellStyle = wb.createCellStyle();
         // 设置单元格对齐
@@ -572,7 +640,7 @@ public class PassportController extends BaseController {
         // 设置单元格垂直居中对齐
         cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
 
-        cellStyle.setFillForegroundColor(new XSSFColor( new Color(141, 180, 226)));
+        cellStyle.setFillForegroundColor(new XSSFColor(new Color(141, 180, 226)));
         //cellStyle.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
         //cellStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
         cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
@@ -602,9 +670,9 @@ public class PassportController extends BaseController {
     }
 
     @RequiresPermissions("passport:import")
-    @RequestMapping(value="/passport_import", method=RequestMethod.POST)
+    @RequestMapping(value = "/passport_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_import( HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_passport_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
         //User sessionUser = getAdminSessionUser(request);
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -619,7 +687,7 @@ public class PassportController extends BaseController {
 
             String sheetName = sheet.getSheetName();
 
-            if(StringUtils.equals(sheetName, "证件")){
+            if (StringUtils.equals(sheetName, "证件")) {
 
                 passports.addAll(XlsUpload.fetchPassports(sheet));
             }

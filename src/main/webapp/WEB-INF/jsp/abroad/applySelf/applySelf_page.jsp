@@ -68,7 +68,7 @@ pageEncoding="UTF-8" %>
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="applySelf:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
@@ -85,6 +85,7 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
+							<th>编号</th>
 							<th>申请日期</th>
                             <th>工作证号</th>
                             <th>姓名</th>
@@ -116,6 +117,7 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
+                            <td>S${applySelf.id}</td>
 								<td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
                             <td>${sysUser.code}</td>
                             <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${applySelf.cadreId}">
@@ -143,7 +145,7 @@ pageEncoding="UTF-8" %>
                                     </shiro:hasPermission>
                                      <%--<shiro:hasPermission name="applySelf:del">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applySelf.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>--%>
                                     </c:if>

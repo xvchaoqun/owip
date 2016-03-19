@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="alert alert-info" style="width: 1220px">
     <%--<button class="close" data-dismiss="alert">
-        <i class="ace-icon fa fa-times"></i>
+        <i class="ace-icon fa fa-trash"></i>
     </button>--%>
     申请办理因私出国（境）证件的程序：<br/>
     1. 选择需要申办的证件名称，确认信息准确无误之后提交申请；<br/>

@@ -95,10 +95,10 @@ body{
 .navbar .navbar-header .txt{float:left;height:58px;line-height:58px;font-size:30px;margin-left:25px;font-weight:bold;color:#fff}
 
 /*============table================*/
-/*.table-container{
+.table-container{
     overflow: auto;
     max-height: 500px;
-}*/
+}
 /*jqgrid start*/
 .table > thead > tr > th:last-child {
     border-right-color:inherit!important; /*覆盖ace， jqgrid*/
@@ -121,6 +121,13 @@ body{
 }*/
 .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td a:hover{
     color: inherit;
+}
+
+.ui-common-table button{
+    /*margin: 0!important;*/
+    padding: 0!important;
+    /*border: none!important;*/
+    vertical-align: inherit!important;
 }
 /*.table-bordered > thead > tr > th,
  .table-bordered{
@@ -397,6 +404,13 @@ br.xs-100 {
 
 .modal-header, .modal-footer.draggable{
     cursor: move;
+}
+.modal .modal-footer{
+    text-align: center!important;
+}
+.modal .modal-footer button{
+   margin-left: 20px;
+   margin-right: 20px;
 }
 .modal-width600{
     width: 600px;

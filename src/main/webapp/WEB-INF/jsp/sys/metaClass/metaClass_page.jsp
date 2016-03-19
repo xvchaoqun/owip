@@ -38,7 +38,7 @@
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasRole name="admin">
                         <shiro:hasPermission name="metaClass:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                         </shiro:hasRole>
                     </c:if>
@@ -118,7 +118,7 @@
                                     </button>
                              <%--<shiro:hasPermission name="metaClass:del">
                             <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${metaClass.id}">
-                                <i class="fa fa-times"></i> 删除
+                                <i class="fa fa-trash"></i> 删除
                             </button>
                              </shiro:hasPermission>--%>
                                 </shiro:hasRole>

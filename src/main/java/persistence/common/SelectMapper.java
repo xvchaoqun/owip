@@ -68,15 +68,13 @@ public interface SelectMapper {
                                       @Param("code") String code,
                                       @Param("type") Byte type,
                                       @Param("safeBoxId") Integer safeBoxId,
-                                      @Param("cancelConfirm") Byte cancelConfirm,
-                                      @Param("abolish") Boolean abolish, RowBounds rowBounds);
+                                      @Param("cancelConfirm") Boolean cancelConfirm, RowBounds rowBounds);
     Integer countPassport(@Param("cadreId") Integer cadreId,
                               @Param("classId") Integer classId,
                               @Param("code") String code,
                               @Param("type") Byte type,
                               @Param("safeBoxId") Integer safeBoxId,
-                              @Param("cancelConfirm") Byte cancelConfirm,
-                              @Param("abolish") Boolean abolish);
+                              @Param("cancelConfirm") Boolean cancelConfirm);
     // 获取干部证件
    // List<Passport> selectCadrePassports(@Param("cadreId") Integer cadreId);
 

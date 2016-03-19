@@ -126,12 +126,16 @@ public class ReportController extends BaseController {
         map.put("unit", title); // 所属单位及职务
         String check1 = "";
         String check2 = "";
+        String check3 = "";
         if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE)
             check1 = "√";
-        else
+        else  if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS)
             check2 = "√";
+        else  if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH)
+            check3 = "√";
         map.put("check1", check1);
         map.put("check2", check2);
+        map.put("check3", check3);
         map.put("passport1", passportType.getName());
         map.put("passport1Code", passport.getCode());
         map.put("passport1Expiry", DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD_CHINA));

@@ -39,6 +39,7 @@ pageEncoding="UTF-8" %>
                     <thead>
 
                     <tr>
+                            <th>编号</th>
                             <th>申请日期</th>
                     <c:if test="${type!=PASSPORT_DRAW_TYPE_TW}">
                             <th>申请领取证件名称</th>
@@ -72,6 +73,7 @@ pageEncoding="UTF-8" %>
                         <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
                         <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
                         <tr>
+                            <td>A${passportDraw.id}</td>
                             <td>${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>
                             <c:if test="${type!=PASSPORT_DRAW_TYPE_TW}">
                                 <td>${passportType.name}</td>
@@ -114,7 +116,7 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                     <c:if test="${passportDraw.status==0}">
                                         <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportDraw.id}">
-                                            <i class="fa fa-times"></i> 删除
+                                            <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </c:if>
                                 </div>

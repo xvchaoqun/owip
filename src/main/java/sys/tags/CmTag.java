@@ -229,6 +229,9 @@ public class CmTag {
         return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
     }
 
+    public static ApplySelf getApplySelf(Integer applyId){
+        return applySelfService.get(applyId);
+    }
     // 获取因私出国申请记录 初审 结果
     public static Integer getAdminFirstTrialStatus(Integer applyId) {
         return approvalLogService.getAdminFirstTrialStatus(applyId);

@@ -59,7 +59,7 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportApply.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                      </c:if>
                                 </div>

@@ -129,11 +129,9 @@
             </a>
           </div>
         </div>
-
         <div class="widget-body">
-          <div class="widget-main no-padding">
-            <div style="min-width: 400px;">
-            <table  id="logTable" style="min-width: 800px" class="table table-bordered table-hover">
+          <div class="widget-main no-padding" style="overflow: auto">
+            <table style="min-width: 800px" class="table table-bordered table-hover">
               <thead>
               <tr>
                 <th>序号</th>
@@ -176,7 +174,6 @@
               </c:forEach>
               </tbody>
             </table>
-            </div>
           </div></div></div>
       </div>
     <c:if test="${param.type=='aproval'}">
@@ -201,7 +198,6 @@
 
 </div>
 <script>
-  stickheader($("#logTable"));
 <c:if test="${param.type=='aproval'}">
   $("#agree").click(function(){
       if($("#agree").prop("checked")) {

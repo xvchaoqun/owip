@@ -197,7 +197,7 @@
                                     </button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <button onclick="apply_deny(${memberApply.userId}, 1)" class="btn btn-danger">
-                                        <i class="fa fa-times"></i> 不通过
+                                        <i class="fa fa-trash"></i> 不通过
                                     </button>
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">

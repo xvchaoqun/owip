@@ -125,7 +125,7 @@
                 $tdList.eq(1).html(node.data.code);
                 $tdList.eq(2).html("<a class='btn btn-default btn-mini btn-xs' onclick='_au("+node.data.id+")'><i class='fa fa-edit'></i> 编辑</a> &nbsp;&nbsp;" +
                 "<a class='btn btn-mini btn-xs btn-success' onclick='_appendChild("+node.data.code+")'><i class='fa fa-plus'></i> 添加子节点</a>&nbsp;&nbsp;" +
-                "<a class='btn btn-mini btn-xs btn-danger' onclick='_del("+node.data.id+")'><i class='fa fa-times'></i> 删除</a>");
+                "<a class='btn btn-mini btn-xs btn-danger' onclick='_del("+node.data.id+")'><i class='fa fa-trash'></i> 删除</a>");
             }
         });
     });

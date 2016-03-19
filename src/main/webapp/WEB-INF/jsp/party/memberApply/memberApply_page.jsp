@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
                                             <c:if test="${commonList.recNum>0}">
                                                 <a class="exportBtn btn btn-success btn-sm tooltip-success"><i class="fa fa-download"></i> 导出</a>
                                                 <shiro:hasPermission name="memberApply:del">
-                                                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 批量删除</a>
+                                                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
                                                 </shiro:hasPermission>
                                             </c:if>
                                         </div>
@@ -193,7 +193,7 @@ pageEncoding="UTF-8" %>
                                                                         <i class="fa fa-check"></i> 通过
                                                                     </button>
                                                                     <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger btn-mini btn-xs">
-                                                                        <i class="fa fa-times"></i> 不通过
+                                                                        <i class="fa fa-trash"></i> 不通过
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">

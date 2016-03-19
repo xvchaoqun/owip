@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
 
                                     <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_APPLY}">
                                         <button onclick="_deny(${memberOutflow.id})" class="btn btn-danger btn-mini btn-xs">
-                                            <i class="fa fa-times"></i> 不通过
+                                            <i class="fa fa-trash"></i> 不通过
                                         </button>
                                         <button onclick="_check1(${memberOutflow.id})" class="btn btn-success btn-mini btn-xs">
                                             <i class="fa fa-check"></i> 审核1

@@ -51,7 +51,7 @@ pageEncoding="UTF-8" %>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreReward:del">
                                     <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${cadreReward.id})">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>

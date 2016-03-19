@@ -21,9 +21,8 @@ pageEncoding="UTF-8"%>
                 </div>
 
                 <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <div style="min-width: 400px;">
-                            <table  id="logTable" style="min-width: 500px;" class="table table-bordered">
+                    <div class="widget-main no-padding" style="overflow:auto;">
+                            <table style="min-width: 500px;" class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>证件名称</th>
@@ -45,7 +44,6 @@ pageEncoding="UTF-8"%>
                                 </c:forEach>
                                 </tbody>
                             </table>
-                        </div>
                     </div></div></div>
         </div>
     <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS}">
@@ -102,7 +100,6 @@ pageEncoding="UTF-8"%>
 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passportApply.classId)}"/>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
-    stickheader($("#logTable"));
     $("#print").click(function(){ // 兼容谷歌
         //$("#myframe").jqprint();
         var myframe = document.getElementById("myframe");

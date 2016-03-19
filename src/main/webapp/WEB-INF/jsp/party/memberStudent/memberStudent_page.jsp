@@ -43,7 +43,7 @@
                                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                         <i class="fa fa-download"></i> 导出</a>
                                     <a class="jqDelBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </a>
                                 </div>
                             </form>

@@ -408,13 +408,15 @@ public class SystemConstants {
 		PASSPORT_TYPE_MAP.put(PASSPORT_TYPE_CANCEL, "取消集中保管证件");
 		PASSPORT_TYPE_MAP.put(PASSPORT_TYPE_LOST, "丢失证件");
 	}
-	// 取消集中保管原因 1 证件过期 2 不再担任行政职务
+	// 取消集中保管原因 1 证件过期 2 不再担任行政职务 3证件作废
 	public final static byte PASSPORT_CANCEL_TYPE_EXPIRE= 1;
 	public final static byte PASSPORT_CANCEL_TYPE_DISMISS = 2;
+	public final static byte PASSPORT_CANCEL_TYPE_ABOLISH = 3;
 	public final static Map<Byte, String>PASSPORT_CANCEL_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_EXPIRE, "证件过期");
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_DISMISS, "不再担任行政职务");
+		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_ABOLISH, "证件作废");
 	}
 
 	//领取证件类别

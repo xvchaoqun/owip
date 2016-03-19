@@ -17,10 +17,10 @@
 <c:if test="${memberOut.status==MEMBER_OUT_STATUS_BACK}">
 <div class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert">
-		<i class="ace-icon fa fa-times"></i>
+		<i class="ace-icon fa fa-trash"></i>
 	</button>
 	<strong>
-		<i class="ace-icon fa fa-times"></i>
+		<i class="ace-icon fa fa-trash"></i>
 		返回修改
 	</strong>
 	<c:if test="${not empty memberOut.reason}">

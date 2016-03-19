@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                     <c:if test="${firstStatus==null}"> <!--没有经过审批才可以删除-->
                                         <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applySelf.id}">
-                                            <i class="fa fa-times"></i> 删除
+                                            <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </c:if>
 

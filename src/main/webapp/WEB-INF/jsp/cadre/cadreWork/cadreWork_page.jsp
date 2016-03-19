@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <shiro:hasPermission name="cadreWork:del">
-                    <a class="btn btn-danger btn-sm" onclick="_batchDel()"><i class="fa fa-times"></i> 批量删除</a>
+                    <a class="btn btn-danger btn-sm" onclick="_batchDel()"><i class="fa fa-trash"></i> 批量删除</a>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8" %>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreWork:del">
                                     <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${cadreWork.id})">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>

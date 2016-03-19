@@ -28,7 +28,7 @@
                                     <i class="fa fa-edit"></i>  更新权限
                                 </button>
                                 <a href="javascript:;" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
-                                    <i class="fa fa-times"></i> 删除</a>
+                                    <i class="fa fa-trash"></i> 删除</a>
                             </div>
 
                         </td>

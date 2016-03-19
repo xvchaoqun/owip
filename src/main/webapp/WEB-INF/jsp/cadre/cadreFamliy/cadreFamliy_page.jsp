@@ -52,7 +52,7 @@ pageEncoding="UTF-8" %>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreFamliy:del">
                                     <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliy_del(${cadreFamliy.id})">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
@@ -131,7 +131,7 @@ pageEncoding="UTF-8" %>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadreFamliyAbroad:del">
                                         <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliyAbroad_del(${cadreFamliyAbroad.id})">
-                                            <i class="fa fa-times"></i> 删除
+                                            <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </shiro:hasPermission>
                                 </div>

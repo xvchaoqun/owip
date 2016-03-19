@@ -106,7 +106,7 @@
                     <div class="hidden-sm hidden-xs action-buttons">
                         <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_APPLY}">
                             <button onclick="_deny(${memberInflow.id})" class="btn btn-danger btn-mini btn-xs">
-                                <i class="fa fa-times"></i> 不通过
+                                <i class="fa fa-trash"></i> 不通过
                             </button>
                             <button onclick="_check1(${memberInflow.id})" class="btn btn-success btn-mini btn-xs">
                                 <i class="fa fa-check"></i> 审核1

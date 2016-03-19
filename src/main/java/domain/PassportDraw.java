@@ -1,6 +1,8 @@
 package domain;
 
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,6 +24,23 @@ public class PassportDraw implements Serializable {
         Passport passport = CmTag.getPassport(passportId);
         Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
         return passportClassMap.get(passport.getClassId());
+    }
+
+    public ApplySelf getApplySelf(){
+
+        if(type== SystemConstants.PASSPORT_DRAW_TYPE_SELF && applyId!=null)
+            return CmTag.getApplySelf(applyId);
+        return null;
+    }
+    public String getStatusName(){
+        return SystemConstants.PASSPORT_DRAW_STATUS_MAP.get(status);
+    }
+    public String getDrawStatusName(){
+        return SystemConstants.PASSPORT_DRAW_DRAW_STATUS_MAP.get(drawStatus);
+    }
+    public Boolean getReturnDateNotNow(){
+        Date now = new Date();
+        return DateUtils.compareDate(returnDate, now);
     }
 
     private Integer id;

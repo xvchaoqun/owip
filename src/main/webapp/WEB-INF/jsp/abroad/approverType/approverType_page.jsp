@@ -86,7 +86,7 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${approverType.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </div>
                                 <div class="hidden-md hidden-lg">

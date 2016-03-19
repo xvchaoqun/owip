@@ -274,7 +274,7 @@
                     \
                      <div class="modal-footer center">\
                         <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 确定</button>\
-                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-trash"></i> 取消</button>\
                      </div>\
                     </form>\
                   </div>\

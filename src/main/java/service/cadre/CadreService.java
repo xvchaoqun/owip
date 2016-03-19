@@ -134,7 +134,7 @@ public class CadreService extends BaseMapper {
 
             PassportExample example = new PassportExample();
             example.createCriteria().andCadreIdEqualTo(id).
-                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andAbolishEqualTo(false);
+                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
             passportMapper.updateByExampleSelective(record, example);
         }
 

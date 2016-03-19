@@ -105,6 +105,16 @@ pageEncoding="UTF-8"%>
         </c:if>
         <c:if test="${param.type==PASSPORT_TYPE_LOST}">
             <div class="form-group">
+                <label class="col-xs-3 control-label">丢失日期</label>
+                <div class="col-xs-6">
+                    <div class="input-group">
+                        <input required class="form-control date-picker" name="_lostTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">丢失证明</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="file" name="_lostProof" />

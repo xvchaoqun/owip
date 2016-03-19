@@ -103,18 +103,18 @@
                                 <shiro:hasPermission name="partyMember:edit">
                                     <c:if test="${!partyMember.isAdmin}">
                                         <button class="adminBtn btn btn-success btn-mini btn-xs" data-id="${partyMember.id}">
-                                            <i class="fa fa-times"></i> 设为管理员
+                                            <i class="fa fa-trash"></i> 设为管理员
                                         </button>
                                     </c:if>
                                     <c:if test="${partyMember.isAdmin}">
                                         <button class="adminBtn btn btn-danger btn-mini btn-xs" data-id="${partyMember.id}">
-                                            <i class="fa fa-times"></i> 删除管理员
+                                            <i class="fa fa-trash"></i> 删除管理员
                                         </button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="partyMember:del">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${partyMember.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>

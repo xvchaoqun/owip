@@ -21,7 +21,7 @@
                         <shiro:hasPermission name="safeBox:del">
                             <a class="exportBtn btn btn-primary btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出所有证件"><i class="fa fa-download"></i> 导出</a>
-                            <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-times"></i> 删除</a>
+                            <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
                     </div>
                 </ul>

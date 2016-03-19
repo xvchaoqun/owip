@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="historyUnit:del">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${historyUnit.id}">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>

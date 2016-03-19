@@ -5,6 +5,8 @@ import domain.*;
 import domain.PassportDrawExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.ApplySelfMixin;
+import mixin.PassportDrawMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -97,17 +99,32 @@ public class PassportDrawController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-
     @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw_page")
-    public String passportDraw_page(HttpServletResponse response,
+    public String passportDraw_page(Integer cadreId,
+                                    @RequestParam(required = false, defaultValue = "1") byte type,
+                                    ModelMap modelMap) {
+        modelMap.put("type", type);
+        if (cadreId != null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+
+        return "abroad/passportDraw/passportDraw_page";
+    }
+    @RequiresPermissions("passportDraw:list")
+    @RequestMapping("/passportDraw_data")
+    public void passportDraw_data(HttpServletResponse response,
                                     @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
+                                    Integer passportId,
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     String _applyDate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -122,15 +139,12 @@ public class PassportDrawController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
             criteria.andCadreIdEqualTo(cadreId);
         }
-
+        if(passportId!=null){
+            criteria.andPassportIdEqualTo(passportId);
+        }
         criteria.andTypeEqualTo(type);
-        modelMap.put("type", type);
 
         if(StringUtils.isNotBlank(_applyDate)) {
             String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
@@ -145,7 +159,7 @@ public class PassportDrawController extends BaseController {
 
         if (export == 1) {
             passportDraw_export(example, response);
-            return null;
+            return;
         }
 
         int count = passportDrawMapper.countByExample(example);
@@ -154,32 +168,20 @@ public class PassportDrawController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("passportDraws", passportDraws);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passportDraws);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId != null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-
-        searchStr += "&type=" + type;
-
-
-        if (StringUtils.isNotBlank(_applyDate)) {
-            searchStr += "&_applyDate=" + _applyDate;
-        }
-
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "abroad/passportDraw/passportDraw_page";
+        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
+        sourceMixins.put(PassportDraw.class, PassportDrawMixin.class);
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     /*@RequiresPermissions("passportDraw:edit")

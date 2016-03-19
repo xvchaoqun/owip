@@ -36,7 +36,19 @@ $.jgrid.defaults.onPaging= function(){
 }
 $(window).on('resize.jqGrid', function () {
     $("#jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
-    $("#jqGrid").setGridHeight($(window).height()-390-$(".widget-up-jqgrid").height());
+    var height = 0;
+    $(".widget-up-jqgrid").each(function(){
+        height += $(this).height();
+    });
+    $("#jqGrid").setGridHeight($(window).height()-390-height);
+})
+$(window).on('resize.jqGrid2', function () {
+    $("#jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    var height = 0;
+    $(".widget-up-jqgrid").each(function(){
+        height += $(this).height();
+    });
+    $("#jqGrid2").setGridHeight($(window).height()-390-height);
 })
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
@@ -44,6 +56,7 @@ $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
         //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
         setTimeout(function() {
             $(window).triggerHandler('resize.jqGrid');
+            $(window).triggerHandler('resize.jqGrid2');
         }, 0);
     }
 })
@@ -79,7 +92,11 @@ SysMsg.warning = function(msg, title){
 SysMsg.success = function(msg, title, callback){
     $("body").css('padding-right','0px');
     //toastr.success(msg, title);
-    bootbox.alert(msg, callback);
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
 }
 SysMsg.info = function(msg, title, callback){
     $("body").css('padding-right','0px');
@@ -88,6 +105,16 @@ SysMsg.info = function(msg, title, callback){
         message:msg,
         callback:callback,
         title:title
+    });
+}
+SysMsg.confirm = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.success(msg, title);
+    bootbox.confirm({
+        message:msg,
+        callback:callback,
+        title:title,
+        closeButton:false
     });
 }
 
@@ -307,7 +334,15 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
     }
 });
 
-// 打开窗口 for jqgrid
+/**
+ * 打开窗口或页面 for jqgrid
+ *
+ * data-open-by 打开方式 page,modal(默认)
+ * data-id-name 传入的id参数名称，默认值id
+ * data-url 请求地址
+ * data-querystr 其他参数字符串&param=value
+ * data-width 打开方式为modal时的宽度
+ */
 $(document).on("click", ".jqOpenViewBtn", function(){
 
     var openBy = $(this).data("open-by");
@@ -450,10 +485,12 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
     location.href = $div.data("url-export") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
 
-// 批量作废 for jqgrid
-$(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
+// 批量操作 for jqgrid
+$(document).on("click", ".myTableDiv .jqBatchBtn", function(){
 
-    var $div = $(this).closest(".myTableDiv");
+    var url = $(this).data("url");
+    var title = $(this).data("title");
+    var msg = $(this).data("msg");
     var grid = $("#jqGrid");
     var ids  = grid.getGridParam("selarrrow");
 
@@ -461,13 +498,11 @@ $(document).on("click", ".myTableDiv .batchAbolishBtn", function(){
         SysMsg.warning("请选择行", "提示");
         return ;
     }
-    if(ids.length==0){
-        SysMsg.warning("请选择行", "提示");
-        return ;
-    }
-    bootbox.confirm("确定作废这"+ids.length+"条数据？",function(result){
+    title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
+    msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">'+msg+'</p>';
+    SysMsg.confirm(msg.format(ids.length),title,function(result){
         if(result){
-            $.post($div.data("url-ba"),{ids:ids},function(ret){
+            $.post(url,{ids:ids},function(ret){
                 if(ret.success) {
                     grid.trigger("reloadGrid");
                     SysMsg.success('操作成功。', '成功');

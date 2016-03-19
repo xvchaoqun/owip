@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Map;
 
 public class Passport implements Serializable {
-
     public SysUser getUser(){
 
         Cadre cadre = getCadre();
@@ -31,6 +30,7 @@ public class Passport implements Serializable {
 
         return CmTag.getSafeBoxMap().get(safeBoxId);
     }
+
 
     private Integer id;
 
@@ -64,11 +64,11 @@ public class Passport implements Serializable {
 
     private Date cancelTime;
 
+    private Date lostTime;
+
     private String lostProof;
 
     private Date createTime;
-
-    private Boolean abolish;
 
     private static final long serialVersionUID = 1L;
 
@@ -200,6 +200,14 @@ public class Passport implements Serializable {
         this.cancelTime = cancelTime;
     }
 
+    public Date getLostTime() {
+        return lostTime;
+    }
+
+    public void setLostTime(Date lostTime) {
+        this.lostTime = lostTime;
+    }
+
     public String getLostProof() {
         return lostProof;
     }
@@ -214,13 +222,5 @@ public class Passport implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Boolean getAbolish() {
-        return abolish;
-    }
-
-    public void setAbolish(Boolean abolish) {
-        this.abolish = abolish;
     }
 }
