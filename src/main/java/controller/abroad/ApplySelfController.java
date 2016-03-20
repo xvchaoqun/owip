@@ -334,7 +334,8 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_page")
     public String applySelfList_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
-                                     @RequestParam(required = false, defaultValue = "0")  int status, // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                     // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                     @RequestParam(required = false, defaultValue = "0")  int status,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         modelMap.put("status", status);

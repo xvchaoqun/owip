@@ -7,9 +7,9 @@ public class SysResource implements Serializable {
 
     private String name;
 
-    private String type;
+    private String remark;
 
-    private Integer sortOrder;
+    private String type;
 
     private String menuCss;
 
@@ -22,6 +22,8 @@ public class SysResource implements Serializable {
     private String permission;
 
     private Byte available;
+
+    private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -41,20 +43,20 @@ public class SysResource implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
     }
 
     public String getMenuCss() {
@@ -103,5 +105,13 @@ public class SysResource implements Serializable {
 
     public void setAvailable(Byte available) {
         this.available = available;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

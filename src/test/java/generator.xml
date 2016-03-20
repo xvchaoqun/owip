@@ -43,8 +43,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-      <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>
+     <!-- <table tableName="abroad_passport" domainObjectName="Passport">
+      </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
@@ -193,8 +193,8 @@
     <table tableName="sys_login_log" domainObjectName="SysLoginLog">
     </table>
     <table tableName="sys_role" domainObjectName="SysRole">
-    </table>
-    <table tableName="sys_resource" domainObjectName="SysResource">
+    </table>-->
+    <!--<table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 

@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
     </div>
     <div class="modal-footer center">
         <input id="next" type="button" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;下一步&nbsp;&nbsp;&nbsp;&nbsp;"/>
-        <input id="cancel" type="button" class="btn btn-default" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+        <input type="button" class="closeView btn btn-default" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
     </div>
 </div>
 
@@ -44,9 +44,6 @@ pageEncoding="UTF-8"%>
         }
     });
 
-    $("#cancel").click(function(){
-        page_reload();
-    });
     $("#next").click(function(){
         var classId = $('input[name=classId]:checked').val();
         if(classId==undefined || classId==''){

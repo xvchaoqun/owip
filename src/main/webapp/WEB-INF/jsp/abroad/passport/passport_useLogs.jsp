@@ -27,10 +27,17 @@
     </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
 <script>
+    <c:if test="${param.type=='user'}">
+    var url = '${ctx}/user/passportDraw_data?callback=?&passportId=${passport.id}'
+    </c:if>
+    <c:if test="${param.type!='user'}">
+    var url = '${ctx}/passportDraw_data?callback=?&passportId=${passport.id}';
+    </c:if>
+
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager:"jqGridPager2",
-        url: '${ctx}/passportDraw_data?callback=?&passportId=${passport.id}',
+        url: url,
         colModel: [
             { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
             { label: '申请编码',align:'center', name: 'id',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){

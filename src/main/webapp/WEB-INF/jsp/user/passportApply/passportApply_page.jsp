@@ -5,15 +5,19 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
+            <div class="tabbable">
+                <jsp:include page="/WEB-INF/jsp/user/passport/passport_menu.jsp"/>
+                <div class="tab-content">
+                    <div id="home4" class="tab-pane in active">
+                        <div class="buttons">
+                            <button data-url="${ctx}/user/passportApply_begin"
+                                    class="openView btn btn-success btn-sm"><i class="fa fa-plus"></i> 申请办理因私出国（境）证件
+                            </button>
+                        </div>
         <div class="myTableDiv"
              data-url-page="${ctx}/user/passportApply_page"
              data-url-del="${ctx}/user/passportApply_del">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
 
-                <div class="buttons">
-                        <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportApply_begin"><i class="fa fa-plus"></i> 申请办理因私出国（境）证件</a>
-                </div>
-            </mytag:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-actived table-striped table-bordered table-hover">
@@ -36,7 +40,7 @@ pageEncoding="UTF-8" %>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
 								<td>
-                                    <button class="openView btn btn-default btn-mini btn-xs"
+                                    <button class="openView btn btn-success btn-mini btn-xs"
                                             data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
                                         <i class="fa fa-file-o"></i> 申请表
                                     </button>
@@ -77,6 +81,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </c:if>
         </div>
+                    </div></div></div>
         </div>
         <div id="item-content">
 

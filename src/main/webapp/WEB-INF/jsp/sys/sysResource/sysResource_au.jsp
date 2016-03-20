@@ -100,6 +100,12 @@
 					<div class="help-inline">由系统开发者维护</div>
 				</div>
 		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">备注</label>
+			<div class="col-xs-6">
+				<form:textarea path="remark" class="form-control limited"/>
+			</div>
+		</div>
     </form:form>
 </div>
 <div class="modal-footer">

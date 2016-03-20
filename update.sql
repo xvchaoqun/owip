@@ -1,3 +1,8 @@
+--2016-3-20
+ALTER TABLE `sys_resource`
+	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `name`;
+
+资源：申办证件-》修改为因私出国境证件，更改路径
 
 -- 2016-3-19
 ALTER TABLE `abroad_passport`

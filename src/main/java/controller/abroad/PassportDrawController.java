@@ -141,10 +141,11 @@ public class PassportDrawController extends BaseController {
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if(passportId!=null){
+        if(passportId!=null){ // 查询特定证件的使用记录
             criteria.andPassportIdEqualTo(passportId);
+        }else {
+            criteria.andTypeEqualTo(type);
         }
-        criteria.andTypeEqualTo(type);
 
         if(StringUtils.isNotBlank(_applyDate)) {
             String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];

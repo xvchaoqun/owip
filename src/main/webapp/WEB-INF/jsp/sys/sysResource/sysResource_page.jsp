@@ -14,6 +14,7 @@
                     <th>菜单样式</th>
                     <th>URL路径</th>
                     <th>权限字符串</th>
+                    <th>备注</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -28,6 +29,7 @@
                         </td>
                         <td>${sysResource.url}</td>
                         <td>${sysResource.permission}</td>
+                        <td>${sysResource.remark}</td>
                         <td nowrap>
                                 <%--<shiro:hasPermission name="sysResource:create">--%>
 

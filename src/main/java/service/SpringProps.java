@@ -24,6 +24,9 @@ public class SpringProps {
 	@Value("${username.regex}")
 	public String usernameRegex;
 
+	@Value("${login.useSSOLogin}")
+	public Boolean useSSOLogin;
+
 	@Value("${login.useCaptcha}")
 	public Boolean useCaptcha;
 

@@ -10,12 +10,15 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
+import service.SpringProps;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
 
 public class UserRealm extends AuthorizingRealm {
 
+    @Autowired
+    private SpringProps springProps;
     @Autowired
     private SysUserService userService;
     @Autowired
@@ -54,7 +57,7 @@ public class UserRealm extends AuthorizingRealm {
 
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if(user.getSource()!=SystemConstants.USER_SOURCE_ADMIN ){
+        if(springProps.useSSOLogin && user.getSource()!=SystemConstants.USER_SOURCE_ADMIN ){
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;
             try{

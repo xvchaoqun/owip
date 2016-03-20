@@ -34,10 +34,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.xlsx.ExcelTool;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -339,27 +336,21 @@ public class PassportController extends BaseController {
 
     @RequiresPermissions("passport:download")
     @RequestMapping("/passport_lostProof_download")
-    public void passport_lostProof_download(Integer id,
+    public void passport_lostProof_download(Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         String lostProof = passport.getLostProof();
         String filePath = springProps.uploadPath + lostProof;
-        byte[] bytes = FileUtils.getBytes(filePath);
 
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
-        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName() + "（丢失证明）" + FileUtils.getExtention(lostProof), "UTF-8");
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
+        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
+                + "（丢失证明）" + FileUtils.getExtention(lostProof), "UTF-8");
+
+        DownloadUtils.download(request, response, filePath, fileName);
     }
 
     @RequiresPermissions("passport:edit")

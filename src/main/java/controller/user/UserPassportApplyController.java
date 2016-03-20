@@ -101,18 +101,20 @@ public class UserPassportApplyController extends BaseController {
         return "user/passportApply/passportApply_confirm";
     }
 
-    @RequiresRoles("cadre")
+    /*@RequiresRoles("cadre")
     @RequestMapping("/passportApply")
     public String passportApply() {
 
         return "index";
-    }
+    }*/
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportApply_page")
     public String passportApply_page(@CurrentUser SysUser loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                      @OrderParam(required = false, defaultValue = "desc") String order,
+                                     // 1证件列表 2申请证件列表
+                                     @RequestParam(defaultValue = "1")Integer type,
                                      Integer pageSize, Integer pageNo, ModelMap modelMap) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -148,6 +150,9 @@ public class UserPassportApplyController extends BaseController {
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
         }
+
+        modelMap.put("type", type);
+        searchStr += "&type=" + type;
 
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);

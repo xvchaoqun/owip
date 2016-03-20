@@ -72,11 +72,13 @@
 
   <!-- 以下是有审核权限的干部读取因私出访申请列表， 分为待审批、已审批-->
   <sql id="Where_selectNotApproval" >
-    where aas.cadre_id=bc.id and aas.status=1
-    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
-      and (
+    where
+    <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
+     aas.id=-1
     </if>
-    <if test="approverTypeUnitIdListMap != null">
+    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+      aas.cadre_id=bc.id and aas.status=1 and (
+    <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
       <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
         ( aas.flow_node = #{approverTypeId} and bc.unit_id in
         <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
@@ -86,7 +88,7 @@
       </foreach>
     </if>
     <if test="approverTypePostIdListMap != null">
-      <if test="approverTypeUnitIdListMap != null"> or </if>
+      <if test="approverTypeUnitIdListMap != null"> or </if> <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
       <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
         (aas.flow_node = #{approverTypeId} and bc.post_id in
         <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
@@ -95,7 +97,6 @@
         )
       </foreach>
     </if>
-    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
       )
     </if>
  </sql>
