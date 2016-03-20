@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.*;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -268,6 +269,16 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_cancel";
     }
 
+    @RequiresPermissions("passport:view")
+    @RequestMapping("/passport_lost_view")
+    public String passport_lost_view(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/passport_lost_view";
+    }
+
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_au", method = RequestMethod.POST)
     @ResponseBody
@@ -304,15 +315,19 @@ public class PassportController extends BaseController {
 
         if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
 
-            if (_lostProof == null || _lostProof.isEmpty()) throw new RuntimeException("请选择丢失证明文件");
-            String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "passport_cancel" + File.separator
-                    + fileName;
-            String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
-            String savePath = realPath + ext;
-            FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
-            record.setLostProof(savePath);
+            if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
+            if(_lostProof != null &&  !_lostProof.isEmpty()) {
+                String fileName = UUID.randomUUID().toString();
+                String realPath = File.separator
+                        + "passport_cancel" + File.separator
+                        + fileName;
+                String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
+                String savePath = realPath + ext;
+                FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
+                record.setLostProof(savePath);
+            }
+            if (id == null)
+                record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_ADD);
         }
 
         if (id == null) {
@@ -326,6 +341,14 @@ public class PassportController extends BaseController {
             passportService.add(record, applyId);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
         } else {
+
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
+                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+                // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                throw new RuntimeException("该证件不可以进行更新操作");
+            }
 
             passportService.updateByPrimaryKeySelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
@@ -355,10 +378,22 @@ public class PassportController extends BaseController {
 
     @RequiresPermissions("passport:edit")
     @RequestMapping("/passport_au")
-    public String passport_au(Integer id, Integer applyId, ModelMap modelMap) {
+    public String passport_au(Integer id, Integer type, Integer applyId, ModelMap modelMap) {
+
+        modelMap.put("type", type);
 
         if (id != null) {
             Passport passport = passportMapper.selectByPrimaryKey(id);
+
+            modelMap.put("type", passport.getType());
+
+            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
+                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+                // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                throw new RuntimeException("该证件不可以进行更新操作");
+            }
+
             modelMap.put("passport", passport);
 
             Cadre cadre = cadreService.findAll().get(passport.getCadreId());
@@ -378,6 +413,7 @@ public class PassportController extends BaseController {
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
+
         return "abroad/passport/passport_au";
     }
 
@@ -419,6 +455,8 @@ public class PassportController extends BaseController {
         record.setLostProof(savePath);
 
         record.setType(SystemConstants.PASSPORT_TYPE_LOST);
+        record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_TRANSFER);
+
         passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(request, SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
 
@@ -438,7 +476,7 @@ public class PassportController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("passport:del")
+    /*@RequiresPermissions("passport:del")
     @RequestMapping(value = "/passport_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passport_del(HttpServletRequest request, Integer id) {
@@ -449,7 +487,7 @@ public class PassportController extends BaseController {
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("passport:del")
     @RequestMapping(value = "/passport_batchDel", method = RequestMethod.POST)

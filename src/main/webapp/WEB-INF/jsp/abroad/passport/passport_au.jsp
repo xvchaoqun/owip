@@ -6,7 +6,8 @@ pageEncoding="UTF-8"%>
     <h3>
         <c:if test="${not empty param.applyId}">新办理的证件集中保管</c:if>
         <c:if test="${empty param.applyId}">
-        <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>${param.type==3?"丢失":""}证件信息
+        <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>
+        ${type==PASSPORT_TYPE_LOST?"丢失":""}证件信息
         </c:if>
     </h3>
 </div>
@@ -14,7 +15,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/passport_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
         <input type="hidden" name="applyId" value="${param.applyId}">
-        <input type="hidden" name="type" value="${param.type}">
+        <input type="hidden" name="type" value="${type}">
 <c:if test="${empty param.applyId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
@@ -77,7 +78,7 @@ pageEncoding="UTF-8"%>
                     </div>
 				</div>
 			</div>
-        <c:if test="${param.type!=PASSPORT_TYPE_LOST}">
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">集中保管日期</label>
 				<div class="col-xs-6">
@@ -102,8 +103,8 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
-        </c:if>
-        <c:if test="${param.type==PASSPORT_TYPE_LOST}">
+
+        <c:if test="${passport.type==PASSPORT_TYPE_LOST}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">丢失日期</label>
                 <div class="col-xs-6">
@@ -117,7 +118,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">丢失证明</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="file" name="_lostProof" />
+                    <input  ${passport==null?'required':''} class="form-control" type="file" name="_lostProof" />
                 </div>
             </div>
         </c:if>

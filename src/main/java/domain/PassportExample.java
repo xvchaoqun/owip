@@ -1122,6 +1122,66 @@ public class PassportExample {
             return (Criteria) this;
         }
 
+        public Criteria andLostTypeIsNull() {
+            addCriterion("lost_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeIsNotNull() {
+            addCriterion("lost_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeEqualTo(Byte value) {
+            addCriterion("lost_type =", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeNotEqualTo(Byte value) {
+            addCriterion("lost_type <>", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeGreaterThan(Byte value) {
+            addCriterion("lost_type >", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("lost_type >=", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeLessThan(Byte value) {
+            addCriterion("lost_type <", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("lost_type <=", value, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeIn(List<Byte> values) {
+            addCriterion("lost_type in", values, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeNotIn(List<Byte> values) {
+            addCriterion("lost_type not in", values, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeBetween(Byte value1, Byte value2) {
+            addCriterion("lost_type between", value1, value2, "lostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("lost_type not between", value1, value2, "lostType");
+            return (Criteria) this;
+        }
+
         public Criteria andLostTimeIsNull() {
             addCriterion("lost_time is null");
             return (Criteria) this;

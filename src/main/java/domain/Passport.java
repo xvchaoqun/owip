@@ -64,6 +64,8 @@ public class Passport implements Serializable {
 
     private Date cancelTime;
 
+    private Byte lostType;
+
     private Date lostTime;
 
     private String lostProof;
@@ -198,6 +200,14 @@ public class Passport implements Serializable {
 
     public void setCancelTime(Date cancelTime) {
         this.cancelTime = cancelTime;
+    }
+
+    public Byte getLostType() {
+        return lostType;
+    }
+
+    public void setLostType(Byte lostType) {
+        this.lostType = lostType;
     }
 
     public Date getLostTime() {

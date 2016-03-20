@@ -2,8 +2,14 @@
 ALTER TABLE `sys_resource`
 	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `name`;
 
-资源：申办证件-》修改为因私出国境证件，更改路径
+	ALTER TABLE `abroad_passport`
+	ADD COLUMN `lost_type` TINYINT(3) UNSIGNED  NOT NULL DEFAULT '0'  COMMENT '丢失类型，1集中证件库中丢失 2 后台添加' AFTER `cancel_time`;
+update abroad_passport set lost_type=0;
 
+
+资源：申办证件-》修改为因私出国境证件，更改路径
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `lost_proof` `lost_proof` VARCHAR(200) NULL DEFAULT '' COMMENT '丢失证明，拍照上传' AFTER `lost_time`;
 -- 2016-3-19
 ALTER TABLE `abroad_passport`
 	CHANGE COLUMN `cancel_type` `cancel_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '取消集中保管原因，1证件过期 2不再担任行政职务3证件作废' AFTER `type`;

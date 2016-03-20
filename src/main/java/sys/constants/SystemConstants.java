@@ -418,6 +418,14 @@ public class SystemConstants {
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_DISMISS, "不再担任行政职务");
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_ABOLISH, "证件作废");
 	}
+	// 丢失来源 1 从集中管理库中转移 2 后台添加
+	public final static byte PASSPORT_LOST_TYPE_TRANSFER= 1;
+	public final static byte PASSPORT_LOST_TYPE_ADD = 2;
+	public final static Map<Byte, String> PASSPORT_LOST_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_LOST_TYPE_MAP.put(PASSPORT_LOST_TYPE_TRANSFER, "集中管理证件库");
+		PASSPORT_LOST_TYPE_MAP.put(PASSPORT_LOST_TYPE_ADD, "后台添加");
+	}
 
 	//领取证件类别
 	public final static byte PASSPORT_DRAW_TYPE_SELF = 1;

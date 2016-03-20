@@ -121,6 +121,7 @@ public class PassportDrawController extends BaseController {
                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer passportId,
+                                    Integer year,
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     String _applyDate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
@@ -145,6 +146,9 @@ public class PassportDrawController extends BaseController {
             criteria.andPassportIdEqualTo(passportId);
         }else {
             criteria.andTypeEqualTo(type);
+        }
+        if(year!=null){
+            criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
         }
 
         if(StringUtils.isNotBlank(_applyDate)) {

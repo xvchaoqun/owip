@@ -37,7 +37,7 @@ $.jgrid.defaults.onPaging= function(){
 $(window).on('resize.jqGrid', function () {
     $("#jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
-    $(".widget-up-jqgrid").each(function(){
+    $("#body-content .widget-up-jqgrid").each(function(){
         height += $(this).height();
     });
     $("#jqGrid").setGridHeight($(window).height()-390-height);
@@ -45,8 +45,9 @@ $(window).on('resize.jqGrid', function () {
 $(window).on('resize.jqGrid2', function () {
     $("#jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
-    $(".widget-up-jqgrid").each(function(){
+    $("#item-content .widget-up-jqgrid").each(function(){
         height += $(this).height();
+        //alert(height)
     });
     $("#jqGrid2").setGridHeight($(window).height()-390-height);
 })

@@ -12,7 +12,7 @@
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
-                                    <i class="ace-icon fa fa-info-circle"></i>
+                                    <i class="ace-icon fa fa-circle-o"></i>
                                     集中管理证件
                                 </h4>
 
@@ -62,7 +62,7 @@
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
-                                    <i class="ace-icon fa fa-info-circle"></i>
+                                    <i class="ace-icon fa fa-recycle"></i>
                                     取消集中管理证件
                                 </h4>
 
@@ -107,7 +107,7 @@
                                                     <c:if  test="${passport.cancelConfirm}">
                                                         <a class="openView btn btn-success btn-xs"
                                                            data-url="${ctx}/user/passport_cancel?id=${passport.id}">
-                                                            <i class="fa fa-check-circle-o"></i> 取消集中管理证明
+                                                            <i class="fa fa-search"></i> 取消集中管理证明
                                                         </a>
                                                     </c:if>
                                                 </td>
@@ -122,7 +122,7 @@
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
-                                    <i class="ace-icon fa fa-info-circle"></i>
+                                    <i class="ace-icon fa fa-times"></i>
                                     丢失的证件
                                 </h4>
                                 <div class="widget-toolbar">
@@ -160,9 +160,9 @@
                                                        data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
                                                     <i class="fa fa-history"></i> 使用记录
                                                 </a>
-                                                    <a class="btn btn-info btn-xs"
-                                                       href="${ctx}/user/passport_lostProof_download?id=${passport.id}"
-                                                       target="_blank">丢失证明</a>
+                                                    <a class="openView btn btn-success btn-xs"
+                                                       data-url="${ctx}/user/passport_lost_view?type=user&id=${passport.id}">
+                                                        <i class="fa fa-search"></i> 丢失证明</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>

@@ -169,6 +169,17 @@ public class PassportService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
+        for (Integer id : ids) {
+
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
+                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+                // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                throw new RuntimeException("只有集中管理库或后台添加的丢失证件可以进行删除操作");
+            }
+        }
+
         PassportExample example = new PassportExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         passportMapper.deleteByExample(example);

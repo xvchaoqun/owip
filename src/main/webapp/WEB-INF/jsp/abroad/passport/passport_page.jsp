@@ -45,10 +45,7 @@ pageEncoding="UTF-8" %>
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
-                            <a class="jqOpenViewBtn btn btn-info btn-sm"
-                               data-open-by="page" data-url="${ctx}/passport_useLogs">
-                                <i class="fa fa-history"></i> 使用记录
-                            </a>
+
                             <c:if test="${status==2}">
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
@@ -68,15 +65,27 @@ pageEncoding="UTF-8" %>
 
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
                                 <shiro:hasPermission name="passport:edit">
+                                    <button class="jqEditBtn btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i> 修改信息
+                                    </button>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="passport:edit">
                                     <a class="addLostBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
-                            </c:if>
-                            <c:if test="${status==5}">
-                                <shiro:hasPermission name="safeBox:edit">
-                                    <a class="btn btn-success btn-sm" onclick="openView_safeBox()"><i class="fa fa-plus"></i> 保险柜管理</a>
+                                <a class="jqOpenViewBtn btn btn-success btn-sm"
+                                   data-open-by="page" data-url="${ctx}/passport_lost_view">
+                                    <i class="fa fa-search"></i> 丢失证明
+                                </a>
+                                <shiro:hasPermission name="passport:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/passport_batchDel" data-title="证件删除"
+                                       data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
-
+                            <a class="jqOpenViewBtn btn btn-info btn-sm"
+                               data-open-by="page" data-url="${ctx}/passport_useLogs">
+                                <i class="fa fa-history"></i> 使用记录
+                            </a>
                         </div>
             <div class="widget-up-jqgrid widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -186,26 +195,24 @@ pageEncoding="UTF-8" %>
             { label:'发证机关', align:'center',name: 'authority', width: 180},
             { label:'发证日期', align:'center', name: 'issueDate', width: 100 },
             { label:'有效期', align:'center', name: 'expiryDate', width: 100 },
-            <c:if test="${status!=PASSPORT_TYPE_LOST}">
-            { label:'集中保管日期', align:'center', name: 'keepDate', width: 120 },
-            <c:if test="${status!=4}">
+            { label:'集中管理日期', align:'center', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
+                    return '';
+                }
+                return cellvalue
+            }  },
+            <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', align:'center', name: 'safeBox.code', width: 130 },
             { label:'是否借出', align:'center', name: 'isLent', width: 100, formatter:function(cellvalue){
                 return cellvalue?"借出":"-";
             } },
             </c:if>
-            </c:if>
             <c:if test="${status==4}">
             { label:'取消集中保管日期', align:'center', name: 'cancelTime', width: 140 },
             </c:if>
-            <c:if test="${status==5}">
-            { label:'类型', align:'center', name: 'passportType', width: 100 },
-            </c:if>
             <c:if test="${status==PASSPORT_TYPE_LOST}">
-            { label:'丢失日期', align:'center', name: 'lostTime', width: 100 },
-            { label:'丢失证明', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
-                return '<a href="${ctx}/passport_lostProof_download?id={0}" target="_blank">丢失证明</a>'.format(rowObject.id);
-            } },
+            { label:'登记丢失日期', align:'center', name: 'lostTime', width: 120 },
             </c:if>
             <c:if test="${status==2||status==4}">
             { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 140 },

@@ -17,6 +17,7 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 import sys.utils.JSONUtils;
@@ -136,6 +137,22 @@ public class UserPassportController extends BaseController {
     }
 
     @RequiresRoles("cadre")
+    @RequestMapping("/passport_lost_view")
+    public String passport_lost_view(@CurrentUser SysUser loginUser,int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        int userId = loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+
+        if (passport.getCadreId().intValue() != cadre.getId()) {
+            throw new UnauthorizedException();
+        }
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/passport_lost_view";
+    }
+
+    @RequiresRoles("cadre")
     @RequestMapping("/passport_lostProof_download")
     public void passport_lostProof_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
@@ -166,7 +183,7 @@ public class UserPassportController extends BaseController {
     public void passportDraw_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                   @OrderParam(required = false, defaultValue = "desc") String order,
-                                  int passportId,
+                                  int passportId, Integer year,
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
@@ -190,6 +207,9 @@ public class UserPassportController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         criteria.andPassportIdEqualTo(passportId);
+        if (year != null) {
+            criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
+        }
 
         int count = passportDrawMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

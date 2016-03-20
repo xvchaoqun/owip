@@ -5,7 +5,7 @@
 </li>
 <li class="dropdown <c:if test="${status==2||status==4}">active</c:if>" >
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-        取消集中管理证件${status==2?"(未确认)":(status==4)?"(已确认)":""} &nbsp;
+        <i class="fa fa-recycle"></i> 取消集中管理证件${status==2?"(未确认) ":(status==4)?"(已确认) ":" "}
         <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 230px">
