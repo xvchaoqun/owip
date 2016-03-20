@@ -64,11 +64,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
 
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
-                                <shiro:hasPermission name="passport:edit">
-                                    <button class="jqEditBtn btn btn-primary btn-sm">
-                                        <i class="fa fa-edit"></i> 修改信息
-                                    </button>
-                                </shiro:hasPermission>
+
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="addLostBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
@@ -76,6 +72,11 @@ pageEncoding="UTF-8" %>
                                    data-open-by="page" data-url="${ctx}/passport_lost_view">
                                     <i class="fa fa-search"></i> 丢失证明
                                 </a>
+                                <shiro:hasPermission name="passport:edit">
+                                    <button class="jqEditBtn btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i> 修改信息
+                                    </button>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="passport:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/passport_batchDel" data-title="证件删除"
