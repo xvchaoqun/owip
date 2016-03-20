@@ -34,7 +34,13 @@
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
+                    <div class="buttons pull-right">
+                        <a class="exportBtn btn btn-primary btn-sm tooltip-success"
+                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                            <i class="fa fa-download"></i> 导出</a>
+                    </div>
                 </form>
+
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="table-striped"> </table>
@@ -58,6 +64,13 @@
         $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}passport_useLogs?type=${param.type}"+
         "&id=${passport.id}");
     });
+    $("#useLogForm .exportBtn").click(function(){
+
+        var year = $("#useLogForm input[name=year]").val();
+        location.href = "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?export=1&passportId=${passport.id}"+
+        "&year="+year;
+    });
+
 
     $("#jqGrid2").jqGrid({
         //forceFit:true,

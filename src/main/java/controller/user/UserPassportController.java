@@ -184,6 +184,7 @@ public class UserPassportController extends BaseController {
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                   @OrderParam(required = false, defaultValue = "desc") String order,
                                   int passportId, Integer year,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
@@ -209,6 +210,11 @@ public class UserPassportController extends BaseController {
         criteria.andPassportIdEqualTo(passportId);
         if (year != null) {
             criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
+        }
+
+        if (export == 1) {
+            passportDrawService.passportDraw_export(example, response);
+            return;
         }
 
         int count = passportDrawMapper.countByExample(example);

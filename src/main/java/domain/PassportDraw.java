@@ -18,6 +18,9 @@ public class PassportDraw implements Serializable {
 
         return CmTag.getCadreById(cadreId);
     }
+    public Passport getPassport(){
+        return CmTag.getPassport(passportId);
+    }
 
     public MetaType getPassportClass(){
 

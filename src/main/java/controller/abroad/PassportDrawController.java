@@ -9,11 +9,10 @@ import mixin.ApplySelfMixin;
 import mixin.PassportDrawMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
@@ -163,7 +163,7 @@ public class PassportDrawController extends BaseController {
         }
 
         if (export == 1) {
-            passportDraw_export(example, response);
+            passportDrawService.passportDraw_export(example, response);
             return;
         }
 
@@ -395,56 +395,5 @@ public class PassportDrawController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    public void passportDraw_export(PassportDrawExample example, HttpServletResponse response) {
-
-        List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
-        int rownum = passportDrawMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"申请人", "类型", "因私出国申请", "证件", "申请日期", "出发时间", "返回时间", "出国事由", "是否申请签注"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        for (int i = 0; i < rownum; i++) {
-
-            PassportDraw passportDraw = passportDraws.get(i);
-            String[] values = {
-                    passportDraw.getCadreId() + "",
-                    passportDraw.getType() + "",
-                    passportDraw.getApplyId() + "",
-                    passportDraw.getPassportId() + "",
-                    DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD),
-                    passportDraw.getReason(),
-                    passportDraw.getNeedSign() + ""
-            };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-        try {
-            String fileName = "领取证件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }
