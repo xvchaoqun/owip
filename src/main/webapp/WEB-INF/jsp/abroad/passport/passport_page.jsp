@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-                        <div class="widget-up-jqgrid buttons">
+                        <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==PASSPORT_TYPE_KEEP}">
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="editBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加证件</a>
@@ -47,6 +47,11 @@ pageEncoding="UTF-8" %>
                             </c:if>
 
                             <c:if test="${status==2}">
+                                <shiro:hasPermission name="passport:edit">
+                                    <button class="jqEditBtn btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i> 修改信息
+                                    </button>
+                                </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
                                     <i class="fa fa-info-circle"></i> 短信通知
@@ -57,6 +62,11 @@ pageEncoding="UTF-8" %>
                                 </a>
                             </c:if>
                             <c:if test="${status==4}">
+                                <shiro:hasPermission name="passport:edit">
+                                    <button class="jqEditBtn btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i> 修改信息
+                                    </button>
+                                </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-open-by="page" data-url="${ctx}/passport_cancel">
                                     <i class="fa fa-check-circle-o"></i> 取消集中管理证明
@@ -88,7 +98,7 @@ pageEncoding="UTF-8" %>
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
                         </div>
-            <div class="widget-up-jqgrid widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
@@ -170,7 +180,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="table-striped"> </table>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
     </div>
                 </div></div></div>
@@ -191,6 +201,16 @@ pageEncoding="UTF-8" %>
     } ,frozen:true },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '职务属性', align:'center', name: 'cadre.postType.name', width: 150 },
+            <c:if test="${status==PASSPORT_TYPE_KEEP}">
+            { label: '干部类型', align:'center', name: 'cadre.status', width: 150 , formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==1){
+                    return "现任干部"
+                }
+                if(cellvalue==2){
+                    return "拟任干部"
+                }
+            }},
+                </c:if>
             { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
             { label: '证件号码', align:'center', name: 'code', width: 100 },
             { label:'发证机关', align:'center',name: 'authority', width: 180},

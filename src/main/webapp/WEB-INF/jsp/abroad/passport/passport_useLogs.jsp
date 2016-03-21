@@ -21,7 +21,7 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <div class="widget-up-jqgrid ">
+                <div class="jqgrid-vertical-offset ">
                 <form class="form-inline hidden-sm hidden-xs" id="useLogForm">
                     <div class="input-group" style="width: 120px">
                         <input class="form-control date-picker" name="year" type="text"
@@ -43,7 +43,7 @@
 
                 </div>
                 <div class="space-4"></div>
-                <table id="jqGrid2" class="table-striped"> </table>
+                <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
                 <div id="jqGridPager2"> </div>
             </div>
         </div><!-- /.widget-main -->

@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue jqgrid-vertical-offset">
                     <jsp:include page="menu.jsp"/>
                 </ul>
 
@@ -14,183 +14,116 @@ pageEncoding="UTF-8" %>
                     <div id="home4" class="tab-pane in active">
 
                         <div class="space-4"></div>
-                        <div class="row col-xs-12">
-                            <div class="col-xs-6"><div class="widget-box transparent">
-                                <div class="widget-header widget-header-flat">
-                                    <h4 class="widget-title lighter">
-                                        <i class="ace-icon fa fa-circle-o"></i>
-                                        按照证件的类型和状态统计
-                                    </h4>
-
-                                    <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
-                                            <i class="ace-icon fa fa-chevron-up"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="widget-body">
-                                    <div class="widget-main no-padding">
-                                        <table class="table table-striped table-bordered table-hover" >
-                                            <thead>
-                                            <tr>
-                                                <th style="width: 200px">证件名称</th>
-                                                <th style="width: 50px">数量</th>
-                                                <th style="width: 100px">集中管理</th>
-                                                <th style="width: 50px">丢失</th>
-                                                <th style="width: 50px">作废</th>
-                                                <th style="width: 150px">取消集中管理（未确认）</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:set var="total" value="0"/>
-                                            <c:set var="keepTotal" value="0"/>
-                                            <c:set var="lostTotal" value="0"/>
-                                            <c:set var="abolishTotal" value="0"/>
-                                            <c:set var="uncofirmTotal" value="0"/>
-                                            <c:forEach items="${classBeans}" var="bean" varStatus="st">
-                                                <tr>
-                                                    <td>${passportTypeMap.get(bean.classId).name}</td>
-                                                    <td>${bean.num}</td>
-                                                    <td>${bean.keepNum}</td>
-                                                    <td>${bean.lostNum}</td>
-                                                    <td>${bean.abolishNum}</td>
-                                                    <td>${bean.unconfirmNum}</td>
-                                                    <c:set var="total" value="${total+bean.num}"/>
-                                                    <c:set var="keepTotal" value="${keepTotal+bean.keepNum}"/>
-                                                    <c:set var="lostTotal" value="${lostTotal+bean.lostNum}"/>
-                                                    <c:set var="abolishTotal" value="${abolishTotal+bean.abolishNum}"/>
-                                                    <c:set var="uncofirmTotal" value="${uncofirmTotal+bean.unconfirmNum}"/>
-                                                </tr>
-                                            </c:forEach>
-                                            <tr style="color:white; font-size:20px;
-                                            font-weight:bolder;background-color: #337ab7">
-                                                <td align="right">合计</td>
-                                                <td >${total}</td>
-                                                <td >${keepTotal}</td>
-                                                <td >${lostTotal}</td>
-                                                <td >${abolishTotal}</td>
-                                                <td >${uncofirmTotal}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            <div style="float: left;width: 650px" class="jqgrid-vertical-offset">
+                                <table id="jqGrid1" class="table-striped"> </table>
                             </div>
+                            <div style="float: left;width: 500px">
+                                <table id="jqGrid2" class="table-striped"> </table>
                             </div>
-                            <div class="col-xs-6">
 
-                                <div class="widget-box transparent">
-                                    <div class="widget-header widget-header-flat">
-                                        <h4 class="widget-title lighter">
-                                            <i class="ace-icon fa fa-circle-o"></i>
-                                            按照证件的借出情况统计
-                                        </h4>
-
-                                        <div class="widget-toolbar">
-                                            <a href="#" data-action="collapse">
-                                                <i class="ace-icon fa fa-chevron-up"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="widget-body">
-                                        <div class="widget-main no-padding">
-                                            <table class="table table-striped table-bordered table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th>证件名称</th>
-                                                    <th>集中管理总数量</th>
-                                                    <th style="width: 100px">未借出</th>
-                                                    <th style="width: 100px">借出</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:set var="total" value="0"/>
-                                                <c:set var="lentTotal" value="0"/>
-                                                <c:forEach items="${lentBeans}" var="bean" varStatus="st">
-                                                    <tr>
-                                                        <td>${passportTypeMap.get(bean.classId).name}</td>
-                                                        <td>${bean.num}</td>
-                                                        <td>${bean.num-bean.lentNum}</td>
-                                                        <td>${bean.lentNum}</td>
-                                                    </tr>
-                                                    <c:set var="total" value="${total+bean.num}"/>
-                                                    <c:set var="lentTotal" value="${lentTotal+bean.lentNum}"/>
-                                                </c:forEach>
-                                                <tr style="color:white; font-size:20px;
-                                            font-weight:bolder;background-color: #337ab7">
-                                                    <td align="right">合计</td>
-                                                    <td>${total}</td>
-                                                    <td>${total-lentTotal}</td>
-                                                    <td>${lentTotal}</td>
-                                                </tr>
-                                                </tbody>
-
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="row col-xs-12" style="padding-top: 10px">
+                            <table id="jqGrid3" class="jqGrid3 table-striped"> </table>
                         </div>
-
-                        <div class="row col-xs-12">
-                            <div class="widget-box transparent" >
-                            <div class="widget-header widget-header-flat">
-                                <h4 class="widget-title lighter">
-                                    <i class="ace-icon fa fa-circle-o"></i>
-                                    按照职务属性统计
-                                </h4>
-
-                                <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="widget-body">
-                                <div class="widget-main no-padding" style="height: 280px; overflow-y: auto">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th style="width: 200px">职务属性</th>
-                                            <th  style="width: 100px">因私普通护照</th>
-                                            <th style="width: 160px">内地居民往来港澳通行证</th>
-                                            <th style="width: 160px">大陆居民往来台湾通行证</th>
-                                            <th style="width: 50px">合计</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:set var="selfTotal" value="0"/>
-                                        <c:set var="twTotal" value="0"/>
-                                        <c:set var="total" value="0"/>
-                                        <c:forEach items="${postBeans}" var="bean" varStatus="st">
-                                            <tr>
-                                                <td>${postMap.get(bean.postId).name}</td>
-                                                <td>${bean.selfNum}</td>
-                                                <td>${bean.num-bean.selfNum-bean.twNum}</td>
-                                                <td>${bean.twNum}</td>
-                                                <td>${bean.num}</td>
-                                            </tr>
-                                            <c:set var="selfTotal" value="${selfTotal+bean.selfNum}"/>
-                                            <c:set var="twTotal" value="${twTotal+bean.twNum}"/>
-                                            <c:set var="total" value="${total+bean.num}"/>
-                                        </c:forEach>
-                                        <tr style="color:white; font-size:20px;
-                                            font-weight:bolder;background-color: #337ab7">
-                                            <td align="right">合计</td>
-                                            <td >${selfTotal}</td>
-                                            <td >${total-selfTotal-twTotal}</td>
-                                            <td >${twTotal}</td>
-                                            <td >${total}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-    </div>
+                    </div>
                 </div></div></div>
     <div id="item-content">
     </div>
     </div>
 </div>
+<style>
+    .footrow td:first-child{
+        text-align: right!important;
+    }
+</style>
+<script>
+    $("#jqGrid1").jqGrid({
+        caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照证件的类型和状态统计</span>',
+        responsive:false,
+        multiselect:false,
+        footerrow:true,
+        datatype: "local",
+        height:112,
+        data:${classBeans},
+        colModel: [
+            { label: '证件名称', name: 'passportClass.name', width: 180 },
+            { label: '数量',   align:'center',name: 'num', width: 50 },
+            { label: '集中管理',   align:'center',name: 'keepNum', width: 100 },
+            { label: '丢失',   align:'center',name: 'lostNum', width: 60 },
+            { label: '作废',   align:'center',name: 'abolishNum', width: 60 },
+            { label: '取消集中管理（未确认）', align:'center', name: 'unconfirmNum', width: 180 }
+        ],
+        gridComplete:function(){
+            $(window).triggerHandler('resize.jqGrid3');
+            var rowNum=parseInt($(this).getGridParam("records"),10);
+            if(rowNum>0){
+                //alert(rowNum)
+                var num=$(this).getCol("num",false,"sum");
+                var keepNum=$(this).getCol("keepNum",false,"sum");
+                var lostNum=$(this).getCol("lostNum",false,"sum");
+                var abolishNum=$(this).getCol("abolishNum",false,"sum");
+                var unconfirmNum=$(this).getCol("unconfirmNum",false,"sum");
+                //alert(selfNum)
+                $(this).footerData("set",{  'passportClass.name':"合计","num":num,"keepNum":keepNum,
+                    "lostNum":lostNum,"abolishNum":abolishNum,"unconfirmNum":unconfirmNum});
+            }
+        }
+    });
+    $("#jqGrid2").jqGrid({
+        caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照证件的借出情况统计</span>',
+        responsive:false,
+        multiselect:false,
+        footerrow:true,
+        datatype: "local",
+        height:112,
+        data:${lentBeans},
+        colModel: [
+            { label: '证件名称', name: 'passportClass.name', width: 180 },
+            { label: '集中管理总数量',   align:'center',name: 'num', width: 150 },
+            { label: '未借出',   align:'center',name: 'unlentNum', width: 80 ,formatter:function(cellvalue, options, rowObject) {
+                return rowObject.num - rowObject.lentNum;
+            }},
+            { label: '借出',   align:'center',name: 'lentNum', width: 80 }
+        ],
+        gridComplete:function(){
+            $(window).triggerHandler('resize.jqGrid3');
+            var rowNum=parseInt($(this).getGridParam("records"),10);
+            if(rowNum>0){
+                var num=$(this).getCol("num",false,"sum");
+                var unlentNum=$(this).getCol("unlentNum",false,"sum");
+                var lentNum=$(this).getCol("lentNum",false,"sum");
+                $(this).footerData("set",{  'passportClass.name':"合计","num":num,"unlentNum":unlentNum,
+                    "lentNum":lentNum});
+            }
+        }
+    });
+    $("#jqGrid3").jqGrid({
+        caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照职务属性统计</span>',
+        responsive:false,
+        multiselect:false,
+        footerrow:true,
+        datatype: "local",
+        data:${postBeans},
+        colModel: [
+            { label: '职务属性', name: 'post.name', width: 340 },
+            { label: '因私普通护照',   align:'center',name: 'selfNum', width: 200 },
+            { label: '内地居民往来港澳通行证', align:'center', name: 'hkNum',width: 200,formatter:function(cellvalue, options, rowObject) {
+                return rowObject.num - rowObject.selfNum - rowObject.twNum;
+            }},
+            { label: '大陆居民往来台湾通行证', align:'center', name: 'twNum', width: 200 },
+            { label: '合计', align:'center', name: 'num', width: 200 }
+        ],
+        gridComplete:function(){
+            $(window).triggerHandler('resize.jqGrid3');
+            var rowNum=parseInt($(this).getGridParam("records"),10);
+            if(rowNum>0){
+                //alert(rowNum)
+                var selfNum=$(this).getCol("selfNum",false,"sum");
+                var hkNum=$(this).getCol("hkNum",false,"sum");
+                var twNum=$(this).getCol("twNum",false,"sum");
+                var num=$(this).getCol("num",false,"sum");
+                //alert(selfNum)
+                $(this).footerData("set",{  'post.name':"合计","selfNum":selfNum,"hkNum":hkNum,"twNum":twNum,"num":num});                               //将合计值显示出来
+            }
+        }
+    });
+</script>

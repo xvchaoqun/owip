@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code
             ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
-                <div class="widget-up-jqgrid widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">
+                <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
@@ -131,7 +131,7 @@ pageEncoding="UTF-8" %>
                 </div>
             <h4>&nbsp;</h4>
             <div class="space-4"></div>
-            <table id="jqGrid" class="table-striped"> </table>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
         </div>
         </div>

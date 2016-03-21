@@ -35,21 +35,31 @@ $.jgrid.defaults.onPaging= function(){
     $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 }
 $(window).on('resize.jqGrid', function () {
-    $("#jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    $(".jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
-    $("#body-content .widget-up-jqgrid").each(function(){
+    $("#body-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();
     });
-    $("#jqGrid").setGridHeight($(window).height()-390-height);
+    $(".jqGrid").setGridHeight($(window).height()-390-height);
 })
 $(window).on('resize.jqGrid2', function () {
-    $("#jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    $(".jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
-    $("#item-content .widget-up-jqgrid").each(function(){
+    $("#item-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();
         //alert(height)
     });
-    $("#jqGrid2").setGridHeight($(window).height()-390-height);
+    $(".jqGrid2").setGridHeight($(window).height()-390-height);
+})
+// 不改变宽度
+$(window).on('resize.jqGrid3', function () {
+    var height = 0;
+    $("#body-content .jqgrid-vertical-offset").each(function(){
+        height += $(this).height();
+        //alert(height)
+    });
+    //alert(height)
+    $(".jqGrid3").setGridHeight($(window).height()-400-height);
 })
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {

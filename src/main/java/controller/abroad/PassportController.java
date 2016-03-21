@@ -93,9 +93,9 @@ public class PassportController extends BaseController {
         List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost(selfPassportTypeId, twPassportTypeId);
 
         modelMap.put("totalCount", selectMapper.passportCount());
-        modelMap.put("classBeans", classBeans);
-        modelMap.put("lentBeans", lentBeans);
-        modelMap.put("postBeans", postBeans);
+        modelMap.put("classBeans", JSONUtils.toString(classBeans));
+        modelMap.put("lentBeans", JSONUtils.toString(lentBeans));
+        modelMap.put("postBeans", JSONUtils.toString(postBeans));
 
         return "abroad/passport/passport_stat";
     }
@@ -347,9 +347,10 @@ public class PassportController extends BaseController {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
             if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
+                    || passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
                     || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
                     && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
-                // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new RuntimeException("该证件不可以进行更新操作");
             }
 
@@ -391,9 +392,10 @@ public class PassportController extends BaseController {
             modelMap.put("type", passport.getType());
 
             if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
+                    || passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
                     || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
                     && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
-                // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new RuntimeException("该证件不可以进行更新操作");
             }
 

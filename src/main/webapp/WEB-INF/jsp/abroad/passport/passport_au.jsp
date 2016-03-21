@@ -1,3 +1,4 @@
+<%@ page import="sys.utils.DateUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -79,6 +80,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
+            <c:if test="${type==PASSPORT_TYPE_KEEP ||
+            (type==PASSPORT_TYPE_LOST && passport.lostType==PASSPORT_LOST_TYPE_TRANSFER)}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">集中保管日期</label>
 				<div class="col-xs-6">
@@ -89,6 +92,7 @@ pageEncoding="UTF-8"%>
                     </div>
 				</div>
 			</div>
+             </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">存放保险柜</label>
 				<div class="col-xs-6">
@@ -104,13 +108,14 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
-        <c:if test="${passport.type==PASSPORT_TYPE_LOST}">
+        <c:if test="${type==PASSPORT_TYPE_LOST}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">丢失日期</label>
+                <label class="col-xs-3 control-label">登记丢失日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
+                        <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
                         <input required class="form-control date-picker" name="_lostTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
+                               data-date-format="yyyy-mm-dd" value="${passport==null?today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

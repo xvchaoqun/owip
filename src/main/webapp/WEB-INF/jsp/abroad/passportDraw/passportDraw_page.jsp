@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/passportDraw_batchDel"
              data-url-co="${ctx}/passportDraw_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="widget-up-jqgrid form-inline hidden-sm hidden-xs" id="searchForm" >
+            <mytag:sort-form css="jqgrid-vertical-offset form-inline hidden-sm hidden-xs" id="searchForm" >
                 <input type="hidden" name="type" value="${type}">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
                 </div>--%>
             </mytag:sort-form>
             <div class="space-4"></div>
-            <table id="jqGrid" class="table-striped"> </table>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
         </div>
     </div>

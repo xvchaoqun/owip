@@ -1,4 +1,4 @@
-
+--2016-3-21
 update abroad_passport set is_lent=0;
 
 ALTER TABLE `abroad_passport`

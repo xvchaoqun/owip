@@ -62,7 +62,11 @@
   <select id="selectPassportList" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
     select  p.* from abroad_passport p, base_cadre c, base_meta_type mt
     <include refid="where_selectPassportList"/>
-    order by c.sort_order desc, mt.sort_order desc
+    order by
+      <if test="type==1">
+          c.status asc,
+      </if>
+      c.sort_order desc, mt.sort_order desc
   </select>
 
   <select id="countPassport" parameterType="map" resultType="java.lang.Integer" >
@@ -192,7 +196,7 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
   <select id="passportStatByPost" resultType="bean.PassportStatByPostBean" parameterType="map">
     select bc.post_id as postId, count(*) as num, sum(if(class_id=#{selfPassportTypeId}, 1, 0)) as selfNum,
     sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, base_cadre bc where
-    (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.cadre_id = bc.id
+    ap.type=1 and ap.cadre_id = bc.id
     group by bc.post_id order by bc.sort_order desc
   </select>
 </mapper>

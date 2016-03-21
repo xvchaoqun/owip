@@ -1,10 +1,19 @@
 package bean;
 
+import domain.MetaType;
+import sys.tags.CmTag;
+
+import java.util.Map;
+
 /**
  * Created by fafa on 2016/3/14.
  */
 public class PassportStatByClassBean {
+    public MetaType getPassportClass(){
 
+        Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
+        return passportClassMap.get(classId);
+    }
     private Integer classId;
     private Integer num;
     private Integer keepNum;

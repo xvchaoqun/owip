@@ -1,9 +1,20 @@
 package bean;
 
+import domain.MetaType;
+import sys.tags.CmTag;
+
+import java.util.Map;
+
 /**
  * Created by fafa on 2016/3/14.
  */
 public class PassportStatByPostBean {
+
+    public MetaType getPost(){
+
+        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
+        return postMap.get(postId);
+    }
 
     private Integer postId;
     private Integer num;

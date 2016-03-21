@@ -82,7 +82,7 @@
 
 	<task:annotation-driven/>
 
-	<import resource="classpath:bnu-source.xml" />
+	<!--<import resource="classpath:bnu-source.xml" />-->
 	<bean id="loginService" class="${login.service}"></bean>
 	<import resource="classpath:spring-shiro.xml"/>
 </beans>

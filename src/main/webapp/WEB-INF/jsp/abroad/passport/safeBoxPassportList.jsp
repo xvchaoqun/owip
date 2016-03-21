@@ -20,7 +20,7 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <table id="jqGrid" class="table-striped"> </table>
+                <table id="jqGrid" class="jqGrid table-striped"> </table>
                 <div id="jqGridPager"> </div>
             </div>
         </div><!-- /.widget-main -->
