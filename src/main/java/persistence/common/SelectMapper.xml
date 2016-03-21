@@ -176,19 +176,23 @@
     <!-- 证件的类型和状态统计-->
     <!-- 证件类型 数量 集中管理  丢失  作废  取消集中管理（未确认）-->
   <select id="passportStatByClass" resultType="bean.PassportStatByClassBean">
-    select class_id, count(*) as num, sum(if(type=1, 1, 0)) as keepNum,
-    sum(if(type=3, 1, 0)) as lostNum, sum(if((<![CDATA[type=2&&cancel_type=3]]>), 1, 0)) as abolishNum
-    sum(if((<![CDATA[type=2&&!cancel_confirm]]>), 1, 0)) as unconfirmNum from abroad_passport  group by class_id
+select ap.class_id as classId, count(*) as num, sum(if(ap.type=1, 1, 0)) as keepNum,
+    sum(if(ap.type=3, 1, 0)) as lostNum, sum(if((<![CDATA[ap.type=2&&ap.cancel_type=3]]>), 1, 0)) as abolishNum,
+    sum(if((<![CDATA[ap.type=2&&!ap.cancel_confirm]]>), 1, 0)) as unconfirmNum from abroad_passport ap, base_meta_type bmt where ap.class_id=bmt.id
+    group by ap.class_id order by bmt.sort_order desc
   </select>
 <!--集中管理证件库的借出情况统计-->
     <!-- 证件类型 集中管理  未借出 借出-->
 <select id="passportStatByLent" resultType="bean.PassportStatByLentBean">
-select class_id, count(*) as num, sum(if(is_lent, 1, 0)) as lentNum from abroad_passport where type=1  group by class_id
+select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as lentNum from abroad_passport ap,
+ base_meta_type bmt where ap.type=1 and ap.class_id=bmt.id  group by ap.class_id  order by bmt.sort_order desc
 </select>
-
-  <select id="passportStatByPost" resultType="bean.PassportStatByPostBean">
-    select bc.post_id as postId, count(*) as num from abroad_passport ap, base_cadre bc where
+    <!--集中管理证件库按照职务属性统计-->
+    <!-- 职务属性  因私  港澳 台湾 合计-->
+  <select id="passportStatByPost" resultType="bean.PassportStatByPostBean" parameterType="map">
+    select bc.post_id as postId, count(*) as num, sum(if(class_id=#{selfPassportTypeId}, 1, 0)) as selfNum,
+    sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, base_cadre bc where
     (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.cadre_id = bc.id
-    group by bc.post_id
+    group by bc.post_id order by bc.sort_order desc
   </select>
 </mapper>

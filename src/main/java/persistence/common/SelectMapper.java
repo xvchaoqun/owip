@@ -109,7 +109,8 @@ public interface SelectMapper {
 
     List<PassportStatByClassBean> passportStatByClass();
 
-    List<PassportStatByLentBean> passportStatByLentStatus();
+    List<PassportStatByLentBean> passportStatByLent();
 
-    List<PassportStatByPostBean> passportStatByPost();
+    List<PassportStatByPostBean> passportStatByPost(@Param("selfPassportTypeId") Integer selfPassportTypeId,
+                                                    @Param("twPassportTypeId") Integer twPassportTypeId);
 }

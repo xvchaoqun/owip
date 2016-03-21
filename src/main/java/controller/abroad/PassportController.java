@@ -1,9 +1,6 @@
 package controller.abroad;
 
-import bean.PassportStatByClassBean;
-import bean.PassportStatByPostBean;
-import bean.XlsPassport;
-import bean.XlsUpload;
+import bean.*;
 import controller.BaseController;
 import domain.*;
 import interceptor.OrderParam;
@@ -89,10 +86,15 @@ public class PassportController extends BaseController {
     public String passport_stat(ModelMap modelMap) {
 
         List<PassportStatByClassBean> classBeans = selectMapper.passportStatByClass();
-        List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost();
+        List<PassportStatByLentBean> lentBeans = selectMapper.passportStatByLent();
+
+        int selfPassportTypeId = CmTag.getMetaTypeByCode("mt_passport_normal").getId();
+        int twPassportTypeId = CmTag.getMetaTypeByCode("mt_passport_tw").getId();
+        List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost(selfPassportTypeId, twPassportTypeId);
 
         modelMap.put("totalCount", selectMapper.passportCount());
         modelMap.put("classBeans", classBeans);
+        modelMap.put("lentBeans", lentBeans);
         modelMap.put("postBeans", postBeans);
 
         return "abroad/passport/passport_stat";
