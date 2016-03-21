@@ -1,11 +1,9 @@
-package source;
+package service.source;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sys.utils.JSONUtils;
-import tpl.ColumnBean;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.party.MemberService;
+import service.source.BnuBksImport;
+import service.source.BnuJzgImport;
+import service.source.BnuYjsImport;
 import shiro.PasswordHelper;
 import shiro.SaltPassword;
 import shiro.ShiroUser;
@@ -32,6 +35,12 @@ public class SysUserSyncService extends BaseMapper {
     protected PasswordHelper passwordHelper;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private BnuJzgImport bnuJzgImport;
+    @Autowired
+    private BnuBksImport bnuBksImport;
+    @Autowired
+    private BnuYjsImport bnuYjsImport;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -62,20 +71,24 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setType(SystemConstants.USER_SOURCE_JZG);
         sysUserSync.setIsStop(false);
 
-        int count = extJzgMapper.countByExample(new ExtJzgExample());
-        int pageSize = 200;
-        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
-
         sysUserSync.setCurrentCount(0);
         sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(count);
-        sysUserSync.setTotalPage(pageNo);
+        //sysUserSync.setTotalCount(count);
+        //sysUserSync.setTotalPage(pageNo);
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        // 先从师大导入数据
+        bnuJzgImport.excute();
+
         int insertCount = 0;
         int updateCount = 0;
+
+        int count = extJzgMapper.countByExample(new ExtJzgExample());
+        int pageSize = 200;
+        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
         for (int i=0; i <pageNo; i++) {
             logger.debug(String.format("总数：%s， 每页%s条， 当前%s页", count, pageSize, pageNo));
@@ -123,6 +136,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
+            sysUserSync.setTotalCount(count);
+            sysUserSync.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {
@@ -167,20 +182,23 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setType(SystemConstants.USER_SOURCE_YJS);
         sysUserSync.setIsStop(false);
 
-        int count = extYjsMapper.countByExample(new ExtYjsExample());
-        int pageSize = 200;
-        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
-
         sysUserSync.setCurrentCount(0);
         sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(count);
-        sysUserSync.setTotalPage(pageNo);
+
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        bnuYjsImport.excute();
+
         int insertCount = 0;
         int updateCount = 0;
+
+        int count = extYjsMapper.countByExample(new ExtYjsExample());
+        int pageSize = 200;
+        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+
         logger.debug(String.format("总数：%s， 每页%s条， 当前%s页", count, pageSize, pageNo));
         for (int i=0; i <pageNo; i++) {
 
@@ -229,6 +247,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
+            sysUserSync.setTotalCount(count);
+            sysUserSync.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {
@@ -272,20 +292,23 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setType(SystemConstants.USER_SOURCE_BKS);
         sysUserSync.setIsStop(false);
 
-        int count = extBksMapper.countByExample(new ExtBksExample());
-        int pageSize = 200;
-        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
-
         sysUserSync.setCurrentCount(0);
         sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(count);
-        sysUserSync.setTotalPage(pageNo);
+
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        bnuBksImport.excute();
+
         int insertCount = 0;
         int updateCount = 0;
+
+        int count = extBksMapper.countByExample(new ExtBksExample());
+        int pageSize = 200;
+        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+
         logger.debug(String.format("总数：%s， 每页%s条， 当前%s页", count, pageSize, pageNo));
         for (int i=0; i <pageNo; i++) {
 
@@ -337,6 +360,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
+            sysUserSync.setTotalCount(count);
+            sysUserSync.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {

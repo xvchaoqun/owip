@@ -1,14 +1,11 @@
-package source;
+package service.source;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.gson.Gson;
 import domain.ExtBks;
 import domain.ExtBksExample;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.stereotype.Service;
 import persistence.ExtBksMapper;
 import sys.utils.JSONUtils;
 
@@ -16,20 +13,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@Service
 public class BnuBksImport extends Source {
 
     @Autowired
     public DruidDataSource bnuDS;
-    @Test
-    public void excute() throws Exception {
+
+    public void excute(){
+
+        System.out.println("更新本科生账号库");
         long startTime=System.currentTimeMillis();
         setConn(bnuDS);
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
-        System.out.println("程序运行时间： " + (endTime - startTime) + "ms");
+        System.out.println("更新本科生账号库运行时间： " + (endTime - startTime) + "ms");
     }
 
     @Autowired

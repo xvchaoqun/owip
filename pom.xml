@@ -458,7 +458,7 @@
         <exclude>**/spring.properties</exclude>
         <exclude>**/spring-shiro.xml</exclude>
         <exclude>**/springmvc.xml</exclude>
-        <exclude>**/bnu-source.xml</exclude>
+        <exclude>**/bnu-service.source.xml</exclude>
         <exclude>**/*.xlsx</exclude>
       </excludes>
     </configuration>
