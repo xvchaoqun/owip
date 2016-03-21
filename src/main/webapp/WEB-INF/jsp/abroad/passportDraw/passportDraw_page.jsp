@@ -94,8 +94,8 @@ pageEncoding="UTF-8" %>
             { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
             { label: '工作证号', align:'center', name: 'user.code', width: 80 ,frozen:true},
             { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.user.id, cellvalue);
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                        .format(rowObject.cadre.id, cellvalue);
             } ,frozen:true },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申请领取证件名称', align:'center', name: 'passportClass.name', width: 180 },

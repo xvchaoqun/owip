@@ -186,8 +186,8 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
             { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.user.id, cellvalue);
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                        .format(rowObject.cadre.id, cellvalue);
     } ,frozen:true },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '职务属性', align:'center', name: 'cadre.postType.name', width: 150 },

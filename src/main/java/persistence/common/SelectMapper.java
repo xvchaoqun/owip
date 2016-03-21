@@ -1,6 +1,7 @@
 package persistence.common;
 
 import bean.PassportStatByClassBean;
+import bean.PassportStatByLentBean;
 import bean.PassportStatByPostBean;
 import bean.SafeBoxBean;
 import domain.*;
@@ -107,6 +108,8 @@ public interface SelectMapper {
     int passportCount();
 
     List<PassportStatByClassBean> passportStatByClass();
+
+    List<PassportStatByLentBean> passportStatByLentStatus();
 
     List<PassportStatByPostBean> passportStatByPost();
 }

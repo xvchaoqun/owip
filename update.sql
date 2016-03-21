@@ -1,3 +1,9 @@
+
+update abroad_passport set is_lent=0;
+
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `is_lent` `is_lent` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否借出，（干部领取）' AFTER `safe_box_id`;
+
 --2016-3-20
 ALTER TABLE `sys_resource`
 	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `name`;

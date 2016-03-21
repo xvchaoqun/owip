@@ -59,6 +59,7 @@ public class PassportService extends BaseMapper {
                 if(sysUser== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
+            record.setIsLent(false);
             record.setCancelConfirm(false);
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {

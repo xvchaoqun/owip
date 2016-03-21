@@ -2540,6 +2540,8 @@ public class MemberStudentExample {
                 andBranchIdIn(branchIdList);
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andUserIdIsNull();
 
             return this;
         }

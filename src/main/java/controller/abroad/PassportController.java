@@ -336,6 +336,7 @@ public class PassportController extends BaseController {
             else
                 record.setType(type);
 
+            record.setIsLent(false);
             record.setCancelConfirm(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);
