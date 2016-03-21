@@ -136,8 +136,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
-            sysUserSync.setTotalCount(count);
-            sysUserSync.setTotalPage(pageNo);
+            record.setTotalCount(count);
+            record.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {
@@ -247,8 +247,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
-            sysUserSync.setTotalCount(count);
-            sysUserSync.setTotalPage(pageNo);
+            record.setTotalCount(count);
+            record.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {
@@ -360,8 +360,8 @@ public class SysUserSyncService extends BaseMapper {
             record.setId(sysUserSync.getId());
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
-            sysUserSync.setTotalCount(count);
-            sysUserSync.setTotalPage(pageNo);
+            record.setTotalCount(count);
+            record.setTotalPage(pageNo);
             record.setCurrentCount(((i+1) * pageSize>count)?count:(i+1)*pageSize);
             record.setCurrentPage(i+1);
             try {
