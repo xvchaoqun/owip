@@ -27,6 +27,7 @@ $.jgrid.defaults.mtype = "GET";
 $.jgrid.defaults.datatype = "jsonp";
 $.jgrid.defaults.loadui = "disable";
 $.jgrid.defaults.pager = "#jqGridPager";
+$.jgrid.defaults.cmTemplate = {sortable:false};
 $.jgrid.defaults.sortorder = "desc";
 $.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
     $(".jqEditBtn").click();
@@ -45,7 +46,7 @@ $(window).on('resize.jqGrid', function () {
     });
     //alert(0)
     //var footerHeight = 56;
-    console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
+    //console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
     $(".jqGrid").setGridHeight($(window).height()-390-height);
 })
 $(window).on('resize.jqGrid2', function () {

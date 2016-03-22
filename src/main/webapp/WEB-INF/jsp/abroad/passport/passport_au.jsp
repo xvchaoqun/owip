@@ -135,6 +135,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    _left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    _top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -142,6 +144,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         SysMsg.success('提交成功。', '成功',function(){
+                            //console.log("成功：left:{0}, top:{1}".format(_left, _top))
                             $("#jqGrid").trigger("reloadGrid");
                             <c:if test="${not empty param.applyId}">
                             page_reload()

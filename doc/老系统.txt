@@ -35,3 +35,7 @@ select * from dba_tab_cols where column_name='DWMC'
 root
 wlzx@2015
 
+ODMISUSER
+密码都是bnuneu
+连接串 172.16.181.13:1521/odmis
+
