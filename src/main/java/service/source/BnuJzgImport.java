@@ -1,6 +1,5 @@
 package service.source;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.google.gson.Gson;
 import domain.ExtJzg;
 import domain.ExtJzgExample;
@@ -17,9 +16,6 @@ import java.util.Map;
 public class BnuJzgImport extends Source {
 
     @Autowired
-    public DruidDataSource bnuDS;
-
-    @Autowired
     public ExtJzgMapper extJzgMapper;
     public String schema = "licdc_zg";
     public String tableName = "v_jzg_rs_jzg_jbxx";
@@ -27,7 +23,6 @@ public class BnuJzgImport extends Source {
     public void excute(){
         System.out.println("更新教职工账号库");
         long startTime=System.currentTimeMillis();
-        setConn(bnuDS);
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
         System.out.println("更新教职工账号库程序运行时间： " + (endTime - startTime) + "ms");

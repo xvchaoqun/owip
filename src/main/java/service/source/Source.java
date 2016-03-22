@@ -1,10 +1,12 @@
 package service.source;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import sys.utils.JSONUtils;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,11 +18,15 @@ import java.util.Map;
 
 public abstract class Source {
 
+    //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
     protected Connection conn;
 
-    public Connection setConn(DruidDataSource dataSource) {
+    public Connection initConn() {
 
+        ApplicationContext ac = new ClassPathXmlApplicationContext(
+                new String[]{"/bnu-source.xml"});
+        DataSource dataSource = (DataSource)ac.getBean("bnuDS");
         if (null == conn) {
             try {
                 conn = dataSource.getConnection();
@@ -36,6 +42,8 @@ public abstract class Source {
 
     // 从oracle导入数据到mysql
     public void excute(String schema, String tableName){
+
+        initConn();
 
         Statement stat = null;
         ResultSet rs = null;

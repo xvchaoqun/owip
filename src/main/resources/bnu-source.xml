@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd" default-autowire="byName">
 
-	
+	<context:property-placeholder location="classpath:spring.properties" ignore-unresolvable="true" order="-2"/>
 	<bean id="bnuDS" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close" lazy-init="true">
 		

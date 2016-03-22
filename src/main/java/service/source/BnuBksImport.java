@@ -16,14 +16,10 @@ import java.util.Map;
 @Service
 public class BnuBksImport extends Source {
 
-    @Autowired
-    public DruidDataSource bnuDS;
-
     public void excute(){
 
         System.out.println("更新本科生账号库");
         long startTime=System.currentTimeMillis();
-        setConn(bnuDS);
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
         System.out.println("更新本科生账号库运行时间： " + (endTime - startTime) + "ms");

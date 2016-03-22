@@ -60,6 +60,14 @@ public class SysUserSyncService extends BaseMapper {
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
+        // 先从师大导入数据
+        try {
+            bnuJzgImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+        }
+
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -79,9 +87,6 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
-
-        // 先从师大导入数据
-        bnuJzgImport.excute();
 
         int insertCount = 0;
         int updateCount = 0;
@@ -170,6 +175,13 @@ public class SysUserSyncService extends BaseMapper {
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
+        // 先从师大导入数据
+        try {
+            bnuYjsImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+        }
 
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
@@ -189,8 +201,6 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
-
-        bnuYjsImport.excute();
 
         int insertCount = 0;
         int updateCount = 0;
@@ -281,6 +291,15 @@ public class SysUserSyncService extends BaseMapper {
         if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_BKS)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
+
+        // 先从师大导入数据
+        try {
+            bnuBksImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+        }
+
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -299,8 +318,6 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
-
-        bnuBksImport.excute();
 
         int insertCount = 0;
         int updateCount = 0;

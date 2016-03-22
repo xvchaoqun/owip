@@ -1,6 +1,5 @@
 package service.source;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.google.gson.Gson;
 import domain.ExtYjs;
 import domain.ExtYjsExample;
@@ -17,9 +16,6 @@ import java.util.Map;
 public class BnuYjsImport extends Source {
 
     @Autowired
-    public DruidDataSource bnuDS;
-
-    @Autowired
     public ExtYjsMapper extYjsMapper;
     public String schema = "licdc_zg";
     public String tableName = "v_yjs_yjsxjjbxx";
@@ -28,7 +24,6 @@ public class BnuYjsImport extends Source {
 
         System.out.println("更新研究生账号库");
         long startTime=System.currentTimeMillis();
-        setConn(bnuDS);
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
         System.out.println("更新研究生账号库程序运行时间： "+(endTime-startTime)+"ms");
