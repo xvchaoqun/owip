@@ -119,7 +119,7 @@ public class EnterApplyController extends BaseController {
     public Map do_memberApply(@CurrentUser SysUser loginUser,Integer partyId,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
 
-        checkAuth(loginUser);
+        enterApplyService.checkMemberApplyAuth(loginUser.getId());
 
         MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
@@ -199,7 +199,7 @@ public class EnterApplyController extends BaseController {
                                String _growTime, String _positiveTime,
                                MemberReturn record, HttpServletRequest request) {
 
-        checkAuth(loginUser);
+        enterApplyService.checkMemberApplyAuth(loginUser.getId());
 
         record.setUserId(loginUser.getId());
 
@@ -292,7 +292,7 @@ public class EnterApplyController extends BaseController {
                            String _growTime, String _positiveTime,
                            String _fromHandleTime, String _handleTime, HttpServletRequest request) {
 
-        checkAuth(loginUser);
+        enterApplyService.checkMemberApplyAuth(loginUser.getId());
 
         record.setUserId(loginUser.getId());
         record.setHasReceipt(null);
@@ -363,25 +363,6 @@ public class EnterApplyController extends BaseController {
         modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
         return "user/enterApply/memberInflow_view";
     }
-
-    public void checkAuth(SysUser loginUser){
-
-        if(loginUser.getType() == SystemConstants.USER_TYPE_JZG
-                || loginUser.getType() == SystemConstants.USER_TYPE_BKS
-                || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
-            // 只允许教职工、学生申请留学归国入党申请
-        }else{
-            throw new UnauthorizedException("没有权限");
-        }
-
-        int userId = loginUser.getId();
-        // 判断是否是党员
-        Member member = memberService.get(userId);
-        if(member!=null){
-            throw new RuntimeException("你已经是党员");
-        }
-    }
-
 
     @RequiresRoles("guest")
     @RequestMapping("/memberInflow")

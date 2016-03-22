@@ -1,6 +1,7 @@
 package service.party;
 
 import domain.*;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class EnterApplyService extends BaseMapper{
     private MemberReturnService memberReturnService;
     @Autowired
     private MemberInService memberInService;
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -54,11 +57,34 @@ public class EnterApplyService extends BaseMapper{
         return null;
     }
 
+    // 申请入党、流入、留学归国申请权限判断
+    public void checkMemberApplyAuth(int userId){
+        SysUser sysUser = sysUserService.findById(userId);
+        if(sysUser.getType() == SystemConstants.USER_TYPE_JZG
+                || sysUser.getType() == SystemConstants.USER_TYPE_BKS
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
+            // 只允许教职工、学生申请留学归国入党申请
+        }else{
+            throw new UnauthorizedException("没有权限");
+        }
+
+        // 判断是否是党员
+        Member member = memberService.get(userId);
+        if(member!=null){
+            throw new RuntimeException("已经是党员，不需要申请入党");
+        }
+    }
+
     // 申请入党
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
     public void memberApply(MemberApply record) {
         int userId = record.getUserId();
+
+        Member member = memberService.get(userId);
+        if(member!=null){
+            throw new RuntimeException("已经是党员，不需要申请入党");
+        }
 
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");

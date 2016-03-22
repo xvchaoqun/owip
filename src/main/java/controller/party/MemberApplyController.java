@@ -195,6 +195,77 @@ public class MemberApplyController extends BaseController {
         return "party/memberApply/memberApply_page";
     }
 
+    // 后台添加入党申请
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequestMapping("/memberApply_au")
+    public String memberApply_au(Integer userId, ModelMap modelMap) {
+
+        if(userId!=null) {
+            SysUser sysUser = sysUserService.findById(userId);
+            modelMap.put("sysUser", sysUser);
+            MemberApply memberApply = memberApplyService.get(sysUser.getId());
+            modelMap.put("memberApply", memberApply);
+
+            if (memberApply != null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Map<Integer, Party> partyMap = partyService.findAll();
+                Integer partyId = memberApply.getPartyId();
+                Integer branchId = memberApply.getBranchId();
+                if (partyId != null) {
+                    modelMap.put("party", partyMap.get(partyId));
+                }
+                if (branchId != null) {
+                    modelMap.put("branch", branchMap.get(branchId));
+                }
+            }
+        }
+        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+
+        return "party/memberApply/memberApply_au";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_au(@CurrentUser SysUser loginUser, int userId, Integer partyId,
+                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+
+        enterApplyService.checkMemberApplyAuth(userId);
+
+        MemberApply memberApply = new MemberApply();
+        memberApply.setUserId(userId);
+
+        SysUser sysUser = sysUserService.findById(userId);
+
+        if(sysUser.getType() == SystemConstants.USER_TYPE_JZG){
+            memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
+        } else if(sysUser.getType() == SystemConstants.USER_TYPE_BKS
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
+            memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
+        }else{
+            throw new UnauthorizedException("没有权限");
+        }
+
+        Date birth = sysUser.getBirth();
+        if(birth!=null && DateUtils.intervalYearsUntilNow(birth)<18){
+            throw new RuntimeException("未满18周岁，不能申请入党。");
+        }
+
+        memberApply.setPartyId(partyId);
+        memberApply.setBranchId(branchId);
+        memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+        memberApply.setRemark(remark);
+        memberApply.setFillTime(new Date());
+        memberApply.setCreateTime(new Date());
+        memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
+        enterApplyService.memberApply(memberApply);
+
+        applyLogService.addApplyLog(sysUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
+        logger.info(addLog(request, SystemConstants.LOG_OW, "提交入党申请"));
+        return success(FormUtils.SUCCESS);
+    }
+
     // 申请不通过
     @RequiresPermissions("memberApply:deny")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)

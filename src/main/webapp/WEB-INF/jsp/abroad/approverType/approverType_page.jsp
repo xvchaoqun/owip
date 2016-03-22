@@ -39,12 +39,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>名称</th>
 							<th>类型</th>
                             <th>包含干部</th>
@@ -57,12 +51,6 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${approverTypes}" var="approverType" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${approverType.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
 								<td>${approverType.name}</td>
 								<td>${APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>

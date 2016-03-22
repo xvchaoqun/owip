@@ -16,8 +16,9 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.*;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,10 +39,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.List;
@@ -147,12 +146,12 @@ public class PassportController extends BaseController {
             type = status;
         }
         Boolean cancelConfirm = null;
-        if(status==2){
+        if (status == 2) {
             cancelConfirm = false;
         }
-        if(status==4){
+        if (status == 4) {
             cancelConfirm = true;
-            type=2;
+            type = 2;
         }
 
         code = StringUtils.trimToNull(code);
@@ -190,6 +189,7 @@ public class PassportController extends BaseController {
 
         return "abroad/passport/passport_useLogs";
     }
+
     @RequiresPermissions("passport:list")
     @RequestMapping("/safeBoxPassportList")
     public String safeBoxPassportList() {
@@ -215,12 +215,12 @@ public class PassportController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm!=null&&cancelConfirm==1);
+        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (null, null, null, type, safeBoxId, cancelConfirm!=null&&cancelConfirm==1, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -281,6 +281,46 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_lost_view";
     }
 
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping("/updateLostProof")
+    public String updateLostProof(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/updateLostProof";
+    }
+
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_updateLostProof(
+            int id,
+            String _lostTime,
+            MultipartFile _lostProof,
+            HttpServletRequest request) {
+
+        Passport record = new Passport();
+        record.setId(id);
+        if (StringUtils.isNotBlank(_lostTime)) {
+            record.setLostTime(DateUtils.parseDate(_lostTime, DateUtils.YYYY_MM_DD));
+        }
+        if (_lostProof != null && !_lostProof.isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
+            record.setLostProof(savePath);
+        }
+        if(record.getLostTime()!=null || record.getLostProof()!=null)
+            passportService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_au", method = RequestMethod.POST)
     @ResponseBody
@@ -318,7 +358,7 @@ public class PassportController extends BaseController {
         if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
 
             if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
-            if(_lostProof != null &&  !_lostProof.isEmpty()) {
+            if (_lostProof != null && !_lostProof.isEmpty()) {
                 String fileName = UUID.randomUUID().toString();
                 String realPath = File.separator
                         + "passport_cancel" + File.separator
@@ -346,10 +386,10 @@ public class PassportController extends BaseController {
         } else {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
-                    || passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
-                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                    || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                 // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new RuntimeException("该证件不可以进行更新操作");
             }
@@ -391,10 +431,10 @@ public class PassportController extends BaseController {
 
             modelMap.put("type", passport.getType());
 
-            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
-                    || passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
-                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                    || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                 // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new RuntimeException("该证件不可以进行更新操作");
             }

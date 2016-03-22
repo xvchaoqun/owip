@@ -40,12 +40,6 @@ pageEncoding="UTF-8" %>
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
 							<th>申请人身份</th>
 							<th>包含职务</th>
 							<th>审批人身份</th>
@@ -58,12 +52,7 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${applicatTypes}" var="applicatType" varStatus="st">
                         <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${applicatType.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
+
 								<td>${applicatType.name}</td>
                             <td>
                                 <button data-id="${applicatType.id}" class="selectPostBtn btn btn-success btn-mini btn-xs">

@@ -39,6 +39,12 @@ pageEncoding="UTF-8" %>
                                         <li class="<c:if test="${type==2}">active</c:if>">
                                             <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工</a>
                                         </li>
+                                        <shiro:hasAnyRoles name="admin,odAdmin">
+                                        <div class="buttons pull-right">
+                                            <a href="javascript:;" class="addBtn btn btn-info btn-sm">
+                                                <i class="fa fa-plus"></i> 添加入党申请</a>
+                                        </div>
+                                        </shiro:hasAnyRoles>
                                     </ul>
 
                                     <div class="tab-content" >
@@ -82,7 +88,7 @@ pageEncoding="UTF-8" %>
                                             </button>
                                         </c:if>
                                         <div class="vspace-12"></div>
-                                        <div class="buttons pull-right">
+                                        <%--<div class="buttons pull-right">
 
                                             <c:if test="${commonList.recNum>0}">
                                                 <a class="exportBtn btn btn-success btn-sm tooltip-success"><i class="fa fa-download"></i> 导出</a>
@@ -90,7 +96,7 @@ pageEncoding="UTF-8" %>
                                                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
                                                 </shiro:hasPermission>
                                             </c:if>
-                                        </div>
+                                        </div>--%>
                                     </mytag:sort-form>
                                     <div class="space-4"></div>
                                     <c:if test="${commonList.recNum>0}">
@@ -193,7 +199,7 @@ pageEncoding="UTF-8" %>
                                                                         <i class="fa fa-check"></i> 通过
                                                                     </button>
                                                                     <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger btn-mini btn-xs">
-                                                                        <i class="fa fa-trash"></i> 不通过
+                                                                        <i class="fa fa-times"></i> 不通过
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">
@@ -303,6 +309,10 @@ pageEncoding="UTF-8" %>
                         </div>
                     </div>
 <script>
+
+    $(".addBtn").click(function(){
+        loadModal("${ctx}/memberApply_au");
+    })
 
     function goto_next(type){
         if(type==1){

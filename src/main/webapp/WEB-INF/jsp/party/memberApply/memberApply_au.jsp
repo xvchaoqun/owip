@@ -1,167 +1,108 @@
+<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${memberApply!=null}">编辑</c:if><c:if test="${memberApply==null}">添加</c:if>申请入党人员</h3>
-</div>
+    <div class="modal-header">
+      <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+      <h3>
+        申请入党
+      </h3>
+    </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberApply_au" id="modalForm" method="post">
-        <input type="hidden" name="userId" value="${memberApply.userId}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分党委</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="partyId" value="${memberApply.partyId}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党支部</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="branchId" value="${memberApply.branchId}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${memberApply.type}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">提交申请书时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="applyTime" value="${memberApply.applyTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">信息填报时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="fillTime" value="${memberApply.fillTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                        <input required class="form-control limited" type="text" name="remark" value="${memberApply.remark}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">阶段</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="status" value="${memberApply.stage}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">确定为入党积极分子时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="activeTime" value="${memberApply.activeTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">发展对象审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="activeStatus" value="${memberApply.activeStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">确定为发展对象时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="candidateTime" value="${memberApply.candidateTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">参加培训时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="trainTime" value="${memberApply.trainTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">发展对象审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="candidateStatus" value="${memberApply.candidateStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">列入发展计划时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="planTime" value="${memberApply.planTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">列入计划审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="planStatus" value="${memberApply.planStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">领取志愿书时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="drawTime" value="${memberApply.drawTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">志愿书领取审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="drawStatus" value="${memberApply.drawStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">发展时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="growTime" value="${memberApply.growTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">发展审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="growStatus" value="${memberApply.growStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">转正时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="positive Time" value="${memberApply.positiveTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">转正审核状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="positiveStatus" value="${memberApply.positiveStatus}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">创建时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="createTime" value="${memberApply.createTime}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">更新时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="updateTime" value="${memberApply.updateTime}">
-				</div>
-			</div>
-    </form>
-</div>
+    <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/memberApply_au">
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right">账号</label>
+        <div class="col-sm-9">
+          <select ${not empty member?"disabled data-theme='default'":""}
+                  required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                  name="userId" data-placeholder="请输入账号或姓名或学工号">
+            <option value="${sysUser.id}">${sysUser.realname}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 提交申请书时间</label>
+        <div class="col-sm-3">
+          <div class="input-group">
+            <input required class="form-control date-picker" name="_applyTime" type="text"
+                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 请选择组织机构</label>
+        <div class="col-sm-9">
+          <select required name="classId" data-rel="select2" data-placeholder="请选择">
+            <option></option>
+            <c:forEach items="${partyClassMap}" var="cls">
+              <option value="${cls.key}">${cls.value.name}</option>
+            </c:forEach>
+          </select>
+          <script>
+            $("#modalForm select[name=classId]").val("${party.classId}")
+          </script>
+          </div>
+        </div>
+        <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
+            <div class="col-sm-offset-3 col-sm-9">
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                  name="partyId" data-placeholder="请选择分党委">
+            <option value="${party.id}">${party.name}</option>
+          </select>
+          </div>
+         </div>
+          <div class="form-group" id="branch" style="${empty branch?'display: none;':''}" >
+            <div class="col-sm-offset-3 col-sm-9">
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                  name="branchId" data-placeholder="请选择党支部">
+            <option value="${branch.id}">${branch.name}</option>
+          </select>
+              </div>
+            </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 备注</label>
+        <div class="col-sm-6">
+          <textarea name="remark"  class="form-control" rows="5">${memberApply.remark}</textarea>
+        </div>
+      </div>
+      </form>
+  </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberApply!=null}">确定</c:if><c:if test="${memberApply==null}">添加</c:if>"/>
+  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+  <input type="submit" class="btn btn-primary" value="<c:if test="${party!=null}">确定</c:if><c:if test="${party==null}">添加</c:if>"/>
 </div>
+      <script>
+        register_user_select($('#modalForm select[name=userId]'));
+        register_class_party_branch_select($("#modalForm"), "party", "branch",
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
+        register_date($('.date-picker'));
 
-<script>
-	$('textarea.limited').inputlimiter();
-
-    $("#modal form").validate({
-        submitHandler: function (form) {
+        $("#modalForm").validate({
+          submitHandler: function (form) {
+            if(!$("#party").is(":hidden")){
+              if($('#modalForm select[name=partyId]').val()=='') {
+                bootbox.alert("请选择分党委。");
+                return;
+              }
+            }
+            if(!$("#branch").is(":hidden")){
+              if(!($('#modalForm select[name=branchId]').val()>0)) {
+                bootbox.alert("请选择支部。");
+                return;
+              }
+            }
             $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
+              success:function(ret){
+                if(ret.success){
+                  $("#modal").modal("hide");
+                  SysMsg.success("提交成功。",'提示',function(){
+                      location.reload();
+                  });
                 }
+              }
             });
-        }
-    });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-</script>
+          }
+        });
+      </script>

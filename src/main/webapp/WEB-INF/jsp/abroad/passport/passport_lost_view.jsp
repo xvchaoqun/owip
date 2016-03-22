@@ -10,6 +10,9 @@
             <button id="print_proof" class="btn btn-info btn-block" style="font-size: 30px">打印证明</button>
             <a href="${ctx}/${param.type=='user'?'user/':''}passport_lostProof_download?id=${passport.id}" target="_blank"
                class="btn btn-primary btn-block" style="font-size: 30px">下载</a>
+            <shiro:hasAnyRoles name="admin,cadreAdmin">
+                <button id="updateLostProof" class="btn btn-warning btn-block" style="font-size: 30px">重新上传</button>
+            </shiro:hasAnyRoles>
             <button class="closeView reload btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回
             </button>
         </div>
@@ -18,5 +21,8 @@
 <script>
     $("#print_proof").click(function () {
         printWindow('${ctx}/img?path=${fn:replace(passport.lostProof, "\\","\\/"  )}');
+    });
+    $("#updateLostProof").click(function(){
+        loadModal("${ctx}/updateLostProof?id=${passport.id}")
     });
 </script>
