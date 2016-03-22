@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
 								<td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passportApply.cadreId}">
                                         ${sysUser.realname}
                                 </a></td>
-                            <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                            <td>${cadre.title}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
                             <c:if test="${status==0}">
 								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td></c:if>
