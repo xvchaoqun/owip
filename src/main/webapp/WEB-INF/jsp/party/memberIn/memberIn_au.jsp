@@ -24,14 +24,14 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">性别</label>
 						<div class="col-xs-6">
-							<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
+							<input disabled class="form-control" name="gender" type="text" value="${GENDER_MAP.get(userBean.gender)}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">年龄</label>
 						<div class="col-xs-6">
 							<input disabled class="form-control" type="text" name="age"
-								   value="${cm:intervalYearsUntilNow(userBean.birth)}">
+								   value="${userBean.birth!=null?cm:intervalYearsUntilNow(userBean.birth):''}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -272,5 +272,27 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-	register_user_select($('#modalForm select[name=userId]'));
+	var $select = register_user_select($('#modalForm select[name=userId]'));
+	$select.on("change",function(){
+		var entity = $(this).select2("data")[0];
+		if(entity && entity.id && entity.id>0) {
+			console.log(entity)
+			var gender = entity.user.gender || '';
+			var age = '';
+			if (entity.user.birth && entity.user.birth != '')
+				age = new Date(entity.user.birth).format('yyyy-MM-dd');
+			var nation = entity.user.nation || '';
+			var idcard = entity.user.idcard || '';
+
+			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=age]").val(age);
+			$("#modalForm input[name=nation]").val(nation);
+			$("#modalForm input[name=idcard]").val(idcard);
+		}else{
+			$("#modalForm input[name=gender]").val('')
+			$("#modalForm input[name=age]").val('')
+			$("#modalForm input[name=nation]").val('')
+			$("#modalForm input[name=idcard]").val('')
+		}
+	});
 </script>

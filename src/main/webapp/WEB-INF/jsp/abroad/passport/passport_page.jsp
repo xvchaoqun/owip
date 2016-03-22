@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/passport_au"
+             data-url-au="${ctx}/passport_au?type=1"
              data-url-page="${ctx}/passport_page"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -208,6 +208,12 @@ pageEncoding="UTF-8" %>
                 }
                 if(cellvalue==2){
                     return "拟任干部"
+                }
+                if(cellvalue==3){
+                    return "离任处级干部"
+                }
+                if(cellvalue==4){
+                    return "离任校领导"
                 }
             }},
                 </c:if>

@@ -35,14 +35,23 @@ $.jgrid.defaults.onPaging= function(){
     $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 }
 $(window).on('resize.jqGrid', function () {
+    if( $("#body-content").is(":hidden")){
+        return;
+    }
     $(".jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
     $("#body-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();
     });
+    //alert(0)
+    //var footerHeight = 56;
+    console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
     $(".jqGrid").setGridHeight($(window).height()-390-height);
 })
 $(window).on('resize.jqGrid2', function () {
+    if( $("#item-content").is(":hidden")){
+        return;
+    }
     $(".jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
     var height = 0;
     $("#item-content .jqgrid-vertical-offset").each(function(){
@@ -672,10 +681,15 @@ $(document).on("click", "#item-content .openView", function(){
 $(document).on("click", "#item-content .closeView", function(){
     var $this = $(this);
     $("#item-content").fadeOut("fast",function(){
-        if($this.hasClass("reload"))
-            page_reload(function(){$("#body-content").show()});
-        else
-            $("#body-content").show();
+
+        if($this.hasClass("reload")) {
+            page_reload(function () {
+                $("#body-content").show()
+            });
+        } else
+            $("#body-content").show(0,function(){
+                $(window).resize(); // 解决jqgrid不显示的问题
+            });
     });
 });
 
@@ -795,7 +809,7 @@ function formatState (state) {
 };
 // 选择账号
 function register_user_select($select){
-    $select.select2({
+    return $select.select2({
         templateResult: formatState,
         ajax: {
             dataType: 'json',
@@ -935,7 +949,7 @@ function register_unit_select($unitTypeSelect, $unitSelect, $unitType) {
 }
 
 // 选择干部（显示工作证号）
-function register_cadre_select($select, $name){
+/*function register_cadre_select($select, $name){
     $select.select2({
         templateResult: formatState,
         templateSelection:function(state){ var $state = state.text;
@@ -964,8 +978,8 @@ function register_cadre_select($select, $name){
     }).on("change",function(){
         var name = $(this).select2("data")[0]['text']||'';
         $name.val(name);
-    });;
-}
+    });
+}*/
 // 预览发文
 function swf_preview(id, type){
     loadModal(ctx + "/swf_preview?id="+id + "&type=" + type);

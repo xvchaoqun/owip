@@ -132,7 +132,7 @@
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid2');
         }
-    }).jqGrid("setFrozenColumns");
+    });
 
 
 </script>

@@ -86,7 +86,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">集中保管日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_keepDate" type="text"
+                        <input class="form-control date-picker" name="_keepDate" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

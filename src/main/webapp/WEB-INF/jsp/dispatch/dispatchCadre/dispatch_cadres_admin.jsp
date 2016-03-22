@@ -217,6 +217,12 @@
   });
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
-  register_cadre_select($('#cadreForm select[name=cadreId]'), $('#cadreForm input[name=_name]'));
+
+  var $selectCadre = register_user_select($('#cadreForm select[name=cadreId]'));
+  $selectCadre.on("change",function(){
+    var name = $(this).select2("data")[0]['text']||'';
+    $('#cadreForm input[name=_name]').val(name);
+  });
+  //register_cadre_select($('#cadreForm select[name=cadreId]'), $('#cadreForm input[name=_name]'));
   register_unit_select($('#cadreForm select[name=_unitStatus]'), $('#cadreForm select[name=unitId]'), $('#cadreForm input[name=_unitType]'));
 </script>

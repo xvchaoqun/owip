@@ -30,3 +30,8 @@ http://zzgz.bnu.edu.cn/
 select * from dba_tab_cols where column_name='DWMC'
 
 
+20160322迁移->
+172.16.212.114
+root
+wlzx@2015
+

@@ -51,12 +51,13 @@ public class CommonController extends BaseController{
         }
         List<SysUser> sysUsers = sysUserMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if(null != sysUsers && sysUsers.size()>0){
             for(SysUser sysUser:sysUsers){
-                Map<String, String> option = new HashMap<>();
+                Map<String, Object> option = new HashMap<>();
                 option.put("id", sysUser.getId() + "");
                 option.put("text", sysUser.getRealname());
+                option.put("user", userBeanService.get(sysUser.getId()));
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
@@ -301,14 +302,15 @@ public class CommonController extends BaseController{
         List<Member> members = commonMapper.selectMemberList(type, status, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if(null != members && members.size()>0){
 
             for(Member member:members){
-                Map<String, String> option = new HashMap<>();
+                Map<String, Object> option = new HashMap<>();
                 SysUser sysUser = sysUserService.findById(member.getUserId());
                 option.put("id", member.getUserId() + "");
                 option.put("text", sysUser.getRealname());
+                option.put("user", userBeanService.get(member.getUserId()));
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
