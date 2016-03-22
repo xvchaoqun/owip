@@ -248,11 +248,11 @@ public class ReportController extends BaseController {
                 mobile = _user.getMobile();
             }
 
-            Date expectDate = passportApply.getExpectDate();
-            if(expectDate!=null) {
-                map.put("year", DateUtils.getYear(expectDate));
-                map.put("month", DateUtils.getMonth(expectDate));
-                map.put("day", DateUtils.getDay(expectDate));
+            Date approveTime = passportApply.getApproveTime();
+            if(approveTime!=null) {
+                map.put("year", DateUtils.getYear(approveTime));
+                map.put("month", DateUtils.getMonth(approveTime));
+                map.put("day", DateUtils.getDay(approveTime));
             }
         }
         map.put("sign", sign);
