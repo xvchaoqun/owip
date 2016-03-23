@@ -113,7 +113,7 @@ public class ApplySelfService extends BaseMapper {
         if(cadre!=null) {
             MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
             if (postType.getBoolAttr()){
-                cadre.getUnitId();
+                return cadre.getUnitId();
             }
         }
         return null;
