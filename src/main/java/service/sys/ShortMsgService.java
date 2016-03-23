@@ -204,6 +204,8 @@ public class ShortMsgService extends BaseMapper {
                     record.setSenderId(sender);
                     record.setType(type);
                     record.setStatus(status);
+                    record.setRet(ret);
+                    record.setIp(ip);
                     shortMsgMapper.insertSelective(record);
 
                     return status;
