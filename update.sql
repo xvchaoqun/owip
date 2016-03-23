@@ -1,3 +1,8 @@
+
+-- 2016-3-23
+ALTER TABLE `abroad_passport_apply`
+	ADD COLUMN `abolish` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否作废，【审批通过且没作废 或 没开始审批 ，则不可以申请同类型证件】' AFTER `status`;
+
 --2016-3-21
 update abroad_passport set is_lent=0;
 

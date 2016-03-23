@@ -35,6 +35,35 @@ $.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
 $.jgrid.defaults.onPaging= function(){
     $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 }
+
+$.jgrid.defaults.onSelectRow = function(ids) {
+    sid = ids;
+};
+// 恢复重新加载之前滚动位置及选中的行状态
+var jgrid_sid,jgrid_left, jgrid_top;
+$.jgrid.defaults.onSelectRow = function(ids) {
+    jgrid_sid = ids;
+}
+$.jgrid.defaults.gridComplete = function(){
+
+    // 自定义初始化方法
+    $(this).trigger('initGrid');
+
+    //alert(jgrid_sid)
+    if(jgrid_sid){
+        $(this).jqGrid("setSelection",jgrid_sid);
+    }
+    //console.log("加载完成：left:{0}, top:{1}".format(_left, _top))
+    if(jgrid_left!=undefined) {
+        $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(jgrid_left);
+        jgrid_left = undefined;
+    }
+    if(jgrid_top!=undefined) {
+        $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
+        jgrid_top = undefined;
+    }
+}
+
 $(window).on('resize.jqGrid', function () {
     if( $("#body-content").is(":hidden")){
         return;
@@ -430,6 +459,8 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
 // 调序 for jqgird
 $(document).on("click", ".myTableDiv .jqOrderBtn", function(){
 
+    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     var id = $(this).data("id");
     var direction = parseInt($(this).data("direction"));
     var step = $(this).closest("td").find("input").val();
@@ -449,7 +480,9 @@ $(document).on("click", " .searchBtn", function(){
     //alert($("div.myTableDiv #searchForm").serialize())
     //var $div = $(".myTableDiv");
     var $div = $(this).closest(".myTableDiv");
+    //alert($div.data("url-page"))
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+
     //alert($target)
     _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
     //_tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("#searchForm").serialize());

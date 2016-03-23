@@ -93,15 +93,18 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
-
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal('hide');
+                        SysMsg.success('提交成功。', '成功',function(){
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 }
             });

@@ -7,6 +7,17 @@ import java.util.Map;
 
 public class Cadre implements Serializable {
 
+    public SysUser getUser(){
+
+        return CmTag.getUserById(userId);
+    }
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
+    public MetaType getAdminLevelType(){
+        Map<Integer, MetaType> adminLevelMap = CmTag.getMetaTypes("mc_admin_level");
+        return adminLevelMap.get(typeId);
+    }
     public MetaType getPostType(){
 
         Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");

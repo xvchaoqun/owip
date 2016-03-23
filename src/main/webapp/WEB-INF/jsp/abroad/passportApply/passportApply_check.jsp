@@ -64,7 +64,9 @@ pageEncoding="UTF-8"%>
             <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_PASS}">
                 <button id="agree" class="btn btn-success btn-block" style="margin-top:20px;font-size: 20px">已备案，予以批准</button>
             </c:if>
-                <button id="agree_msg" class="btn btn-info btn-block" style="margin-top:20px;font-size: 20px">短信通知</button>
+                <button id="agree_msg" class="btn btn-info btn-block"
+                        style="margin-top:20px;font-size: 20px;
+                        display: ${passportApply.status!=PASSPORT_APPLY_STATUS_PASS?'none':'block'}">短信通知</button>
             </div>
         </div>
     </c:if>
@@ -83,7 +85,9 @@ pageEncoding="UTF-8"%>
             <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS}">
                 <button id="disagree" class="btn btn-danger btn-block" style="margin-top:20px;font-size: 20px">不符合条件，不予批准</button>
                 </c:if>
-                <button id="disagree_msg"class="btn btn-info btn-block" style="margin-top:20px;font-size: 20px">短信通知</button>
+                <button id="disagree_msg"class="btn btn-info btn-block"
+                        style="margin-top:20px;font-size: 20px;
+                        display: ${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS?'none':'block'}">短信通知</button>
             </div>
         </div>
         </c:if>
@@ -117,9 +121,9 @@ pageEncoding="UTF-8"%>
             if(ret.success){
                 SysMsg.success('审批成功', '提示', function(){
 
-                    //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
-                    location.href="${ctx}/passportApply?status=1";
+                    $("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
                 });
+                //$("#agree_msg").show().click();
 
             }
         });

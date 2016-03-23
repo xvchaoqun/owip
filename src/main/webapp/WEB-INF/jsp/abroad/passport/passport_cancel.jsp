@@ -8,7 +8,9 @@ pageEncoding="UTF-8"%>
     </c:if>
 
     <c:if test="${passport.cancelConfirm}">
+        <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 595px">
             <img src="${ctx}/img?path=${passport.cancelPic}" style="max-width: 595px"/>
+            </div>
     </c:if>
     </div>
     <div class="info">

@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
-            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
@@ -101,6 +101,7 @@ pageEncoding="UTF-8" %>
                 </li>
                 </c:forEach>
                 <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
+
                     <shiro:hasPermission name="cadre:edit">
                         <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
                             <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
@@ -109,15 +110,30 @@ pageEncoding="UTF-8" %>
                             <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
                         </a>
                     </shiro:hasPermission>
+
+                    <button class="jqEditBtn btn btn-primary btn-sm">
+                        <i class="fa fa-edit"></i> 修改信息
+                    </button>
+
+                    <c:if test="${status==CADRE_STATUS_TEMP}">
+                        <button onclick="_pass()" class="btn btn-success btn-sm">
+                            <i class="fa fa-edit"></i> 通过常委会任命
+                        </button>
+                    </c:if>
+
+                    <c:if test="${status==CADRE_STATUS_NOW}">
+                        <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_LEAVE}">
+                            <i class="fa fa-edit"></i> 离任
+                        </button>
+                    </c:if>
                     <a class="importBtn btn btn-primary btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
-                    <c:if test="${commonList.recNum>0}">
                         <a class="exportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="cadre:del">
-                            <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                            <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
-                    </c:if>
                 </div>
             </ul>
 
@@ -127,135 +143,10 @@ pageEncoding="UTF-8" %>
         <div >
 
             <div class="space-4"></div>
-            <c:if test="${commonList.recNum>0}">
-            <div class="table-container">
-                <table style="min-width: 1500px" class="overflow-y table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
-                            <th>姓名</th>
-							<th>工号</th>
-							<th nowrap>行政级别</th>
-							<th>职务属性</th>
-							<th nowrap>所属单位</th>
-							<th nowrap>职务</th>
-							<th nowrap>所在单位及职务</th>
-							<th>备注</th>
-                        <shiro:hasPermission name="cadre:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap>排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${cadres}" var="cadre" varStatus="st">
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                        <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${cadre.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-                            <td nowrap> <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre.id}">${sysUser.realname}</a></td>
-								<td nowrap>${sysUser.code}</td>
 
-								<td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
-								<td nowrap>${postMap.get(cadre.postId).name}</td>
-								<td nowrap>${unitMap.get(cadre.unitId).name}</td>
-								<td nowrap>${cadre.post}</td>
-								<td nowrap>${cadre.title}</td>
-								<td>${cadre.remark}</td>
-                            <shiro:hasPermission name="cadre:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadre.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadre.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
-                            <td nowrap>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <c:if test="${cadre.status==CADRE_STATUS_TEMP}">
-                                        <button onclick="_pass(${cadre.id}, '${sysUser.realname}', '${sysUser.code}')" class="btn btn-xs btn-success">
-                                            <i class="fa fa-edit"></i> 通过常委会任命
-                                        </button>
-                                    </c:if>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
+            <div id="jqGridPager"> </div>
 
-                                    <c:if test="${cadre.status==CADRE_STATUS_NOW}">
-                                        <button onclick="_leave(${cadre.id})" class="btn btn-xs btn-success">
-                                            <i class="fa fa-edit"></i> 离任
-                                        </button>
-                                    </c:if>
-                                    <shiro:hasPermission name="cadre:edit">
-                                    <button data-id="${cadre.id}" class="editBtn btn btn-default btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                     <%--<shiro:hasPermission name="cadre:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${cadre.id}">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>--%>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="cadre:edit">
-                                            <li>
-                                                <a href="#" data-id="${cadre.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadre:del">
-                                            <li>
-                                                <a href="#" data-id="${cadre.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                </div>
-                <wo:page commonList="${commonList}" uri="${ctx}/cadre_page" target="#page-content" pageNum="5"
-                         model="3"/>
-            </c:if>
-            <c:if test="${commonList.recNum==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
         </div>
                 </div></div></div>
         </div>
@@ -264,29 +155,57 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
+<script type="text/template" id="sort_tpl">
+<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+</script>
 <script>
-    stickheader();
+
+    $("#jqGrid").jqGrid({
+        //forceFit:true,
+        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
+            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 120, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            } ,frozen:true },
+            { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+            }, frozen:true },
+            { label: '行政级别',align:'center',   name: 'adminLevelType.name', width: 150 },
+            { label: '职务属性',align:'center',   name: 'postType.name', width: 150 },
+            { label: '职务',align:'center',   name: 'post', width: 350 },
+            { label: '所在单位及职务',align:'center',   name: 'title', width: 350 },
+            { label: '备注',align:'center',  align:'center', name: 'remark', width: 150 }
+        ]}).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
 
     $(".importBtn").click(function(){
         loadModal("${ctx}/cadre_import?status=${status}");
     });
-    function _pass(id, realname, code){
+    function _pass(){
 
-        bootbox.confirm("姓名：{0}，工号：{1}，确定通过常委会任命吗？".format(realname, code), function (result) {
+        var grid = $("#jqGrid");
+        var id  = grid.getGridParam("selrow");
+        if(!id){
+            SysMsg.warning("请选择行", "提示");
+            return ;
+        }
+        var data = grid.getRowData(id);
+
+        bootbox.confirm("姓名：{0}，工号：{1}，确定通过常委会任命吗？".format(data['user.realname'], data['user.code']), function (result) {
             if (result) {
                 $.post("${ctx}/cadre_pass", {id: id}, function (ret) {
                     if (ret.success) {
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        SysMsg.success('操作成功。', '成功',function(){
+                            location.href='${ctx}/cadre?status=1'
+                        });
                     }
                 });
             }
         });
-    }
-
-    function _leave(id){
-
-        loadModal("${ctx}/cadre_leave?id="+id+"&status=${CADRE_STATUS_LEAVE}&");
     }
 
     function openView(id){

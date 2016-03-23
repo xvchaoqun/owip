@@ -7,6 +7,7 @@ import domain.*;
 import domain.CadreExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.CadreMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -33,16 +34,14 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreController extends BaseController {
@@ -57,7 +56,25 @@ public class CadreController extends BaseController {
     }
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_page")
-    public String cadre_page(HttpServletResponse response,
+    public String cadre_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+                             Integer cadreId,ModelMap modelMap) {
+
+        modelMap.put("status", status);
+
+        if (cadreId!=null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            if(cadre!=null) {
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
+        }
+
+        return "cadre/cadre_page";
+    }
+    @RequiresPermissions("cadre:list")
+    @RequestMapping("/cadre_data")
+    public void cadre_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order",tableName = "base_cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
@@ -66,7 +83,7 @@ public class CadreController extends BaseController {
                                     Integer postId,
                                     String title,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -76,19 +93,11 @@ public class CadreController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        modelMap.put("status", status);
-
         CadreExample example = new CadreExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            if(cadre!=null) {
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
-                modelMap.put("sysUser", sysUser);
-            }
             criteria.andIdEqualTo(cadreId);
         }
         if (typeId!=null) {
@@ -103,7 +112,7 @@ public class CadreController extends BaseController {
 
         if (export == 1) {
             cadre_export(example, response);
-            return null;
+            return;
         }
 
         int count = cadreMapper.countByExample(example);
@@ -112,34 +121,16 @@ public class CadreController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Cadre> Cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadres", Cadres);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", Cadres);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (postId!=null) {
-            searchStr += "&postId=" + postId;
-        }
-        if (StringUtils.isNotBlank(title)) {
-            searchStr += "&title=" + title;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        return "cadre/cadre_page";
+        JSONUtils.jsonp(resultMap, Cadre.class, CadreMixin.class);
+        return;
     }
 
 

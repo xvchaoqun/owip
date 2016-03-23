@@ -46,8 +46,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+                        $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功',function(){
-                            page_reload();
+                                location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
                         });
                     }
                 }

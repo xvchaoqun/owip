@@ -1,5 +1,6 @@
 package domain;
 
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -7,19 +8,27 @@ import java.util.Date;
 import java.util.Map;
 
 public class PassportApply implements Serializable {
-    public SysUser getUser(){
 
+    public Cadre getCadre(){
+        return CmTag.getCadreById(cadreId);
+    }
+    public SysUser getApplyUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
-
-        return CmTag.getCadreById(cadreId);
+    public SysUser getApprovalUser(){
+        if(userId!=null)
+            return CmTag.getUserById(userId);
+        return null;
     }
     public MetaType getPassportClass(){
 
         Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
         return passportClassMap.get(classId);
+    }
+    public String getStatusName(){
+
+        return SystemConstants.PASSPORT_APPLY_STATUS_MAP.get(status);
     }
     private Integer id;
 
@@ -30,6 +39,8 @@ public class PassportApply implements Serializable {
     private Date applyDate;
 
     private Byte status;
+
+    private Boolean abolish;
 
     private Integer userId;
 
@@ -85,6 +96,14 @@ public class PassportApply implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getAbolish() {
+        return abolish;
+    }
+
+    public void setAbolish(Boolean abolish) {
+        this.abolish = abolish;
     }
 
     public Integer getUserId() {

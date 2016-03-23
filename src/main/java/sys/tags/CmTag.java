@@ -185,6 +185,11 @@ public class CmTag {
         return sysUserService.findByUsername(username);
     }
 
+    public static Unit getUnit(Integer unitId) {
+
+        return unitService.findAll().get(unitId);
+    }
+
     public static Unit findUnitByCode(String code) {
 
         return unitService.findUnitByCode(StringUtils.trim(code));

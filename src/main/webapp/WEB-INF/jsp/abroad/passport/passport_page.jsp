@@ -190,7 +190,6 @@ pageEncoding="UTF-8" %>
 </div>
 
 <script>
-    var sid,_left, _top;
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -248,24 +247,7 @@ pageEncoding="UTF-8" %>
                 return cellvalue?"已确认":"未确认";
             } }
             </c:if>
-        ],
-        onSelectRow: function(ids) {
-            sid = ids;
-        },
-        gridComplete: function(){
-            if(sid){
-                $(this).jqGrid("setSelection",sid);
-            }
-            //console.log("加载完成：left:{0}, top:{1}".format(_left, _top))
-            if(_left!=undefined) {
-                $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(_left);
-                _left = undefined;
-            }
-            if(_top!=undefined) {
-                $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(_top);
-                _top = undefined;
-            }
-        }}).jqGrid("setFrozenColumns");
+        ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     function openView_safeBox(pageNo){

@@ -207,18 +207,17 @@ pageEncoding="UTF-8" %>
                 else return '';
             } },
             { label:'备注', name: 'remark', width: 550 }
-            ],
-        gridComplete:function(){
-            $(".dispatch_del_file").each(function(){
-                var id = $(this).data('id');
-                var type = $(this).data('type');
-                $(this).webuiPopover({width:'180px',animation:'pop',
-                    content:function(){
-                        return  _.template($("#dispatch_del_file_tpl").html())({id:id, type:type})
-                    }});
-            });
-            $('[data-rel="tooltip"]').tooltip();
-        }
-    }).jqGrid("setFrozenColumns");
+            ]
+    }).jqGrid("setFrozenColumns").on("initGrid", function(){
+        $(".dispatch_del_file").each(function(){
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+            $(this).webuiPopover({width:'180px',animation:'pop',
+                content:function(){
+                    return  _.template($("#dispatch_del_file_tpl").html())({id:id, type:type})
+                }});
+        });
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid');
 </script>

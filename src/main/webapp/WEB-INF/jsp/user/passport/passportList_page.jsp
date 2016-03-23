@@ -27,12 +27,11 @@
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr>
-                                            <th>证件名称</th>
+                                            <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
-                                            <th style="width: 120px">集中保管日期</th>
                                             <th>是否借出</th>
                                             <th></th>
                                         </tr>
@@ -45,7 +44,6 @@
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                                <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
                                                 <td>${passport.isLent?"借出":"-"}</td>
                                                 <td><a class="openView btn btn-info btn-xs"
                                                        data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
@@ -59,7 +57,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-box transparent">
+                        <div class="widget-box collapsed transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
                                     <i class="ace-icon fa fa-recycle"></i>
@@ -68,7 +66,7 @@
 
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
                                     </a>
                                 </div>
                             </div>
@@ -77,12 +75,11 @@
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr>
-                                            <th>证件名称</th>
+                                            <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
-                                            <th style="width: 120px">集中保管日期</th>
                                             <th>取消集中保管原因</th>
                                             <th  style="width: 150px">取消集中保管日期</th>
                                             <th nowrap></th>
@@ -96,7 +93,6 @@
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                                <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
                                                 <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}</td>
                                                 <td>${cm:formatDate(passport.cancelTime,'yyyy-MM-dd')}</td>
                                                 <td>
@@ -119,7 +115,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-box transparent">
+                        <div class="widget-box collapsed transparent" >
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
                                     <i class="ace-icon fa fa-times"></i>
@@ -127,7 +123,7 @@
                                 </h4>
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
                                     </a>
                                 </div>
                             </div>
@@ -136,12 +132,11 @@
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr>
-                                            <th>证件名称</th>
+                                            <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
-                                            <th style="width: 120px">集中保管日期</th>
                                             <th style="width: 120px">登记丢失日期</th>
                                             <th></th>
                                         </tr>
@@ -154,7 +149,6 @@
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                                <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.lostTime,'yyyy-MM-dd')}</td>
                                                 <td><a class="openView btn btn-info btn-xs"
                                                        data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
@@ -180,3 +174,13 @@
         </div>
     </div>
 </div>
+<style>
+    .widget-main .table{
+        border-width:1px!important;
+        border-top: 0px!important;
+    }
+    .widget-main .table th, .widget-main .table td {
+        text-align: center;
+        height:38px;
+    }
+</style>

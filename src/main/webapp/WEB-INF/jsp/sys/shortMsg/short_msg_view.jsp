@@ -3,7 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>短信通知</h3>
+  <h3>
+    <c:choose>
+      <c:when test="${param.type=='passportApplyPass'}">申请已批准，发送短信通知</c:when>
+      <c:when test="${param.type=='passportApplyUnPass'}">不发短信，直接返回</c:when>
+      <c:otherwise>短信通知</c:otherwise>
+    </c:choose>
+  </h3>
 </div>
 <div class="modal-body">
   <p style="padding:30px;font-size:20px;text-indent: 2em; ">

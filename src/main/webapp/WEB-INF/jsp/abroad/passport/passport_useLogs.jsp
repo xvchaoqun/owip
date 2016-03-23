@@ -90,7 +90,7 @@
                     return '其他事务';
                 return cellvalue;
             }},
-            { label: '行程',align:'center',  name: 'applyId', width: 180 , formatter:function(cellvalue, options, rowObject){
+            { label: '行程',align:'center',  name: 'applyId', width: 75 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
                     return 'S{0}'.format(cellvalue);
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')

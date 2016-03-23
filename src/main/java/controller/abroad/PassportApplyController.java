@@ -8,6 +8,7 @@ import domain.PassportApplyExample.Criteria;
 import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.PassportApplyMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,13 +30,16 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -106,16 +110,11 @@ public class PassportApplyController extends BaseController {
 
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_page")
-    public String passportApply_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 @RequestParam(required = false, defaultValue = "0")  Byte status,
-                                    Integer cadreId,
-                                    Integer classId,
-                                    String applyDate,
-                                    Integer year,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String passportApply_page(
+            @CurrentUser SysUser loginUser,
+            // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
+            @RequestParam(required = false, defaultValue = "0")  Byte status,
+            Integer cadreId,ModelMap modelMap) {
 
         // 判断下是否上传了签名 和联系电话
         String sign = loginUser.getSign();
@@ -124,6 +123,33 @@ public class PassportApplyController extends BaseController {
                 || StringUtils.isBlank(loginUser.getMobile())) {
             return "abroad/passportApply/passportApply_sign";
         }
+
+        modelMap.put("status", status);
+
+        if (cadreId != null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+        return "abroad/passportApply/passportApply_page";
+    }
+
+    @RequiresPermissions("passportApply:list")
+    @RequestMapping("/passportApply_data")
+    public void passportApply_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
+                                 // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
+                                 @RequestParam(required = false, defaultValue = "0")  Byte status,
+                                    Integer cadreId,
+                                    Integer classId,
+                                    String applyDate,
+                                    Integer year,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo) throws IOException {
+
+
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -137,16 +163,14 @@ public class PassportApplyController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        modelMap.put("status", status);
-        //if(status!=0){
+        if(status==1){
+            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull();
+        }else if(status==3){
+            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
+        }else
             criteria.andStatusEqualTo(status);
-       // }
 
         if (cadreId!=null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
 
             criteria.andCadreIdEqualTo(cadreId);
         }
@@ -158,7 +182,7 @@ public class PassportApplyController extends BaseController {
         }
         if (export == 1) {
             passportApply_export(example, response);
-            return null;
+            return;
         }
 
         int count = passportApplyMapper.countByExample(example);
@@ -167,35 +191,17 @@ public class PassportApplyController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PassportApply> passportApplys = passportApplyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("passportApplys", passportApplys);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
-        searchStr += "&status=" + status;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passportApplys);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (classId!=null) {
-            searchStr += "&classId=" + classId;
-        }
-        if (StringUtils.isNotBlank(applyDate)) {
-            searchStr += "&applyDate=" + applyDate;
-        }
-
-        if (year!=null) {
-            searchStr += "&year=" + year;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "abroad/passportApply/passportApply_page";
+        JSONUtils.jsonp(resultMap, PassportApply.class, PassportApplyMixin.class);
+        return;
     }
 
     @RequiresPermissions("passportApply:edit")
