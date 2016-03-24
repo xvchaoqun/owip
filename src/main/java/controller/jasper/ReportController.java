@@ -105,6 +105,7 @@ public class ReportController extends BaseController {
         map.put("fax", memberOut.getFromFax()); //
         map.put("postCode", memberOut.getFromPostCode());
         map.put("idcard", userBean.getIdcard());
+        map.put("code", userBean.getCode());
 
         return map;
     }

@@ -135,7 +135,7 @@ public class MemberService extends BaseMapper {
             teacher.setNation(extJzg.getMz());
             teacher.setIdcard(extJzg.getSfzh());
             teacher.setEducation(extJzg.getZhxlmc());
-            teacher.setDegree(extJzg.getZhxwm());
+            teacher.setDegree(extJzg.getZhxw());
             //teacher.setDegreeTime(); 学位授予日期
             //teacher.setMajor(extJzg.getz); 所学专业
             teacher.setSchool(extJzg.getXlbyxx());
