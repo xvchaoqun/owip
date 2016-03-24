@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
@@ -54,6 +55,15 @@ public class MemberController extends BaseController {
     @ResponseBody
     public Map do_member_au(Member record,  String _applyTime, String _activeTime, String _candidateTime,
                             String _growTime, String _positiveTime, String _transferTime, HttpServletRequest request) {
+
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        if(partyId!=null && branchId==null) {
+            Party party = partyService.findAll().get(partyId);
+            if(!CmTag.typeEqualsCode(party.getClassId(), "mt_direct_branch")){
+                throw new RuntimeException("只有直属党支部或党支部可以添加党员");
+            }
+        }
 
         Integer userId = record.getUserId();
 
@@ -107,6 +117,11 @@ public class MemberController extends BaseController {
         }
 
         Map<Integer, Branch> branchMap = branchService.findAll();
+        if(branchId!=null && partyId==null){ // 给支部添加党员
+            Branch branch = branchMap.get(branchId);
+            partyId = branch.getPartyId();
+        }
+
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("branchMap", branchMap);
         modelMap.put("partyMap", partyMap);
@@ -115,6 +130,13 @@ public class MemberController extends BaseController {
         }
         if (branchId != null) {
             modelMap.put("branch", branchMap.get(branchId));
+        }
+
+        if(partyId!=null && branchId==null) { // 给直属党支部添加党员
+            Party party = partyMap.get(partyId);
+            if(!CmTag.typeEqualsCode(party.getClassId(), "mt_direct_branch")){
+                throw new RuntimeException("只有直属党支部或党支部可以添加党员");
+            }
         }
 
         modelMap.put("member", member);

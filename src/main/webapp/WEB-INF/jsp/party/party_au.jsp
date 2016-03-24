@@ -155,6 +155,10 @@ pageEncoding="UTF-8"%>
 	}
 </style>
 <script>
+
+	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
 	$("#modal :checkbox").bootstrapSwitch();
 	register_date($('.date-picker'));
     $("#modal form").validate({

@@ -93,6 +93,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
              </c:if>
+<c:if test="${type!=PASSPORT_TYPE_LOST}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">存放保险柜</label>
 				<div class="col-xs-6">
@@ -107,7 +108,7 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
-
+</c:if>
         <c:if test="${type==PASSPORT_TYPE_LOST}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">登记丢失日期</label>
@@ -123,7 +124,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">丢失证明</label>
                 <div class="col-xs-6">
-                    <input  ${passport==null?'required':''} class="form-control" type="file" name="_lostProof" />
+                    <input  class="form-control" type="file" name="_lostProof" />
                 </div>
             </div>
         </c:if>

@@ -25,6 +25,7 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -71,9 +72,21 @@ public class PartyController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("party:list")
     @RequestMapping("/party_page")
-    public String party_page(HttpServletResponse response,
+    public String party_page(ModelMap modelMap) {
+
+        modelMap.put("classMap", metaTypeService.metaTypes("mc_party_class"));
+        modelMap.put("typeMap", metaTypeService.metaTypes("mc_part_type"));
+        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
+
+        return "party/party_page";
+    }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping("/party_data")
+    public void party_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     String code,
@@ -83,7 +96,7 @@ public class PartyController extends BaseController {
                                     Integer typeId,
                                     Integer unitTypeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -118,7 +131,7 @@ public class PartyController extends BaseController {
 
         if (export == 1) {
             party_export(example, response);
-            return null;
+            return;
         }
 
         int count = partyMapper.countByExample(example);
@@ -127,43 +140,16 @@ public class PartyController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Party> Partys = partyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("partys", Partys);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", Partys);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (unitId!=null) {
-            searchStr += "&unitId=" + unitId;
-        }
-        if (classId!=null) {
-            searchStr += "&classId=" + classId;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (unitTypeId!=null) {
-            searchStr += "&unitTypeId=" + unitTypeId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("classMap", metaTypeService.metaTypes("mc_party_class"));
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_part_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
-        return "party/party_page";
+        JSONUtils.jsonp(resultMap);
+        return;
     }
 
     @RequiresPermissions("party:edit")

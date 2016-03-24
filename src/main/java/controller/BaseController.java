@@ -101,6 +101,8 @@ public class BaseController extends BaseMapper {
     protected PartyMemberService partyMemberService;
     @Autowired
     protected BranchService branchService;
+    @Autowired
+    protected OrgAdminService orgAdminService;
 
     @Autowired
     protected UnitAdminGroupService unitAdminGroupService;

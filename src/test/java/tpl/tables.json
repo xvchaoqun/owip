@@ -1,5 +1,5 @@
 {
-  "schema": "owip",
+  "schema": "owip20160314",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",

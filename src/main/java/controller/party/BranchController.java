@@ -5,6 +5,7 @@ import domain.*;
 import domain.BranchExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.BranchMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,16 +27,14 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BranchController extends BaseController {
@@ -74,9 +73,21 @@ public class BranchController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_page")
-    public String branch_page(HttpServletResponse response,
+    public String branch_page(ModelMap modelMap) {
+
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
+        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
+
+        return "party/branch/branch_page";
+    }
+
+    @RequiresPermissions("branch:list")
+    @RequestMapping("/branch_data")
+    public void branch_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     String code,
@@ -86,7 +97,7 @@ public class BranchController extends BaseController {
                                     Integer unitTypeId,
                                     String _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -128,7 +139,7 @@ public class BranchController extends BaseController {
 
         if (export == 1) {
             branch_export(example, response);
-            return null;
+            return;
         }
 
         int count = branchMapper.countByExample(example);
@@ -136,44 +147,17 @@ public class BranchController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Branch> Branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("branchs", Branchs);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", Branchs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (partyId!=null) {
-            searchStr += "&partyId=" + partyId;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (unitTypeId!=null) {
-            searchStr += "&unitTypeId=" + unitTypeId;
-        }
-        if (StringUtils.isNotBlank(_foundTime)) {
-            searchStr += "&_foundTime=" + _foundTime;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
-
-        return "party/branch/branch_page";
+        JSONUtils.jsonp(resultMap, Branch.class, BranchMixin.class);
+        return;
     }
 
     @RequiresPermissions("branch:edit")

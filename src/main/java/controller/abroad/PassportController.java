@@ -357,7 +357,7 @@ public class PassportController extends BaseController {
 
         if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
 
-            if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
+            //if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
             if (_lostProof != null && !_lostProof.isEmpty()) {
                 String fileName = UUID.randomUUID().toString();
                 String realPath = File.separator
@@ -489,15 +489,16 @@ public class PassportController extends BaseController {
         if (StringUtils.isNotBlank(_lostTime)) {
             record.setLostTime(DateUtils.parseDate(_lostTime, DateUtils.YYYY_MM_DD));
         }
-        if (_lostProof == null || _lostProof.isEmpty()) throw new RuntimeException("请选择丢失证明文件");
-        String fileName = UUID.randomUUID().toString();
-        String realPath = File.separator
-                + "passport_cancel" + File.separator
-                + fileName;
-        String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
-        String savePath = realPath + ext;
-        FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
-        record.setLostProof(savePath);
+        if (_lostProof != null && !_lostProof.isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
+            record.setLostProof(savePath);
+        }
 
         record.setType(SystemConstants.PASSPORT_TYPE_LOST);
         record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_TRANSFER);

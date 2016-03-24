@@ -41,7 +41,7 @@ public class PartyMemberAdminService extends BaseMapper {
         PartyMember record = new PartyMember();
         record.setId(partyMember.getId());
         record.setIsAdmin(!partyMember.getIsAdmin());
-        partyMemberMapper.updateByPrimaryKeySelective(record);
+        partyMemberMapper.updateByPrimaryKeySelective(record); // 必须先更新，保证下面的判断正确
 
         PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(partyMember.getGroupId());
         if(partyMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作

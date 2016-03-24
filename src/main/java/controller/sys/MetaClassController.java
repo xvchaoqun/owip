@@ -318,7 +318,7 @@ public class MetaClassController extends BaseController {
 
         if (id != null) {
             if (null == pageSize) {
-                pageSize = 10;
+                pageSize = 8;
             }
             if (null == pageNo) {
                 pageNo = 1;

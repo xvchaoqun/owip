@@ -101,15 +101,11 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <div class="text-center">
-                <div class="pagination pagination-centered">
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
                         <wo:page commonList="${commonList}" uri="${ctx}/metaClass_type?id=${metaClass.id}" target="#modal .modal-content"
                                  pageNum="5"
                                  model="3"/>
                     </c:if>
-                </div>
-            </div>
         </c:if>
         <c:if test="${commonList.recNum==0}">
             <div class="well well-lg center">

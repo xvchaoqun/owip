@@ -40,7 +40,7 @@ public class BranchMemberAdminService extends BaseMapper {
         BranchMember record = new BranchMember();
         record.setId(branchMember.getId());
         record.setIsAdmin(!branchMember.getIsAdmin());
-        branchMemberMapper.updateByPrimaryKeySelective(record);
+        branchMemberMapper.updateByPrimaryKeySelective(record); // 必须先更新，保证下面的判断正确
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
         if (branchMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作

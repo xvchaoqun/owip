@@ -36,15 +36,10 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <div class="text-center">
-                <div class="pagination pagination-centered">
-                    共 ${commonList.recNum} 条记录
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
                         <wo:page commonList="${commonList}" uri="${ctx}/sysRole_page" target="#page-content" pageNum="5"
                                  model="3"/>
                     </c:if>
-                </div>
-            </div>
         </div>
     </div>
 </div>

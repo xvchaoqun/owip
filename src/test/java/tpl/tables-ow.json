@@ -1,10 +1,19 @@
 {
-  "schema": "owip",
+  "schema": "owip20160314",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "ow_",
   "tables": [
+    {
+      "table": "org_admin",
+      "key": "id",
+      "searchColumns": "user_id,party_id,brach_id",
+      "showColumns": "user_id",
+      "excludeEditColumns": "id,type,status,remark,create_time",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
     {
       "table": "member_stay",
       "key": "id",

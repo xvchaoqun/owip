@@ -10,6 +10,7 @@ import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
 import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
+import service.party.PartyService;
 import service.party.RetireApplyService;
 import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
@@ -36,6 +37,7 @@ public class CmTag {
     static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
     static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
     static UnitService unitService = (UnitService) context.getBean("unitService");
+    static PartyService partyService = (PartyService) context.getBean("partyService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
 
 
@@ -188,6 +190,11 @@ public class CmTag {
     public static Unit getUnit(Integer unitId) {
 
         return unitService.findAll().get(unitId);
+    }
+
+    public static Party getParty(Integer partyId) {
+
+        return partyService.findAll().get(partyId);
     }
 
     public static Unit findUnitByCode(String code) {

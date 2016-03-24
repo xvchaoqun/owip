@@ -88,6 +88,8 @@ public class BaseMapper {
 	protected PartyMemberGroupMapper partyMemberGroupMapper;
 	@Autowired
 	protected BranchMapper branchMapper;
+	@Autowired
+	protected OrgAdminMapper orgAdminMapper;
 
 	@Autowired
 	protected UnitAdminGroupMapper unitAdminGroupMapper;

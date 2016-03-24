@@ -47,8 +47,8 @@
       </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
-      <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
-      </table>
+      <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
+      </table>-->
 
 
     <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
@@ -108,6 +108,8 @@
 <!--    <table tableName="ow_branch" domainObjectName="Branch">
     <ignoreColumn column="update_time"/>
     </table>-->
+      <table tableName="ow_org_admin" domainObjectName="OrgAdmin">
+      </table>
       <!--<table tableName="base_country" domainObjectName="Country">
       </table>-->
       <!--<table tableName="base_location" domainObjectName="Location">

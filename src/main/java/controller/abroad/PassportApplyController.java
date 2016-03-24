@@ -275,6 +275,19 @@ public class PassportApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("passportApply:abolish")
+    @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportApply_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+
+        if (null != ids && ids.length > 0) {
+
+            passportApplyService.abolish(ids);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废申请办理证件：%s", StringUtils.join(ids, ",")));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     public void passportApply_export(PassportApplyExample example, HttpServletResponse response) {
 
         List<PassportApply> passportApplys = passportApplyMapper.selectByExample(example);

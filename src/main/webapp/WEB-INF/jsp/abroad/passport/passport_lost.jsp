@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">丢失证明</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="file" name="_lostProof" />
+                    <input class="form-control" type="file" name="_lostProof" />
                 </div>
             </div>
     </form>

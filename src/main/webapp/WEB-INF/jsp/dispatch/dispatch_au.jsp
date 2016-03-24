@@ -90,6 +90,10 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
     $('textarea.limited').inputlimiter();
     $('#modalForm input[type=file]').ace_file_input({
         no_file:'请选择文件 ...',

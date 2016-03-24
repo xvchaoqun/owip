@@ -44,6 +44,11 @@ pageEncoding="UTF-8" %>
                                     data-url="${ctx}/passport_au" data-id-name="applyId">
                                 <i class="fa fa-hand-paper-o"></i> 交证件
                             </button>
+                            <a class="jqBatchBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/passportApply_abolish" data-title="申请作废"
+                               data-msg="确定将这{0}个申请作废吗？">
+                                <i class="fa fa-recycle"></i> 作废
+                            </a>
                         </c:if>
                         <button class="jqOpenViewBtn btn ${passportApply.status==PASSPORT_APPLY_STATUS_INIT?"btn-success":"btn-warning"} btn-sm"
                                 data-open-by="page"

@@ -1,9 +1,21 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class Party implements Serializable {
+
+    public Unit getUnit() {
+        return CmTag.getUnit(unitId);
+    }
+    public MetaType getPartyClass(){
+        Map<Integer, MetaType> partyClassMap = CmTag.getMetaTypes("mc_party_class");
+        return partyClassMap.get(classId);
+    }
+
     private Integer id;
 
     private String code;
