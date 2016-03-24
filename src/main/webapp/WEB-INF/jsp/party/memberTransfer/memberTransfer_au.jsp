@@ -38,22 +38,18 @@ pageEncoding="UTF-8"%>
 								<input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-xs-5 control-label">类别</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" value="${MEMBER_TYPE_MAP.get(userBean.type)}">
-							</div>
-						</div>
+
 						<div class="form-group">
 							<label class="col-xs-5 control-label">性别</label>
 							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
+								<input disabled class="form-control" name="gender" type="text" value="${GENDER_MAP.get(userBean.gender)}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-5 control-label">年龄</label>
 							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
+								<input disabled class="form-control" type="text" name="age"
+									   value="${userBean.birth!=null?cm:intervalYearsUntilNow(userBean.birth):''}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -65,7 +61,7 @@ pageEncoding="UTF-8"%>
 						<div class="form-group">
 							<label class="col-xs-5 control-label">政治面貌</label>
 							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
+								<input disabled class="form-control" name="politicalStatus" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -201,5 +197,36 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	register_user_select($('#modalForm select[name=userId]'));
+	var $select = register_user_select($('#modalForm select[name=userId]'));
+	$select.on("change",function(){
+		var entity = $(this).select2("data")[0];
+		if(entity && entity.id && entity.id>0) {
+			console.log(entity)
+			var code = entity.user.code || '';
+			var realname = entity.user.realname || '';
+			var gender = entity.user.gender || '';
+			var age = '';
+			if (entity.user.birth && entity.user.birth != '')
+				age = new Date(entity.user.birth).format('yyyy-MM-dd');
+			var nation = entity.user.nation || '';
+			var politicalStatus = entity.user.politicalStatus || '';
+			var idcard = entity.user.idcard || '';
+
+			$("#modalForm input[name=code]").val(code);
+			$("#modalForm input[name=realname]").val(realname);
+			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=age]").val(age);
+			$("#modalForm input[name=nation]").val(nation);
+			$("#modalForm input[name=politicalStatus]").val(politicalStatus == 1 ? '正式党员' : (politicalStatus == 2 ? '预备党员' : ''));
+			$("#modalForm input[name=idcard]").val(idcard);
+		}else{
+			$("#modalForm input[name=code]").val('');
+			$("#modalForm input[name=realname]").val('')
+			$("#modalForm input[name=gender]").val('')
+			$("#modalForm input[name=age]").val('')
+			$("#modalForm input[name=nation]").val('')
+			$("#modalForm input[name=politicalStatus]").val('')
+			$("#modalForm input[name=idcard]").val('')
+		}
+	});
 </script>

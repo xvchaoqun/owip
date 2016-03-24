@@ -132,7 +132,7 @@ public class MemberService extends BaseMapper {
 
             //+++++++++++++ 同步后面一系列属性
             teacher.setNativePlace(extJzg.getJg());
-            teacher.setNativePlace(extJzg.getMz());
+            teacher.setNation(extJzg.getMz());
             teacher.setIdcard(extJzg.getSfzh());
             teacher.setEducation(extJzg.getZhxlmc());
             teacher.setDegree(extJzg.getZhxwm());
