@@ -71,7 +71,7 @@ pageEncoding="UTF-8" %>
     function nameFormatter(cellvalue, options, rowObject){
 
         return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                .format(rowObject.userId, cellvalue);
+                .format(rowObject.retireApply.userId, cellvalue);
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

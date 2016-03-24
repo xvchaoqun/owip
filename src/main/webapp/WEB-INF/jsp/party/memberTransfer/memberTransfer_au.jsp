@@ -46,9 +46,9 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">年龄</label>
+							<label class="col-xs-5 control-label">出生年月</label>
 							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="age"
+								<input disabled class="form-control" type="text" name="birth"
 									   value="${userBean.birth!=null?cm:intervalYearsUntilNow(userBean.birth):''}">
 							</div>
 						</div>
@@ -205,9 +205,9 @@ pageEncoding="UTF-8"%>
 			var code = entity.user.code || '';
 			var realname = entity.user.realname || '';
 			var gender = entity.user.gender || '';
-			var age = '';
+			var birth = '';
 			if (entity.user.birth && entity.user.birth != '')
-				age = new Date(entity.user.birth).format('yyyy-MM-dd');
+				birth = new Date(entity.user.birth).format('yyyy-MM-dd');
 			var nation = entity.user.nation || '';
 			var politicalStatus = entity.user.politicalStatus || '';
 			var idcard = entity.user.idcard || '';
@@ -215,7 +215,7 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=code]").val(code);
 			$("#modalForm input[name=realname]").val(realname);
 			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
-			$("#modalForm input[name=age]").val(age);
+			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
 			$("#modalForm input[name=politicalStatus]").val(politicalStatus == 1 ? '正式党员' : (politicalStatus == 2 ? '预备党员' : ''));
 			$("#modalForm input[name=idcard]").val(idcard);
