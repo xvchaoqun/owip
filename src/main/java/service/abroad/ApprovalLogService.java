@@ -103,6 +103,10 @@ public class ApprovalLogService extends BaseMapper {
         ApplySelf applySelf = new ApplySelf();
         applySelf.setId(applyId);
         applySelf.setFlowNode(nextFlowNode); // 下一个审批身份
+
+        if(!record.getStatus()) // 如果上一个领导未通过，应该下面的领导都不需要审批了，直接转到组织部终审。
+            applySelf.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_LAST);
+
         applySelf.setFlowNodes(StringUtils.join(flowNodes, ",")); // 已完成审批的 审批身份
         applySelf.setFlowUsers(StringUtils.join(flowUsers, ",")); // 已完成审批（未通过或通过）的 审批人
 

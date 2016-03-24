@@ -47,6 +47,7 @@ public class ApprovalTd extends BodyTagSupport {
         ApprovalResult[] vals = approvalResultMap.values().toArray(new ApprovalResult[size]);
         Integer[] keys = approvalResultMap.keySet().toArray( new Integer[size]);
 
+        // 初审td
         ApprovalResult firstVal = vals[0];
         if(firstVal.getValue()==null) {
             if(view)
@@ -62,8 +63,11 @@ public class ApprovalTd extends BodyTagSupport {
         }else{
             td = "<td>通过</td>";
         }
+
+
         boolean goToNext = true;
         int last = 0;
+        boolean lastIsUnPass = false;
         for (int i = 1; i < size-1; i++) {
             ApprovalResult val = vals[i];
             if(val.getValue() !=null && val.getValue() == -1) {
@@ -86,6 +90,7 @@ public class ApprovalTd extends BodyTagSupport {
                 }else if(val.getValue() == 0 ){
                     td += "<td>未通过</td>";
                     goToNext = false;
+                    lastIsUnPass = true; // 未通过，直接到组织部终审
                     last++;
                 }else if(val.getValue() == 1 ){
                     td += "<td>通过</td>";
@@ -94,8 +99,9 @@ public class ApprovalTd extends BodyTagSupport {
             }
         }
 
+        // 终审td
         ApprovalResult lastVal = vals[size-1];
-        if(last==size-2){
+        if(last==size-2 || lastIsUnPass){ // 前面已经审批完成，或者 前面有一个未通过，直接到组织部终审
             if(lastVal.getValue()==null) {
                 if (view)
                     td += "<td>未审批</td>";
