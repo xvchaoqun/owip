@@ -372,8 +372,8 @@ public class ApplySelfController extends BaseController {
         for (ApproverType approverType : approverTypeMap.values()) {
             if(approverType.getType() ==SystemConstants.APPROVER_TYPE_OTHER){
                 List<Integer> approvalPostIds = applySelfService.getApprovalPostIds(userId, approverType.getId());
-                if(leaderUnitIds.size()>0){
-                    approverTypePostIdListMap.put(leaderApproverType.getId(), approvalPostIds);
+                if(approvalPostIds.size()>0){
+                    approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
                 }
             }
         }
