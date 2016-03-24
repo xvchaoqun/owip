@@ -2,6 +2,7 @@ package service.source;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import domain.ExtBks;
 import domain.ExtBksExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class BnuBksImport extends Source {
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         ExtBks extBks = gson.fromJson(JSONUtils.toString(map), ExtBks.class);
         ExtBksExample example = new ExtBksExample();
         example.createCriteria().andXhEqualTo(rs.getString("xh"));

@@ -1,6 +1,7 @@
 package service.source;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import domain.ExtJzg;
 import domain.ExtJzgExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class BnuJzgImport extends Source {
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         ExtJzg extJzg = gson.fromJson(JSONUtils.toString(map), ExtJzg.class);
         ExtJzgExample example = new ExtJzgExample();
         example.createCriteria().andZghEqualTo(rs.getString("zgh"));

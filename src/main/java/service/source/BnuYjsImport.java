@@ -1,6 +1,7 @@
 package service.source;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import domain.ExtYjs;
 import domain.ExtYjsExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class BnuYjsImport extends Source {
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         ExtYjs extYjs = gson.fromJson(JSONUtils.toString(map), ExtYjs.class);
         ExtYjsExample example = new ExtYjsExample();
         example.createCriteria().andXhEqualTo(rs.getString("xh"));
