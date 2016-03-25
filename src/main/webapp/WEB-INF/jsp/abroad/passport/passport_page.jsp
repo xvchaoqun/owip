@@ -201,7 +201,6 @@ pageEncoding="UTF-8" %>
     } ,frozen:true },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '职务属性', align:'center', name: 'cadre.postType.name', width: 150 },
-            <c:if test="${status==PASSPORT_TYPE_KEEP}">
             { label: '干部类型', align:'center', name: 'cadre.status', width: 150 , formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==1){
                     return "现任干部"
@@ -216,7 +215,6 @@ pageEncoding="UTF-8" %>
                     return "离任校领导"
                 }
             }},
-                </c:if>
             { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
             { label: '证件号码', align:'center', name: 'code', width: 100 },
             { label:'发证机关', align:'center',name: 'authority', width: 180},
