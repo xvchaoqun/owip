@@ -1,5 +1,7 @@
 package shiro;
 
+import bean.ApproverTypeBean;
+
 /**
  * Created by fafa on 2015/8/18.
  */
@@ -9,12 +11,14 @@ public class ShiroUser {
     private String username;
     private String realname;
     private Byte type;
+    private ApproverTypeBean approverTypeBean; // 干部审批权限
 
-    public ShiroUser(Integer id, String username, String realname, Byte type) {
+    public ShiroUser(Integer id, String username, String realname, Byte type, ApproverTypeBean approverTypeBean) {
         this.id = id;
         this.username = username;
         this.realname = realname;
         this.type = type;
+        this.approverTypeBean = approverTypeBean;
     }
 
     public Integer getId() {
@@ -47,5 +51,13 @@ public class ShiroUser {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public ApproverTypeBean getApproverTypeBean() {
+        return approverTypeBean;
+    }
+
+    public void setApproverTypeBean(ApproverTypeBean approverTypeBean) {
+        this.approverTypeBean = approverTypeBean;
     }
 }

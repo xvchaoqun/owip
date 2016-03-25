@@ -1,5 +1,7 @@
 package bean;
 
+import domain.Cadre;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +10,7 @@ import java.util.Map;
  */
 public class ApproverTypeBean {
 
-    public Integer userId;
+    public Cadre cadre;
 
     public boolean isMainPost; // 是否是正职
     public Integer mainPostUnitId;
@@ -19,12 +21,12 @@ public class ApproverTypeBean {
     public boolean isApprover; // 是否是拥有其他审批身份
     Map<Integer, List<Integer>> approverTypePostIdListMap; //  其他审批身份及对应的审批的职务属性
 
-    public Integer getUserId() {
-        return userId;
+    public Cadre getCadre() {
+        return cadre;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setCadre(Cadre cadre) {
+        this.cadre = cadre;
     }
 
     public boolean isMainPost() {

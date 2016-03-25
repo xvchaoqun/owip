@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -366,7 +367,9 @@ public class ApplySelfController extends BaseController {
         ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
         ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
 
-        ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
+        ShiroUser shiroUser = (ShiroUser)SecurityUtils.getSubject().getPrincipal();
+        ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+
         if(approverTypeBean.getMainPostUnitId()!=null) {
             List unitIds = new ArrayList();
             unitIds.add(approverTypeBean.getMainPostUnitId());

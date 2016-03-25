@@ -25,7 +25,15 @@ public class ApplySelfService extends BaseMapper {
     @Autowired
     protected ApproverTypeService approverTypeService;
 
+    /**
+     * 登录时调用一次，后写入ShiroUser
+     * @param userId
+     * @return
+     */
     public ApproverTypeBean getApproverTypeBean(int userId){
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre== null) return null;
 
         // 本单位正职
         Integer mainPostUnitId = getMainPostUnitId(userId);
@@ -43,8 +51,9 @@ public class ApplySelfService extends BaseMapper {
                 }
             }
         }
+
         ApproverTypeBean approverTypeBean = new ApproverTypeBean();
-        approverTypeBean.setUserId(userId);
+        approverTypeBean.setCadre(cadre);
         approverTypeBean.setMainPost(mainPostUnitId!=null);
         approverTypeBean.setMainPostUnitId(mainPostUnitId);
         approverTypeBean.setManagerLeader(leaderUnitIds.size()>0);
