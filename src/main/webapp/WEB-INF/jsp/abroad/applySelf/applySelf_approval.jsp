@@ -20,15 +20,15 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <input type="button" id="disagree" class="btn btn-danger btn-primary" value="不通过"/>
-    <input type="button" id="agree" class="btn btn-success btn-primary" value="通过"/>
+    <input type="button" id="approval_disagree" class="btn btn-danger btn-primary" value="不通过"/>
+    <input type="button" id="approval_agree" class="btn btn-success btn-primary" value="通过"/>
 	<a href="#" data-dismiss="modal" class="btn btn-default">返回</a>
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
 
-	$("#agree").click(function(){
+	$("#approval_agree").click(function(){
 		//bootbox.confirm("确定<span style='color: green; font-weight: bolder; font-size: 20px'>通过</span>审核吗？", function (result) {
 		//	if (result) {
 				$("#modalForm input[name=status]").val(1);
@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 		//	}
 		//});
 	});
-	$("#disagree").click(function(){
+	$("#approval_disagree").click(function(){
 		//bootbox.confirm("确定<span style='color: #ff0000; font-weight: bolder; font-size: 20px'>不通过</span>审核吗？", function (result) {
 		//	if (result) {
 				$("#modalForm input[name=status]").val(0);

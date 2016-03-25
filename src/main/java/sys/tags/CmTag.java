@@ -1,7 +1,10 @@
 package sys.tags;
 
+import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
 import service.abroad.ApplySelfService;
@@ -17,6 +20,7 @@ import service.sys.MetaTypeService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.HtmlEscapeUtils;
 import sys.utils.NumberUtils;
@@ -40,6 +44,43 @@ public class CmTag {
     static PartyService partyService = (PartyService) context.getBean("partyService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
 
+    public static Boolean filterMenu(SysResource sysResource){
+
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("cadre")) {
+            ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+            int userId = shiroUser.getId();
+            Cadre cadre = cadreService.findByUserId(userId);
+            if (cadre != null) {
+                MetaType leaderPostType = getMetaTypeByCode("mt_leader");
+                if (cadre.getPostId().intValue() == leaderPostType.getId()) {
+                    // 干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
+                    if (StringUtils.equals(sysResource.getPermission(), "userApplySelf:*") ||
+                            StringUtils.equals(sysResource.getPermission(), "userPassportDraw:*")) {
+                        return true;
+                    }
+                }
+
+                // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
+                ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
+                if (!(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+
+                    if (!subject.hasRole("cadreAdmin")) {
+                        if (StringUtils.equals(sysResource.getPermission(), "abroad:admin") ||
+                                StringUtils.equals(sysResource.getPermission(), "applySelf:approvalList")) {
+                            return true;
+                        }
+                    } else {
+                        // 干部管理员 需要目录
+                        if (StringUtils.equals(sysResource.getPermission(), "applySelf:approvalList")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";

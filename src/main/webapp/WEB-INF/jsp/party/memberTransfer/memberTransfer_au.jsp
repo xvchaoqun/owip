@@ -147,7 +147,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">返回修改原因</label>
 				<div class="col-xs-6">
-					<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberTransfer.reason}</textarea>
+					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberTransfer.reason}</textarea>
 				</div>
 			</div>
 				</div></div>

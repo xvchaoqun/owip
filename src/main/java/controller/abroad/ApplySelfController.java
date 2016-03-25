@@ -1,6 +1,7 @@
 package controller.abroad;
 
 import bean.ApprovalResult;
+import bean.ApproverTypeBean;
 import controller.BaseController;
 import domain.*;
 import domain.ApplySelfExample.Criteria;
@@ -108,11 +109,15 @@ public class ApplySelfController extends BaseController {
             // 验证前面的审批均已完成（通过或未通过）
             for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
                 Integer key = entry.getKey();
-                if (key != 0) {
+                //if (key != 0) {
                     Integer preResult = approvalResultMap.get(key).getValue();
-                    if (preResult == null && preResult != -1)
+
+                    if(preResult!=null && preResult==0) break; // 前面有审批未通过的，则可以直接终审
+                    if(preResult!=null && preResult==-1) continue; // 跳过不需要审批的
+
+                    if (preResult == null) // 前面存在 未审批
                         throw new RuntimeException(entry.getValue().getName() + "未完成审批");
-                }
+               // }
             }
         }
 
@@ -356,10 +361,24 @@ public class ApplySelfController extends BaseController {
 
         //==============================================
         Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-        Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
+        //Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
+
         ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
         ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-        // 本单位正职
+
+        ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
+        if(approverTypeBean.getMainPostUnitId()!=null) {
+            List unitIds = new ArrayList();
+            unitIds.add(approverTypeBean.getMainPostUnitId());
+            approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
+        }
+        if(approverTypeBean.getLeaderUnitIds().size()>0){
+            approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
+        }
+
+        Map<Integer, List<Integer>> approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
+
+        /*// 本单位正职
         Integer mainPostUnitId = applySelfService.getMainPostUnitId(userId);
         if(mainPostUnitId!=null) {
             List unitIds = new ArrayList();
@@ -381,7 +400,7 @@ public class ApplySelfController extends BaseController {
                     approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
                 }
             }
-        }
+        }*/
         if(approverTypeUnitIdListMap.size()==0) approverTypeUnitIdListMap = null;
         if(approverTypePostIdListMap.size()==0) approverTypePostIdListMap = null;
         //==============================================
@@ -412,6 +431,7 @@ public class ApplySelfController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         modelMap.put("approverTypeMap", approverTypeMap);
 
         return "abroad/applySelf/applySelfList_page";

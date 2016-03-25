@@ -4,7 +4,7 @@
 <c:set value="${cm:getParentIdSet(_path)}" var="parentIdSet"/>
 <ul class="nav nav-list">
 <c:forEach items="${menus}" var="menu" varStatus="st">
-    <c:if test="${menu.parentId>0 && menu.type!='function' && not empty menu.permission}">
+    <c:if test="${cm:filterMenu(menu)==false && menu.parentId>0 && menu.type!='function' && not empty menu.permission}">
     <shiro:hasPermission name="${menu.permission}">
     <c:if test="${st.index>1 && menu.parentId!=lastMenu.parentId && menu.parentId!=lastMenu.id}">
         <!--上一个节点不是父节点，且不是兄弟节点-->

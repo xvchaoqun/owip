@@ -1,124 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="tabbable">
+	<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+		<div style="margin-bottom: 8px">
 
-    <form class="form-horizontal" action="${ctx}/user/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="id" value="${applySelf.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">出行时间</label>
-				<div class="col-xs-6">
-					<select required name="type" data-rel="select2" data-placeholder="请选择出行时间">
-						<option></option>
-						<c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
-							<option value="${type.key}">${type.value}</option>
+			<div class="buttons">
+				<a href="javascript:;" class="closeView btn btn-sm btn-success">
+					<i class="ace-icon fa fa-backward"></i>
+					返回
+				</a>
+			</div>
+		</div>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home4" class="tab-pane in active">
+			<form class="form-horizontal" action="${ctx}/user/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="${applySelf.id}">
+				<div class="form-group">
+					<label class="col-xs-3 control-label">出行时间</label>
+					<div class="col-xs-6">
+						<select required name="type" data-rel="select2" data-placeholder="请选择出行时间">
+							<option></option>
+							<c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
+								<option value="${type.key}">${type.value}</option>
+							</c:forEach>
+						</select>
+						<script>
+							$("#applyForm select[name=type]").val('${applySelf.type}');
+						</script>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-3 control-label">出发日期</label>
+					<div class="col-xs-2">
+						<div class="input-group">
+							<input required class="form-control date-picker" name="_startDate" type="text"
+								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
+							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">回国日期</label>
+					<div class="col-xs-2">
+						<div class="input-group">
+							<input required class="form-control date-picker" name="_endDate" type="text"
+								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
+							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">前往国家或地区</label>
+					<div class="col-xs-6">
+						<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">出国（境）事由</label>
+					<div class="col-xs-6 choice">
+						<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;&nbsp;
+						<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;&nbsp;
+						<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;&nbsp;
+						<input name="_reason" type="checkbox" value="继承"> 继承&nbsp;&nbsp;
+						<input name="_reason" type="checkbox" value="接受和处理财产"> 接受和处理财产&nbsp;&nbsp;
+						<input name="_reason" type="checkbox" value="其他"> 其他
+						<input name="_reason_other" type="text">
+						<input name="reason" type="hidden"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">同行人员</label>
+					<div class="col-xs-6 choice">
+						<input name="_peerStaff" type="checkbox" value="配偶"> 配偶&nbsp;&nbsp;
+						<input name="_peerStaff" type="checkbox" value="子女"> 子女&nbsp;&nbsp;
+						<input name="_peerStaff" type="checkbox" value="无"> 无&nbsp;&nbsp;
+						<input name="_peerStaff" type="checkbox" value="其他"> 其他
+						<input name="_peerStaff_other" type="text">
+						<input name="peerStaff" type="hidden">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">费用来源</label>
+					<div class="col-xs-6 choice">
+						<input  name="_costSource"type="radio" value="自费"> 自费&nbsp;&nbsp;
+						<input name="_costSource" type="radio" value="其他来源"> 其他来源
+						<input name="_costSource_other" type="text">
+						<input name="costSource" type="hidden">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">所需证件</label>
+					<div class="col-xs-6 choice">
+						<c:forEach items="${passportTypeMap}" var="type">
+							<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;&nbsp;
 						</c:forEach>
-					</select>
-					<script>
-						$("#applyForm select[name=type]").val('${applySelf.type}');
-					</script>
+						<input name="needPassports" type="hidden">
+					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">其他说明材料</label>
+					<div class="col-xs-2 file">
+						<div class="files">
+							<input class="form-control" type="file" name="_files[]" />
+						</div>
+						<button type="button" onclick="addFile()" class="btn btn-default btn-mini btn-xs"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<c:if test="${fn:length(files)>0}">
+					<div class="form-group" id="fileGroup">
+						<label class="col-xs-3 control-label">已上传材料</label>
+						<div class="col-xs-3">
+							<c:forEach items="${files}" var="file">
+								<div id="file${file.id}" class="file row well well-sm col-xs-12">
+									<div class="col-xs-9 ">
+										<a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a></div>
+									<div class="col-xs-3"><a href="javascript:;" onclick="_delFile(${file.id}, '${file.fileName}')">删除</a></div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</c:if>
+			</form>
+			<%--<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding-bottom: 50px;">
+				<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
+			</div>--%>
+			<div class="modal-footer center">
+				<input id="submit" class="btn btn-primary btn-lg" value="${param.edit==1?"修改提交":"提交申请"}"/>
 			</div>
+		</div>
+	</div>
+</div>
 
-			<div class="form-group">
-				<label class="col-xs-3 control-label">出发时间</label>
-				<div class="col-xs-2">
-					<div class="input-group">
-						<input required class="form-control date-picker" name="_startDate" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">返回时间</label>
-				<div class="col-xs-2">
-					<div class="input-group">
-						<input required class="form-control date-picker" name="_endDate" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-					</div>
-				</div>
-			</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">前往国家或地区</label>
-			<div class="col-xs-6">
-				<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
-			</div>
-		</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">出国（境）事由</label>
-				<div class="col-xs-6 choice">
-					<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;&nbsp;
-					<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;&nbsp;
-					<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;&nbsp;
-					<input name="_reason" type="checkbox" value="继承"> 继承&nbsp;&nbsp;
-					<input name="_reason" type="checkbox" value="接受和处理财产"> 接受和处理财产&nbsp;&nbsp;
-					<input name="_reason" type="checkbox" value="其他"> 其他
-					<input name="_reason_other" type="text">
-					<input name="reason" type="hidden"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">同行人员</label>
-				<div class="col-xs-6 choice">
-					<input name="_peerStaff" type="checkbox" value="配偶"> 配偶&nbsp;&nbsp;
-					<input name="_peerStaff" type="checkbox" value="子女"> 子女&nbsp;&nbsp;
-					<input name="_peerStaff" type="checkbox" value="无"> 无&nbsp;&nbsp;
-					<input name="_peerStaff" type="checkbox" value="其他"> 其他
-					<input name="_peerStaff_other" type="text">
-					<input name="peerStaff" type="hidden">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">费用来源</label>
-				<div class="col-xs-6 choice">
-					<input  name="_costSource"type="radio" value="自费"> 自费&nbsp;&nbsp;
-					<input name="_costSource" type="radio" value="其他来源"> 其他来源
-					<input name="_costSource_other" type="text">
-					<input name="costSource" type="hidden">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所需证件</label>
-				<div class="col-xs-6 choice">
-					<c:forEach items="${passportTypeMap}" var="type">
-						<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;&nbsp;
-					</c:forEach>
-					<input name="needPassports" type="hidden">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">其他说明材料</label>
-				<div class="col-xs-2 file">
-					<div class="files">
-						<input class="form-control" type="file" name="_files[]" />
-					</div>
-					<button type="button" onclick="addFile()" class="btn btn-default btn-mini btn-xs"><i class="fa fa-plus"></i></button>
-				</div>
-			</div>
-		<c:if test="${fn:length(files)>0}">
-		<div class="form-group" id="fileGroup">
-			<label class="col-xs-3 control-label">已上传材料</label>
-			<div class="col-xs-3">
-				<c:forEach items="${files}" var="file">
-					<div id="file${file.id}" class="file row well well-sm col-xs-12">
-						<div class="col-xs-9 ">
-						<a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a></div>
-						<div class="col-xs-3"><a href="javascript:;" onclick="_delFile(${file.id}, '${file.fileName}')">删除</a></div>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-		</c:if>
-    </form>
-<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding-bottom: 50px;">
-	<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
-</div>
-<div class="modal-footer center">
-	<input id="submit" class="btn btn-success" value="${param.edit==1?"修改提交":"提交申请"}"/>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input class="closeView btn btn-default" value="返回"/>
-</div>
 <style>
 	input[type=radio], input[type=checkbox]{
 		width: 20px;
@@ -309,10 +325,10 @@ pageEncoding="UTF-8"%>
 			//alert($("input[name=needPassports]").val());
 			//return ;
 
-			if($("#agree").is(":checked") == false){
+			/*if($("#agree").is(":checked") == false){
 				$('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
 				return false;
-			}
+			}*/
 
 
             $(form).ajaxSubmit({

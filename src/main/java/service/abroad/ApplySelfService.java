@@ -1,6 +1,7 @@
 package service.abroad;
 
 import bean.ApprovalResult;
+import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,36 @@ public class ApplySelfService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     protected ApproverTypeService approverTypeService;
+
+    public ApproverTypeBean getApproverTypeBean(int userId){
+
+        // 本单位正职
+        Integer mainPostUnitId = getMainPostUnitId(userId);
+        // 分管校领导
+        List<Integer> leaderUnitIds = getLeaderUnitIds(userId);
+
+        // 其他身份
+        Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>(); // 本人所属的审批身份及对应的审批的职务属性
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        for (ApproverType approverType : approverTypeMap.values()) {
+            if(approverType.getType() ==SystemConstants.APPROVER_TYPE_OTHER){
+                List<Integer> approvalPostIds = getApprovalPostIds(userId, approverType.getId());
+                if(approvalPostIds.size()>0){
+                    approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
+                }
+            }
+        }
+        ApproverTypeBean approverTypeBean = new ApproverTypeBean();
+        approverTypeBean.setUserId(userId);
+        approverTypeBean.setMainPost(mainPostUnitId!=null);
+        approverTypeBean.setMainPostUnitId(mainPostUnitId);
+        approverTypeBean.setManagerLeader(leaderUnitIds.size()>0);
+        approverTypeBean.setLeaderUnitIds(leaderUnitIds);
+        approverTypeBean.setApprover(!approverTypePostIdListMap.isEmpty());
+        approverTypeBean.setApproverTypePostIdListMap(approverTypePostIdListMap);
+
+        return approverTypeBean;
+    }
 
     /**
      * <审批人身份id，审批结果>
