@@ -26,9 +26,9 @@ body{
 .tags .tag{
     background-color: #1482C5;
 }
-/*.footer{
-    padding-top: 0px;
-}*/
+.footer{
+    padding-top: 50px;
+}
 /**************/
 
 .navbar{
