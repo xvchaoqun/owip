@@ -158,7 +158,7 @@
             }},
             { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
             { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
-                return cellvalue.replace('+++', ',');
+                return cellvalue.replace(/\+\+\+/g, ',');
             }},
             { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
@@ -207,15 +207,12 @@
         var applySelfId = rowObject.id;
         var firstTdBean = rowObject.approvalTdBeanMap[-1];
         var lastTdBean = rowObject.approvalTdBeanMap[0];
-        console.log(firstTdBean)
-        console.log(lastTdBean)
         if(firstTdBean.tdType==5 || (lastTdBean.tdType==5||lastTdBean.tdType==6)){
             html ="<button data-id=\"{0}\" " +
                     "        class=\"shortMsgBtn btn btn-primary btn-mini btn-xs\">\n" +
                     "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
                     "        </button>";
             html = html.format(applySelfId);
-            console.log(html)
         }
         return html;
     }
@@ -245,7 +242,6 @@
                     "        </button>";
                     html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);
                 }
-                //console.log("html=" + html)
             } break;
             case 5: html = "未通过"; break;
             case 6: html = "通过"; break;

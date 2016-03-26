@@ -126,7 +126,7 @@
             }},
             { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
             { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
-                return cellvalue.replace('+++', ',');
+                return cellvalue.replace(/\+\+\+/g, ',');
             }},
             { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
