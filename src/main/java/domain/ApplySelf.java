@@ -1,20 +1,31 @@
 package domain;
 
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class ApplySelf implements Serializable {
-    public SysUser getUser(){
 
+    public String getTypeName(){
+        return SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(type);
+    }
+
+    public SysUser getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
     public Cadre getCadre(){
-
         return CmTag.getCadreById(cadreId);
     }
+
+    public Map getApprovalTdBeanMap(){
+
+        return CmTag.getApprovalTdBeanMap(id);
+    }
+
     private Integer id;
 
     private Integer cadreId;

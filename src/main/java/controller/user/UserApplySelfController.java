@@ -6,6 +6,7 @@ import domain.*;
 import domain.ApplySelfExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -28,6 +29,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -110,10 +112,18 @@ public class UserApplySelfController extends BaseController {
     }
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_page")
-    public String applySelf_page(@CurrentUser SysUser loginUser,
-                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String applySelf_page(ModelMap modelMap) {
+
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        modelMap.put("approverTypeMap", approverTypeMap);
+
+        return "user/applySelf/applySelf_page";
+    }
+    @RequiresRoles("cadre")
+    @RequestMapping("/applySelf_data")
+    @ResponseBody
+    public void applySelf_data(@CurrentUser SysUser loginUser,
+                                 Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -125,7 +135,7 @@ public class UserApplySelfController extends BaseController {
 
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("create_time desc");
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -137,25 +147,16 @@ public class UserApplySelfController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<ApplySelf> applySelfs = applySelfMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("applySelfs", applySelfs);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", applySelfs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        modelMap.put("approverTypeMap", approverTypeMap);
-
-        return "user/applySelf/applySelf_page";
+        request.setAttribute("isView", false);
+        JSONUtils.jsonp(resultMap, ApplySelf.class, ApplySelfMixin.class);
     }
 
     @RequiresRoles("cadre")
@@ -167,15 +168,19 @@ public class UserApplySelfController extends BaseController {
         Cadre cadre = cadreService.findByUserId(userId);
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
-            if(CmTag.getAdminFirstTrialStatus(id)==null && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审时才允许删除
 
-                ApplySelfFileExample example = new ApplySelfFileExample();
-                example.createCriteria().andApplyIdEqualTo(id);
-                applySelfFileMapper.deleteByExample(example); // 先删除相关材料
-
-                applySelfService.del(id);
-                logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
+            if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
+                    || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
+                throw new RuntimeException("不允许删除");
             }
+
+            ApplySelfFileExample example = new ApplySelfFileExample();
+            example.createCriteria().andApplyIdEqualTo(id);
+            applySelfFileMapper.deleteByExample(example); // 先删除相关材料
+
+            applySelfService.del(id);
+            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -229,7 +234,14 @@ public class UserApplySelfController extends BaseController {
             applySelfService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         }else{
-
+            Cadre cadre = cadreService.findByUserId(userId);
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
+            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(record.getId());
+            if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
+                || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
+                throw new RuntimeException("不允许更新");
+            }
+            record.setCadreId(null);
             record.setStatus(true);// 重新提交
             record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
             record.setIsFinish(false);
@@ -261,20 +273,29 @@ public class UserApplySelfController extends BaseController {
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfFile.getApplyId());
 
         Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
-        if((firstTrialStatus==null||firstTrialStatus==0)
-                && applySelf.getCadreId().intValue() == cadre.getId().intValue()) { // 没有初审或初审未通过时才允许删除
-            applySelfFileMapper.deleteByPrimaryKey(id);
+        if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
+                || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
+            throw new RuntimeException("不允许删除");
         }
+
+        applySelfFileMapper.deleteByPrimaryKey(id);
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_au")
-    public String applySelf_au(Integer id, ModelMap modelMap) {
+    public String applySelf_au(@CurrentUser SysUser loginUser, Integer id, ModelMap modelMap) {
 
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
+
+            Cadre cadre = cadreService.findByUserId(loginUser.getId());
+            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(id);
+            if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
+                    || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
+                throw new RuntimeException("不允许更新");
+            }
 
             List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
             modelMap.put("files", files);

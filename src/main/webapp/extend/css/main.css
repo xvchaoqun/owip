@@ -125,8 +125,8 @@ body{
 
 .ui-common-table button{
     /*margin: 0!important;*/
-    padding: 0!important;
-    /*border: none!important;*/
+   /* padding: 0!important;*/
+    border: none!important;
     vertical-align: inherit!important;
 }
 /*.table-bordered > thead > tr > th,

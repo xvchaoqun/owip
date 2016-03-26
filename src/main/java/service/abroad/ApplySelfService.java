@@ -1,18 +1,23 @@
 package service.abroad;
 
 import bean.ApprovalResult;
+import bean.ApprovalTdBean;
 import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.MetaTypeService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -24,6 +29,152 @@ public class ApplySelfService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     protected ApproverTypeService approverTypeService;
+
+    /**
+     * type:
+     * 1: <td>-</td>
+     * 2: <td class='not_approval'></td>
+     * 3: <td>未审批</td>
+     * 4: <td><button/></td>
+     *   canApproval?"":"disabled";
+         canApproval?"btn-success":"btn-default";
+     String btnTd = "<td><button %s class=\"approvalBtn btn %s btn-mini  btn-xs\"\n" +
+     "        data-id=\"%s\" data-approvaltypeid=\"%s\">\n" +
+     "        <i class=\"fa fa-edit\"></i> 审批\n" +
+     "        </button></td>";
+     String _btnTd = "<td><button %s class=\"openView btn %s btn-mini  btn-xs\"\n" +
+     "        data-url=\"%s/applySelf_view?type=aproval&id=%s&approvalTypeId=%s\">\n" +
+     "        <i class=\"fa fa-edit\"></i> 审批\n" +
+     "        </button></td>";
+     * 5: <td>未通过</td>
+     * 6: <td>通过</td>
+     * @return
+     */
+    public Map getApprovalTdBeanMap(int applySelfId){
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        Boolean isView = (Boolean) request.getAttribute("isView");
+        if(isView == null) return null; // 如果不需要查看列表审批权限，则不处理
+
+        // <审批人身份id，审批td类型>
+        Map<Integer, ApprovalTdBean> resultMap = new LinkedHashMap<>();
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        Map<Integer, ApprovalResult> approvalResultMap = getApprovalResultMap(applySelfId);
+        int size = approvalResultMap.size();
+        ApprovalResult[] vals = approvalResultMap.values().toArray(new ApprovalResult[size]);
+        Integer[] keys = approvalResultMap.keySet().toArray( new Integer[size]);
+
+        ApprovalResult firstVal = vals[0];
+        {
+            // 初审td
+            ApprovalTdBean bean = new ApprovalTdBean();
+            bean.setApplySelfId(applySelfId);
+            bean.setApprovalTypeId(-1);
+            if (firstVal.getValue() == null) {
+                if (isView) {
+                    bean.setTdType(3);
+                } else {
+                    boolean canApproval = canApproval(shiroUser.getId(), applySelfId, -1);
+                    bean.setCanApproval(canApproval);
+                    bean.setTdType(4);
+                }
+            } else if (firstVal.getValue() == 0) {
+                bean.setTdType(5);
+            } else {
+                bean.setTdType(6);
+            }
+            resultMap.put(-1, bean); // 初审
+        }
+
+        int last = 0;
+        boolean lastIsUnPass = false;
+        {
+            boolean goToNext = true;
+            for (int i = 1; i < size - 1; i++) {
+
+                ApprovalResult val = vals[i];
+                ApprovalTdBean bean = new ApprovalTdBean();
+                bean.setApplySelfId(applySelfId);
+                bean.setApprovalTypeId(keys[i]);
+
+                if (val.getValue() != null && val.getValue() == -1) {
+                    bean.setTdType(1);
+                    last++;
+                } else if (firstVal.getValue() == null || firstVal.getValue() == 0 || goToNext == false) {
+                    bean.setTdType(2);
+                    goToNext = false;
+                } else {
+                    if (val.getValue() == null) {
+                        if (isView) {
+                            bean.setTdType(3);
+                        } else {
+                            boolean canApproval = canApproval(shiroUser.getId(), applySelfId, keys[i]);
+                            bean.setCanApproval(canApproval);
+                            bean.setTdType(4);
+                        }
+                        goToNext = false;
+                    } else if (val.getValue() == 0) {
+                        bean.setTdType(5);
+                        goToNext = false;
+                        lastIsUnPass = true; // 未通过，直接到组织部终审
+                        last++;
+                    } else if (val.getValue() == 1) {
+                        bean.setTdType(6);
+                        last++;
+                    }
+                }
+
+                resultMap.put(keys[i], bean);
+            }
+        }
+
+        {
+            // 终审td
+            ApprovalResult lastVal = vals[size - 1];
+            ApprovalTdBean bean = new ApprovalTdBean();
+            bean.setApplySelfId(applySelfId);
+            bean.setApprovalTypeId(0);
+            if (last == size - 2 || lastIsUnPass) { // 前面已经审批完成，或者 前面有一个未通过，直接到组织部终审
+                if (lastVal.getValue() == null) {
+                    if (isView) {
+                        bean.setTdType(3);
+                    } else {
+                        boolean canApproval = canApproval(shiroUser.getId(), applySelfId, 0);
+                        bean.setCanApproval(canApproval);
+                        bean.setTdType(4);
+                    }
+                } else if (lastVal.getValue() == 0) {
+                    bean.setTdType(5);
+                } else if (lastVal.getValue() == 1) {
+                    bean.setTdType(6);
+                }
+            } else {
+                bean.setTdType(2);
+            }
+
+            resultMap.put(0, bean); // 终审
+        }
+
+        return resultMap;
+        /*if(!view && SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+            ApplySelfMapper applySelfMapper = (ApplySelfMapper) wac.getBean("applySelfMapper");
+            CadreService cadreService = (CadreService) wac.getBean("cadreService");
+            SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
+            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+            Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+
+            if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
+                td += String.format("<td><button data-id=\"%s\" data-userid=\"%s\" data-status=\"%s\" data-name=\"%s\"" +
+                        "        class=\"shortMsgBtn btn btn-primary btn-mini btn-xs\">\n" +
+                        "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
+                        "        </button></td>", applySelfId, sysUser.getId(), (lastVal.getValue()!=null && lastVal.getValue()==1), sysUser.getRealname());
+            }else{
+                td +="<td></td>";
+            }
+        }*/
+    }
 
     /**
      * 登录时调用一次，后写入ShiroUser

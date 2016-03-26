@@ -248,6 +248,11 @@ public class CmTag {
         return approvalLogService.getAdminFirstTrialStatus(applyId);
     }
 
+    public static Map getApprovalTdBeanMap(Integer applySelfId) {
+
+        return applySelfService.getApprovalTdBeanMap(applySelfId);
+    }
+
     // 获取因私出国申请记录 的评审log
     public static List<ApprovalLog> findApprovalLogs(Integer applyId) {
         return approvalLogService.findByApplyId(applyId);

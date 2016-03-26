@@ -1,107 +1,111 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content">
-        <div class="myTableDiv"
+        <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/user/applySelf_au"
              data-url-page="${ctx}/user/applySelf_page"
              data-url-del="${ctx}/user/applySelf_del"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <div class="vspace-12"></div>
                 <div class="buttons">
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
                     <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 申请说明</a>
+                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-url="${ctx}/user/applySelf_view"
+                            data-open-by="page">
+                        <i class="fa fa-info-circle"></i> 详情
+                    </button>
+                        <button class="jqEditBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/user/applySelf_au"
+                                data-open-by="page"
+                                data-querystr="&edit=1">
+                            <i class="fa fa-edit"></i> 修改提交
+                        </button>
+                            <button class="jqItemDelBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
+                            </button>
                 </div>
-            </mytag:sort-form>
-            <div class="space-4"></div>
-            <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-							<th>编号</th>
-							<th>申请日期</th>
-							<th>出行时间</th>
-							<th>出发时间</th>
-							<th>返回时间</th>
-							<th>出行天数</th>
-							<th>前往国家或地区</th>
-							<th>事由</th>
-                            <th>组织部初审</th>
-                            <c:forEach items="${approverTypeMap}" var="type">
-                                <th>${type.value.name}审批</th>
-                            </c:forEach>
-                            <th>组织部终审</th>
-                        <shiro:hasPermission name="applySelf:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${applySelfs}" var="applySelf" varStatus="st">
-                        <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                        <tr>
-                            <td>S${applySelf.id}</td>
-								<td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-								<td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
-								<td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
-								<td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
-								<td>${applySelf.toCountry}</td>
-								<td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-                                <wo:approvalTd applySelfId="${applySelf.id}" view="true"/>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <button class="openView btn btn-success btn-mini btn-xs"
-                                            data-url="${ctx}/user/applySelf_view?id=${applySelf.id}">
-                                        <i class="fa fa-info-circle"></i> 详情
-                                    </button>
-                                    <c:set var="firstStatus" value="${cm:getAdminFirstTrialStatus(applySelf.id)}"/>
-                                    <c:if test="${firstStatus==null || firstStatus==0}"> <!--没有经过审批获审批不通过，可以重新提交-->
-                                        <button class="openView btn btn-primary btn-mini btn-xs"
-                                                data-url="${ctx}/user/applySelf_au?id=${applySelf.id}&edit=1">
-                                            <i class="fa fa-edit"></i> 修改提交
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${firstStatus==null}"> <!--没有经过审批才可以删除-->
-                                        <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applySelf.id}">
-                                            <i class="fa fa-trash"></i> 删除
-                                        </button>
-                                    </c:if>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/applySelf_page" target="#page-content" pageNum="5"
-                         model="3"/>
-            </c:if>
-            <c:if test="${commonList.recNum==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
-        </div>
+                        <div class="space-4"></div>
+                        <table id="jqGrid" class="jqGrid"> </table>
+                        <div id="jqGridPager"> </div>
         </div>
         <div id="item-content">
-
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $("#jqGrid").jqGrid({
+        //forceFit:true,
+        url: '${ctx}/user/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '编号', align:'center', name: 'id', width: 80 ,frozen:true,formatter:function(cellvalue, options, rowObject){
+                return "S{0}".format(rowObject.id);
+            }},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
+            { label: '出行时间', align:'center', name: 'typeName', width: 100 },
+            { label: '出发时间', align:'center', name: 'startDate', width: 100 },
+            { label: '返回时间', align:'center', name: 'endDate', width: 100 },
+            { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
+                return DateDiff(rowObject.startDate, rowObject.endDate);
+            }},
+            { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
+            { label:'事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+                return cellvalue.replace('+++', ',');
+            }},
+            { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, formatter:function(cellvalue, options, rowObject){
+                var tdBean = rowObject.approvalTdBeanMap[-1];
+                return processTdBean(tdBean)
+            }},
+            <c:forEach items="${approverTypeMap}" var="type">
+            { label:'${type.value.name}审批', align:'center', name: 'approver${type.key}', width: 150,
+                cellattr:function(rowId, val, rowObject, cm, rdata) {
+                    var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
+                    if(tdBean.tdType==2)
+                        return "class='not_approval'"
+                }, formatter:function(cellvalue, options, rowObject){
+                var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
+                return processTdBean(tdBean)
+            } },
+            </c:forEach>
+            { label:'组织部终审', align:'center', name: 'expiryDate', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
+                var tdBean = rowObject.approvalTdBeanMap[0];
+                if(tdBean.tdType==2)
+                    return "class='not_approval'"
+            }, formatter:function(cellvalue, options, rowObject){
+                var tdBean = rowObject.approvalTdBeanMap[0];
+                return processTdBean(tdBean)
+            }}
+        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(".approvalBtn").click(function(){
+            loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
+        });
+    });
+    $(window).triggerHandler('resize.jqGrid');
+
+
+    function processTdBean(tdBean){
+
+        var applySelfId = tdBean.applySelfId;
+        var approvalTypeId = tdBean.approvalTypeId;
+        var type = tdBean.tdType;
+        var canApproval = tdBean.canApproval;
+        var html = "";
+        switch (type){
+            case 1: html = "-"; break;
+            //not_approval
+            case 2: html = ""; break;
+            case 3,4: html = "未审批"; break;
+            case 5: html = "未通过"; break;
+            case 6: html = "通过"; break;
+        }
+
+        return html;
+    }
 
     $("#note").click(function(){
         loadModal("${ctx}/user/applySelf_note", 650);
     });
-    $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
 </script>

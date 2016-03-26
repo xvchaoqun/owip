@@ -376,8 +376,12 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
                 }, 2000 );
             }})
         $.get(url,{},function(html){
-            $container.hideLoading().hide();
-            $("#item-content").hide().html(html).fadeIn("slow");
+            if(!html.startWith("{")) {
+                $container.hideLoading().hide();
+                $("#item-content").hide().html(html).fadeIn("slow");
+            }else{
+                $container.hideLoading().hide();
+            }
         })
     }else{
         loadModal(url, $(this).data("width"));
@@ -440,6 +444,28 @@ $(document).on("click", ".myTableDiv .delBtn", function(){
         }
     });
 });
+// 删除
+$(document).on("click", ".myTableDiv .jqItemDelBtn", function(){
+
+    var grid = $("#jqGrid");
+    var id  = grid.getGridParam("selrow");
+    if(!id){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+
+    var $div = $(this).closest("div.myTableDiv");
+    bootbox.confirm("确定删除该记录吗？", function (result) {
+        if (result) {
+            $.post($div.data("url-del"), {id: id}, function (ret) {
+                if (ret.success) {
+                    page_reload();
+                    SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
 // 调序
 $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
 
@@ -451,7 +477,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
     //console.log($div.data("url-co"))
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
-            page_reload();
+            $("#jqGrid").trigger("reloadGrid");
             SysMsg.success('操作成功。', '成功');
         }
     });
