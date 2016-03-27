@@ -156,7 +156,9 @@ public class BranchController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, Branch.class, BranchMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Branch.class, BranchMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

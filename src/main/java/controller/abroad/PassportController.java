@@ -5,6 +5,7 @@ import controller.BaseController;
 import domain.*;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.ApplySelfMixin;
 import mixin.PassportMixin;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -172,7 +173,9 @@ public class PassportController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, Passport.class, PassportMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Passport.class, PassportMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
@@ -230,7 +233,9 @@ public class PassportController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, Passport.class, PassportMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Passport.class, PassportMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
@@ -324,7 +329,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_au(Passport record, Integer applyId,
+    public Map do_passport_au(String op, Passport record, Integer applyId,
                               String _issueDate, String _expiryDate,
                               String _keepDate,
                               Byte type,
@@ -386,12 +391,18 @@ public class PassportController extends BaseController {
         } else {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                    || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
-                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
-                // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
-                throw new RuntimeException("该证件不可以进行更新操作");
+
+            if(!StringUtils.equals(op, "back")) {
+                if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                        || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+                        || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
+                        && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
+                    // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                    throw new RuntimeException("该证件不可以进行更新操作");
+                }
+            }else{
+                // 证件找回
+                record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
             }
 
             passportService.updateByPrimaryKeySelective(record);
@@ -422,7 +433,7 @@ public class PassportController extends BaseController {
 
     @RequiresPermissions("passport:edit")
     @RequestMapping("/passport_au")
-    public String passport_au(Integer id, Integer type, Integer applyId, ModelMap modelMap) {
+    public String passport_au(String op, Integer id, Integer type, Integer applyId, ModelMap modelMap) {
 
         modelMap.put("type", type);
 
@@ -431,12 +442,14 @@ public class PassportController extends BaseController {
 
             modelMap.put("type", passport.getType());
 
-            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                    || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
-                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
-                // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
-                throw new RuntimeException("该证件不可以进行更新操作");
+            if(!StringUtils.equals(op, "back")) {
+                if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                        || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+                        || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
+                        && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
+                    // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
+                    throw new RuntimeException("该证件不可以进行更新操作");
+                }
             }
 
             modelMap.put("passport", passport);

@@ -7,15 +7,12 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/sysUser_au"
-             data-url-page="${ctx}/sysUser_page"
-             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
             <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
@@ -52,7 +49,7 @@
                                         <div class="col-xs-6">
                                             <select name="type" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
-                                                <c:forEach items="${USER_TYPE_MAP}" var="userType">
+                                                <c:forEach items="${userTypeMap}" var="userType">
                                                     <option value="${userType.key}">${userType.value}</option>
                                                 </c:forEach>
                                             </select>
@@ -98,9 +95,10 @@
                             </div>
 
                             <div class="clearfix form-actions center">
-                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="btn btn-default btn-sm" onclick="_search()"><i class="fa fa-search"></i> 查找</a>
+
                                 <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                    <button type="button" class=" btn btn-warning btn-sm" onclick="_reset()">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>
@@ -110,41 +108,105 @@
                 </div>
             </div>
             <div class="buttons pull-right">
-            <shiro:hasRole name="admin">
-                <a class="editBtn btn btn-info btn-sm">
-                    <i class="fa fa-plus"></i> 添加账号
-                </a>
-                <shiro:hasPermission name="sysUser:edit">
-                    <button class="jqEditBtn btn btn-primary btn-sm">
-                        <i class="fa fa-edit"></i> 修改信息
-                    </button>
-                </shiro:hasPermission>
-                <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                        data-url="${ctx}/sysUserRole">
-                    <i class="fa fa-pencil"></i> 修改角色
-                </button>
-                <button id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
-                        data-url="${ctx}/sysUser_del" data-title="账号解禁"
-                        data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
-                    <i class="fa fa-edit"></i> 解禁
-                </button>
-                <button id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
-                        data-url="${ctx}/sysUser_del" data-title="账号禁用"
-                        data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
-                    <i class="fa fa-edit"></i> 禁用
-                </button>
+        <shiro:hasRole name="admin">
+                <a onclick="au()" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加账号</a>
+                <%--<a class="btn btn-success btn-sm"><i class="fa fa-download"></i> 导出账号</a>--%>
             </shiro:hasRole>
             </div>
             <h4>&nbsp;</h4>
-            <table id="jqGrid" class="jqGrid table-striped"> </table>
-            <div id="jqGridPager"> </div>
+            <c:if test="${commonList.recNum>0}">
+            <div class="table-container">
+                <table style="min-width: 1200px" class="overflow-y table table-actived table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="center">
+                        <label class="pos-rel">
+                            <input type="checkbox" class="ace">
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <mytag:sort-th field="username">账号</mytag:sort-th>
+                    <mytag:sort-th field="code">学工号</mytag:sort-th>
+                    <th>类别</th>
+                    <th >姓名</th>
+                    <th >性别</th>
+                    <th >账号来源</th>
+                    <th class="hidden-480">创建时间</th>
+                    <th class="hidden-480">头像</th>
+                    <shiro:hasRole name="admin">
+                    <th class="hidden-480"></th>
+                    </shiro:hasRole>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${sysUsers}" var="sysUser" varStatus="st">
+                    <tr class="<c:if test="${sysUser.locked}">danger</c:if> ">
+                        <td class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </td>
+                        <td nowrap>
+                            <a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId=${sysUser.id}">
+                        ${sysUser.username}
+                        </a>
+                        </td>
+                        <td nowrap>${sysUser.code}</td>
+                        <td >${userTypeMap.get(sysUser.type)}</td>
+                        <td >${sysUser.realname}</td>
+                        <td >${GENDER_MAP.get(sysUser.gender)}</td>
+                        <td >${userSourceMap.get(sysUser.source)}</td>
+                        <td  class="hidden-480">${cm:formatDate(sysUser.createTime, "yyyy-MM-dd HH:mm")}</td>
+                        <td  class="hidden-480">
+                            <img title="点击修改头像" src="${ctx}/avatar/${sysUser.username}?_=<%=System.currentTimeMillis()%>"
+                                 class="avatar" data-id="${sysUser.id}"
+                                 data-hasimg="${not empty sysUser.avatar}" data-username="${sysUser.username}">
+                            <%--<a href="javascript:;" class="avatar" data-id="${sysUser.id}"
+                               data-hasimg="${not empty sysUser.avatar}" data-username="${sysUser.username}">上传</a>--%>
+                        </td>
+                        <shiro:hasRole name="admin">
+                        <td  class="hidden-480">
+                            <c:if test="${sysUser.source==USER_SOURCE_ADMIN}">
+                            <button onclick="au(${sysUser.id})" class="btn btn-default btn-mini btn-xs">
+                                <i class="fa fa-edit"></i> 编辑
+                            </button>
+                            </c:if>
+                            <button class="btn btn-warning btn-mini btn-xs" onclick="updateUserRole(${sysUser.id})">
+                                <i class="fa fa-pencil"></i> 修改角色
+                            </button>
+                            <c:if test="${sysUser.locked}">
+                            <button onclick="_del('${sysUser.username}', 0)" class="btn btn-success btn-mini btn-xs">
+                                <i class="fa fa-edit"></i> 解禁
+                            </button>
+                            </c:if>
+                            <c:if test="${!sysUser.locked}">
+                                <button onclick="_del('${sysUser.username}', 1)" class="btn btn-danger btn-mini btn-xs">
+                                    <i class="fa fa-edit"></i> 禁用
+                                </button>
+                            </c:if>
+                        </td>
+                        </shiro:hasRole>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+                </div>
+                <wo:page commonList="${commonList}" uri="${ctx}/sysUser_page" target="#page-content" pageNum="5"
+                         model="3"/>
+            </c:if>
+            <c:if test="${commonList.recNum==0}">
+                <div class="well well-lg center">
+                    <h4 class="green lighter">暂无记录</h4>
+                </div>
+            </c:if>
         </div>
         </div><div id="item-content"></div>
     </div>
 </div>
 <style>
     .avatar{
-        width: 16px;
+        width: 20px;
         cursor: pointer;
     }
     .ace-file-name{
@@ -155,58 +217,10 @@
     }
 </style>
 <script>
-    $("#jqGrid").jqGrid({
-        //forceFit:true,
-        url: '${ctx}/sysUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label: '账号', align:'center', name: 'username', width: 150 ,frozen:true},
-            { label: '学工号', align:'center', name: 'code', width: 150 ,frozen:true},
-            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 90, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
-            } ,frozen:true },
-            { label:'头像', align:'center', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
-                var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
-                        +'class="avatar" data-id="{2}"'
-                        +'data-hasimg="{3}" data-username="{4}">';
-                html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username)
-                return html;
-            },frozen:true},
-            { label: '类别', align:'center', name: 'typeName', width: 100 },
-            { label: '性别', align:'center',  name: 'genderName', width: 50 },
-            { label: '身份证号码', align:'center',  name: 'idcard', width: 150 },
-            { label: '联系电话', align:'center',  name: 'mobile', width: 150 },
-            { label: '邮箱', align:'center',  name: 'email', width: 150 },
-            { label: '账号来源', align:'center', name: 'sourceName', width: 100 },
-            { label: '状态', align:'center', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
-                return (rowObject.locked==1)?"禁用":"正常";
-            } },
-            { label:'创建时间', align:'center', name: 'createTime', width: 150 },
-            {  hidden:true, name: 'locked',formatter:function(cellvalue, options, rowObject){
-                return (rowObject.locked)?1:0;
-            }}
-        ],
-        onSelectRow: function(id,status){
-            jgrid_sid=id;
-            var rowData = $(this).getRowData(id);
-            console.log((status && rowData.locked) + " " + (status && !rowData.locked))
-            $("#lockBtn").prop("disabled", rowData.locked==1)
-            $("#unlockBtn").prop("disabled", rowData.locked==0)
 
-        },
-        rowattr: function(rowData, currentObj, rowId)
-        {
-            if(rowData.locked) {
-                //console.log(rowData)
-                return {'class':'danger'}
-            }
-        }
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $('.avatar').on('click', showAvatarModal);
-    });
-    $(window).triggerHandler('resize.jqGrid');
+    stickheader();
     
-    /*$(".table th.sortable").click(function(){
+    $(".table th.sortable").click(function(){
 
         var $this = $(this);
         var order = $this.hasClass("asc")?"desc":"asc";
@@ -215,11 +229,19 @@
         $("#searchForm input[name=order]").val(order);
         //alert($("div.myTableDiv #searchForm").serialize())
         _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "&" + $("#searchForm").serialize());
-    });*/
+    });
 
     $("#searchForm select").select2();
+    function au(id) {
 
-    /*function _del(username, locked){
+        url = "${ctx}/sysUser_au";
+        if (id > 0)
+            url += "?id=" + id;
+
+        loadModal(url);
+    }
+
+    function _del(username, locked){
 
         bootbox.confirm("确定"+(locked==0?"解禁":"禁用")+"该账号吗？", function (result) {
             if (result) {
@@ -231,9 +253,9 @@
                 });
             }
         });
-    }*/
+    }
 
-    function showAvatarModal(){
+    $('.avatar').on('click', function(){
         var modal =
                 '<div class="modal fade">\
                   <div class="modal-dialog">\
@@ -285,7 +307,7 @@
             allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
         });
         if($(this).data("hasimg"))
-            file.ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/'+$(this).data("username")}]);
+         file.ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/'+$(this).data("username")}]);
         form.on('submit', function(){
             if(!file.data('ace_input_files')) return false;
 
@@ -313,28 +335,37 @@
                 });
                 working = false;
             });
+
+
             setTimeout(function(){
                 deferred.resolve();
             } , parseInt(Math.random() * 800 + 800));
+
             return false;
         });
 
-    }
+    });
 
+    function updateUserRole(id) {
+
+        url = "${ctx}/sysUserRole?id=" + id;
+
+        loadModal(url);
+    }
     function _export() {
 
         location.href = "${ctx}/sysUser_export?" + $("searchForm").serialize();
     }
-  /*  function _search() {
+    function _search() {
 
         _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "&" + $("#searchForm").serialize());
     }
     function _reset() {
 
         _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "");
-    }*/
-    /*function _reload() {
+    }
+    function _reload() {
         $("#modal").modal('hide');
         $("#page-content").load("${ctx}/sysUser_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }*/
+    }
 </script>

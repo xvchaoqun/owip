@@ -82,6 +82,9 @@
   </div>
 
   <script>
+	  jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	  jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
 		$("#modal input[type=submit]").click(function(){$("#modal form").submit();return false;});
 		$("#modal form").validate({
 				rules: {
@@ -100,12 +103,14 @@
 					$(form).ajaxSubmit({
 						success:function(data){
 							if(data.success){
-								_reload();
-								SysMsg.success('操作成功。', '成功');
-							}/*else if(data.msg=="illegal"){
-
-								SysMsg.warning('用户名是由5~15数字和小写字母组成', '用户名格式错误');
-							}*/
+								$("#modal").modal('hide');
+								SysMsg.success('操作成功。', '成功',function(){
+									$("#jqGrid").trigger("reloadGrid");
+									<c:if test="${not empty param.applyId}">
+									page_reload()
+									</c:if>
+								});
+							}
 						}
 					});
 				}

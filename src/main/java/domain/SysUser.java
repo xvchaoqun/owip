@@ -1,9 +1,23 @@
 package domain;
 
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class SysUser implements Serializable {
+
+    public String getTypeName(){
+        return SystemConstants.USER_TYPE_MAP.get(type);
+    }
+    public String getSourceName(){
+        return SystemConstants.USER_SOURCE_MAP.get(source);
+    }
+    public String getGenderName(){
+        return SystemConstants.GENDER_MAP.get(gender);
+    }
+
     private Integer id;
 
     private String username;

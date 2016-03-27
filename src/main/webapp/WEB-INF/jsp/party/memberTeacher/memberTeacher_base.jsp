@@ -240,6 +240,16 @@
 						${memberTeacher.isHonorRetire?"是":"否"}
 					</td>
 				</tr>
+				<tr>
+					<td  class="bg-right" colspan="2">人员状态</td>
+					<td class="bg-left" colspan="3">
+						${memberTeacher.staffStatus}
+					</td>
+					<td  class="bg-right">在岗情况</td>
+					<td class="bg-left" colspan="3">
+						${memberTeacher.onJob}
+					</td>
+				</tr>
 				</tbody>
 			</table>
 			</div></div></div>

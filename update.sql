@@ -1,4 +1,13 @@
 
+--20160327
+ALTER TABLE `ow_student`
+	ADD COLUMN `xj_status` VARCHAR(200) NULL DEFAULT NULL COMMENT '学籍状态，本科生XJBD,研究生ZT' AFTER `actual_graduate_time`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_student` AS SELECT `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`s`.`delay_year` AS `delay_year`,`s`.`period` AS `period`,`s`.`code` AS `code`,`s`.`edu_category` AS `edu_category`,`s`.`gender` AS `gender`,`s`.`birth` AS `birth`,`s`.`nation` AS `nation`,`s`.`actual_graduate_time` AS `actual_graduate_time`,`s`.`expect_graduate_time` AS `expect_graduate_time`,`s`.`actual_enrol_time` AS `actual_enrol_time`,`s`.`sync_source` AS `sync_source`,`s`.`type` AS `type`,`s`.`is_full_time` AS `is_full_time`,`s`.`realname` AS `realname`,`s`.`enrol_year` AS `enrol_year`,`s`.`native_place` AS `native_place`,`s`.`edu_way` AS `edu_way`,`s`.`idcard` AS `idcard`,`s`.`edu_level` AS `edu_level`,`s`.`grade` AS `grade`,`s`.`edu_type` AS `edu_type`, s.xj_status as xj_status
+FROM (`ow_member` `m`
+JOIN `ow_student` `s`)
+WHERE (`m`.`user_id` = `s`.`user_id`)  ;
+
 -- 2016-3-23
 ALTER TABLE `abroad_passport_apply`
 	ADD COLUMN `abolish` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否作废，【审批通过且没作废 或 没开始审批 ，则不可以申请同类型证件】' AFTER `status`;

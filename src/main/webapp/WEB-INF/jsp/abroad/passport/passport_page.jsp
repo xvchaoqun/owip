@@ -74,7 +74,6 @@ pageEncoding="UTF-8" %>
                             </c:if>
 
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
-
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="addLostBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
@@ -88,15 +87,21 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="passport:del">
-                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/passport_batchDel" data-title="证件删除"
-                                       data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                             <a class="jqOpenViewBtn btn btn-info btn-sm"
                                data-open-by="page" data-url="${ctx}/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
+<c:if test="${status==PASSPORT_TYPE_LOST}">
+                            <a class="jqOpenViewBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/passport_au" data-querystr="&op=back">
+                                <i class="fa fa-search"></i> 证件找回
+                            </a>
+    </c:if>
                         </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -243,9 +248,22 @@ pageEncoding="UTF-8" %>
             { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 140 },
             { label:'状态', align:'center', name: 'cancelConfirm', width: 100, formatter:function(cellvalue){
                 return cellvalue?"已确认":"未确认";
-            } }
+            } },
             </c:if>
-        ]}).jqGrid("setFrozenColumns");
+            {hidden:true, name:'canEdit', formatter:function(cellvalue, options, rowObject) {
+                var type = rowObject.type;
+                var lostType = rowObject.lostType;
+                //console.log(rowObject)
+                return !(type=='${PASSPORT_TYPE_LOST}' && lostType=='${PASSPORT_LOST_TYPE_TRANSFER}')?1:0; // 转移的丢失证件，不可以更新
+            }}
+        ],
+        onSelectRow: function(id,status){
+            jgrid_sid=id;
+            console.log(id)
+            var rowData = $(this).getRowData(id);
+            $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0)
+        }
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     function openView_safeBox(pageNo){

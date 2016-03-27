@@ -5,18 +5,23 @@ pageEncoding="UTF-8"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
-        <c:if test="${not empty param.applyId}">新办理的证件集中保管</c:if>
-        <c:if test="${empty param.applyId}">
-        <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>
-        ${type==PASSPORT_TYPE_LOST?"丢失":""}证件信息
+        <c:if test="${param.op=='back'}">证件找回</c:if>
+        <c:if test="${param.op!='back'}">
+            <c:if test="${not empty param.applyId}">新办理的证件集中保管</c:if>
+            <c:if test="${empty param.applyId}">
+            <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>
+            ${type==PASSPORT_TYPE_LOST?"丢失":""}证件信息
+            </c:if>
         </c:if>
     </h3>
 </div>
+<c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/passport_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="type" value="${type}">
+        <input type="hidden" name="op" value="${param.op}">
 <c:if test="${empty param.applyId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
@@ -80,20 +85,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
-            <c:if test="${type==PASSPORT_TYPE_KEEP ||
+            <c:if test="${param.op=='back' || type==PASSPORT_TYPE_KEEP ||
             (type==PASSPORT_TYPE_LOST && passport.lostType==PASSPORT_LOST_TYPE_TRANSFER)}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">集中保管日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input class="form-control date-picker" name="_keepDate" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}" />
+                               data-date-format="yyyy-mm-dd" value="${param.op=='back'?today:cm:formatDate(passport.keepDate,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
 			</div>
              </c:if>
-<c:if test="${type!=PASSPORT_TYPE_LOST}">
+            <c:if test="${param.op=='back' || type!=PASSPORT_TYPE_LOST}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">存放保险柜</label>
 				<div class="col-xs-6">
@@ -108,13 +113,12 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
-</c:if>
-        <c:if test="${type==PASSPORT_TYPE_LOST}">
+        </c:if>
+        <c:if test="${param.op!='back' && type==PASSPORT_TYPE_LOST}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">登记丢失日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
-                        <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
                         <input required class="form-control date-picker" name="_lostTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${passport==null?today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -132,7 +136,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${passport!=null}">确定</c:if><c:if test="${passport==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="${param.op=='back'?'找回':(passport!=null?'确定':'添加')}"/>
 </div>
 
 <script>

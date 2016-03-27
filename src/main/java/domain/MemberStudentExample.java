@@ -2516,6 +2516,76 @@ public class MemberStudentExample {
             addCriterion("edu_type not between", value1, value2, "eduType");
             return (Criteria) this;
         }
+
+        public Criteria andXjStatusIsNull() {
+            addCriterion("xj_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusIsNotNull() {
+            addCriterion("xj_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusEqualTo(String value) {
+            addCriterion("xj_status =", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusNotEqualTo(String value) {
+            addCriterion("xj_status <>", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusGreaterThan(String value) {
+            addCriterion("xj_status >", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("xj_status >=", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusLessThan(String value) {
+            addCriterion("xj_status <", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusLessThanOrEqualTo(String value) {
+            addCriterion("xj_status <=", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusLike(String value) {
+            addCriterion("xj_status like", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusNotLike(String value) {
+            addCriterion("xj_status not like", value, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusIn(List<String> values) {
+            addCriterion("xj_status in", values, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusNotIn(List<String> values) {
+            addCriterion("xj_status not in", values, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusBetween(String value1, String value2) {
+            addCriterion("xj_status between", value1, value2, "xjStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjStatusNotBetween(String value1, String value2) {
+            addCriterion("xj_status not between", value1, value2, "xjStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

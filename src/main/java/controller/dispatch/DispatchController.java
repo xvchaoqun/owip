@@ -148,7 +148,9 @@ public class DispatchController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, Dispatch.class, DispatchMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Dispatch.class, DispatchMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

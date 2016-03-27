@@ -1,5 +1,7 @@
 package controller;
 
+import domain.SysUser;
+import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -206,6 +208,13 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected Environment evironment;
 
+    public Map<Class<?>, Class<?>> sourceMixins(){
+
+        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
+        sourceMixins.put(SysUser.class, SysUserMixin.class);
+
+        return sourceMixins;
+    }
     public String addLog(HttpServletRequest request, String logType, String content, Object...params){
 
         if(params!=null && params.length>0)

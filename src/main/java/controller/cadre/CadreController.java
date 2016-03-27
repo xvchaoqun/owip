@@ -129,7 +129,9 @@ public class CadreController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, Cadre.class, CadreMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Cadre.class, CadreMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

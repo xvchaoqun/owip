@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class Passport implements Serializable {
-    public SysUser getUser(){
 
+    public SysUser getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

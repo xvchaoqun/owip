@@ -179,7 +179,9 @@ public class MemberStudentController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, MemberStudent.class, MemberStudentMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MemberStudent.class, MemberStudentMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

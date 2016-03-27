@@ -46,6 +46,8 @@ public class Student implements Serializable {
 
     private Date actualGraduateTime;
 
+    private String xjStatus;
+
     private Byte syncSource;
 
     private Date createTime;
@@ -218,6 +220,14 @@ public class Student implements Serializable {
 
     public void setActualGraduateTime(Date actualGraduateTime) {
         this.actualGraduateTime = actualGraduateTime;
+    }
+
+    public String getXjStatus() {
+        return xjStatus;
+    }
+
+    public void setXjStatus(String xjStatus) {
+        this.xjStatus = xjStatus == null ? null : xjStatus.trim();
     }
 
     public Byte getSyncSource() {

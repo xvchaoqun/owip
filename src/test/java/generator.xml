@@ -74,8 +74,8 @@
 
       <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
-      <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
-      </table>-->
+      <table tableName="ow_member_student" domainObjectName="MemberStudent">
+      </table>
       <!--<table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
       </table>
       <table tableName="ow_member" domainObjectName="Member">
@@ -108,8 +108,8 @@
 <!--    <table tableName="ow_branch" domainObjectName="Branch">
     <ignoreColumn column="update_time"/>
     </table>-->
-      <table tableName="ow_org_admin" domainObjectName="OrgAdmin">
-      </table>
+      <!--<table tableName="ow_org_admin" domainObjectName="OrgAdmin">
+      </table>-->
       <!--<table tableName="base_country" domainObjectName="Country">
       </table>-->
       <!--<table tableName="base_location" domainObjectName="Location">

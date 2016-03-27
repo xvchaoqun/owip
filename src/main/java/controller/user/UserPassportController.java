@@ -232,7 +232,7 @@ public class UserPassportController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(PassportDraw.class, PassportDrawMixin.class);
         sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);

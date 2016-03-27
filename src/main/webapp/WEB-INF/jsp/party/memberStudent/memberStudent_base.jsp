@@ -146,6 +146,11 @@ pageEncoding="UTF-8"%>
 					${memberStudent.delayYear}
 				</td>
 			</tr>
+			<tr>
+				<td class="bg-right" colspan="2">学籍状态</td>
+				<td  class="bg-left" colspan="7">${memberStudent.xjStatus}
+				</td>
+			</tr>
 			</tbody>
 		</table>
 			</div></div></div>

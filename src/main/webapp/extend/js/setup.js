@@ -568,7 +568,9 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 // 批量操作 for jqgrid
 $(document).on("click", ".myTableDiv .jqBatchBtn", function(){
 
-    var url = $(this).data("url");
+    var queryString = $(this).data("querystr");
+    var url = $(this).data("url") + (queryString?("?"+queryString):"");
+
     var title = $(this).data("title");
     var msg = $(this).data("msg");
     var grid = $("#jqGrid");

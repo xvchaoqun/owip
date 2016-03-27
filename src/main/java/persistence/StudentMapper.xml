@@ -23,6 +23,7 @@
     <result column="expect_graduate_time" property="expectGraduateTime" jdbcType="DATE" />
     <result column="delay_year" property="delayYear" jdbcType="REAL" />
     <result column="actual_graduate_time" property="actualGraduateTime" jdbcType="DATE" />
+    <result column="xj_status" property="xjStatus" jdbcType="VARCHAR" />
     <result column="sync_source" property="syncSource" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -87,7 +88,7 @@
   <sql id="Base_Column_List" >
     user_id, code, realname, gender, birth, nation, native_place, idcard, type, edu_level, 
     edu_type, edu_category, edu_way, is_full_time, enrol_year, period, grade, actual_enrol_time, 
-    expect_graduate_time, delay_year, actual_graduate_time, sync_source, create_time
+    expect_graduate_time, delay_year, actual_graduate_time, xj_status, sync_source, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.StudentExample" >
     select
@@ -127,7 +128,8 @@
       edu_way, is_full_time, enrol_year, 
       period, grade, actual_enrol_time, 
       expect_graduate_time, delay_year, actual_graduate_time, 
-      sync_source, create_time)
+      xj_status, sync_source, create_time
+      )
     values (#{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
       #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
       #{nativePlace,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
@@ -135,7 +137,8 @@
       #{eduWay,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, 
       #{period,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, 
       #{expectGraduateTime,jdbcType=DATE}, #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, 
-      #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+      #{xjStatus,jdbcType=VARCHAR}, #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.Student" >
     insert into ow_student
@@ -202,6 +205,9 @@
       </if>
       <if test="actualGraduateTime != null" >
         actual_graduate_time,
+      </if>
+      <if test="xjStatus != null" >
+        xj_status,
       </if>
       <if test="syncSource != null" >
         sync_source,
@@ -273,6 +279,9 @@
       </if>
       <if test="actualGraduateTime != null" >
         #{actualGraduateTime,jdbcType=DATE},
+      </if>
+      <if test="xjStatus != null" >
+        #{xjStatus,jdbcType=VARCHAR},
       </if>
       <if test="syncSource != null" >
         #{syncSource,jdbcType=TINYINT},
@@ -354,6 +363,9 @@
       <if test="record.actualGraduateTime != null" >
         actual_graduate_time = #{record.actualGraduateTime,jdbcType=DATE},
       </if>
+      <if test="record.xjStatus != null" >
+        xj_status = #{record.xjStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.syncSource != null" >
         sync_source = #{record.syncSource,jdbcType=TINYINT},
       </if>
@@ -388,6 +400,7 @@
       expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
       delay_year = #{record.delayYear,jdbcType=REAL},
       actual_graduate_time = #{record.actualGraduateTime,jdbcType=DATE},
+      xj_status = #{record.xjStatus,jdbcType=VARCHAR},
       sync_source = #{record.syncSource,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
@@ -457,6 +470,9 @@
       <if test="actualGraduateTime != null" >
         actual_graduate_time = #{actualGraduateTime,jdbcType=DATE},
       </if>
+      <if test="xjStatus != null" >
+        xj_status = #{xjStatus,jdbcType=VARCHAR},
+      </if>
       <if test="syncSource != null" >
         sync_source = #{syncSource,jdbcType=TINYINT},
       </if>
@@ -488,6 +504,7 @@
       expect_graduate_time = #{expectGraduateTime,jdbcType=DATE},
       delay_year = #{delayYear,jdbcType=REAL},
       actual_graduate_time = #{actualGraduateTime,jdbcType=DATE},
+      xj_status = #{xjStatus,jdbcType=VARCHAR},
       sync_source = #{syncSource,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}

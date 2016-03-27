@@ -21,7 +21,7 @@
                                 data-url="${ctx}/user/applySelf_au"
                                 data-open-by="page"
                                 data-querystr="&edit=1">
-                            <i class="fa fa-edit"></i> 修改提交
+                            <i class="fa fa-edit"></i> 重新申请
                         </button>
                             <button class="jqItemDelBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
@@ -48,14 +48,14 @@
             { label: '出行时间', align:'center', name: 'typeName', width: 100 },
             { label: '出发时间', align:'center', name: 'startDate', width: 100 },
             { label: '返回时间', align:'center', name: 'endDate', width: 100 },
-            { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
+            { label: '出行天数', align:'center', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
                 return DateDiff(rowObject.startDate, rowObject.endDate);
             }},
             { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
             { label:'事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
-            { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'组织部初审', align:'center', name: 'approver-1', width: 100, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return processTdBean(tdBean)
             }},
@@ -70,15 +70,25 @@
                 return processTdBean(tdBean)
             } },
             </c:forEach>
-            { label:'组织部终审', align:'center', name: 'expiryDate', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
+            { label:'组织部终审', align:'center', name: 'approver0', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 if(tdBean.tdType==2)
                     return "class='not_approval'"
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
+            }},
+            {hidden:true, name:'firstType',formatter:function(cellvalue, options, rowObject) {
+                var tdBean = rowObject.approvalTdBeanMap[-1];
+                return tdBean.tdType
             }}
-        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+        ],
+        onSelectRow: function(id,status){
+            jgrid_sid=id;
+            var firstType = $(this).getRowData(id).firstType;
+            $(".jqEditBtn, .jqItemDelBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+        }
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(".approvalBtn").click(function(){
             loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
         });

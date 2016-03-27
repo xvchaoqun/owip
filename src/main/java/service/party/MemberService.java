@@ -220,6 +220,7 @@ public class MemberService extends BaseMapper {
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
                 //student.setActualGraduateTime(DateUtils.parseDate(extBks.getSjbyny(), "yyyyMM")); 实际毕业年月
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
+                student.setXjStatus(extBks.getXjbd());
             }
         }
 
@@ -258,6 +259,7 @@ public class MemberService extends BaseMapper {
                 student.setDelayYear(extYjs.getYqbynx());
                 student.setActualGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjbyny(), 0, 6), "yyyyMM"));
                 student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
+                student.setXjStatus(extYjs.getZt());
             }
         }
 

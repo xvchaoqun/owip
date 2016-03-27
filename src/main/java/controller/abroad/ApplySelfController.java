@@ -310,9 +310,11 @@ public class ApplySelfController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
-        JSONUtils.jsonp(resultMap, ApplySelf.class, ApplySelfMixin.class);
-        return;
 
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresRoles("cadre")
@@ -436,7 +438,10 @@ public class ApplySelfController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
-        JSONUtils.jsonp(resultMap, ApplySelf.class, ApplySelfMixin.class);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

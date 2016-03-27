@@ -78,6 +78,8 @@ public class MemberStudent implements Serializable {
 
     private String eduType;
 
+    private String xjStatus;
+
     private static final long serialVersionUID = 1L;
 
     public Date getCreateTime() {
@@ -374,5 +376,13 @@ public class MemberStudent implements Serializable {
 
     public void setEduType(String eduType) {
         this.eduType = eduType == null ? null : eduType.trim();
+    }
+
+    public String getXjStatus() {
+        return xjStatus;
+    }
+
+    public void setXjStatus(String xjStatus) {
+        this.xjStatus = xjStatus == null ? null : xjStatus.trim();
     }
 }

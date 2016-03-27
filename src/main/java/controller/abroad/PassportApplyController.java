@@ -200,7 +200,9 @@ public class PassportApplyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap, PassportApply.class, PassportApplyMixin.class);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(PassportApply.class, PassportApplyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
