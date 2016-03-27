@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <mytag:sort-form css="form-horizontal " id="searchForm">
+                        <form class="form-horizontal " id="searchForm">
                             <div class="row">
                                 <div class="col-xs-4">
                                     <div class="form-group">
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
 
                             </div>
                             <div class="clearfix form-actions center">
-                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -89,7 +89,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </c:if>
                             </div>
-                        </mytag:sort-form>
+                        </form>
                     </div>
                 </div>
             </div>

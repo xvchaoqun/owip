@@ -1,9 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.Branch;
 import domain.MemberStudent;
 import domain.MemberStudentExample;
 import domain.MemberStudentExample.Criteria;
+import domain.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberStudentMixin;
@@ -122,12 +124,21 @@ public class MemberStudentController extends BaseController {
     @RequestMapping("/memberStudent_page")
     public String memberStudent_page(
                                   @RequestParam(defaultValue = "1")int cls,
-                                  Integer userId, ModelMap modelMap) {
+                                  Integer userId,
+                                  Integer partyId,
+                                  Integer branchId,
+                                  ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null)
+            modelMap.put("party", partyMap.get(partyId));
+        if (branchId != null)
+            modelMap.put("branch", branchMap.get(branchId));
 
         return "party/memberStudent/memberStudent_page";
     }
@@ -138,6 +149,11 @@ public class MemberStudentController extends BaseController {
                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                      @RequestParam(defaultValue = "1")int cls,
                                      Integer userId,
+                                     Integer unitId,
+                                     Integer partyId,
+                                     Integer branchId,
+                                     String _growTime,
+                                     String _positiveTime,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      Integer pageSize, Integer pageNo) throws IOException {
 
@@ -158,6 +174,38 @@ public class MemberStudentController extends BaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
+        if (unitId != null) {
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if (StringUtils.isNotBlank(_growTime)) {
+            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+
+        if (StringUtils.isNotBlank(_positiveTime)) {
+            String start = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andPositiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+
 
         if (export == 1) {
             memberStudent_export(example, response);

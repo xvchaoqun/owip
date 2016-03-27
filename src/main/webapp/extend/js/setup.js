@@ -514,16 +514,12 @@ $(document).on("click", " .searchBtn", function(){
     //_tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("#searchForm").serialize());
 });
 // 搜索 for jqgrid
-$(document).on("click", " .jgSearchBtn", function(){
-
-    //var $div = $(".myTableDiv");
+$(document).on("click", " .jqSearchBtn", function(){
     var $div = $(this).closest(".myTableDiv");
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
-    //alert($target)
     $target.renderUrl({
         url : $div.data("url-page"),
-        op : "",
-        params : $("div.myTableDiv #searchForm").serialize()
+        params : $("div.myTableDiv #searchForm").serialize(),
     });
 });
 

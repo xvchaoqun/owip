@@ -40,6 +40,7 @@
     <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="edu_type" property="eduType" jdbcType="VARCHAR" />
     <result column="xj_status" property="xjStatus" jdbcType="VARCHAR" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -104,7 +105,8 @@
     user_id, branch_id, candidate_time, party_id, grow_time, status, party_post, party_reward, 
     other_reward, delay_year, period, code, edu_category, gender, birth, nation, actual_graduate_time, 
     expect_graduate_time, actual_enrol_time, sync_source, type, is_full_time, realname, 
-    enrol_year, native_place, edu_way, idcard, edu_level, grade, edu_type, xj_status
+    enrol_year, native_place, edu_way, idcard, edu_level, grade, edu_type, xj_status, 
+    unit_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStudentExample" >
     select
@@ -139,7 +141,8 @@
       type, is_full_time, realname, 
       enrol_year, native_place, edu_way, 
       idcard, edu_level, grade, 
-      edu_type, xj_status)
+      edu_type, xj_status, unit_id
+      )
     values (#{createTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, #{source,jdbcType=TINYINT}, 
       #{positiveTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, 
       #{transferTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
@@ -152,7 +155,8 @@
       #{type,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{realname,jdbcType=VARCHAR}, 
       #{enrolYear,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{eduWay,jdbcType=VARCHAR}, 
       #{idcard,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
-      #{eduType,jdbcType=VARCHAR}, #{xjStatus,jdbcType=VARCHAR})
+      #{eduType,jdbcType=VARCHAR}, #{xjStatus,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStudent" >
     insert into ow_member_student
@@ -271,6 +275,9 @@
       <if test="xjStatus != null" >
         xj_status,
       </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="createTime != null" >
@@ -386,6 +393,9 @@
       </if>
       <if test="xjStatus != null" >
         #{xjStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -512,6 +522,9 @@
       <if test="record.xjStatus != null" >
         xj_status = #{record.xjStatus,jdbcType=VARCHAR},
       </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -556,7 +569,8 @@
       edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       grade = #{record.grade,jdbcType=VARCHAR},
       edu_type = #{record.eduType,jdbcType=VARCHAR},
-      xj_status = #{record.xjStatus,jdbcType=VARCHAR}
+      xj_status = #{record.xjStatus,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

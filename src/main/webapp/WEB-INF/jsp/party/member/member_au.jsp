@@ -190,6 +190,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
 	$("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});

@@ -1,12 +1,15 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.Branch;
 import domain.MemberTeacher;
 import domain.MemberTeacherExample;
 import domain.MemberTeacherExample.Criteria;
+import domain.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberTeacherMixin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -50,13 +53,21 @@ public class MemberTeacherController extends BaseController {
     @RequestMapping("/memberTeacher_page")
     public String memberTeacher_page(
             @RequestParam(defaultValue = "1")int cls,
-            Integer userId, ModelMap modelMap) {
+            Integer userId,
+            Integer partyId,
+            Integer branchId,
+            ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null)
+            modelMap.put("party", partyMap.get(partyId));
+        if (branchId != null)
+            modelMap.put("branch", branchMap.get(branchId));
         return "party/memberTeacher/memberTeacher_page";
     }
 
@@ -67,6 +78,11 @@ public class MemberTeacherController extends BaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
+                                    Integer unitId,
+                                    Integer partyId,
+                                    Integer branchId,
+                                    String _growTime,
+                                    String _positiveTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -86,6 +102,37 @@ public class MemberTeacherController extends BaseController {
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (unitId != null) {
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if (StringUtils.isNotBlank(_growTime)) {
+            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+
+        if (StringUtils.isNotBlank(_positiveTime)) {
+            String start = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andPositiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         /*

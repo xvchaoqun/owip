@@ -108,6 +108,8 @@ public class MemberTeacher implements Serializable {
 
     private String proPostLevel;
 
+    private Integer unitId;
+
     private static final long serialVersionUID = 1L;
 
     public Date getCreateTime() {
@@ -524,5 +526,13 @@ public class MemberTeacher implements Serializable {
 
     public void setProPostLevel(String proPostLevel) {
         this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 }

@@ -54,6 +54,7 @@
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="on_job" property="onJob" jdbcType="VARCHAR" />
     <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -120,7 +121,7 @@
     retire_time, post_class, pro_post, major, post, school, is_retire, is_honor_retire, 
     post_type, degree_time, manage_level, email, post_level, office_level, talent_title, 
     address, degree, mobile, birth, authorized_type, realname, arrive_time, native_place, 
-    marital_status, staff_type, phone, idcard, on_job, pro_post_level
+    marital_status, staff_type, phone, idcard, on_job, pro_post_level, unit_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberTeacherExample" >
     select
@@ -160,7 +161,7 @@
       authorized_type, realname, arrive_time, 
       native_place, marital_status, staff_type, 
       phone, idcard, on_job, 
-      pro_post_level)
+      pro_post_level, unit_id)
     values (#{createTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, #{source,jdbcType=TINYINT}, 
       #{positiveTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, 
       #{transferTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
@@ -178,7 +179,7 @@
       #{authorizedType,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{arriveTime,jdbcType=VARCHAR}, 
       #{nativePlace,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{onJob,jdbcType=VARCHAR}, 
-      #{proPostLevel,jdbcType=VARCHAR})
+      #{proPostLevel,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberTeacher" >
     insert into ow_member_teacher
@@ -339,6 +340,9 @@
       <if test="proPostLevel != null" >
         pro_post_level,
       </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="createTime != null" >
@@ -496,6 +500,9 @@
       </if>
       <if test="proPostLevel != null" >
         #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -664,6 +671,9 @@
       <if test="record.proPostLevel != null" >
         pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
       </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -722,7 +732,8 @@
       phone = #{record.phone,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       on_job = #{record.onJob,jdbcType=VARCHAR},
-      pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR}
+      pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

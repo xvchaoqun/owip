@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
             || not empty param.code}"/>
-            <div class="widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
@@ -105,7 +105,7 @@ pageEncoding="UTF-8" %>
 
 
                             <div class="clearfix form-actions center">
-                                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm">
@@ -118,7 +118,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
 
-            <div class="buttons pull-right">
+            <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="party:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
@@ -149,7 +149,6 @@ pageEncoding="UTF-8" %>
                     <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                 </shiro:hasPermission>
             </div>
-            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

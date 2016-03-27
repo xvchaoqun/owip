@@ -80,6 +80,8 @@ public class MemberStudent implements Serializable {
 
     private String xjStatus;
 
+    private Integer unitId;
+
     private static final long serialVersionUID = 1L;
 
     public Date getCreateTime() {
@@ -384,5 +386,13 @@ public class MemberStudent implements Serializable {
 
     public void setXjStatus(String xjStatus) {
         this.xjStatus = xjStatus == null ? null : xjStatus.trim();
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 }
