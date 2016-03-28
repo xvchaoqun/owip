@@ -36,9 +36,9 @@ pageEncoding="UTF-8"%>
 
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出发日期</label>
-					<div class="col-xs-2">
-						<div class="input-group">
-							<input class="form-control date-picker" name="_startDate" type="text"
+					<div class="col-xs-9">
+						<div class="input-group" style="width: 255px">
+							<input  class="form-control date-picker" name="_startDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -46,8 +46,8 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">回国日期</label>
-					<div class="col-xs-2">
-						<div class="input-group">
+					<div class="col-xs-9">
+						<div class="input-group" style="width: 255px">
 							<input class="form-control date-picker" name="_endDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

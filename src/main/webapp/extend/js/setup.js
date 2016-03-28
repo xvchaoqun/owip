@@ -68,7 +68,7 @@ $(window).on('resize.jqGrid', function () {
     if( $("#body-content").is(":hidden")){
         return;
     }
-    $(".jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    $(".jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-60 );
     var height = 0;
     $("#body-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();

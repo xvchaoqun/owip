@@ -123,6 +123,8 @@ public class UserApplySelfController extends BaseController {
     @RequestMapping("/applySelf_data")
     @ResponseBody
     public void applySelf_data(@CurrentUser SysUser loginUser,
+                               String _applyDate,
+                               Byte type, // 出行时间范围
                                  Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         if (null == pageSize) {
@@ -140,6 +142,21 @@ public class UserApplySelfController extends BaseController {
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
+
+        if (StringUtils.isNotBlank(_applyDate)) {
+            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(applyDateStart)) {
+                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(applyDateEnd)) {
+                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+
+        if (type != null) {
+            criteria.andTypeEqualTo(type);
+        }
 
         int count = applySelfMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

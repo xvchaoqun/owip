@@ -1,9 +1,19 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class Unit implements Serializable {
+
+    public MetaType getUnitType(){
+
+        Map<Integer, MetaType> unitTypeMap = CmTag.getMetaTypes("mc_unit_type");
+        return unitTypeMap.get(typeId);
+    }
+
     private Integer id;
 
     private String code;

@@ -5,6 +5,7 @@ import domain.*;
 import domain.UnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +27,7 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -72,7 +74,17 @@ public class UnitController extends BaseController {
     }
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit_page")
-    public String unit_page(HttpServletResponse response,
+    public String unit_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+                            ModelMap modelMap) {
+
+        modelMap.put("status", status);
+        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
+        return "unit/unit_page";
+    }
+    @RequiresPermissions("unit:list")
+    @RequestMapping("/unit_data")
+    @ResponseBody
+    public void unit_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
@@ -80,7 +92,7 @@ public class UnitController extends BaseController {
                                     String name,
                                     Integer typeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -89,8 +101,6 @@ public class UnitController extends BaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-
-        modelMap.put("status", status);
 
         UnitExample example = new UnitExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(status);
@@ -108,7 +118,7 @@ public class UnitController extends BaseController {
 
         if (export == 1) {
             unit_export(example, response);
-            return null;
+            return;
         }
 
         int count = unitMapper.countByExample(example);
@@ -117,36 +127,18 @@ public class UnitController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Unit> Units = unitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("units", Units);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", Units);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        if (status!=null) {
-            searchStr += "&status=" + status;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
-
-        return "unit/unit_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Unit.class, UnitMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("unit:edit")
@@ -204,17 +196,11 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_abolish(Integer id) {
+    public Map do_unit_abolish(@RequestParam(value = "ids[]") Integer[] ids) {
 
-        if (id != null) {
+        unitService.abolish(ids);
+        logger.info("abolish Unit:" + StringUtils.join(ids, ","));
 
-            Unit record = new Unit();
-            record.setId(id);
-            record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
-            unitService.updateByPrimaryKeySelective(record);
-
-            logger.info("abolish Unit:" + id);
-        }
         return success(FormUtils.SUCCESS);
     }
 

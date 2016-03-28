@@ -1,11 +1,7 @@
 package service.unit;
 
-import domain.HistoryUnitExample;
 import domain.Unit;
 import domain.UnitExample;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,8 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UnitService extends BaseMapper {
@@ -88,6 +88,19 @@ public class UnitService extends BaseMapper {
         UnitExample example = new UnitExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         unitMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    @CacheEvict(value="Unit:ALL", allEntries = true)
+    public void abolish(Integer[] ids){
+        if(ids==null || ids.length==0) return;
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Unit record = new Unit();
+        record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
+        unitMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
