@@ -4,6 +4,7 @@ import bean.SafeBoxBean;
 import controller.BaseController;
 import domain.Passport;
 import domain.SafeBox;
+import domain.SafeBoxExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportMixin;
@@ -89,8 +90,8 @@ public class SafeBoxController extends BaseController {
         }
         List<SafeBox> safeBoxs = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));*/
 
-        List<SafeBoxBean> safeBoxBeans = selectMapper.listAllSafeBoxs();
-        int count = safeBoxBeans.size();
+        List<SafeBoxBean> safeBoxBeans = selectMapper.listSafeBoxs(new RowBounds((pageNo - 1) * pageSize, pageSize));
+        int count = safeBoxMapper.countByExample(new SafeBoxExample());
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

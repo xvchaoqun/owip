@@ -37,6 +37,7 @@
                         </div>
                         <div class="space-4"></div>
                         <table id="jqGrid" class="jqGrid table-striped"> </table>
+                        <div id="jqGridPager"> </div>
                     </div>
                 </div></div></div>
         <div id="item-content">
@@ -50,7 +51,7 @@
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/safeBox_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/safeBox_data?callback=?',
         colModel: [
             { label: '保险柜编号', align:'center', name: 'code', width: 100 ,frozen:true},
             { label: '证件总数量', align:'center', name: 'totalCount', width: 100 ,frozen:true, formatter:function(cellvalue, options, rowObject){

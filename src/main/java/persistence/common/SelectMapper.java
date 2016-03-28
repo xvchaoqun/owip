@@ -103,7 +103,7 @@ public interface SelectMapper {
              @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
              @Param("flowUserId") Integer flowUserId);
 
-    List<SafeBoxBean> listAllSafeBoxs();
+    List<SafeBoxBean> listSafeBoxs(RowBounds rowBounds);
 
     int passportCount();
 

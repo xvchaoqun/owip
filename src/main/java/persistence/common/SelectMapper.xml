@@ -152,7 +152,7 @@
   </select>
 
   <!-- 根据保险柜编号，读取统计 集中管理证件和未确认取消管理证件-->
-  <select id="listAllSafeBoxs" resultType="bean.SafeBoxBean">
+  <select id="listSafeBoxs" resultType="bean.SafeBoxBean">
     /*select asb.id as id, asb.code as code, asb.remark as remark,
     count(ap.id) as totalCount, group_concat(bc.unit_id) as unitIds,
     sum(if(ap.type=1, 1, 0)) as keepCount from abroad_safe_box asb ,
