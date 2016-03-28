@@ -15,6 +15,8 @@ public class SafeBoxBean {
     public String getUnits(){
 
         List<String> unitNameList = new ArrayList<>();
+        if(StringUtils.isBlank(unitIds)) return null;
+
         String[] unitIdStrArray = unitIds.split(",");
         for (String unitIdStr : unitIdStrArray) {
             Unit unit = CmTag.getUnit(Integer.parseInt(unitIdStr));
