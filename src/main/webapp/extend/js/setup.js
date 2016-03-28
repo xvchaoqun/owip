@@ -55,11 +55,11 @@ $.jgrid.defaults.gridComplete = function(){
     }
     //console.log("加载完成：left:{0}, top:{1}".format(_left, _top))
     if(jgrid_left!=undefined) {
-        $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(jgrid_left);
+        $(this).closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(jgrid_left);
         jgrid_left = undefined;
     }
     if(jgrid_top!=undefined) {
-        $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
+        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
         jgrid_top = undefined;
     }
 }

@@ -20,14 +20,14 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <table id="jqGrid" class="jqGrid table-striped"> </table>
+                <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
                 <div id="jqGridPager"> </div>
             </div>
         </div><!-- /.widget-main -->
     </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
 <script>
-    $("#jqGrid").jqGrid({
+    $("#jqGrid2").jqGrid({
         //forceFit:true,
         url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}',
         colModel: [
@@ -48,7 +48,7 @@
                 return cellvalue?"借出":"-";
             } }
         ]
-    })/*.jqGrid("setFrozenColumns")*/;
-    $(window).triggerHandler('resize.jqGrid');
-
+    }).on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid2');
+    });
 </script>
