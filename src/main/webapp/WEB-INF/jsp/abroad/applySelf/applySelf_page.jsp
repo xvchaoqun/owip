@@ -49,7 +49,15 @@
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
-                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                                <i class="fa fa-download"></i> 导出</a>
+                            <c:if test="${status==1}">
+                            <button data-url="${ctx}/shortMsg_view"
+                                    data-querystr="&type=applySelf"
+                                    class="jqOpenViewBtn btn btn-primary btn-sm">
+                                <i class="fa fa-info-circle"></i> 短信提醒
+                            </button>
+                                </c:if>
                                 <shiro:hasPermission name="applySelf:del">
                                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
@@ -150,7 +158,7 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             } ,frozen:true },
-            { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 250 ,frozen:true },
             { label: '出行时间', align:'center', name: 'startDate', width: 100 },
             { label: '回国时间', align:'center', name: 'endDate', width: 100 },
             { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
@@ -182,18 +190,8 @@
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
-            }},
-            <shiro:hasRole name="cadreAdmin">
-            { label:'短信提醒', align:'center', name: 'expiryDate', width: 100 , formatter:function(cellvalue, options, rowObject){
-                return processMsgTdBean(rowObject)
-            }},
-            </shiro:hasRole>
+            }}
         ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
-
-        $(".shortMsgBtn").click(function(){
-            var id = $(this).data("id");
-            loadModal("${ctx}/shortMsg_view?id={0}&type=applySelf".format(id));
-        });
 
         $(".approvalBtn").click(function(){
             loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
@@ -202,7 +200,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     //初审未通过，或者终审完成，需要短信提醒
-    function processMsgTdBean(rowObject){
+/*    function processMsgTdBean(rowObject){
         var html = "";
         var applySelfId = rowObject.id;
         var firstTdBean = rowObject.approvalTdBeanMap[-1];
@@ -215,7 +213,7 @@
             html = html.format(applySelfId);
         }
         return html;
-    }
+    }*/
     function processTdBean(tdBean){
 
         var applySelfId = tdBean.applySelfId;

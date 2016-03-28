@@ -21,7 +21,8 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出行时间</label>
 					<div class="col-xs-6">
-						<select required name="type" data-rel="select2" data-placeholder="请选择出行时间">
+						<select name="type" data-rel="select2" data-width="255"
+								data-placeholder="请选择出行时间" style="width:400px">
 							<option></option>
 							<c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
 								<option value="${type.key}">${type.value}</option>
@@ -37,7 +38,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">出发日期</label>
 					<div class="col-xs-2">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_startDate" type="text"
+							<input class="form-control date-picker" name="_startDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -47,7 +48,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">回国日期</label>
 					<div class="col-xs-2">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_endDate" type="text"
+							<input class="form-control date-picker" name="_endDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -56,17 +57,18 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">前往国家或地区</label>
 					<div class="col-xs-6">
-						<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
+						<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}"
+							   placeholder="输入后选择国家或按回车 ..." style="width: 455px"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出国（境）事由</label>
-					<div class="col-xs-6 choice">
-						<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;&nbsp;
-						<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;&nbsp;
-						<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;&nbsp;
-						<input name="_reason" type="checkbox" value="继承"> 继承&nbsp;&nbsp;
-						<input name="_reason" type="checkbox" value="接受和处理财产"> 接受和处理财产&nbsp;&nbsp;
+					<div class="col-xs-9 choice">
+						<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;
+						<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;
+						<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;
+						<input name="_reason" type="checkbox" value="继承"> 继承&nbsp;
+						<input name="_reason" type="checkbox" value="接受和处理财产"> 接受和处理财产&nbsp;
 						<input name="_reason" type="checkbox" value="其他"> 其他
 						<input name="_reason_other" type="text">
 						<input name="reason" type="hidden"/>
@@ -74,10 +76,10 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">同行人员</label>
-					<div class="col-xs-6 choice">
-						<input name="_peerStaff" type="checkbox" value="配偶"> 配偶&nbsp;&nbsp;
-						<input name="_peerStaff" type="checkbox" value="子女"> 子女&nbsp;&nbsp;
-						<input name="_peerStaff" type="checkbox" value="无"> 无&nbsp;&nbsp;
+					<div class="col-xs-9 choice">
+						<input name="_peerStaff" type="checkbox" value="配偶"> 配偶&nbsp;
+						<input name="_peerStaff" type="checkbox" value="子女"> 子女&nbsp;
+						<input name="_peerStaff" type="checkbox" value="无"> 无&nbsp;
 						<input name="_peerStaff" type="checkbox" value="其他"> 其他
 						<input name="_peerStaff_other" type="text">
 						<input name="peerStaff" type="hidden">
@@ -85,8 +87,8 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">费用来源</label>
-					<div class="col-xs-6 choice">
-						<input  name="_costSource"type="radio" value="自费"> 自费&nbsp;&nbsp;
+					<div class="col-xs-9 choice">
+						<input  name="_costSource"type="radio" value="自费"> 自费&nbsp;
 						<input name="_costSource" type="radio" value="其他来源"> 其他来源
 						<input name="_costSource_other" type="text">
 						<input name="costSource" type="hidden">
@@ -94,9 +96,9 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">所需证件</label>
-					<div class="col-xs-6 choice">
+					<div class="col-xs-9 choice">
 						<c:forEach items="${passportTypeMap}" var="type">
-							<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;&nbsp;
+							<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;
 						</c:forEach>
 						<input name="needPassports" type="hidden">
 					</div>
@@ -136,17 +138,26 @@ pageEncoding="UTF-8"%>
 </div>
 
 <style>
-	input[type=radio], input[type=checkbox]{
+	#applyForm input[type=radio], #applyForm input[type=checkbox]{
 		width: 20px;
 		height: 20px;
 		_vertical-align: -1px;/*针对IE6使用hack*/
 		vertical-align: -3px;
 	}
+	#applyForm .tags{
+		width: 256px;
+		min-height: 50px;
+	}
+	#applyForm  .control-label{
+		font-size: 20px;
+		font-weight: bolder;
+	}
 	.choice{
 		font-size: 20px;
 	}
-	.form-group{
-		padding-bottom: 10px;
+	#applyForm .form-group{
+		padding-bottom: 5px;
+		padding-top:0px!important;
 	}
 	.file label{
 		margin-bottom:15px;
@@ -230,11 +241,36 @@ pageEncoding="UTF-8"%>
     $("#applyForm").validate({
         submitHandler: function (form) {
 
+			// 出行时间
+			var type = $("select[name=type]").val().trim();
+			if(type==''){
+				SysMsg.info("请选择出行时间");
+				$("input[name=type]").val('').focus();
+				return;
+			}
+			// 出发日期
+			var _startDate = $("input[name=_startDate]").val().trim();
+			if(_startDate==''){
+				SysMsg.info("请选择出发日期",'',function(){
+					$("input[name=_startDate]").val('').focus();
+				});
+				return;
+			}
+			// 回国日期
+			var _endDate = $("input[name=_endDate]").val().trim();
+			if(_endDate==''){
+				SysMsg.info("请选择回国日期",'',function(){
+					$("input[name=_endDate]").val('').focus();
+				});
+				return;
+			}
+
 			// 前往国家或地区
 			var toCountry = $("input[name=toCountry]").val().trim();
 			if(toCountry==''){
-				SysMsg.info("请填写前往国家或地区");
-				$("input[name=toCountry]").val('').focus();
+				SysMsg.info("请填写前往国家或地区",'',function(){
+					$("input[name=toCountry]").val('').focus();
+				});
 				return;
 			}
 
