@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Map;
 
 public class Passport implements Serializable {
-
     public SysUser getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
@@ -30,8 +29,6 @@ public class Passport implements Serializable {
 
         return CmTag.getSafeBoxMap().get(safeBoxId);
     }
-
-
     private Integer id;
 
     private Integer applyId;
@@ -69,6 +66,10 @@ public class Passport implements Serializable {
     private Date lostTime;
 
     private String lostProof;
+
+    private Boolean hasFind;
+
+    private Date findTime;
 
     private Date createTime;
 
@@ -224,6 +225,22 @@ public class Passport implements Serializable {
 
     public void setLostProof(String lostProof) {
         this.lostProof = lostProof == null ? null : lostProof.trim();
+    }
+
+    public Boolean getHasFind() {
+        return hasFind;
+    }
+
+    public void setHasFind(Boolean hasFind) {
+        this.hasFind = hasFind;
+    }
+
+    public Date getFindTime() {
+        return findTime;
+    }
+
+    public void setFindTime(Date findTime) {
+        this.findTime = findTime;
     }
 
     public Date getCreateTime() {

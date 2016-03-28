@@ -21,6 +21,8 @@
     <result column="lost_type" property="lostType" jdbcType="TINYINT" />
     <result column="lost_time" property="lostTime" jdbcType="TIMESTAMP" />
     <result column="lost_proof" property="lostProof" jdbcType="VARCHAR" />
+    <result column="has_find" property="hasFind" jdbcType="BIT" />
+    <result column="find_time" property="findTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -84,7 +86,7 @@
   <sql id="Base_Column_List" >
     id, apply_id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, 
     safe_box_id, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, 
-    lost_type, lost_time, lost_proof, create_time
+    lost_type, lost_time, lost_proof, has_find, find_time, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.PassportExample" >
     select
@@ -123,14 +125,16 @@
       safe_box_id, is_lent, type, 
       cancel_type, cancel_confirm, cancel_pic, 
       cancel_time, lost_type, lost_time, 
-      lost_proof, create_time)
+      lost_proof, has_find, find_time, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
       #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
       #{safeBoxId,jdbcType=INTEGER}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
       #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, 
       #{cancelTime,jdbcType=TIMESTAMP}, #{lostType,jdbcType=TINYINT}, #{lostTime,jdbcType=TIMESTAMP}, 
-      #{lostProof,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{lostProof,jdbcType=VARCHAR}, #{hasFind,jdbcType=BIT}, #{findTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.Passport" >
     insert into abroad_passport
@@ -191,6 +195,12 @@
       </if>
       <if test="lostProof != null" >
         lost_proof,
+      </if>
+      <if test="hasFind != null" >
+        has_find,
+      </if>
+      <if test="findTime != null" >
+        find_time,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -253,6 +263,12 @@
       </if>
       <if test="lostProof != null" >
         #{lostProof,jdbcType=VARCHAR},
+      </if>
+      <if test="hasFind != null" >
+        #{hasFind,jdbcType=BIT},
+      </if>
+      <if test="findTime != null" >
+        #{findTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -325,6 +341,12 @@
       <if test="record.lostProof != null" >
         lost_proof = #{record.lostProof,jdbcType=VARCHAR},
       </if>
+      <if test="record.hasFind != null" >
+        has_find = #{record.hasFind,jdbcType=BIT},
+      </if>
+      <if test="record.findTime != null" >
+        find_time = #{record.findTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -354,6 +376,8 @@
       lost_type = #{record.lostType,jdbcType=TINYINT},
       lost_time = #{record.lostTime,jdbcType=TIMESTAMP},
       lost_proof = #{record.lostProof,jdbcType=VARCHAR},
+      has_find = #{record.hasFind,jdbcType=BIT},
+      find_time = #{record.findTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -416,6 +440,12 @@
       <if test="lostProof != null" >
         lost_proof = #{lostProof,jdbcType=VARCHAR},
       </if>
+      <if test="hasFind != null" >
+        has_find = #{hasFind,jdbcType=BIT},
+      </if>
+      <if test="findTime != null" >
+        find_time = #{findTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -442,6 +472,8 @@
       lost_type = #{lostType,jdbcType=TINYINT},
       lost_time = #{lostTime,jdbcType=TIMESTAMP},
       lost_proof = #{lostProof,jdbcType=VARCHAR},
+      has_find = #{hasFind,jdbcType=BIT},
+      find_time = #{findTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

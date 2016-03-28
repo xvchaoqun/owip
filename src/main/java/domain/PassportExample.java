@@ -1312,6 +1312,126 @@ public class PassportExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasFindIsNull() {
+            addCriterion("has_find is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindIsNotNull() {
+            addCriterion("has_find is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindEqualTo(Boolean value) {
+            addCriterion("has_find =", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindNotEqualTo(Boolean value) {
+            addCriterion("has_find <>", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindGreaterThan(Boolean value) {
+            addCriterion("has_find >", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_find >=", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindLessThan(Boolean value) {
+            addCriterion("has_find <", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_find <=", value, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindIn(List<Boolean> values) {
+            addCriterion("has_find in", values, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindNotIn(List<Boolean> values) {
+            addCriterion("has_find not in", values, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_find between", value1, value2, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasFindNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_find not between", value1, value2, "hasFind");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeIsNull() {
+            addCriterion("find_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeIsNotNull() {
+            addCriterion("find_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeEqualTo(Date value) {
+            addCriterion("find_time =", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeNotEqualTo(Date value) {
+            addCriterion("find_time <>", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeGreaterThan(Date value) {
+            addCriterion("find_time >", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("find_time >=", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeLessThan(Date value) {
+            addCriterion("find_time <", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeLessThanOrEqualTo(Date value) {
+            addCriterion("find_time <=", value, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeIn(List<Date> values) {
+            addCriterion("find_time in", values, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeNotIn(List<Date> values) {
+            addCriterion("find_time not in", values, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeBetween(Date value1, Date value2) {
+            addCriterion("find_time between", value1, value2, "findTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindTimeNotBetween(Date value1, Date value2) {
+            addCriterion("find_time not between", value1, value2, "findTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

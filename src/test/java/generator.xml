@@ -43,8 +43,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-     <!-- <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>-->
+      <table tableName="abroad_passport" domainObjectName="Passport">
+      </table>
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
@@ -76,8 +76,8 @@
       </table>-->
       <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
       </table>-->
-      <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
-      </table>
+     <!-- <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      </table>-->
       <!--<table tableName="ow_member" domainObjectName="Member">
           <ignoreColumn column="update_time"/>
       </table>-->

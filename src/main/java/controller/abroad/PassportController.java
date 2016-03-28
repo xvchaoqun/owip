@@ -277,6 +277,16 @@ public class PassportController extends BaseController {
     }
 
     @RequiresPermissions("passport:view")
+    @RequestMapping("/passport_remark")
+    public String passport_remark(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/passport_remark";
+    }
+
+    @RequiresPermissions("passport:view")
     @RequestMapping("/passport_lost_view")
     public String passport_lost_view(int id, ModelMap modelMap) {
 
@@ -403,6 +413,8 @@ public class PassportController extends BaseController {
             }else{
                 // 证件找回
                 record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+                record.setHasFind(true);
+                record.setFindTime(new Date());
             }
 
             passportService.updateByPrimaryKeySelective(record);

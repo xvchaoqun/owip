@@ -96,12 +96,18 @@ pageEncoding="UTF-8" %>
                                data-open-by="page" data-url="${ctx}/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
-<c:if test="${status==PASSPORT_TYPE_LOST}">
+                            <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                                <button disabled id="hasFindBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/passport_remark" data-open-by="page">
+                                    <i class="fa fa-search"></i> 备注
+                                </button>
+                            </c:if>
+                            <c:if test="${status==PASSPORT_TYPE_LOST}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/passport_au" data-querystr="&op=back">
                                 <i class="fa fa-search"></i> 证件找回
                             </a>
-    </c:if>
+                            </c:if>
                         </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -255,13 +261,18 @@ pageEncoding="UTF-8" %>
                 var lostType = rowObject.lostType;
                 //console.log(rowObject)
                 return !(type=='${PASSPORT_TYPE_LOST}' && lostType=='${PASSPORT_LOST_TYPE_TRANSFER}')?1:0; // 转移的丢失证件，不可以更新
+            }},{hidden:true, name:'hasFind', formatter:function(cellvalue, options, rowObject) {
+                var hasFind = rowObject.hasFind;
+                return hasFind?1:0;
             }}
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
-            console.log(id)
+            //console.log(id)
             var rowData = $(this).getRowData(id);
-            $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0)
+            $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0);
+            console.log(rowData.hasFind)
+            $("#hasFindBtn").prop("disabled",rowData.hasFind==0);
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
