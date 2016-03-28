@@ -34,44 +34,61 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/passportDraw_batchDel"
              data-url-co="${ctx}/passportDraw_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="jqgrid-vertical-offset form-inline hidden-sm hidden-xs" id="searchForm" >
-                <input type="hidden" name="type" value="${type}">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
-                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${cadre.id}">${sysUser.realname}</option>
-                </select>
-                <%--<select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
-                    <option></option>
-                    <c:import url="/metaTypes?__code=mc_passport_type"/>
-                </select>--%>
-                <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code}"/>
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <mytag:sort-form css="form-horizontal" id="searchForm">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">姓名</label>
+                                        <div class="col-xs-6">
+                                            <div class="input-group">
+                                                <input type="hidden" name="type" value="${type}">
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                    <option value="${cadre.id}">${sysUser.realname}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">申请日期</label>
+                                        <div class="col-xs-6">
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar bigger-110"></i>
                                             </span>
-                    <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
-                </div>
+                                                <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix form-actions center">
+                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
-                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-                <div class="vspace-12"></div>
-               <%-- <div class="buttons pull-right">
-                    <shiro:hasPermission name="passportDraw:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="passportDraw:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>--%>
-            </mytag:sort-form>
+                                <c:if test="${_query || not empty param.sort}">&nbsp;
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </mytag:sort-form>
+                    </div>
+                </div>
+            </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

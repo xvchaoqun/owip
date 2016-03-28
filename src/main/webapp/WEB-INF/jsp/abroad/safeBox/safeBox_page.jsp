@@ -15,126 +15,62 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <jsp:include page="/WEB-INF/jsp/abroad/passport/menu.jsp"/>
-
-                    <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                        <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>
-                        <shiro:hasPermission name="safeBox:del">
-                            <a class="exportBtn btn btn-primary btn-sm tooltip-success"
-                               data-rel="tooltip" data-placement="top" title="导出所有证件"><i class="fa fa-download"></i> 导出</a>
-                            <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                        </shiro:hasPermission>
-                    </div>
                 </ul>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-
+                        <div class="jqgrid-vertical-offset buttons">
+                            <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>
+                            <button class="jqEditBtn btn btn-primary btn-sm">
+                                <i class="fa fa-edit"></i> 修改信息
+                            </button>
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/safeBoxPassportList"
+                                    data-id-name="safeBoxId" data-open-by="page">
+                                <i class="fa fa-info-circle"></i> 详情
+                            </button>
+                            <shiro:hasPermission name="safeBox:del">
+                                <a class="exportBtn btn btn-primary btn-sm tooltip-success"
+                                   data-rel="tooltip" data-placement="top" title="导出所有证件"><i class="fa fa-download"></i> 导出</a>
+                                <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                            </shiro:hasPermission>
+                        </div>
                         <div class="space-4"></div>
-                        <c:if test="${commonList.recNum>0}">
-                            <table class="table table-actived table-striped table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th class="center">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace checkAll">
-                                            <span class="lbl"></span>
-                                        </label>
-                                    </th>
-                                    <th>保险柜编号</th>
-                                    <th>证件总数量</th>
-                                    <th>有效证件数量</th>
-                                    <th>取消集中管理证件数量（未确认）</th>
-                                    <th>证件所属单位</th>
-                                    <th>备注</th>
-                                    <shiro:hasPermission name="safeBox:changeOrder">
-                                        <c:if test="${commonList.recNum>1}">
-                                            <th nowrap>排序</th>
-                                        </c:if>
-                                    </shiro:hasPermission>
-                                    <th style="width: 120px"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${safeBoxBeans}" var="bean" varStatus="st">
-                                    <tr>
-                                        <td class="center">
-                                            <label class="pos-rel">
-                                                <input type="checkbox" value="${bean.id}" class="ace">
-                                                <span class="lbl"></span>
-                                            </label>
-                                        </td>
-                                        <td nowrap>${bean.code}</td>
-                                        <td nowrap>
-                                        <a href="javascript:;" class="openView"
-                                           data-url="${ctx}/safeBoxPassportList?safeBoxId=${bean.id}">
-                                                ${bean.totalCount}
-                                           </a>
-                                       </td>
-                                        <td nowrap>
-                                            <a href="javascript:;" class="openView"
-                                               data-url="${ctx}/safeBoxPassportList?safeBoxId=${bean.id}&type=1">
-                                                    ${bean.keepCount}
-                                            </a>
-                                        </td>
-                                        <td nowrap>
-                                            <a href="javascript:;" class="openView"
-                                               data-url="${ctx}/safeBoxPassportList?safeBoxId=${bean.id}&type=2&cancelConfirm=0">
-                                                    ${bean.totalCount-bean.keepCount}
-                                            </a>
-                                        </td>
-                                        <td nowrap>
-                                        <c:forEach items="${fn:split(bean.unitIds, ',')}" var="unitId" varStatus="vs">
-                                            ${unitMap.get(cm:parseInt(unitId)).name}
-                                            <c:if test="${!vs.last}"><br/></c:if>
-                                        </c:forEach>
-                                        </td>
-                                        <td nowrap>${bean.remark}</td>
-                                        <shiro:hasPermission name="safeBox:changeOrder">
-                                            <c:if test="${commonList.recNum>1}">
-                                                <td nowrap>
-                                                    <a href="#"
-                                                       <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
-                                                       class="changeOrderBtn" data-id="${bean.id}" data-direction="1" title="上升"><i
-                                                            class="fa fa-arrow-up"></i></a>
-                                                    <input type="text" value="1"
-                                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-                                                           title="修改操作步长">
-                                                    <a href="#"
-                                                       <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
-                                                       class="changeOrderBtn" data-id="${bean.id}" data-direction="-1"
-                                                       title="下降"><i class="fa fa-arrow-down"></i></a></td>
-                                                </td>
-                                            </c:if>
-                                        </shiro:hasPermission>
-                                        <td nowrap>
-                                            <div class="hidden-sm hidden-xs action-buttons">
-                                                <button class="openView btn btn-success btn-mini btn-xs"
-                                                        data-url="${ctx}/safeBoxPassportList?safeBoxId=${bean.id}">
-                                                    <i class="fa fa-info-circle"></i> 详情
-                                                </button>
-                                                <shiro:hasPermission name="safeBox:edit">
-                                                    <button class="editBtn btn btn-default btn-mini btn-xs" data-id="${bean.id}">
-                                                        <i class="fa fa-edit"></i> 编辑
-                                                    </button>
-                                                </shiro:hasPermission>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                            <%--<wo:page commonList="${commonList}" uri="${ctx}/passport_page" target="#page-content" pageNum="5"
-                                     model="3"/>--%>
-                        </c:if>
-                        <c:if test="${commonList.recNum==0}">
-                            <div class="well well-lg center">
-                                <h4 class="green lighter">暂无记录</h4>
-                            </div>
-                        </c:if>
-
+                        <table id="jqGrid" class="jqGrid table-striped"> </table>
                     </div>
                 </div></div></div>
         <div id="item-content">
         </div>
     </div>
 </div>
+<script type="text/template" id="sort_tpl">
+<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+</script>
+<script>
+    $("#jqGrid").jqGrid({
+        url: '${ctx}/safeBox_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '保险柜编号', align:'center', name: 'code', width: 100 ,frozen:true},
+            { label: '证件总数量', align:'center', name: 'totalCount', width: 100 ,frozen:true, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}">{1}</a>'
+                        .format(rowObject.id, rowObject.totalCount)
+            }},
+            { label: '有效证件数量',align:'center',  name: 'keepCount', width: 120 , formatter:function(cellvalue, options, rowObject){
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=1">{1}</a>'
+                        .format(rowObject.id, rowObject.keepCount)
+            }, frozen:true},
+            { label: '取消集中管理证件数量（未确认）', align:'center', name: 'cancelCount', width: 250 ,
+                formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=2&cancelConfirm=0">{1}</a>'
+                        .format(rowObject.id, rowObject.totalCount - rowObject.keepCount)
+            }, frozen:true},
+            { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+            }, frozen:true },
+            { label: '证件所属单位', name: 'units', width: 500 },
+            { label: '备注', align:'center', name: 'remark', width: 250 }
+        ]}).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
+</script>

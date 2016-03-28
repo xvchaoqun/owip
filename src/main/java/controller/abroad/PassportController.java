@@ -193,52 +193,6 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_useLogs";
     }
 
-    @RequiresPermissions("passport:list")
-    @RequestMapping("/safeBoxPassportList")
-    public String safeBoxPassportList() {
-
-        return "abroad/passport/safeBoxPassportList";
-    }
-
-    @RequiresPermissions("passport:list")
-    @RequestMapping("/safeBoxPassportList_data")
-    public void safeBoxPassportList_data(HttpServletResponse response,
-                                         @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
-                                         @OrderParam(required = false, defaultValue = "desc") String order,
-                                         Byte type,
-                                         Byte cancelConfirm,
-                                         Integer safeBoxId,
-                                         Integer pageSize, Integer pageNo) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1);
-        if ((pageNo - 1) * pageSize >= count) {
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<Passport> passports = selectMapper.selectPassportList
-                (null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", passports);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Passport.class, PassportMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
-        return;
-    }
-
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_cancel", method = RequestMethod.POST)
     @ResponseBody

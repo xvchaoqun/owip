@@ -2,8 +2,13 @@ package controller.abroad;
 
 import bean.SafeBoxBean;
 import controller.BaseController;
+import domain.Passport;
 import domain.SafeBox;
+import interceptor.OrderParam;
+import interceptor.SortParam;
+import mixin.PassportMixin;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,12 +44,27 @@ public class SafeBoxController extends BaseController {
     @RequiresPermissions("safeBox:list")
     @RequestMapping("/safeBox_page")
     public String safeBox_page(HttpServletResponse response,
+                               //@SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_safe_box") String sort,
+                               //@OrderParam(required = false, defaultValue = "desc") String order,
+                               // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
+                               @RequestParam(required = false, defaultValue = "5") byte status,
+                               String code,
+                               Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        modelMap.put("status", status);
+        return "abroad/safeBox/safeBox_page";
+    }
+
+    @RequiresPermissions("safeBox:list")
+    @RequestMapping("/safeBox_data")
+    @ResponseBody
+    public void safeBox_data(HttpServletResponse response,
                                  //@SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_safe_box") String sort,
                                  //@OrderParam(required = false, defaultValue = "desc") String order,
                                  // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
                                  @RequestParam(required = false, defaultValue = "5") byte status,
                                     String code,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -68,27 +91,64 @@ public class SafeBoxController extends BaseController {
 
         List<SafeBoxBean> safeBoxBeans = selectMapper.listAllSafeBoxs();
         int count = safeBoxBeans.size();
-        modelMap.put("safeBoxBeans", safeBoxBeans);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", safeBoxBeans);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        modelMap.put("status", status);
-        searchStr += "&status=" + status;
+        JSONUtils.jsonp(resultMap);
+        return;
+    }
 
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
+
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/safeBoxPassportList")
+    public String safeBoxPassportList() {
+
+        return "abroad/passport/safeBoxPassportList";
+    }
+
+    @RequiresPermissions("passport:list")
+    @RequestMapping("/safeBoxPassportList_data")
+    public void safeBoxPassportList_data(HttpServletResponse response,
+                                         @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
+                                         @OrderParam(required = false, defaultValue = "desc") String order,
+                                         Byte type,
+                                         Byte cancelConfirm,
+                                         Integer safeBoxId,
+                                         Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
         }
-       /* if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
+        if (null == pageNo) {
+            pageNo = 1;
         }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }*/
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "abroad/safeBox/safeBox_page";
+        pageNo = Math.max(1, pageNo);
+
+        int count = selectMapper.countPassport(null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<Passport> passports = selectMapper.selectPassportList
+                (null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passports);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Passport.class, PassportMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("safeBox:edit")

@@ -21,7 +21,7 @@
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
-                <div id="jqGridPager"> </div>
+                <div id="jqGridPager2"> </div>
             </div>
         </div><!-- /.widget-main -->
     </div><!-- /.widget-body -->
@@ -29,6 +29,7 @@
 <script>
     $("#jqGrid2").jqGrid({
         //forceFit:true,
+        pager:"#jqGridPager2",
         url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
         colModel: [
             { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},

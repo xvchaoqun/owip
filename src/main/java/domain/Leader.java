@@ -1,8 +1,24 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
+import java.util.Map;
 
 public class Leader implements Serializable {
+    public SysUser getUser(){
+        Cadre cadre = getCadre();
+        return CmTag.getUserById(cadre.getUserId());
+    }
+    public Cadre getCadre(){
+
+        return CmTag.getCadreById(cadreId);
+    }
+    public MetaType getLeaderType(){
+
+        Map<Integer, MetaType> leaderTypeMap = CmTag.getMetaTypes("mc_leader_type");
+        return leaderTypeMap.get(typeId);
+    }
     private Integer id;
 
     private Integer cadreId;

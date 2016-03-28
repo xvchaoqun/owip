@@ -15,10 +15,10 @@ pageEncoding="UTF-8" %>
 
                         <div class="space-4"></div>
                             <div style="float: left;width: 650px" class="jqgrid-vertical-offset">
-                                <table id="jqGrid1" class="table-striped"> </table>
+                                <table id="jqGrid1"> </table>
                             </div>
                             <div style="float: left;width: 500px">
-                                <table id="jqGrid2" class="table-striped"> </table>
+                                <table id="jqGrid2"> </table>
                             </div>
 
                         <div class="row col-xs-12" style="padding-top: 10px">

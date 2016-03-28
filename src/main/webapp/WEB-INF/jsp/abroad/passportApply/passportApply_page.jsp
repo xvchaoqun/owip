@@ -34,38 +34,34 @@ pageEncoding="UTF-8" %>
                         <a href="?status=2"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
 
-                    <div class="buttons pull-right" style="padding-right: 50px">
-                        <c:if test="${status==1  && status==PASSPORT_APPLY_STATUS_PASS}">
-                            <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                    data-url="${ctx}/shortMsg_view" data-querystr="&type=passportApplyDraw">
-                                <i class="fa fa-hand-paper-o"></i> 催交证件
-                            </button>
-                            <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                    data-url="${ctx}/passport_au" data-id-name="applyId">
-                                <i class="fa fa-hand-paper-o"></i> 交证件
-                            </button>
-                            <a class="jqBatchBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/passportApply_abolish" data-title="申请作废"
-                               data-msg="确定将这{0}个申请作废吗？">
-                                <i class="fa fa-recycle"></i> 作废
-                            </a>
-                        </c:if>
-                        <button class="jqOpenViewBtn btn ${passportApply.status==PASSPORT_APPLY_STATUS_INIT?"btn-success":"btn-warning"} btn-sm"
-                                data-open-by="page"
-                                data-url="${ctx}/passportApply_check?id=${passportApply.id}">
-                            <c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">
-                                <i class="fa fa-check-square-o"></i> 审批
-                            </c:if>
-                            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT}">
-                                <i class="fa fa-info-circle"></i> 申请表
-                            </c:if>
-                        </button>
-                    </div>
                 </ul>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
-
+                        <div class="jqgrid-vertical-offset buttons">
+                            <c:if test="${status==PASSPORT_APPLY_STATUS_PASS}">
+                                <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                        data-url="${ctx}/shortMsg_view" data-querystr="&type=passportApplyDraw">
+                                    <i class="fa fa-hand-paper-o"></i> 催交证件
+                                </button>
+                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                        data-url="${ctx}/passport_au" data-id-name="applyId">
+                                    <i class="fa fa-hand-paper-o"></i> 交证件
+                                </button>
+                                <a class="jqBatchBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/passportApply_abolish" data-title="申请作废"
+                                   data-msg="确定将这{0}个申请作废吗？">
+                                    <i class="fa fa-recycle"></i> 作废
+                                </a>
+                            </c:if>
+                            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT}">
+                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    data-open-by="page"
+                                    data-url="${ctx}/passportApply_check?id=${passportApply.id}">
+                                    <i class="fa fa-info-circle"></i> 申请表
+                            </button>
+                            </c:if>
+                            </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -144,7 +140,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -158,7 +153,13 @@ pageEncoding="UTF-8" %>
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申办证件名称', align:'center', name: 'passportClass.name', width: 250 },
             <c:if test="${status==0}">
-            { label: '审批状态', align:'center', name: 'statusName', width: 200 },
+            { label: '审批', align:'center', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
+                var html = '<button class="jqOpenViewBtn btn btn-success btn-xs" data-open-by="page"'
+                +'data-url="${ctx}/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>';
+                html.format(rowObject.id);
+
+                return html;
+            }},
             </c:if>
             <c:if test="${status!=0}">
             { label: '审批人', align:'center', name: 'approvalUser.realname', width: 100 , formatter:function(cellvalue, options, rowObject){

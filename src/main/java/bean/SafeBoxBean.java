@@ -1,9 +1,27 @@
 package bean;
 
+import domain.Unit;
+import org.apache.commons.lang3.StringUtils;
+import sys.tags.CmTag;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by fafa on 2016/3/13.
  */
 public class SafeBoxBean {
+
+    public String getUnits(){
+
+        List<String> unitNameList = new ArrayList<>();
+        String[] unitIdStrArray = unitIds.split(",");
+        for (String unitIdStr : unitIdStrArray) {
+            Unit unit = CmTag.getUnit(Integer.parseInt(unitIdStr));
+            unitNameList.add(unit.getName());
+        }
+        return StringUtils.join(unitNameList, ",");
+    }
 
     private  Integer id;
     private String code;
