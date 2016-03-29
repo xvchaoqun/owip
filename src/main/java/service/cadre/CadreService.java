@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -29,7 +30,10 @@ public class CadreService extends BaseMapper {
     private UnitService unitService;
 
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public int importCadres(final List<XlsCadre> cadres, byte status) {
         //int duplicate = 0;
         int success = 0;
@@ -122,7 +126,10 @@ public class CadreService extends BaseMapper {
         return root;
     }
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public void leave(int id, byte status){
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
@@ -165,7 +172,10 @@ public class CadreService extends BaseMapper {
         return null;
     }
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public int insertSelective(Cadre record){
 
         SysUser sysUser = sysUserService.findById(record.getUserId());
@@ -180,14 +190,20 @@ public class CadreService extends BaseMapper {
         return cadreMapper.updateByPrimaryKeySelective(_record);
     }
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public void del(Integer id){
 
         cadreMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="Leader:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -198,13 +214,19 @@ public class CadreService extends BaseMapper {
     }
     
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public int updateByPrimaryKeySelective(Cadre record){
         return cadreMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="Cadre:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public int updateByExampleSelective(Cadre record, CadreExample example){
 
         return cadreMapper.updateByExampleSelective(record, example);

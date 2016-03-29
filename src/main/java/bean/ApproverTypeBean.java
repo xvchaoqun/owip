@@ -4,6 +4,7 @@ import domain.Cadre;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by fafa on 2016/3/25.
@@ -20,6 +21,8 @@ public class ApproverTypeBean {
 
     public boolean isApprover; // 是否是拥有其他审批身份
     Map<Integer, List<Integer>> approverTypePostIdListMap; //  其他审批身份及对应的审批的职务属性
+
+    public Set<Integer> approvalCadreIdSet; // 需要审批的干部
 
     public Cadre getCadre() {
         return cadre;
@@ -75,5 +78,13 @@ public class ApproverTypeBean {
 
     public void setApproverTypePostIdListMap(Map<Integer, List<Integer>> approverTypePostIdListMap) {
         this.approverTypePostIdListMap = approverTypePostIdListMap;
+    }
+
+    public Set<Integer> getApprovalCadreIdSet() {
+        return approvalCadreIdSet;
+    }
+
+    public void setApprovalCadreIdSet(Set<Integer> approvalCadreIdSet) {
+        this.approvalCadreIdSet = approvalCadreIdSet;
     }
 }

@@ -281,8 +281,14 @@ public class SysUserService extends BaseMapper {
 	// 根据账号查找所有的角色（对象）
 	private Set<SysRole> _findRoles(String username){
 
-		SysUser user = findByUsername(username);
 		Set<SysRole> roles = new HashSet<>();
+
+		//SysUser user = findByUsername(username); 此处不可以调用缓存，否则清理了UserPermissions缓存，还要清理用户缓存
+		SysUserExample example = new SysUserExample();
+		example.createCriteria().andUsernameEqualTo(username);
+		List<SysUser> users = sysUserMapper.selectByExampleWithRowbounds(example , new RowBounds(0, 1));
+		SysUser user = users.get(0);
+
 		Set<Integer> roleIds = getUserRoleIdSet(user.getRoleIds());
 		Map<Integer, SysRole> roleMap = sysRoleService.findAll();
 		for (Integer roleId : roleIds) {

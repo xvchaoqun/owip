@@ -20,6 +20,7 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -43,8 +44,12 @@ public class UserRealm extends AuthorizingRealm {
 
         Set<String> roles = userService.findRoles(shiroUser.getUsername());
         Set<String> permissions = userService.findPermissions(shiroUser.getUsername());
+
+        Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
+        _permissions.addAll(permissions);
+
         authorizationInfo.setRoles(roles);
-        authorizationInfo.setStringPermissions(filterMenus(shiroUser, roles, permissions));
+        authorizationInfo.setStringPermissions(filterMenus(shiroUser, roles, _permissions));
 
         return authorizationInfo;
     }

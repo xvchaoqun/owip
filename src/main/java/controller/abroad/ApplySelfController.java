@@ -183,10 +183,19 @@ public class ApplySelfController extends BaseController {
     public String applySelf_view(Integer id, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+        Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
+        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            if(cadre.getId().intValue()!=cadreId) {
+                ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+                ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+                if (!approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
+                    throw new RuntimeException("您没有权限");
+            }
+        }
 
-        Integer cadreId = applySelf.getCadreId();
         Cadre cadre = cadreService.findAll().get(cadreId);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
@@ -201,18 +210,72 @@ public class ApplySelfController extends BaseController {
         modelMap.put("approvalResultMap", approvalResultMap);
         modelMap.put("approverTypeMap", approverTypeService.findAll());
 
+        return "user/applySelf/applySelf_view";
+    }
+
+    @RequiresPermissions("applySelf:view")
+    @RequestMapping("/applySelf_yearLogs")
+    public String applySelf_yearLogs(Integer id, ModelMap modelMap) {
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
+        Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
+        modelMap.put("applySelf", applySelf);
+        modelMap.put("currentYear", currentYear);
+        return "user/applySelf/applySelf_yearLogs";
+    }
+
+    @RequiresPermissions("applySelf:view")
+    @RequestMapping("/applySelf_yearLogs_data")
+    @ResponseBody
+    public void applySelf_yearLogs_data(@CurrentUser SysUser loginUser,Integer cadreId, Integer year,
+                                        Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
+
+        // 判断一下查看权限++++++++++++++++++++???
+        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            if(cadre.getId().intValue()!=cadreId) {
+                ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+                ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+                if (!approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
+                    throw new RuntimeException("您没有权限");
+            }
+        }
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
         // 本年度的申请记录
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
-        Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
-        criteria.andApplyDateBetween(DateUtils.parseDate(currentYear + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
-                DateUtils.parseDate(currentYear + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
-        example.setOrderByClause("create_time desc");
-        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
-        modelMap.put("currentYear", currentYear);
-        modelMap.put("applySelfs", applySelfs);
 
-        return "user/applySelf/applySelf_view";
+        criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
+                DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
+        example.setOrderByClause("create_time desc");
+
+        int count = applySelfMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", applySelfs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        request.setAttribute("isView", true);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("applySelf:list")

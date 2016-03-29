@@ -191,12 +191,7 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
             }}
-        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
-
-        $(".approvalBtn").click(function(){
-            loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
-        });
-    });
+        ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     //初审未通过，或者终审完成，需要短信提醒
@@ -227,19 +222,11 @@
             case 2: html = ""; break;
             case 3: html = "未审批"; break;
             case 4:{
-                if(approvalTypeId==-1){
                     html = "<button {0} class=\"openView btn {1} btn-mini  btn-xs\"" +
                     "        data-url=\"${ctx}/applySelf_view?type=aproval&id={2}&approvalTypeId={3}\">" +
                     "        <i class=\"fa fa-edit\"></i> 审批" +
                     "        </button>";
                     html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);
-                }else {
-                    html = "<button {0} class=\"approvalBtn btn {1} btn-mini  btn-xs\"" +
-                    "        data-id=\"{2}\" data-approvaltypeid=\"{3}\">" +
-                    "        <i class=\"fa fa-edit\"></i> 审批" +
-                    "        </button>";
-                    html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);
-                }
             } break;
             case 5: html = "未通过"; break;
             case 6: html = "通过"; break;

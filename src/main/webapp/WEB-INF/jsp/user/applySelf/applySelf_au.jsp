@@ -242,14 +242,14 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 
 			// 出行时间
-			var type = $("select[name=type]").val().trim();
+			var type = $("#applyForm select[name=type]").val().trim();
 			if(type==''){
 				SysMsg.info("请选择出行时间");
 				$("input[name=type]").val('').focus();
 				return;
 			}
 			// 出发日期
-			var _startDate = $("input[name=_startDate]").val().trim();
+			var _startDate = $("#applyForm input[name=_startDate]").val().trim();
 			if(_startDate==''){
 				SysMsg.info("请选择出发日期",'',function(){
 					$("input[name=_startDate]").val('').focus();
@@ -257,7 +257,7 @@ pageEncoding="UTF-8"%>
 				return;
 			}
 			// 回国日期
-			var _endDate = $("input[name=_endDate]").val().trim();
+			var _endDate = $("#applyForm input[name=_endDate]").val().trim();
 			if(_endDate==''){
 				SysMsg.info("请选择回国日期",'',function(){
 					$("input[name=_endDate]").val('').focus();
@@ -266,7 +266,7 @@ pageEncoding="UTF-8"%>
 			}
 
 			// 前往国家或地区
-			var toCountry = $("input[name=toCountry]").val().trim();
+			var toCountry = $("#applyForm input[name=toCountry]").val().trim();
 			if(toCountry==''){
 				SysMsg.info("请填写前往国家或地区",'',function(){
 					$("input[name=toCountry]").val('').focus();
@@ -275,18 +275,18 @@ pageEncoding="UTF-8"%>
 			}
 
 			// 出国（境）事由
-			var $_reason = $("input[name=_reason][value='其他']");
+			var $_reason = $("#applyForm input[name=_reason][value='其他']");
 			var _reason_other = $("input[name=_reason_other]").val().trim();
 			if($_reason.is(":checked")){
 				if(_reason_other==''){
 					SysMsg.info("请输入其他出国（境）事由", '', function(){
-						$("input[name=_reason_other]").val('').focus();
+						$("#applyForm input[name=_reason_other]").val('').focus();
 					});
 					return;
 				}
 			}
 			var reasons = [];
-			$.each($("input[name=_reason]:checked"), function(){
+			$.each($("#applyForm input[name=_reason]:checked"), function(){
 				if($(this).val()=='其他'){
 					reasons.push("其他:"+_reason_other);
 				}else
@@ -296,21 +296,21 @@ pageEncoding="UTF-8"%>
 				SysMsg.info("请选择出国（境）事由");
 				return;
 			}
-			$("input[name=reason]").val(reasons.join("+++"));
+			$("#applyForm input[name=reason]").val(reasons.join("+++"));
 
 			// 同行人员
-			var $_peerStaff = $("input[name=_peerStaff][value='其他']");
-			var _peerStaff_other = $("input[name=_peerStaff_other]").val().trim();
+			var $_peerStaff = $("#applyForm input[name=_peerStaff][value='其他']");
+			var _peerStaff_other = $("#applyForm input[name=_peerStaff_other]").val().trim();
 			if($_peerStaff.is(":checked")){
 				if(_peerStaff_other==''){
 					SysMsg.info("请输入其他同行人员", '', function(){
-						$("input[name=_peerStaff_other]").val('').focus();
+						$("#applyForm input[name=_peerStaff_other]").val('').focus();
 					});
 					return;
 				}
 			}
 			var peerStaffs = [];
-			$.each($("input[name=_peerStaff]:checked"), function(){
+			$.each($("#applyForm input[name=_peerStaff]:checked"), function(){
 				if($(this).val()=='其他'){
 					peerStaffs.push("其他:"+_peerStaff_other);
 				}else
@@ -320,22 +320,22 @@ pageEncoding="UTF-8"%>
 				SysMsg.info("请选择同行人员");
 				return;
 			}
-			$("input[name=peerStaff]").val(peerStaffs.join("+++"));
+			$("#applyForm input[name=peerStaff]").val(peerStaffs.join("+++"));
 
 
 			// 费用来源
-			var $_costSource = $("input[name=_costSource][value='其他来源']");
-			var _costSource_other = $("input[name=_costSource_other]").val().trim();
+			var $_costSource = $("#applyForm input[name=_costSource][value='其他来源']");
+			var _costSource_other = $("#applyForm input[name=_costSource_other]").val().trim();
 			if($_costSource.is(":checked")){
 				if(_costSource_other==''){
 					SysMsg.info("请输入其他费用来源", '', function(){
-						$("input[name=_costSource_other]").val('').focus();
+						$("#applyForm input[name=_costSource_other]").val('').focus();
 					});
 					return;
 				}
 			}
 			var costSources = [];
-			$.each($("input[name=_costSource]:checked"), function(){
+			$.each($("#applyForm input[name=_costSource]:checked"), function(){
 				if($(this).val()=='其他来源'){
 					costSources.push("其他来源:"+_costSource_other);
 				}else
@@ -345,18 +345,18 @@ pageEncoding="UTF-8"%>
 				SysMsg.info("请选择费用来源");
 				return;
 			}
-			$("input[name=costSource]").val(costSources.join("+++"));
+			$("#applyForm input[name=costSource]").val(costSources.join("+++"));
 
 			// 所需证件
 			var needPassports = [];
-			$.each($("input[name=_needPassports]:checked"), function(){
+			$.each($("#applyForm input[name=_needPassports]:checked"), function(){
 				needPassports.push($(this).val());
 			});
 			if(needPassports.length==0){
 				SysMsg.info("请选择所需证件");
 				return;
 			}
-			$("input[name=needPassports]").val(needPassports.join(","));
+			$("#applyForm input[name=needPassports]").val(needPassports.join(","));
 
 			//alert($("input[name=needPassports]").val());
 			//return ;

@@ -211,6 +211,7 @@ public class ApplySelfService extends BaseMapper {
         approverTypeBean.setLeaderUnitIds(leaderUnitIds);
         approverTypeBean.setApprover(!approverTypePostIdListMap.isEmpty());
         approverTypeBean.setApproverTypePostIdListMap(approverTypePostIdListMap);
+        approverTypeBean.setApprovalCadreIdSet(findApprovalCadreIdSet(userId));
 
         return approverTypeBean;
     }
@@ -340,17 +341,13 @@ public class ApplySelfService extends BaseMapper {
 
         // 待审批的干部所在单位
         List<Integer> unitIds = new ArrayList<>();
+
         // 如果是本单位正职
-        Cadre cadre = cadreService.findByUserId(userId);
-        if(cadre==null) return cadreIdSet; // 不可能出现的情况
-        int cadreId = cadre.getId();
-        MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
-        if (postType.getBoolAttr()) unitIds.add(cadre.getUnitId());
+        Integer mainPostUnitId = getMainPostUnitId(userId);
+        if(mainPostUnitId!=null) unitIds.add(mainPostUnitId);
 
         //分管校领导
-        MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-        List<Integer> unitIdList = selectMapper.getLeaderManagerUnitId(cadreId, leaderManagerType.getId());
-        unitIds.addAll(unitIdList);
+        unitIds.addAll(getLeaderUnitIds(userId));
 
         if (!unitIds.isEmpty()) {
             CadreExample example = new CadreExample();
@@ -361,9 +358,12 @@ public class ApplySelfService extends BaseMapper {
             }
         }
 
-        // 其他审批人身份的干部，查找他需要审批的干部
-        List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds(cadreId);
-        cadreIdSet.addAll(approvalCadreIds);
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre!=null) {
+            // 其他审批人身份的干部，查找他需要审批的干部
+            List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds(cadre.getId());
+            cadreIdSet.addAll(approvalCadreIds);
+        }
 
         return cadreIdSet;
     }

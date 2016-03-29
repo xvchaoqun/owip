@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,6 +37,7 @@ public class ApproverTypeService extends BaseMapper {
 
     // 为某类审批人身份 设定审批人<干部ID>
     @Transactional
+    @CacheEvict(value="UserPermissions", allEntries=true, beforeInvocation=true)
     public void updateApproverCadreIds(int typeId, Integer[] cadreIds){
 
         ApproverExample example = new ApproverExample();
@@ -105,14 +107,20 @@ public class ApproverTypeService extends BaseMapper {
         return approverTypeMapper.updateByPrimaryKeySelective(_record);
     }
     @Transactional
-    @CacheEvict(value="ApproverType:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "ApproverType:ALL", allEntries = true)
+    })
     public void del(Integer id){
 
         approverTypeMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="ApproverType:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "ApproverType:ALL", allEntries = true)
+    })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -123,7 +131,10 @@ public class ApproverTypeService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="ApproverType:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "ApproverType:ALL", allEntries = true)
+    })
     public int updateByPrimaryKeySelective(ApproverType record){
         if(StringUtils.isNotBlank(record.getName()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getType()));

@@ -148,11 +148,7 @@
             var firstType = $(this).getRowData(id).firstType;
             $(".jqEditBtn, .jqItemDelBtn").prop("disabled",status && firstType!=3&&firstType!=4)
         }
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(".approvalBtn").click(function(){
-            loadModal("${ctx}/applySelf_approval?applySelfId="+ $(this).data("id") +"&approvalTypeId="+ $(this).data("approvaltypeid"));
-        });
-    });
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     $('#searchForm [data-rel="select2"]').select2();
@@ -167,7 +163,8 @@
             case 1: html = "-"; break;
             //not_approval
             case 2: html = ""; break;
-            case 3,4: html = "未审批"; break;
+            case 3:
+            case 4: html = "未审批"; break;
             case 5: html = "未通过"; break;
             case 6: html = "通过"; break;
         }

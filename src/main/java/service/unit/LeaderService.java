@@ -7,6 +7,7 @@ import domain.LeaderUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -45,7 +46,10 @@ public class LeaderService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "Leader:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Leader:ALL", allEntries = true)
+    })
     public int insertSelective(Leader record) {
 
         leaderMapper.insertSelective(record);
@@ -58,14 +62,20 @@ public class LeaderService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "Leader:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Leader:ALL", allEntries = true)
+    })
     public void del(Integer id) {
 
         leaderMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="Leader:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Leader:ALL", allEntries = true)
+    })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -76,7 +86,10 @@ public class LeaderService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "Leader:ALL", allEntries = true)
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Leader:ALL", allEntries = true)
+    })
     public int updateByPrimaryKeySelective(Leader record) {
         return leaderMapper.updateByPrimaryKeySelective(record);
     }
