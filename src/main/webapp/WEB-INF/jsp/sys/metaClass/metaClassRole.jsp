@@ -18,7 +18,8 @@
 	ul.dynatree-container{border: none;}
 </style>
   <script>
-
+	  jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	  jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 	$(function(){
 		var treeData = ${tree};
 		treeData.title = "选择角色";

@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="buttons pull-right">
+            <div class="buttons">
             <shiro:hasRole name="admin">
                 <a class="editBtn btn btn-info btn-sm">
                     <i class="fa fa-plus"></i> 添加账号
@@ -135,7 +135,7 @@
                 </button>
             </shiro:hasRole>
             </div>
-            <h4>&nbsp;</h4>
+            <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
         </div>

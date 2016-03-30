@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.SpringProps;
 import service.abroad.ApplySelfService;
-import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -39,17 +38,15 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
+        /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        System.out.println(request.getRequestURI()+" +++++++++++++++++++++++++++++++++++++++++++++");*/
+
         ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
+
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-
-        Set<String> roles = userService.findRoles(shiroUser.getUsername());
-        Set<String> permissions = userService.findPermissions(shiroUser.getUsername());
-
-        Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
-        _permissions.addAll(permissions);
-
-        authorizationInfo.setRoles(roles);
-        authorizationInfo.setStringPermissions(filterMenus(shiroUser, roles, _permissions));
+        authorizationInfo.setRoles(shiroUser.getRoles());
+        authorizationInfo.setStringPermissions(shiroUser.getPermissions());
 
         return authorizationInfo;
     }
@@ -57,11 +54,10 @@ public class UserRealm extends AuthorizingRealm {
     /**
      * 特殊的用户权限过滤
      */
-    public Set<String> filterMenus(ShiroUser shiroUser, Set<String> userRoles,  Set<String> userPermissions){
+    public Set<String> filterMenus(ApproverTypeBean approverTypeBean, Set<String> userRoles,  Set<String> userPermissions){
 
-        if(userRoles.contains("cadre") && shiroUser.getApproverTypeBean()!=null) {
+        if(userRoles.contains("cadre") && approverTypeBean!=null) {
 
-            ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
             Cadre cadre = approverTypeBean.getCadre();
             if (cadre != null) {
                 MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
@@ -127,8 +123,16 @@ public class UserRealm extends AuthorizingRealm {
             salt = user.getSalt();
         }
         Integer userId = user.getId();
+
+        ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
+        Set<String> roles = userService.findRoles(username);
+        Set<String> permissions = userService.findPermissions(username);
+        Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
+        _permissions.addAll(permissions);
+        _permissions = filterMenus(approverTypeBean, roles, _permissions);
+
         ShiroUser shiroUser = new ShiroUser(userId, username, user.getRealname(), user.getType(),
-                applySelfService.getApproverTypeBean(userId));
+                roles, _permissions,approverTypeBean);
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

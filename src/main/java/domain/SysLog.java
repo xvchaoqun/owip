@@ -1,9 +1,18 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class SysLog implements Serializable {
+
+    public MetaType getLogType(){
+        Map<Integer, MetaType> logTypeMap = CmTag.getMetaTypes("mc_sys_log");
+        return logTypeMap.get(typeId);
+    }
+
     private Integer id;
 
     private Integer userId;

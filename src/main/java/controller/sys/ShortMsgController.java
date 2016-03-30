@@ -2,8 +2,11 @@ package controller.sys;
 
 import bean.ShortMsgBean;
 import controller.BaseController;
-import domain.*;
+import domain.ShortMsg;
+import domain.ShortMsgExample;
 import domain.ShortMsgExample.Criteria;
+import domain.SysUser;
+import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
-import sys.ShortMsgPropertyUtils;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.MessageFormat;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,12 +68,24 @@ public class ShortMsgController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg_page")
-    public String shortMsg_page(HttpServletResponse response,
+    public String shortMsg_page(Integer receiverId, ModelMap modelMap) {
+        if (receiverId!=null) {
+
+            SysUser sysUser = sysUserService.findById(receiverId);
+            modelMap.put("sysUser", sysUser);
+        }
+        return "sys/shortMsg/shortMsg_page";
+    }
+    @RequiresPermissions("shortMsg:list")
+    @RequestMapping("/shortMsg_data")
+    @ResponseBody
+    public void shortMsg_data(HttpServletResponse response,
                                     Integer receiverId,
                                     String mobile,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -84,9 +100,6 @@ public class ShortMsgController extends BaseController {
         example.setOrderByClause("create_time desc");
 
         if (receiverId!=null) {
-
-            SysUser sysUser = sysUserService.findById(receiverId);
-            modelMap.put("sysUser", sysUser);
             criteria.andReceiverIdEqualTo(receiverId);
         }
         if (StringUtils.isNotBlank(mobile)) {
@@ -99,21 +112,19 @@ public class ShortMsgController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<ShortMsg> shortMsgs = shortMsgMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("shortMsgs", shortMsgs);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", shortMsgs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (receiverId!=null) {
-            searchStr += "&receiverId=" + receiverId;
-        }
-        if (StringUtils.isNotBlank(mobile)) {
-            searchStr += "&mobile=" + mobile;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "sys/shortMsg/shortMsg_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ShortMsg.class, ShortMsgMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("shortMsg:edit")

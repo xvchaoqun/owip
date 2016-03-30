@@ -1,9 +1,16 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ShortMsg implements Serializable {
+
+    public SysUser getUser(){
+        return CmTag.getUserById(receiverId);
+    }
+
     private Integer id;
 
     private Integer senderId;

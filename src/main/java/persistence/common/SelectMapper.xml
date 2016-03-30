@@ -81,7 +81,7 @@
      aas.id=-1
     </if>
     <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
-      aas.cadre_id=bc.id and aas.status=1 and (
+      aas.cadre_id=bc.id and aas.status=1 and aas.is_finish=0 and (
     <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
       <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
         ( aas.flow_node = #{approverTypeId} and bc.unit_id in

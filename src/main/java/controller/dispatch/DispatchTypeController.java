@@ -6,6 +6,7 @@ import domain.DispatchTypeExample;
 import domain.DispatchTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.DispatchTypeMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,16 +28,14 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatchTypeController extends BaseController {
@@ -51,14 +50,21 @@ public class DispatchTypeController extends BaseController {
     }
     @RequiresPermissions("dispatchType:list")
     @RequestMapping("/dispatchType_page")
-    public String dispatchType_page(HttpServletResponse response,
+    public String dispatchType_page() {
+
+        return "dispatch/dispatchType/dispatchType_page";
+    }
+    @RequiresPermissions("dispatchType:list")
+    @RequestMapping("/dispatchType_data")
+    @ResponseBody
+    public void dispatchType_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_type") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Short year,
                                     String name,
                                     String attr,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -84,7 +90,7 @@ public class DispatchTypeController extends BaseController {
 
         if (export == 1) {
             dispatchType_export(example, response);
-            return null;
+            return;
         }
 
         int count = dispatchTypeMapper.countByExample(example);
@@ -93,30 +99,19 @@ public class DispatchTypeController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<DispatchType> dispatchTypes = dispatchTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("dispatchTypes", dispatchTypes);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", dispatchTypes);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if(year != null){
-            searchStr += "&year=" + year;
-        }
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (StringUtils.isNotBlank(attr)) {
-            searchStr += "&attr=" + attr;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "dispatch/dispatchType/dispatchType_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(DispatchType.class, DispatchTypeMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("dispatchType:edit")

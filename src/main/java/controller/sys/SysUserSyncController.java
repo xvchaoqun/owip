@@ -6,6 +6,7 @@ import domain.SysUserSyncExample;
 import domain.SysUserSyncExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.SysUserSyncMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,10 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,11 +75,23 @@ public class SysUserSyncController extends BaseController {
     @RequiresPermissions("sysUserSync:list")
     @RequestMapping("/sysUserSync_page")
     public String sysUserSync_page(HttpServletResponse response,
+                                   @SortParam(required = false, defaultValue = "start_time", tableName = "sys_user_sync") String sort,
+                                   @OrderParam(required = false, defaultValue = "desc") String order,
+                                   Integer userId,
+                                   Byte type,
+                                   Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        return "sys/sysUserSync/sysUserSync_page";
+    }
+    @RequiresPermissions("sysUserSync:list")
+    @RequestMapping("/sysUserSync_data")
+    @ResponseBody
+    public void sysUserSync_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "start_time", tableName = "sys_user_sync") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                      Byte type,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -96,34 +112,26 @@ public class SysUserSyncController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
 
-
         int count = sysUserSyncMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<SysUserSync> sysUserSyncs = sysUserSyncMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("sysUserSyncs", sysUserSyncs);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", sysUserSyncs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId!=null) {
-            searchStr += "&userId=" + userId;
-        }
-        if (type!=null) {
-            searchStr += "&type=" + type;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "sys/sysUserSync/sysUserSync_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(SysUserSync.class, SysUserSyncMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
+
     }
 
     @RequestMapping(value = "/sync_stop", method = RequestMethod.POST)

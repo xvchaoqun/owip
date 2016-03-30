@@ -53,13 +53,20 @@ public class MetaClassController extends BaseController {
 
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass_page")
-    public String metaClass_page(@CurrentUser SysUser loginUser,
+    public String metaClass_page() {
+
+        return "sys/metaClass/metaClass_page";
+    }
+    @RequiresPermissions("metaClass:list")
+    @RequestMapping("/metaClass_data")
+    @ResponseBody
+    public void metaClass_data(@CurrentUser SysUser loginUser,
                                  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  String name, String code,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -87,7 +94,7 @@ public class MetaClassController extends BaseController {
         }
         if (export == 1) {
             metaClass_export(example, response);
-            return null;
+            return;
         }
 
         int count = metaClassMapper.countByExample(example);
@@ -96,26 +103,19 @@ public class MetaClassController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MetaClass> MetaClasss = metaClassMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("metaClasss", MetaClasss);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "sys/metaClass/metaClass_page";
+        Map resultMap = new HashMap();
+        resultMap.put("rows", MetaClasss);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(MetaClass.class, DispatchTypeMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("metaClass:edit")

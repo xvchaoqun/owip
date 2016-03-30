@@ -5,6 +5,7 @@ import controller.BaseController;
 import domain.SysLog;
 import domain.SysLogExample;
 import domain.SysUser;
+import mixin.SysLogMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -21,8 +22,11 @@ import sys.tool.paging.CommonList;
 import sys.utils.Escape;
 import sys.utils.FormUtils;
 import sys.utils.HtmlEscapeUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +40,16 @@ public class SysLogController extends BaseController {
 
 		return "index";
 	}
-
 	@RequestMapping("/sysLog_page")
-	public String sysLog_page(HttpServletRequest request, Integer pageSize, Integer pageNo,
-							  Integer typeId, String content, ModelMap modelMap) {
+	public String sysLog_page( ModelMap modelMap) {
+
+		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
+		return "sys/sysLog/sysLog_page";
+	}
+	@RequestMapping("/sysLog_data")
+	@ResponseBody
+	public void sysLog_data(HttpServletRequest request, Integer pageSize, Integer pageNo,
+							  Integer typeId, String content) throws IOException {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -65,21 +75,19 @@ public class SysLogController extends BaseController {
 			pageNo = Math.max(1, pageNo-1);
 		}
 		List<SysLog> sysLogs = sysLogMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-		modelMap.put("sysLogs", sysLogs);
-		
+
 		CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-		String searchStr = "&pageSize="+pageSize;
-		if(StringUtils.isNotBlank(content)){
-			searchStr += "&content" + content;
-		}
-		if(typeId!=null){
-			searchStr += "&typeId" + typeId;
-		}
-		commonList.setSearchStr(searchStr);
-		modelMap.put("commonList", commonList);
-		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
-		return "sys/sysLog/sysLog_page";
+		Map resultMap = new HashMap();
+		resultMap.put("rows", sysLogs);
+		resultMap.put("records", count);
+		resultMap.put("page", pageNo);
+		resultMap.put("total", commonList.pageNum);
+
+		Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+		sourceMixins.put(SysLog.class, SysLogMixin.class);
+		JSONUtils.jsonp(resultMap, sourceMixins);
+		return;
 	}
 
 	@RequiresRoles("admin")

@@ -129,6 +129,9 @@ body{
     border: none!important;
     vertical-align: inherit!important;
 }
+.ui-common-table .label{
+    display: inherit!important;
+}
 /*.table-bordered > thead > tr > th,
  .table-bordered{
     border-right: none!important;

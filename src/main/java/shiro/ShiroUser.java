@@ -2,6 +2,8 @@ package shiro;
 
 import bean.ApproverTypeBean;
 
+import java.util.Set;
+
 /**
  * Created by fafa on 2015/8/18.
  */
@@ -11,13 +13,19 @@ public class ShiroUser {
     private String username;
     private String realname;
     private Byte type;
+
+    private Set<String> roles;
+    private Set<String> permissions;
+
     private ApproverTypeBean approverTypeBean; // 干部审批权限
 
-    public ShiroUser(Integer id, String username, String realname, Byte type, ApproverTypeBean approverTypeBean) {
+    public ShiroUser(Integer id, String username, String realname, Byte type, Set<String> roles, Set<String> permissions, ApproverTypeBean approverTypeBean) {
         this.id = id;
         this.username = username;
         this.realname = realname;
         this.type = type;
+        this.roles = roles;
+        this.permissions = permissions;
         this.approverTypeBean = approverTypeBean;
     }
 
@@ -51,6 +59,22 @@ public class ShiroUser {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<String> permissions) {
+        this.permissions = permissions;
     }
 
     public ApproverTypeBean getApproverTypeBean() {
