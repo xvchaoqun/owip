@@ -1,5 +1,6 @@
 package controller.abroad;
 
+import bean.ApplySelfSearchBean;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import controller.BaseController;
@@ -252,7 +253,6 @@ public class ApplySelfController extends BaseController {
         // 本年度的申请记录
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
-
         criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
                 DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
         example.setOrderByClause("create_time desc");
@@ -392,17 +392,20 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_page")
-    public String applySelfList_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
-                                     Integer cadreId,
-                                     String _applyDate,
-                                     Byte type, // 出行时间范围
-                                     // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+    public String applySelfList_page(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
                                      @RequestParam(required = false, defaultValue = "0") int status,
-                                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                     Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("status", status);
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         modelMap.put("approverTypeMap", approverTypeMap);
+
+        if (cadreId != null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
 
         return "abroad/applySelf/applySelfList_page";
     }
@@ -448,48 +451,36 @@ public class ApplySelfController extends BaseController {
 
         Map<Integer, List<Integer>> approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
 
-        /*// 本单位正职
-        Integer mainPostUnitId = applySelfService.getMainPostUnitId(userId);
-        if(mainPostUnitId!=null) {
-            List unitIds = new ArrayList();
-            unitIds.add(mainPostUnitId);
-            approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
-        }
-        // 分管校领导
-        List<Integer> leaderUnitIds = applySelfService.getLeaderUnitIds(userId);
-        if(leaderUnitIds.size()>0){
-            approverTypeUnitIdListMap.put(leaderApproverType.getId(), leaderUnitIds);
-        }
-
-        // 其他身份
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        for (ApproverType approverType : approverTypeMap.values()) {
-            if(approverType.getType() ==SystemConstants.APPROVER_TYPE_OTHER){
-                List<Integer> approvalPostIds = applySelfService.getApprovalPostIds(userId, approverType.getId());
-                if(approvalPostIds.size()>0){
-                    approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
-                }
-            }
-        }*/
         if (approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
         if (approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
         //==============================================
 
+        String applyDateStart = null;
+        String applyDateEnd = null;
+        if (StringUtils.isNotBlank(_applyDate)) {
+            applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+        }
+        ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type, applyDateStart, applyDateEnd);
         int count = 0;
         if (status == 0)
-            count = selectMapper.countNotApproval(approverTypeUnitIdListMap, approverTypePostIdListMap);
+            count = selectMapper.countNotApproval(searchBean,
+                    approverTypeUnitIdListMap, approverTypePostIdListMap);
         if (status == 1)
-            count = selectMapper.countHasApproval(approverTypeUnitIdListMap, approverTypePostIdListMap, loginUser.getId());
+            count = selectMapper.countHasApproval(searchBean,
+                    approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
 
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<ApplySelf> applySelfs = null;
         if (status == 0)
-            applySelfs = selectMapper.selectNotApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,
+            applySelfs = selectMapper.selectNotApprovalList(searchBean,
+                    approverTypeUnitIdListMap, approverTypePostIdListMap,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
         if (status == 1)
-            applySelfs = selectMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap, loginUser.getId(),
+            applySelfs = selectMapper.selectHasApprovalList(searchBean,
+                    approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);

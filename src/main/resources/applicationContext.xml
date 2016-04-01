@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task.xsd " default-autowire="byName">
 
-    <context:property-placeholder location="classpath:spring.properties" ignore-unresolvable="true" order="-2"/>
+    <context:property-placeholder location="classpath:spring.properties,classpath:spring-m.properties" ignore-unresolvable="true" order="-2"/>
 	
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">

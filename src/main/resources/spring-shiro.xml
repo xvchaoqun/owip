@@ -122,6 +122,8 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = anon
+                /m/login = anon
+                /m/logout = anon
                 /login = authc
                 /logout = logout
                 /authenticated = authc

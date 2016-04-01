@@ -142,7 +142,7 @@
     <div class="footer-inner">
       <div class="footer-content">
             <span class="bigger-120">
-                北京师范大学党委组织部 <span class="blue bolder">&copy; 2015</span>
+                北京师范大学党委组织部 <span class="blue bolder">&copy;2016</span>
             </span>
       </div>
     </div>

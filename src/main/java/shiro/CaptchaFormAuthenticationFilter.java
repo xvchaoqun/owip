@@ -224,7 +224,14 @@ protected boolean onAccessDenied(ServletRequest request,
                     + "Authentication url [" + getLoginUrl() + "]");
         }
         if (!HttpUtils.isAjaxRequest((HttpServletRequest) request)) {// 不是ajax请求
-            saveRequestAndRedirectToLogin(request, response);
+
+            String requestURI = ((HttpServletRequest) request).getRequestURI();
+            if(requestURI.startsWith("/m/")){ // 移动端
+                saveRequest(request);
+                WebUtils.issueRedirect(request, response, "/m/login");
+            }else
+                saveRequestAndRedirectToLogin(request, response);
+
         } else {
 
             Map<String, Object> resultMap = new HashMap();

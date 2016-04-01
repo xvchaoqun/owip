@@ -20,7 +20,7 @@
 <!-- text fonts -->
 <%--<link rel="stylesheet" href="${ctx}/assets/css/ace-fonts.css" />--%>
 <!-- ace styles -->
-<link rel="stylesheet" href="${ctx}/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="${ctx}/assets/css/ace-nobtn.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/assets/css/ace-part2.css" class="ace-main-stylesheet" />

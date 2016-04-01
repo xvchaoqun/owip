@@ -124,7 +124,7 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
 		});
 		return this;
 	};
-	//装载select的选项
+	/*//装载select的选项
 	$.fn.loadSelect = function(options) {
 		var defaults = {
 				headValue : "", //默认的一个选项的值 eg 0
@@ -580,5 +580,5 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
 			});
 			return st;
 		}
-	});
+	});*/
 })(jQuery);

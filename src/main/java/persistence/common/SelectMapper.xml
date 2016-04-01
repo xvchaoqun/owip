@@ -103,6 +103,20 @@
     </if>
       )
     </if>
+      <if test="searchBean!=null">
+          <if test="searchBean.cadreId!=null">
+              and aas.cadre_id=#{searchBean.cadreId}
+          </if>
+          <if test="searchBean.type!=null">
+              and aas.type=#{searchBean.type}
+          </if>
+          <if test="searchBean.applyDateStart!=null">
+              and aas.apply_date>=#{searchBean.applyDateStart}
+          </if>
+          <if test="searchBean.applyDateEnd!=null">
+              and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+          </if>
+      </if>
  </sql>
   <!--待审批-->
   <select id="selectNotApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
@@ -139,6 +153,20 @@
       </foreach>
     </if>
     )
+      <if test="searchBean!=null">
+          <if test="searchBean.cadreId!=null">
+              and aas.cadre_id=#{searchBean.cadreId}
+          </if>
+          <if test="searchBean.type!=null">
+              and aas.type=#{searchBean.type}
+          </if>
+          <if test="searchBean.applyDateStart!=null">
+              and aas.apply_date>=#{searchBean.applyDateStart}
+          </if>
+          <if test="searchBean.applyDateEnd!=null">
+              and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+          </if>
+      </if>
   </sql>
   <!-- 已审批 -->
   <select id="selectHasApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">

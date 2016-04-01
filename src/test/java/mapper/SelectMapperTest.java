@@ -1,5 +1,6 @@
 package mapper;
 
+import bean.ApplySelfSearchBean;
 import domain.ApplySelf;
 import domain.Cadre;
 import org.apache.ibatis.session.RowBounds;
@@ -45,7 +46,9 @@ public class SelectMapperTest {
 
 		approverTypePostIdListMap.put(300, postIds);
 
-		List<ApplySelf> applySelfs = selectMapper.selectNotApprovalList(approverTypeUnitIdListMap, null, new RowBounds());
+		ApplySelfSearchBean searchBean = null;
+
+		List<ApplySelf> applySelfs = selectMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, null, new RowBounds());
 		//List<ApplySelf> applySelfs = selectMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,10, new RowBounds());
 		System.out.println(applySelfs.size() + "=========");
 	}

@@ -1,9 +1,6 @@
 package persistence.common;
 
-import bean.PassportStatByClassBean;
-import bean.PassportStatByLentBean;
-import bean.PassportStatByPostBean;
-import bean.SafeBoxBean;
+import bean.*;
 import domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -81,23 +78,28 @@ public interface SelectMapper {
 
 
     List<ApplySelf> selectNotApprovalList(
+            @Param("searchBean") ApplySelfSearchBean searchBean,
             /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
             @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
             @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
             RowBounds rowBounds);
-    int countNotApproval(/* 本单位正职、分管校领导<approverType.id, List<unitId>> */
+    int countNotApproval(@Param("searchBean") ApplySelfSearchBean searchBean,
+                        /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
                          @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
              @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap);
     List<ApplySelf> selectHasApprovalList(
+            @Param("searchBean") ApplySelfSearchBean searchBean,
             /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
             @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
             @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
             @Param("flowUserId") Integer flowUserId,
             RowBounds rowBounds);
-    int countHasApproval(/* 本单位正职、分管校领导<approverType.id, List<unitId>> */
+    int countHasApproval(
+            @Param("searchBean") ApplySelfSearchBean searchBean,
+                        /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
                          @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
              @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,

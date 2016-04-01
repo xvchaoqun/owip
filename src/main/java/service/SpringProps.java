@@ -8,6 +8,9 @@ public class SpringProps {
 
 	@Value("${page.pageSize}")
 	public int pageSize;
+
+	@Value("${m.page.pageSize}")
+	public int mPageSize;
 	
 	@Value("${upload.path}")
 	public String uploadPath;

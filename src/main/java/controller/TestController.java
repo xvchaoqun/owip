@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by fafa on 2016/1/18.
  */
 @Controller
-@RequestMapping("/test")
+//@RequestMapping("/test")
 public class TestController {
 
     @Autowired

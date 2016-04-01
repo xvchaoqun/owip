@@ -9,39 +9,31 @@
             </button>
 
             <i class="ace-icon fa fa-check green"></i>
-
             欢迎使用组织工作管理与服务一体化平台
           </div>
 
           <div class="row">
-
             <div class="col-sm-8 infobox-container">
               <div class="infobox infobox-green">
                 <div class="infobox-icon">
                   <i class="ace-icon fa fa-comments"></i>
                 </div>
-
                 <div class="infobox-data">
                   <span class="infobox-data-number">32 <span style="font-size: 10pt;">未回复</span></span>
 
                   <div class="infobox-content">新消息提醒</div>
                 </div>
-
-
               </div>
 
               <div class="infobox infobox-blue">
                 <div class="infobox-icon">
                   <i class="ace-icon fa fa-calendar-minus-o"></i>
                 </div>
-
                 <div class="infobox-data">
                   <span class="infobox-data-number">11 <span style="font-size: 10pt;">一月内到届</span></span>
 
                   <div class="infobox-content">干部任职到届提醒</div>
                 </div>
-
-
               </div>
 
               <div class="infobox infobox-pink">
