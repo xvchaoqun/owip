@@ -518,7 +518,12 @@ public class ApplySelfController extends BaseController {
 
         if (id == null) {
             record.setCreateTime(new Date());
+            record.setIp(IpUtils.getRealIp(request));
+
             record.setStatus(true);// 提交
+            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setIsFinish(false);
+
             applySelfService.insertSelective(record);
             logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/m")
@@ -44,6 +45,16 @@ public class MobileLoginController extends BaseController {
 
 		AuthToken token = new AuthToken(username,
 				password.toCharArray(), false, request.getRemoteHost(), null, null);
+
+		Set<String> roles = sysUserService.findRoles(username);
+		if(!roles.contains("cadre")){
+
+			Map<String, Object> resultMap = new HashMap();
+			resultMap.put("success", false);
+			resultMap.put("msg", "权限错误");
+
+			return resultMap;
+		}
 
 		try {
 			SecurityUtils.getSubject().login(token);

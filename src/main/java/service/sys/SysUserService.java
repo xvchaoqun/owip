@@ -287,6 +287,8 @@ public class SysUserService extends BaseMapper {
 		SysUserExample example = new SysUserExample();
 		example.createCriteria().andUsernameEqualTo(username);
 		List<SysUser> users = sysUserMapper.selectByExampleWithRowbounds(example , new RowBounds(0, 1));
+		if(users.size()==0) return roles;
+
 		SysUser user = users.get(0);
 
 		Set<Integer> roleIds = getUserRoleIdSet(user.getRoleIds());
