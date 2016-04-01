@@ -69,9 +69,31 @@ body{
 .message-item .time{
     width: 80px;
 }
+
+@media only screen and (max-width: 550px){
+    .message-item .sender {
+        width: auto;
+        max-width: 120px;
+    }
+}
 .message-item  .sender {
     color: #6A9CBA;
     font-weight: bold;
+    margin: 0px!important;
+}
+
+@media only screen and (max-width: 550px) {
+    .message-item .summary .text {
+        max-width: 150px;
+    }
+}
+.message-item .summary .text{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px;
+}
+.message-item .time{
+    font-size: 10px;
 }
 /*.message-item {
     border: 1px solid #EAEDF1;
