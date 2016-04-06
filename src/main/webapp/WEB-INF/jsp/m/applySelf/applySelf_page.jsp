@@ -8,13 +8,13 @@
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
                 <li class="<c:if test="${status==0}">active</c:if>">
-                    <a href="?status=0">&nbsp;&nbsp;<i
-                            class="green ace-icon fa fa-clock-o bigger-120"></i>&nbsp;未完成审批&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <a href="?status=0"><i
+                            class="green ace-icon fa fa-clock-o bigger-120"></i>未完成审批</a>
                 </li>
 
                 <li class="<c:if test="${status==1}">active</c:if>">
-                    <a href="?status=1">&nbsp;&nbsp;<i
-                            class="orange ace-icon fa fa-check-square-o bigger-120"></i>&nbsp;已完成审批&nbsp;&nbsp;</a>
+                    <a href="?status=1"><i
+                            class="orange ace-icon fa fa-check-square-o bigger-120"></i>已完成审批</a>
                 </li>
             </ul>
             <div class="tab-content" style="padding: 0px;">
@@ -36,7 +36,7 @@
                                     <span class="text">
                                         <c:set var="reasons" value="${fn:split(applySelf.reason, '+++')}"/>
                                         ${reasons[0]}${fn:length(reasons)>1?'等':''}，
-                                        ${cm:formatDate(applySelf.startDate,'MM-dd')}~${cm:formatDate(applySelf.endDate,'MM-dd')}，
+                                        ${cm:formatDate(applySelf.startDate,'MM.dd')}~${cm:formatDate(applySelf.endDate,'MM.dd')}，
                                          <c:set var="toCountrys" value="${fn:split(applySelf.toCountry, ',')}"/>
                                         ${toCountrys[0]}${fn:length(toCountrys)>1?'等':''}
                                     </span>

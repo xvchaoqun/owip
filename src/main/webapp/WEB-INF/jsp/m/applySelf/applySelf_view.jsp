@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 
-  <ul class="preview title nav nav-tabs padding-12 tab-color-blue background-blue"
+  <ul class="preview title nav nav-tabs tab-color-blue background-blue"
       style="padding-right: 20px;margin-bottom: 10px!important;">
       <div class="buttons" style="margin-bottom: 8px; ">
         <a href="javascript:;" class="closeView btn btn-xs btn-success">

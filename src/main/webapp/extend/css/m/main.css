@@ -79,10 +79,18 @@ body{
 @media only screen and (max-width: 550px){
     .message-item .sender {
         width: auto;
+        max-width: 220px;
+        font-size: 10px;
+    }
+}
+@media only screen and (max-width: 320px){
+    .message-item .sender {
+        width: auto;
         max-width: 170px;
         font-size: 10px;
     }
 }
+
 .message-item  .sender {
     color: #6A9CBA;
     font-weight: bold;
@@ -91,9 +99,18 @@ body{
 
 @media only screen and (max-width: 550px) {
     .message-item .summary .text {
-        max-width: 180px;
+        max-width: 230px;
     }
 }
+@media only screen and (max-width: 320px) {
+    .message-item .summary .text {
+        max-width: 120px;
+    }
+    .nav-tabs > li > a {
+        padding: 7px 5px 8px!important;
+    }
+}
+
 .message-item .summary .text{
     text-overflow: ellipsis;
     overflow: hidden;

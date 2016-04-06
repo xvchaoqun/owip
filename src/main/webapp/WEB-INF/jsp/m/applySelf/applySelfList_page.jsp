@@ -36,7 +36,7 @@
                                     <span class="text">
                                         <c:set var="reasons" value="${fn:split(applySelf.reason, '+++')}"/>
                                         ${reasons[0]}${fn:length(reasons)>1?'等':''}，
-                                        ${cm:formatDate(applySelf.startDate,'MM-dd')}~${cm:formatDate(applySelf.endDate,'MM-dd')}，
+                                        ${cm:formatDate(applySelf.startDate,'MM.dd')}~${cm:formatDate(applySelf.endDate,'MM.dd')}，
                                          <c:set var="toCountrys" value="${fn:split(applySelf.toCountry, ',')}"/>
                                         ${toCountrys[0]}${fn:length(toCountrys)>1?'等':''}
                                     </span>
