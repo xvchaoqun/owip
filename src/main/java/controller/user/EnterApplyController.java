@@ -84,7 +84,6 @@ public class EnterApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(loginUser.getId());
         modelMap.put("memberApply", memberApply);
 
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
         if(memberApply!=null){
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
@@ -176,7 +175,6 @@ public class EnterApplyController extends BaseController {
         MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
         modelMap.put("memberReturn", memberReturn);
 
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
         if(memberReturn!=null){
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
@@ -268,7 +266,6 @@ public class EnterApplyController extends BaseController {
         MemberIn memberIn = memberInService.get(userId);
         modelMap.put("memberIn", memberIn);
 
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
         if(memberIn!=null){
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
@@ -357,10 +354,7 @@ public class EnterApplyController extends BaseController {
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         modelMap.put("memberInflow", memberInflow);
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
         return "user/enterApply/memberInflow_view";
     }
 
@@ -372,7 +366,6 @@ public class EnterApplyController extends BaseController {
 
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         modelMap.put("memberInflow", memberInflow);
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
         if(memberInflow!=null){
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();

@@ -76,7 +76,6 @@ public class UserApplySelfController extends BaseController {
 
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
-        modelMap.put("approverTypeMap", approverTypeService.findAll());
 
         // 本年度的申请记录
         ApplySelfExample example = new ApplySelfExample();
@@ -113,9 +112,6 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(ModelMap modelMap) {
-
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        modelMap.put("approverTypeMap", approverTypeMap);
 
         return "user/applySelf/applySelf_page";
     }

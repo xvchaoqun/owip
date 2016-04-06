@@ -34,7 +34,6 @@ public class UnitLayoutController extends BaseController {
     public String unit_layout_page(@RequestParam(defaultValue = "0")int type, ModelMap modelMap) {
 
         modelMap.put("type", type);
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
 
         return "unit/unitLayout/unit_layout";
     }
@@ -77,10 +76,6 @@ public class UnitLayoutController extends BaseController {
         modelMap.put("resultMap", resultMap);
         modelMap.put("cLeaderUnitMap", contactLeaderUnitMap);
         modelMap.put("mLeaderUnitMap", managerLeaderUnitMap);
-
-        modelMap.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
-        modelMap.put("cadreMap", cadreService.findAll());
-        modelMap.put("unitMap", unitService.findAll());
 
         return "unit/unitLayout/unit_layout_leader";
     }

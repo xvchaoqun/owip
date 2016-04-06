@@ -219,7 +219,6 @@ public class MemberApplyController extends BaseController {
                 }
             }
         }
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
 
         return "party/memberApply/memberApply_au";
     }

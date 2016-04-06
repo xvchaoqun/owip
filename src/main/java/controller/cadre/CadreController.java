@@ -164,8 +164,6 @@ public class CadreController extends BaseController {
         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
         modelMap.put("extJzg", extJzg);
 
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
         // 主职
         modelMap.put("cadreMainWork", cadreMainWorkService.getByCadreId(id));
 
@@ -181,9 +179,6 @@ public class CadreController extends BaseController {
             modelMap.put("cadreSubWork2", cadreSubWorks.get(1));
         }
 
-        modelMap.put("eduTypeMap", metaTypeService.metaTypes("mc_edu"));
-        modelMap.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
-        modelMap.put("schoolTypeMap", metaTypeService.metaTypes("mc_school"));
         // 最高学历
         modelMap.put("highEdu", cadreEduService.getHighEdu(id));
         //最高学位

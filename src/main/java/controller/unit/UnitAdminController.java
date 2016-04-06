@@ -52,9 +52,6 @@ public class UnitAdminController extends BaseController {
         List<UnitAdmin> unitAdmins = unitAdminMapper.selectByExample(example);
         modelMap.put("unitAdmins", unitAdmins);
 
-        modelMap.put("cadreMap", cadreService.findAll());
-        modelMap.put("postTypeMap", metaTypeService.metaTypes("mc_post"));
-
         return "unit/unitAdmin/unitAdmin_page";
     }
 

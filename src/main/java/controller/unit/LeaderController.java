@@ -67,8 +67,6 @@ public class LeaderController extends BaseController {
                 modelMap.put("sysUser", sysUser);
             }
         }
-        modelMap.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
-        modelMap.put("cadreMap", cadreService.findAll());
 
         return "unit/leader/leader_page";
     }
@@ -289,10 +287,6 @@ public class LeaderController extends BaseController {
 
             Leader leader = leaderMapper.selectByPrimaryKey(id);
             modelMap.put("leader", leader);
-            Map<Integer, Cadre> cadreMap = cadreService.findAll();
-            modelMap.put("cadreMap", cadreMap);
-            modelMap.put("unitMap", unitService.findAll());
-            modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_leader_unit"));
         }
 
         return "unit/leader/leader_unit";

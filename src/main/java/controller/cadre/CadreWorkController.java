@@ -110,9 +110,6 @@ public class CadreWorkController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("cadreMap", cadreService.findAll());
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_admin_level"));
-
         if(fid!=null)
             return "cadre/cadreWork/cadreWork_during_page";
 
@@ -208,13 +205,6 @@ public class CadreWorkController extends BaseController {
         modelMap.put("dispatchCadres", dispatchCadres);
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "cadre/cadreWork/cadreWork_addDispatchs";
     }

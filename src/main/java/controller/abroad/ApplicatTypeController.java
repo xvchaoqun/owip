@@ -108,8 +108,6 @@ public class ApplicatTypeController extends BaseController {
 
         ApplicatType applicatType = applicatTypeMapper.selectByPrimaryKey(id);
         modelMap.put("applicatType", applicatType);
-        //modelMap.put("applicatTypeMap", applicatTypeService.findAll());
-        modelMap.put("approverTypeMap", approverTypeService.findAll());
 
         return "abroad/applicatType/approval_order";
     }

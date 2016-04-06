@@ -78,9 +78,8 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_page")
     public String branch_page(ModelMap modelMap) {
 
-        modelMap.put("partyMap", partyService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
+
 
         return "party/branch/branch_page";
     }
@@ -212,10 +211,7 @@ public class BranchController extends BaseController {
             modelMap.put("branch", branch);
         }
 
-        modelMap.put("partyMap", partyService.findAll());
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
-        modelMap.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
         return "party/branch/branch_au";
     }

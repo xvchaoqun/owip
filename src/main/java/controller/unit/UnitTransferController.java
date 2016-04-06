@@ -65,12 +65,6 @@ public class UnitTransferController extends BaseController {
         List<DispatchUnit> dispatchUnits = commonMapper.selectDispatchUnitList(unitTransfer.getUnitId());
         modelMap.put("dispatchUnits", dispatchUnits);
 
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-        modelMap.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
-
         return "unit/unitTransfer/unitTransfer_addDispatchs";
     }
 

@@ -69,8 +69,6 @@ public class MemberTransferController extends BaseController {
         modelMap.put("memberTransfer", memberTransfer);
 
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
 
         if(memberTransfer!=null) {
             if (memberTransfer.getToPartyId() != null) {

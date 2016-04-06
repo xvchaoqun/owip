@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class IndexController extends BaseController {
 

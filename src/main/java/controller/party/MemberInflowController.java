@@ -132,7 +132,6 @@ public class MemberInflowController extends BaseController {
         modelMap.put("commonList", commonList);
 
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
 
         return "party/memberInflow/memberInflow_page";
     }

@@ -31,7 +31,6 @@ public class RetireApplyController extends BaseController {
         RetireApply retireApply = retireApplyMapper.selectByPrimaryKey(userId);
         modelMap.put("retireApply", retireApply);
 
-        modelMap.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
         if(retireApply!=null){
             modelMap.put("party", partyService.findAll().get(retireApply.getPartyId()));
             if(retireApply.getBranchId()!=null){

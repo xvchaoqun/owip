@@ -1,5 +1,6 @@
 package shiro;
 
+import controller.BaseController;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -116,9 +117,7 @@ protected boolean onLoginSuccess(AuthenticationToken token,
             successUrl = savedRequest.getRequestUrl();
         }
 
-        Map<String, Object> resultMap = new HashMap();
-        resultMap.put("success", true);
-        resultMap.put("msg", "登入成功");
+        Map<String, Object> resultMap = BaseController.success("登入成功");
         resultMap.put("url", successUrl);
         JSONUtils.write((HttpServletResponse) response, resultMap);
     }
@@ -141,31 +140,13 @@ protected boolean onLoginFailure(AuthenticationToken token,
         setFailureAttribute(request, e);
         return true;
     }
-    Map<String, Object> resultMap = new HashMap();
-    resultMap.put("success", false);
+
     try {
         String message = e.getClass().getSimpleName();
         String userAgent = RequestUtils.getUserAgent(httpServletRequest);
         logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
 
-        if ("SystemClosedException".equals(message)) {
-
-            resultMap.put("msg", "参评人员测评未开启");
-        } else if ("IncorrectCredentialsException".equals(message)) {
-            resultMap.put("msg", "账号或密码错误");
-        } else if ("UnknownAccountException".equals(message)) {
-            resultMap.put("msg", "账号或密码错误");
-        } else if ("IncorrectCaptchaException".equals(message)) {
-            resultMap.put("msg", "验证码错误");
-        } else if ("LockedAccountException".equals(message)) {
-            resultMap.put("msg", "账号被锁定");
-        }else if ("InspectorFinishException".equals(message)) {
-            resultMap.put("msg", "该账号已经测评完成");
-        }else if("SSOException".equals(message)){
-            resultMap.put("msg", "单点登录服务器错误，请稍后重试");
-        }else {
-            resultMap.put("msg", "系统错误");
-        }
+        Map<String, Object> resultMap = SystemConstants.loginFailedResultMap(message);
         JSONUtils.write((HttpServletResponse) response, resultMap);
     } catch (IOException e1) {
         // TODO Auto-generated catch block

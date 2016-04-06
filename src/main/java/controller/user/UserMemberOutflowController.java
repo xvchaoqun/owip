@@ -43,8 +43,6 @@ public class UserMemberOutflowController extends BaseController{
         modelMap.put("memberOutflow", memberOutflow);
 
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("branchMap", branchMap);

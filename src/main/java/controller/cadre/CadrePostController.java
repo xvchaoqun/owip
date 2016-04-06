@@ -65,12 +65,6 @@ public class CadrePostController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchCadreMap", dispatchCadreService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
-
         return "cadre/cadrePost/cadrePost_page";
     }
 
@@ -146,16 +140,6 @@ public class CadrePostController extends BaseController {
 
         List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
         modelMap.put("dispatchCadres", dispatchCadres);
-
-        //modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
-        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "cadre/cadrePost/cadrePost_addDispatchs";
     }
@@ -266,13 +250,7 @@ public class CadrePostController extends BaseController {
         modelMap.put("dispatchCadres", dispatchCadres);
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
 
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "cadre/cadrePost/cadreMainWork_addDispatchs";
     }
@@ -389,13 +367,6 @@ public class CadrePostController extends BaseController {
         modelMap.put("dispatchCadres", dispatchCadres);
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
-        modelMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         return "cadre/cadrePost/cadreSubWork_addDispatchs";
     }

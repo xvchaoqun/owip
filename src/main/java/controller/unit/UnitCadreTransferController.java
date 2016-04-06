@@ -67,11 +67,6 @@ public class UnitCadreTransferController extends BaseController {
         modelMap.put("dispatchCadres", dispatchCadres);
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
-        modelMap.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        modelMap.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
 
         return "unit/unitCadreTransfer/unitCadreTransfer_addDispatchs";
     }

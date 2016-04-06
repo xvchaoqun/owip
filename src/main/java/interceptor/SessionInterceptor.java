@@ -2,6 +2,7 @@ package interceptor;
 
 import controller.BaseController;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -9,8 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import sys.utils.IpUtils;
-import sys.utils.RequestUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +26,31 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-        String requestURI = request.getRequestURI();
-        if(requestURI.length()>1 && requestURI.endsWith("/")){
+        String _commonUrls = PropertiesUtils.getString("sys.commonUrls");
+
+        String servletPath = request.getServletPath();
+        if(servletPath.startsWith("/WEB-INF")){
+            servletPath = (String)request.getAttribute("javax.servlet.forward.request_uri");
+        }
+        if(!PatternUtils.match(_commonUrls, servletPath)) {
+            if (HttpUtils.isMoblie(request)) {
+                if (!servletPath.startsWith("/m/")) { // 移动端
+                    WebUtils.issueRedirect(request, response, "/m/index");
+                    return false;
+                }
+            } else {
+                if (servletPath.startsWith("/m/")) { // 非移动端
+                    WebUtils.issueRedirect(request, response, "/index");
+                    return false;
+                }
+            }
+        }
+
+        if(servletPath.length()>1 && servletPath.endsWith("/")){
             response.setStatus(404);
             return false;
         }
+
         String userAgent = RequestUtils.getUserAgent(request);
         logger.debug("request {}, {}, {}, {}, {},request.getContentType()={}, request.getHeader(\"Cookie\")={}", new Object[]{
                 IpUtils.getRealIp(request), userAgent,
@@ -72,18 +92,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         if (null != modelAndView) {
             ModelMap modelMap = modelAndView.getModelMap();
             modelMap.put("useCaptcha",springProps.useCaptcha);
-
-            modelMap.put("cadreMap", cadreService.findAll());
-            modelMap.put("dispatchTypeMap", dispatchTypeService.findAll());
-            modelMap.put("passportTypeMap", metaTypeService.metaTypes("mc_passport_type"));
-
-            modelMap.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
-            modelMap.put("postMap", metaTypeService.metaTypes("mc_post"));
-
-           // modelMap.put("countryMap", countryService.findAll());
-            modelMap.put("unitMap", unitService.findAll());
-
-            modelMap.put("safeBoxMap", safeBoxService.findAll());
+            modelMap.putAll(getMetaMap());
         }
     }
 

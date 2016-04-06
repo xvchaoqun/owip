@@ -3,6 +3,7 @@ package controller.mobile;
 import bean.m.Breadcrumb;
 import controller.BaseController;
 import domain.*;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class MobileCadreController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles("cadre")
+	@RequiresRoles(value = {"cadre", "cadreAdmin"}, logical = Logical.OR)
 	@RequestMapping("/cadre_base")
 	public String cadre_base(ModelMap modelMap) {
 
@@ -32,7 +33,7 @@ public class MobileCadreController extends BaseController {
 		return "m/index";
 	}
 
-	@RequiresRoles("cadre")
+	@RequiresRoles(value = {"cadre", "cadreAdmin"}, logical = Logical.OR)
 	@RequestMapping("/cadre_base_page")
 	public String cadre_base_page(@CurrentUser SysUser loginUser,  ModelMap modelMap) {
 

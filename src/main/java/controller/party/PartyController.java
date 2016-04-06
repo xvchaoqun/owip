@@ -55,7 +55,6 @@ public class PartyController extends BaseController {
             modelMap.put("partyMembers", PartyMembers);
         }
 
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
         return "party/party_base";
     }
 
@@ -76,10 +75,6 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:list")
     @RequestMapping("/party_page")
     public String party_page(ModelMap modelMap) {
-
-        modelMap.put("classMap", metaTypeService.metaTypes("mc_party_class"));
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_part_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
 
         return "party/party_page";
     }
@@ -189,11 +184,6 @@ public class PartyController extends BaseController {
             Party party = partyMapper.selectByPrimaryKey(id);
             modelMap.put("party", party);
         }
-
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("classMap", metaTypeService.metaTypes("mc_party_class"));
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_part_type"));
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
 
         return "party/party_au";
     }

@@ -4,11 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import mixin.serializer.BirthToAgeSerializer;
 import mixin.serializer.BranchSerializer;
-import mixin.serializer.DispatchTypeSerializer;
-import mixin.serializer.GenderSerializer;
-import sys.tags.CmTag;
 
 import java.util.Date;
 
@@ -16,9 +12,9 @@ import java.util.Date;
         "source", "activeTime", "politicalStatus" })
 public class DispatchMixin {
 
-    @JsonProperty("dispatchType")
+    /*@JsonProperty("dispatchType")
     @JsonSerialize(using = DispatchTypeSerializer.class,nullsUsing=DispatchTypeSerializer.class)
-    public Integer dispatchTypeId;
+    public Integer dispatchTypeId;*/
 
     public Integer code;
 

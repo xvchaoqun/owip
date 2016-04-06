@@ -1,8 +1,25 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class DispatchCadre implements Serializable {
+
+    public Dispatch getDispatch(){
+        return CmTag.getDispatch(dispatchId);
+    }
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
+    public SysUser getUser(){
+        Cadre cadre = getCadre();
+        return CmTag.getUserById(cadre.getUserId());
+    }
+    public Cadre getCadre(){
+        return CmTag.getCadreById(cadreId);
+    }
+
     private Integer id;
 
     private Integer dispatchId;

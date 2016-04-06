@@ -113,10 +113,6 @@ public class DispatchUnitController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
-        modelMap.put("unitMap", unitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
         return "dispatch/dispatchUnit/dispatchUnit_page";
     }
 
@@ -149,7 +145,6 @@ public class DispatchUnitController extends BaseController {
 
             modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchUnit.getDispatchId()));
         }
-        modelMap.put("unitMap", unitService.findAll());
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
         return "dispatch/dispatchUnit/dispatchUnit_au";
     }

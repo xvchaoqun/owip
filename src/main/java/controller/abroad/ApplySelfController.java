@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import bean.ApplySelfSearchBean;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import controller.BaseController;
@@ -11,11 +10,6 @@ import interceptor.SortParam;
 import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -35,7 +29,6 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -209,7 +202,6 @@ public class ApplySelfController extends BaseController {
 
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
-        modelMap.put("approverTypeMap", approverTypeService.findAll());
 
         return "user/applySelf/applySelf_view";
     }
@@ -301,16 +293,13 @@ public class ApplySelfController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        modelMap.put("approverTypeMap", approverTypeMap);
-
         return "abroad/applySelf/applySelf_page";
     }
 
     @RequiresPermissions("applySelf:list")
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_data")
-    public void applySelf_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
+    public void applySelf_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,
                                Integer cadreId,
@@ -321,55 +310,16 @@ public class ApplySelfController extends BaseController {
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
 
-        ApplySelfExample example = new ApplySelfExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
-
-        criteria.andIsFinishEqualTo(status == 1);
-
-        if (cadreId != null) {
-            criteria.andCadreIdEqualTo(cadreId);
-        }
-        if (StringUtils.isNotBlank(_applyDate)) {
-            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(applyDateStart)) {
-                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(applyDateEnd)) {
-                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
-            }
-        }
-
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
-
-        if (export == 1) {
-            applySelf_export(example, response);
-            return;
-        }
-
-        int count = applySelfMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<ApplySelf> applySelfs = applySelfMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
+                type, status, sort, order, pageNo, springProps.pageSize, export);
+        if(map == null) return; // 导出
+        CommonList commonList = (CommonList) map.get("commonList");
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", applySelfs);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
+        resultMap.put("rows", map.get("applySelfs"));
+        resultMap.put("records", commonList.recNum);
+        resultMap.put("page", commonList.pageNo);
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
@@ -397,8 +347,6 @@ public class ApplySelfController extends BaseController {
                                      Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("status", status);
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        modelMap.put("approverTypeMap", approverTypeMap);
 
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
@@ -421,74 +369,14 @@ public class ApplySelfController extends BaseController {
                                      @RequestParam(required = false, defaultValue = "0") int status,
                                      Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
-        Integer userId = loginUser.getId();
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
 
-        //==============================================
-        Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-        //Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
-
-        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-        ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-
-        if (approverTypeBean.getMainPostUnitId() != null) {
-            List unitIds = new ArrayList();
-            unitIds.add(approverTypeBean.getMainPostUnitId());
-            approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
-        }
-        if (approverTypeBean.getLeaderUnitIds().size() > 0) {
-            approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
-        }
-
-        Map<Integer, List<Integer>> approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
-
-        if (approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
-        if (approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
-        //==============================================
-
-        String applyDateStart = null;
-        String applyDateEnd = null;
-        if (StringUtils.isNotBlank(_applyDate)) {
-            applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-        }
-        ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type, applyDateStart, applyDateEnd);
-        int count = 0;
-        if (status == 0)
-            count = selectMapper.countNotApproval(searchBean,
-                    approverTypeUnitIdListMap, approverTypePostIdListMap);
-        if (status == 1)
-            count = selectMapper.countHasApproval(searchBean,
-                    approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
-
-        if ((pageNo - 1) * pageSize >= count) {
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<ApplySelf> applySelfs = null;
-        if (status == 0)
-            applySelfs = selectMapper.selectNotApprovalList(searchBean,
-                    approverTypeUnitIdListMap, approverTypePostIdListMap,
-                    new RowBounds((pageNo - 1) * pageSize, pageSize));
-        if (status == 1)
-            applySelfs = selectMapper.selectHasApprovalList(searchBean,
-                    approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
-                    new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map map = applySelfService.findApplySelfList(loginUser.getId(), cadreId, _applyDate, type, status, pageNo, springProps.pageSize);
+        CommonList commonList = (CommonList) map.get("commonList");
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", applySelfs);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
+        resultMap.put("rows", map.get("applySelfs"));
+        resultMap.put("records", commonList.recNum);
+        resultMap.put("page", commonList.pageNo);
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
@@ -584,59 +472,5 @@ public class ApplySelfController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    public void applySelf_export(ApplySelfExample example, HttpServletResponse response) {
-
-        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
-        int rownum = applySelfMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"干部", "申请日期", "出行时间范围", "出发时间", "返回时间", "前往国家或地区", "出国事由", "同行人员", "费用来源", "所需证件", "创建时间"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        for (int i = 0; i < rownum; i++) {
-
-            ApplySelf applySelf = applySelfs.get(i);
-            String[] values = {
-                    applySelf.getCadreId() + "",
-                    DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    applySelf.getType() + "",
-                    DateUtils.formatDate(applySelf.getStartDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD),
-                    applySelf.getToCountry(),
-                    applySelf.getReason(),
-                    applySelf.getPeerStaff(),
-                    applySelf.getCostSource(),
-                    applySelf.getNeedPassports(),
-
-                    DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-            };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-        try {
-            String fileName = "因私出国申请_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }

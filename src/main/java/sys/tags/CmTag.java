@@ -8,6 +8,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
+import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.party.ApplicationContextSupport;
 import service.party.PartyService;
@@ -32,6 +33,7 @@ public class CmTag {
     static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
     static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
+    static DispatchService dispatchService = (DispatchService) context.getBean("dispatchService");
     static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
     static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
     static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
@@ -229,6 +231,10 @@ public class CmTag {
         return retireApplyService.get(userId);
     }
 
+    public static Dispatch getDispatch(Integer dispatchId){
+
+        return dispatchService.findAll().get(dispatchId);
+    }
     // 发文号
     public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {
 
@@ -238,6 +244,12 @@ public class CmTag {
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
         return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
+    }
+
+    public static DispatchType getDispatchType(Integer dispatchTypeId) {
+
+        Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+        return dispatchTypeMap.get(dispatchTypeId);
     }
 
     public static ApplySelf getApplySelf(Integer applyId){

@@ -40,9 +40,6 @@ public class UserMemberOutController extends BaseController{
         MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
-
         if(memberOut==null || memberOut.getStatus()== SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
                 || memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_BACK)
             return "user/memberOut/memberOut_au";

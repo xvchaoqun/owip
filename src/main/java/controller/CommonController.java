@@ -1,15 +1,18 @@
 package controller;
 
 import domain.*;
+import mixin.MetaTypeMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
-import sys.tool.tree.TreeNode;
+import sys.utils.JSONUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +25,33 @@ import java.util.Map;
  */
 @Controller
 public class CommonController extends BaseController{
+
+    @RequestMapping("/metaMap_JSON")
+    public String metaMap_JSON(ModelMap modelMap) {
+
+        /*Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MetaType.class, MetaTypeMixin.class);
+        sourceMixins.put(SafeBox.class, MetaSafeBoxMixin.class);
+        sourceMixins.put(Unit.class, MetaUnitMixin.class);
+        sourceMixins.put(DispatchType.class, MetaDispatchTypeMixin.class);
+
+        Map metaMap = getMetaMap();
+        metaMap.remove("cadreMap");*/
+
+        Map map = new HashMap();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        for (MetaType metaType : metaTypeMap.values()) {
+            map.put(metaType.getId(), metaType.getName());
+        }
+
+        modelMap.put("metaMap", JSONUtils.toString(map));
+
+        Map constantMap = new HashMap();
+        constantMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+        modelMap.put("cMap", JSONUtils.toString(constantMap));
+
+        return "common/metaMap_JSON";
+    }
 
     // 根据账号或姓名或学工号选择用户
     @RequestMapping("/sysUser_selects")

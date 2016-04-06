@@ -127,8 +127,6 @@ public class PartyMemberController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
-
         return "party/partyMember/partyMember_page";
     }
 
@@ -170,7 +168,6 @@ public class PartyMemberController extends BaseController {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
             modelMap.put("partyMember", partyMember);
         }
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
 
         return "party/partyMember/partyMember_au";
     }

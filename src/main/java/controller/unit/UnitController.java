@@ -54,8 +54,6 @@ public class UnitController extends BaseController {
         // 历史单位
         modelMap.put("historyUnits", unitService.findHistoryUnits(id));
 
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
-
         return "unit/unit_base";
     }
 
@@ -78,7 +76,6 @@ public class UnitController extends BaseController {
                             ModelMap modelMap) {
 
         modelMap.put("status", status);
-        modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
         return "unit/unit_page";
     }
     @RequiresPermissions("unit:list")

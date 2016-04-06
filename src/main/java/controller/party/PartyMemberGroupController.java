@@ -375,7 +375,6 @@ public class PartyMemberGroupController extends BaseController {
 
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(id);
             modelMap.put("partyMemberGroup", partyMemberGroup);
-            modelMap.put("typeMap", metaTypeService.metaTypes("mc_party_member_type"));
         }
 
         return "party/partyMemberGroup/party_member";

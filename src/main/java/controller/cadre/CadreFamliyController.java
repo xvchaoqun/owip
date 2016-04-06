@@ -55,7 +55,7 @@ public class CadreFamliyController extends BaseController {
             cadreFamliys = cadreFamliyMapper.selectByExample(example);
         }
         modelMap.put("cadreFamliys", cadreFamliys);
-        modelMap.put("politicalStatusMap", metaTypeService.metaTypes("mc_political_status"));
+
 
         Map<Integer, CadreFamliy> cadreFamliyMap = new HashMap<>();
         for (CadreFamliy cadreFamliy : cadreFamliys) {
@@ -70,7 +70,6 @@ public class CadreFamliyController extends BaseController {
             cadreFamliyAbroads = cadreFamliyAbroadMapper.selectByExample(example);
         }
         modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
-        modelMap.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
 
         return "cadre/cadreFamliy/cadreFamliy_page";
     }

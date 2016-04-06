@@ -108,10 +108,6 @@ public class CadreEduController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("cadreMap", cadreService.findAll());
-        modelMap.put("eduMap", metaTypeService.metaTypes("mc_edu"));
-        modelMap.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
-
         modelMap.put("cadreTutors", cadreTutorService.findAll(cadreId).values());
 
         return "cadre/cadreEdu/cadreEdu_page";

@@ -10,6 +10,9 @@ public class Dispatch implements Serializable {
     public String getDispatchCode(){
         return CmTag.getDispatchCode(code, dispatchTypeId, year);
     }
+    public DispatchType getDispatchType(){
+        return CmTag.getDispatchType(dispatchTypeId);
+    }
 
     private Integer id;
 

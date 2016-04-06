@@ -52,8 +52,6 @@ public class MemberOutflowController extends BaseController {
         modelMap.put("memberOutflow", memberOutflow);
 
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("branchMap", branchMap);
@@ -165,8 +163,6 @@ public class MemberOutflowController extends BaseController {
         modelMap.put("commonList", commonList);
 
         modelMap.put("locationMap", locationService.codeMap());
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
 
         return "party/memberOutflow/memberOutflow_page";
     }

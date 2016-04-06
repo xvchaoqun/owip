@@ -71,9 +71,6 @@ public class MemberOutController extends BaseController {
         MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
-        modelMap.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        modelMap.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
-
         return "party/memberOut/memberOut_view";
     }
 

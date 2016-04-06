@@ -5,12 +5,15 @@ import controller.BaseController;
 import domain.ApproverType;
 import domain.SysUser;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
+import sys.tool.paging.CommonList;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,40 +36,41 @@ public class MobileIndexController extends BaseController {
 	}
 
 	@RequestMapping("/index_page")
-	public String home_page(@CurrentUser SysUser loginUser,ModelMap modelMap) {
+	public String home_page(@CurrentUser SysUser loginUser,HttpServletResponse response, ModelMap modelMap) {
 
-		Integer userId = loginUser.getId();
+		Subject subject = SecurityUtils.getSubject();
+		int notApprovalCount = 0;
+		int hasApprovalCount = 0;
+		if(!subject.hasRole("cadreAdmin")) { // 干部 登录
 
-		//==============================================
-		Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-		//Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
-
-		ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-		ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-
-		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-
-		if (approverTypeBean.getMainPostUnitId() != null) {
-			List unitIds = new ArrayList();
-			unitIds.add(approverTypeBean.getMainPostUnitId());
-			approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
+			Integer userId = loginUser.getId();
+			{
+				Map map = applySelfService.findApplySelfList(userId, null, null, null, 0, null, null);
+				CommonList commonList = (CommonList) map.get("commonList");
+				notApprovalCount = commonList.recNum;
+			}
+			{
+				Map map = applySelfService.findApplySelfList(userId, null, null, null, 1, null, null);
+				CommonList commonList = (CommonList) map.get("commonList");
+				hasApprovalCount = commonList.recNum;
+			}
+		}else{ // 干部管理员 登录
+			{
+				Map map = applySelfService.findApplySelfList(response, null, null,
+						null, 0, null, null, null, null, 0);
+				CommonList commonList = (CommonList) map.get("commonList");
+				notApprovalCount = commonList.recNum;
+			}
+			{
+				Map map = applySelfService.findApplySelfList(response, null, null,
+						null, 1, null, null, null, null, 0);
+				CommonList commonList = (CommonList) map.get("commonList");
+				hasApprovalCount = commonList.recNum;
+			}
 		}
-		if (approverTypeBean.getLeaderUnitIds().size() > 0) {
-			approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
-		}
-
-		Map<Integer, List<Integer>> approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
-
-		if (approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
-		if (approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
-		//==============================================
-
-		int notApprovalCount = selectMapper.countNotApproval(null, approverTypeUnitIdListMap, approverTypePostIdListMap);
-		int hasApprovalCount = selectMapper.countHasApproval(null, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
-
 		modelMap.put("notApprovalCount", notApprovalCount);
 		modelMap.put("hasApprovalCount", hasApprovalCount);
+
 		return "m/index_page";
 	}
 }

@@ -56,7 +56,7 @@ public class CadreFamliyAbroadController extends BaseController {
             return null;
         }
 
-        modelMap.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
+
        
         return "cadre/cadreFamliyAbroad/cadreFamliyAbroad_page";
     }

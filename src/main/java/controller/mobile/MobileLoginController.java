@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.AuthToken;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.RequestUtils;
@@ -43,19 +44,14 @@ public class MobileLoginController extends BaseController {
 										HttpServletRequest request,
 										HttpServletResponse response) throws IOException {
 
-		AuthToken token = new AuthToken(username,
-				password.toCharArray(), false, request.getRemoteHost(), null, null);
-
 		Set<String> roles = sysUserService.findRoles(username);
-		if(!roles.contains("cadre")){
+		if(!roles.contains("cadre") && !roles.contains("cadreAdmin")){
 
-			Map<String, Object> resultMap = new HashMap();
-			resultMap.put("success", false);
-			resultMap.put("msg", "权限错误");
-
-			return resultMap;
+			return failed("权限错误");
 		}
 
+		AuthToken token = new AuthToken(username,
+				password.toCharArray(), false, request.getRemoteHost(), null, null);
 		try {
 			SecurityUtils.getSubject().login(token);
 		}catch (Exception e){
@@ -63,27 +59,7 @@ public class MobileLoginController extends BaseController {
 			String userAgent = RequestUtils.getUserAgent(request);
 			logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
 
-			Map<String, Object> resultMap = new HashMap();
-			resultMap.put("success", false);
-			if ("SystemClosedException".equals(message)) {
-
-				resultMap.put("msg", "参评人员测评未开启");
-			} else if ("IncorrectCredentialsException".equals(message)) {
-				resultMap.put("msg", "账号或密码错误");
-			} else if ("UnknownAccountException".equals(message)) {
-				resultMap.put("msg", "账号或密码错误");
-			} else if ("IncorrectCaptchaException".equals(message)) {
-				resultMap.put("msg", "验证码错误");
-			} else if ("LockedAccountException".equals(message)) {
-				resultMap.put("msg", "账号被锁定");
-			}else if ("InspectorFinishException".equals(message)) {
-				resultMap.put("msg", "该账号已经测评完成");
-			}else if("SSOException".equals(message)){
-				resultMap.put("msg", "单点登录服务器错误，请稍后重试");
-			}else {
-				resultMap.put("msg", "系统错误");
-			}
-			return resultMap;
+			return SystemConstants.loginFailedResultMap(message);
 		}
 
 		String successUrl=request.getContextPath() + "/m/index";
@@ -92,11 +68,8 @@ public class MobileLoginController extends BaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
-		Map<String, Object> resultMap = new HashMap();
-		resultMap.put("success", true);
-		resultMap.put("msg", "登入成功");
+		Map<String, Object> resultMap = success("登入成功");
 		resultMap.put("url", successUrl);
-
 		return resultMap;
 	}
 
