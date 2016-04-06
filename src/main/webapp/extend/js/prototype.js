@@ -53,3 +53,44 @@ function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式
     iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数
     return  iDays
 }
+
+
+var SysMsg = {};
+SysMsg.error = function(msg, title){
+    $("body").css('padding-right','0px');
+    bootbox.alert(msg);
+    //toastr.error(msg, title);
+}
+SysMsg.warning = function(msg, title){
+    $("body").css('padding-right','0px');
+    //toastr.warning(msg, title);
+    bootbox.alert(msg);
+}
+SysMsg.success = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.success(msg, title);
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
+}
+SysMsg.info = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.info(msg, title);
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
+}
+SysMsg.confirm = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.success(msg, title);
+    bootbox.confirm({
+        message:msg,
+        callback:callback,
+        title:title,
+        closeButton:false
+    });
+}

@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                             </td>
                                 <c:set value="${dispatchMap.get(dispatchUnit.dispatchId)}" var="dispatch"/>
 								<td nowrap>${dispatch.year}</td>
-								<td nowrap>${metaTypeMap.get(dispatch.typeId).name}</td>
+								<td nowrap>${dispatchTypeMap.get(dispatch.typeId).name}</td>
 								<td nowrap>${dispatch.code}</td>
                                 <td nowrap>${dispatchUnitTypeMap.get(dispatchUnit.typeId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">

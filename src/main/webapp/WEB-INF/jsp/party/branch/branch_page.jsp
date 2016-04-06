@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                                         <div class="col-xs-6">
                                             <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性"> 
                                                 <option></option>
-                                                  <c:forEach items="${unitTypeMap}" var="unitType"> 
+                                                  <c:forEach items="${branchUnitTypeMap}" var="unitType"> 
                                                     <option value="${unitType.key}">${unitType.value.name}</option>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>

@@ -30,16 +30,17 @@
                             <div class="openView message-item" data-openby="page"
                                  data-url="${ctx}/m/applySelf_view?id=${applySelf.id}&status=${status}">
                                 <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
-                                <span class="sender">【S${applySelf.id}】${fn:replace(applySelf.reason, '+++', ',')}</span>
+                                <span class="sender">${sysUser.realname}-${cadre.title}</span>
                                 <span class="time">${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</span>
                                 <span class="summary">
                                     <span class="text">
-                                        ${sysUser.realname}-${cadre.title}
+                                        <c:set var="reasons" value="${fn:split(applySelf.reason, '+++')}"/>
+                                        ${reasons[0]}${fn:length(reasons)>1?'等':''}，
+                                        ${cm:formatDate(applySelf.startDate,'MM-dd')}~${cm:formatDate(applySelf.endDate,'MM-dd')}，
+                                         <c:set var="toCountrys" value="${fn:split(applySelf.toCountry, ',')}"/>
+                                        ${toCountrys[0]}${fn:length(toCountrys)>1?'等':''}
                                     </span>
                                     <a class="btn ${status==0?'btn-info':'btn-warning'} btn-xs pull-right">${status==0?'审批':'详情'}</a>
-                                </span>
-                                <span class="time">
-
                                 </span>
                             </div>
                             </c:forEach>

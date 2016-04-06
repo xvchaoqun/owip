@@ -5,13 +5,14 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/cadre_au?status=${status}"
-             data-url-page="${ctx}/cadre_page"
-             data-url-del="${ctx}/cadre_del"
-             data-url-bd="${ctx}/cadre_batchDel"
-             data-url-co="${ctx}/cadre_changeOrder?status=${status}"
-             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content">
+            <div  class="myTableDiv"
+                  data-url-au="${ctx}/cadre_au?status=${status}"
+                  data-url-page="${ctx}/cadre_page"
+                  data-url-del="${ctx}/cadre_del"
+                  data-url-bd="${ctx}/cadre_batchDel"
+                  data-url-co="${ctx}/cadre_changeOrder?status=${status}"
+                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -100,55 +101,54 @@ pageEncoding="UTF-8" %>
                     <a href="?status=${cadreStatus.key}"><i class="fa fa-flag"></i> ${cadreStatus.value}</a>
                 </li>
                 </c:forEach>
-                <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
 
-                    <shiro:hasPermission name="cadre:edit">
-                        <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
-                            <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
-                            <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
-                            <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任处级干部</c:if>
-                            <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
-                        </a>
-                    </shiro:hasPermission>
+            </ul>
 
-                    <button class="jqEditBtn btn btn-primary btn-sm">
-                        <i class="fa fa-edit"></i> 修改信息
-                    </button>
+            <div class="tab-content">
+                <div id="home4" class="tab-pane in active">
+                    <div class="jqgrid-vertical-offset buttons">
 
-                    <c:if test="${status==CADRE_STATUS_TEMP}">
-                        <button onclick="_pass()" class="btn btn-success btn-sm">
-                            <i class="fa fa-edit"></i> 通过常委会任命
+                        <shiro:hasPermission name="cadre:edit">
+                            <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
+                                <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
+                                <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
+                                <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任处级干部</c:if>
+                                <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
+                            </a>
+                        </shiro:hasPermission>
+
+                        <button class="jqEditBtn btn btn-primary btn-sm">
+                            <i class="fa fa-edit"></i> 修改信息
                         </button>
-                    </c:if>
 
-                    <c:if test="${status==CADRE_STATUS_NOW}">
-                        <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_LEAVE}">
-                            <i class="fa fa-edit"></i> 离任
-                        </button>
-                    </c:if>
-                    <a class="importBtn btn btn-primary btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                        <c:if test="${status==CADRE_STATUS_TEMP}">
+                            <button onclick="_pass()" class="btn btn-success btn-sm">
+                                <i class="fa fa-edit"></i> 通过常委会任命
+                            </button>
+                        </c:if>
+
+                        <c:if test="${status==CADRE_STATUS_NOW}">
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_LEAVE}">
+                                <i class="fa fa-edit"></i> 离任
+                            </button>
+                        </c:if>
+                        <a class="importBtn btn btn-primary btn-sm tooltip-success"
+                           data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
                         <a class="exportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="cadre:del">
                             <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
-                </div>
-            </ul>
-
-            <div class="tab-content">
-                <div id="home4" class="tab-pane in active">
-
-        <div >
+                    </div>
 
             <div class="space-4"></div>
 
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
 
-        </div>
                 </div></div></div>
+                </div>
         </div>
         <div id="item-content">
 

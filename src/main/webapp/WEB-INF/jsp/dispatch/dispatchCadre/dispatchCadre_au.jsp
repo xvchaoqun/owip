@@ -190,5 +190,15 @@ pageEncoding="UTF-8"%>
             cache: true
         }
     });
-    register_cadre_select($('#modalForm select[name=cadreId]'), $('#modalForm input[name=_name]'));
+
+    var $selectCadre = register_user_select($('#modalForm select[name=cadreId]'),function(state){ var $state = state.text;
+        if(state.code!=undefined && state.code.length>0)
+            $state = state.code;
+        return $state;
+    });
+    $selectCadre.on("change",function(){
+        var name = $(this).select2("data")[0]['text']||'';
+        $('#modalForm input[name=_name]').val(name);
+    });
+    //register_cadre_select($('#modalForm select[name=cadreId]'), $('#modalForm input[name=_name]'));
 </script>

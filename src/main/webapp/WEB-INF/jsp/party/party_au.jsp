@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-8">
 						<select required class="form-control" name="classId" data-rel="select2" data-placeholder="请选择分类">
 							<option></option>
-							<c:forEach items="${classMap}" var="cls">
+							<c:forEach items="${partyClassMap}" var="cls">
 								<option value="${cls.key}">${cls.value.name}</option>
 							</c:forEach>
 						</select>
@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-8">
 						<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择">
 							<option></option>
-							<c:forEach items="${unitTypeMap}" var="unitType">
+							<c:forEach items="${partyUnitTypeMap}" var="unitType">
 								<option value="${unitType.key}">${unitType.value.name}</option>
 							</c:forEach>
 						</select>

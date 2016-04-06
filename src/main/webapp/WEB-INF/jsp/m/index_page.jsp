@@ -12,6 +12,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-8 infobox-container">
+                    <shiro:lacksRole name="cadreAdmin">
                     <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelfList?status=0">
                         <div class="infobox-icon">
                             <i class="ace-icon fa fa-history"></i>
@@ -32,7 +33,30 @@
                             <div class="infobox-content">因私出国（境）申请</div>
                         </div>
                     </div>
-                    </div>
+                    </shiro:lacksRole>
+                    <shiro:hasRole name="cadreAdmin">
+                        <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelf?status=0">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-history"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">${notApprovalCount} <span style="font-size: 10pt;">未完成审批</span></span>
+                                <div class="infobox-content">因私出国（境）申请</div>
+
+                            </div>
+                        </div>
+
+                        <div class="ahref infobox infobox-green" data-url="${ctx}/m/applySelf?status=1">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-check-square-o"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">${hasApprovalCount}  <span style="font-size: 10pt;">已完成审批</span></span>
+                                <div class="infobox-content">因私出国（境）申请</div>
+                            </div>
+                        </div>
+                    </shiro:hasRole>
+                </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->

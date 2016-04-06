@@ -477,6 +477,7 @@ form .form-actions{
 .dispatch_cadres{
     padding: 20px;
     padding-top: 10px;
+    width: 1530px;
 }
 .dispatch_cadres .dispatch, .dispatch_cadres .cadres{
     float: left;

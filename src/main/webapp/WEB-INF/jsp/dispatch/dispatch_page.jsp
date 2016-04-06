@@ -112,7 +112,7 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
 
-                <div class="buttons pull-right" style="margin-right: 20px">
+                <div class="buttons">
                     <shiro:hasPermission name="dispatch:edit">
                         <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
@@ -129,7 +129,6 @@ pageEncoding="UTF-8" %>
                         </shiro:hasPermission>
 
                 </div>
-            <h4>&nbsp;</h4>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
@@ -173,9 +172,11 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份',align:'center', name: 'year',resizable:false, width: 75, frozen:true },
-            { label: '发文类型', align:'center', name: 'dispatchType', width: 100 ,frozen:true},
-            { label:'发文号', align:'center', name: 'dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
+            { label: '年份', name: 'year',resizable:false, width: 75, frozen:true },
+            { label:'发文类型', name: 'dispatchType', width: 100  , formatter:function(cellvalue, options, rowObject){
+                return cellvalue.name;
+            },frozen:true},
+            { label:'发文号',  name: 'dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, cellvalue);
                 else return cellvalue;
@@ -185,17 +186,17 @@ pageEncoding="UTF-8" %>
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
             </c:if>
-            { label: '党委常委会日期', align:'center', name: 'meetingTime', width: 130 },
-            { label: '发文日期', align:'center', name: 'pubTime', width: 100 },
-            { label: '任免日期', align:'center', name: 'workTime', width: 100 },
-            { label: '任免文件', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '党委常委会日期',  name: 'meetingTime', width: 130 },
+            { label: '发文日期',  name: 'pubTime', width: 100 },
+            { label: '任免日期',  name: 'workTime', width: 100 },
+            { label: '任免文件',  width: 100, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">查看</a>'
                             .format(rowObject.id) + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="file">删除</a>'.format(rowObject.id);
                 else return '';
             } },
-            { label: '上会ppt', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '上会ppt',  width: 100, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.pptName && rowObject.pptName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'ppt\')">查看</a>'
                                     .format(rowObject.id) + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'

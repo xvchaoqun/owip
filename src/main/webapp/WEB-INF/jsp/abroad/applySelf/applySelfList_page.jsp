@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">申请日期范围</label>
+                                                    <label class="col-xs-4 control-label">申请日期范围</label>
                                                     <div class="col-xs-6">
                                                         <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
                                                             <span class="input-group-addon">

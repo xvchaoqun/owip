@@ -63,6 +63,7 @@
   </script>
 
 <script src="${ctx}/extend/js/jquery.showLoading.min.js"></script>
+<script src="${ctx}/extend/js/bootbox.min.js"></script>
 <script src="${ctx}/extend/js/prototype.js"></script>
 <script src="${ctx}/extend/js/m/custom.js"></script>
 <script src="${ctx}/extend/js/m/setup.js"></script>

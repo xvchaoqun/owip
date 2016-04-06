@@ -47,7 +47,7 @@
         <div class="space"></div>
         <div class="center">
 
-          <a href="/" class="btn btn-primary">
+          <a href="${ctx}/" class="btn btn-primary">
             <i class="ace-icon fa fa-home"></i>
             回到首页
           </a>

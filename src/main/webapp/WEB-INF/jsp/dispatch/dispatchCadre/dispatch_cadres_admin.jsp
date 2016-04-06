@@ -218,7 +218,11 @@
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
 
-  var $selectCadre = register_user_select($('#cadreForm select[name=cadreId]'));
+  var $selectCadre = register_user_select($('#cadreForm select[name=cadreId]'),function(state){ var $state = state.text;
+    if(state.code!=undefined && state.code.length>0)
+      $state = state.code;
+    return $state;
+  });
   $selectCadre.on("change",function(){
     var name = $(this).select2("data")[0]['text']||'';
     $('#cadreForm input[name=_name]').val(name);

@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-4"></div>
+                <%--<div class="space-4"></div>--%>
                 <table id="jqGrid" class="jqGrid table-striped"> </table>
                 <div id="jqGridPager"> </div>
             </div>
@@ -77,20 +77,20 @@
         multiselect:false,
         url: '${ctx}/shortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '接收方',align:'center', name: 'receiverId',resizable:false, width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '接收方', name: 'receiverId',resizable:false, width: 100, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.user.id, rowObject.user.realname);
             } ,frozen:true},
-            { label: '类别', align:'center', name: 'type', width: 200 ,frozen:true},
-            { label: '手机号码', align:'center', name: 'mobile', width: 100 ,frozen:true},
-            { label: '短信内容', align:'center', name: 'content', width: 350},
-            { label: '发送时间', align:'center', name: 'createTime', width: 200},
-            { label: 'IP', align:'center', name: 'ip', width: 100},
-            { label: '是否成功', align:'center', name: 'status', width: 50, formatter:function(cellvalue, options, rowObject){
+            { label: '类别',  name: 'type', width: 200 ,frozen:true},
+            { label: '手机号码',  name: 'mobile', width: 100 ,frozen:true},
+            { label: '短信内容',  name: 'content', width: 350},
+            { label: '发送时间',  name: 'createTime', width: 200},
+            { label: 'IP',  name: 'ip', width: 100},
+            { label: '是否成功',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
                 return status?'<span class="label label-success">是</span>':'<span class="label label-danger">否</span>';
             }},
-            { label: '返回结果', align:'center', name: 'ret', width: 200},
-            { label: '备注', align:'center', name: 'remark', width: 200}
+            { label: '返回结果',  name: 'ret', width: 200},
+            { label: '备注',  name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

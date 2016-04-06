@@ -86,6 +86,7 @@ window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<
 <script src="${ctx}/assets/js/jquery.inputlimiter.1.3.1.js"></script>
 
 <script type="text/javascript" src="${ctx}/location_JSON"></script>
+<script type="text/javascript" src="${ctx}/metaMap_JSON"></script>
 
 <script src="${ctx}/extend/js/jqGrid/jquery.jqGrid.min.js"></script>
 <script src="${ctx}/extend/js/jqGrid/i18n/grid.locale-cn.js"></script>

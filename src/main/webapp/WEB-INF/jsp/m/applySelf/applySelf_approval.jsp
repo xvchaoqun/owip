@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 			approvalTypeId:approvalTypeId, status:status, remark:remark },function(ret){
 			if(ret.success){
 				$("#modal").modal('hide');
-				location.href='${ctx}/m/applySelfList';
+				location.href="${ctx}${param.type=='admin'?'/m/applySelf':'/m/applySelfList'}";
 			}
 		});
 	});

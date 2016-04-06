@@ -9,7 +9,7 @@
 
     <b class="arrow"></b>
   </li>
-
+  <shiro:lacksRole name="cadreAdmin">
   <li class="${_path=='/m/applySelfList'?'active':''}">
     <a href="${ctx}/m/applySelfList">
       <i class="menu-icon fa fa-pencil-square-o"></i>
@@ -18,6 +18,17 @@
     </a>
     <b class="arrow"></b>
   </li>
+  </shiro:lacksRole>
+  <shiro:hasRole name="cadreAdmin">
+    <li class="${_path=='/m/applySelf'?'active':''}">
+      <a href="${ctx}/m/applySelf">
+        <i class="menu-icon fa fa-pencil-square-o"></i>
+        <span class="menu-text"> 因私出国境审批 </span>
+          <%--<b class="arrow fa fa-angle-down"></b>--%>
+      </a>
+      <b class="arrow"></b>
+    </li>
+  </shiro:hasRole>
   <li class="">
     <a href="javascript:;" onclick="_logout()">
       <i class="menu-icon fa fa-power-off"></i>

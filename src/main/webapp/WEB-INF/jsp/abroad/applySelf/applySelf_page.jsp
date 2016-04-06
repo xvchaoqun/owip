@@ -58,9 +58,9 @@
                                 <i class="fa fa-info-circle"></i> 短信提醒
                             </button>
                                 </c:if>
-                                <shiro:hasPermission name="applySelf:del">
-                                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                                </shiro:hasPermission>
+                                <%--<shiro:hasPermission name="applySelf:del">
+                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                </shiro:hasPermission>--%>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                        placeholder="请输入账号">
                 <select name="typeId" data-rel="select2" data-placeholder="请选择类别">
                     <option></option>
-                    <c:forEach items="${typeMap}" var="type">
+                    <c:forEach items="${partyMemberTypeMap}" var="type">
                         <option value="${type.key}">${type.value.name}</option>
                     </c:forEach>
                 </select>

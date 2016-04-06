@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row dispatch_cadres">
-
     <div class="dispatch">
         <div class="widget-box">
             <div class="widget-header">

@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </select>
             <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                 <option></option>
-                <c:forEach var="metaType" items="${metaTypeMap}">
+                <c:forEach var="metaType" items="${leaderUnitTypeMap}">
                     <option value="${metaType.value.id}">${metaType.value.name}</option>
                 </c:forEach>
             </select>
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                 <c:forEach items="${leaderUnits}" var="leaderUnit" varStatus="st">
                     <tr>
                         <td nowrap>${unitMap.get(leaderUnit.unitId).name}</td>
-                        <td nowrap>${metaTypeMap.get(leaderUnit.typeId).name}</td>
+                        <td nowrap>${leaderUnitTypeMap.get(leaderUnit.typeId).name}</td>
                          
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">

@@ -27,7 +27,7 @@
           <td>${cm:formatDate(cadreWork.endTime,'yyyy-MM-dd')}</td>
           <td>${cadreWork.unit}</td>
           <td>${cadreWork.post}</td>
-          <td>${typeMap.get(cadreWork.typeId).name}</td>
+          <td>${adminLevelMap.get(cadreWork.typeId).name}</td>
           <td>${cadreWork.workType==1?"院系工作经历":"机关工作经历"}</td>
 
           <td>

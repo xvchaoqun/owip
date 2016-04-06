@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
 						</c:if>${cm:getUserById(partyMember.userId).realname}</td>
 						<td >
-								${typeMap.get(partyMember.typeId).name}
+								${partyMemberTypeMap.get(partyMember.typeId).name}
 						</td>
 					</tr>
 				</c:forEach>

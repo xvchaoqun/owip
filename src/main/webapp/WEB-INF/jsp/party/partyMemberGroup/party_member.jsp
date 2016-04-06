@@ -80,7 +80,7 @@
                                 <span class="label label-success arrowed-in arrowed-in-right">管理员</span>
                             </c:if>${cm:getUserById(partyMember.userId).realname}
                         </td>
-                        <td nowrap>${typeMap.get(partyMember.typeId).name}</td>
+                        <td nowrap>${partyMemberTypeMap.get(partyMember.typeId).name}</td>
                         <shiro:hasPermission name="partyMember:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

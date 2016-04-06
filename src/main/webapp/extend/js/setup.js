@@ -27,7 +27,8 @@ $.jgrid.defaults.mtype = "GET";
 $.jgrid.defaults.datatype = "jsonp";
 $.jgrid.defaults.loadui = "disable";
 $.jgrid.defaults.pager = "#jqGridPager";
-$.jgrid.defaults.cmTemplate = {sortable:false};
+$.jgrid.defaults.cmTemplate = {sortable:false,
+    align:'center', width:100};
 $.jgrid.defaults.sortorder = "desc";
 $.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
     $(".jqEditBtn").click();
@@ -127,45 +128,6 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
-}
-var SysMsg = {};
-SysMsg.error = function(msg, title){
-    $("body").css('padding-right','0px');
-    bootbox.alert(msg);
-    //toastr.error(msg, title);
-}
-SysMsg.warning = function(msg, title){
-    $("body").css('padding-right','0px');
-    //toastr.warning(msg, title);
-    bootbox.alert(msg);
-}
-SysMsg.success = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.success(msg, title);
-    bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
-    });
-}
-SysMsg.info = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.info(msg, title);
-    bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
-    });
-}
-SysMsg.confirm = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.success(msg, title);
-    bootbox.confirm({
-        message:msg,
-        callback:callback,
-        title:title,
-        closeButton:false
-    });
 }
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){
@@ -865,10 +827,14 @@ function formatState (state) {
     //console.log($state)
     return $state;
 };
+function templateSelection(state){
+    return state.text;
+}
 // 选择账号
-function register_user_select($select){
+function register_user_select($select, ts){
     return $select.select2({
         templateResult: formatState,
+        templateSelection:ts||templateSelection,
         ajax: {
             dataType: 'json',
             delay: 300,
