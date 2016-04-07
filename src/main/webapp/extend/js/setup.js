@@ -1056,10 +1056,3 @@ function printWindow(url){
         }
     }
 }
-
-/**jqgrid**/
-function realnameFormatter(cellvalue, options, rowObject){
-
-    return '<a href="javascript:;" class="openView" data-url="{0}/member_view?userId={1}">{2}</a>'
-        .format(ctx, rowObject.userId, cellvalue);
-}

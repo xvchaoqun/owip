@@ -324,6 +324,7 @@ public class BaseController extends BaseMapper {
         map.put("dispatchMap", dispatchService.findAll());
 
         map.put("dispatchCadreMap", dispatchCadreService.findAll());
+        map.put("dispatchUnitMap", dispatchUnitService.findAll());
         map.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
 
 

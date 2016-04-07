@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
                             name="dispatchId" data-placeholder="请选择发文">
-                        <option value="${dispatch.id}">${dispatch.code}</option>
+                        <option value="${dispatch.id}"> ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}</option>
                     </select>
 				</div>
 			</div>

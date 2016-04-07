@@ -50,7 +50,11 @@ pageEncoding="UTF-8" %>
 								<td>${cm:formatDate(partyMemberGroup.tranTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}</td>
-								<td >${partyMemberGroup.dispatchUnitId}</td>
+								<td >
+                                    <c:set var="dispatchUnit" value="${dispatchUnitMap.get(partyMemberGroup.dispatchUnitId)}"/>
+                                    <c:set var="dispatch" value="${dispatchMap.get(dispatchUnit.dispatchId)}"/>
+                                        ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}
+                                </td>
                             <%--<shiro:hasPermission name="partyMemberGroup:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

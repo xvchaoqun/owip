@@ -1,8 +1,18 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class DispatchUnit implements Serializable {
+
+    public Dispatch getDispatch(){
+        return CmTag.getDispatch(dispatchId);
+    }
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
+
     private Integer id;
 
     private Integer dispatchId;

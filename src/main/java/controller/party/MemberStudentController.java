@@ -50,7 +50,7 @@ public class MemberStudentController extends BaseController {
         return "index";
     }
 
-    @RequiresPermissions("memberStudent:list")
+    /*@RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_page1")
     public String memberStudent_page1(HttpServletResponse response,
                                      @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_student") String sort,
@@ -118,7 +118,7 @@ public class MemberStudentController extends BaseController {
         //modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
         return "party/memberStudent/memberStudent_page";
-    }
+    }*/
 
     @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_page")

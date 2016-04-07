@@ -5,6 +5,8 @@ import domain.*;
 import domain.DispatchUnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.DispatchMixin;
+import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +28,7 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -45,16 +48,23 @@ public class DispatchUnitController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("dispatchUnit:list")
     @RequestMapping("/dispatchUnit_page")
-    public String dispatchUnit_page(HttpServletResponse response,
+    public String dispatchUnit_page(ModelMap modelMap) {
+
+        return "dispatch/dispatchUnit/dispatchUnit_page";
+    }
+    @RequiresPermissions("dispatchUnit:list")
+    @RequestMapping("/dispatchUnit_data")
+    public void dispatchUnit_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
                                     Integer unitId,
                                     Integer typeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -80,7 +90,7 @@ public class DispatchUnitController extends BaseController {
 
         if (export == 1) {
             dispatchUnit_export(example, response);
-            return null;
+            return;
         }
 
         int count = dispatchUnitMapper.countByExample(example);
@@ -89,31 +99,19 @@ public class DispatchUnitController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<DispatchUnit> DispatchUnits = dispatchUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("dispatchUnits", DispatchUnits);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", DispatchUnits);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (year!=null) {
-            searchStr += "&year=" + year;
-        }
-        if (unitId!=null) {
-            searchStr += "&unitId=" + unitId;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        return "dispatch/dispatchUnit/dispatchUnit_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Dispatch.class, DispatchMixin.class);
+        sourceMixins.put(Unit.class, UnitMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("dispatchUnit:edit")

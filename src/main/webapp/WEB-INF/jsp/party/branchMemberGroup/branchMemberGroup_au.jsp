@@ -80,7 +80,9 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
                             name="dispatchUnitId" data-placeholder="请选择单位发文">
-                        <option value="${branchMemberGroup.dispatchUnitId}">${dispatch.code}</option>
+                        <option value="${branchMemberGroup.dispatchUnitId}">
+                            ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}
+                        </option>
                     </select>
 				</div>
 			</div>

@@ -5,26 +5,40 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
-             data-url-au="${ctx}/partyMemberGroup_au"
-             data-url-page="${ctx}/partyMemberGroup_page"
-             data-url-del="${ctx}/partyMemberGroup_del"
-             data-url-bd="${ctx}/partyMemberGroup_batchDel"
-             data-url-co="${ctx}/partyMemberGroup_changeOrder"
+             data-url-au="${ctx}/dispatchUnit_au"
+             data-url-page="${ctx}/dispatchUnit_page"
+             data-url-del="${ctx}/dispatchUnit_del"
+             data-url-bd="${ctx}/dispatchUnit_batchDel"
+             data-url-co="${ctx}/dispatchUnit_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                       placeholder="请输入名称">
-                <select name="partyId" data-rel="select2" data-placeholder="请选择所属党总支">
+
+                <div class="input-group">
+                    <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                           data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+                <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                     <option></option>
-                    <c:forEach items="${partyMap}" var="party">
-                        <option value="${party.key}">${party.value.name}</option>
+                    <c:forEach items="${unitMap}" var="unit">
+                        <option value="${unit.key}">${unit.value.name}</option>
                     </c:forEach>
                 </select>
                 <script>
-                    $("#searchForm select[name=partyId]").val('${param.partyId}');
+                    $("#searchForm select[name=unitId]").val('${param.unitId}');
                 </script>
+                <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
+                    <option></option>
+                    <c:forEach var="dispatchUnitType" items="${dispatchUnitTypeMap}">
+                        <option value="${dispatchUnitType.value.id}">${dispatchUnitType.value.name}</option>
+                    </c:forEach>
+                </select>
+                <script type="text/javascript">
+                    $("#searchForm select[name=typeId]").val('${param.typeId}');
+                </script>
+
                 <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.partyId ||not empty param.name || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.year ||not empty param.unitId ||not empty param.typeId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -32,10 +46,13 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <div class="vspace-12"></div>
                 <div class="buttons pull-right">
+                    <shiro:hasPermission name="dispatchUnit:edit">
+                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
                     <a class="exportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="partyMemberGroup:del">
+                    <shiro:hasPermission name="dispatchUnit:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                      </shiro:hasPermission>
                     </c:if>
@@ -52,67 +69,66 @@ pageEncoding="UTF-8" %>
                                 <span class="lbl"></span>
                             </label>
                         </th>
-							<th>名称</th>
-							<th>所属党总支</th>
-                        <mytag:sort-th field="tran_time">应换届时间</mytag:sort-th>
-                        <mytag:sort-th field="actual_tran_time">实际换届时间</mytag:sort-th>
-                        <mytag:sort-th field="appoint_time">任命时间</mytag:sort-th>
-							<th>单位发文</th>
-                        <%--<shiro:hasPermission name="partyMemberGroup:changeOrder">
+							<th>所属发文</th>
+							<th>所属单位</th>
+							<th>类型</th>
+							<th>年份</th>
+							<th>备注</th>
+                        <shiro:hasPermission name="dispatchUnit:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap>排序</th>
                             </c:if>
-                        </shiro:hasPermission>--%>
+                        </shiro:hasPermission>
                         <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${partyMemberGroups}" var="partyMemberGroup" varStatus="st">
-                        <tr <c:if test="${partyMemberGroup.isPresent}">class="success" </c:if>>
+                    <c:forEach items="${dispatchUnits}" var="dispatchUnit" varStatus="st">
+                        <tr>
                             <td class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" value="${partyMemberGroup.id}" class="ace">
+                                    <input type="checkbox" value="${dispatchUnit.id}" class="ace">
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-								<td>
-								<c:if test="${partyMemberGroup.isPresent}">
-                                    <span class="label label-sm label-primary arrowed-in arrowed-in-right">现任班子</span>
-								</c:if>${partyMemberGroup.name}
-								</td>
-								<td>${partyMap.get(partyMemberGroup.partyId).name}</td>
-								<td>${cm:formatDate(partyMemberGroup.tranTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}</td>
-								<td >
-                                    <c:set var="dispatchUnit" value="${dispatchUnitMap.get(partyMemberGroup.dispatchUnitId)}"/>
-                                    <c:set var="dispatch" value="${dispatchMap.get(dispatchUnit.dispatchId)}"/>
-                                    ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}
-								</td>
-                            <%--<shiro:hasPermission name="partyMemberGroup:changeOrder">
+                                <c:set var="dispatch" value="${dispatchMap.get(dispatchUnit.dispatchId)}"/>
+                            <c:if test="${not empty dispatch.fileName}">
+                                <td nowrap><a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">
+                                        ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</a></td>
+                            </c:if>
+                            <c:if test="${empty dispatch.fileName}">
+                                <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
+                            </c:if>
+
+                                </td>
+								<td nowrap>${unitMap.get(dispatchUnit.unitId).name}</td>
+								<td nowrap>${dispatchUnitTypeMap.get(dispatchUnit.typeId).name}</td>
+								<td nowrap>${dispatchUnit.year}</td>
+								<td>${dispatchUnit.remark}</td>
+                            <shiro:hasPermission name="dispatchUnit:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${partyMemberGroup.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${dispatchUnit.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${partyMemberGroup.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${dispatchUnit.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
-                            </shiro:hasPermission>--%>
-                            <td>
+                            </shiro:hasPermission>
+                            <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="partyMemberGroup:edit">
-                                    <button data-id="${partyMemberGroup.id}" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <shiro:hasPermission name="dispatchUnit:edit">
+                                    <button data-id="${dispatchUnit.id}" class="editBtn btn btn-default btn-mini btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                    <shiro:hasPermission name="partyMember:list">
-                                        <button data-id="${partyMemberGroup.id}" class="memberBtn btn btn-primary btn-mini btn-xs">
-                                            <i class="fa fa-user"></i> 编辑委员
+                                    <shiro:hasPermission name="dispatchUnitRelate:list">
+                                        <button data-id="${dispatchUnit.id}" class="relateBtn btn btn-primary btn-mini btn-xs">
+                                            <i class="fa fa-sitemap"></i> 编辑关联单位
                                         </button>
                                     </shiro:hasPermission>
-                                     <%--<shiro:hasPermission name="partyMemberGroup:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${partyMemberGroup.id}">
+                                    <%-- <shiro:hasPermission name="dispatchUnit:del">
+                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${dispatchUnit.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>--%>
@@ -131,18 +147,18 @@ pageEncoding="UTF-8" %>
                                                         </span>
                                             </a>
                                         </li>--%>
-                                            <shiro:hasPermission name="partyMemberGroup:edit">
+                                            <shiro:hasPermission name="dispatchUnit:edit">
                                             <li>
-                                                <a href="#" data-id="${partyMemberGroup.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="#" data-id="${dispatchUnit.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             </shiro:hasPermission>
-                                            <shiro:hasPermission name="partyMemberGroup:del">
+                                            <shiro:hasPermission name="dispatchUnit:del">
                                             <li>
-                                                <a href="#" data-id="${partyMemberGroup.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${dispatchUnit.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -157,7 +173,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/partyMemberGroup_page" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/dispatchUnit_page" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
@@ -169,11 +185,14 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    // 编辑成员
-    $(".myTableDiv .memberBtn").click(function(){
-        loadModal("${ctx}/party_member?id="+$(this).data("id"));
+
+    register_date($('.date-picker'));
+
+    // 关联单位
+    $(".myTableDiv .relateBtn").click(function(){
+        loadModal("${ctx}/dispatchUnit_relate?id="+$(this).data("id"));
     });
 
-    $('[data-rel="select2"]').select2({width:300});
+    $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
