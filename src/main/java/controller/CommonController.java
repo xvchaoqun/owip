@@ -43,11 +43,14 @@ public class CommonController extends BaseController{
         for (MetaType metaType : metaTypeMap.values()) {
             map.put(metaType.getId(), metaType.getName());
         }
-
         modelMap.put("metaMap", JSONUtils.toString(map));
 
         Map constantMap = new HashMap();
         constantMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
+        constantMap.put("MEMBER_INFLOW_STATUS_MAP", SystemConstants.MEMBER_INFLOW_STATUS_MAP);
+        constantMap.put("MEMBER_OUTFLOW_STATUS_MAP", SystemConstants.MEMBER_OUTFLOW_STATUS_MAP);
+        constantMap.put("locationMap", locationService.codeMap());
+        constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);
         modelMap.put("cMap", JSONUtils.toString(constantMap));
 
         return "common/metaMap_JSON";

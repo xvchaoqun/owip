@@ -3,7 +3,7 @@
 
   <ul class="preview title nav nav-tabs tab-color-blue background-blue"
       style="padding-right: 20px;margin-bottom: 10px!important;">
-      <div class="buttons" style="margin-bottom: 8px; ">
+      <div class="buttons" style="margin-bottom: 8px;margin-left: 10px; ">
         <a href="javascript:;" class="closeView btn btn-xs btn-success">
           <i class="ace-icon fa fa-backward"></i>
           返回
@@ -280,13 +280,15 @@
             <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
             <div class="popView message-item"  data-url="${ctx}/m/applySelf_detail?id=${applySelf.id}">
               <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
-              <span class="sender">【S${applySelf.id}】${fn:replace(applySelf.reason, '+++', ',')}</span>
+              <span class="sender">
+                ${cm:formatDate(applySelf.startDate,'MM.dd')}~${cm:formatDate(applySelf.endDate,'MM.dd')}，
+                                        <c:set var="reasons" value="${fn:split(applySelf.reason, '+++')}"/>
+                                        ${reasons[0]}${fn:length(reasons)>1?'等':''}，
+                                         <c:set var="toCountrys" value="${fn:split(applySelf.toCountry, ',')}"/>
+                                        ${toCountrys[0]}${fn:length(toCountrys)>1?'等':''}
+              </span>
               <span class="time">${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</span>
-                                <span class="summary">
-                                    <span class="text">
-                                        ${sysUser.realname}-${cadre.title}
-                                    </span>
-                                </span>
+
             </div>
           </c:forEach>
         </div>

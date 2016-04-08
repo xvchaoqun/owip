@@ -552,6 +552,36 @@ $(document).on("click", ".myTableDiv .jqBatchBtn", function(){
     });
 });
 
+// 操作for jqgrid
+$(document).on("click", ".myTableDiv .jqItemBtn", function(){
+
+    var grid = $("#jqGrid");
+    var id  = grid.getGridParam("selrow");
+    if(!id){
+        SysMsg.warning("请选择行", "提示");
+        return ;
+    }
+
+    var queryString = $(this).data("querystr");
+    var idName = $(this).data("id-name") || 'id';
+    var url = $(this).data("url").split("?")[0] + "?"+ idName +"="+id + (queryString?("&"+queryString):"");
+
+    var title = $(this).data("title");
+    var msg = $(this).data("msg");
+    var grid = $("#jqGrid");
+
+    SysMsg.confirm(msg, title, function (result) {
+        if (result) {
+            $.post(url,function (ret) {
+                if (ret.success) {
+                    grid.trigger("reloadGrid");
+                    SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
+
 // 批量删除
 $(document).on("click", ".myTableDiv .batchDelBtn", function(){
 

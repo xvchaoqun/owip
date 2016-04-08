@@ -353,6 +353,7 @@ public class BaseController extends BaseMapper {
 
         map.put("approverTypeMap", approverTypeService.findAll());
 
+        map.put("locationMap", locationService.codeMap());
         return map;
     }
 }

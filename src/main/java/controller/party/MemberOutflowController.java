@@ -5,6 +5,7 @@ import domain.*;
 import domain.MemberOutflowExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MemberOutflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,12 +28,15 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,9 +81,31 @@ public class MemberOutflowController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_page")
-    public String memberOutflow_page(HttpServletResponse response,
+    public String memberOutflow_page(@RequestParam(defaultValue = "1")Integer cls,Integer userId,
+                                     Integer partyId,
+                                     Integer branchId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+        return "party/memberOutflow/memberOutflow_page";
+    }
+    @RequiresPermissions("memberOutflow:list")
+    @RequestMapping("/memberOutflow_data")
+    public void memberOutflow_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_outflow") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -87,7 +113,7 @@ public class MemberOutflowController extends BaseController {
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -119,7 +145,7 @@ public class MemberOutflowController extends BaseController {
 
         if (export == 1) {
             memberOutflow_export(example, response);
-            return null;
+            return;
         }
 
         int count = memberOutflowMapper.countByExample(example);
@@ -128,43 +154,19 @@ public class MemberOutflowController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("memberOutflows", memberOutflows);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", memberOutflows);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
-            searchStr += "&userId=" + userId;
-        }
-        if (type!=null) {
-            searchStr += "&type=" + type;
-        }
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
-        if (partyId != null) {
-            modelMap.put("party", partyMap.get(partyId));
-            searchStr += "&partyId=" + partyId;
-        }
-        if (branchId != null) {
-            modelMap.put("branch", branchMap.get(branchId));
-            searchStr += "&branchId=" + branchId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("locationMap", locationService.codeMap());
-
-        return "party/memberOutflow/memberOutflow_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MemberOutflow.class, MemberOutflowMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("memberOutflow:update")

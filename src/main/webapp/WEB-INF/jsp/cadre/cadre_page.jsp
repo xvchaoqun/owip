@@ -15,85 +15,7 @@ pageEncoding="UTF-8" %>
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-horizontal " id="searchForm">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <div class="form-group">
-                                        <label class="col-xs-3 control-label">姓名</label>
-                                        <div class="col-xs-6">
-                                            <div class="input-group">
-                                                <input type="hidden" name="status" value="${status}">
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
-                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${cadre.id}">${sysUser.realname}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label class="col-xs-3 control-label">行政级别</label>
-                                        <div class="col-xs-6">
-                                            <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
-                                                <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=typeId]").val(${param.typeId});
-                                            </script>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-4">
-                                    <div class="form-group">
-                                        <label class="col-xs-3 control-label">职务属性</label>
-                                        <div class="col-xs-6">
-                                            <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                                                <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_post"/>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=postId]").val(${param.postId});
-                                            </script>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-xs-4">
-                                    <div class="form-group">
-                                        <label class="col-xs-4 control-label">单位及职务</label>
-                                        <div class="col-xs-6">
-                                            <input class="form-control search-query" name="title" type="text" value="${param.title}"
-                                                   placeholder="请输入单位及职务">
-                                        </div>
-                                    </div>
-                                    </div>
-
-                            </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-
-                                <c:if test="${_query || not empty param.sort}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="cadreStatus" items="${CADRE_STATUS_MAP}">
@@ -141,7 +63,85 @@ pageEncoding="UTF-8" %>
                             <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
                     </div>
+                    <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="widget-header">
+                            <h4 class="widget-title">搜索</h4>
+                            <div class="widget-toolbar">
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <form class="form-horizontal " id="searchForm">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">姓名</label>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group">
+                                                        <input type="hidden" name="status" value="${status}">
+                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                                                                name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                            <option value="${cadre.id}">${sysUser.realname}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">行政级别</label>
+                                                <div class="col-xs-6">
+                                                    <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
+                                                        <option></option>
+                                                        <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                                                    </select>
+                                                    <script type="text/javascript">
+                                                        $("#searchForm select[name=typeId]").val(${param.typeId});
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">职务属性</label>
+                                                <div class="col-xs-6">
+                                                    <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                                                        <option></option>
+                                                        <jsp:include page="/metaTypes?__code=mc_post"/>
+                                                    </select>
+                                                    <script type="text/javascript">
+                                                        $("#searchForm select[name=postId]").val(${param.postId});
+                                                    </script>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">单位及职务</label>
+                                                <div class="col-xs-6">
+                                                    <input class="form-control search-query" name="title" type="text" value="${param.title}"
+                                                           placeholder="请输入单位及职务">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix form-actions center">
+                                        <a class="jqSearchBtn btn btn-default btn-sm" ><i class="fa fa-search"></i> 查找</a>
+
+                                        <c:if test="${_query || not empty param.sort}">&nbsp;
+                                            <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
+                                                <i class="fa fa-reply"></i> 重置
+                                            </button>
+                                        </c:if>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             <div class="space-4"></div>
 
             <table id="jqGrid" class="jqGrid table-striped"> </table>
@@ -230,4 +230,3 @@ pageEncoding="UTF-8" %>
 
         register_user_select($('#searchForm select[name=cadreId]'));
 </script>
-</div>

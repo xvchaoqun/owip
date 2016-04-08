@@ -30,13 +30,6 @@ public class MemberFlowController extends BaseController {
 
         modelMap.put("cls", cls);
 
-        return "party/memberFlow/memberFlow_page";
-    }
-
-    @RequiresPermissions("memberFlow:list")
-    @RequestMapping("/memberFlow_byType")
-    public String memberFlow_byType(int cls, ModelMap modelMap) {
-
         if(cls==1)
             return "forward:/memberOutflow_page";
 

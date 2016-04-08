@@ -155,6 +155,9 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
+	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
 	$("#modal :checkbox").bootstrapSwitch();
 	//alert(JSON.stringify(Location.items[0]))
 	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
@@ -172,8 +175,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+						$("#modal").modal('hide');
+						SysMsg.success('提交成功。', '成功',function(){
+							$("#jqGrid").trigger("reloadGrid");
+						});
                     }
                 }
             });

@@ -129,15 +129,7 @@
     </div>
   </div>
   <!-- /.main-content -->
-  <script>
-      /*var url_anchor = window.location.toString().split("#");
-      var anchor = url_anchor[1];
-      if(anchor && anchor.length>0){
-        if(url_anchor[0].endWith("unit") || url_anchor[0].endWith("cadre")) { //单位页或干部页
-          $(".tabbable li a[href=#" + anchor + "]").click();
-        }
-      }*/
-  </script>
+
   <div class="footer">
     <div class="footer-inner">
       <div class="footer-content">

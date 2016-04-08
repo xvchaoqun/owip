@@ -79,8 +79,8 @@ body{
 @media only screen and (max-width: 550px){
     .message-item .sender {
         width: auto;
-        max-width: 220px;
-        font-size: 10px;
+        max-width: 200px;
+        /*font-size: 10px;*/
     }
 }
 @media only screen and (max-width: 320px){
@@ -99,12 +99,13 @@ body{
 
 @media only screen and (max-width: 550px) {
     .message-item .summary .text {
+        /*max-width: 230px;*/
         max-width: 230px;
     }
 }
 @media only screen and (max-width: 320px) {
     .message-item .summary .text {
-        max-width: 120px;
+        max-width: 180px;
     }
     .nav-tabs > li > a {
         padding: 7px 5px 8px!important;
@@ -114,7 +115,7 @@ body{
 .message-item .summary .text{
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 12px;
+    /*font-size: 12px;*/
 }
 .message-item .time{
     font-size: 10px;

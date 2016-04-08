@@ -1,9 +1,16 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberOutflow implements Serializable {
+
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer userId;
