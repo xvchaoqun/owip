@@ -191,7 +191,9 @@ pageEncoding="UTF-8" %>
             { label:'联系手机', align:'center', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
             { label:'退休时间', align:'center', name: 'retireTime', width: 100 },
-            { label:'是否离休', align:'center', name: 'isHonorRetire', width: 100 },
+            { label:'是否离休', align:'center', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            } },
             </c:if>
             {hidden:true, key:true, name:'retireApply.userId'}
         ]
