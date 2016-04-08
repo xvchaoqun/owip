@@ -22,6 +22,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.cadre.CadreService;
 import service.sys.MetaTypeService;
+import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -38,13 +39,60 @@ import java.util.*;
 public class ApplySelfService extends BaseMapper {
 
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private CadreService cadreService;
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
+    protected ApproverService approverService;
+    @Autowired
     protected ApproverTypeService approverTypeService;
     @Autowired
     protected SpringProps springProps;
+
+    // 查找下一步的审批人员
+    public List<Cadre> findNextApprovers(int applySelfId){
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        // 下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
+        Integer flowNode = applySelf.getFlowNode();
+        if(flowNode<=0){ // 查找干部管理员
+            List<Cadre> cadres = new ArrayList<>();
+            List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin");
+            for (SysUser sysUser : cadreAdmin) {
+                Cadre cadre = cadreService.findByUserId(sysUser.getId());
+                if(cadre!=null) cadres.add(cadre);
+            }
+            return cadres;
+        }else {
+
+            Cadre cadre = applySelf.getCadre();
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            ApproverType approverType = approverTypeService.findAll().get(flowNode);
+            if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
+                return cadreService.findMainPost(cadre.getUnitId());
+            } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
+
+                List<Cadre> cadres = new ArrayList<>();
+                MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
+                List<Leader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
+                for (Leader managerUnitLeader : managerUnitLeaders) {
+                    Cadre _cadre = cadreMap.get(managerUnitLeader.getCadreId());
+                    if (_cadre != null) cadres.add(_cadre);
+                }
+                return cadres;
+            }else{ // 查找其他身份下的审批人
+                List<Cadre> cadres = new ArrayList<>();
+                List<Approver> approvers = approverService.findByType(flowNode);
+                for (Approver approver : approvers) {
+                    Cadre _cadre = cadreMap.get(approver.getCadreId());
+                    if (_cadre != null) cadres.add(_cadre);
+                }
+                return cadres;
+            }
+        }
+    }
 
     // 干部管理员 审批列表
     public Map findApplySelfList(HttpServletResponse response, Integer cadreId,
@@ -330,7 +378,7 @@ public class ApplySelfService extends BaseMapper {
         // 本单位正职
         Integer mainPostUnitId = getMainPostUnitId(userId);
         // 分管校领导
-        List<Integer> leaderUnitIds = getLeaderUnitIds(userId);
+        List<Integer> leaderUnitIds = getLeaderMangerUnitIds(userId);
 
         // 其他身份
         Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>(); // 本人所属的审批身份及对应的审批的职务属性
@@ -452,7 +500,7 @@ public class ApplySelfService extends BaseMapper {
         return null;
     }
     // 如果是分管校领导，返回分管单位ID列表
-    public List<Integer> getLeaderUnitIds(int userId){
+    public List<Integer> getLeaderMangerUnitIds(int userId){
 
         List<Integer> unitIds = new ArrayList<>();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -488,7 +536,7 @@ public class ApplySelfService extends BaseMapper {
         if(mainPostUnitId!=null) unitIds.add(mainPostUnitId);
 
         //分管校领导
-        unitIds.addAll(getLeaderUnitIds(userId));
+        unitIds.addAll(getLeaderMangerUnitIds(userId));
 
         if (!unitIds.isEmpty()) {
             CadreExample example = new CadreExample();

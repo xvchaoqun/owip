@@ -24,6 +24,12 @@ public interface SelectMapper {
             "where  bl.cadre_id = #{cadreId} and blu.leader_id = bl.id and blu.type_id=#{leaderTypeId}")
     List<Integer> getLeaderManagerUnitId(@Param("cadreId") Integer cadreId, @Param("leaderTypeId") Integer leaderTypeId);
 
+    //查询分管当前单位的校领导
+    @ResultMap("persistence.LeaderMapper.BaseResultMap")
+    @Select("select bl.* from base_leader_unit blu, base_leader bl " +
+            "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
+    List<Leader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
+
     // 其他审批人身份的干部，查找他需要审批的干部
     @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, base_cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +

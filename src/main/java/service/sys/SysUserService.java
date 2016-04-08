@@ -143,6 +143,21 @@ public class SysUserService extends BaseMapper {
 		
 		return (users.size()>0)?users.get(0):null;
 	}
+
+	// 根据角色标识查找用户
+	public List<SysUser> findByRole(String role){
+
+		SysRole sysRole = sysRoleService.getByRole(role);
+
+		SysUserExample example = new SysUserExample();
+		SysUserExample.Criteria criteria = example.createCriteria();
+		criteria.andRoleIdsLike("%," + sysRole.getId() + ",%");
+		criteria.andLockedEqualTo(false);
+
+		return sysUserMapper.selectByExample(example);
+	}
+
+
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="SysUser", key="#oldUsername"),

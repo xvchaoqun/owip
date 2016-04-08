@@ -18,6 +18,15 @@ import java.util.Map;
 @Service
 public class ApproverService extends BaseMapper {
 
+    // 根据审批人身份类型查找审批人
+    public List<Approver> findByType(int typeId){
+
+        ApproverExample example = new ApproverExample();
+        example.createCriteria().andTypeIdEqualTo(typeId);
+
+        return approverMapper.selectByExample(example);
+    }
+
     public boolean idDuplicate(Integer id, int cadreId){
 
         ApproverExample example = new ApproverExample();

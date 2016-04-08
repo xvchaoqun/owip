@@ -163,15 +163,16 @@ public class MemberService extends BaseMapper {
             teacher.setPhone(extJzg.getJtdh());
 
             // 是否退休 :在岗，退休，病休，离校，待聘,内退,离休, NULL
-            teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
+            //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
+
+            // 人员状态：在职、离退、离校、离世、NULL
+            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
+
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
             teacher.setCreateTime(new Date());
         }
-
-        // 在职或退休，如何判断？
-        teacher.setIsRetire(false);
 
         if(teacherMapper.selectByPrimaryKey(userId)==null)
             teacherMapper.insertSelective(teacher);

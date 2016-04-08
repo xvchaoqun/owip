@@ -171,6 +171,24 @@ public class CadreService extends BaseMapper {
 
         return null;
     }
+
+    // 查找某个单位的正职
+    public List<Cadre> findMainPost(int unitId){
+
+        List<Cadre> cadreList = new ArrayList<>();
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andUnitIdEqualTo(unitId);
+        List<Cadre> cadres = cadreMapper.selectByExample(example);
+        for (Cadre cadre : cadres) {
+            MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
+            if (postType.getBoolAttr()){
+                cadreList.add(cadre);
+            }
+        }
+        return cadreList;
+    }
+
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
