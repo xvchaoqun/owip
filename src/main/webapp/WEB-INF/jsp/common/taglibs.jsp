@@ -62,15 +62,23 @@
 
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <c:set var="MEMBER_INFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
 <c:set var="MEMBER_INFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_APPLY%>"/>
 <c:set var="MEMBER_INFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_INFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"/>
 
 <c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_BACK" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
+
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_IN" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW%>"/>
 
 <c:set var="APPLY_STAGE_DENY" value="<%=SystemConstants.APPLY_STAGE_DENY%>"/>
 <c:set var="APPLY_STAGE_INIT" value="<%=SystemConstants.APPLY_STAGE_INIT%>"/>

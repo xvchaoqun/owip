@@ -16,14 +16,7 @@
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
 
                 <div class="tabbable">
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li  class="<c:if test="${cls==1}">active</c:if>">
-                            <a href="?cls=1"><i class="fa fa-sign-out"></i> 流出党员</a>
-                        </li>
-                        <li  class="<c:if test="${cls==2}">active</c:if>">
-                            <a href="?cls=2"><i class="fa fa-sign-in"></i> 流入党员</a>
-                        </li>
-                    </ul>
+                    <jsp:include page="menu.jsp"/>
 
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
@@ -31,31 +24,39 @@
 
                                 <shiro:hasPermission name="memberInflow:edit">
                                     <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流入党员</a>
-                                <button id="editBtn" disabled class="jqEditBtn btn btn-primary btn-sm" data-width="800">
+                                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                                <shiro:hasPermission name="memberInflow:del">
-                                <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                                </shiro:hasPermission>
-                                <button id="passBtn" disabled class="jqItemBtn btn btn-danger btn-sm"
+
+                                <%--<button id="passBtn" disabled class="jqItemBtn btn btn-danger btn-sm"
                                         data-url="${ctx}/memberInflow_deny" data-title="拒绝申请"
                                         data-msg="确定拒绝该申请吗？">
                                     <i class="fa fa-trash"></i> 不通过
+                                </button>--%>
+                                <c:if test="${cls==4}">
+                                    <button ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                                   data-url="${ctx}/memberInflow_approval"
+                                                                                   data-open-by="page"
+                                                                                   data-querystr="&type=1"
+                                                                                   data-need-id="false">
+                                        <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
+                                    </button>
+                                    <button ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                                  data-url="${ctx}/memberInflow_approval"
+                                                                                  data-open-by="page"
+                                                                                  data-querystr="&type=2"
+                                                                                  data-need-id="false">
+                                        <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
+                                    </button>
+                                </c:if>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/memberInflow_approvalLogs"
+                                        data-open-by="page">
+                                    <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
-                                <button id="check1Btn" disabled class="jqItemBtn btn btn-success btn-sm"
-                                        data-url="${ctx}/memberInflow_check1" data-title="通过申请"
-                                        data-msg="确定通过该申请吗？">
-                                    <i class="fa fa-check"></i> 支部审核
-                                </button>
-                                <button id="check2Btn" disabled class="jqItemBtn btn btn-success btn-sm"
-                                        data-url="${ctx}/memberInflow_check2" data-title="通过申请"
-                                        data-msg="确定通过该申请吗？">
-                                    <i class="fa fa-check"></i> 分党委审核
-                                </button>
-
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -154,6 +155,45 @@
     </div>
 </div>
 <script>
+    function goto_next(goToNext){
+        if(goToNext){
+            if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )
+                $(".closeView").click();
+            else if(!$("#next").hasClass("disabled"))
+                $("#next").click();
+            else
+                $("#last").click();
+        }
+    }
+    function apply_deny(id, type, goToNext){
+        bootbox.confirm("确定拒绝该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberInflow_deny",{id:id, type:type},function(ret){
+                    if(ret.success){
+                        SysMsg.success('操作成功。', '成功',function(){
+                            //page_reload();
+                            goto_next(goToNext);
+                        });
+                    }
+                });
+            }
+        });
+    }
+    function apply_pass(id, type, goToNext){
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if(result){
+                $.post("${ctx}/memberInflow_check",{id:id, type:type},function(ret){
+                    if(ret.success){
+                        SysMsg.success('操作成功。', '成功',function(){
+                            //page_reload();
+                            goto_next(goToNext);
+                        });
+                    }
+                });
+            }
+        });
+    }
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberInflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -180,19 +220,7 @@
             { label: '状态',   name: 'inflowStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
             }},{hidden:true, name:'inflowStatus'}
-        ],
-        onSelectRow: function(id,status){
-            jgrid_sid=id;
-            //console.log(id)
-            if(status){
-                var rowData = $(this).getRowData(id);
-                $("#passBtn, #check1Btn").prop("disabled", rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_APPLY}");
-                $("#check2Btn").prop("disabled",rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_BRANCH_VERIFY}");
-                $("#editBtn").prop("disabled",rowData.inflowStatus=="${MEMBER_INFLOW_STATUS_BRANCH_VERIFY}");
-            }else{
-                $("#passBtn,#check1Btn, #check2Btn,#editBtn").prop("disabled",true);
-            }
-        }}).jqGrid("setFrozenColumns");
+        ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     $('[data-rel="select2"]').select2();

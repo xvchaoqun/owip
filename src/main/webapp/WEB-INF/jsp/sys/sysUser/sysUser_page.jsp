@@ -179,7 +179,7 @@
             { label: '邮箱', align:'center',  name: 'email', width: 150 },
             { label: '账号来源', align:'center', name: 'sourceName', width: 100 },
             { label: '状态', align:'center', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
-                return (rowObject.locked==1)?"禁用":"正常";
+                return (rowObject.locked)?"禁用":"正常";
             } },
             { label:'创建时间', align:'center', name: 'createTime', width: 150 },
             {  hidden:true, name: 'locked',formatter:function(cellvalue, options, rowObject){
@@ -190,8 +190,8 @@
             jgrid_sid=id;
             var rowData = $(this).getRowData(id);
             console.log((status && rowData.locked) + " " + (status && !rowData.locked))
-            $("#lockBtn").prop("disabled", rowData.locked==1)
-            $("#unlockBtn").prop("disabled", rowData.locked==0)
+            $("#lockBtn").prop("disabled", rowData.locked==0)
+            $("#unlockBtn").prop("disabled", rowData.locked==1)
 
         },
         rowattr: function(rowData, currentObj, rowId)

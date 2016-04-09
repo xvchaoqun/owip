@@ -1,10 +1,7 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberOutflow;
-import domain.Party;
-import domain.SysUser;
+import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -59,8 +56,7 @@ public class UserMemberOutflowController extends BaseController{
             }
         }
 
-        if(memberOutflow==null || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK
-                || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_DENY)
+        if(memberOutflow==null || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_BACK)
             return "user/memberOutflow/memberOutflow_au";
 
         return "user/memberOutflow/memberOutflow";
@@ -72,10 +68,15 @@ public class UserMemberOutflowController extends BaseController{
     public Map do_memberOutflow_au(@CurrentUser SysUser loginUser,
                                    MemberOutflow record, String _flowTime, HttpServletRequest request) {
 
+        Integer userId = loginUser.getId();
         if(StringUtils.isNotBlank(_flowTime)){
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
         record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
+
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
 
         if(record.getPartyId()!=null) {
             record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
@@ -86,11 +87,10 @@ public class UserMemberOutflowController extends BaseController{
 
         MemberOutflow memberOutflow = memberOutflowService.get(loginUser.getId());
 
-        if(memberOutflow!=null && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK
-                && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_DENY)
+        if(memberOutflow!=null && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
-        record.setUserId(loginUser.getId());
+        record.setUserId(userId);
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
 

@@ -129,7 +129,6 @@
       <script>
         $("#modalForm :checkbox").bootstrapSwitch();
         showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
-        showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
         register_date($('.date-picker'));
         $('#modalForm [data-rel="select2"]').select2();
         $("form").validate({

@@ -30,9 +30,11 @@ public class MemberFlowController extends BaseController {
 
         modelMap.put("cls", cls);
 
-        if(cls==1)
+        if(cls==1||cls==2||cls==3)
             return "forward:/memberOutflow_page";
+        if(cls==4||cls==5||cls==6)
+            return "forward:/memberInflow_page";
 
-        return "forward:/memberInflow_page";
+        return  null;
     }
 }

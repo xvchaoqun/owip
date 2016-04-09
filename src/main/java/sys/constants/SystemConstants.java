@@ -322,7 +322,7 @@ public class SystemConstants {
 	}
 
 	// 党员流入状态
-	public final static byte MEMBER_INFLOW_STATUS_BACK = -1;
+	public final static byte MEMBER_INFLOW_STATUS_BACK = -1; // 本人撤回、审核不通过
 	public final static byte MEMBER_INFLOW_STATUS_APPLY = 0;
 	public final static byte MEMBER_INFLOW_STATUS_BRANCH_VERIFY= 1;
 	public final static byte MEMBER_INFLOW_STATUS_PARTY_VERIFY= 2;
@@ -330,24 +330,38 @@ public class SystemConstants {
 	static {
 		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_BACK, "不通过");
 		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_APPLY, "申请");
-		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_BRANCH_VERIFY, "党支部审核");
-		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_PARTY_VERIFY, "分党委审核");
+		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_BRANCH_VERIFY, "党支部审核通过");
+		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
 	}
 
 	// 党员流出状态
-	public final static byte MEMBER_OUTFLOW_STATUS_SELF_BACK = -2;
-	public final static byte MEMBER_OUTFLOW_STATUS_DENY = -1;
+	public final static byte MEMBER_OUTFLOW_STATUS_BACK = -1; // 本人撤回、审核不通过
 	public final static byte MEMBER_OUTFLOW_STATUS_APPLY = 0;
 	public final static byte MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY= 1;
 	public final static byte MEMBER_OUTFLOW_STATUS_PARTY_VERIFY= 2;
 	public final static Map<Byte, String> MEMBER_OUTFLOW_STATUS_MAP = new LinkedHashMap<>();
 	static {
-		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_SELF_BACK, "本人撤回");
-		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_DENY, "不通过");
+		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_BACK, "不通过");
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_APPLY, "申请");
-		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY, "党支部审核");
-		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_PARTY_VERIFY, "分党委审核");
+		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY, "党支部审核通过");
+		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
 	}
+
+	// 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER = 1;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD = 2;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_IN = 3;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW = 4;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW = 5;
+	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER, "申请入党");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD, "留学归国申请");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "组织关系转入");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, "流入党员申请");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, "流出党员申请");
+	}
+
 
 
 	// 干部库类别 1现任干部库  2 临时干部库 3离任干部库

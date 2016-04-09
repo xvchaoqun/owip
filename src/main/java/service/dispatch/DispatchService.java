@@ -167,6 +167,7 @@ public class DispatchService extends BaseMapper {
             Dispatch record = new Dispatch();
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
+            record.setMeetingTime(entity.getMeetingTime());
             dispatchMapper.updateByPrimaryKeySelective(record);
         }
     }

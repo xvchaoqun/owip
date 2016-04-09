@@ -14,7 +14,9 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,10 +37,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberInflowController extends BaseController {
@@ -53,7 +52,7 @@ public class MemberInflowController extends BaseController {
     }
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_page")
-    public String memberInflow_page(@RequestParam(defaultValue = "1")Integer cls, Integer userId,
+    public String memberInflow_page(@RequestParam(defaultValue = "4")Integer cls, Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 
@@ -70,11 +69,19 @@ public class MemberInflowController extends BaseController {
         if (branchId != null) {
             modelMap.put("branch", branchMap.get(branchId));
         }
+
+        if(cls==4) {
+            // 支部待审核总数
+            modelMap.put("branchApprovalCount", memberInflowService.count(null, null, (byte)1));
+            // 分党委待审核数目
+            modelMap.put("partyApprovalCount", memberInflowService.count(null, null, (byte)2));
+        }
+
         return "party/memberInflow/memberInflow_page";
     }
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_data")
-    public void memberInflow_data(HttpServletResponse response,
+    public void memberInflow_data(@RequestParam(defaultValue = "4")Integer cls, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id",tableName = "ow_member_inflow") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -110,6 +117,20 @@ public class MemberInflowController extends BaseController {
         }
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if(cls==4){// 未完成审核
+
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andInflowStatusIn(statusList);
+        }
+        if(cls==5) {// 已完成审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
+        }
+        if(cls==6) {// 未通过
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
         }
 
         if (export == 1) {
@@ -181,16 +202,65 @@ public class MemberInflowController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberInflow:list")
+    @RequestMapping("/memberInflow_approval")
+    public String memberInflow_approval(@CurrentUser SysUser loginUser, Integer id,
+                                         byte type, // 1:支部审核 2：分党委审核
+                                         ModelMap modelMap) {
+
+        MemberInflow currentMemberInflow = null;
+        if(id!=null) {
+            currentMemberInflow = memberInflowMapper.selectByPrimaryKey(id);
+            if(type==1){
+                if(currentMemberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+                    currentMemberInflow = null;
+            }
+            if(type==2){
+                if(currentMemberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
+                    currentMemberInflow = null;
+            }
+        }else{
+            currentMemberInflow = memberInflowService.next(type, null);
+        }
+        if(currentMemberInflow==null)
+            throw new RuntimeException("当前没有需要审批的记录");
+
+        modelMap.put("memberInflow", currentMemberInflow);
+
+        // 是否是当前记录的管理员
+        if(type==1){
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getBranchId()));
+        }
+        if(type==2){
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getPartyId()));
+        }
+
+        // 读取总数
+        modelMap.put("count", memberInflowService.count(null, null, type));
+        // 下一条记录
+        modelMap.put("next", memberInflowService.next(type, currentMemberInflow));
+        // 上一条记录
+        modelMap.put("last", memberInflowService.last(type, currentMemberInflow));
+
+        modelMap.put("partyMap", partyService.findAll());
+        modelMap.put("branchMap", branchService.findAll());
+
+        return "party/memberInflow/memberInflow_approval";
+    }
 
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_deny", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
-                                    Integer id, String remark) {
+                                    Integer id,
+                                    byte type, // 1:支部审核 2：分党委审核
+                                    String remark) {
 
         //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
         MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        int userId= memberInflow.getUserId();
         Integer branchId = memberInflow.getBranchId();
         Integer partyId = memberInflow.getPartyId();
         boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
@@ -203,54 +273,72 @@ public class MemberInflowController extends BaseController {
         enterApplyService.applyBack(memberInflow.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
         logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流入党员申请：%s", id));
 
+        applyApprovalLogService.add(memberInflow.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type==1)?"支部审核":"分党委审核", (byte)0);
+
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("memberInflow:update")
-    @RequestMapping(value = "/memberInflow_check1", method = RequestMethod.POST)
+    @RequestMapping(value = "/memberInflow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow_check1(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    public Map do_memberInflow_check(@CurrentUser SysUser loginUser,
+                                      Integer id,
+                                      byte type, // 1:支部审核 2：分党委审核
+                                      HttpServletRequest request) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
         MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
-        Integer branchId = memberInflow.getBranchId();
-        Integer partyId = memberInflow.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectBranch(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
+        int userId = memberInflow.getUserId();
+        if(type==1) {
+            //该支部管理员应是申请人所在党支部或直属党支部
+            Integer branchId = memberInflow.getBranchId();
+            Integer partyId = memberInflow.getPartyId();
+            boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            boolean directParty = partyService.isDirectBranch(partyId);
+            if (!branchAdmin && (!directParty || !partyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
+                throw new UnauthorizedException();
+            }
+
+            if (directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+                memberInflowService.addMember(memberInflow.getUserId(), true);
+                logger.info(addLog(request, SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
+            } else {
+                memberInflowService.checkMember(memberInflow.getUserId());
+                logger.info(addLog(request, SystemConstants.LOG_OW, "审核流入党员申请：%s", id));
+            }
         }
 
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
-            memberInflowService.addMember(memberInflow.getUserId(), true);
+        if(type==2) {
+            //操作人应是申请人所在分党委管理员
+            Integer partyId = memberInflow.getPartyId();
+            if (!partyMemberService.isPresentAdmin(loginUserId, partyId)) { // 分党委管理员
+                throw new UnauthorizedException();
+            }
+
+            memberInflowService.addMember(memberInflow.getUserId(), false);
             logger.info(addLog(request, SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
-        }else {
-            memberInflowService.checkMember(memberInflow.getUserId());
-            logger.info(addLog(request, SystemConstants.LOG_OW, "审核流入党员申请：%s", id));
         }
+
+        applyApprovalLogService.add(memberInflow.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type==1)?"支部审核":"分党委审核", (byte)1);
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("memberInflow:update")
-    @RequestMapping(value = "/memberInflow_check2", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberInflow_check2(@CurrentUser SysUser loginUser,HttpServletRequest request, Integer id) {
+    @RequiresPermissions("memberInflow:list")
+    @RequestMapping("/memberInflow_approvalLogs")
+    public String memberInflow_approvalLogs(int id, ModelMap modelMap) {
 
-        //操作人应是申请人所在分党委管理员
-        int loginUserId = loginUser.getId();
         MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
-        Integer partyId = memberInflow.getPartyId();
-        if(!partyMemberService.isPresentAdmin(loginUserId, partyId)){ // 分党委管理员
-            throw new UnauthorizedException();
-        }
+        modelMap.put("memberInflow", memberInflow);
+        SysUser sysUser = sysUserService.findById(memberInflow.getUserId());
+        modelMap.put("sysUser", sysUser);
 
-        memberInflowService.addMember(memberInflow.getUserId(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
-
-        return success(FormUtils.SUCCESS);
+        return "party/memberInflow/memberInflow_approvalLogs";
     }
 
     @RequiresPermissions("memberInflow:edit")

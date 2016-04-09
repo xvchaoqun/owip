@@ -226,9 +226,9 @@
       <if test="record.code != null" >
         code = #{record.code,jdbcType=INTEGER},
       </if>
-      <if test="record.meetingTime != null" >
+
         meeting_time = #{record.meetingTime,jdbcType=DATE},
-      </if>
+
       <if test="record.pubTime != null" >
         pub_time = #{record.pubTime,jdbcType=DATE},
       </if>

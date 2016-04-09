@@ -328,9 +328,9 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="branchId != null" >
+
         branch_id = #{branchId,jdbcType=INTEGER},
-      </if>
+
       <if test="originalJob != null" >
         original_job = #{originalJob,jdbcType=INTEGER},
       </if>

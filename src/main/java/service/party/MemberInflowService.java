@@ -1,14 +1,13 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.MemberInflow;
-import domain.MemberInflowExample;
-import domain.SysUser;
+import domain.*;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.DBErrorException;
+import service.LoginUserService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -22,6 +21,77 @@ public class MemberInflowService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private EnterApplyService enterApplyService;
+
+    @Autowired
+    private LoginUserService loginUserService;
+
+    public int count(Integer partyId, Integer branchId, byte type){
+
+        MemberInflowExample example = new MemberInflowExample();
+        MemberInflowExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        return memberInflowMapper.countByExample(example);
+    }
+
+    // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
+    public MemberInflow next(byte type, MemberInflow memberInflow){
+
+        MemberInflowExample example = new MemberInflowExample();
+        MemberInflowExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberInflow!=null)
+            criteria.andUserIdNotEqualTo(memberInflow.getUserId()).andCreateTimeLessThanOrEqualTo(memberInflow.getCreateTime());
+        example.setOrderByClause("create_time desc");
+
+        List<MemberInflow> memberApplies = memberInflowMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
+    // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
+    public MemberInflow last(byte type, MemberInflow memberInflow){
+
+        MemberInflowExample example = new MemberInflowExample();
+        MemberInflowExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberInflow!=null)
+            criteria.andUserIdNotEqualTo(memberInflow.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberInflow.getCreateTime());
+        example.setOrderByClause("create_time asc");
+
+        List<MemberInflow> memberApplies = memberInflowMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
 
     public boolean idDuplicate(Integer id, Integer userId){
 
@@ -53,7 +123,7 @@ public class MemberInflowService extends BaseMapper {
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
-
+        record.setBranchId(memberInflow.getBranchId());
         memberInflowMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -72,9 +142,10 @@ public class MemberInflowService extends BaseMapper {
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
+        record.setBranchId(memberInflow.getBranchId());
         memberInflowMapper.updateByPrimaryKeySelective(record);
 
-        EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
+        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
         if(_enterApply!=null && _enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());

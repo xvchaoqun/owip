@@ -362,17 +362,24 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
 $(document).on("click", ".jqOpenViewBtn", function(){
 
     var openBy = $(this).data("open-by");
+    var needId = $(this).data("need-id");
+    if(needId==undefined) needId = true;
     var idName = $(this).data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
-    if(!id){
+    if(needId && !id){
         SysMsg.warning("请选择行", "提示");
         return ;
     }
     var url = $(this).data("url");
     var querystr = $(this).data("querystr");
-    if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
-    url += (querystr&&querystr!='')?(querystr):"";
+    if((id > 0)){
+        url = url.split("?")[0] + "?"+ idName +"="+id + ((querystr!=undefined)?(querystr):"");
+    }else{
+        if(querystr!=undefined)
+            url = url.split("?")[0] + "?" + querystr;
+    }
+    //url += (querystr&&querystr!='')?(querystr):"";
     if(openBy=='page'){
         var $container = $("#body-content");
         $container.showLoading({'afterShow':

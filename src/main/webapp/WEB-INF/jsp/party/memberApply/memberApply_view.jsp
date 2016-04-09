@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-body">
     <!-- PAGE CONTENT BEGINS -->
-    <div class="widget-box transparent" id="view-box">
+    <div class="widget-box transparent">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
                 <a href="javascript:;" class="closeView reload btn btn-mini btn-xs btn-success">
@@ -14,7 +14,7 @@
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:;" data-url="${ctx}/memberApply_view?userId=${param.userId}">申请详情</a>
+                        <a href="javascript:;">申请详情</a>
                     </li>
                 </ul>
             </div>

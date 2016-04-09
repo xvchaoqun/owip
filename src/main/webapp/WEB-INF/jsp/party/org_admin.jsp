@@ -5,7 +5,7 @@
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
     ${party!=null?party.name:''}
-    ${branch!=null?'-'+branch.name:''}-设定管理员</h3>
+    ${branch!=null?branch.name:''}-设定管理员</h3>
 </div>
 <div class="modal-body">
     <shiro:hasPermission name="partyMember:edit">

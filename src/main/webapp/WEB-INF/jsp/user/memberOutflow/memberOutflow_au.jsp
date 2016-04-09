@@ -32,7 +32,7 @@
                                 <input readonly disabled type="text" value="${sysUser.code}" />
                             </div>
                         </div>
-                        <div class="form-group">
+                        <%--<div class="form-group">
                             <label class="col-xs-3 control-label">分党委</label>
                             <div class="col-xs-6">
                                 <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
@@ -53,7 +53,7 @@
                         <script>
                             register_party_branch_select($("#modalForm"), "branchDiv",
                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
-                        </script>
+                        </script>--%>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">原职业</label>
                             <div class="col-xs-6">

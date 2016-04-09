@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 					出生年月
 				</td>
 				<td class="bg-left" style="min-width: 80px">
-					${sysUser.birth}
+					${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}
 				</td>
 				<td class="bg-right">
 					身份证号
@@ -103,7 +103,7 @@ pageEncoding="UTF-8"%>
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${student.isFullTime}
+					${student.isFullTime?"是":"否"}
 				</td>
 				<td class="bg-right" >
 					学生类别
@@ -120,19 +120,19 @@ pageEncoding="UTF-8"%>
 
 				<td class="bg-right">实际入学年月</td>
 				<td  class="bg-left">
-					${student.actualEnrolTime}
+					${cm:formatDate(student.actualEnrolTime,'yyyy-MM-dd')}
 				</td>
 				<td class="bg-right">
 					预计毕业年月
 				</td>
 				<td class="bg-left">
-					${student.expectGraduateTime}
+					${cm:formatDate(student.expectGraduateTime,'yyyy-MM-dd')}
 				</td>
 				<td  class="bg-right">
 					实际毕业年月
 				</td>
 				<td class="bg-left">
-					${student.actualGraduateTime}
+					${cm:formatDate(student.actualGraduateTime,'yyyy-MM-dd')}
 				</td>
 				<td class="bg-right">
 					延期毕业年限

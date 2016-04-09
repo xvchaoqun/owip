@@ -58,6 +58,9 @@ public class BaseController extends BaseMapper {
     protected EnterApplyService enterApplyService;
 
     @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+
+    @Autowired
     protected MemberStayService memberStayService;
     @Autowired
     protected MemberTransferService memberTransferService;

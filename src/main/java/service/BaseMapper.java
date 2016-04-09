@@ -40,6 +40,8 @@ public class BaseMapper {
 	protected EnterApplyMapper enterApplyMapper;
 
 	@Autowired
+	protected ApplyApprovalLogMapper applyApprovalLogMapper;
+	@Autowired
 	protected MemberStayMapper memberStayMapper;
 	@Autowired
 	protected MemberTransferMapper memberTransferMapper;

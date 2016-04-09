@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.MemberReturnMapper" >
-  <resultMap id="BaseResultMap" type="domain.MemberReturn" >
+<mapper namespace="persistence.ApplyApprovalLogMapper" >
+  <resultMap id="BaseResultMap" type="domain.ApplyApprovalLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
-    <result column="apply_time" property="applyTime" jdbcType="DATE" />
-    <result column="active_time" property="activeTime" jdbcType="DATE" />
-    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
-    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
-    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
+    <result column="apply_user_id" property="applyUserId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="stage" property="stage" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,16 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, apply_time, active_time, candidate_time, grow_time, 
-    positive_time, political_status, status, remark, create_time
+    id, record_id, party_id, branch_id, apply_user_id, type, stage, user_id, status, 
+    create_time, ip
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberReturnExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApplyApprovalLogExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_return
+    from ow_apply_approval_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -95,39 +93,37 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from ow_member_return
+    from ow_apply_approval_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from ow_member_return
+    delete from ow_apply_approval_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.MemberReturnExample" >
-    delete from ow_member_return
+  <delete id="deleteByExample" parameterType="domain.ApplyApprovalLogExample" >
+    delete from ow_apply_approval_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.MemberReturn" >
-    insert into ow_member_return (id, user_id, party_id, 
-      branch_id, apply_time, active_time, 
-      candidate_time, grow_time, positive_time, 
-      political_status, status, remark, 
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
-      #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, 
-      #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="domain.ApplyApprovalLog" >
+    insert into ow_apply_approval_log (id, record_id, party_id, 
+      branch_id, apply_user_id, type, 
+      stage, user_id, status, 
+      create_time, ip)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{stage,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.MemberReturn" >
-    insert into ow_member_return
+  <insert id="insertSelective" parameterType="domain.ApplyApprovalLog" >
+    insert into ow_apply_approval_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="recordId != null" >
+        record_id,
       </if>
       <if test="partyId != null" >
         party_id,
@@ -135,40 +131,34 @@
       <if test="branchId != null" >
         branch_id,
       </if>
-      <if test="applyTime != null" >
-        apply_time,
+      <if test="applyUserId != null" >
+        apply_user_id,
       </if>
-      <if test="activeTime != null" >
-        active_time,
+      <if test="type != null" >
+        type,
       </if>
-      <if test="candidateTime != null" >
-        candidate_time,
+      <if test="stage != null" >
+        stage,
       </if>
-      <if test="growTime != null" >
-        grow_time,
-      </if>
-      <if test="positiveTime != null" >
-        positive_time,
-      </if>
-      <if test="politicalStatus != null" >
-        political_status,
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="remark != null" >
-        remark,
-      </if>
       <if test="createTime != null" >
         create_time,
+      </if>
+      <if test="ip != null" >
+        ip,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="partyId != null" >
         #{partyId,jdbcType=INTEGER},
@@ -176,82 +166,70 @@
       <if test="branchId != null" >
         #{branchId,jdbcType=INTEGER},
       </if>
-      <if test="applyTime != null" >
-        #{applyTime,jdbcType=DATE},
+      <if test="applyUserId != null" >
+        #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="activeTime != null" >
-        #{activeTime,jdbcType=DATE},
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
-      <if test="candidateTime != null" >
-        #{candidateTime,jdbcType=DATE},
+      <if test="stage != null" >
+        #{stage,jdbcType=VARCHAR},
       </if>
-      <if test="growTime != null" >
-        #{growTime,jdbcType=DATE},
-      </if>
-      <if test="positiveTime != null" >
-        #{positiveTime,jdbcType=DATE},
-      </if>
-      <if test="politicalStatus != null" >
-        #{politicalStatus,jdbcType=TINYINT},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.MemberReturnExample" resultType="java.lang.Integer" >
-    select count(*) from ow_member_return
+  <select id="countByExample" parameterType="domain.ApplyApprovalLogExample" resultType="java.lang.Integer" >
+    select count(*) from ow_apply_approval_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update ow_member_return
+    update ow_apply_approval_log
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.recordId != null" >
+        record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
-
-      <if test="record.applyTime != null" >
-        apply_time = #{record.applyTime,jdbcType=DATE},
       </if>
-      <if test="record.activeTime != null" >
-        active_time = #{record.activeTime,jdbcType=DATE},
+      <if test="record.applyUserId != null" >
+        apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.candidateTime != null" >
-        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.growTime != null" >
-        grow_time = #{record.growTime,jdbcType=DATE},
+      <if test="record.stage != null" >
+        stage = #{record.stage,jdbcType=VARCHAR},
       </if>
-      <if test="record.positiveTime != null" >
-        positive_time = #{record.positiveTime,jdbcType=DATE},
-      </if>
-      <if test="record.politicalStatus != null" >
-        political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.remark != null" >
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -259,87 +237,79 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update ow_member_return
+    update ow_apply_approval_log
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
-      apply_time = #{record.applyTime,jdbcType=DATE},
-      active_time = #{record.activeTime,jdbcType=DATE},
-      candidate_time = #{record.candidateTime,jdbcType=DATE},
-      grow_time = #{record.growTime,jdbcType=DATE},
-      positive_time = #{record.positiveTime,jdbcType=DATE},
-      political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      stage = #{record.stage,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.MemberReturn" >
-    update ow_member_return
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ApplyApprovalLog" >
+    update ow_apply_approval_log
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="recordId != null" >
+        record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
+      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
-      <if test="applyTime != null" >
-        apply_time = #{applyTime,jdbcType=DATE},
       </if>
-      <if test="activeTime != null" >
-        active_time = #{activeTime,jdbcType=DATE},
+      <if test="applyUserId != null" >
+        apply_user_id = #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="candidateTime != null" >
-        candidate_time = #{candidateTime,jdbcType=DATE},
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="growTime != null" >
-        grow_time = #{growTime,jdbcType=DATE},
+      <if test="stage != null" >
+        stage = #{stage,jdbcType=VARCHAR},
       </if>
-      <if test="positiveTime != null" >
-        positive_time = #{positiveTime,jdbcType=DATE},
-      </if>
-      <if test="politicalStatus != null" >
-        political_status = #{politicalStatus,jdbcType=TINYINT},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.MemberReturn" >
-    update ow_member_return
-    set user_id = #{userId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="domain.ApplyApprovalLog" >
+    update ow_apply_approval_log
+    set record_id = #{recordId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
-      apply_time = #{applyTime,jdbcType=DATE},
-      active_time = #{activeTime,jdbcType=DATE},
-      candidate_time = #{candidateTime,jdbcType=DATE},
-      grow_time = #{growTime,jdbcType=DATE},
-      positive_time = #{positiveTime,jdbcType=DATE},
-      political_status = #{politicalStatus,jdbcType=TINYINT},
+      apply_user_id = #{applyUserId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      stage = #{stage,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.MemberReturnExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.ApplyApprovalLogExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_return
+    from ow_apply_approval_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -43,8 +43,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-      <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>
+      <!--<table tableName="abroad_passport" domainObjectName="Passport">
+      </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
@@ -71,6 +71,8 @@
       </table>
       <table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
+      <table tableName="ow_apply_approval_log" domainObjectName="ApplyApprovalLog">
+      </table>
 
       <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
       </table>-->
