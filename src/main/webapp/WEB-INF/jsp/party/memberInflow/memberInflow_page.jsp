@@ -37,23 +37,26 @@
                                     <i class="fa fa-trash"></i> 不通过
                                 </button>--%>
                                 <c:if test="${cls==4}">
-                                    <button ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                                    data-url="${ctx}/memberInflow_approval"
                                                                                    data-open-by="page"
                                                                                    data-querystr="&type=1"
-                                                                                   data-need-id="false">
+                                                                                   data-need-id="false"
+                                                                                   data-count="${branchApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
                                     </button>
-                                    <button ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                                   data-url="${ctx}/memberInflow_approval"
                                                                                   data-open-by="page"
                                                                                   data-querystr="&type=2"
-                                                                                  data-need-id="false">
+                                                                                  data-need-id="false"
+                                                                                  data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/memberInflow_approvalLogs"
+                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW}"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
@@ -197,7 +200,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberInflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '用户',  name: 'user.realname', width: 100 ,frozen:true},
+            { label: '姓名',  name: 'user.realname', width: 100 ,frozen:true},
             { label: '所属组织机构', name: 'party',resizable:false, width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
                 var party = rowObject.party;
@@ -220,7 +223,26 @@
             { label: '状态',   name: 'inflowStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
             }},{hidden:true, name:'inflowStatus'}
-        ]}).jqGrid("setFrozenColumns");
+        ],
+        onSelectRow: function(id,status){
+            jgrid_sid=id;
+            //console.log(id)
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length>1){
+                $("#branchApprovalBtn,#partyApprovalBtn").prop("disabled",true);
+            }else if(status){
+                var rowData = $(this).getRowData(id);
+                $("#branchApprovalBtn").prop("disabled",rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled",rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_BRANCH_VERIFY}");
+            }else{
+                $("#branchApprovalBtn").prop("disabled",$("#branchApprovalBtn").data("count")==0);
+                $("#partyApprovalBtn").prop("disabled",$("#partyApprovalBtn").data("count")==0);
+            }
+        },
+        onSelectAll:function(aRowids, status){
+            $("#branchApprovalBtn").prop("disabled",status || $("#branchApprovalBtn").data("count")==0);
+            $("#partyApprovalBtn").prop("disabled",status || $("#partyApprovalBtn").data("count")==0);
+        }}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     $('[data-rel="select2"]').select2();

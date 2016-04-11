@@ -196,7 +196,7 @@
                             </button>
                             &nbsp;&nbsp;
                             <button ${isAdmin?'':'disabled'}  onclick="apply_deny(${memberOutflow.id}, ${param.type}, true)" class="btn btn-danger">
-                                <i class="fa fa-trash"></i> 不通过
+                                <i class="fa fa-times"></i> 不通过
                             </button>
                         </div>
                     </div>

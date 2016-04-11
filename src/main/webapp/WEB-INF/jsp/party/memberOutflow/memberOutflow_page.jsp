@@ -37,23 +37,26 @@
                                         <i class="fa fa-trash"></i> 不通过
                                     </button>--%>
                                     <c:if test="${cls==1}">
-                                    <button ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOutflow_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1"
-                                            data-need-id="false">
+                                            data-need-id="false"
+                                            data-count="${branchApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
                                     </button>
-                                    <button ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOutflow_approval"
                                             data-open-by="page"
                                             data-querystr="&type=2"
-                                            data-need-id="false">
+                                            data-need-id="false"
+                                            data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
                                     </c:if>
                                     <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                                                                  data-url="${ctx}/memberOutflow_approvalLogs"
+                                                                                  data-url="${ctx}/applyApprovalLog_page"
+                                                                                  data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"
                                                                                   data-open-by="page">
                                         <i class="fa fa-check-circle-o"></i> 查看审批记录
                                     </button>
@@ -125,14 +128,15 @@
                                                 </div>
                                                 <script>
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
-                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", null, null, "${party.classId}" );
                                                 </script>
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
-                                                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
+                                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                                            data-querystr="cls=${cls}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>
@@ -198,7 +202,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberOutflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '用户',  name: 'user.realname', width: 100 ,frozen:true},
+            { label: '姓名',  name: 'user.realname', width: 100 ,frozen:true},
             { label: '所属组织机构', name: 'party',resizable:false, width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
                     var party = rowObject.party;
@@ -230,13 +234,23 @@
         onSelectRow: function(id,status){
             jgrid_sid=id;
             //console.log(id)
-            /*if(status){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length>1){
+                $("#branchApprovalBtn,#partyApprovalBtn").prop("disabled",true);
+            }else if(status){
                 var rowData = $(this).getRowData(id);
-                $("#editBtn").prop("disabled",rowData.status=="${MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}");
+                $("#branchApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}");
             }else{
-                $("#editBtn").prop("disabled",true);
-            }*/
-        }}).jqGrid("setFrozenColumns");
+                $("#branchApprovalBtn").prop("disabled",$("#branchApprovalBtn").data("count")==0);
+                $("#partyApprovalBtn").prop("disabled",$("#partyApprovalBtn").data("count")==0);
+            }
+        },
+        onSelectAll:function(aRowids, status){
+            $("#branchApprovalBtn").prop("disabled",status || $("#branchApprovalBtn").data("count")==0);
+            $("#partyApprovalBtn").prop("disabled",status || $("#partyApprovalBtn").data("count")==0);
+        }
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     $('[data-rel="select2"]').select2();

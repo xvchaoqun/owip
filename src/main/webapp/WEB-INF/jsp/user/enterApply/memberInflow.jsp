@@ -40,7 +40,7 @@
       </div>
       <script>
         register_party_branch_select($("#modalForm"), "branchDiv",
-                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null,null, true);
       </script>
       <div class="form-group">
         <label class="col-xs-4 control-label">原职业</label>
@@ -100,8 +100,8 @@
       </div>
 
       <div class="form-group">
-        <label class="col-xs-4 control-label">是否持有《中国共产党流动党员活动证》</label>
-        <div class="col-xs-6">
+        <label class="col-xs-8 control-label">是否持有《中国共产党流动党员活动证》</label>
+        <div class="col-xs-3">
           <label>
             <input name="hasPapers" ${memberInflow.hasPapers?"checked":""}  type="checkbox" />
             <span class="lbl"></span>
@@ -118,13 +118,30 @@
       </button>
 
       &nbsp; &nbsp; &nbsp;
-      <button class="closeView btn" type="button">
+      <button class="closeView btn btn-default" type="button">
         <i class="ace-icon fa fa-undo bigger-110"></i>
         返回
       </button>
     </div>
   </div>
 </form>
+<style>
+  #modalForm .row{
+    width: 1100px;
+  }
+  #modalForm .input-group{
+    width:150px;
+  }
+  #modalForm input.left-input{
+    width: 260px;
+  }
+  #modalForm .right-div .col-xs-6{
+    width:auto;
+  }
+  #modalForm .help-block{
+    white-space: nowrap;
+  }
+</style>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
       <script>
         $("#modalForm :checkbox").bootstrapSwitch();

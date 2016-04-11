@@ -10,6 +10,7 @@
     <div id="body-content">
       <div class="col-xs-12" style="padding-top: 50px;">
         <div class="${fn:length(applyList)>0?"col-xs-8":"col-xs-12"}">
+          <c:if test="${empty member}">
       <div class="well">
         <blockquote>
         <h4 class="green bolder bigger-150">申请入党</h4>
@@ -42,6 +43,7 @@
         </button>
           </blockquote>
       </div>
+          </c:if>
       <div class="well">
         <blockquote>
         <h4 class="red bolder bigger-150">流入党员申请</h4>
@@ -58,6 +60,7 @@
         <div class="col-xs-4">
           <blockquote>
             <h4 class="green bolder bigger-150">申请记录</h4>
+            <div style="height: 600px;overflow-y: auto">
               <c:forEach var="apply" items="${applyList}">
             <hr/>
             <dt>
@@ -73,8 +76,8 @@
               </ul>
               </dd>
             </dt>
-
             </c:forEach>
+            </div>
           </blockquote>
         </div>
         </c:if>

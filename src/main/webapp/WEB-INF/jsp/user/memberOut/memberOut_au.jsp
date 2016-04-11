@@ -45,63 +45,12 @@
 			<form class="form-horizontal" action="${ctx}/user/memberOut_au" id="modalForm" method="post">
 				<input type="hidden" name="id" value="${memberOut.id}">
 				<div class="row">
-					<div class="col-xs-4">
-						<div class="form-group">
-						<label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
-						<div class="col-sm-6">
-							<input readonly disabled type="text" value="${userBean.code}" />
-						</div>
-					</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">介绍信编号</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="code" value="${userBean.code}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">姓名</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">性别</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">年龄</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control"
-									   type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">民族</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">政治面貌</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-3 control-label">身份证号</label>
-							<div class="col-xs-6">
-								<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
-							</div>
-						</div>
 
-					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-6">
 						<div class="form-group">
 							<label class="col-xs-4 control-label">类别</label>
 							<div class="col-xs-6">
-								<select required data-rel="select2" name="type" data-placeholder="请选择"  >
+								<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100%">
 									<option></option>
 									<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
 										<option value="${_type.key}">${_type.value}</option>
@@ -113,29 +62,35 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-4 control-label">转入单位抬头</label>
+							<label class="col-xs-4 control-label">转入单位</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="toTitle" value="${memberOut.toTitle}">
+								<textarea required class="form-control" type="text" name="toUnit">${memberOut.toUnit}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-4 control-label">转入单位</label>
+							<label class="col-xs-4 control-label">转入单位抬头</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="toUnit" value="${memberOut.toUnit}">
+								<textarea required class="form-control" type="text" name="toTitle">${memberOut.toTitle}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">转出单位</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="fromUnit" value="${memberOut.fromUnit}">
+								<c:set var="defaultAddress" value="${userBean.party.name}"/>
+								<textarea required class="form-control"
+									   type="text" name="fromUnit">${empty memberOut?defaultAddress:memberOut.fromUnit}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">转出单位地址</label>
 							<div class="col-xs-6">
-								<input required class="form-control" type="text" name="fromAddress" value="${memberOut.fromAddress}">
+
+								<textarea required class="form-control" name="fromAddress">${empty memberOut?defaultAddress:memberOut.fromAddress}</textarea>
 							</div>
 						</div>
+
+					</div>
+					<div class="col-xs-6">
 						<div class="form-group">
 							<label class="col-xs-4 control-label">转出单位联系电话</label>
 							<div class="col-xs-6">
@@ -165,8 +120,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-xs-4">
+
 						<div class="form-group">
 							<label class="col-xs-4 control-label">介绍信有效期天数</label>
 							<div class="col-xs-6">

@@ -72,7 +72,7 @@
           </button>
 
           &nbsp; &nbsp; &nbsp;
-          <button class="closeView btn" type="button">
+          <button class="closeView btn btn-default" type="button">
             <i class="ace-icon fa fa-undo bigger-110"></i>
             返回
           </button>

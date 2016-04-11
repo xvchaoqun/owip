@@ -752,7 +752,7 @@ $(document).on("click", "#item-content .closeView", function(){
 
 // 分党委、党支部select2联动
 function register_party_branch_select($container, branchDivId, mt_direct_branch_id,
-                                      init_party_id, init_party_class, partyId, branchId){
+                                      init_party_id, init_party_class, partyId, branchId, branchIsNotEmpty){
 
     //var $container = $("#modalForm");
     partyId = partyId || "partyId";
@@ -780,12 +780,16 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
     });
     $('select[name='+partyId+']', $container).on("change", function () {
 
+        $("#" + branchDivId + " select").removeAttr("required");
+
         var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
         //alert("${party.id}")
         if($(this).val()!=init_party_id)
             $('select[name='+branchId+']', $container).val(null).trigger("change");
         if($(this).val()>0 && $party_class != mt_direct_branch_id){
             $("#"+branchDivId, $container).show();
+            if(branchIsNotEmpty!=undefined && branchIsNotEmpty)
+                $("#" + branchDivId + " select").attr("required", "required");
         }else{
             $('select[name='+branchId+']', $container).val(null).trigger("change");
             $("#"+branchDivId, $container).hide();
@@ -799,17 +803,22 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
 
 // 类型、分党委、党支部 3级联动
 function register_class_party_branch_select($container, partyDivId, branchDivId,
-                                            mt_direct_branch_id, init_party_id, classId, partyId, branchId){
+                                            mt_direct_branch_id, init_party_id, classId, partyId, branchId, isNotEmpty){
 
     classId = classId || "classId";
     partyId = partyId || "partyId";
     branchId = branchId || "branchId";
 
     $('select[name='+classId+']', $container).select2({width:200}).on("change", function () {
+
+        $("#" + partyDivId + " select").removeAttr("required");
+
         $('select[name='+partyId+']', $container).val(null).trigger("change");
         $('select[name='+branchId+']', $container).val(null).trigger("change");
         if($(this).val()>0){
             $("#"+partyDivId, $container).show();
+            if(isNotEmpty!=undefined && isNotEmpty)
+                $("#" + partyDivId + " select").attr("required", "required");
         }else{
 
             $("#"+partyDivId+", #"+branchDivId, $container).hide();
@@ -842,11 +851,15 @@ function register_class_party_branch_select($container, partyDivId, branchDivId,
 
     $('select[name='+partyId+']', $container).on("change", function () {
 
+        $("#" + branchDivId + " select").removeAttr("required");
+
         if($(this).val()!=init_party_id)
             $('select[name='+branchId+']', $container).val(null).trigger("change");
 
         if($(this).val()>0 && $('select[name='+classId+']', $container).val()!=mt_direct_branch_id){
             $("#"+branchDivId, $container).show();
+            if(isNotEmpty!=undefined && isNotEmpty)
+                $("#" + branchDivId + " select").attr("required", "required");
         }else{
             $('select[name='+branchId+']', $container).val(null).trigger("change");
             $("#"+branchDivId, $container).hide();

@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 					同步来源
 				</td>
 				<td>
-					${memberStudent.syncSource}
+					${memberStudent.syncSource==1?"本科生库":"研究生库"}
 				</td>
 			</tr>
 			<tr>
@@ -101,7 +101,7 @@ pageEncoding="UTF-8"%>
 					是否全日制
 				</td>
 				<td>
-					${memberStudent.isFullTime}
+					${memberStudent.isFullTime?"是":"否"}
 				</td>
 				<td >
 					学生类别
@@ -118,19 +118,19 @@ pageEncoding="UTF-8"%>
 
 				<td>实际入学年月</td>
 				<td >
-					${memberStudent.actualEnrolTime}
+					${cm:formatDate(memberStudent.actualEnrolTime,'yyyy-MM-dd')}
 				</td>
 				<td>
 					预计毕业年月
 				</td>
 				<td>
-					${memberStudent.expectGraduateTime}
+					${cm:formatDate(memberStudent.expectGraduateTime,'yyyy-MM-dd')}
 				</td>
 				<td >
 					实际毕业年月
 				</td>
 				<td>
-					${memberStudent.actualGraduateTime}
+					${cm:formatDate(memberStudent.actualGraduateTime,'yyyy-MM-dd')}
 				</td>
 				<td>
 					延期毕业年限

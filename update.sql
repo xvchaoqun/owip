@@ -1,4 +1,14 @@
 
+--20160411
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1正常，2已退休 3已出党 4已转出 5暂时转出（外出挂职、休学等）' AFTER `type`;
+
+	添加 日志类型 ： mt_log_user 用户操作
+--20160410
+ALTER TABLE `ow_apply_approval_log`
+	ADD COLUMN `remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '说明' AFTER `status`;
+-----------------
+
 --20160328
 ALTER TABLE `abroad_passport`
 	ADD COLUMN `has_find` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否找回，丢失后找回' AFTER `lost_proof`,

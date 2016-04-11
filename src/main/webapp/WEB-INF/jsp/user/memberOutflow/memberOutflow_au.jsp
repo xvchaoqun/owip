@@ -27,33 +27,19 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"> ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
-                            <div class="col-sm-6">
-                                <input readonly disabled type="text" value="${sysUser.code}" />
-                            </div>
-                        </div>
-                        <%--<div class="form-group">
-                            <label class="col-xs-3 control-label">分党委</label>
+                            <label class="col-xs-3 control-label">组织关系状态</label>
                             <div class="col-xs-6">
-                                <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                        name="partyId" data-placeholder="请选择">
-                                    <option value="${party.id}">${party.name}</option>
+                                <select required data-rel="select2" name="orStatus" data-placeholder="请选择">
+                                    <option></option>
+                                    <c:forEach items="${OR_STATUS_MAP}" var="_status">
+                                        <option value="${_status.key}">${_status.value}</option>
+                                    </c:forEach>
                                 </select>
+                                <script>
+                                    $("#modalForm select[name=orStatus]").val(${memberOutflow.orStatus});
+                                </script>
                             </div>
                         </div>
-                        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                            <label class="col-xs-3 control-label">党支部</label>
-                            <div class="col-xs-6">
-                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
-                                        name="branchId" data-placeholder="请选择">
-                                    <option value="${branch.id}">${branch.name}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <script>
-                            register_party_branch_select($("#modalForm"), "branchDiv",
-                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
-                        </script>--%>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">原职业</label>
                             <div class="col-xs-6">
@@ -81,17 +67,13 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">流出时间</label>
                             <div class="col-xs-6">
-                                <div class="input-group" data-width="200px">
+                                <div class="input-group" style="width: 200px">
                                     <input required class="form-control date-picker" name="_flowTime" type="text"
                                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberOutflow.flowTime,'yyyy-MM-dd')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-
-
                         <div class="form-group">
                             <label class="col-xs-3 control-label">流出省份</label>
                             <div class="col-xs-6">
@@ -99,6 +81,11 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-xs-6">
+
+
+
                         <div class="form-group">
                             <label class="col-xs-3 control-label">流出原因</label>
                             <div class="col-xs-6">
@@ -106,28 +93,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">是否持有《中国共产党流动党员活动证》</label>
-                            <div class="col-xs-6">
+                            <label class="col-xs-6 control-label">是否持有《中国共产党流动党员活动证》</label>
+                            <div class="col-xs-3">
                                 <label>
                                     <input name="hasPapers" ${memberOutflow.hasPapers?"checked":""}  type="checkbox" />
                                     <span class="lbl"></span>
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">组织关系状态</label>
-                            <div class="col-xs-6">
-                                <select required data-rel="select2" name="orStatus" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${OR_STATUS_MAP}" var="_status">
-                                        <option value="${_status.key}">${_status.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=orStatus]").val(${memberOutflow.orStatus});
-                                </script>
-                            </div>
-                        </div>
+
                     </div></div>
 
                 <div class="clearfix form-actions center">

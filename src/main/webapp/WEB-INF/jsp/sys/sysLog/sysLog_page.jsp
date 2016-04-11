@@ -83,7 +83,7 @@
         url: '${ctx}/sysLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '模块',align:'center', name: 'logType.name',resizable:false, width: 120,frozen:true},
-            { label: '账号ID', align:'center', name: 'userId', width: 50 ,frozen:true},
+            { label: '账号ID', align:'center', name: 'userId', width: 100 ,frozen:true},
             { label: '账号', align:'center', name: 'operator', width: 100 ,frozen:true},
             { label: '请求', align:'center', name: 'api', width: 250},
             { label: '客户端', align:'center', name: 'agent', width: 350},

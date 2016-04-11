@@ -28,13 +28,13 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                流入党员申请信息
+                                组织关系转入申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
                             </h1>
                         </div>
-                        <c:set var="user" value="${cm:getUserById(memberInflow.userId)}"/>
+                        <c:set var="user" value="${cm:getUserById(memberIn.userId)}"/>
                         <div class="col-xs-12">
                             <div class="col-xs-6">
                                 <div class="profile-user-info profile-user-info-striped">
@@ -59,67 +59,54 @@
 
                                     <div class="profile-info-value">
                                     <span class="editable">
-                                        ${partyMap.get(memberInflow.partyId).name}
-                                            <c:if test="${memberInflow.branchId>0}">
-                                                -${branchMap.get(memberInflow.branchId).name}
+                                        ${partyMap.get(memberIn.partyId).name}
+                                            <c:if test="${memberIn.branchId>0}">
+                                                -${branchMap.get(memberIn.branchId).name}
                                             </c:if>
                                     </span>
                                     </div>
                                 </div>
 
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 原职业 </div>
+                                    <div class="profile-info-name"> 类别 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${jobMap.get(memberInflow.originalJob).name}</span>
+                                        <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</span>
                                     </div>
                                 </div>
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 流入前所在省份 </div>
 
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${locationMap.get(memberInflow.province).name}</span>
-                                    </div>
-                                </div>
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 流入原因 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${memberInflow.reason}</span>
-                                    </div>
-                                </div>
 
                             </div></div>
                             <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
-
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 流入时间 </div>
+                                    <div class="profile-info-name"> 转出单位 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${cm:formatDate(memberInflow.flowTime,'yyyy-MM-dd')}</span>
+                                        <span class="editable" >${memberIn.fromUnit}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 入党时间 </div>
+                                    <div class="profile-info-name"> 转出单位抬头 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${cm:formatDate(memberInflow.growTime,'yyyy-MM-dd')}</span>
+                                        <span class="editable" >${memberIn.fromTitle}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 组织关系所在地 </div>
+                                    <div class="profile-info-name"> 介绍信有效期天数 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberInflow.orLocation}</span>
+                                        <span class="editable" >${memberIn.validDays}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 是否持有《中国共产党流动党员活动证》 </div>
+                                    <div class="profile-info-name"> 转出办理时间 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberInflow.hasPapers?"是":"否"}</span>
+                                        <span class="editable" >${cm:formatDate(memberIn.fromHandleTime,'yyyy-MM-dd')}</span>
                                     </div>
                                 </div>
+
                             </div></div>
                         </div>
 
@@ -129,26 +116,26 @@
                                     <span class="step">0</span>
                                     <span class="title">申请已提交</span>
                                   <span class="subtitle">
-                                      ${cm:formatDate(memberInflow.createTime,'yyyy-MM-dd')}
+                                      ${cm:formatDate(memberIn.createTime,'yyyy-MM-dd')}
                                   </span>
                                 </li>
-                                <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_BACK}">
+                                <c:if test="${memberIn.status==MEMBER_IN_STATUS_SELF_BACK || memberIn.status==MEMBER_IN_STATUS_BACK}">
                                     <li data-step="2" class="active">
                                         <span class="step">1</span>
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_BRANCH_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberIn.status==MEMBER_IN_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">支部审核</span>
+                                    <span class="title">分党委党总支直属党支部审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>
                                 </li>
-                                <li data-step="2" class="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_PARTY_VERIFY?'complete':''}">
+                                <li data-step="2" class="${memberIn.status==MEMBER_IN_STATUS_OW_VERIFY?'complete':''}">
                                     <span class="step">2</span>
-                                    <span class="title">分党委审核</span>
+                                    <span class="title">组织部审核</span>
                                 <%--<span class="subtitle">
                                         通过时间
                                 </span>--%>
@@ -164,7 +151,7 @@
                                 </c:if>
                                 <c:if test="${not empty last}">
                                     <button id="last" class="openView btn"
-                                            data-url="${ctx}/memberInflow_approval?id=${last.id}&type=${param.type}"
+                                            data-url="${ctx}/memberIn_approval?id=${last.id}&type=${param.type}"
                                             type="button">
                                         <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
                                     </button>
@@ -178,18 +165,18 @@
                                 </c:if>
                                 <c:if test="${not empty next}">
                                 <button id="next" class="openView btn"
-                                        data-url="${ctx}/memberInflow_approval?id=${next.id}&type=${param.type}"
+                                        data-url="${ctx}/memberIn_approval?id=${next.id}&type=${param.type}"
                                         type="button">
                                     下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                                 </button>
                                     </c:if>
                             </div>
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${memberInflow.id}, ${param.type}, true)" class="btn btn-success">
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${memberIn.id}, ${param.type}, true)" class="btn btn-success">
                                 <i class="fa fa-check"></i> 通过
                             </button>
                             &nbsp;&nbsp;
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_deny(${memberInflow.id}, ${param.type}, true)" class="btn btn-danger">
-                                <i class="fa fa-times"></i> 不通过
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_deny(${memberIn.id}, ${param.type}, true)" class="btn btn-danger">
+                                <i class="fa fa-times"></i> 返回修改
                             </button>
                         </div>
                     </div>
