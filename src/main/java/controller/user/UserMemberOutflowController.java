@@ -39,12 +39,8 @@ public class UserMemberOutflowController extends BaseController{
         MemberOutflow memberOutflow = memberOutflowService.get(loginUser.getId());
         modelMap.put("memberOutflow", memberOutflow);
 
-        modelMap.put("locationMap", locationService.codeMap());
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
-
         if(memberOutflow!=null) {
             Integer partyId = memberOutflow.getPartyId();
             Integer branchId = memberOutflow.getBranchId();
@@ -101,11 +97,11 @@ public class UserMemberOutflowController extends BaseController{
 
         if (memberOutflow == null) {
             memberOutflowService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "提交流出党员申请"));
         } else {
 
             memberOutflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交修改流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "提交修改流出党员申请"));
         }
 
         return success(FormUtils.SUCCESS);
@@ -118,7 +114,7 @@ public class UserMemberOutflowController extends BaseController{
 
         int userId = loginUser.getId();
         memberOutflowService.back(userId);
-
+        logger.info(addLog(SystemConstants.LOG_USER, "取消流出党员申请"));
         return success(FormUtils.SUCCESS);
     }
 }

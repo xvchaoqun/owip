@@ -75,7 +75,7 @@ public class PassportDrawController extends BaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -95,7 +95,7 @@ public class PassportDrawController extends BaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -217,11 +217,11 @@ public class PassportDrawController extends BaseController {
             record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
             record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
             passportDrawService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加领取证件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加领取证件：%s", record.getId()));
         } else {
 
             passportDrawService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新领取证件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新领取证件：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -284,7 +284,7 @@ public class PassportDrawController extends BaseController {
 
         passportDrawService.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "领取证件：%s", id));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "领取证件：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -345,7 +345,7 @@ public class PassportDrawController extends BaseController {
 
         passportDrawService.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "归还证件：%s", id));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "归还证件：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -378,7 +378,7 @@ public class PassportDrawController extends BaseController {
         if (id != null) {
 
             passportDrawService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除领取证件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除领取证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -391,7 +391,7 @@ public class PassportDrawController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             passportDrawService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除领取证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除领取证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -144,12 +144,14 @@ public class MemberApplyService extends BaseMapper {
         if (updateByExampleSelective(userId, record, example) == 0)
             throw new DBErrorException("系统错误");
 
-        Member member = new Member();
-        member.setUserId(userId);
-        member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
-        member.setPositiveTime(memberApply.getPositiveTime());
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        Member _record = new Member();
+        _record.setUserId(userId);
+        _record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+        _record.setPositiveTime(memberApply.getPositiveTime());
+        _record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
-        if(memberMapper.updateByPrimaryKeySelective(member) == 0)
+        if(memberMapper.updateByPrimaryKeySelective(_record) == 0)
             throw new DBErrorException("系统错误");
     }
 

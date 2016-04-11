@@ -86,10 +86,10 @@ public class CadrePostController extends BaseController {
 
         if (id == null) {
             cadrePostMapper.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加任职级经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加任职级经历：%s", record.getId()));
         }else {
             cadrePostMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新任职级经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新任职级经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -118,7 +118,7 @@ public class CadrePostController extends BaseController {
 
         if (id != null) {
             cadrePostMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除任职级经历：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除任职级经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -156,7 +156,7 @@ public class CadrePostController extends BaseController {
         }
 
         cadrePostMapper.updateByPrimaryKey(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改任职级经历%s %s-文号：%s", id, type, dispatchCadreId));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改任职级经历%s %s-文号：%s", id, type, dispatchCadreId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -180,10 +180,10 @@ public class CadrePostController extends BaseController {
 
         if (id == null) {
             cadreMainWorkMapper.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加主职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加主职：%s", record.getId()));
         }else {
             cadreMainWorkMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新主职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新主职：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -216,7 +216,7 @@ public class CadrePostController extends BaseController {
 
         if (id != null) {
             cadreMainWorkMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除主职：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除主职：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -268,7 +268,7 @@ public class CadrePostController extends BaseController {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         cadreMainWorkMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改主职%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改主职%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -280,7 +280,7 @@ public class CadrePostController extends BaseController {
         record.setDispatchCadreId(dispatchCadreId);
 
         cadreMainWorkMapper.updateByPrimaryKey(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改主职%s-现职务始任文号：%s", id, dispatchCadreId));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改主职%s-现职务始任文号：%s", id, dispatchCadreId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -300,10 +300,10 @@ public class CadrePostController extends BaseController {
 
         if (id == null) {
             cadreSubWorkMapper.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加兼职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加兼职：%s", record.getId()));
         }else {
             cadreSubWorkMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新兼职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新兼职：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -334,7 +334,7 @@ public class CadrePostController extends BaseController {
 
         if (id != null) {
             cadreSubWorkMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除兼职：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除兼职：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -382,7 +382,7 @@ public class CadrePostController extends BaseController {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         cadreSubWorkMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改兼职%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改兼职%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -394,7 +394,7 @@ public class CadrePostController extends BaseController {
         record.setDispatchCadreId(dispatchCadreId);
 
         cadreSubWorkMapper.updateByPrimaryKey(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改兼职%s-现职务始任文号：%s", id, dispatchCadreId));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改兼职%s-现职务始任文号：%s", id, dispatchCadreId));
         return success(FormUtils.SUCCESS);
     }
 }

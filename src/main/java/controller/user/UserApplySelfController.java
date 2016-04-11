@@ -196,7 +196,7 @@ public class UserApplySelfController extends BaseController {
             applySelfFileMapper.deleteByExample(example); // 先删除相关材料
 
             applySelfService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -248,7 +248,7 @@ public class UserApplySelfController extends BaseController {
             record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         }else{
             Cadre cadre = cadreService.findByUserId(userId);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
@@ -267,7 +267,7 @@ public class UserApplySelfController extends BaseController {
             approvalLogMapper.deleteByExample(example);
 
             applySelfService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         }
         Integer applyId = record.getId();
         for (ApplySelfFile applySelfFile : applySelfFiles) {
@@ -295,6 +295,8 @@ public class UserApplySelfController extends BaseController {
         }
 
         applySelfFileMapper.deleteByPrimaryKey(id);
+
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国文件：%s", applySelfFile.getFilePath()));
         return success(FormUtils.SUCCESS);
     }
 

@@ -147,11 +147,11 @@ public class BranchMemberController extends BaseController {
         }
         if (id == null) {
             branchMemberService.insertSelective(record, autoAdmin);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加基层党组织成员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加基层党组织成员：%s", record.getId()));
         } else {
 
             branchMemberService.updateByPrimaryKeySelective(record, autoAdmin);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新基层党组织成员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新基层党组织成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -176,7 +176,7 @@ public class BranchMemberController extends BaseController {
         if (id != null) {
 
             branchMemberService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除基层党组织成员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织成员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -189,7 +189,7 @@ public class BranchMemberController extends BaseController {
 
         if (null != ids && ids.length>0){
             branchMemberService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除基层党组织成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -201,7 +201,7 @@ public class BranchMemberController extends BaseController {
     public Map do_branchMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         branchMemberService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "基层党组织成员调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -216,7 +216,7 @@ public class BranchMemberController extends BaseController {
             branchMemberAdminService.toggleAdmin(branchMember);
 
             String op = branchMember.getIsAdmin()?"删除":"添加";
-            logger.info(addLog(request, SystemConstants.LOG_OW, "%s党支部委员管理员权限，memberId=%s", op, id));
+            logger.info(addLog(SystemConstants.LOG_OW, "%s党支部委员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);
     }

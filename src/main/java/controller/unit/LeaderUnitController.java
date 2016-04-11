@@ -126,11 +126,11 @@ public class LeaderUnitController extends BaseController {
         }
         if (id == null) {
             leaderUnitService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
         } else {
 
             leaderUnitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新校领导单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -155,7 +155,7 @@ public class LeaderUnitController extends BaseController {
         if (id != null) {
 
             leaderUnitService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除校领导单位：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -168,7 +168,7 @@ public class LeaderUnitController extends BaseController {
 
         if (null != ids && ids.length>0){
             leaderUnitService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
         }
 
         return success(FormUtils.SUCCESS);

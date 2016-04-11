@@ -1,15 +1,16 @@
 package service.sys;
 
 import bean.UserBean;
-import domain.Member;
-import domain.Student;
-import domain.SysUser;
-import domain.Teacher;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
+import service.party.BranchService;
 import service.party.MemberService;
+import service.party.PartyService;
 import sys.constants.SystemConstants;
+
+import java.util.Map;
 
 /**
  * Created by fafa on 2015/12/11.
@@ -23,6 +24,10 @@ public class UserBeanService extends BaseMapper{
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private BranchService branchService;
+    @Autowired
+    private PartyService partyService;
 
     @Autowired
     private MemberService memberService;
@@ -66,6 +71,17 @@ public class UserBeanService extends BaseMapper{
             userBean.setPartyId(member.getPartyId());
             userBean.setBranchId(member.getBranchId());
             userBean.setGrowTime(member.getGrowTime());
+
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            Integer partyId = member.getPartyId();
+            Integer branchId = member.getBranchId();
+            if (partyId != null) {
+                userBean.setParty(partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                userBean.setBranch(branchMap.get(branchId));
+            }
         }
 
         return userBean;

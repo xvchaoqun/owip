@@ -143,11 +143,11 @@ public class LeaderController extends BaseController {
 
         if (id == null) {
             leaderService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加校领导：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导：%s", record.getId()));
         } else {
 
             leaderService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新校领导：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -176,7 +176,7 @@ public class LeaderController extends BaseController {
         if (id != null) {
 
             leaderService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除校领导：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -188,7 +188,7 @@ public class LeaderController extends BaseController {
 
         if (null != ids){
             leaderService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -200,7 +200,7 @@ public class LeaderController extends BaseController {
     public Map do_leader_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         leaderService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "校领导调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "校领导调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

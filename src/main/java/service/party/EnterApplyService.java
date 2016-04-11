@@ -71,7 +71,17 @@ public class EnterApplyService extends BaseMapper{
         // 判断是否是党员
         Member member = memberService.get(userId);
         if(member!=null){
-            throw new RuntimeException("已经是党员，不需要申请入党");
+            if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
+                throw new RuntimeException("您已出党");
+            }
+            if(member.getStatus()==SystemConstants.MEMBER_STATUS_RETIRE){
+                throw new RuntimeException("您已退休");
+            }
+            if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+                throw new RuntimeException("您已办理组织关系转出");
+            }
+
+            throw new RuntimeException("您已经是党员");
         }
     }
 

@@ -123,7 +123,7 @@ protected boolean onLoginSuccess(AuthenticationToken token,
     }
 
     String userAgent = RequestUtils.getUserAgent(httpServletRequest);
-    logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN, "登录成功", httpServletRequest),userAgent});
+    logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN, "登录成功"),userAgent});
 
     return false;
 }

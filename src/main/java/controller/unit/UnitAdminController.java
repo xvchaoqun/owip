@@ -64,11 +64,11 @@ public class UnitAdminController extends BaseController {
 
         if (id == null) {
             unitAdminService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加行政班子成员信息：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加行政班子成员信息：%s", record.getId()));
         } else {
 
             unitAdminService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新行政班子成员信息：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新行政班子成员信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -102,7 +102,7 @@ public class UnitAdminController extends BaseController {
         if (id != null) {
 
             unitAdminService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除行政班子成员信息：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除行政班子成员信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -115,7 +115,7 @@ public class UnitAdminController extends BaseController {
 
         if (null != ids && ids.length>0){
             unitAdminService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除行政班子成员信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除行政班子成员信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -127,7 +127,7 @@ public class UnitAdminController extends BaseController {
     public Map do_unitAdmin_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         unitAdminService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "行政班子成员信息调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "行政班子成员信息调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

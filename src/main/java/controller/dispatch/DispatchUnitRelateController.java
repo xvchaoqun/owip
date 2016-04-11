@@ -125,11 +125,11 @@ public class DispatchUnitRelateController extends BaseController {
         if (id == null) {
 
             dispatchUnitRelateService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加单位发文关联单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位发文关联单位：%s", record.getId()));
         } else {
 
             dispatchUnitRelateService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新单位发文关联单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位发文关联单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -154,7 +154,7 @@ public class DispatchUnitRelateController extends BaseController {
         if (id != null) {
 
             dispatchUnitRelateService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除单位发文关联单位：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位发文关联单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -167,7 +167,7 @@ public class DispatchUnitRelateController extends BaseController {
 
         if (null != ids && ids.length>0){
             dispatchUnitRelateService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除单位发文关联单位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位发文关联单位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,7 +180,7 @@ public class DispatchUnitRelateController extends BaseController {
 
         DispatchUnitRelate dispatchUnitRelate = dispatchUnitRelateMapper.selectByPrimaryKey(id);
         dispatchUnitRelateService.changeOrder(id, dispatchUnitRelate.getDispatchUnitId(), addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "单位发文关联单位调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位发文关联单位调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

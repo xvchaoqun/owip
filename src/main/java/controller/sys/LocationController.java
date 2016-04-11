@@ -68,11 +68,11 @@ public class LocationController extends BaseController {
 
         if (id == null) {
             locationService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加省、市、地区：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加省、市、地区：%s", record.getId()));
         } else {
 
             locationService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新省、市、地区：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新省、市、地区：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -103,7 +103,7 @@ public class LocationController extends BaseController {
         if (id != null) {
 
             locationService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除省、市、地区：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除省、市、地区：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -116,7 +116,7 @@ public class LocationController extends BaseController {
 
         if (null != ids && ids.length>0){
             locationService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除省、市、地区：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除省、市、地区：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

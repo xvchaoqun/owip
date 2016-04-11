@@ -261,7 +261,7 @@ public class MemberApplyController extends BaseController {
 
         applyLogService.addApplyLog(sysUser.getId(), loginUser.getId(),
                 SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
-        logger.info(addLog(request, SystemConstants.LOG_OW, "提交入党申请"));
+        logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 

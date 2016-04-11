@@ -87,11 +87,11 @@ public class CadreFamliyController extends BaseController {
 
         if (id == null) {
             cadreFamliyService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
         } else {
 
             cadreFamliyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -121,7 +121,7 @@ public class CadreFamliyController extends BaseController {
         if (id != null) {
 
             cadreFamliyService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -134,7 +134,7 @@ public class CadreFamliyController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreFamliyService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

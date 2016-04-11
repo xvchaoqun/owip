@@ -160,11 +160,11 @@ public class MemberQuitController extends BaseController {
             record.setStatus(SystemConstants.RETIRE_QUIT_STATUS_CHECKED);
             record.setCreateTime(new Date());
             memberQuitService.quit(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加党员出党：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加党员出党：%s", record.getUserId()));
         } else {
 
             memberQuitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新党员出党：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新党员出党：%s", record.getUserId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -192,7 +192,7 @@ public class MemberQuitController extends BaseController {
         if (userId != null) {
 
             memberQuitService.del(userId);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除党员出党：%s", userId));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除党员出党：%s", userId));
         }
         return success(FormUtils.SUCCESS);
     }

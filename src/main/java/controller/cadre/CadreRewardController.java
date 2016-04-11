@@ -124,11 +124,11 @@ public class CadreRewardController extends BaseController {
 
         if (id == null) {
             cadreRewardService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
         } else {
 
             cadreRewardService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -158,7 +158,7 @@ public class CadreRewardController extends BaseController {
         if (id != null) {
 
             cadreRewardService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部教学奖励：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部教学奖励：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -172,7 +172,7 @@ public class CadreRewardController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreRewardService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部教学奖励：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学奖励：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -184,7 +184,7 @@ public class CadreRewardController extends BaseController {
     public Map do_cadreReward_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreRewardService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部教学奖励调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部教学奖励调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

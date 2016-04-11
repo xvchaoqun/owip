@@ -215,7 +215,7 @@ public class PassportController extends BaseController {
         record.setCancelConfirm(true);
 
         passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -286,7 +286,7 @@ public class PassportController extends BaseController {
         }
         if(record.getLostTime()!=null || record.getLostProof()!=null)
             passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -351,7 +351,7 @@ public class PassportController extends BaseController {
             record.setCancelConfirm(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
         } else {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
@@ -372,7 +372,7 @@ public class PassportController extends BaseController {
             }
 
             passportService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -483,7 +483,7 @@ public class PassportController extends BaseController {
         record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_TRANSFER);
 
         passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -496,7 +496,7 @@ public class PassportController extends BaseController {
         if (null != ids && ids.length > 0) {
 
             passportService.abolish(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "作废证件：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -509,7 +509,7 @@ public class PassportController extends BaseController {
         if (id != null) {
 
             passportService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除证件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -522,7 +522,7 @@ public class PassportController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             passportService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

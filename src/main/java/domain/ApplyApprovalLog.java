@@ -27,6 +27,8 @@ public class ApplyApprovalLog implements Serializable {
 
     private Byte status;
 
+    private String remark;
+
     private Date createTime;
 
     private String ip;
@@ -103,6 +105,14 @@ public class ApplyApprovalLog implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {

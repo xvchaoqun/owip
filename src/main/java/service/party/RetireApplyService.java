@@ -1,9 +1,7 @@
 package service.party;
 
-import domain.Member;
 import domain.RetireApply;
 import domain.RetireApplyExample;
-import domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +19,8 @@ import java.util.List;
 public class RetireApplyService extends BaseMapper{
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private MemberService memberService;
 
     public int insertSelective(RetireApply record){
 
@@ -47,14 +47,7 @@ public class RetireApplyService extends BaseMapper{
         record.setVerifyTime(new Date());
         retireApplyMapper.updateByPrimaryKeySelective(record);
 
-        Member member = new Member();
-        member.setUserId(userId);
-        member.setStatus(SystemConstants.MEMBER_STATUS_RETIRE);
-        memberMapper.updateByPrimaryKeySelective(member);
-
-        // 更新系统角色  党员->访客
-        SysUser sysUser = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
+        memberService.quit(userId, SystemConstants.MEMBER_STATUS_RETIRE);
     }
 
 }

@@ -107,11 +107,11 @@ public class SysRoleController extends BaseController {
 				throw new IllegalArgumentException("角色不能为空");
 			}
 			sysRoleService.insert(sysRole);
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, false)));
 		}else{
 			SysRole oldSysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
 			sysRoleService.updateByPrimaryKeySelective(sysRole, sysRole.getRole(), oldSysRole.getRole());
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, false)));
 		}
 		
 		return success(FormUtils.SUCCESS);
@@ -154,7 +154,7 @@ public class SysRoleController extends BaseController {
 		if(id!=null){
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
 			sysRoleService.del(id, sysRole.getRole());
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除角色：%s", id));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除角色：%s", id));
 		}
 		
 		return success(FormUtils.SUCCESS);

@@ -91,10 +91,10 @@ public class MemberController extends BaseController {
             record.setCreateTime(new Date());
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "添加党员信息表：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "添加党员信息表：%s", record.getUserId()));
         } else {
             memberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "更新党员信息表：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "更新党员信息表：%s", record.getUserId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -152,7 +152,7 @@ public class MemberController extends BaseController {
         if (id != null) {
 
             memberService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -164,7 +164,7 @@ public class MemberController extends BaseController {
 
         if (null != ids){
             memberService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除党员：%s", new Object[]{ids}));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除党员：%s", new Object[]{ids}));
         }
         return success(FormUtils.SUCCESS);
     }

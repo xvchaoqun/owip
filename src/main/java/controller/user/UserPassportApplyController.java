@@ -57,7 +57,7 @@ public class UserPassportApplyController extends BaseController {
         record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_INIT);
 
         passportApplyService.insertSelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -74,7 +74,7 @@ public class UserPassportApplyController extends BaseController {
             if(passportApply.getStatus()==SystemConstants.PASSPORT_APPLY_STATUS_INIT
                     && passportApply.getCadreId().intValue() == cadre.getId().intValue()) {
                 passportApplyService.del(id);
-                logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
+                logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
             }
         }
         return success(FormUtils.SUCCESS);

@@ -120,11 +120,11 @@ public class CadreParttimeController extends BaseController {
 
         if (id == null) {
             cadreParttimeService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
         } else {
 
             cadreParttimeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -155,7 +155,7 @@ public class CadreParttimeController extends BaseController {
         if (id != null) {
 
             cadreParttimeService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -168,7 +168,7 @@ public class CadreParttimeController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreParttimeService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,7 +180,7 @@ public class CadreParttimeController extends BaseController {
     public Map do_cadreParttime_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreParttimeService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

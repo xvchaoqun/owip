@@ -413,11 +413,11 @@ public class ApplySelfController extends BaseController {
             record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {
             //record.setStatus(true);
             applySelfService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -455,7 +455,7 @@ public class ApplySelfController extends BaseController {
         if (id != null) {
 
             applySelfService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -468,7 +468,7 @@ public class ApplySelfController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             applySelfService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除因私出国申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除因私出国申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

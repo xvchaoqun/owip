@@ -221,12 +221,13 @@ public class BaseController extends BaseMapper {
 
         return sourceMixins;
     }
-    public String addLog(HttpServletRequest request, String logType, String content, Object...params){
+
+    public String addLog(String logType, String content, Object...params){
 
         if(params!=null && params.length>0)
             content = String.format(content, params);
 
-        return logService.log(logType, content, request);
+        return logService.log(logType, content);
     }
 
 	public Map<String, Object> success(){

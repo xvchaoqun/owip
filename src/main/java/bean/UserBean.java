@@ -1,5 +1,8 @@
 package bean;
 
+import domain.Branch;
+import domain.Party;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +29,8 @@ public class UserBean implements Serializable{
     public Date growTime; // 入党时间
     public Integer partyId;
     public Integer branchId;
+    public Party party;
+    public Branch branch;
 
     public Integer getUserId() {
         return userId;
@@ -137,5 +142,21 @@ public class UserBean implements Serializable{
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public Party getParty() {
+        return party;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 }

@@ -78,11 +78,11 @@ public class CadreCourseController extends BaseController {
 
         if (id == null) {
             cadreCourseService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部教学课程：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部教学课程：%s", record.getId()));
         } else {
 
             cadreCourseService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -112,7 +112,7 @@ public class CadreCourseController extends BaseController {
         if (id != null) {
 
             cadreCourseService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部教学课程：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部教学课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -125,7 +125,7 @@ public class CadreCourseController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreCourseService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部教学课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

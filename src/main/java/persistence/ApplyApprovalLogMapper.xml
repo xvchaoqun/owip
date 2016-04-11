@@ -11,6 +11,7 @@
     <result column="stage" property="stage" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
   </resultMap>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, record_id, party_id, branch_id, apply_user_id, type, stage, user_id, status, 
-    create_time, ip
+    remark, create_time, ip
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApplyApprovalLogExample" >
     select
@@ -110,11 +111,13 @@
     insert into ow_apply_approval_log (id, record_id, party_id, 
       branch_id, apply_user_id, type, 
       stage, user_id, status, 
-      create_time, ip)
+      remark, create_time, ip
+      )
     values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{stage,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.ApplyApprovalLog" >
     insert into ow_apply_approval_log
@@ -145,6 +148,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -180,6 +186,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -225,6 +234,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -247,6 +259,7 @@
       stage = #{record.stage,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -280,6 +293,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -299,6 +315,7 @@
       stage = #{stage,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

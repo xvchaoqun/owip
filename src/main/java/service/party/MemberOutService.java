@@ -2,13 +2,13 @@ package service.party;
 
 import domain.MemberOut;
 import domain.MemberOutExample;
-import domain.SysUser;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.DBErrorException;
-import service.sys.SysUserService;
+import service.LoginUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -18,8 +18,79 @@ import java.util.List;
 public class MemberOutService extends BaseMapper {
 
     @Autowired
-    private SysUserService sysUserService;
-    
+    private MemberService memberService;
+
+    @Autowired
+    private LoginUserService loginUserService;
+
+    public int count(Integer partyId, Integer branchId, byte type){
+
+        MemberOutExample example = new MemberOutExample();
+        MemberOutExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        return memberOutMapper.countByExample(example);
+    }
+
+    // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
+    public MemberOut next(byte type, MemberOut memberOut){
+
+        MemberOutExample example = new MemberOutExample();
+        MemberOutExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberOut!=null)
+            criteria.andUserIdNotEqualTo(memberOut.getUserId()).andApplyTimeLessThanOrEqualTo(memberOut.getApplyTime());
+        example.setOrderByClause("apply_time desc");
+
+        List<MemberOut> memberApplies = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
+    // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
+    public MemberOut last(byte type, MemberOut memberOut){
+
+        MemberOutExample example = new MemberOutExample();
+        MemberOutExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //支部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+        } else if(type==2){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberOut!=null)
+            criteria.andUserIdNotEqualTo(memberOut.getUserId()).andApplyTimeGreaterThanOrEqualTo(memberOut.getApplyTime());
+        example.setOrderByClause("apply_time asc");
+
+        List<MemberOut> memberApplies = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
     public boolean idDuplicate(Integer id, Integer userId){
 
         MemberOutExample example = new MemberOutExample();
@@ -49,7 +120,7 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
-
+        record.setBranchId(memberOut.getBranchId());
         memberOutMapper.updateByPrimaryKeySelective(record);
     }
     
@@ -64,7 +135,7 @@ public class MemberOutService extends BaseMapper {
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_BACK);
         record.setReason(reason);
-
+        record.setBranchId(memberOut.getBranchId());
         memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -78,7 +149,7 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-
+        record.setBranchId(memberOut.getBranchId());
         memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -103,11 +174,10 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+        record.setBranchId(memberOut.getBranchId());
         memberOutMapper.updateByPrimaryKeySelective(record);
-        
-        // 更新系统角色  党员->访客
-        SysUser sysUser = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
+
+        memberService.quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
     }
     @Transactional
     public int insertSelective(MemberOut record){

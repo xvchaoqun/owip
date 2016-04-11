@@ -151,7 +151,7 @@ public class MemberStayController extends BaseController {
         MemberStay memberStay = verifyAuth.entity;
 
         memberStayService.deny(memberStay.getUserId(), reason);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝暂留申请：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "拒绝暂留申请：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -167,10 +167,10 @@ public class MemberStayController extends BaseController {
 
         if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
             memberStayService.checkByParty(memberStay.getUserId(), false);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-分党委审核：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-分党委审核：%s", id));
         }else {
             memberStayService.check1(memberStay.getUserId());
-            logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-党总支、直属党支部审核：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-党总支、直属党支部审核：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -184,7 +184,7 @@ public class MemberStayController extends BaseController {
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
 
         memberStayService.check2(memberStay.getUserId(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "暂留申请-组织部审核：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-组织部审核：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -219,11 +219,11 @@ public class MemberStayController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
             memberStayService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加公派留学生党员申请组织关系暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加公派留学生党员申请组织关系暂留：%s", record.getId()));
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新公派留学生党员申请组织关系暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新公派留学生党员申请组织关系暂留：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -250,7 +250,7 @@ public class MemberStayController extends BaseController {
         if (id != null) {
 
             memberStayService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除公派留学生党员申请组织关系暂留：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除公派留学生党员申请组织关系暂留：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -263,7 +263,7 @@ public class MemberStayController extends BaseController {
 
         if (null != ids && ids.length>0){
             memberStayService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除公派留学生党员申请组织关系暂留：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除公派留学生党员申请组织关系暂留：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

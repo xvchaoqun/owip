@@ -5,6 +5,8 @@ import domain.SysLog;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.sys.MetaTypeService;
 import shiro.ShiroUser;
@@ -24,8 +26,9 @@ public class LogService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
 
-    public String log(String logType, String content, HttpServletRequest request){
+    public String log(String logType, String content){
 
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
         SysLog record = new SysLog();

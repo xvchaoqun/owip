@@ -157,7 +157,7 @@ public class PartyMemberGroupController extends BaseController {
 
         if (id == null) {
             partyMemberGroupService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加基层党组织领导班子：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加基层党组织领导班子：%s", record.getId()));
         } else {
 
             if(record.getFid()!=null && record.getFid().intValue()==record.getId()){
@@ -165,7 +165,7 @@ public class PartyMemberGroupController extends BaseController {
             }
 
             partyMemberGroupService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新基层党组织领导班子：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新基层党组织领导班子：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -213,7 +213,7 @@ public class PartyMemberGroupController extends BaseController {
         if (id != null) {
 
             partyMemberGroupService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除基层党组织领导班子：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织领导班子：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -226,7 +226,7 @@ public class PartyMemberGroupController extends BaseController {
 
         if (null != ids && ids.length>0){
             partyMemberGroupService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -238,7 +238,7 @@ public class PartyMemberGroupController extends BaseController {
     public Map do_partyMemberGroup_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         partyMemberGroupService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "基层党组织领导班子调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织领导班子调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

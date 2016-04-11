@@ -238,7 +238,7 @@ public class DispatchController extends BaseController {
             if(record.getCode()==null)
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             dispatchService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发文：%s", record.getId()));
         }else {
 
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(record.getId());
@@ -253,7 +253,7 @@ public class DispatchController extends BaseController {
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }
             dispatchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发文：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -375,7 +375,7 @@ public class DispatchController extends BaseController {
         if (id != null) {
 
             dispatchService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除发文：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除发文：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -388,7 +388,7 @@ public class DispatchController extends BaseController {
 
         if (null != ids && ids.length>0){
             dispatchService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除发文：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发文：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -400,7 +400,7 @@ public class DispatchController extends BaseController {
     public Map do_dispatch_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "发文调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

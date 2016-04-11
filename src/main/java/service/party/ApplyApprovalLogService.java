@@ -20,7 +20,7 @@ public class ApplyApprovalLogService extends BaseMapper {
     
     public void add(int recordId, int partyId, int branchId, int applyUserId,
                                 int userId, byte type,
-                                String stage, byte status){
+                                String stage, byte status, String remark){
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
@@ -32,6 +32,7 @@ public class ApplyApprovalLogService extends BaseMapper {
         record.setUserId(userId);
         record.setType(type);
         record.setStage(stage);
+        record.setRemark(remark);
         record.setStatus(status);
         record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));

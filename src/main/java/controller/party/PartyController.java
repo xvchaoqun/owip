@@ -166,11 +166,11 @@ public class PartyController extends BaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             partyService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加基层党组织：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加基层党组织：%s", record.getId()));
         } else {
 
             partyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新基层党组织：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新基层党组织：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -196,7 +196,7 @@ public class PartyController extends BaseController {
         if (id != null) {
 
             partyService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除基层党组织：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -209,7 +209,7 @@ public class PartyController extends BaseController {
 
         if (null != ids && ids.length>0){
             partyService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -221,7 +221,7 @@ public class PartyController extends BaseController {
     public Map do_party_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         partyService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -204,11 +204,11 @@ public class DispatchCadreController extends BaseController {
 
         if (id == null) {
             dispatchCadreService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部发文：%s", record.getId()));
         } else {
 
             dispatchCadreService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -240,7 +240,7 @@ public class DispatchCadreController extends BaseController {
         if (id != null) {
 
             dispatchCadreService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部发文：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部发文：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -253,7 +253,7 @@ public class DispatchCadreController extends BaseController {
 
         if (null != ids && ids.length>0){
             dispatchCadreService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部发文：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部发文：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -265,7 +265,7 @@ public class DispatchCadreController extends BaseController {
     public Map do_dispatchCadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchCadreService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部发文调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -132,11 +132,11 @@ public class CadreWorkController extends BaseController {
 
         if (id == null) {
             cadreWorkService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
         } else {
 
             cadreWorkService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class CadreWorkController extends BaseController {
         if (id != null) {
 
             cadreWorkService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除工作经历：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除工作经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -179,7 +179,7 @@ public class CadreWorkController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreWorkService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除工作经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除工作经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -220,7 +220,7 @@ public class CadreWorkController extends BaseController {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         cadreWorkService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

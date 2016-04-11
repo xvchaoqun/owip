@@ -149,11 +149,11 @@ public class MetaTypeController extends BaseController {
         if (id == null) {
             record.setAvailable(true);
             metaTypeService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加元数据属性值：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加元数据属性值：%s", id));
         } else {
 
             metaTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新元数据属性值：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新元数据属性值：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -190,7 +190,7 @@ public class MetaTypeController extends BaseController {
 
         if (id != null) {
             metaTypeService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除元数据属性值：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除元数据属性值：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -202,7 +202,7 @@ public class MetaTypeController extends BaseController {
 
         if (null != ids){
             metaTypeService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除元数据属性值：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除元数据属性值：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -214,7 +214,7 @@ public class MetaTypeController extends BaseController {
 
         Assert.isTrue(classId>0);
         metaTypeService.changeOrder(id, addNum, classId);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "元数据属性值调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "元数据属性值调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

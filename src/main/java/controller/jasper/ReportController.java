@@ -33,10 +33,15 @@ public class ReportController extends BaseController {
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
     public String member_out_bj(@CurrentUser SysUser loginUser, int userId, Integer type, Model model) throws IOException, DocumentException {
 
-        // 本人或组织部管理员或管理员才可以操作
+        List<String> roles = new ArrayList<>();
+        roles.add(SystemConstants.ROLE_ODADMIN);
+        roles.add(SystemConstants.ROLE_ADMIN);
+        roles.add(SystemConstants.ROLE_PARTYADMIN);
+        roles.add(SystemConstants.ROLE_BRANCHADMIN);
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(roles);
+        // 本人或党支部、分党委、组织部管理员或管理员才可以操作
        if(loginUser.getId().intValue()!=userId &&
-               !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ODADMIN)&&
-               !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
+               !hasRoles[0]&&!hasRoles[1]&&!hasRoles[2]&&!hasRoles[3]){
            throw new UnauthorizedException();
        }
 
@@ -60,10 +65,15 @@ public class ReportController extends BaseController {
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
     public String member_in_bj(@CurrentUser SysUser loginUser, int userId, Model model) throws IOException, DocumentException {
 
-        // 本人或组织部管理员或管理员才可以操作
+        List<String> roles = new ArrayList<>();
+        roles.add(SystemConstants.ROLE_ODADMIN);
+        roles.add(SystemConstants.ROLE_ADMIN);
+        roles.add(SystemConstants.ROLE_PARTYADMIN);
+        roles.add(SystemConstants.ROLE_BRANCHADMIN);
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(roles);
+        // 本人或党支部、分党委、组织部管理员或管理员才可以操作
         if(loginUser.getId().intValue()!=userId &&
-                !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ODADMIN)&&
-                !SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
+                !hasRoles[0]&&!hasRoles[1]&&!hasRoles[2]&&!hasRoles[3]){
             throw new UnauthorizedException();
         }
 

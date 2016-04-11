@@ -134,11 +134,11 @@ public class MetaClassController extends BaseController {
         if (id == null) {
             record.setAvailable(true);
             metaClassService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加元数据：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加元数据：%s", id));
         } else {
 
             metaClassService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新元数据：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新元数据：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class MetaClassController extends BaseController {
 
         if (id != null) {
             metaClassService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除元数据：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除元数据：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -174,7 +174,7 @@ public class MetaClassController extends BaseController {
 
         if (null != ids) {
             metaClassService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除元数据类型：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除元数据类型：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -185,7 +185,7 @@ public class MetaClassController extends BaseController {
     public Map do_metaClass_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         metaClassService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "元数据调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "元数据调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -200,7 +200,7 @@ public class MetaClassController extends BaseController {
             roleId = -1;
         }
         metaClassService.updateRoles(id, roleId);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新元数据所属角色 %s, %s", id, roleId));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新元数据所属角色 %s, %s", id, roleId));
         return success(FormUtils.SUCCESS);
     }
 

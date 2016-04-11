@@ -121,11 +121,11 @@ public class ApplicatPostController extends BaseController {
         }
         if (id == null) {
             applicatPostService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加申请人职务属性分组：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请人职务属性分组：%s", record.getId()));
         } else {
 
             applicatPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请人职务属性分组：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请人职务属性分组：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -150,7 +150,7 @@ public class ApplicatPostController extends BaseController {
         if (id != null) {
 
             applicatPostService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除申请人职务属性分组：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请人职务属性分组：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -163,7 +163,7 @@ public class ApplicatPostController extends BaseController {
 
         if (null != ids && ids.length>0){
             applicatPostService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除申请人职务属性分组：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请人职务属性分组：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -175,7 +175,7 @@ public class ApplicatPostController extends BaseController {
     public Map do_applicatPost_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         applicatPostService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请人职务属性分组调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请人职务属性分组调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -154,7 +154,7 @@ public class OrgAdminController extends BaseController {
         } else if (record.getBranchId() != null) {
             orgAdminService.addBranchAdmin(record.getUserId(), record.getBranchId());
         }
-        logger.info(addLog(request, SystemConstants.LOG_OW, "添加党组织管理员：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_OW, "添加党组织管理员：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -179,7 +179,7 @@ public class OrgAdminController extends BaseController {
 
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
             orgAdminService.del(id, orgAdmin.getUserId());
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除党组织管理员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除党组织管理员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

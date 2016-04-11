@@ -84,11 +84,11 @@ public class UserMemberStayController extends BaseController{
 
         if (memberStay == null) {
             memberStayService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交暂留申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "提交暂留申请"));
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交修改暂留申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "修改暂留申请"));
         }
 
         return success(FormUtils.SUCCESS);
@@ -101,7 +101,7 @@ public class UserMemberStayController extends BaseController{
 
         int userId = loginUser.getId();
         memberStayService.back(userId);
-
+        logger.info(addLog(SystemConstants.LOG_USER, "取消暂留申请"));
         return success(FormUtils.SUCCESS);
     }
 }

@@ -258,11 +258,11 @@ public class MemberOutflowController extends BaseController {
         }
 
         memberOutflowService.deny(userId);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
 
         applyApprovalLogService.add(memberOutflow.getId(),
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)0);
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)0, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -291,10 +291,10 @@ public class MemberOutflowController extends BaseController {
 
             if (directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
                 memberOutflowService.check2(userId, true);
-                logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
+                logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
             } else {
                 memberOutflowService.check1(userId);
-                logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请：%s", userId));
+                logger.info(addLog(SystemConstants.LOG_OW, "审核流出党员申请：%s", userId));
             }
         }
 
@@ -306,28 +306,16 @@ public class MemberOutflowController extends BaseController {
             }
 
             memberOutflowService.check2(userId, false);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
+            logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
         }
 
         applyApprovalLogService.add(memberOutflow.getId(),
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1);
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1, null);
 
         return success(FormUtils.SUCCESS);
     }
 
-
-    @RequiresPermissions("memberOutflow:list")
-    @RequestMapping("/memberOutflow_approvalLogs")
-    public String memberOutflow_approvalLogs(int id, ModelMap modelMap) {
-
-        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-        modelMap.put("memberOutflow", memberOutflow);
-        SysUser sysUser = sysUserService.findById(memberOutflow.getUserId());
-        modelMap.put("sysUser", sysUser);
-
-        return "party/memberOutflow/memberOutflow_approvalLogs";
-    }
 
     @RequiresPermissions("memberOutflow:edit")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
@@ -362,12 +350,12 @@ public class MemberOutflowController extends BaseController {
             record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
 
             memberOutflowService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加流出党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加流出党员：%s", record.getId()));
         } else {
             record.setStatus(null);// 不修改状态
 
             memberOutflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新流出党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新流出党员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -405,7 +393,7 @@ public class MemberOutflowController extends BaseController {
         if (id != null) {
 
             memberOutflowService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除流出党员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除流出党员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -418,7 +406,7 @@ public class MemberOutflowController extends BaseController {
 
         if (null != ids && ids.length>0){
             memberOutflowService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

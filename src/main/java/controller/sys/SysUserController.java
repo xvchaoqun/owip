@@ -162,7 +162,7 @@ public class SysUserController extends BaseController {
             sysUser.setCreateTime(new Date());
             sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
             sysUserService.insertSelective(sysUser);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
         } else {
             if (StringUtils.isBlank(sysUser.getPasswd())) {
                 // 密码不变
@@ -174,7 +174,7 @@ public class SysUserController extends BaseController {
             }
             SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
             sysUserService.updateByPrimaryKeySelective(sysUser, oldSysUser.getUsername());
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -204,7 +204,7 @@ public class SysUserController extends BaseController {
             SysUser sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
             sysUserService.lockUser(sysUser.getId(), username, locked);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
 
         return success(FormUtils.SUCCESS);
@@ -226,7 +226,7 @@ public class SysUserController extends BaseController {
         SysUser sysSysUser2 = sysUserMapper.selectByPrimaryKey(sysUser.getId());
         sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), "," + StringUtils.join(rIds, ",") + ",");
 
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysSysUser2.getUsername(), StringUtils.join(rIds, ",")));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysSysUser2.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
     }
 

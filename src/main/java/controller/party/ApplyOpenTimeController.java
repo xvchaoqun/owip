@@ -114,11 +114,11 @@ public class ApplyOpenTimeController extends BaseController {
 
         if (id == null) {
             applyOpenTimeService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "添加党员申请开放时间段：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "添加党员申请开放时间段：%s", record.getId()));
         } else {
 
             applyOpenTimeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "更新党员申请开放时间段：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "更新党员申请开放时间段：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -146,7 +146,7 @@ public class ApplyOpenTimeController extends BaseController {
         if (id != null) {
 
             applyOpenTimeService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "删除党员申请开放时间段：%s", id));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除党员申请开放时间段：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -159,7 +159,7 @@ public class ApplyOpenTimeController extends BaseController {
 
         if (null != ids && ids.length>0){
             applyOpenTimeService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "批量删除党员申请开放时间段：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "批量删除党员申请开放时间段：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

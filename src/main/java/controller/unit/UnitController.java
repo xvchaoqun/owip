@@ -157,11 +157,11 @@ public class UnitController extends BaseController {
             record.setCreateTime(new Date());
             record.setStatus(SystemConstants.UNIT_STATUS_RUN);
             unitService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位：%s", record.getId()));
         } else {
 
             unitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新单位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -186,7 +186,7 @@ public class UnitController extends BaseController {
         if (id != null) {
 
             unitService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除单位：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -209,7 +209,7 @@ public class UnitController extends BaseController {
         if (null != ids){
             
             unitService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -221,7 +221,7 @@ public class UnitController extends BaseController {
     public Map do_unit_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
 
         unitService.changeOrder(id, status, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

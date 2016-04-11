@@ -45,6 +45,7 @@ public class EnterApplyController extends BaseController {
         EnterApply currentApply = enterApplyService.getCurrentApply(userId);
         if(currentApply==null) {
             modelMap.put("applyList", enterApplyService.findApplyList(userId));
+            modelMap.put("member", memberService.get(userId));
             return "user/enterApply/apply";
         }
         switch (currentApply.getType()){
@@ -109,6 +110,7 @@ public class EnterApplyController extends BaseController {
         int userId = loginUser.getId();
         enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
 
+        logger.info(addLog(SystemConstants.LOG_USER, "取消入党申请"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -148,7 +150,7 @@ public class EnterApplyController extends BaseController {
 
         applyLogService.addApplyLog(loginUser.getId(), loginUser.getId(),
                 SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
-        logger.info(addLog(request, SystemConstants.LOG_OW, "提交入党申请"));
+        logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -238,6 +240,8 @@ public class EnterApplyController extends BaseController {
         }
 
         enterApplyService.memberReturn(record);
+
+        logger.info(addLog(SystemConstants.LOG_USER, "留学归国申请"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -342,6 +346,8 @@ public class EnterApplyController extends BaseController {
 
         enterApplyService.memberIn(record);
 
+        logger.info(addLog(SystemConstants.LOG_USER, "组织关系转入申请"));
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -407,6 +413,8 @@ public class EnterApplyController extends BaseController {
         }
 
         enterApplyService.memberInflow(record);
+
+        logger.info(addLog(SystemConstants.LOG_USER, "流入党员申请"));
 
         return success(FormUtils.SUCCESS);
     }

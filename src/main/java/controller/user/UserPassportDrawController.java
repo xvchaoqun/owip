@@ -53,7 +53,7 @@ public class UserPassportDrawController extends BaseController {
                 passportDrawFileMapper.deleteByExample(example); // 先删除相关材料
 
                 passportDrawService.del(id);
-                logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除使用证件申请：%s", id));
+                logger.info(addLog(SystemConstants.LOG_ABROAD, "删除使用证件申请：%s", id));
             }
         }
         return success(FormUtils.SUCCESS);
@@ -255,6 +255,7 @@ public class UserPassportDrawController extends BaseController {
         record.setNeedSign(true);
         passportDrawMapper.updateByPrimaryKeySelective(record);
 
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）-签注"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -292,7 +293,7 @@ public class UserPassportDrawController extends BaseController {
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
         record.setJobCertify(false);
         passportDrawService.insertSelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -364,7 +365,7 @@ public class UserPassportDrawController extends BaseController {
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
         record.setJobCertify(false);
         passportDrawService.insertSelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请使用证件（出访台湾）：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（出访台湾）：%s", record.getId()));
 
         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
             passportDrawFile.setDrawId(record.getId());
@@ -431,7 +432,7 @@ public class UserPassportDrawController extends BaseController {
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
         record.setJobCertify(false);
         passportDrawService.insertSelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
 
         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
             passportDrawFile.setDrawId(record.getId());

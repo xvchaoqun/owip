@@ -144,11 +144,11 @@ public class CadreEduController extends BaseController {
 
         if (id == null) {
             cadreEduService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
         } else {
 
             cadreEduService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -179,7 +179,7 @@ public class CadreEduController extends BaseController {
         if (id != null) {
 
             cadreEduService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -192,7 +192,7 @@ public class CadreEduController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreEduService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -204,7 +204,7 @@ public class CadreEduController extends BaseController {
     public Map do_cadreEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
 
         cadreEduService.changeOrder(id, cadreId, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部学习经历调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部学习经历调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

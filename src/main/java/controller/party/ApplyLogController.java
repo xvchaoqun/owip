@@ -135,11 +135,11 @@ public class ApplyLogController extends BaseController {
 
         if (id == null) {
             applyLogService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "添加入党申请操作日志：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "添加入党申请操作日志：%s", record.getId()));
         } else {
 
             applyLogService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "更新入党申请操作日志：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "更新入党申请操作日志：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -164,7 +164,7 @@ public class ApplyLogController extends BaseController {
         if (id != null) {
 
             applyLogService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "删除入党申请操作日志：%s", id));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除入党申请操作日志：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -177,7 +177,7 @@ public class ApplyLogController extends BaseController {
 
         if (null != ids && ids.length>0){
             applyLogService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_MEMBER_APPLY, "批量删除入党申请操作日志：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "批量删除入党申请操作日志：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

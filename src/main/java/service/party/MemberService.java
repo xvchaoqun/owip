@@ -31,6 +31,26 @@ public class MemberService extends BaseMapper {
 
          return memberMapper.selectByPrimaryKey(userId);
     }
+    /**
+     * 党员出党
+     * @param userId
+     * @param status SystemConstants.MEMBER_STATUS_QUIT
+     *               SystemConstants.MEMBER_STATUS_RETIRE
+     */
+    @Transactional
+    public void quit(int userId, byte status){
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        Member record = new Member();
+        record.setUserId(userId);
+        record.setStatus(status);
+        record.setBranchId(member.getBranchId());
+        memberMapper.updateByPrimaryKeySelective(record);
+
+        // 更新系统角色  党员->访客
+        SysUser sysUser = sysUserService.findById(userId);
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
+    }
 
     // 后台数据库中导入党员数据后，需要同步信息、更新状态
     @Transactional

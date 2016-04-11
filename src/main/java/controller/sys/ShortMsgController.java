@@ -137,11 +137,11 @@ public class ShortMsgController extends BaseController {
         if (id == null) {
             record.setStatus(true);
             shortMsgService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加短信：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加短信：%s", record.getId()));
         } else {
 
             shortMsgService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新短信：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新短信：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class ShortMsgController extends BaseController {
         if (id != null) {
 
             shortMsgService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除短信：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除短信：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -179,7 +179,7 @@ public class ShortMsgController extends BaseController {
 
         if (null != ids && ids.length>0){
             shortMsgService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除短信：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除短信：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

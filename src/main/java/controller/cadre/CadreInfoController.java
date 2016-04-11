@@ -74,11 +74,11 @@ public class CadreInfoController extends BaseController {
         CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
         if (cadreInfo == null) {
             cadreInfoService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部联系方式：%s", record.getCadreId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部联系方式：%s", record.getCadreId()));
         } else {
 
             cadreInfoService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部联系方式：%s", record.getCadreId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部联系方式：%s", record.getCadreId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -108,7 +108,7 @@ public class CadreInfoController extends BaseController {
         if (cadreId != null) {
 
             cadreInfoService.del(cadreId);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部联系方式：%s", cadreId));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部联系方式：%s", cadreId));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -121,7 +121,7 @@ public class CadreInfoController extends BaseController {
 
         if (null != cadreIds && cadreIds.length>0){
             cadreInfoService.batchDel(cadreIds);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部联系方式：%s", StringUtils.join(cadreIds, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部联系方式：%s", StringUtils.join(cadreIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -143,7 +143,7 @@ public class ApplicatTypeController extends BaseController {
     public Map do_approvalOrder_changeOrder(int applicatTypeId, Integer id, Integer addNum, HttpServletRequest request) {
 
         approvalOrderService.changeOrder(applicatTypeId, id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请人身份关联的审批顺序调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请人身份关联的审批顺序调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -227,11 +227,11 @@ public class ApplicatTypeController extends BaseController {
         }
         if (id == null) {
             applicatTypeService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加申请人身份：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请人身份：%s", record.getId()));
         } else {
 
             applicatTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请人身份：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请人身份：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -256,7 +256,7 @@ public class ApplicatTypeController extends BaseController {
         if (id != null) {
 
             applicatTypeService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除申请人身份：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请人身份：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -269,7 +269,7 @@ public class ApplicatTypeController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             applicatTypeService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除申请人身份：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请人身份：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -281,7 +281,7 @@ public class ApplicatTypeController extends BaseController {
     public Map do_applicatType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         applicatTypeService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "申请人身份调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请人身份调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

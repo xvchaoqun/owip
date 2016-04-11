@@ -83,10 +83,10 @@ public class UserMemberOutController extends BaseController{
 
         if (memberOut == null) {
             memberOutService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
         } else {
             memberOutService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "提交修改流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "修改组织关系转出申请"));
         }
 
         return success(FormUtils.SUCCESS);
@@ -100,6 +100,7 @@ public class UserMemberOutController extends BaseController{
         int userId = loginUser.getId();
         memberOutService.back(userId);
 
+        logger.info(addLog(SystemConstants.LOG_USER, "取消组织关系转出申请"));
         return success(FormUtils.SUCCESS);
     }
 }

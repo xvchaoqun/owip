@@ -168,7 +168,7 @@ public class MemberTransferController extends BaseController {
         MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.deny(memberTransfer.getUserId(), reason);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -182,7 +182,7 @@ public class MemberTransferController extends BaseController {
         MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.check1(memberTransfer.getUserId());
-        logger.info(addLog(request, SystemConstants.LOG_OW, "审核流出党员申请1：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "审核流出党员申请1：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -196,7 +196,7 @@ public class MemberTransferController extends BaseController {
         MemberTransfer memberTransfer = verifyAuth.entity;
 
         memberTransferService.check2(memberTransfer.getUserId(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "通过流出党员申请2：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请2：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -234,11 +234,11 @@ public class MemberTransferController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
             memberTransferService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加校内组织关系互转：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加校内组织关系互转：%s", record.getId()));
         } else {
             record.setStatus(null); // 不改状态
             memberTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新校内组织关系互转：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新校内组织关系互转：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -283,7 +283,7 @@ public class MemberTransferController extends BaseController {
         if (id != null) {
 
             memberTransferService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除校内组织关系互转：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除校内组织关系互转：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -296,7 +296,7 @@ public class MemberTransferController extends BaseController {
 
         if (null != ids && ids.length>0){
             memberTransferService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除校内组织关系互转：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除校内组织关系互转：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

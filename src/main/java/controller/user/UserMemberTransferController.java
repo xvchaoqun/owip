@@ -102,11 +102,11 @@ public class UserMemberTransferController extends BaseController{
 
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "本人提交流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "本人提交校内组织关系互转"));
         } else {
 
             memberTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "本人提交修改流出党员申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "本人修改校内组织关系互转"));
         }
 
         return success(FormUtils.SUCCESS);
@@ -119,7 +119,7 @@ public class UserMemberTransferController extends BaseController{
 
         int userId = loginUser.getId();
         memberTransferService.back(userId);
-
+        logger.info(addLog(SystemConstants.LOG_USER, "本人取消校内组织关系互转"));
         return success(FormUtils.SUCCESS);
     }
 }

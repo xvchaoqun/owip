@@ -168,12 +168,12 @@ public class MemberReturnController extends BaseController {
         if (id == null) {
 
             enterApplyService.memberReturn(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
         } else {
 
             record.setStatus(null); // 更新的时候不能更新状态
             memberReturnService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -189,7 +189,7 @@ public class MemberReturnController extends BaseController {
         MemberReturn memberReturn = verifyAuth.entity;
 
         enterApplyService.applyBack(memberReturn.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
-        logger.info(addLog(request, SystemConstants.LOG_OW, "拒绝留学归国人员申请恢复组织生活：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "拒绝留学归国人员申请恢复组织生活：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -206,10 +206,10 @@ public class MemberReturnController extends BaseController {
 
         if(isDirectBranch && isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
             memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-直属党支部审核：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-直属党支部审核：%s", id));
         }else {
             memberReturnService.checkMember(memberReturn.getUserId());
-            logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-党支部审核：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-党支部审核：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -224,7 +224,7 @@ public class MemberReturnController extends BaseController {
         MemberReturn memberReturn = verifyAuth.entity;
 
         memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
-        logger.info(addLog(request, SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-分党委、党总支审核：%s", id));
+        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-分党委、党总支审核：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -261,7 +261,7 @@ public class MemberReturnController extends BaseController {
         if (id != null) {
 
             memberReturnService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "删除留学归国人员申请恢复组织生活：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除留学归国人员申请恢复组织生活：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -274,7 +274,7 @@ public class MemberReturnController extends BaseController {
 
         if (null != ids && ids.length>0){
             memberReturnService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_OW, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

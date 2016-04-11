@@ -67,12 +67,12 @@ public class SysResourceController extends BaseController {
 			
 			sysResource.setAvailable(SystemConstants.AVAILABLE);
 			sysResourceService.insert(sysResource);
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(sysResource, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(sysResource, false)));
 			
 		}else{
 			
 			sysResourceService.updateByPrimaryKeySelective(sysResource);
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(sysResource, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(sysResource, false)));
 		}
 		
 		return success(FormUtils.SUCCESS);
@@ -114,7 +114,7 @@ public class SysResourceController extends BaseController {
 		if(id!=null){
 			
 			sysResourceService.del(id);
-			logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除资源：%s", id));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除资源：%s", id));
 		}
 		
 		return success(FormUtils.SUCCESS);

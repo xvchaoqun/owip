@@ -123,11 +123,11 @@ public class DispatchUnitController extends BaseController {
 
         if (id == null) {
             dispatchUnitService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加单位发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位发文：%s", record.getId()));
         } else {
 
             dispatchUnitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新单位发文：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位发文：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -155,7 +155,7 @@ public class DispatchUnitController extends BaseController {
         if (id != null) {
 
             dispatchUnitService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除单位发文：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位发文：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -168,7 +168,7 @@ public class DispatchUnitController extends BaseController {
 
         if (null != ids && ids.length>0){
             dispatchUnitService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除单位发文：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位发文：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,7 +180,7 @@ public class DispatchUnitController extends BaseController {
     public Map do_dispatchUnit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchUnitService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "单位发文调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

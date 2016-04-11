@@ -209,7 +209,7 @@ public class CadreController extends BaseController {
 
         cadreService.updateByExampleSelective(record, example);
 
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s", id));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -233,7 +233,7 @@ public class CadreController extends BaseController {
 
         cadreService.leave(id, status);
 
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -265,11 +265,11 @@ public class CadreController extends BaseController {
 
         if (id == null) {
             cadreService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
         } else {
 
             cadreService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -298,7 +298,7 @@ public class CadreController extends BaseController {
         if (id != null) {
 
             cadreService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -310,7 +310,7 @@ public class CadreController extends BaseController {
 
         if (null != ids){
             cadreService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部：%s", new Object[]{ids}));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", new Object[]{ids}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -321,7 +321,7 @@ public class CadreController extends BaseController {
     public Map do_cadre_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
 
         cadreService.changeOrder(id, status, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ADMIN, "干部调序：%s, %s", id ,addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部调序：%s, %s", id ,addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -1,12 +1,16 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.ApplyApprovalLog;
-import domain.ApplyApprovalLogExample;
+import domain.*;
 import mixin.ApplyApprovalLogMixin;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -22,6 +26,40 @@ import java.util.Map;
 @Controller
 public class ApplyApprovalLogController extends BaseController {
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequestMapping("/applyApprovalLog_page")
+    public String applyApprovalLog_page(int id, Byte type, ModelMap modelMap) {
+
+        Integer userId = null;
+        switch (type){
+            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD:
+                MemberAbroad memberAbroad = memberAbroadMapper.selectByPrimaryKey(id);
+                userId = memberAbroad.getUserId();
+                break;
+            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN:
+                MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+                userId = memberIn.getUserId();
+                break;
+            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW:
+                MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+                userId = memberInflow.getUserId();
+                break;
+            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW:
+                MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+                userId = memberOutflow.getUserId();
+                break;
+        }
+
+        if(userId != null) {
+            SysUser sysUser = sysUserService.findById(userId);
+            modelMap.put("sysUser", sysUser);
+        }
+        modelMap.put("type", type);
+
+        return "party/applyApprovalLog/applyApprovalLog_page";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
                                    Integer id,

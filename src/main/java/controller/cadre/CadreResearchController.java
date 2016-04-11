@@ -181,11 +181,11 @@ public class CadreResearchController extends BaseController {
 
         if (id == null) {
             cadreResearchService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部科研情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研情况：%s", record.getId()));
         } else {
 
             cadreResearchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部科研情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -272,7 +272,7 @@ public class CadreResearchController extends BaseController {
         if (id != null) {
 
             cadreResearchService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部科研情况：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部科研情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -285,7 +285,7 @@ public class CadreResearchController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreResearchService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部科研情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -137,11 +137,11 @@ public class ApproverTypeController extends BaseController {
         }
         if (id == null) {
             approverTypeService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加审批人分类：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加审批人分类：%s", record.getId()));
         } else {
 
             approverTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新审批人分类：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新审批人分类：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class ApproverTypeController extends BaseController {
         if (id != null) {
 
             approverTypeService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除审批人分类：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除审批人分类：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -177,7 +177,7 @@ public class ApproverTypeController extends BaseController {
     public Map do_approverType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         approverTypeService.changeOrder(id, addNum);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "审批人分类调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "审批人分类调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -189,7 +189,7 @@ public class ApproverTypeController extends BaseController {
 
         if (null != ids && ids.length>0){
             approverTypeService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除审批人分类：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除审批人分类：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -76,11 +76,11 @@ public class CadreCompanyController extends BaseController {
 
         if (id == null) {
             cadreCompanyService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
         } else {
 
             cadreCompanyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -109,7 +109,7 @@ public class CadreCompanyController extends BaseController {
         if (id != null) {
 
             cadreCompanyService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "删除干部企业兼职情况：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部企业兼职情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -122,7 +122,7 @@ public class CadreCompanyController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreCompanyService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

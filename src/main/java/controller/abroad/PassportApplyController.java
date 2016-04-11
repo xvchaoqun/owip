@@ -84,7 +84,7 @@ public class PassportApplyController extends BaseController {
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -103,7 +103,7 @@ public class PassportApplyController extends BaseController {
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -224,11 +224,11 @@ public class PassportApplyController extends BaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             passportApplyService.insertSelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
         } else {
 
            /* passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*/
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*/
         }
 
         return success(FormUtils.SUCCESS);
@@ -258,7 +258,7 @@ public class PassportApplyController extends BaseController {
         if (id != null) {
 
             passportApplyService.del(id);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -271,7 +271,7 @@ public class PassportApplyController extends BaseController {
 
         if (null != ids && ids.length>0){
             passportApplyService.batchDel(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -285,7 +285,7 @@ public class PassportApplyController extends BaseController {
         if (null != ids && ids.length > 0) {
 
             passportApplyService.abolish(ids);
-            logger.info(addLog(request, SystemConstants.LOG_ABROAD, "作废申请办理证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "作废申请办理证件：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
