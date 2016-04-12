@@ -30,7 +30,7 @@
     </li>
   </shiro:hasRole>
   <li class="">
-    <a href="javascript:;" onclick="_logout()">
+    <a href="#" onclick="_logout()" ontouchstart="_logout()">
       <i class="menu-icon fa fa-power-off"></i>
       <span class="menu-text"> 安全退出 </span>
     </a>
