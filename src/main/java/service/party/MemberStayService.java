@@ -2,10 +2,15 @@ package service.party;
 
 import domain.MemberStay;
 import domain.MemberStayExample;
+import domain.MemberStay;
+import domain.MemberStayExample;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.DBErrorException;
+import service.LoginUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -14,6 +19,77 @@ import java.util.List;
 @Service
 public class MemberStayService extends BaseMapper {
 
+    @Autowired
+    private LoginUserService loginUserService;
+
+    public int count(Integer partyId, Integer branchId, byte type){
+
+        MemberStayExample example = new MemberStayExample();
+        MemberStayExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+        } else if(type==2){ //组织部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        return memberStayMapper.countByExample(example);
+    }
+
+    // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
+    public MemberStay next(byte type, MemberStay memberStay){
+
+        MemberStayExample example = new MemberStayExample();
+        MemberStayExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+        } else if(type==2){ //组织部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberStay!=null)
+            criteria.andUserIdNotEqualTo(memberStay.getUserId()).andApplyTimeLessThanOrEqualTo(memberStay.getApplyTime());
+        example.setOrderByClause("apply_time desc");
+
+        List<MemberStay> memberApplies = memberStayMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
+    // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
+    public MemberStay last(byte type, MemberStay memberStay){
+
+        MemberStayExample example = new MemberStayExample();
+        MemberStayExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+        } else if(type==2){ //组织部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberStay!=null)
+            criteria.andUserIdNotEqualTo(memberStay.getUserId()).andApplyTimeGreaterThanOrEqualTo(memberStay.getApplyTime());
+        example.setOrderByClause("apply_time asc");
+
+        List<MemberStay> memberApplies = memberStayMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+    
     public boolean idDuplicate(Integer id, Integer userId){
 
         MemberStayExample example = new MemberStayExample();
@@ -43,7 +119,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
-
+        record.setBranchId(memberStay.getBranchId());
         memberStayMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -58,7 +134,7 @@ public class MemberStayService extends BaseMapper {
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_BACK);
         record.setReason(reason);
-
+        record.setBranchId(memberStay.getBranchId());
         memberStayMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -72,7 +148,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
-
+        record.setBranchId(memberStay.getBranchId());
         memberStayMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -98,6 +174,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+        record.setBranchId(memberStay.getBranchId());
         memberStayMapper.updateByPrimaryKeySelective(record);
     }
     @Transactional

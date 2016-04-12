@@ -5,6 +5,7 @@ import domain.*;
 import domain.MemberQuitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MemberQuitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,12 +26,15 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,14 +52,33 @@ public class MemberQuitController extends BaseController {
 
     @RequiresPermissions("memberQuit:list")
     @RequestMapping("/memberQuit_page")
-    public String memberQuit_page(HttpServletResponse response,
+    public String memberQuit_page(
+                                  Integer userId,
+                                  Integer partyId,
+                                  Integer branchId,ModelMap modelMap) {
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+        return "party/memberQuit/memberQuit_page";
+    }
+    @RequiresPermissions("memberQuit:list")
+    @RequestMapping("/memberQuit_data")
+    public void memberQuit_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_quit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     Byte type,
                                     String _quitTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -92,7 +115,7 @@ public class MemberQuitController extends BaseController {
 
         if (export == 1) {
             memberQuit_export(example, response);
-            return null;
+            return;
         }
 
         int count = memberQuitMapper.countByExample(example);
@@ -101,36 +124,18 @@ public class MemberQuitController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberQuit> memberQuits = memberQuitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("memberQuits", memberQuits);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", memberQuits);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
-            searchStr += "&userId=" + userId;
-        }
-        if (type!=null) {
-            searchStr += "&type=" + type;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-
-        if (StringUtils.isNotBlank(_quitTime)) {
-            searchStr += "&_quitTime=" + _quitTime;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-
-        return "party/memberQuit/memberQuit_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MemberQuit.class, MemberQuitMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("memberQuit:edit")

@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -43,6 +42,16 @@ import java.util.*;
 public class MemberOutflowController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private VerifyAuth<MemberOutflow> checkVerityAuth(int id){
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberOutflow, memberOutflow.getPartyId(), memberOutflow.getBranchId());
+    }
+
+    private VerifyAuth<MemberOutflow> checkVerityAuth2(int id){
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberOutflow, memberOutflow.getPartyId());
+    }
 
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_view")
@@ -244,7 +253,20 @@ public class MemberOutflowController extends BaseController {
                                     byte type, // 1:支部审核 2：分党委审核
                                     String remark) {
 
-        //操作人应是申请人所在党支部或直属党支部管理员
+        MemberOutflow memberOutflow = null;
+        if(type==1) {
+            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth(id);
+            memberOutflow = verifyAuth.entity;
+        }else if(type==2){
+            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth2(id);
+            memberOutflow = verifyAuth.entity;
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        int loginUserId = loginUser.getId();
+        int userId = memberOutflow.getUserId();
+
+        /*//操作人应是申请人所在党支部或直属党支部管理员
         int loginUserId = loginUser.getId();
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
         int userId= memberOutflow.getUserId();
@@ -255,7 +277,7 @@ public class MemberOutflowController extends BaseController {
         boolean directParty = partyService.isDirectBranch(partyId);
         if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
-        }
+        }*/
 
         memberOutflowService.deny(userId);
         logger.info(addLog(SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
@@ -279,7 +301,7 @@ public class MemberOutflowController extends BaseController {
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
         int userId = memberOutflow.getUserId();
         if(type==1) {
-            //操作人应是申请人所在党支部或直属党支部管理员
+            /*//操作人应是申请人所在党支部或直属党支部管理员
             Integer branchId = memberOutflow.getBranchId();
             Integer partyId = memberOutflow.getPartyId();
             boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
@@ -287,9 +309,10 @@ public class MemberOutflowController extends BaseController {
             boolean directParty = partyService.isDirectBranch(partyId);
             if (!branchAdmin && (!directParty || !partyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
                 throw new UnauthorizedException();
-            }
-
-            if (directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+            }*/
+            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth(id);
+            memberOutflow = verifyAuth.entity;
+            if (verifyAuth.isDirectBranch && verifyAuth.isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
                 memberOutflowService.check2(userId, true);
                 logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
             } else {
@@ -299,11 +322,13 @@ public class MemberOutflowController extends BaseController {
         }
 
         if(type==2) {
-            //操作人应是申请人所在分党委管理员
+            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth2(id);
+            memberOutflow = verifyAuth.entity;
+            /*//操作人应是申请人所在分党委管理员
             Integer partyId = memberOutflow.getPartyId();
             if (!partyMemberService.isPresentAdmin(loginUserId, partyId)) { // 分党委管理员
                 throw new UnauthorizedException();
-            }
+            }*/
 
             memberOutflowService.check2(userId, false);
             logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));

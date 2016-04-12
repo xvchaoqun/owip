@@ -8,35 +8,58 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberAbroad_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberAbroad.id}">
+        <c:if test="${not empty memberAbroad}">
+            <input type="hidden" name="userId" value="${memberAbroad.userId}">
+        </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">党员</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="userId" value="${memberAbroad.userId}">
+                    <c:if test="${empty memberAbroad}">
+                        <select required  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
+                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                            <option value="${sysUser.id}">${sysUser.realname}</option>
+                        </select>
+                    </c:if>
+                    <c:if test="${not empty memberAbroad}">
+                        <input type="text" disabled value="${sysUser.realname}">
+                    </c:if>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出国时间</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="abroadTime" value="${memberAbroad.abroadTime}">
+                    <div class="input-group">
+                        <input required class="form-control date-picker" name="_abroadTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberAbroad.abroadTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出国缘由</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="reason" value="${memberAbroad.reason}">
+                        <textarea required class="form-control" type="text" name="reason">${memberAbroad.reason}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">预计归国时间</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="expectReturnTime" value="${memberAbroad.expectReturnTime}">
+                    <div class="input-group">
+                        <input required class="form-control date-picker" name="_expectReturnTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberAbroad.expectReturnTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">实际归国时间</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="actualReturnTime" value="${memberAbroad.actualReturnTime}">
+                    <div class="input-group">
+                        <input required class="form-control date-picker" name="_actualReturnTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberAbroad.actualReturnTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
 				</div>
 			</div>
     </form>
@@ -47,18 +70,24 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal('hide');
+                        SysMsg.success('提交成功。', '成功',function(){
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 }
             });
         }
     });
+    register_date($('.date-picker'));
+    register_user_select($('#modalForm select[name=userId]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

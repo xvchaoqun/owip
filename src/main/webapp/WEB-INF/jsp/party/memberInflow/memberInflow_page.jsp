@@ -205,7 +205,7 @@
                 formatter:function(cellvalue, options, rowObject){
                 var party = rowObject.party;
                 var branch = rowObject.branch;
-                return party + ((branch=='')?'':'-'+branch);
+                return party + (($.trim(branch)=='')?'':'-'+branch);
             } ,frozen:true },
             { label:'原职业',  name:'originalJob', width: 200 ,formatter:function(cellvalue, options, rowObject){
                 return _metaMap[cellvalue];

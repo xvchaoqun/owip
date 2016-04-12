@@ -31,8 +31,10 @@
                         <div id="home4" class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="memberIn:edit">
-                        <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加</a>
-                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
+                        <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberIn_au">
+                            <i class="fa fa-plus"></i> 添加</a>
+                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                data-open-by="page">
                             <i class="fa fa-edit"></i> 修改信息
                         </button>
                     </shiro:hasPermission>
@@ -49,6 +51,7 @@
                             data-count="${partyApprovalCount}">
                         <i class="fa fa-check-circle-o"></i> 分党委党支部直属党支部审核（${partyApprovalCount}）
                     </button>
+                        <shiro:hasRole name="odAdmin">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                             class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/memberIn_approval"
@@ -58,6 +61,7 @@
                             data-count="${odApprovalCount}">
                         <i class="fa fa-check-circle-o"></i> 组织部审核（${odApprovalCount}）
                     </button>
+                        </shiro:hasRole>
                         </c:if>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/applyApprovalLog_page"
@@ -207,7 +211,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
-                    return party + ((branch == '') ? '' : '-' + branch);
+                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
             {label: '类别', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {

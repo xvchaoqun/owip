@@ -10,16 +10,16 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberIn_deny" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <input type="hidden" name="type" value="${param.type}">
-		<div class="form-group">
-			<label class="col-xs-3 control-label">用户</label>
-			<div class="col-xs-6">
-				<input disabled class="form-control" type="text" value="${sysUser.realname}">
-			</div>
-		</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">申请人</label>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
+            </div>
+        </div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">返回修改原因</label>
 			<div class="col-xs-6">
-				<textarea required class="form-control limited" type="text" name="reason" rows="5">${memberIn.reason}</textarea>
+				<textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
 			</div>
 		</div>
     </form>

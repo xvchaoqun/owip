@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -43,6 +42,16 @@ import java.util.*;
 public class MemberInflowController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    private VerifyAuth<MemberInflow> checkVerityAuth(int id){
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberInflow, memberInflow.getPartyId(), memberInflow.getBranchId());
+    }
+
+    private VerifyAuth<MemberInflow> checkVerityAuth2(int id){
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberInflow, memberInflow.getPartyId());
+    }
 
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow")
@@ -259,7 +268,20 @@ public class MemberInflowController extends BaseController {
                                     byte type, // 1:支部审核 2：分党委审核
                                     String remark) {
 
-        //该支部管理员应是申请人所在党支部或直属党支部
+        MemberInflow memberInflow = null;
+        if(type==1) {
+            VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth(id);
+            memberInflow = verifyAuth.entity;
+        }else if(type==2){
+            VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth2(id);
+            memberInflow = verifyAuth.entity;
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        int loginUserId = loginUser.getId();
+        int userId = memberInflow.getUserId();
+
+ /*       //该支部管理员应是申请人所在党支部或直属党支部
         int loginUserId = loginUser.getId();
         MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
         int userId = memberInflow.getUserId();
@@ -270,9 +292,9 @@ public class MemberInflowController extends BaseController {
         boolean directParty = partyService.isDirectBranch(partyId);
         if (!branchAdmin && (!directParty || !partyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
-        }
+        }*/
 
-        enterApplyService.applyBack(memberInflow.getUserId(), remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+        enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
         logger.info(addLog(SystemConstants.LOG_OW, "拒绝流入党员申请：%s", id));
 
         applyApprovalLogService.add(memberInflow.getId(),
@@ -291,10 +313,9 @@ public class MemberInflowController extends BaseController {
                                      HttpServletRequest request) {
 
         int loginUserId = loginUser.getId();
-        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
-        int userId = memberInflow.getUserId();
+        MemberInflow memberInflow = null;
         if (type == 1) {
-            //该支部管理员应是申请人所在党支部或直属党支部
+            /*//该支部管理员应是申请人所在党支部或直属党支部
             Integer branchId = memberInflow.getBranchId();
             Integer partyId = memberInflow.getPartyId();
             boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
@@ -302,9 +323,11 @@ public class MemberInflowController extends BaseController {
             boolean directParty = partyService.isDirectBranch(partyId);
             if (!branchAdmin && (!directParty || !partyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
                 throw new UnauthorizedException();
-            }
+            }*/
+            VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth(id);
+            memberInflow = verifyAuth.entity;
 
-            if (directParty && partyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+            if (verifyAuth.isDirectBranch && verifyAuth.isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
                 memberInflowService.addMember(memberInflow.getUserId(), true);
                 logger.info(addLog(SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
             } else {
@@ -314,15 +337,18 @@ public class MemberInflowController extends BaseController {
         }
 
         if (type == 2) {
-            //操作人应是申请人所在分党委管理员
+            VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth2(id);
+            memberInflow = verifyAuth.entity;
+            /*//操作人应是申请人所在分党委管理员
             Integer partyId = memberInflow.getPartyId();
             if (!partyMemberService.isPresentAdmin(loginUserId, partyId)) { // 分党委管理员
                 throw new UnauthorizedException();
-            }
-
+            }*/
             memberInflowService.addMember(memberInflow.getUserId(), false);
             logger.info(addLog(SystemConstants.LOG_OW, "通过流入党员申请：%s", id));
         }
+
+        int userId = memberInflow.getUserId();
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,

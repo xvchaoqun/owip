@@ -17,7 +17,8 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">用户</label>
 				<c:if test="${not empty userBean}">
 					<div class="col-xs-6 label-text">
-							${userBean.realname}
+						<input type="hidden" name="userId" value="${userBean.userId}">
+					${userBean.realname}
 					</div>
 				</c:if>
 <c:if test="${empty userBean}">
@@ -195,6 +196,9 @@ pageEncoding="UTF-8"%>
 	</c:if>
 
 <script>
+	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
@@ -204,8 +208,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+						SysMsg.success('提交成功。', '成功',function(){
+							$("#jqGrid").trigger("reloadGrid");
+							$(".closeView").click();
+						});
                     }
                 }
             });

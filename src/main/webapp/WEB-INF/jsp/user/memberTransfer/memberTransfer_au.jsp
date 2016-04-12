@@ -8,11 +8,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
@@ -26,14 +21,12 @@
         <c:if test="${not empty memberTransfer.reason}">
             :${memberTransfer.reason}
         </c:if>
-
         <br>
     </div>
 </c:if>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 校内组织关系转接申请</h4>
-
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
@@ -45,67 +38,19 @@
             <form class="form-horizontal" action="${ctx}/user/memberTransfer_au" id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberTransfer.id}">
                 <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
-                            <div class="col-sm-6">
-                                <input disabled type="text" value="${userBean.code}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">姓名</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">性别</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">年龄</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control digits"
-                                       type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">民族</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">政治面貌</label>
-                            <div class="col-xs-6">
-
-                                <input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">身份证号</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-offset-2 col-xs-9">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出组织机构</label>
-                            <div class="col-xs-6 ">
-                                <textarea disabled class="form-control">${fromParty.name}<c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
-                                </textarea>
-
+                            <div class="col-xs-6 label-text">
+                            ${fromParty.name}<c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转入分党委</label>
                             <div class="col-xs-6">
-                                <select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                <select required class="form-control"  data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/party_selects" data-width="100%"
                                         name="toPartyId" data-placeholder="请选择" >
                                     <option value="${toParty.id}">${toParty.name}</option>
                                 </select>
@@ -114,7 +59,8 @@
                         <div class="form-group" style="${(empty toBranch)?'display: none':''}" id="toBranchDiv">
                             <label class="col-xs-3 control-label">转入党支部</label>
                             <div class="col-xs-6">
-                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                <select class="form-control"  data-rel="select2-ajax"  data-width="100%"
+                                        data-ajax-url="${ctx}/branch_selects"
                                         name="toBranchId" data-placeholder="请选择">
                                     <option value="${toBranch.id}">${toBranch.name}</option>
                                 </select>
@@ -123,7 +69,7 @@
                         <script>
                             register_party_branch_select($("#modalForm"), "toBranchDiv",
                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}',
-                                    "${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
+                                    "${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId", true);
                         </script>
 
                         <div class="form-group">
@@ -175,6 +121,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
 

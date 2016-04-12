@@ -51,6 +51,7 @@
                                             data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委党支部直属党支部审核（${partyApprovalCount}）
                                     </button>
+                                    <shiro:hasRole name="odAdmin">
                                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
@@ -60,6 +61,7 @@
                                             data-count="${odApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 组织部审核（${odApprovalCount}）
                                     </button>
+                                    </shiro:hasRole>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog_page"

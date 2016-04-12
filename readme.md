@@ -27,6 +27,9 @@ Organization Work Integration Platform
 root
 zzgz@2015
 
+219.143.237.234 root  zzgz@2015
+
+
 http://219.224.19.170/
 admin  zzbgb6879
 

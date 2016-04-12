@@ -12,12 +12,20 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${memberReturn.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">用户</label>
-				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                            name="userId" data-placeholder="请输入账号或姓名或学工号">
-                        <option value="${sysUser.id}">${sysUser.realname}</option>
-                    </select>
-				</div>
+                <c:if test="${not empty userBean}">
+                    <div class="col-xs-6 label-text">
+                        <input type="hidden" name="userId" value="${userBean.userId}">
+                            ${userBean.realname}
+                    </div>
+                </c:if>
+                <c:if test="${empty userBean}">
+                    <div class="col-xs-6">
+                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
+                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                            <option value="${userBean.userId}">${userBean.realname}</option>
+                        </select>
+                    </div>
+                </c:if>
 			</div>
         <div class="form-group">
             <label class="col-xs-4 control-label">分党委</label>
@@ -119,7 +127,8 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
+    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     register_date($('.date-picker'));
 
@@ -136,8 +145,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal('hide');
+                        SysMsg.success('提交成功。', '成功',function(){
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 }
             });

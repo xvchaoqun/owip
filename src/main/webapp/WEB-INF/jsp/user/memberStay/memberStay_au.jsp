@@ -42,59 +42,6 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"> ${(userBean.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
-                            <div class="col-sm-6">
-                                <input disabled type="text" value="${userBean.code}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">姓名</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="realname" value="${userBean.realname}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">性别</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" value="${GENDER_MAP.get(userBean.gender)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">年龄</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control"
-                                       type="text" name="age" value="${cm:intervalYearsUntilNow(userBean.birth)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">民族</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">身份证</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">政治面貌</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">入党时间</label>
-                            <div class="col-xs-6">
-                                <input disabled class="form-control" name="_growTime" type="text"
-                                       value="${cm:formatDate(userBean.growTime,'yyyy-MM-dd')}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-
-                        <div class="form-group">
                             <label class="col-xs-5 control-label">留学国别</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="country" value="${memberStay.country}">
@@ -130,7 +77,8 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-xs-5 control-label">手机号码</label>
                             <div class="col-xs-6">

@@ -32,9 +32,9 @@ public class MemberInService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
@@ -53,9 +53,9 @@ public class MemberInService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
@@ -77,9 +77,9 @@ public class MemberInService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");

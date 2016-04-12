@@ -1,13 +1,14 @@
 package service.party;
 
-import domain.Member;
+import domain.*;
 import domain.MemberTransfer;
-import domain.MemberTransfer;
-import domain.MemberTransferExample;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.DBErrorException;
+import service.LoginUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -16,6 +17,77 @@ import java.util.List;
 @Service
 public class MemberTransferService extends BaseMapper {
 
+    @Autowired
+    private LoginUserService loginUserService;
+
+    public int count(Integer partyId, Integer branchId, byte type){
+
+        MemberTransferExample example = new MemberTransferExample();
+        MemberTransferExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //转出分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+        } else if(type==2){ //转入分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        return memberTransferMapper.countByExample(example);
+    }
+
+    // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
+    public MemberTransfer next(byte type, MemberTransfer memberTransfer){
+
+        MemberTransferExample example = new MemberTransferExample();
+        MemberTransferExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //转出分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+        } else if(type==2){ //转入分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberTransfer!=null)
+            criteria.andUserIdNotEqualTo(memberTransfer.getUserId()).andApplyTimeLessThanOrEqualTo(memberTransfer.getApplyTime());
+        example.setOrderByClause("apply_time desc");
+
+        List<MemberTransfer> memberApplies = memberTransferMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+
+    // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
+    public MemberTransfer last(byte type, MemberTransfer memberTransfer){
+
+        MemberTransferExample example = new MemberTransferExample();
+        MemberTransferExample.Criteria criteria = example.createCriteria();
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(type==1){ //转出分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+        } else if(type==2){ //转入分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+        }else{
+            throw new RuntimeException("审核类型错误");
+        }
+
+        if(memberTransfer!=null)
+            criteria.andUserIdNotEqualTo(memberTransfer.getUserId()).andApplyTimeGreaterThanOrEqualTo(memberTransfer.getApplyTime());
+        example.setOrderByClause("apply_time asc");
+
+        List<MemberTransfer> memberApplies = memberTransferMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:memberApplies.get(0);
+    }
+    
     public boolean idDuplicate(Integer id, Integer userId){
 
         MemberTransferExample example = new MemberTransferExample();
@@ -45,7 +117,7 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
-
+        record.setBranchId(memberTransfer.getBranchId());
         memberTransferMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -60,7 +132,7 @@ public class MemberTransferService extends BaseMapper {
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_BACK);
         record.setReason(reason);
-
+        record.setBranchId(memberTransfer.getBranchId());
         memberTransferMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -74,7 +146,7 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
-
+        record.setBranchId(memberTransfer.getBranchId());
         memberTransferMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -92,6 +164,7 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+        record.setBranchId(memberTransfer.getBranchId());
         memberTransferMapper.updateByPrimaryKeySelective(record);
 
         // 更改该党员的所在党组织

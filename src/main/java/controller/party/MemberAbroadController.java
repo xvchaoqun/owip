@@ -1,12 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Member;
-import domain.MemberAbroad;
-import domain.MemberAbroadExample;
+import domain.*;
 import domain.MemberAbroadExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MemberAbroadMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,12 +26,15 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,13 +51,33 @@ public class MemberAbroadController extends BaseController {
     }
     @RequiresPermissions("memberAbroad:list")
     @RequestMapping("/memberAbroad_page")
-    public String memberAbroad_page(HttpServletResponse response,
+    public String memberAbroad_page(
+                                    Integer userId,Integer partyId,
+                                    Integer branchId, ModelMap modelMap) {
+
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+
+        return "party/memberAbroad/memberAbroad_page";
+    }
+    @RequiresPermissions("memberAbroad:list")
+    @RequestMapping("/memberAbroad_data")
+    public void memberAbroad_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "abroad_time", tableName = "ow_member_abroad") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     String _abroadTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -73,7 +95,6 @@ public class MemberAbroadController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
             criteria.andUserIdEqualTo(userId);
         }
 
@@ -90,7 +111,7 @@ public class MemberAbroadController extends BaseController {
 
         if (export == 1) {
             memberAbroad_export(example, response);
-            return null;
+            return;
         }
 
         int count = memberAbroadMapper.countByExample(example);
@@ -99,44 +120,43 @@ public class MemberAbroadController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberAbroad> memberAbroads = memberAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("memberAbroads", memberAbroads);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", memberAbroads);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId!=null) {
-            searchStr += "&userId=" + userId;
-        }
-        if (StringUtils.isNotBlank(_abroadTime)) {
-            searchStr += "&_abroadTime=" + _abroadTime;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-
-        return "party/memberAbroad/memberAbroad_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MemberAbroad.class, MemberAbroadMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("memberAbroad:edit")
     @RequestMapping(value = "/memberAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberAbroad_au(MemberAbroad record, HttpServletRequest request) {
+    public Map do_memberAbroad_au(MemberAbroad record,
+                                  String _abroadTime,
+                                  String _expectReturnTime,
+                                  String _actualReturnTime,
+                                  HttpServletRequest request) {
+
+        if(StringUtils.isNotBlank(_abroadTime))
+            record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
+        if(StringUtils.isNotBlank(_expectReturnTime))
+            record.setExpectReturnTime(DateUtils.parseDate(_expectReturnTime, DateUtils.YYYY_MM_DD));
+        if(StringUtils.isNotBlank(_actualReturnTime))
+            record.setActualReturnTime(DateUtils.parseDate(_actualReturnTime, DateUtils.YYYY_MM_DD));
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 
-        if (userId == null) {
+        if (record.getId() == null) {
             memberAbroadService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "添加党员出国境信息：%s", record.getUserId()));
         } else {

@@ -15,10 +15,11 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">用户</label>
 						<c:if test="${not empty userBean}">
 						<div class="col-xs-6 label-text">
-								${userBean.realname}
+							<input type="hidden" name="userId" value="${userBean.userId}">
+						${userBean.realname}
 							</div>
 						</c:if>
-<c:if test="${empty userBean}">
+						<c:if test="${empty userBean}">
 						<div class="col-xs-6">
 							<select required data-rel="select2-ajax"
 									data-ajax-url="${ctx}/sysUser_selects"
@@ -26,7 +27,7 @@ pageEncoding="UTF-8"%>
 								<option value="${userBean.userId}">${userBean.realname}</option>
 							</select>
 						</div>
-	</c:if>
+						</c:if>
 					</div>
 					<%--<c:if test="${not empty userBean}">--%>
 					<div class="form-group">
@@ -255,6 +256,9 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
+	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
@@ -270,8 +274,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+						SysMsg.success('提交成功。', '成功',function(){
+							$("#jqGrid").trigger("reloadGrid");
+							$(".closeView").click();
+						});
                     }
                 }
             });
