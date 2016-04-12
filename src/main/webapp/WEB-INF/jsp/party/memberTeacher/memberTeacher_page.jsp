@@ -49,7 +49,7 @@ pageEncoding="UTF-8" %>
                                                 <label class="col-xs-3 control-label">姓名</label>
                                                 <div class="col-xs-6">
                                                     <div class="input-group">
-                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_STUDENT}&status=${MEMBER_STATUS_NORMAL}"
+                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
                                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                             <option value="${sysUser.id}">${sysUser.realname}</option>
                                                         </select>
