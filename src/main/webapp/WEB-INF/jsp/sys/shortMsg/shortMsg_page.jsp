@@ -85,11 +85,13 @@
             { label: '手机号码',  name: 'mobile', width: 100 ,frozen:true},
             { label: '短信内容',  name: 'content', width: 350},
             { label: '发送时间',  name: 'createTime', width: 200},
-            { label: 'IP',  name: 'ip', width: 100},
+            { label: 'IP',  name: 'ip', width: 150},
             { label: '是否成功',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
-                return status?'<span class="label label-success">是</span>':'<span class="label label-danger">否</span>';
+                return cellvalue?'<span class="label label-success">是</span>':'<span class="label label-danger">否</span>';
             }},
-            { label: '返回结果',  name: 'ret', width: 200},
+            { label: '返回结果',  name: 'ret', width: 200, formatter:function(cellvalue, options, rowObject){
+                return $.trim(cellvalue).NoSpace();
+            }},
             { label: '备注',  name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns");

@@ -26,6 +26,10 @@ String.prototype.format = function()
             return args[i];
         });
 }
+String.prototype.NoSpace = function()
+{
+    return this.replace(/\s+/g, "");
+}
 
 Date.prototype.format = function (fmt) { //author: meizz
     var o = {
