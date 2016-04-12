@@ -68,6 +68,8 @@ public class MobileLoginController extends BaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
+		logger.info(addLog(SystemConstants.LOG_LOGIN, "移动端登录成功"));
+
 		Map<String, Object> resultMap = success("登入成功");
 		resultMap.put("url", successUrl);
 		return resultMap;

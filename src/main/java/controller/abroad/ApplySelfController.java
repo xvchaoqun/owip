@@ -146,6 +146,8 @@ public class ApplySelfController extends BaseController {
 
         approvalLogService.add(record);
 
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
+
         return success(FormUtils.SUCCESS);
     }
 

@@ -56,6 +56,8 @@ public class ShortMsgController extends BaseController {
         ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
 
         if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
+
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
             return success(FormUtils.SUCCESS);
         }
 
