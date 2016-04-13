@@ -49,10 +49,10 @@ public class CmTag {
                 stage = "申请";
                 break;
             case SystemConstants.APPLY_STAGE_DENY:
-                stage = "未通过";
+                stage = "申请未通过";
                 break;
             case SystemConstants.APPLY_STAGE_PASS:
-                stage = "通过";
+                stage = "申请通过";
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
                 if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {

@@ -1,3 +1,4 @@
+/*
 package controller.party;
 
 import controller.BaseController;
@@ -229,3 +230,4 @@ public class ApplyLogController extends BaseController {
         }
     }
 }
+*/

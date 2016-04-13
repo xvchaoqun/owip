@@ -258,9 +258,6 @@ public class MemberInController extends BaseController {
         // 上一条记录
         modelMap.put("last", memberInService.last(type, currentMemberIn));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
         return "party/memberIn/memberIn_approval";
     }
 

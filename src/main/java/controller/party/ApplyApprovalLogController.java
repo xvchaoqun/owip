@@ -3,6 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.*;
 import mixin.ApplyApprovalLogMixin;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,31 +29,54 @@ public class ApplyApprovalLogController extends BaseController {
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_page")
-    public String applyApprovalLog_page(int id, Byte type, ModelMap modelMap) {
+    public String applyApprovalLog_page(Integer id, Byte type, ModelMap modelMap) {
 
-        Integer userId = null;
-        switch (type){
-            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD:
-                MemberAbroad memberAbroad = memberAbroadMapper.selectByPrimaryKey(id);
-                userId = memberAbroad.getUserId();
-                break;
-            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN:
-                MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-                userId = memberIn.getUserId();
-                break;
-            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW:
-                MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
-                userId = memberInflow.getUserId();
-                break;
-            case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW:
-                MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-                userId = memberOutflow.getUserId();
-                break;
-        }
+        if(id!=null) {
+            Integer userId = null;
+            switch (type) {
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY: {
+                    MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(id);
+                    userId = memberApply.getUserId();
+                    break;
+                }
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD:
+                    MemberAbroad memberAbroad = memberAbroadMapper.selectByPrimaryKey(id);
+                    userId = memberAbroad.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN:
+                    MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+                    userId = memberReturn.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN:
+                    MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+                    userId = memberIn.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT:
+                    MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+                    userId = memberOut.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW:
+                    MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+                    userId = memberInflow.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW:
+                    MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+                    userId = memberOutflow.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER:
+                    MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+                    userId = memberTransfer.getUserId();
+                    break;
+                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY:
+                    MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+                    userId = memberStay.getUserId();
+                    break;
+            }
 
-        if(userId != null) {
-            SysUser sysUser = sysUserService.findById(userId);
-            modelMap.put("sysUser", sysUser);
+            if (userId != null) {
+                SysUser sysUser = sysUserService.findById(userId);
+                modelMap.put("sysUser", sysUser);
+            }
         }
         modelMap.put("type", type);
 
@@ -63,7 +87,9 @@ public class ApplyApprovalLogController extends BaseController {
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
                                    Integer id,
-                                   Byte type,
+                                   Byte type,Integer partyId,
+                                   Integer branchId,
+                                   String stage,
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -81,8 +107,18 @@ public class ApplyApprovalLogController extends BaseController {
 
         example.setOrderByClause("create_time asc");
 
-        criteria.andRecordIdEqualTo(id);
+        if(id!=null)
+            criteria.andRecordIdEqualTo(id);
         criteria.andTypeEqualTo(type );
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        if(StringUtils.isNotBlank(stage)){
+            criteria.andStageEqualTo(stage);
+        }
 
         int count = applyApprovalLogMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

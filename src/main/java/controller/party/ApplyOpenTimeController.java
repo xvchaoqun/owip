@@ -40,7 +40,7 @@ public class ApplyOpenTimeController extends BaseController {
     }
     @RequiresPermissions("applyOpenTime:list")
     @RequestMapping("/applyOpenTime_page")
-    public String applyOpenTime_page(HttpServletResponse response,
+    public String applyOpenTime_page(@RequestParam(defaultValue = "1")int cls,  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_apply_open_time") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Byte type,
@@ -48,6 +48,8 @@ public class ApplyOpenTimeController extends BaseController {
                                     String _startTime,
                                     String _endTime,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

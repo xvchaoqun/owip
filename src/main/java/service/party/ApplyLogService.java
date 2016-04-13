@@ -11,7 +11,7 @@ import java.util.Date;
 @Service
 public class ApplyLogService extends BaseMapper {
 
-
+/*
     public void addApplyLog(int userId, int operatorId, byte stage, String content, String ip){
 
         ApplyLog record = new ApplyLog();
@@ -47,6 +47,6 @@ public class ApplyLogService extends BaseMapper {
 
     public int updateByPrimaryKeySelective(ApplyLog record){
         return applyLogMapper.updateByPrimaryKeySelective(record);
-    }
+    }*/
 
 }

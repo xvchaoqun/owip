@@ -33,7 +33,8 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
             servletPath = (String)request.getAttribute("javax.servlet.forward.request_uri");
         }
         if(!PatternUtils.match(_commonUrls, servletPath)) {
-            if (HttpUtils.isMoblie(request)) {
+            //if (HttpUtils.isMoblie(request)) {
+            if (HttpRequestDeviceUtils.isMobileDevice(request)) {
                 if (!servletPath.startsWith("/m/")) { // 移动端
                     WebUtils.issueRedirect(request, response, "/m/index");
                     return false;

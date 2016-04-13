@@ -1,9 +1,17 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberApply implements Serializable {
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
+    public String getApplyStatus(){
+        return CmTag.getApplyStatus(this);
+    }
     private Integer userId;
 
     private Integer partyId;

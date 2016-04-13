@@ -254,9 +254,6 @@ public class MemberInflowController extends BaseController {
         // 上一条记录
         modelMap.put("last", memberInflowService.last(type, currentMemberInflow));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
         return "party/memberInflow/memberInflow_approval";
     }
 

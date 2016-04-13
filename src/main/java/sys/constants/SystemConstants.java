@@ -150,6 +150,7 @@ public class SystemConstants {
 	public final static byte APPLY_STAGE_POSITIVE = 7; // 正式党员
 	public final static Map<Byte, String> APPLY_STAGE_MAP = new LinkedHashMap<>();
 	static {
+		APPLY_STAGE_MAP.put(APPLY_STAGE_DENY, "未通过");
 		APPLY_STAGE_MAP.put(APPLY_STAGE_INIT, "申请");
 		APPLY_STAGE_MAP.put(APPLY_STAGE_ACTIVE, "积极分子");
 		APPLY_STAGE_MAP.put(APPLY_STAGE_CANDIDATE, "发展对象");
@@ -349,7 +350,7 @@ public class SystemConstants {
 	}
 
 	// 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
-	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER = 1;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY = 1;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD = 2;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_IN = 3;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW = 4;
@@ -360,7 +361,7 @@ public class SystemConstants {
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 9;
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 	static {
-		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER, "申请入党");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD, "留学归国申请");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "组织关系转入");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, "流入党员申请");

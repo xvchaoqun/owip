@@ -229,9 +229,6 @@ public class MemberOutController extends BaseController {
         // 上一条记录
         modelMap.put("last", memberOutService.last(type, currentMemberOut));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
         return "party/memberOut/memberOut_approval";
     }
 

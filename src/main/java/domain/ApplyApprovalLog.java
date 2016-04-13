@@ -9,6 +9,9 @@ public class ApplyApprovalLog implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+    public SysUser getApplyUser(){
+        return CmTag.getUserById(applyUserId);
+    }
     private Integer id;
 
     private Integer recordId;

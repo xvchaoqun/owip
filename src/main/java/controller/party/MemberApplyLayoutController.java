@@ -23,22 +23,16 @@ public class MemberApplyLayoutController {
     @RequestMapping("/memberApply_layout_page")
     public String memberApply_layout_page(@RequestParam(defaultValue = "1")int cls, ModelMap modelMap) {
 
-        modelMap.put("cls", cls);
-
-        return "party/memberApply/memberApply_layout";
-    }
-
-    @RequiresPermissions("memberApply:layout")
-    @RequestMapping("/memberApply_layout_byCls")
-    public String memberApply_layout_byCls(int cls, ModelMap modelMap) {
+       //modelMap.put("cls", cls);
 
         if(cls==1)
             return "forward:/memberApply_page";
         if(cls==2)
             return "forward:/applyOpenTime_page";
         if(cls==3)
-            return "forward:/applyLog_page";
+            return "forward:/memberApplyLog_page";
 
         return null;
     }
+
 }

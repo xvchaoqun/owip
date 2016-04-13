@@ -215,9 +215,6 @@ public class MemberStayController extends BaseController {
         // 上一条记录
         modelMap.put("last", memberStayService.last(type, currentMemberStay));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
         return "party/memberStay/memberStay_approval";
     }
     

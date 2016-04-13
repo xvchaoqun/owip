@@ -16,7 +16,6 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -148,8 +147,12 @@ public class EnterApplyController extends BaseController {
         memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
         enterApplyService.memberApply(memberApply);
 
-        applyLogService.addApplyLog(loginUser.getId(), loginUser.getId(),
-                SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
+        applyApprovalLogService.add(loginUser.getId(),
+                memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 1,
+                "提交入党申请");
+
         logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }

@@ -36,14 +36,44 @@ public class MemberApplyService extends BaseMapper {
         return memberApplyMapper.insertSelective(record);
     }*/
 
-    public int count(Integer partyId, Integer branchId, Byte stage){
+    // status=-1代表 isNULL
+    public int count(Integer partyId, Integer branchId, Byte  type, Byte stage, Byte status){
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(stage!=null) criteria.andStageEqualTo(stage);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(stage!=null) {
+            criteria.andStageEqualTo(stage);
+            if (status != null) {
+                switch (stage){
+                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        else criteria.andCandidateStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                        if(status==-1) criteria.andPlanStatusIsNull();
+                        else criteria.andPlanStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_PLAN:
+                        if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_DRAW:
+                        if(status==-1) criteria.andGrowStatusIsNull();
+                        else criteria.andGrowStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_GROW:
+                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        else criteria.andPositiveStatusEqualTo(status);
+                        break;
+                }
+            }
+        }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
@@ -51,14 +81,43 @@ public class MemberApplyService extends BaseMapper {
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public MemberApply next(Byte stage, MemberApply memberApply){
+    public MemberApply next(Byte type, Byte stage,Byte status, MemberApply memberApply){
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(stage!=null) criteria.andStageEqualTo(stage);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(stage!=null) {
+            criteria.andStageEqualTo(stage);
+            if (status != null) {
+                switch (stage){
+                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        else criteria.andCandidateStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                        if(status==-1) criteria.andPlanStatusIsNull();
+                        else criteria.andPlanStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_PLAN:
+                        if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_DRAW:
+                        if(status==-1) criteria.andGrowStatusIsNull();
+                        else criteria.andGrowStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_GROW:
+                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        else criteria.andPositiveStatusEqualTo(status);
+                        break;
+                }
+            }
+        }
         if(memberApply!=null)
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time desc");
@@ -68,14 +127,44 @@ public class MemberApplyService extends BaseMapper {
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public MemberApply last(Byte stage, MemberApply memberApply){
+    public MemberApply last(Byte type, Byte stage,Byte status, MemberApply memberApply){
 
         MemberApplyExample example = new MemberApplyExample();
         MemberApplyExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(stage!=null) criteria.andStageEqualTo(stage);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(stage!=null) {
+            criteria.andStageEqualTo(stage);
+            if (status != null) {
+                switch (stage){
+                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        else criteria.andCandidateStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                        if(status==-1) criteria.andPlanStatusIsNull();
+                        else criteria.andPlanStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_PLAN:
+                        if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_DRAW:
+                        if(status==-1) criteria.andGrowStatusIsNull();
+                        else criteria.andGrowStatusEqualTo(status);
+                        break;
+                    case SystemConstants.APPLY_STAGE_GROW:
+                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        else criteria.andPositiveStatusEqualTo(status);
+                        break;
+                }
+            }
+        }
+
         if(memberApply!=null)
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time asc");

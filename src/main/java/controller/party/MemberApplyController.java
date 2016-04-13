@@ -5,13 +5,14 @@ import domain.*;
 import domain.MemberApplyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import org.apache.commons.lang3.StringUtils;
+import mixin.MemberApplyMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,15 +31,14 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class MemberApplyController extends BaseController {
@@ -65,8 +65,12 @@ public class MemberApplyController extends BaseController {
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
-    @RequestMapping("/memberApply_view")
-    public String memberApply_view(Integer userId, byte stage, ModelMap modelMap) {
+    @RequestMapping("/memberApply_approval")
+    public String memberApply_approval(@CurrentUser SysUser loginUser,Integer userId,
+                                       byte type,
+                                       byte stage,
+                                       Byte status, // status=-1 代表对应的状态值为NULL
+                                       ModelMap modelMap) {
 
         MemberApply currentMemberApply = null;
         if(userId!=null) {
@@ -74,27 +78,108 @@ public class MemberApplyController extends BaseController {
             //modelMap.put("user", sysUser);
             currentMemberApply = memberApplyService.get(userId);
         }else{
-            currentMemberApply = memberApplyService.next(stage, null);
+            currentMemberApply = memberApplyService.next(type, stage, status, null);
         }
         modelMap.put("memberApply", currentMemberApply);
 
+        // 是否是当前记录的管理员
+        switch (stage){
+            case SystemConstants.APPLY_STAGE_INIT:
+            case SystemConstants.APPLY_STAGE_PASS:
+                modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                break;
+            case SystemConstants.APPLY_STAGE_ACTIVE:
+            case SystemConstants.APPLY_STAGE_CANDIDATE:
+            case SystemConstants.APPLY_STAGE_PLAN:
+                if(status==-1)
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                else
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                break;
+            case SystemConstants.APPLY_STAGE_DRAW:
+            case SystemConstants.APPLY_STAGE_GROW:
+                if(status==-1)
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                else if(status==0)
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                else
+                    modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+                break;
+        }
+
         // 读取总数
-        modelMap.put("count", memberApplyService.count(null, null, stage));
+        modelMap.put("count", memberApplyService.count(null, null, type, stage, status));
         // 下一条记录
-        modelMap.put("next", memberApplyService.next(stage, currentMemberApply));
+        modelMap.put("next", memberApplyService.next(type, stage, status, currentMemberApply));
         // 上一条记录
-        modelMap.put("last", memberApplyService.last(stage, currentMemberApply));
+        modelMap.put("last", memberApplyService.last(type, stage, status, currentMemberApply));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
-        return "party/memberApply/memberApply_view";
+        return "party/memberApply/memberApply_approval";
     }
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_page")
-    public String memberApply_page(HttpServletResponse response,
+    public String memberApply_page(@RequestParam(defaultValue = "1")int cls,
+                                   Integer userId,
+                                   Integer partyId,
+                                   Integer branchId,
+                                   @RequestParam(defaultValue = "1")Byte type,
+                                   @RequestParam(defaultValue = "0")Byte stage,
+                                   ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        modelMap.put("type", type);
+        modelMap.put("stage", stage);
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+
+        switch (stage){
+            case SystemConstants.APPLY_STAGE_INIT:
+            case SystemConstants.APPLY_STAGE_PASS:
+                modelMap.put("applyCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_INIT, null));
+                modelMap.put("activeCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PASS, null));
+                break;
+            case SystemConstants.APPLY_STAGE_ACTIVE:
+                modelMap.put("candidateCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte)-1));
+                modelMap.put("candidateCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte)0));
+                break;
+            case SystemConstants.APPLY_STAGE_CANDIDATE:
+                modelMap.put("planCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_CANDIDATE, (byte)-1));
+                modelMap.put("planCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_CANDIDATE, (byte) 0));
+                break;
+            case SystemConstants.APPLY_STAGE_PLAN:
+                modelMap.put("drawCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte)-1));
+                modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
+                break;
+            case SystemConstants.APPLY_STAGE_DRAW:
+                modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)-1));
+                modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
+                modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
+                break;
+            case SystemConstants.APPLY_STAGE_GROW:
+                modelMap.put("positiveCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte)-1));
+                modelMap.put("positiveCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 0));
+                modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
+                break;
+        }
+
+        return "party/memberApply/memberApply_page";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:list")
+    @RequestMapping("/memberApply_data")
+    public void memberApply_data(HttpServletResponse response,
                                    @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_apply") String sort,
                                    @OrderParam(required = false, defaultValue = "desc") String order,
                                    Integer userId,
@@ -103,7 +188,7 @@ public class MemberApplyController extends BaseController {
                                    @RequestParam(defaultValue = "1")Byte type,
                                    @RequestParam(defaultValue = "0")Byte stage,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -121,18 +206,18 @@ public class MemberApplyController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if(type !=null) {
-            modelMap.put("type", type);
             criteria.andTypeEqualTo(type);
         }
         if (stage != null) {
-            modelMap.put("stage", stage);
-            if(stage<=SystemConstants.APPLY_STAGE_PASS)
-                criteria.andStageLessThanOrEqualTo(SystemConstants.APPLY_STAGE_PASS);
-            else
+            if(stage==SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS) {
+                List<Byte> stageList = new ArrayList<>();
+                stageList.add(SystemConstants.APPLY_STAGE_INIT);
+                stageList.add(SystemConstants.APPLY_STAGE_PASS);
+                criteria.andStageIn(stageList);
+            }else
                 criteria.andStageEqualTo(stage);
         }
         if (userId != null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
             criteria.andUserIdEqualTo(userId);
         }
         if (partyId != null) {
@@ -144,7 +229,7 @@ public class MemberApplyController extends BaseController {
 
         if (export == 1) {
             memberApply_export(example, response);
-            return null;
+            return;
         }
 
         int count = memberApplyMapper.countByExample(example);
@@ -153,46 +238,18 @@ public class MemberApplyController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberApply> MemberApplys = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("memberApplys", MemberApplys);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
-        searchStr += "&type=" + type;
-        if (userId != null) {
-            searchStr += "&userId=" + userId;
-        }
+        Map resultMap = new HashMap();
+        resultMap.put("rows", MemberApplys);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
-
-        if (partyId != null) {
-            modelMap.put("party", partyMap.get(partyId));
-            searchStr += "&partyId=" + partyId;
-        }
-
-        if (branchId != null) {
-            modelMap.put("branch", branchMap.get(branchId));
-            searchStr += "&branchId=" + branchId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        if (stage != null) {
-            searchStr += "&stage=" + stage;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-
-        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
-
-        return "party/memberApply/memberApply_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(MemberApply.class, MemberApplyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     // 后台添加入党申请
@@ -259,8 +316,10 @@ public class MemberApplyController extends BaseController {
         memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
         enterApplyService.memberApply(memberApply);
 
-        applyLogService.addApplyLog(sysUser.getId(), loginUser.getId(),
-                SystemConstants.APPLY_STAGE_INIT, "提交入党申请", IpUtils.getIp(request));
+        applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请", (byte) 1, "");
+
         logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
@@ -271,12 +330,16 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_deny(int userId, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        checkVerityAuth(userId);
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
 
         enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
 
-       applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_INIT, "未通过入党申请", IpUtils.getIp(request));
+        MemberApply memberApply = verifyAuth.entity;
+        applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 0, "入党申请未通过");
+
         return success(FormUtils.SUCCESS);
 
     }
@@ -287,7 +350,7 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_pass(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        checkVerityAuth(userId);
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_PASS);
@@ -297,8 +360,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_INIT, "通过入党申请", IpUtils.getIp(request));
+
+            MemberApply memberApply = verifyAuth.entity;
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 1, "通过入党申请");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -333,8 +401,12 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_PASS);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_ACTIVE, "成为积极分子", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE), (byte) 1, "成为积极分子");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -392,8 +464,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_CANDIDATE, (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE), (byte) 1,
+                    (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -405,7 +482,8 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        checkVerityAuth2(userId);
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        MemberApply memberApply = verifyAuth.entity;
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
@@ -417,8 +495,12 @@ public class MemberApplyController extends BaseController {
                 .andCandidateStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_CANDIDATE, "确定为发展对象，已审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE), (byte) 1, "确定为发展对象，已审核");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -466,8 +548,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_PLAN, (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN), (byte) 1,
+                    (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -481,7 +568,8 @@ public class MemberApplyController extends BaseController {
     public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        Integer partyId = verifyAuth.entity.getPartyId();
+        MemberApply memberApply = verifyAuth.entity;
+        Integer partyId = memberApply.getPartyId();
 
         if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
             return failed("不在开放时间范围");
@@ -496,8 +584,13 @@ public class MemberApplyController extends BaseController {
                 .andPlanStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_PLAN, "列入发展计划，已审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN), (byte) 1,
+                    "列入发展计划，已审核");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -540,8 +633,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_DRAW, (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW), (byte) 1,
+                    (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -553,7 +651,8 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        checkVerityAuth2(userId);
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        MemberApply memberApply = verifyAuth.entity;
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_DRAW);
@@ -565,8 +664,13 @@ public class MemberApplyController extends BaseController {
                 .andDrawStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_DRAW, "领取志愿书，已审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW), (byte) 1,
+                    "领取志愿书，已审核");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -593,7 +697,7 @@ public class MemberApplyController extends BaseController {
 
         Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
         if(growTime.before(memberApply.getDrawTime())){
-            throw new RuntimeException("入党时间应该在领取志愿书之后");
+            throw new RuntimeException("发展时间应该在领取志愿书之后");
         }
 
         MemberApply record = new MemberApply();
@@ -609,8 +713,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -623,6 +732,7 @@ public class MemberApplyController extends BaseController {
     public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        MemberApply memberApply = verifyAuth.entity;
         boolean isParty = verifyAuth.isParty;
 
         MemberApply record = new MemberApply();
@@ -635,11 +745,19 @@ public class MemberApplyController extends BaseController {
 
         if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
             memberApplyService.applyGrowCheckByParty(userId, record, example);
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, "预备党员，分党委审核", IpUtils.getIp(request));
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    "预备党员，分党委审核");
+            return success(FormUtils.SUCCESS);
         }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_GROW, "预备党员，党总支审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    "预备党员，党总支直属党支部审核");
             return success(FormUtils.SUCCESS);
         }
 
@@ -654,8 +772,13 @@ public class MemberApplyController extends BaseController {
     public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyService.memberGrow(userId);
-        applyLogService.addApplyLog(userId, loginUser.getId(),
-                SystemConstants.APPLY_STAGE_GROW, "预备党员，组织部审核", IpUtils.getIp(request));
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                "预备党员，组织部审核");
 
         return success(FormUtils.SUCCESS);
     }
@@ -679,7 +802,7 @@ public class MemberApplyController extends BaseController {
 
         Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
         if(positiveTime.before(memberApply.getGrowTime())){
-            throw new RuntimeException("转正时间应该在入党之后");
+            throw new RuntimeException("转正时间应该在发展之后");
         }
 
         MemberApply record = new MemberApply();
@@ -695,8 +818,13 @@ public class MemberApplyController extends BaseController {
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
 
         if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交");
+
             return success(FormUtils.SUCCESS);
         }
 
@@ -710,6 +838,7 @@ public class MemberApplyController extends BaseController {
     public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        MemberApply memberApply = verifyAuth.entity;
         boolean isParty = verifyAuth.isParty;
 
         MemberApply record = new MemberApply();
@@ -722,11 +851,20 @@ public class MemberApplyController extends BaseController {
 
         if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
             memberApplyService.applyPositiveCheckByParty(userId, record, example);
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，分党委审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    "正式党员，分党委审核");
+            return success(FormUtils.SUCCESS);
         }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-            applyLogService.addApplyLog(userId, loginUser.getId(),
-                    SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，党总支审核", IpUtils.getIp(request));
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    "正式党员，党总支直属党支部审核");
             return success(FormUtils.SUCCESS);
         }
 
@@ -741,9 +879,40 @@ public class MemberApplyController extends BaseController {
     public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyService.memberPositive(userId);
-        applyLogService.addApplyLog(userId, loginUser.getId(),
-                SystemConstants.APPLY_STAGE_POSITIVE, "正式党员，组织部审核", IpUtils.getIp(request));
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                "正式党员，组织部审核");
+
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:list")
+    @RequestMapping("/memberApplyLog_page")
+    public String memberApplyLog_page(@RequestParam(defaultValue = "1")int cls,
+                                      Integer userId,
+                                      String stage, Integer partyId,
+                                      Integer branchId, ModelMap modelMap){
+
+        modelMap.put("cls", cls);
+        modelMap.put("stage", stage);
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+
+        return "party/memberApply/memberApplyLog_page";
     }
 
     public void memberApply_export(MemberApplyExample example, HttpServletResponse response) {
