@@ -14,6 +14,18 @@
                  data-url-export="${ctx}/dispatchUnit_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.year ||not empty param.unitId ||not empty param.typeId || not empty param.code || not empty param.sort}"/>
+                <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasPermission name="dispatchUnit:edit">
+                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    </shiro:hasPermission>
+                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
+                        <i class="fa fa-edit"></i> 修改信息</a>
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    <shiro:hasPermission name="dispatchUnit:del">
+                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                    </shiro:hasPermission>
+                </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
@@ -87,19 +99,6 @@
                             </mytag:sort-form>
                         </div>
                     </div>
-                </div>
-
-                <div class="buttons">
-                    <shiro:hasPermission name="dispatchUnit:edit">
-                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
-                        <i class="fa fa-edit"></i> 修改信息</a>
-                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="dispatchUnit:del">
-                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                    </shiro:hasPermission>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid" class="jqGrid table-striped"> </table>

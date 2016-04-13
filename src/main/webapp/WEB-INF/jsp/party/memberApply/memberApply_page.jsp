@@ -1,314 +1,415 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="tabbable tabs-left">
-                        <%
-                            String[] colors= new String[7];
-                            colors[0]= "badge-grey";
-                            colors[1]= "badge-inverse";
-                            colors[2]= "badge-danger";
-                            colors[3]= "badge-info";
-                            colors[4]= "badge-purple";
-                            colors[5]= "badge-warning";
-                            colors[6]= "badge-pink";
-                            //colors[0]= "badge-yellow";
-                        %>
-                        <c:set value="<%=colors%>" var="colors"/>
-                        <ul class="nav nav-tabs" id="myTab3">
-                            <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
-                                <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
-                                    <a href='?cls=${cls}&type=${type}&stage=${applyStage.key}'>
-                                        <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
-                                        <span class="badge ${colors[applyStage.key==0?0:applyStage.key-1]}">${applyStage.key==0?1:applyStage.key}</span>
-                                        ${applyStage.value}
-                                    </a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-
-                        <div class="tab-content" style="padding-top: 0px">
-                            <div id="home3" class="tab-pane in active">
-
-                                <div class="tabbable" >
-                                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                                        <li class="<c:if test="${type==1}">active</c:if>">
-                                            <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生</a>
-                                        </li>
-
-                                        <li class="<c:if test="${type==2}">active</c:if>">
-                                            <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工</a>
-                                        </li>
-                                        <shiro:hasAnyRoles name="admin,odAdmin">
-                                        <div class="buttons pull-right">
-                                            <a href="javascript:;" class="addBtn btn btn-info btn-sm">
-                                                <i class="fa fa-plus"></i> 添加入党申请</a>
-                                        </div>
-                                        </shiro:hasAnyRoles>
+<div class="row">
+    <div class="col-xs-12">
+        <div id="body-content">
+            <div class="myTableDiv"
+                 data-url-au="${ctx}/memberApply_au"
+                 data-url-page="${ctx}/memberApply_page"
+                 data-url-del="${ctx}/memberApply_del"
+                 data-url-bd="${ctx}/memberApply_batchDel"
+                 data-url-co="${ctx}/memberApply_changeOrder"
+                 data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+                <c:set var="_query" value="${not empty param.userId
+            ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <div class="widget-toolbar no-border">
+                        <jsp:include page="menu.jsp"/>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="tab-content padding-4">
+                            <div class="tab-pane in active">
+                                <!-- PAGE CONTENT BEGINS -->
+                                <div class="tabbable tabs-left">
+                                    <%
+                                        String[] colors= new String[8];
+                                        colors[0]= "badge-grey";
+                                        colors[1]= "badge-inverse";
+                                        colors[2]= "badge-danger";
+                                        colors[3]= "badge-info";
+                                        colors[4]= "badge-purple";
+                                        colors[5]= "badge-warning";
+                                        colors[6]= "badge-pink";
+                                        colors[7]= "badge-pink";
+                                        //colors[0]= "badge-yellow";
+                                    %>
+                                    <c:set value="<%=colors%>" var="colors"/>
+                                    <ul class="nav nav-tabs" id="myTab3">
+                                        <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
+                                            <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
+                                                <a href='?cls=${cls}&type=${type}&stage=${applyStage.key}'>
+                                                        <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
+                                                    <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
+                                                    <span class="badge ${colors[colorKey]}">${colorKey}</span>
+                                                        ${applyStage.value}
+                                                </a>
+                                            </li>
+                                        </c:forEach>
                                     </ul>
+                                    <div class="tab-content" style="padding-top: 0px">
+                                        <div id="home3" class="tab-pane in active">
+                                            <div class="tabbable" >
+                                                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                                                    <li class="<c:if test="${type==1}">active</c:if>">
+                                                        <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生</a>
+                                                    </li>
 
-                                    <div class="tab-content" >
-                                        <div id="home4" class="tab-pane in active">
-                                <div class="myTableDiv"
-                                     data-target="#home2"
-                                     data-url-au="${ctx}/memberApply_au"
-                                     data-url-page="${ctx}/memberApply_page"
-                                     data-url-del="${ctx}/memberApply_del"
-                                     data-url-bd="${ctx}/memberApply_batchDel"
-                                     data-url-co="${ctx}/memberApply_changeOrder"
-                                     data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                                    <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+                                                    <li class="<c:if test="${type==2}">active</c:if>">
+                                                        <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工</a>
+                                                    </li>
+                                                    <shiro:hasAnyRoles name="admin,odAdmin">
+                                                        <div class="buttons pull-right">
+                                                            <a href="javascript:;" class="addBtn btn btn-info btn-sm">
+                                                                <i class="fa fa-plus"></i> 添加入党申请</a>
+                                                        </div>
+                                                    </shiro:hasAnyRoles>
+                                                </ul>
 
-                                        <input type="hidden" name="type" value="${type}">
-                                        <input type="hidden" name="stage" value="${stage}">
-                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                            <option value="${sysUser.id}">${sysUser.realname}</option>
-                                        </select>
-                                        <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                                name="partyId" data-placeholder="请选择分党委">
-                                            <option value="${party.id}">${party.name}</option>
-                                        </select>
-                                        <span style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                        <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
-                                                name="branchId" data-placeholder="请选择党支部">
-                                            <option value="${branch.id}">${branch.name}</option>
-                                        </select>
-                                        </span>
-                                        <script>
-                                            register_party_branch_select($("#searchForm"), "branchDiv",
-                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
-                                        </script>
-
-                                        <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                                        <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
-                                        <c:if test="${_query}">
-                                            <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="type=${type}&stage=${stage}">
-                                                <i class="fa fa-reply"></i> 重置
-                                            </button>
-                                        </c:if>
-                                        <div class="vspace-12"></div>
-                                        <%--<div class="buttons pull-right">
-
-                                            <c:if test="${commonList.recNum>0}">
-                                                <a class="exportBtn btn btn-success btn-sm tooltip-success"><i class="fa fa-download"></i> 导出</a>
-                                                <shiro:hasPermission name="memberApply:del">
-                                                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
-                                                </shiro:hasPermission>
-                                            </c:if>
-                                        </div>--%>
-                                    </mytag:sort-form>
-                                    <div class="space-4"></div>
-                                    <c:if test="${commonList.recNum>0}">
-                                        <table class="table table-actived table-striped table-bordered table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th class="center">
-                                                    <label class="pos-rel">
-                                                        <input type="checkbox" class="ace checkAll">
-                                                        <span class="lbl"></span>
-                                                    </label>
-                                                </th>
-                                                <th>${type==1?"学生证号":"工作证号"}</th>
-                                                <th>姓名</th>
-                                                <th>所属组织机构</th>
-                                                <c:if test="${stage<=APPLY_STAGE_PASS}">
-                                                <th>提交书面申请书时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_ACTIVE}">
-                                                <th>确定为入党积极分子时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
-                                                    <th>确定为发展对象时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_PLAN}">
-                                                    <th>列入发展计划时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_DRAW}">
-                                                    <th>领取志愿书时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
-                                                    <th>入党时间</th>
-                                                </c:if>
-                                                <c:if test="${stage==APPLY_STAGE_POSITIVE}">
-                                                    <th>转正时间</th>
-                                                </c:if>
-
-                                                <th>${(stage==APPLY_STAGE_POSITIVE)?"状态":"下一阶段状态"}</th>
-                                                <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
-                                                <th nowrap></th>
-                                                    </c:if>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach items="${memberApplys}" var="memberApply" varStatus="st">
-                                                <tr>
-                                                    <td class="center">
-                                                        <label class="pos-rel">
-                                                            <input type="checkbox" value="${memberApply.userId}" class="ace">
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </td>
-                                                    <c:set var="user" value="${cm:getUserById(memberApply.userId)}"/>
-                                                    <td>
-
-                                                    ${user.username}
-
-                                                    </td>
-                                                    <td>
-                                                        <a href="javascript:;" class="openView" data-url="${ctx}/memberApply_view?userId=${memberApply.userId}&stage=${memberApply.stage}">
-                                                    ${user.realname}
-                                                        </a>
-                                                    </td>
-                                                    <td>${partyMap.get(memberApply.partyId).name}
-                                                        <c:if test="${not empty memberApply.branchId}">
-                                                        -${branchMap.get(memberApply.branchId).name}
-                                                        </c:if>
-                                                    </td>
-                                                    <c:if test="${stage<=APPLY_STAGE_PASS}">
-                                                    <td>${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_ACTIVE}">
-                                                    <td>${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
-                                                        <td>${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_PLAN}">
-                                                        <td>${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_DRAW}">
-                                                        <td>${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
-                                                        <td>${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <c:if test="${stage==APPLY_STAGE_POSITIVE}">
-                                                        <td>${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}</td>
-                                                    </c:if>
-                                                    <td>
-                                                        <a href="javascript:;" class="openView" data-url="${ctx}/applyLog_person?userId=${memberApply.userId}">
-                                                    ${cm:getApplyStatus(memberApply)}</a>
-                                                    </td>
-                                                    <c:if test="${stage!=APPLY_STAGE_POSITIVE}">
-                                                    <td>
-                                                        <div class="hidden-sm hidden-xs action-buttons">
+                                                <div class="tab-content" >
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <div class="jqgrid-vertical-offset buttons">
                                                             <c:choose>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_INIT}">
-                                                                    <button onclick="apply_pass(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                        <i class="fa fa-check"></i> 通过
+                                                                <c:when test="${stage==APPLY_STAGE_INIT || stage==APPLY_STAGE_PASS}">
+                                                                    <button id="applyBtn" ${applyCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_INIT}"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${applyCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 支部审核（${applyCount}）
                                                                     </button>
-                                                                    <button onclick="apply_deny(${memberApply.userId})" class="btn btn-danger btn-mini btn-xs">
-                                                                        <i class="fa fa-times"></i> 不通过
+                                                                    <button id="activeBtn" ${activeCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_PASS}"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${activeCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 确定为入党积极分子（${activeCount}）
                                                                     </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_PASS}">
-                                                                    <button onclick="apply_active(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                        <i class="fa fa-check"></i> 确定为入党积极分子
+                                                                <c:when test="${stage==APPLY_STAGE_ACTIVE}">
+                                                                    <button id="candidateBtn" ${candidateCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_ACTIVE}&status=-1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${candidateCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 确定为发展对象（${candidateCount}）
+                                                                    </button>
+                                                                    <button id="candidateCheckBtn" ${candidateCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_ACTIVE}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${candidateCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${candidateCheckCount}）
                                                                     </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_ACTIVE}">
-                                                                    <c:if test="${empty memberApply.candidateStatus}">
-                                                                        <button onclick="apply_candidate(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 确定为发展对象
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.candidateStatus==0}">
-                                                                        <button onclick="apply_candidate_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 审核
-                                                                        </button>
-                                                                    </c:if>
+                                                                <c:when test="${stage==APPLY_STAGE_CANDIDATE}">
+                                                                    <button id="planBtn" ${planCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_CANDIDATE}&status=-1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${planCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 列入发展计划（${planCount}）
+                                                                    </button>
+                                                                    <button id="planCheckBtn" ${planCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_CANDIDATE}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${planCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${planCheckCount}）
+                                                                    </button>
                                                                 </c:when>
-
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_CANDIDATE}">
-                                                                    <c:if test="${empty memberApply.planStatus}">
-                                                                        <button onclick="apply_plan(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 列入发展计划
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.planStatus==0}">
-                                                                        <button onclick="apply_plan_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 审核
-                                                                        </button>
-                                                                    </c:if>
+                                                                <c:when test="${stage==APPLY_STAGE_PLAN}">
+                                                                    <button id="drawBtn" ${drawCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_PLAN}&status=-1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${drawCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 领取志愿书（${drawCount}）
+                                                                    </button>
+                                                                    <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_PLAN}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${drawCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${drawCheckCount}）
+                                                                    </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_PLAN}">
-                                                                    <c:if test="${empty memberApply.drawStatus}">
-                                                                        <button onclick="apply_draw(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 领取志愿书
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.drawStatus==0}">
-                                                                        <button onclick="apply_draw_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 审核
-                                                                        </button>
-                                                                    </c:if>
+                                                                <c:when test="${stage==APPLY_STAGE_DRAW}">
+                                                                    <button id="growBtn" ${growCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=-1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${growCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 发展为预备党员（${growCount}）
+                                                                    </button>
+                                                                    <button id="growCheckCount" ${growCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${growCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${growCheckCount}）
+                                                                    </button>
+                                                                    <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${growOdCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 组织部审核（${growOdCheckCount}）
+                                                                    </button>
                                                                 </c:when>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
-                                                                    <c:if test="${empty memberApply.growStatus}">
-                                                                        <button onclick="apply_grow(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 发展为预备党员
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.growStatus==0}">
-                                                                        <button onclick="apply_grow_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 审核
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.growStatus==1}">
-                                                                        <button onclick="apply_grow_check2(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 组织部审核
-                                                                        </button>
-                                                                    </c:if>
-                                                                </c:when>
-                                                                <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
-                                                                    <c:if test="${empty memberApply.positiveStatus}">
-                                                                        <button onclick="apply_positive(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 预备党员转正
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.positiveStatus==0}">
-                                                                        <button onclick="apply_positive_check(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 审核
-                                                                        </button>
-                                                                    </c:if>
-                                                                    <c:if test="${memberApply.positiveStatus==1}">
-                                                                        <button onclick="apply_positive_check2(${memberApply.userId})" class="btn btn-success btn-mini btn-xs">
-                                                                            <i class="fa fa-check"></i> 组织部审核
-                                                                        </button>
-                                                                    </c:if>
+                                                                <c:when test="${stage==APPLY_STAGE_GROW}">
+                                                                    <button id="positiveBtn" ${positiveCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_GROW}&status=-1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${positiveCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 预备党员转正（${positiveCount}）
+                                                                    </button>
+                                                                    <button id="positiveCheckCount" ${positiveCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_GROW}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${positiveCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${positiveCheckCount}）
+                                                                    </button>
+                                                                    <button id="positiveOdCheckCount" ${positiveOdCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_GROW}&status=1"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${positiveOdCheckCount}">
+                                                                        <i class="fa fa-check-circle-o"></i> 组织部审核（${positiveOdCheckCount}）
+                                                                    </button>
                                                                 </c:when>
                                                             </c:choose>
-                                                        </div>
-                                                        <div class="hidden-md hidden-lg">
-                                                            <div class="inline pos-rel">
-                                                                <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                                                </button>
 
+                                                            <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                                                    data-url="${ctx}/applyApprovalLog_page"
+                                                                    data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"
+                                                                    data-open-by="page">
+                                                                <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                                            </button>
+                                                        </div>
+                                                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                                                            <div class="widget-header">
+                                                                <h4 class="widget-title">搜索</h4>
+                                                                <div class="widget-toolbar">
+                                                                    <a href="#" data-action="collapse">
+                                                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="widget-body">
+                                                                <div class="widget-main no-padding">
+                                                                    <form class="form-horizontal " id="searchForm">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="col-xs-3 control-label">姓名</label>
+
+                                                                                    <div class="col-xs-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="hidden" name="cls" value="${cls}">
+                                                                                            <input type="hidden" name="type" value="${type}">
+                                                                                            <input type="hidden" name="stage" value="${stage}">
+                                                                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                                                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                                                                <option value="${sysUser.id}">${sysUser.realname}</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="col-xs-3 control-label">分党委</label>
+
+                                                                                    <div class="col-xs-6">
+                                                                                        <select class="form-control" data-rel="select2-ajax"
+                                                                                                data-ajax-url="${ctx}/party_selects"
+                                                                                                name="partyId" data-placeholder="请选择分党委">
+                                                                                            <option value="${party.id}">${party.name}</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="col-xs-4" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                                                                <div class="form-group">
+                                                                                    <label class="col-xs-4 control-label">党支部</label>
+
+                                                                                    <div class="col-xs-6">
+                                                                                        <select class="form-control" data-rel="select2-ajax"
+                                                                                                data-ajax-url="${ctx}/branch_selects"
+                                                                                                name="branchId" data-placeholder="请选择党支部">
+                                                                                            <option value="${branch.id}">${branch.name}</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <script>
+                                                                                register_party_branch_select($("#searchForm"), "branchDiv",
+                                                                                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                                                            </script>
+                                                                        </div>
+                                                                        <div class="clearfix form-actions center">
+                                                                            <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+
+                                                                            <c:if test="${_query || not empty param.sort}">&nbsp;
+                                                                                <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                                                                        data-querystr="type=${type}&stage=${stage}">
+                                                                                    <i class="fa fa-reply"></i> 重置
+                                                                                </button>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    </c:if>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <wo:page commonList="${commonList}" uri="${ctx}/memberApply_page" target="#home2" pageNum="5"
-                                                 model="3"/>
-                                    </c:if>
-                                    <c:if test="${commonList.recNum==0}">
-                                        <div class="well well-lg center">
-                                            <h4 class="green lighter">暂无记录</h4>
+                                                        <div class="space-4"></div>
+                                                        <table id="jqGrid" class="jqGrid0 table-striped"></table>
+                                                        <div id="jqGridPager"></div>
+                                                    </div></div></div>
                                         </div>
-                                    </c:if>
-                                </div>
-                                        </div></div></div>
-                            </div>
 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div id="item-content">
+
+        </div>
+    </div>
+</div>
 <script>
+    $("#jqGrid").jqGrid({
+        url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 150, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 100, frozen: true},
+            {
+                label: '所属组织机构', name: 'party', resizable: false, width: 550,
+                formatter: function (cellvalue, options, rowObject) {
+                    var party = rowObject.party;
+                    var branch = rowObject.branch;
+                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                }, frozen: true
+            },
+            <c:if test="${stage<=APPLY_STAGE_PASS}">
+            {label: '提交书面申请书时间', name: 'applyTime', width: 180},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_ACTIVE}">
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 180},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_PLAN}">
+            {label: '列入发展计划时间', name: 'planTime', width: 180},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_DRAW}">
+            {label: '领取志愿书时间', name: 'drawTime', width: 160},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
+            {label: '入党时间', name: 'growTime', width: 100},
+            </c:if>
+            <c:if test="${stage==APPLY_STAGE_POSITIVE}">
+            {label: '转正时间', name: 'positiveTime', width: 100},
+            </c:if>
+            {label: '状态', name: 'applyStatus', width: 200},
+            {hidden: true, name: 'stage'},
+            {hidden: true, name: 'candidateStatus'},
+            {hidden: true, name: 'planStatus'},
+            {hidden: true, name: 'drawStatus'},
+            {hidden: true, name: 'growStatus'},
+            {hidden: true, name: 'positiveStatus'},
+            {hidden: true,key:true, name: 'userId'}
+        ],
+        onSelectRow: function (id, status) {
+            jgrid_sid = id;
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+            } else if (status) {
+                var rowData = $(this).getRowData(id);
+                $("#applyBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_INIT}");
+                $("#activeBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_PASS}");
+                $("#candidateBtn").prop("disabled", rowData.candidateStatus != '');
+                $("#candidateCheckBtn").prop("disabled", rowData.candidateStatus=='');
+                $("#planBtn").prop("disabled", rowData.planStatus != '');
+                $("#planCheckBtn").prop("disabled", rowData.planStatus == '');
+                $("#drawBtn").prop("disabled", rowData.drawStatus != 0);
+                $("#drawCheckBtn").prop("disabled", rowData.drawStatus != 1);
+                $("#growBtn").prop("disabled", rowData.growStatus != 0);
+                $("#growCheckBtn").prop("disabled", rowData.growStatus != 1);
+                $("#growOdCheckBtn").prop("disabled", rowData.growStatus != 2);
+                $("#positiveBtn").prop("disabled", rowData.positiveStatus != 0);
+                $("#positiveCheckBtn").prop("disabled", rowData.positiveStatus != 1);
+                $("#positiveOdCheckBtn").prop("disabled", rowData.positiveStatus != 2);
+            } else {
+                $("*[data-count]").each(function(){
+                    $(this).prop("disabled", $(this).data("count") == 0);
+                })
+            }
+        },
+        onSelectAll: function (aRowids, status) {
+            $("*[data-count]").each(function(){
+                $(this).prop("disabled", $(this).data("count") == 0);
+            })
+        }
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid0')
+    });
 
     $(".addBtn").click(function(){
         loadModal("${ctx}/memberApply_au");
@@ -330,7 +431,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_deny",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -343,7 +444,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_pass",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -368,7 +469,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_candidate_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -389,7 +490,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_plan_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -410,7 +511,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_draw_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -430,7 +531,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_grow_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -443,7 +544,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_grow_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -462,7 +563,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_positive_check",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });
@@ -475,7 +576,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/apply_positive_check2",{userId:userId},function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
                 });

@@ -75,6 +75,10 @@ body{
     height: 250px;
 }
 
+.page-content{
+    padding-bottom: 0px!important;
+}
+
 /*.widget-box{
     border: none;
 }

@@ -14,6 +14,23 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
                 ||not empty param.job || not empty param.code}"/>
+                <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasPermission name="leader:edit">
+                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    </shiro:hasPermission>
+                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
+                        <i class="fa fa-edit"></i> 修改信息</a>
+
+                    <shiro:hasPermission name="leaderUnit:list">
+                        <button  class="jqOpenViewBtn btn btn-sm btn-primary"
+                                 data-url="${ctx}/leader_unit">
+                            <i class="fa fa-sitemap"></i> 编辑联系单位
+                        </button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="leader:del">
+                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                    </shiro:hasPermission>
+                </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
@@ -77,24 +94,6 @@
                             </mytag:sort-form>
                         </div>
                     </div>
-                </div>
-
-                <div class="buttons">
-                    <shiro:hasPermission name="leader:edit">
-                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
-                        <i class="fa fa-edit"></i> 修改信息</a>
-
-                    <shiro:hasPermission name="leaderUnit:list">
-                        <button  class="jqOpenViewBtn btn btn-sm btn-primary"
-                                 data-url="${ctx}/leader_unit">
-                            <i class="fa fa-sitemap"></i> 编辑联系单位
-                        </button>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="leader:del">
-                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                    </shiro:hasPermission>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid" class="jqGrid table-striped"> </table>

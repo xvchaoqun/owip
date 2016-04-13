@@ -16,6 +16,37 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
             || not empty param.code}"/>
+            <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasPermission name="party:edit">
+                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                </shiro:hasPermission>
+                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
+                    <i class="fa fa-edit"></i> 修改信息</a>
+
+                <shiro:hasPermission name="member:edit">
+                    <button data-url="${ctx}/member_au"
+                            data-id-name="partyId"
+                            data-open-by="page"
+                            class="jqOpenViewBtn btn btn-success btn-sm">
+                        <i class="fa fa-user"></i> 添加党员
+                    </button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="partyMemberGroup:edit">
+                    <button data-url="${ctx}/partyMemberGroup_au"
+                            data-id-name="partyId" class="jqOpenViewBtn btn btn-primary btn-sm">
+                        <i class="fa fa-users"></i> 添加分党委班子
+                    </button>
+                </shiro:hasPermission>
+                <button data-url="${ctx}/org_admin"
+                        data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
+                    <i class="fa fa-user"></i> 编辑管理员
+                </button>
+                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                <shiro:hasPermission name="party:del">
+                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                </shiro:hasPermission>
+            </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -117,38 +148,6 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
-
-            <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="party:edit">
-                    <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
-                </shiro:hasPermission>
-                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
-                    <i class="fa fa-edit"></i> 修改信息</a>
-
-                <shiro:hasPermission name="member:edit">
-                    <button data-url="${ctx}/member_au"
-                            data-id-name="partyId"
-                            data-open-by="page"
-                            class="jqOpenViewBtn btn btn-success btn-sm">
-                        <i class="fa fa-user"></i> 添加党员
-                    </button>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="partyMemberGroup:edit">
-                    <button data-url="${ctx}/partyMemberGroup_au"
-                            data-id-name="partyId" class="jqOpenViewBtn btn btn-primary btn-sm">
-                        <i class="fa fa-users"></i> 添加分党委班子
-                    </button>
-                </shiro:hasPermission>
-                <button data-url="${ctx}/org_admin"
-                        data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
-                    <i class="fa fa-user"></i> 编辑管理员
-                </button>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                <shiro:hasPermission name="party:del">
-                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                </shiro:hasPermission>
-            </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>
@@ -181,8 +180,10 @@ pageEncoding="UTF-8" %>
             { label: '党总支类别', align:'center', name: 'partyClass.name', width: 130 },
             { label: '联系电话', align:'center', name: 'phone', width: 100 }
         ]
-    }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid');
+    })
+
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

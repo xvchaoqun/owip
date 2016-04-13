@@ -35,6 +35,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+                        $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功', function () {
                             goto_next(${param.goToNext==1});
                         });

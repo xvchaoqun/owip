@@ -39,12 +39,14 @@ pageEncoding="UTF-8"%>
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
+
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
-                        goto_next(parseInt("${param.type}"));
+                        $("#modal").modal("hide");
+                        SysMsg.success('操作成功。', '成功', function () {
+                            goto_next("${param.type}");
+                        });
                     }
                 }
             });

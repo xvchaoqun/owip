@@ -10,17 +10,14 @@
              data-url-export="${ctx}/sysLog_data"
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <!-- PAGE CONTENT BEGINS -->
-            <div class="col-sm-12">
-                <div class="buttons">
-                    <a data-type="${USER_SOURCE_JZG}" class="syncBtn btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
-                    <a  data-type="${USER_SOURCE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
-                    <a data-type="${USER_SOURCE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
-                </div>
-                <div class="space-4"></div>
-                <table id="jqGrid" class="jqGrid table-striped"> </table>
-                <div id="jqGridPager"> </div>
+            <div class="jqgrid-vertical-offset buttons">
+                <a data-type="${USER_SOURCE_JZG}" class="syncBtn btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
+                <a  data-type="${USER_SOURCE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
+                <a data-type="${USER_SOURCE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
             </div>
+            <div class="space-4"></div>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
+            <div id="jqGridPager"> </div>
         </div><div id="item-content"></div>
     </div>
 </div>

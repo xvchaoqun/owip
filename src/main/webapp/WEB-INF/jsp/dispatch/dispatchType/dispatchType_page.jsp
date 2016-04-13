@@ -4,7 +4,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="USER_SOURCE_ADMIN" value="<%=SystemConstants.USER_SOURCE_ADMIN%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
@@ -14,8 +13,25 @@
              data-url-co="${ctx}/dispatchType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name ||not empty param.attr||not empty param.year  || (not empty param.sort&&param.sort!='sort_order')}"/>
-            <!-- PAGE CONTENT BEGINS -->
-            <div class="col-sm-12">
+                <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasRole name="admin">
+                        <shiro:hasPermission name="dispatchType:edit">
+                            <a class="editBtn btn btn-info btn-sm">
+                                <i class="fa fa-plus"></i> 添加
+                            </a>
+                            <button class="jqEditBtn btn btn-primary btn-sm">
+                                <i class="fa fa-edit"></i> 修改信息
+                            </button>
+                        </shiro:hasPermission>
+                        <a class="exportBtn btn btn-success btn-sm tooltip-success"
+                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                        <shiro:hasPermission name="dispatchType:del">
+                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                               data-url="${ctx}/dispatchType_batchDel" data-title="删除发文类型"
+                               data-msg="确定删除这{0}个发文类型吗？"><i class="fa fa-trash"></i> 删除</a>
+                        </shiro:hasPermission>
+                    </shiro:hasRole>
+                </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
@@ -74,29 +90,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="buttons">
-                    <shiro:hasRole name="admin">
-                        <shiro:hasPermission name="dispatchType:edit">
-                        <a class="editBtn btn btn-info btn-sm">
-                            <i class="fa fa-plus"></i> 添加
-                        </a>
-                        <button class="jqEditBtn btn btn-primary btn-sm">
-                            <i class="fa fa-edit"></i> 修改信息
-                        </button>
-                        </shiro:hasPermission>
-                        <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                        <shiro:hasPermission name="dispatchType:del">
-                            <a class="jqBatchBtn btn btn-danger btn-sm"
-                               data-url="${ctx}/dispatchType_batchDel" data-title="删除发文类型"
-                               data-msg="确定删除这{0}个发文类型吗？"><i class="fa fa-trash"></i> 删除</a>
-                        </shiro:hasPermission>
-                    </shiro:hasRole>
-                </div>
                 <div class="space-4"></div>
                 <table id="jqGrid" class="jqGrid table-striped"> </table>
                 <div id="jqGridPager"> </div>
-            </div>
         </div><div id="item-content"></div>
     </div>
 </div>

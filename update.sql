@@ -1,4 +1,10 @@
 
+--20160413
+ALTER TABLE `ow_apply_approval_log`
+	ADD CONSTRAINT `FK_ow_apply_approval_log_sys_user_2` FOREIGN KEY (`apply_user_id`) REFERENCES `sys_user` (`id`);
+ALTER TABLE `ow_member_apply`
+	ADD COLUMN `reason` VARCHAR(255) NULL COMMENT '不通过原因' AFTER `stage`;
+
 --20160411
 ALTER TABLE `ow_member`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1正常，2已退休 3已出党 4已转出 5暂时转出（外出挂职、休学等）' AFTER `type`;

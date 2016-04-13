@@ -15,6 +15,32 @@
         <div class="col-sm-12">
             <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
+            <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasRole name="admin">
+                    <a class="editBtn btn btn-info btn-sm">
+                        <i class="fa fa-plus"></i> 添加账号
+                    </a>
+                    <shiro:hasPermission name="sysUser:edit">
+                        <button class="jqEditBtn btn btn-primary btn-sm">
+                            <i class="fa fa-edit"></i> 修改信息
+                        </button>
+                    </shiro:hasPermission>
+                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-url="${ctx}/sysUserRole">
+                        <i class="fa fa-pencil"></i> 修改角色
+                    </button>
+                    <button id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
+                            data-url="${ctx}/sysUser_del" data-title="账号解禁"
+                            data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
+                        <i class="fa fa-edit"></i> 解禁
+                    </button>
+                    <button id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
+                            data-url="${ctx}/sysUser_del" data-title="账号禁用"
+                            data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
+                        <i class="fa fa-edit"></i> 禁用
+                    </button>
+                </shiro:hasRole>
+            </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -109,32 +135,7 @@
                     </div>
                 </div>
             </div>
-            <div class="buttons">
-            <shiro:hasRole name="admin">
-                <a class="editBtn btn btn-info btn-sm">
-                    <i class="fa fa-plus"></i> 添加账号
-                </a>
-                <shiro:hasPermission name="sysUser:edit">
-                    <button class="jqEditBtn btn btn-primary btn-sm">
-                        <i class="fa fa-edit"></i> 修改信息
-                    </button>
-                </shiro:hasPermission>
-                <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                        data-url="${ctx}/sysUserRole">
-                    <i class="fa fa-pencil"></i> 修改角色
-                </button>
-                <button id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
-                        data-url="${ctx}/sysUser_del" data-title="账号解禁"
-                        data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
-                    <i class="fa fa-edit"></i> 解禁
-                </button>
-                <button id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
-                        data-url="${ctx}/sysUser_del" data-title="账号禁用"
-                        data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
-                    <i class="fa fa-edit"></i> 禁用
-                </button>
-            </shiro:hasRole>
-            </div>
+
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

@@ -37,9 +37,9 @@ $.jgrid.defaults.onPaging= function(){
     $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 }
 
-$.jgrid.defaults.onSelectRow = function(ids) {
+/*$.jgrid.defaults.onSelectRow = function(ids) {
     sid = ids;
-};
+};*/
 // 恢复重新加载之前滚动位置及选中的行状态
 var jgrid_sid,jgrid_left, jgrid_top;
 $.jgrid.defaults.onSelectRow = function(ids) {
@@ -65,6 +65,23 @@ $.jgrid.defaults.gridComplete = function(){
     }
 }
 
+$(window).on('resize.jqGrid0', function () {
+
+    $(".jqGrid0").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-60-180 );
+    var height = 0;
+    $("#body-content .jqgrid-vertical-offset").each(function(){
+        height += $(this).height();
+    });
+    //console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
+    var navHeight = $(".nav.nav-tabs").height();
+    navHeight = navHeight>0?(navHeight+10):navHeight;
+    if(navHeight==null) navHeight=0;
+
+    $(".jqGrid0").setGridHeight($(window).height()-390-height-navHeight - 30)
+        .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
+        .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+})
+
 $(window).on('resize.jqGrid', function () {
     if( $("#body-content").is(":hidden")){
         return;
@@ -74,10 +91,14 @@ $(window).on('resize.jqGrid', function () {
     $("#body-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();
     });
-    //alert(0)
-    //var footerHeight = 56;
     //console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
-    $(".jqGrid").setGridHeight($(window).height()-390-height);
+    var navHeight = $(".nav.nav-tabs").height();
+    navHeight = navHeight>0?(navHeight+10):navHeight;
+    if(navHeight==null) navHeight=0;
+
+    $(".jqGrid").setGridHeight($(window).height()-320-height-navHeight)
+        .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
+        .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 })
 $(window).on('resize.jqGrid2', function () {
     if( $("#item-content").is(":hidden")){
@@ -106,13 +127,16 @@ $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
     if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
         //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
         setTimeout(function() {
+            $(window).triggerHandler('resize.jqGrid0');
             $(window).triggerHandler('resize.jqGrid');
             $(window).triggerHandler('resize.jqGrid2');
         }, 0);
     }
 })
 $(document).on('shown.ace.widget hidden.ace.widget', function(ev) {
+    $(window).triggerHandler('resize.jqGrid0');
     $(window).triggerHandler('resize.jqGrid');
+    $(window).triggerHandler('resize.jqGrid2');
 });
 
 toastr.options = {

@@ -274,8 +274,10 @@ pageEncoding="UTF-8" %>
             console.log(rowData.hasFind)
             $("#hasFindBtn").prop("disabled",rowData.hasFind==0);
         }
-    }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid');
+    })
+
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;
