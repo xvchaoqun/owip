@@ -76,11 +76,6 @@ public class UserMemberOutController extends BaseController{
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
 
-        if(loginUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
-
         if (memberOut == null) {
             memberOutService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
