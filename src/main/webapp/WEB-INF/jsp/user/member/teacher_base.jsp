@@ -72,7 +72,7 @@
 				学位授予日期
 			</td>
 			<td>
-				${cm:formatDate(memberTeacher.degreeTime,'yyyy-MM-dd')}
+				${memberTeacher.degreeTime}
 			</td>
 			<td>所学专业</td>
 			<td >
@@ -95,7 +95,7 @@
 
 			<td>到校日期</td>
 			<td >
-				${cm:formatDate(memberTeacher.arriveTime,'yyyy-MM-dd')}
+				${memberTeacher.arriveTime}
 			</td>
 			<td>
 				编制类别
