@@ -19,10 +19,12 @@
                             data-open-by="page">
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
-                        <button class="jqEditBtn btn btn-primary btn-sm"
+                        <button class="jqEditBtn btn btn-primary btn-sm tooltip-info"
                                 data-url="${ctx}/user/applySelf_au"
                                 data-open-by="page"
-                                data-querystr="&edit=1">
+                                data-querystr="&edit=1"
+                                data-rel="tooltip" data-placement="bottom"
+                                title="当因私出国（境）申请未通过审批时，修改相关信息重新申请。">
                             <i class="fa fa-edit"></i> 重新申请
                         </button>
                             <button class="jqItemDelBtn btn btn-danger btn-sm">
@@ -151,6 +153,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
+    $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2"]').select2();
     function processTdBean(tdBean){
 

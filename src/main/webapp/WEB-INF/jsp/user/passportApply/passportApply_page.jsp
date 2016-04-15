@@ -48,7 +48,10 @@ pageEncoding="UTF-8" %>
 
 								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</td>
+								<td>
+                                    <c:if test="${passportApply.abolish}"> - </c:if>
+                                    <c:if test="${!passportApply.abolish}">${cm:formatDate(passportApply.handleDate,'yyyy-MM-dd')}</c:if>
+                                </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS}">
@@ -57,9 +60,12 @@ pageEncoding="UTF-8" %>
                                         </button>
                                     </c:if>
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
+                                        <c:if test="${passportApply.abolish}">作废</c:if>
+                                        <c:if test="${!passportApply.abolish}">
                                         <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini btn-xs">
                                             <i class="fa fa-print"></i> 打印审批表
                                         </button>
+                                        </c:if>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
                                     <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportApply.id}">

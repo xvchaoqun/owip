@@ -47,19 +47,21 @@ pageEncoding="UTF-8" %>
                             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
 							<th>因私出国（境）行程</th>
                             </c:if>
-                             <th>是否签注</th>
+
                             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
 							<th>出行时间</th>
 							<th>回国时间</th>
 							<th>出行天数</th>
 							<th>出访事由</th>
                             </c:if>
+
                         <c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">
                             <th>使用时间</th>
                             <th>归还时间</th>
                             <th>使用天数</th>
                             <th>事由</th>
                         </c:if>
+                        <th>是否签注</th>
                         <th>审批状态</th>
                         <th>应交组织部日期</th>
                         <th>实交组织部日期</th>
@@ -84,13 +86,15 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/user/applySelf_view?id=${passportDraw.applyId}"> S${passportDraw.applyId}</a>
                                    </td>
                             </c:if>
-                            <td>${passportDraw.needSign?"是":"否"}</td>
+
                                 <c:if test="${type!=PASSPORT_DRAW_TYPE_SELF}">
 								<td>${cm:formatDate(passportDraw.startDate,'yyyy-MM-dd')}</td>
 								<td>${cm:formatDate(passportDraw.endDate,'yyyy-MM-dd')}</td>
 								<td>${cm:getDayCountBetweenDate(passportDraw.startDate, passportDraw.endDate)}</td>
-								<td>${fn:replace(passportDraw.reason, '+++', ',')}</td>
+                                    <c:set var="reason" value="${fn:replace(passportDraw.reason, '+++', ',')}"/>
+								<td title="${reason}">${cm:substr(reason, 0, 5, "...")}</td>
                                 </c:if>
+                            <td>${passportDraw.needSign?"是":"否"}</td>
                                 <td>${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}</td>
                             <td>${cm:formatDate(passportDraw.returnDate,'yyyy-MM-dd')}</td>
                             <td>${cm:formatDate(passportDraw.realReturnDate,'yyyy-MM-dd')}</td>

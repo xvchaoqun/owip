@@ -7,6 +7,7 @@
     <c:choose>
       <c:when test="${param.type=='passportApplyPass'}">申请已批准，发送短信通知</c:when>
       <c:when test="${param.type=='passportApplyUnPass'}">不发短信，直接返回</c:when>
+      <c:when test="${param.type=='passportApplyDraw'}">催交证件</c:when>
       <c:otherwise>短信通知</c:otherwise>
     </c:choose>
   </h3>

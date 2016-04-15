@@ -174,4 +174,26 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
+
+
+    jQuery("#jqGrid")
+            .navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false})
+            .navButtonAdd('#jqGridPager',{
+                caption:"批量转移",
+                btnbase:"btn btn-info btn-xs",
+                buttonicon:"fa fa-check",
+                onClickButton: function(){
+                    alert("Adding Row");
+                },
+                position:"last"
+            })
+            .navButtonAdd('#jqGridPager',{
+                caption:"批量删除",
+                btnbase:"btn btn-danger btn-xs",
+                buttonicon:"fa fa-plus",
+                onClickButton: function(){
+                    alert("Deleting Row");
+                },
+                position:"first"
+            });
 </script>

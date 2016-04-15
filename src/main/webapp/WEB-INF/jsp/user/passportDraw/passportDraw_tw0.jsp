@@ -2,21 +2,6 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div id="body-content">
-  <div class="tabbable">
-    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-      <div style="margin-bottom: 8px">
-
-        <div class="buttons">
-          <a href="${ctx}/user/passportDraw" class="btn btn-sm btn-success">
-            <i class="ace-icon fa fa-backward"></i>
-            返回
-          </a>
-        </div>
-      </div>
-    </ul>
-
-    <div class="tab-content">
-      <div id="home4" class="tab-pane in active">
 <form class="form-horizontal" action="${ctx}/user/passportDraw_tw_au" id="applyForm" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label class="col-xs-3 control-label">出行时间</label>
@@ -40,11 +25,11 @@
   </div>
   <div class="form-group">
     <label class="col-xs-3 control-label">出访事由</label>
-    <div class="col-xs-9 choice">
-      <input name="_reason" type="checkbox" value="学术会议"> 学术会议&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="考察访问"> 考察访问&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="合作研究"> 合作研究&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="进修"> 进修&nbsp;&nbsp;
+    <div class="col-xs-6 choice">
+      <input name="_reason" type="checkbox" value="旅游"> 学术会议&nbsp;&nbsp;
+      <input name="_reason" type="checkbox" value="探亲"> 考察访问&nbsp;&nbsp;
+      <input name="_reason" type="checkbox" value="访友"> 合作研究&nbsp;&nbsp;
+      <input name="_reason" type="checkbox" value="继承"> 进修&nbsp;&nbsp;
       <input name="_reason" type="checkbox" value="其他"> 其他
       <input name="_reason_other" type="text">
       <input name="reason" type="hidden"/>
@@ -70,7 +55,7 @@
   </div>
   <div class="form-group">
     <label class="col-xs-3 control-label">台湾通行证大陆居民往来台湾通行证</label>
-    <div class="col-xs-6 label-text">
+    <div class="col-xs-6">
       <div id="signBtn">
       <button type="button" data-url="${ctx}/user/passportDraw_self_sign?type=tw"
               class="openView btn btn-primary btn-mini btn-xs">申请台湾签注</button>
@@ -80,13 +65,14 @@
   </div>
 
 </form>
-
+<div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding: 50px;">
+  <input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
+</div>
 <div class="modal-footer center">
   <input id="submit" class="btn btn-success" value="提交申请"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <input class="btn btn-default" value="取消" onclick="location.href='${ctx}/user/passportDraw'"/>
 </div>
-        </div></div></div>
   </div>
 <div id="item-content">
 </div>
@@ -107,17 +93,6 @@
   .file label{
     margin-bottom:15px;
   }
-
-  #applyForm  .control-label{
-    font-size: 20px;
-    font-weight: bolder;
-  }
-
-  #applyForm .form-group{
-    padding-bottom: 5px;
-    padding-top:0px!important;
-  }
-
 
 </style>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
@@ -205,6 +180,11 @@
       if(fileCount==0){
         SysMsg.info("请上传国台办批件");
         return;
+      }
+
+      if($("#agree").is(":checked") == false){
+        $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
+        return false;
       }
 
       $(form).ajaxSubmit({

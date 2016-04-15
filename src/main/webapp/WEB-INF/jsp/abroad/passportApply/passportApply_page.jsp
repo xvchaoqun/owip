@@ -16,17 +16,20 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==0}">active</c:if>">
                         <a href="?status=0"><i class="fa fa-circle-o"></i> 办理证件审批</a>
                     </li>
-                    <li class="dropdown <c:if test="${status==1||status==3}">active</c:if>" >
+                    <li class="dropdown <c:if test="${status==1||status==3||status==4}">active</c:if>" >
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="fa fa-recycle"></i> 批准办理新证件${status==1?"(未交证件) ":(status==3)?"(已交证件) ":" "}
+                            <i class="fa fa-recycle"></i> 批准办理新证件${status==1?"(未交证件) ":(status==3)?"(已交证件) ":(status==4)?"(作废) ":" "}
                             <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-info" style="min-width: 230px">
                             <li>
-                                <a href="?status=1">未确认</a>
+                                <a href="?status=1">未交证件</a>
                             </li>
                             <li>
-                                <a   href="?status=3">已确认</a>
+                                <a   href="?status=3">已交证件</a>
+                            </li>
+                            <li>
+                                <a   href="?status=4">作废</a>
                             </li>
                         </ul>
                     </li>

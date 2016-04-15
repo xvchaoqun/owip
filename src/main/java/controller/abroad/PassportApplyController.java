@@ -140,7 +140,9 @@ public class PassportApplyController extends BaseController {
     public void passportApply_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                 // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
+                                 // 0：办理证件审批 1：批准办理证件审批（未交证件）
+                                 // 3：批准办理证件审批（已交证件）
+                                 // 4：批准办理证件审批（作废）2：未批准办理新证件
                                  @RequestParam(required = false, defaultValue = "0")  Byte status,
                                     Integer cadreId,
                                     Integer classId,
@@ -164,11 +166,12 @@ public class PassportApplyController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if(status==1){
-            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull();
+            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
         }else if(status==3){
             criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
-        }else
-            criteria.andStatusEqualTo(status);
+        }else if(status==4){
+            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
+        }else criteria.andStatusEqualTo(status);
 
         if (cadreId!=null) {
 

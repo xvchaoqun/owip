@@ -29,12 +29,12 @@
                             data-url="${ctx}/sysUserRole">
                         <i class="fa fa-pencil"></i> 修改角色
                     </button>
-                    <button id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
+                    <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
                             data-url="${ctx}/sysUser_del" data-title="账号解禁"
                             data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
                         <i class="fa fa-edit"></i> 解禁
                     </button>
-                    <button id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
+                    <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
                             data-url="${ctx}/sysUser_del" data-title="账号禁用"
                             data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
                         <i class="fa fa-edit"></i> 禁用
@@ -189,11 +189,17 @@
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
-            var rowData = $(this).getRowData(id);
-            console.log((status && rowData.locked) + " " + (status && !rowData.locked))
-            $("#lockBtn").prop("disabled", rowData.locked==0)
-            $("#unlockBtn").prop("disabled", rowData.locked==1)
-
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#lockBtn, #unlockBtn").prop("disabled", true);
+            } else if (status) {
+                var rowData = $(this).getRowData(id);
+                console.log((status && rowData.locked) + " " + (status && !rowData.locked))
+                $("#lockBtn").prop("disabled", rowData.locked==1)
+                $("#unlockBtn").prop("disabled", rowData.locked==0)
+            } else {
+                $("#lockBtn, #unlockBtn").prop("disabled", true);
+            }
         },
         rowattr: function(rowData, currentObj, rowId)
         {

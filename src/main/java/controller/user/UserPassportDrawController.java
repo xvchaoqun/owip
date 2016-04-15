@@ -61,14 +61,28 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_select")
-    public String passportDraw_select() {
+    public String passportDraw_select(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+        int cadreId = cadre.getId();
+
+        Passport passportTw = null;
+        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+        List<Passport> passports = passportService.findByCadreId(cadreId);
+        for (Passport passport : passports) {
+            if(passport.getClassId().intValue() == passportTwType.getId())
+                passportTw = passport;
+        }
+        modelMap.put("passports", passports);
+        modelMap.put("passportTw", passportTw);
 
         return "user/passportDraw/passportDraw_select";
     }
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self")
-    public String passportDraw_self(@CurrentUser SysUser loginUser, Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String passportDraw_self(@CurrentUser SysUser loginUser, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -94,7 +108,7 @@ public class UserPassportDrawController extends BaseController {
         }
         List<ApplySelf> applySelfs = applySelfMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("applySelfs", applySelfs);
-
+        request.setAttribute("isView", false);
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         String searchStr = "&pageSize=" + pageSize;
@@ -106,10 +120,11 @@ public class UserPassportDrawController extends BaseController {
     }
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_select")
-    public String passportDraw_self_select(@CurrentUser SysUser loginUser, int applyId, ModelMap modelMap) {
+    public String passportDraw_self_select(@CurrentUser SysUser loginUser, int applyId, ModelMap modelMap, HttpServletRequest request) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         modelMap.put("applySelf", applySelf);
+        request.setAttribute("isView", false);
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
