@@ -158,7 +158,7 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
             } ,frozen:true },
-            { label: '学生证号',  name: 'code', width: 100 ,frozen:true},
+            { label: '学生证号',  name: 'code', width: 120 ,frozen:true},
             { label: '性别',  name: 'gender', width: 55 },
             { label: '年龄',  name: 'age', width: 55 },
             { label: '学生类别',  name: 'type', width: 150 },

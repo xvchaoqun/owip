@@ -39,13 +39,6 @@ public class UserMemberController extends BaseController {
     @RequestMapping("/member_page")
     public String member_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
-        modelMap.put("user", loginUser);
-        return "user/member/member_page";
-    }
-    @RequiresRoles("member")
-    @RequestMapping("/member_base")
-    public String member_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
-
         Byte type = loginUser.getType();
         if(type==SystemConstants.USER_TYPE_JZG)
             return "forward:/user/teacher_base";

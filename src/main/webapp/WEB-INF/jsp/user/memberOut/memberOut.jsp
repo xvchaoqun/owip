@@ -182,7 +182,7 @@
 
                     if(ret.success){
                         bootbox.alert("撤销成功。",function(){
-                            _reload();
+                            location.reload();
                         });
                     }
                 });

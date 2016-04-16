@@ -128,7 +128,7 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.alert('提交成功。',function(){
-                            _reload();
+                            location.reload();
                         });
                     }
                 }

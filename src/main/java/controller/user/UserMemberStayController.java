@@ -33,7 +33,14 @@ public class UserMemberStayController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberStay")
-    public String memberStay(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberStay(@CurrentUser SysUser loginUser) {
+
+        return "index";
+    }
+
+    @RequiresRoles("member")
+    @RequestMapping("/memberStay_page")
+    public String memberStay_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 

@@ -1,3 +1,9 @@
+--20160416
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('基本信息', '', 'url', '', '/user/member', 258, '0/1/258/', 'userMember:base', 1, NULL);
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('党员流出', '', 'url', '', '/user/memberOutflow', 258, '0/1/258/', 'userMember:outflow', 1, NULL);
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('组织关系转出', '', 'url', '', '/user/memberOut', 258, '0/1/258/', 'userMember:out', 1, NULL);
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('校内组织关系转接', '', 'url', '', '/user/memberTransfer', 258, '0/1/258/', 'userMember:transfer', 1, NULL);
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('公派留学生申请组织关系暂留', '', 'url', '', '/user/memberStay', 258, '0/1/258/', 'userMember:stay', 1, NULL);
 
 --20160413
 ALTER TABLE `ow_apply_approval_log`

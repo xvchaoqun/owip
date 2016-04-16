@@ -31,7 +31,14 @@ public class UserMemberOutController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberOut")
-    public String memberOut(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberOut(@CurrentUser SysUser loginUser) {
+
+        return "index";
+    }
+
+    @RequiresRoles("member")
+    @RequestMapping("/memberOut_page")
+    public String memberOut_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
 
