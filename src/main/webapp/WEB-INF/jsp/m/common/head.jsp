@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta charset="utf-8" />
-  <title>北京师范大学组织工作一体化平台</title>
+  <title><fmt:message key="site.school" bundle="${spring}"/>组织工作一体化平台</title>
 
   <meta name="description" content="Mailbox with some customizations as described in docs" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />

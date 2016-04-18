@@ -11,6 +11,7 @@ import service.BaseMapper;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +73,7 @@ public class PassportDrawService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue("北京师范大学处级干部因私出国（境）证件使用记录");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "处级干部因私出国（境）证件使用记录");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 14));
             rowNum++;
         }

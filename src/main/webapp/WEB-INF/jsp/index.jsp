@@ -25,16 +25,8 @@
       <span class="icon-bar"></span>
     </button>
 
-    <%--<div class="navbar-header pull-left hidden-xs hidden-sm">
-      <a href="index" class="navbar-brand">
-        <small>
-          <i class="fa fa-connectdevelop"></i>
-          北京师范大学组织工作管理与服务一体化平台
-        </small>
-      </a>
-    </div>--%>
     <div class="navbar-header pull-left hidden-xs hidden-sm">
-      <div class="logo"><img src="/extend/img/logo_white.png"></div>
+      <div class="logo"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
       <div class="txt">组织工作管理与服务一体化平台</div>
     </div>
 
@@ -134,7 +126,7 @@
     <div class="footer-inner">
       <div class="footer-content">
             <span class="bigger-120">
-                北京师范大学党委组织部 <span class="blue bolder">&copy;2016</span>
+                <fmt:message key="site.school" bundle="${spring}"/>党委组织部 <span class="blue bolder">&copy;2016</span>
             </span>
       </div>
     </div>

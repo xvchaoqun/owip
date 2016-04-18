@@ -16,7 +16,7 @@
 <body>
 <div class="top">
     <div class="w1000">
-        <div class="logo"><img src="${ctx}/extend/img/logo.png" /></div>
+        <div class="logo"><img src="${ctx}<fmt:message key="site.logo" bundle="${spring}"/>" /></div>
         <div class="txt">组织工作管理与服务一体化平台</div>
     </div>
 </div>

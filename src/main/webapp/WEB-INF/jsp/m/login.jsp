@@ -69,7 +69,7 @@
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->
 							<div class="center" style="padding-top: 50px">
-								<h4 class="white" id="id-company-text">北京师范大学党委组织部<span class="blue bolder">&copy;2016</span></h4>
+								<h4 class="white" id="id-company-text"><fmt:message key="site.school" bundle="${spring}"/>党委组织部<span class="blue bolder">&copy;2016</span></h4>
 							</div>
 						</div>
 					</div><!-- /.col -->

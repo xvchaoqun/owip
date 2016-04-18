@@ -553,7 +553,7 @@ public class PassportController extends BaseController {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue("北京师范大学干部因私出国（境）证件一览表");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }
@@ -632,7 +632,7 @@ public class PassportController extends BaseController {
 
         }
         try {
-            String fileName = "北京师范大学干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+            String fileName = PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

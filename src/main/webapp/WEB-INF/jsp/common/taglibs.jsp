@@ -12,6 +12,8 @@
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
+<fmt:setBundle basename="spring" var="spring"/>
+
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
