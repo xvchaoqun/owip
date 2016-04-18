@@ -38,4 +38,13 @@ public class SpringProps {
 
 	@Value("${shortMsg.url}")
 	public String shortMsgUrl;
+
+	@Value("${sycn.JZG}")
+	public Boolean sycnJZG;
+
+	@Value("${sycn.BKS}")
+	public Boolean sycnBKS;
+
+	@Value("${sycn.YJS}")
+	public Boolean sycnYJS;
 }

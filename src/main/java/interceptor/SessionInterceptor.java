@@ -1,21 +1,19 @@
 package interceptor;
 
 import controller.BaseController;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.MethodParameter;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import sys.utils.*;
+import sys.utils.HttpRequestDeviceUtils;
+import sys.utils.IpUtils;
+import sys.utils.RequestUtils;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
-import java.util.Set;
 
 
 public class SessionInterceptor extends BaseController implements AsyncHandlerInterceptor {
@@ -26,13 +24,14 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-        String _commonUrls = PropertiesUtils.getString("sys.commonUrls");
-
+        //String _commonUrls = PropertiesUtils.getString("sys.commonUrls");
         String servletPath = request.getServletPath();
-        if(servletPath.startsWith("/WEB-INF")){
-            servletPath = (String)request.getAttribute("javax.servlet.forward.request_uri");
-        }
-        if(!PatternUtils.match(_commonUrls, servletPath)) {
+        if(request.getDispatcherType() == DispatcherType.REQUEST) {
+            /*if (servletPath.startsWith("/WEB-INF")) {
+                servletPath = (String) request.getAttribute("javax.servlet.forward.request_uri");
+            }*/
+            //System.out.println(servletPath + "----------------" + request.getDispatcherType());
+            //if(!PatternUtils.match(_commonUrls, servletPath)) {
             //if (HttpUtils.isMoblie(request)) {
             if (HttpRequestDeviceUtils.isMobileDevice(request)) {
                 if (!servletPath.startsWith("/m/")) { // 移动端
@@ -45,6 +44,10 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                     return false;
                 }
             }
+            //}
+        }
+        if(request.getDispatcherType() == DispatcherType.INCLUDE) {
+            servletPath = (String) request.getAttribute("javax.servlet.forward.request_uri");
         }
 
         if(servletPath.length()>1 && servletPath.endsWith("/")){
@@ -61,27 +64,6 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                 request.getHeader("Cookie")
         });
 
-        /*if (handler instanceof HandlerMethod) {
-
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            Method method = handlerMethod.getMethod();
-            SortTable sortTable = method.getAnnotation(SortTable.class);
-            if(sortTable!=null) {
-                String tableName = sortTable.value();
-                String sort = request.getParameter("sort");
-                String order = request.getParameter("order");
-                Set<String> tableColumns = dbServcie.getTableColumns(tableName);
-
-                if (sort != null && !tableColumns.contains(sort)) {
-                    request.getParameterMap().remove("sort");
-                    //throw new RuntimeException("sort参数有误");
-                }
-                if (order != null && !order.equals("desc") && !order.equals("asc")) {
-                    request.getParameterMap().remove("order");
-                    //throw new RuntimeException("order参数有误");
-                }
-            }
-        }*/
         return true;
     }
 

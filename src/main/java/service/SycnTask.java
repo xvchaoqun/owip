@@ -1,5 +1,6 @@
 package service;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import service.abroad.PassportService;
 import service.sys.SysUserSyncService;
+import sys.utils.PropertiesUtils;
 
 @Component
 public class SycnTask {
@@ -17,6 +19,8 @@ public class SycnTask {
 	private SysUserSyncService sysUserSyncService;
 	@Autowired
 	private PassportService passportService;
+	@Autowired
+	private SpringProps springProps;
 
 	//@Scheduled(cron = "0/5 * * * * ?")
 	@Scheduled(cron = "0 30 1 * * ?")
@@ -35,6 +39,10 @@ public class SycnTask {
 	@Scheduled(cron = "0 30 23 * * ?")  // 每天23:30执行
 	public void syncJZG() {
 
+		if(BooleanUtils.isFalse(springProps.sycnJZG)){
+			return;
+		}
+
 		logger.info("同步教师库...");
 		try {
 			sysUserSyncService.syncJZG(true);
@@ -46,6 +54,10 @@ public class SycnTask {
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void syncYJS() {
 
+		if(BooleanUtils.isFalse(springProps.sycnYJS)){
+			return;
+		}
+
 		logger.info("同步研究生库...");
 		try {
 			sysUserSyncService.syncYJS(true);
@@ -56,6 +68,10 @@ public class SycnTask {
 
 	@Scheduled(cron = "0 0 3 * * ?")
 	public void syncBks() {
+
+		if(BooleanUtils.isFalse(springProps.sycnBKS)){
+			return;
+		}
 
 		logger.info("同步本科生库...");
 		try {

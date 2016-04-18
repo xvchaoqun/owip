@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/applySelf_approval" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/m/applySelf_approval" id="modalForm" method="post">
         <input type="hidden" name="applySelfId" value="${applySelf.id}">
         <input type="hidden" name="approvalTypeId" value="${applySelf.flowNode}">
         <input type="hidden" name="status" value="${param.status}">
@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 			$("textarea[name=remark]").val('').focus();
 			return;
 		}
-		$.post("${ctx}/applySelf_approval",{applySelfId:applySelfId,
+		$.post("${ctx}/m/applySelf_approval",{applySelfId:applySelfId,
 			approvalTypeId:approvalTypeId, status:status, remark:remark },function(ret){
 			if(ret.success){
 				$("#modal").modal('hide');

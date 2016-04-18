@@ -308,7 +308,7 @@
 </c:if>
 <c:if test="${param.status==1}">
   $("#msgBtn").click(function(){
-    loadModal("${ctx}/shortMsg_view?id=${applySelf.id}&type=applySelf");
+    loadModal("${ctx}/m/shortMsg_view?id=${applySelf.id}&type=applySelf");
   });
 </c:if>
 </script>

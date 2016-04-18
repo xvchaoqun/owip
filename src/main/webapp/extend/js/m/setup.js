@@ -1,3 +1,62 @@
+$.ajaxSetup({
+    cache: false,
+    dataFilter : function(data, type){
+        var ret;
+
+        try {
+            ret = JSON.parse(data)
+        }catch(e){
+            //console.log(data)
+            return data;
+        }
+        //console.log(ret)
+        if(ret.success) return data;
+
+        if(ret.msg == "login"){
+            bootbox.dialog({message:"登陆超时，请您重新登陆",
+                closeButton: false,
+                buttons: {
+                    close: {
+                        label: "确定",
+                        className: "btn-info",
+                        callback: function () {
+                            //window.open('','_self','');
+                            $("#modal").modal('hide');
+                            window.close();
+                        }
+                    },
+                    login: {
+                        label: "重新登陆",
+                        className: "btn-success",
+                        callback: function () {
+                            if(window.opener){
+                                //window.open('','_self','');
+                                window.close();
+                            }
+                            location.href=ctx+"/login";
+                        }
+                    }
+                }});
+            throw  new Error("login");
+            //$(".modal").width(300);
+        }else if(ret.msg=="filemax"){
+
+            SysMsg.warning('文件大小超过10M。', '文件大小限制');
+        }else if(ret.msg=="wrong"){
+
+        }else if(ret.msg=="duplicate"){
+
+            SysMsg.warning('该记录已经存在，请不要重复添加。', '重复');
+        }else
+            SysMsg.error(ret.msg, '操作失败');
+
+        return data;
+    },error:function(jqXHR, textStatus, errorMsg){
+        //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
+        //SysMsg.error('系统异常，请稍后再试。', '系统异常');
+    }
+});
+
 /**
  * Created by fafa on 2016/3/31.
  */

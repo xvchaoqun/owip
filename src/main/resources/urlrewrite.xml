@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<!-- Configuration file for UrlRewriteFilter http://www.tuckey.org/urlrewrite/ -->
+<urlrewrite>
+	<rule>
+		<note>因私出访短信通知弹出框</note>
+		<condition type="method">GET</condition>
+		<from>^/m/shortMsg_view$</from>
+		<to>/shortMsg_view</to>
+	</rule>
+	<rule>
+		<note>因私出访短信通知</note>
+		<condition type="method">POST</condition>
+		<from>^/m/shortMsg$</from>
+		<to>/shortMsg</to>
+	</rule>
+	<rule>
+		<note>因私出访提交审批结果</note>
+		<condition type="method">POST</condition>
+		<from casesensitive="true">^/m/applySelf_approval$</from>
+		<to>/applySelf_approval</to>
+	</rule>
+</urlrewrite>
