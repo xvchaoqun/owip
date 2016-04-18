@@ -100,8 +100,6 @@
 					 }*/
 					if(data.success){
 						location.href = data.url;
-					}else{
-						alert(data.msg)
 					}
 				});
 			})
