@@ -17,6 +17,11 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
+<c:set var="USER_REG_STATUS_MAP" value="<%=SystemConstants.USER_REG_STATUS_MAP%>"/>
+<c:set var="USER_REG_STATUS_APPLY" value="<%=SystemConstants.USER_REG_STATUS_APPLY%>"/>
+<c:set var="USER_REG_STATUS_DENY" value="<%=SystemConstants.USER_REG_STATUS_DENY%>"/>
+<c:set var="USER_REG_STATUS_PASS" value="<%=SystemConstants.USER_REG_STATUS_PASS%>"/>
+
 <c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>
 <c:set var="USER_SOURCE_BKS" value="<%=SystemConstants.USER_SOURCE_BKS%>"/>
@@ -119,6 +124,7 @@
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_USER_REG" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
 
 <c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>
 <c:set var="APPLY_STAGE_DENY" value="<%=SystemConstants.APPLY_STAGE_DENY%>"/>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -19,7 +20,8 @@ public class MemberOutService extends BaseMapper {
 
     @Autowired
     private MemberService memberService;
-
+    @Autowired
+    private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -120,8 +122,8 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
-        record.setBranchId(memberOut.getBranchId());
-        memberOutMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOut.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
     
     // 不通过
@@ -135,8 +137,8 @@ public class MemberOutService extends BaseMapper {
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_BACK);
         record.setReason(reason);
-        record.setBranchId(memberOut.getBranchId());
-        memberOutMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOut.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 党总支、直属党支部审核通过
@@ -149,8 +151,8 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberOut.getBranchId());
-        memberOutMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOut.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 分党委审核通过
@@ -174,8 +176,8 @@ public class MemberOutService extends BaseMapper {
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
-        record.setBranchId(memberOut.getBranchId());
-        memberOutMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOut.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         memberService.quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
     }
@@ -202,6 +204,12 @@ public class MemberOutService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberOut record){
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
+        }
+
         return memberOutMapper.updateByPrimaryKeySelective(record);
     }
 

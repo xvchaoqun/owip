@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -19,6 +20,8 @@ public class MemberTransferService extends BaseMapper {
 
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    private PartyService partyService;
 
     public int count(Integer partyId, Integer branchId, byte type){
 
@@ -117,8 +120,8 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
-        record.setBranchId(memberTransfer.getBranchId());
-        memberTransferMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberTransfer.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 不通过
@@ -132,8 +135,8 @@ public class MemberTransferService extends BaseMapper {
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_BACK);
         record.setReason(reason);
-        record.setBranchId(memberTransfer.getBranchId());
-        memberTransferMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberTransfer.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 当前所在分党委审核通过
@@ -146,8 +149,8 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
-        record.setBranchId(memberTransfer.getBranchId());
-        memberTransferMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberTransfer.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 转入分党委审核通过
@@ -164,8 +167,8 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
-        record.setBranchId(memberTransfer.getBranchId());
-        memberTransferMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberTransfer.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         // 更改该党员的所在党组织
         Member member = memberMapper.selectByPrimaryKey(userId);
@@ -197,6 +200,12 @@ public class MemberTransferService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberTransfer record){
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_transfer", "id", record.getId(), record.getPartyId());
+        }
+
         return memberTransferMapper.updateByPrimaryKeySelective(record);
     }
 }

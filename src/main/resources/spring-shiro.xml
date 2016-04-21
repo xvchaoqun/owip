@@ -124,6 +124,7 @@
                 /test/** = anon
                 /m/login = anon
                 /m/logout = anon
+                /reg = anon
                 /login = authc
                 /logout = logout
                 /authenticated = authc

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.UpdateMapper" >
+    <update id="changeMemberParty" parameterType="map" >
+        update ow_member
+        set
+            party_id = #{partyId,jdbcType=INTEGER},
+            branch_id = #{branchId,jdbcType=INTEGER}
+        <if test="_parameter != null" >
+            <include refid="persistence.MemberMapper.Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+</mapper>

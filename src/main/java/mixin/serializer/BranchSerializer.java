@@ -19,6 +19,11 @@ public class BranchSerializer extends JsonSerializer<Integer> {
     public void serialize(Integer value, JsonGenerator generator, SerializerProvider provider)
             throws IOException {
 
+        if(value==null || value<=0){
+            generator.writeNull();
+            return;
+        }
+
         Map<Integer, Branch> branchMap = branchService.findAll();
         Branch branch = branchMap.get(value);
         if(branch!=null)

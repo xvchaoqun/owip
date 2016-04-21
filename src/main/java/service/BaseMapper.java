@@ -159,6 +159,8 @@ public class BaseMapper {
 	@Autowired
 	protected SysUserMapper sysUserMapper;
 	@Autowired
+	protected SysUserRegMapper sysUserRegMapper;
+	@Autowired
 	protected SysRoleMapper sysRoleMapper;
 	@Autowired
 	protected SysResourceMapper sysResourceMapper;

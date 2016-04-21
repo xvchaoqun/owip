@@ -217,13 +217,15 @@
                 $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_APPLY}");
                 $("#odApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_PARTY_VERIFY}");
             } else {
-                $("#partyApprovalBtn").prop("disabled", $("#partyApprovalBtn").data("count") == 0);
-                $("#odApprovalBtn").prop("disabled", $("#odApprovalBtn").data("count") == 0);
+                $("*[data-count]").each(function(){
+                    $(this).prop("disabled", $(this).data("count") == 0);
+                })
             }
         },
         onSelectAll: function (aRowids, status) {
-            $("#partyApprovalBtn").prop("disabled", status || $("#partyApprovalBtn").data("count") == 0);
-            $("#odApprovalBtn").prop("disabled", status || $("#odApprovalBtn").data("count") == 0);
+            $("*[data-count]").each(function(){
+                $(this).prop("disabled", $(this).data("count") == 0);
+            })
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

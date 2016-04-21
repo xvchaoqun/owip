@@ -144,7 +144,7 @@ public class SysUserController extends BaseController {
 
         if (sysUser.getUsername() != null) {
             if (!FormUtils.usernameFormatRight(sysUser.getUsername())) {
-                return failed("用户名是由5~15数字和小写字母组成");
+                return failed("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
             }
             if (sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())) {
                 return failed("用户名或学工号重复");

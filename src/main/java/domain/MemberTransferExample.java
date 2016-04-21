@@ -1046,6 +1046,8 @@ public class MemberTransferExample {
                         " OR " +
                         "to_party_id in(" + StringUtils.join(partyIdList, ",") + ")" +
                         ")");
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andIdIsNull();
 
             return this;
         }

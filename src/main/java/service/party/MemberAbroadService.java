@@ -2,8 +2,10 @@ package service.party;
 
 import domain.MemberAbroad;
 import domain.MemberAbroadExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
@@ -13,7 +15,8 @@ import java.util.Map;
 
 @Service
 public class MemberAbroadService extends BaseMapper {
-
+    @Autowired
+    private PartyService partyService;
     @Transactional
     public int insertSelective(MemberAbroad record){
 
@@ -35,6 +38,12 @@ public class MemberAbroadService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberAbroad record){
+
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_abroad", "id", record.getId(), record.getPartyId());
+        }
         return memberAbroadMapper.updateByPrimaryKeySelective(record);
     }
 

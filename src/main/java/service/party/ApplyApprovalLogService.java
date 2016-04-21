@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class ApplyApprovalLogService extends BaseMapper {
     
-    public void add(int recordId, int partyId, int branchId, int applyUserId,
+    public void add(int recordId, int partyId, Integer branchId, int applyUserId,
                                 int userId, byte type,
                                 String stage, byte status, String remark){
 

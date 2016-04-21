@@ -230,11 +230,15 @@
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.toPartyId != null" >
         to_party_id = #{record.toPartyId,jdbcType=INTEGER},
       </if>
+      <if test="record.toBranchId != null" >
         to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      </if>
       <if test="record.fromPhone != null" >
         from_phone = #{record.fromPhone,jdbcType=VARCHAR},
       </if>

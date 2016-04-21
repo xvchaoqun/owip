@@ -139,11 +139,11 @@ public class ${TableName}Controller extends BaseController {
         if (${tbn(key, "tableName")} == null) {
             record.setStatus(true);
             ${tableName}Service.insertSelective(record);
-            logger.info(addLog(request, ${logType}, "添加${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
+            logger.info(addLog( ${logType}, "添加${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
         } else {
 
             ${tableName}Service.updateByPrimaryKeySelective(record);
-            logger.info(addLog(request, ${logType}, "更新${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
+            logger.info(addLog( ${logType}, "更新${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -168,7 +168,7 @@ public class ${TableName}Controller extends BaseController {
         if (${tbn(key, "tableName")} != null) {
 
             ${tableName}Service.del(${tbn(key, "tableName")});
-            logger.info(addLog(request, ${logType}, "删除${cnTableName}：%s", ${tbn(key, "tableName")}));
+            logger.info(addLog( ${logType}, "删除${cnTableName}：%s", ${tbn(key, "tableName")}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -181,7 +181,7 @@ public class ${TableName}Controller extends BaseController {
 
         if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){
             ${tableName}Service.batchDel(${tbn(key, "tableName")}s);
-            logger.info(addLog(request, ${logType}, "批量删除${cnTableName}：%s", StringUtils.join(${tbn(key, "tableName")}s, ",")));
+            logger.info(addLog( ${logType}, "批量删除${cnTableName}：%s", StringUtils.join(${tbn(key, "tableName")}s, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -193,7 +193,7 @@ public class ${TableName}Controller extends BaseController {
     public Map do_${tableName}_changeOrder(Integer ${tbn(key, "tableName")}, Integer addNum, HttpServletRequest request) {
 
         ${tableName}Service.changeOrder(${tbn(key, "tableName")}, addNum);
-        logger.info(addLog(request, ${logType}, "${cnTableName}调序：%s,%s", ${tbn(key, "tableName")}, addNum));
+        logger.info(addLog( ${logType}, "${cnTableName}调序：%s,%s", ${tbn(key, "tableName")}, addNum));
         return success(FormUtils.SUCCESS);
     }
 

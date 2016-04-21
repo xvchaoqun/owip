@@ -12,6 +12,14 @@
       "showColumns": "type,auto_start,auto_stop,is_stop,current_count,start_time,end_time",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "sys_user_reg",
+      "key": "id",
+      "searchColumns": "username,type,realname",
+      "showColumns": "user_id,party_id,username,type,code,realname,gender,birth,idcard,phone,email,create_time,ip,status,check_user_id,check_time,check_ip",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

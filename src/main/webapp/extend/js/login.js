@@ -26,11 +26,11 @@ $(function(){
         $("input[name=captcha]").val('').focus();
         $(this).attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
     })
-    $(".login_btn").click(function(){
-
-        var $username = $("input[name=username]");
-        var $passwd = $("input[name=passwd]");
-        var $captcha = $("input[name=captcha]");
+    $("#login_btn").click(function(){
+        var $form = $("#login-form");
+        var $username = $("input[name=username]", $form);
+        var $passwd = $("input[name=passwd]", $form);
+        var $captcha = $("input[name=captcha]", $form);
         if($.trim($username.val())==""){
             $username.focus();
             return;
@@ -39,13 +39,12 @@ $(function(){
             $passwd.focus();
             return;
         }
-        /*$passwd.val(hex_md5($passwd.val()));*/
 
         if($.trim($captcha.val())==""){
              $captcha.focus();
              return;
          }
-        $(".form").ajaxSubmit({
+        $form.ajaxSubmit({
             success:function(data){
                 //alert(data)
                 try {
@@ -58,14 +57,95 @@ $(function(){
                     location.href = data.url;
                 }else{
                     alert(data.msg)
-                    $('img.captcha').click()
+                    $('img.captcha', $form).click()
                 }
             }
         });
     });
+
+    $("#reg_btn").click(function(){
+
+        var $form = $("#reg-form");
+
+        var $username = $("input[name=username]", $form);
+        var $passwd = $("input[name=passwd]", $form);
+        var $repasswd = $("input[name=repasswd]", $form);
+        var $type = $("select[name=type]", $form);
+        var $realname= $("input[name=realname]", $form);
+        var $idcard = $("input[name=idcard]", $form);
+        var $phone = $("input[name=phone]", $form);
+        var $party = $("select[name=party]", $form);
+        var $captcha = $("input[name=captcha]", $form);
+        if($.trim($username.val())==""){
+            $username.val('').focus();
+            return;
+        }
+        if($.trim($passwd.val())==""){
+            $passwd.val('').focus();
+            return;
+        }
+        if($.trim($repasswd.val())==""){
+            $repasswd.val('').focus();
+            return;
+        }
+        if($.trim($repasswd.val())!=$.trim($passwd.val())){
+            $repasswd.focus();
+            alert("两次输入的密码不相同，请重新输入。");
+            return;
+        }
+        if($.trim($type.val())==""){
+            alert("请选择类别。");
+            return;
+        }
+        if($.trim($realname.val())==""){
+            $realname.val('').focus();
+            return;
+        }
+        if($.trim($idcard.val())==""){
+            $idcard.val('').focus();
+            return;
+        }
+        if($.trim($phone.val())==""){
+            $phone.val('').focus();
+            return;
+        }
+        if($.trim($party.val())==""){
+            alert("请选择分党委。");
+            return;
+        }
+
+        if($.trim($captcha.val())==""){
+            $captcha.val('').focus();
+            return;
+        }
+        $form.ajaxSubmit({
+            success:function(data){
+
+                if(data.success){
+                    alert("注册成功，请耐心等待分党委审核。")
+                    location.reload();
+                }else{
+                    alert(data.msg)
+                    $("input[name=captcha]").val('');
+                    $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
+                }
+            }
+        });
+    });
+
     $(document).keyup(function(event){
         if(event.keyCode ==13){
-            $(".login_btn").trigger("click");
+            $(".login-layout.visible .submit_btn").trigger("click");
         }
+    });
+
+    $(document).on('click', 'a[data-target]', function(e) {
+        e.preventDefault();
+        var target = $(this).data('target');
+        $('#reg, #login').removeClass('visible');//hide others
+        $(target).addClass('visible');//show target
+
+        $("input[name=captcha]").val('');
+        $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
     });
 })

@@ -1,6 +1,5 @@
 package controller;
 
-import domain.ApproverType;
 import domain.SysUser;
 import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
@@ -21,9 +20,7 @@ import service.unit.*;
 import shiro.PasswordHelper;
 import shiro.ShiroUser;
 import sys.constants.DispatchConstants;
-import sys.constants.SystemConstants;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,8 +84,6 @@ public class BaseController extends BaseMapper {
     protected MemberTeacherService memberTeacherService;
     @Autowired
     protected MemberService memberService;
-    @Autowired
-    protected ApplyLogService applyLogService;
     @Autowired
     protected ApplyOpenTimeService applyOpenTimeService;
     @Autowired
@@ -197,6 +192,8 @@ public class BaseController extends BaseMapper {
     protected CountryService countryService;
     @Autowired
     protected SysUserService sysUserService;
+    @Autowired
+    protected SysUserRegService sysUserRegService;
     @Autowired
     protected SysRoleService sysRoleService;
     @Autowired

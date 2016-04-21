@@ -113,7 +113,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.SysUser" >
+  <insert keyProperty="id" id="insert" parameterType="domain.SysUser" >
     insert into sys_user (id, username, passwd, 
       salt, role_ids, type, 
       code, realname, avatar, 
@@ -129,7 +129,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT}, #{locked,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="domain.SysUser" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.SysUser" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -1,12 +1,12 @@
 
 
-ow_member、ow_member_abroad、/*ow_member_apply*/、ow_member_inflow、ow_member_in、
+/*复原了。。。ow_member、ow_member_abroad、ow_member_apply、ow_member_inflow、ow_member_in、
 ow_member_outflow、ow_member_out、ow_member_quit、ow_member_return、ow_member_stay、
 ow_member_transfer（to_branch_id）、
-在xml的updateByPrimaryKeySelective节点去掉了branch_id的插入NULL校验
-updateByExampleSelective?
+在xml的updateByPrimaryKeySelective,updateByExampleSelective节点去掉了branch_id的插入NULL校验*/
 
 dispatchMapper.xml的updateByPrimaryKeySelective节点去掉了meeting_time的插入NULL校验 ,有keyProperty
+
 
 MemberAbroadExample、MemberApplyExample、MemberInExample、MemberInflowExample、
 MemberOutExample、MemberOutflowExample、MemberQuitExample、MemberReturnExample、

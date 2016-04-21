@@ -5,6 +5,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -21,7 +22,8 @@ public class MemberInflowService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private EnterApplyService enterApplyService;
-
+    @Autowired
+    private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -123,8 +125,8 @@ public class MemberInflowService extends BaseMapper {
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
-        record.setBranchId(memberInflow.getBranchId());
-        memberInflowMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberInflow.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 分党委审核通过
@@ -142,8 +144,8 @@ public class MemberInflowService extends BaseMapper {
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberInflow.getBranchId());
-        memberInflowMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberInflow.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
         if(_enterApply!=null && _enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
@@ -181,11 +183,22 @@ public class MemberInflowService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberInflow record){
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_inflow", "id", record.getId(), record.getPartyId());
+        }
         return memberInflowMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional
     public int updateByExampleSelective(MemberInflow record, MemberInflowExample example){
+        /*if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_inflow", "id", record.getId(), record.getPartyId());
+        }*/
+
         return memberInflowMapper.updateByExampleSelective(record, example);
     }
 

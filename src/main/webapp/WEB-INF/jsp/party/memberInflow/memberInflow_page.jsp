@@ -235,13 +235,15 @@
                 $("#branchApprovalBtn").prop("disabled",rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_APPLY}");
                 $("#partyApprovalBtn").prop("disabled",rowData.inflowStatus!="${MEMBER_INFLOW_STATUS_BRANCH_VERIFY}");
             }else{
-                $("#branchApprovalBtn").prop("disabled",$("#branchApprovalBtn").data("count")==0);
-                $("#partyApprovalBtn").prop("disabled",$("#partyApprovalBtn").data("count")==0);
+                $("*[data-count]").each(function(){
+                    $(this).prop("disabled", $(this).data("count") == 0);
+                })
             }
         },
         onSelectAll:function(aRowids, status){
-            $("#branchApprovalBtn").prop("disabled",status || $("#branchApprovalBtn").data("count")==0);
-            $("#partyApprovalBtn").prop("disabled",status || $("#partyApprovalBtn").data("count")==0);
+            $("*[data-count]").each(function(){
+                $(this).prop("disabled", $(this).data("count") == 0);
+            })
         }}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 

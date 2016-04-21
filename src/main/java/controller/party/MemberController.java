@@ -3,11 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -18,13 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -59,8 +54,7 @@ public class MemberController extends BaseController {
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
         if(partyId!=null && branchId==null) {
-            Party party = partyService.findAll().get(partyId);
-            if(!CmTag.typeEqualsCode(party.getClassId(), "mt_direct_branch")){
+            if(!partyService.isDirectBranch(partyId)){
                 throw new RuntimeException("只有直属党支部或党支部可以添加党员");
             }
         }
@@ -123,8 +117,6 @@ public class MemberController extends BaseController {
         }
 
         Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
         if (partyId != null) {
             modelMap.put("party", partyMap.get(partyId));
         }
@@ -132,9 +124,8 @@ public class MemberController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if(partyId!=null && branchId==null) { // 给直属党支部添加党员
-            Party party = partyMap.get(partyId);
-            if(!CmTag.typeEqualsCode(party.getClassId(), "mt_direct_branch")){
+        if(userId==null && partyId!=null && branchId==null) { // 给直属党支部添加党员
+            if(!partyService.isDirectBranch(partyId)){
                 throw new RuntimeException("只有直属党支部或党支部可以添加党员");
             }
         }
@@ -142,6 +133,73 @@ public class MemberController extends BaseController {
         modelMap.put("member", member);
 
         return "party/member/member_au";
+    }
+
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("member:edit")
+    @RequestMapping("/member_changeBranch")
+    public String member_changeBranch(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+                                      int partyId, ModelMap modelMap) {
+
+        // 判断是分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){
+            throw new UnauthorizedException();
+        }
+
+        modelMap.put("ids", ids);
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("party", partyMap.get(partyId));
+
+        return "party/member/member_changeBranch";
+    }
+    // 批量分党委内部转移
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("member:edit")
+    @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map member_changeBranch(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                        @RequestParam(value = "ids[]") Integer[] ids,
+                        int partyId, // 用于校验
+                        int branchId,
+                        ModelMap modelMap) {
+
+        // 判断是分党委管理员
+        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){
+            throw new UnauthorizedException();
+        }
+
+        if (null != ids){
+            memberService.changeBranch(ids, partyId, branchId);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量分党委内部转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("member:edit")
+    @RequestMapping("/member_changeParty")
+    public String member_changeParty() {
+
+        //modelMap.put("ids", ids);
+
+        return "party/member/member_changeParty";
+    }
+    // 批量校内组织关系转移
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("member:edit")
+    @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
+    @ResponseBody
+    public Map member_changeParty(HttpServletRequest request,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
+                                  int partyId,
+                                  Integer branchId,
+                                  ModelMap modelMap) {
+
+        if (null != ids){
+            memberService.changeParty(ids, partyId, branchId);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量校内组织关系转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("member:del")

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -21,6 +22,8 @@ public class MemberReturnService extends BaseMapper {
 
     @Autowired
     private  MemberService memberService;
+    @Autowired
+    private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -120,8 +123,8 @@ public class MemberReturnService extends BaseMapper {
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
         record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
-        record.setBranchId(memberReturn.getBranchId());
-        memberReturnMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberReturn.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
     // 分党委审核通过
     @Transactional
@@ -141,8 +144,8 @@ public class MemberReturnService extends BaseMapper {
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
         record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberReturn.getBranchId());
-        memberReturnMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberReturn.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         // 添加党员操作
         Member member = new Member();
@@ -187,6 +190,12 @@ public class MemberReturnService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberReturn record){
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_return", "id", record.getId(), record.getPartyId());
+        }
+
         return memberReturnMapper.updateByPrimaryKeySelective(record);
     }
 

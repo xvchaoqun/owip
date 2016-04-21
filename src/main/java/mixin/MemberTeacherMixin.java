@@ -21,9 +21,9 @@ public class MemberTeacherMixin {
     @JsonSerialize(using = BirthToAgeSerializer.class,nullsUsing=BirthToAgeSerializer.class)
     public Date birth;
 
-    @JsonProperty("party")
+    /*@JsonProperty("party")
     @JsonSerialize(using = PartySerializer.class,nullsUsing=PartySerializer.class)
-    public Integer partyId;
+    public Integer partyId;*/
 
     @JsonProperty("branch")
     @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)

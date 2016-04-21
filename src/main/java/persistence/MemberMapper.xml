@@ -330,9 +330,9 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-
+      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
-
+      </if>
       <if test="politicalStatus != null" >
         political_status = #{politicalStatus,jdbcType=TINYINT},
       </if>

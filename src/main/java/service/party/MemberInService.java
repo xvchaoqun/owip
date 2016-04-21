@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -21,7 +22,8 @@ public class MemberInService extends BaseMapper {
 
     @Autowired
     private  MemberService memberService;
-
+    @Autowired
+    private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -122,8 +124,8 @@ public class MemberInService extends BaseMapper {
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberIn.getBranchId());
-        memberInMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberIn.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 分党委审核， 不需要下一步组织部审核
@@ -150,8 +152,8 @@ public class MemberInService extends BaseMapper {
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
-        record.setBranchId(memberIn.getBranchId());
-        memberInMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberIn.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         // 添加党员操作
         Member member = new Member();
@@ -195,6 +197,13 @@ public class MemberInService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberIn record){
+
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
+        }
+
         return memberInMapper.updateByPrimaryKeySelective(record);
     }
 

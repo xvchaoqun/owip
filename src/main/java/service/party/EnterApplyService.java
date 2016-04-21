@@ -249,7 +249,7 @@ public class EnterApplyService extends BaseMapper{
                 }
 
                 MemberReturn record = new MemberReturn();
-                record.setBranchId(_memberReturn.getBranchId());
+                //record.setBranchId(_memberReturn.getBranchId());
                 record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_DENY);
                 record.setRemark(remark);
                 MemberReturnExample example = new MemberReturnExample();
@@ -271,7 +271,7 @@ public class EnterApplyService extends BaseMapper{
                 }
 
                 MemberIn record = new MemberIn();
-                record.setBranchId(_memberIn.getBranchId());
+                //record.setBranchId(_memberIn.getBranchId());
                 if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT) // 个人撤回
                     record.setStatus(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
                 else
@@ -296,7 +296,7 @@ public class EnterApplyService extends BaseMapper{
 
                 MemberInflow record = new MemberInflow();
                 record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
-                record.setBranchId(_memberInflow.getBranchId());
+                //record.setBranchId(_memberInflow.getBranchId());
                 record.setReason(remark);
                 MemberInflowExample example = new MemberInflowExample();
                 example.createCriteria().andUserIdEqualTo(userId)

@@ -239,9 +239,9 @@
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
-
+      </if>
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
       </if>
@@ -310,7 +310,9 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
+      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
       </if>

@@ -179,12 +179,12 @@ public class MemberApplyService extends BaseMapper {
         return memberApplyMapper.selectByPrimaryKey(userId);
     }
 
-    @Transactional
+    /*@Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
     public int updateByPrimaryKeySelective(MemberApply record) {
 
         return memberApplyMapper.updateByPrimaryKeySelective(record);
-    }
+    }*/
 
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
@@ -238,9 +238,9 @@ public class MemberApplyService extends BaseMapper {
         _record.setUserId(userId);
         _record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
         _record.setPositiveTime(memberApply.getPositiveTime());
-        _record.setBranchId(member.getBranchId());
+        //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
-        if(memberMapper.updateByPrimaryKeySelective(_record) == 0)
+        if(memberService.updateByPrimaryKeySelective(_record) == 0)
             throw new DBErrorException("系统错误");
     }
 

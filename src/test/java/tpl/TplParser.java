@@ -37,7 +37,8 @@ public class TplParser {
 		
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-abroad.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys.json";
 		ObjectMapper m = new ObjectMapper();
 		JsonNode jsonNode = m.readTree(new File(pathname));
 		

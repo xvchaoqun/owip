@@ -16,6 +16,7 @@ import sys.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class MemberService extends BaseMapper {
@@ -26,6 +27,10 @@ public class MemberService extends BaseMapper {
     private ExtService extService;
     @Autowired
     private EnterApplyService enterApplyService;
+    @Autowired
+    private PartyService partyService;
+    @Autowired
+    private BranchService branchService;
 
     public Member get(int userId){
 
@@ -44,8 +49,8 @@ public class MemberService extends BaseMapper {
         Member record = new Member();
         record.setUserId(userId);
         record.setStatus(status);
-        record.setBranchId(member.getBranchId());
-        memberMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(member.getBranchId());
+        updateByPrimaryKeySelective(record);
 
         // 更新系统角色  党员->访客
         SysUser sysUser = sysUserService.findById(userId);
@@ -186,7 +191,9 @@ public class MemberService extends BaseMapper {
             //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
 
             // 人员状态：在职、离退、离校、离世、NULL
-            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
+            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
+            || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
+                    || StringUtils.equals(extJzg.getSfzg(), "退休"));
 
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
@@ -297,6 +304,59 @@ public class MemberService extends BaseMapper {
     }
 
     @Transactional
+    public void changeBranch(Integer[] userIds, int partyId, int branchId){
+
+        if(userIds==null || userIds.length==0) return;
+
+        // 要求转移的用户状态正常，且都属于partyId
+        MemberExample example = new MemberExample();
+        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdIn(Arrays.asList(userIds))
+                .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+        int count = memberMapper.countByExample(example);
+        if(count!=userIds.length){
+            throw new RuntimeException("数据异常，请重新选择");
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Branch branch = branchMap.get(branchId);
+        if(branch.getPartyId().intValue()!=partyId){
+            throw new RuntimeException("数据异常，请重新选择");
+        }
+
+        Member record = new Member();
+        record.setBranchId(branchId);
+        memberMapper.updateByExampleSelective(record,example);
+    }
+
+    @Transactional
+    public void changeParty(Integer[] userIds, int partyId, Integer branchId){
+
+        if(userIds==null || userIds.length==0) return;
+
+        // 不判断userIds中分党委和党支部是转移的情况
+        MemberExample example = new MemberExample();
+        example.createCriteria().andUserIdIn(Arrays.asList(userIds))
+                .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+        int count = memberMapper.countByExample(example);
+        if(count!=userIds.length){
+            throw new RuntimeException("数据异常，请重新选择[0]");
+        }
+        if(branchId!=null) {
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Branch branch = branchMap.get(branchId);
+            if (branch.getPartyId().intValue() != partyId) {
+                throw new RuntimeException("数据异常，请重新选择[1]");
+            }
+        }else{
+            // 直属党支部
+            if(!partyService.isDirectBranch(partyId)){
+                throw new RuntimeException("数据异常，请重新选择[2]");
+            }
+        }
+
+        updateMapper.changeMemberParty(partyId, branchId, example);
+    }
+
+    @Transactional
     public void batchDel(Integer[] userIds){
 
         if(userIds==null || userIds.length==0) return;
@@ -308,6 +368,12 @@ public class MemberService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(Member record){
+
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
+        }
 
         return memberMapper.updateByPrimaryKeySelective(record);
     }

@@ -1150,7 +1150,8 @@ public class MemberOutflowExample {
                 andBranchIdIn(branchIdList);
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
-
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andIdIsNull();
             return this;
         }
     }

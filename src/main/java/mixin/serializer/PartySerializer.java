@@ -19,6 +19,11 @@ public class PartySerializer extends JsonSerializer<Integer> {
     public void serialize(Integer value, JsonGenerator generator, SerializerProvider provider)
             throws IOException {
 
+        if(value==null || value<=0){
+            generator.writeNull();
+            return;
+        }
+
         Map<Integer, Party> partyMap = partyService.findAll();
         Party party = partyMap.get(value);
         if(party!=null)

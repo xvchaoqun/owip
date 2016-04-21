@@ -115,16 +115,17 @@ public class SysUserService extends BaseMapper {
 		return sysUserMapper.countByExample(example) > 0;
 	}
 
-	public String getDefaultRoleIds(){
+	public String buildRoleIds(String roleStr){
 
-		SysRole sysRole = sysRoleService.getByRole(SystemConstants.ROLE_GUEST);
+		SysRole sysRole = sysRoleService.getByRole(roleStr);
 		return SystemConstants.USER_ROLEIDS_SEPARTOR + sysRole.getId() + SystemConstants.USER_ROLEIDS_SEPARTOR;
 	}
 
 	@Transactional
 	public void insertSelective(SysUser record){
 
-		record.setRoleIds(getDefaultRoleIds());
+		if(StringUtils.isBlank(record.getRoleIds()))
+			record.setRoleIds(buildRoleIds(SystemConstants.ROLE_GUEST));
 		sysUserMapper.insertSelective(record);
 	}
 

@@ -1,6 +1,7 @@
 package controller;
 
 import domain.SysUser;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,7 +28,12 @@ public class IndexController extends BaseController {
 	}
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index_page")
-	public String home_page(ModelMap modelMap) {
+	public String home_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+		if(SecurityUtils.getSubject().hasRole("reg")){
+			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
+			return "user/sysUserReg/sysUserReg";
+		}
 
 		return "index_page";
 	}
@@ -44,6 +50,7 @@ public class IndexController extends BaseController {
 	public String user_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 
 		modelMap.put("sysUser", loginUser);
+
 		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
 
 			modelMap.put("teacher", teacherService.get(loginUser.getId()));

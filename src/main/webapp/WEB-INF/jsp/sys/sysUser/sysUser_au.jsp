@@ -39,7 +39,6 @@
 						<span class="lbl"> ${userType.value}</span>
 					</label>
 					</c:forEach>
-
 				</div>
 			</div>
 		</div>

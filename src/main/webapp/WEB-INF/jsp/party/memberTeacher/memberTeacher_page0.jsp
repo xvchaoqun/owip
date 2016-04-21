@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
     {
         var party = rowObject.party;
         var branch = rowObject.branch;
-        return party + ((branch=='')?'':'-'+branch);
+        return party + (($.trim(branch)=='')?'':'-'+branch);
     }
     function nameFormatter(cellvalue, options, rowObject){
 

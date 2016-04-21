@@ -255,7 +255,9 @@
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.originalJob != null" >
         original_job = #{record.originalJob,jdbcType=INTEGER},
       </if>
@@ -328,9 +330,9 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-
+      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
-
+      </if>
       <if test="originalJob != null" >
         original_job = #{originalJob,jdbcType=INTEGER},
       </if>

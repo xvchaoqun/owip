@@ -59,6 +59,7 @@ public class CommonController extends BaseController{
         constantMap.put("RETIRE_QUIT_TYPE_MAP", SystemConstants.RETIRE_QUIT_TYPE_MAP);
         constantMap.put("locationMap", locationService.codeMap());
         constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);
+        constantMap.put("USER_TYPE_MAP", SystemConstants.USER_TYPE_MAP);
         modelMap.put("cMap", JSONUtils.toString(constantMap));
 
         return "common/metaMap_JSON";

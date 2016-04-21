@@ -1,3 +1,29 @@
+
+--20160420
+--select count(distinct om.user_id) from ow_member om, ow_party op, ow_branch ob, base_meta_type bmt where bmt.code='mt_direct_branch' and op.class_id=bmt.id and ob.party_id=op.id and om.branch_id=ob.id;
+
+update ow_member om, ow_party op, ow_branch ob, base_meta_type bmt set om.branch_id=null where bmt.code='mt_direct_branch' and op.class_id=bmt.id and ob.party_id=op.id and om.branch_id=ob.id;
+update ow_member_stay oms, ow_party op, ow_branch ob, base_meta_type bmt set oms.branch_id=null where bmt.code='mt_direct_branch' and op.class_id=bmt.id and ob.party_id=op.id and oms.branch_id=ob.id;
+
+delete ob.* from ow_party op, ow_branch ob, base_meta_type bmt where bmt.code='mt_direct_branch' and op.class_id=bmt.id and ob.party_id=op.id;
+
+
+update ow_member set transfer_time=null where transfer_time='1900-01-01';
+
+update ow_member set apply_time=null where apply_time='1900-01-01';
+
+update ow_member set active_time=null where active_time='1900-01-01';
+
+update ow_member set candidate_time=null where candidate_time='1900-01-01';
+
+update ow_member set grow_time=null where grow_time='1900-01-01';
+
+update ow_member set positive_time=null where positive_time='1900-01-01';
+
+
+ALTER TABLE `ow_apply_approval_log`
+	DROP FOREIGN KEY `FK_ow_apply_approval_log_sys_user_2`;
+
 --20160416
 INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('基本信息', '', 'url', '', '/user/member', 258, '0/1/258/', 'userMember:base', 1, NULL);
 INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `permission`, `available`, `sort_order`) VALUES ('党员流出', '', 'url', '', '/user/memberOutflow', 258, '0/1/258/', 'userMember:outflow', 1, NULL);

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -21,7 +22,8 @@ public class MemberStayService extends BaseMapper {
 
     @Autowired
     private LoginUserService loginUserService;
-
+    @Autowired
+    private PartyService partyService;
     public int count(Integer partyId, Integer branchId, byte type){
 
         MemberStayExample example = new MemberStayExample();
@@ -62,8 +64,8 @@ public class MemberStayService extends BaseMapper {
             criteria.andUserIdNotEqualTo(memberStay.getUserId()).andApplyTimeLessThanOrEqualTo(memberStay.getApplyTime());
         example.setOrderByClause("apply_time desc");
 
-        List<MemberStay> memberApplies = memberStayMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (memberApplies.size()==0)?null:memberApplies.get(0);
+        List<MemberStay> records = memberStayMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (records.size()==0)?null:records.get(0);
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
@@ -119,8 +121,8 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
-        record.setBranchId(memberStay.getBranchId());
-        memberStayMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberStay.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 不通过
@@ -134,8 +136,8 @@ public class MemberStayService extends BaseMapper {
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_BACK);
         record.setReason(reason);
-        record.setBranchId(memberStay.getBranchId());
-        memberStayMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberStay.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 党总支、直属党支部审核通过
@@ -148,8 +150,8 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberStay.getBranchId());
-        memberStayMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberStay.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 分党委审核通过
@@ -174,8 +176,8 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
-        record.setBranchId(memberStay.getBranchId());
-        memberStayMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberStay.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
     @Transactional
     public int insertSelective(MemberStay record){
@@ -200,6 +202,13 @@ public class MemberStayService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberStay record){
+
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_stay", "id", record.getId(), record.getPartyId());
+        }
+
         return memberStayMapper.updateByPrimaryKeySelective(record);
     }
 }

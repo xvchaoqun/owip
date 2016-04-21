@@ -40,6 +40,7 @@ public class SystemConstants {
 	// 系统角色（与数据库对应的角色字符串不可以修改！）
 	public static final String ROLE_ADMIN = "admin";
 	public static final String ROLE_GUEST = "guest";
+	public static final String ROLE_REG = "reg"; // 注册用户，未审核通过
 	public static final String ROLE_CADRE= "cadre";
 	public static final String ROLE_MEMBER = "member";
 	public static final String ROLE_INFLOWMEMBER = "inflowMember";
@@ -78,6 +79,17 @@ public class SystemConstants {
 	public static final byte UNIT_STATUS_RUN = 1;
 	public static final byte UNIT_STATUS_HISTORY = 2;
 
+	// 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
+	public final static byte USER_REG_STATUS_APPLY = 0;
+	public final static byte USER_REG_STATUS_DENY = -1;
+	public final static byte USER_REG_STATUS_PASS = 1;
+	public final static Map<Byte, String> USER_REG_STATUS_MAP = new LinkedHashMap();
+	static {
+		USER_REG_STATUS_MAP.put(USER_REG_STATUS_APPLY, "申请");
+		USER_REG_STATUS_MAP.put(USER_REG_STATUS_DENY, "申请不通过");
+		USER_REG_STATUS_MAP.put(USER_REG_STATUS_PASS, "申请通过");
+	}
+
 	// 账号类别，1教职工 2本科生 3研究生
 	public final static byte USER_TYPE_JZG = 1;
 	public final static byte USER_TYPE_BKS = 2;
@@ -94,12 +106,14 @@ public class SystemConstants {
 	public final static byte USER_SOURCE_JZG = 1;
 	public final static byte USER_SOURCE_BKS = 2;
 	public final static byte USER_SOURCE_YJS = 3;
+	public final static byte USER_SOURCE_REG = 4;
 	public final static Map<Byte, String> USER_SOURCE_MAP = new LinkedHashMap();
 	static {
 		USER_SOURCE_MAP.put(USER_SOURCE_ADMIN, "后台创建");
 		USER_SOURCE_MAP.put(USER_SOURCE_JZG, "人事库");
 		USER_SOURCE_MAP.put(USER_SOURCE_BKS, "本科生库");
 		USER_SOURCE_MAP.put(USER_SOURCE_YJS, "研究生库");
+		USER_SOURCE_MAP.put(USER_SOURCE_REG, "用户注册");
 	}
 
 	// 权限开通申请状态，0申请 1本人撤销 2 管理员撤回 3通过；
@@ -359,6 +373,7 @@ public class SystemConstants {
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN = 7;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER = 8;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 9;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_USER_REG = 10;
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
@@ -370,6 +385,7 @@ public class SystemConstants {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, "留学归国党员申请");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, "校内组织关系转接");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, "公派留学生党员申请组织关系暂留");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
 	}
 
 

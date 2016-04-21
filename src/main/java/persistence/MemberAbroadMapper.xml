@@ -183,7 +183,9 @@
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
       <if test="record.abroadTime != null" >
         abroad_time = #{record.abroadTime,jdbcType=DATE},
       </if>

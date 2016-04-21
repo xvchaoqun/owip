@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
@@ -19,6 +20,8 @@ public class MemberOutflowService extends BaseMapper {
 
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    private PartyService partyService;
 
     public int count(Integer partyId, Integer branchId, byte type){
 
@@ -117,8 +120,8 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
-        record.setBranchId(memberOutflow.getBranchId());
-        memberOutflowMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOutflow.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 不通过
@@ -131,8 +134,8 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
-        record.setBranchId(memberOutflow.getBranchId());
-        memberOutflowMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOutflow.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 党支部审核通过
@@ -145,8 +148,8 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
-        record.setBranchId(memberOutflow.getBranchId());
-        memberOutflowMapper.updateByPrimaryKeySelective(record);
+        //record.setBranchId(memberOutflow.getBranchId());
+        updateByPrimaryKeySelective(record);
     }
 
     // 分党委审核通过
@@ -163,9 +166,9 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
-        record.setBranchId(memberOutflow.getBranchId());
+        //record.setBranchId(memberOutflow.getBranchId());
 
-        memberOutflowMapper.updateByPrimaryKeySelective(record);
+        updateByPrimaryKeySelective(record);
     }
     @Transactional
     public int insertSelective(MemberOutflow record){
@@ -190,6 +193,12 @@ public class MemberOutflowService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberOutflow record){
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_outflow", "id", record.getId(), record.getPartyId());
+        }
+
         return memberOutflowMapper.updateByPrimaryKeySelective(record);
     }
 }

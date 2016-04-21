@@ -223,9 +223,9 @@
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-
+      <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
-
+      </if>
       <if test="record.applyTime != null" >
         apply_time = #{record.applyTime,jdbcType=DATE},
       </if>
@@ -286,7 +286,9 @@
       <if test="partyId != null" >
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
+      <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
       <if test="applyTime != null" >
         apply_time = #{applyTime,jdbcType=DATE},
       </if>

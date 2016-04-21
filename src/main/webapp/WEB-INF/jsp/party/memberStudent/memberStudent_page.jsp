@@ -166,34 +166,43 @@
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
                 var party = rowObject.party;
                 var branch = rowObject.branch;
-                return party + ((branch=='')?'':'-'+branch);
+                //console.log(branch)
+                return party + (($.trim(branch)=='')?'':'-'+branch);
             } },
             { label:'入党时间',  name: 'growTime', width: 100 },
             { label:'转正时间',  name: 'positiveTime', width: 100 },
-            {hidden:true, key:true, name:'userId'}
+            {hidden:true, key:true, name:'userId'}, {hidden: true, name: 'partyId'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
-
-    jQuery("#jqGrid")
-            .navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false})
-            .navButtonAdd('#jqGridPager',{
-                caption:"批量转移",
-                btnbase:"btn btn-info btn-xs",
-                buttonicon:"fa fa-check",
+    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    <shiro:hasRole name="partyAdmin">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+                caption:"分党委内部组织关系变动",
+                btnbase:"branchChangeBtn btn btn-info btn-xs",
+                buttonicon:"fa fa-random",
                 onClickButton: function(){
-                    alert("Adding Row");
-                },
-                position:"last"
-            })
-            .navButtonAdd('#jqGridPager',{
-                caption:"批量删除",
-                btnbase:"btn btn-danger btn-xs",
-                buttonicon:"fa fa-plus",
-                onClickButton: function(){
-                    alert("Deleting Row");
-                },
-                position:"first"
+                    var ids  = $(this).getGridParam("selarrrow");
+                    if(ids.length==0){
+                        SysMsg.warning("请选择行", "提示");
+                        return ;
+                    }
+                    //alert(ids)
+                    var rowData = $(this).getRowData(ids[0]);
+                    //console.log("ids[0]" + ids[0] +rowData)
+                    loadModal("${ctx}/member_changeBranch?ids[]={0}&partyId={1}".format(ids, rowData.partyId))
+                }
             });
+    </shiro:hasRole>
+    <shiro:hasRole name="odAdmin">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+                caption:"校内组织关系转移",
+                btnbase:"partyChangeBtn btn btn-danger btn-xs",
+                buttonicon:"fa fa-random",
+                onClickButton: function(){
+                    var ids  = $(this).getGridParam("selarrrow");
+                    loadModal("${ctx}/member_changeParty?ids[]={0}".format(ids))
+                }
+            });
+    </shiro:hasRole>
 </script>
