@@ -194,12 +194,13 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
-            {label: '提交书面申请书时间', name: 'applyTime', width: 150},
+            {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 160},
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 150},
             {label: '确定为发展对象时间', name: 'candidateTime', width: 200},
-            {label: '入党时间', name: 'growTime', width: 350},
-            {label: '转正时间', name: 'positiveTime', width: 350},
-            {label: '状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
+            {label: '入党时间', name: 'growTime', width: 100},
+            {label: '转正时间', name: 'positiveTime', width: 100},
+            {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_RETURN_STATUS_MAP[rowObject.status];
             }},
                 <c:if test="${cls!=3}">

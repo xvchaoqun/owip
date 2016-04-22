@@ -198,7 +198,8 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn(@CurrentUser SysUser loginUser,String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberReturn(@CurrentUser SysUser loginUser, String _returnApplyTime,
+                               String _applyTime, String _activeTime, String _candidateTime,
                                String _growTime, String _positiveTime,
                                MemberReturn record, HttpServletRequest request) {
 
@@ -206,7 +207,9 @@ public class EnterApplyController extends BaseController {
 
         record.setUserId(loginUser.getId());
 
-
+        if(StringUtils.isNotBlank(_returnApplyTime)){
+            record.setReturnApplyTime(DateUtils.parseDate(_returnApplyTime, DateUtils.YYYY_MM_DD));
+        }
         if(StringUtils.isNotBlank(_applyTime)){
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }

@@ -2,7 +2,6 @@ package controller.party;
 
 import controller.BaseController;
 import domain.*;
-import domain.MemberStayExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberStayMixin;
@@ -75,7 +74,7 @@ public class MemberStayController extends BaseController {
 
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_page")
-    public String memberStay_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberStay_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核(未转出) 4已审核（已转出）
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {
@@ -104,7 +103,8 @@ public class MemberStayController extends BaseController {
     
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_data")
-    public void memberStay_data(@RequestParam(defaultValue = "1")Integer cls,HttpServletResponse response,
+    public void memberStay_data(@RequestParam(defaultValue = "1")Integer cls,
+                                 HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_stay") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -121,8 +121,8 @@ public class MemberStayController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberStayExample example = new MemberStayExample();
-        Criteria criteria = example.createCriteria();
+        MemberStayViewExample example = new MemberStayViewExample();
+        MemberStayViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -147,6 +147,10 @@ public class MemberStayController extends BaseController {
             criteria.andStatusIn(statusList);
         }else {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+            if(cls==3)
+                criteria.andMemberStatusNotEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+            if(cls==4)
+                criteria.andMemberStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
         }
         
         if (export == 1) {
@@ -154,12 +158,12 @@ public class MemberStayController extends BaseController {
             return;
         }
 
-        int count = memberStayMapper.countByExample(example);
+        int count = memberStayViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberStay> memberStays = memberStayMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberStayView> memberStays = memberStayViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -169,7 +173,7 @@ public class MemberStayController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberStay.class, MemberStayMixin.class);
+        sourceMixins.put(MemberStayView.class, MemberStayMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -257,7 +261,7 @@ public class MemberStayController extends BaseController {
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
-                        ? "分党委党总支直属党支部审核" : "组织部审核", (byte) 0, reason);
+                        ? "分党委审核" : "组织部审核", (byte) 0, reason);
         
         return success(FormUtils.SUCCESS);
     }
@@ -293,7 +297,7 @@ public class MemberStayController extends BaseController {
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
-                        ? "分党委党总支直属党支部审核" : "分党委审核", (byte) 1, null);
+                        ? "分党委审核" : "组织部审核", (byte) 1, null);
         
         return success(FormUtils.SUCCESS);
     }
@@ -378,10 +382,10 @@ public class MemberStayController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void memberStay_export(MemberStayExample example, HttpServletResponse response) {
+    public void memberStay_export(MemberStayViewExample example, HttpServletResponse response) {
 
-        List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
-        int rownum = memberStayMapper.countByExample(example);
+        List<MemberStayView> memberStays = memberStayViewMapper.selectByExample(example);
+        int rownum = memberStayViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -396,7 +400,7 @@ public class MemberStayController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            MemberStay memberStay = memberStays.get(i);
+            MemberStayView memberStay = memberStays.get(i);
             String[] values = {
                         memberStay.getUserId()+"",
                                             DateUtils.formatDate(memberStay.getAbroadTime(), DateUtils.YYYY_MM_DD),

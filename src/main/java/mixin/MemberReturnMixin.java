@@ -21,6 +21,8 @@ public class MemberReturnMixin {
     public Integer branchId;
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+    public Date returnApplyTime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date applyTime;
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date activeTime;

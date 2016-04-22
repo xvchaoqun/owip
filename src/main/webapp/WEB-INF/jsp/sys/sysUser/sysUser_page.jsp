@@ -13,7 +13,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-            <c:set var="_query" value="${not empty param.type ||not empty param.realname ||not empty param.username
+            <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname ||not empty param.username
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasRole name="admin">
@@ -120,6 +120,20 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">来源</label>
+                                        <div class="col-xs-6">
+                                            <select name="source" data-placeholder="请选择" class="select2 tag-input-style">
+                                                <option></option>
+                                                <c:forEach items="${USER_SOURCE_MAP}" var="userSource">
+                                                    <option value="${userSource.key}">${userSource.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=source]").val('${param.source}');
+                                            </script>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

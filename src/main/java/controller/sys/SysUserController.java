@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
                              @SortParam(required = false, defaultValue = "id", tableName = "sys_user") String sort,
                              @OrderParam(required = false, defaultValue = "desc") String order,
                              Integer pageSize, Integer pageNo, String username, String realname,
-                             Byte type, Integer roleId, Boolean locked) throws IOException {
+                             Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -101,6 +101,9 @@ public class SysUserController extends BaseController {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if (source != null) {
+            criteria.andSourceEqualTo(source);
         }
         if (locked != null) {
             criteria.andLockedEqualTo(locked);

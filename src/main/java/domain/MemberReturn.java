@@ -1,14 +1,9 @@
 package domain;
 
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberReturn implements Serializable {
-    public SysUser getUser(){
-        return CmTag.getUserById(userId);
-    }
     private Integer id;
 
     private Integer userId;
@@ -18,6 +13,8 @@ public class MemberReturn implements Serializable {
     private Integer branchId;
 
     private Date applyTime;
+
+    private Date returnApplyTime;
 
     private Date activeTime;
 
@@ -75,6 +72,14 @@ public class MemberReturn implements Serializable {
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Date getReturnApplyTime() {
+        return returnApplyTime;
+    }
+
+    public void setReturnApplyTime(Date returnApplyTime) {
+        this.returnApplyTime = returnApplyTime;
     }
 
     public Date getActiveTime() {

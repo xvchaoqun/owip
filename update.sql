@@ -1,4 +1,8 @@
 
+--20160421
+ALTER TABLE `ow_member_return`
+	ADD COLUMN `return_apply_time` DATE NULL DEFAULT NULL COMMENT '提交恢复组织生活申请时间' AFTER `apply_time`;
+
 --20160420
 --select count(distinct om.user_id) from ow_member om, ow_party op, ow_branch ob, base_meta_type bmt where bmt.code='mt_direct_branch' and op.class_id=bmt.id and ob.party_id=op.id and om.branch_id=ob.id;
 

@@ -76,6 +76,16 @@
         </div>
         <div class="col-xs-6">
           <div class="form-group">
+            <label class="col-xs-6 control-label">提交恢复组织生活申请时间</label>
+            <div class="col-xs-6">
+              <div class="input-group">
+                <input required class="form-control date-picker" name="_returnApplyTime" type="text"
+                       data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.returnApplyTime,'yyyy-MM-dd')}" />
+                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-xs-6 control-label">提交书面申请书时间</label>
             <div class="col-xs-6">
               <div class="input-group">

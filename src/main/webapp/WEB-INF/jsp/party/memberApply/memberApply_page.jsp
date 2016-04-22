@@ -82,7 +82,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${applyCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 支部审核（${applyCount}）
+                                                                        <i class="fa fa-sign-in"></i> 支部审核（${applyCount}）
                                                                     </button>
                                                                     <button id="activeBtn" ${activeCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -92,7 +92,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${activeCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 确定为入党积极分子（${activeCount}）
+                                                                        <i class="fa fa-sign-in"></i> 确定为入党积极分子（${activeCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_ACTIVE}">
@@ -104,7 +104,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${candidateCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 确定为发展对象（${candidateCount}）
+                                                                        <i class="fa fa-sign-in"></i> 确定为发展对象（${candidateCount}）
                                                                     </button>
                                                                     <button id="candidateCheckBtn" ${candidateCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -114,7 +114,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${candidateCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${candidateCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${candidateCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_CANDIDATE}">
@@ -126,7 +126,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${planCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 列入发展计划（${planCount}）
+                                                                        <i class="fa fa-sign-in"></i> 列入发展计划（${planCount}）
                                                                     </button>
                                                                     <button id="planCheckBtn" ${planCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -136,7 +136,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${planCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${planCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${planCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_PLAN}">
@@ -148,7 +148,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${drawCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 领取志愿书（${drawCount}）
+                                                                        <i class="fa fa-sign-in"></i> 领取志愿书（${drawCount}）
                                                                     </button>
                                                                     <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -158,7 +158,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${drawCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${drawCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${drawCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_DRAW}">
@@ -170,7 +170,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 发展为预备党员（${growCount}）
+                                                                        <i class="fa fa-sign-in"></i> 发展为预备党员（${growCount}）
                                                                     </button>
                                                                     <button id="growCheckCount" ${growCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -180,7 +180,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${growCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${growCheckCount}）
                                                                     </button>
                                                                     <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -190,7 +190,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growOdCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 组织部审核（${growOdCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 组织部审核（${growOdCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_GROW}">
@@ -202,7 +202,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${positiveCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 预备党员转正（${positiveCount}）
+                                                                        <i class="fa fa-sign-in"></i> 预备党员转正（${positiveCount}）
                                                                     </button>
                                                                     <button id="positiveCheckCount" ${positiveCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -212,7 +212,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${positiveCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 分党委党总支直属党支部审核（${positiveCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${positiveCheckCount}）
                                                                     </button>
                                                                     <button id="positiveOdCheckCount" ${positiveOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -222,16 +222,23 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${positiveOdCheckCount}">
-                                                                        <i class="fa fa-check-circle-o"></i> 组织部审核（${positiveOdCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 组织部审核（${positiveOdCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                             </c:choose>
-
+                                                            <c:if test="${stage<APPLY_STAGE_GROW && stage>APPLY_STAGE_INIT}">
+                                                            <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                                    data-url="${ctx}/memberApply_back"
+                                                                    data-id-name="userId"
+                                                                    data-querystr="&stage=${param.stage}">
+                                                                <i class="fa fa-reply-all"></i> 打回申请
+                                                            </button>
+                                                            </c:if>
                                                             <button class="jqOpenViewBtn btn btn-info btn-sm"
                                                                     data-url="${ctx}/applyApprovalLog_page"
                                                                     data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"
                                                                     data-open-by="page">
-                                                                <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                                                <i class="fa fa-sign-in"></i> 查看审批记录
                                                             </button>
                                                         </div>
                                                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -409,6 +416,48 @@ pageEncoding="UTF-8" %>
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid0')
+    });
+
+    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"通过",
+        btnbase:"btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
+            //alert(ids)
+            var rowData = $(this).getRowData(ids[0]);
+            //console.log("ids[0]" + ids[0] +rowData)
+        }
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"不通过",
+        btnbase:"btn btn-danger btn-xs",
+        buttonicon:"fa fa-times-circle-o",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
+        }
+    });
+
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"确定为入党积极分子",
+        btnbase:"btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
+        }
     });
 
     $(".addBtn").click(function(){

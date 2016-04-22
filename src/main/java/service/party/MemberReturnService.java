@@ -14,6 +14,7 @@ import service.LoginUserService;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -159,7 +160,17 @@ public class MemberReturnService extends BaseMapper {
         member.setApplyTime(memberReturn.getApplyTime());
         member.setActiveTime(memberReturn.getActiveTime());
         member.setCandidateTime(memberReturn.getCandidateTime());
-        member.setGrowTime(memberReturn.getGrowTime());
+
+        // 对于归国人员是预备党员的，入党时间就是 “提交恢复组织生活申请时间” 向后推一年
+        if(politicalStatus == SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
+            Date returnApplyTime = memberReturn.getReturnApplyTime();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(returnApplyTime);
+            cal.add(Calendar.YEAR, 1);
+            member.setGrowTime(cal.getTime());
+        }else {
+            member.setGrowTime(memberReturn.getGrowTime());
+        }
         member.setPositiveTime(memberReturn.getPositiveTime());
         member.setCreateTime(new Date());
 

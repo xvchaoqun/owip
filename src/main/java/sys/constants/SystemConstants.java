@@ -388,6 +388,17 @@ public class SystemConstants {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
 	}
 
+	// 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
+
+	public final static byte APPLY_APPROVAL_LOG_STATUS_DENY = 0;
+	public final static byte APPLY_APPROVAL_LOG_STATUS_PASS = 1;
+	public final static byte APPLY_APPROVAL_LOG_STATUS_BACK = 2;
+	public final static Map<Byte, String> APPLY_APPROVAL_LOG_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		APPLY_APPROVAL_LOG_STATUS_MAP.put(APPLY_APPROVAL_LOG_STATUS_DENY, "不通过");
+		APPLY_APPROVAL_LOG_STATUS_MAP.put(APPLY_APPROVAL_LOG_STATUS_PASS, "通过");
+		APPLY_APPROVAL_LOG_STATUS_MAP.put(APPLY_APPROVAL_LOG_STATUS_BACK, "打回");
+	}
 
 
 	// 干部库类别 1现任干部库  2 临时干部库 3离任干部库

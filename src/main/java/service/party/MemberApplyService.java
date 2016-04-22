@@ -287,4 +287,24 @@ public class MemberApplyService extends BaseMapper {
         memberService.add(member);
     }
 
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#memberApply.userId")
+    public void memberApply_back(MemberApply memberApply, byte stage){
+
+        int userId = memberApply.getUserId();
+        switch (stage){
+            case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书(_stage= SystemConstants.APPLY_STAGE_DRAW)
+                updateMapper.memberApplyBackToPlan(userId);
+                break;
+            case SystemConstants.APPLY_STAGE_CANDIDATE:
+                updateMapper.memberApplyBackToCandidate(userId);
+                break;
+            case SystemConstants.APPLY_STAGE_ACTIVE:
+                updateMapper.memberApplyBackToActive(userId);
+                break;
+            case SystemConstants.APPLY_STAGE_INIT:
+                updateMapper.memberApplyBackToInit(userId);
+                break;
+        }
+    }
 }

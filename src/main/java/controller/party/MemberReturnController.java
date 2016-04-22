@@ -164,13 +164,17 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:edit")
     @RequestMapping(value = "/memberReturn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_au(MemberReturn record, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberReturn_au(MemberReturn record,String _returnApplyTime,
+                                  String _applyTime, String _activeTime, String _candidateTime,
                                   String _growTime, String _positiveTime,HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (memberReturnService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
+        }
+        if(StringUtils.isNotBlank(_returnApplyTime)){
+            record.setReturnApplyTime(DateUtils.parseDate(_returnApplyTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_applyTime)){
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));

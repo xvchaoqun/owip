@@ -3,29 +3,29 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>确定为发展对象</h3>
+    <h3>打回申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_candidate" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberApply_back" id="modalForm" method="post">
         <input type="hidden" name="userId" value="${param.userId}">
 			<div class="form-group">
-				<label class="col-xs-5 control-label">确定为发展对象时间</label>
-				<div class="col-xs-4">
+				<label class="col-xs-3 control-label">打回至状态</label>
+				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_candidateTime" type="text"
-                               data-date-format="yyyy-mm-dd"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        <select name="stage" data-rel="select2">
+                            <c:forEach var="_stage" items="${cm:inverseMap(APPLY_STAGE_MAP)}">
+                                <c:if test="${_stage.key>=APPLY_STAGE_INIT && _stage.key<param.stage}">
+                                <option value="${_stage.key}">${_stage.value}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
                     </div>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">参加培训时间</label>
-            <div class="col-xs-4">
-                <div class="input-group">
-                    <input required class="form-control date-picker" name="_trainTime" type="text"
-                           data-date-format="yyyy-mm-dd"/>
-                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
+            <label class="col-xs-3 control-label">打回原因</label>
+            <div class="col-xs-6">
+                <textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
             </div>
         </div>
     </form>
@@ -36,16 +36,17 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    register_date($('.date-picker'), {endDate:"${today}"});
+    $('[data-rel="select2"]').select2({allowClear:false});
+
+    register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
-
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功', function () {
-                            goto_next("${param.type}");
+                            location.reload();
                         });
                     }
                 }

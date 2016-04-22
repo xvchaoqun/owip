@@ -37,12 +37,20 @@
       { label: '阶段',  name: 'stage', width: 200 },
       { label: '审核时间',  name: 'createTime', width: 200 },
       { label: '审核人', name: 'user.realname',resizable:false, width: 150 },
-      { label:'审核结果',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
-        return cellvalue==0?"未通过":"通过";
+      { label:'审核结果',  name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
+        //return cellvalue==0?"未通过":"通过";
+        return _cMap.APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];
       } },
       { label:'备注',  name: 'remark', width: 450 },
-      { label:'IP',  name: 'ip', width: 150 }
+      { label:'IP',  name: 'ip', width: 150 },{hidden: true, name: 'status'}
     ],
+    rowattr: function(rowData, currentObj, rowId)
+    {
+      if(rowData.status=='${APPLY_APPROVAL_LOG_STATUS_BACK}') {
+        //console.log(rowData)
+        return {'class':'danger'}
+      }
+    },
     gridComplete:function(){
       $(window).triggerHandler('resize.jqGrid2');
     }

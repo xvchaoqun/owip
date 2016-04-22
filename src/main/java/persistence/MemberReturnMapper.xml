@@ -7,6 +7,7 @@
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="apply_time" property="applyTime" jdbcType="DATE" />
+    <result column="return_apply_time" property="returnApplyTime" jdbcType="DATE" />
     <result column="active_time" property="activeTime" jdbcType="DATE" />
     <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, apply_time, active_time, candidate_time, grow_time, 
-    positive_time, political_status, status, remark, create_time
+    id, user_id, party_id, branch_id, apply_time, return_apply_time, active_time, candidate_time, 
+    grow_time, positive_time, political_status, status, remark, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberReturnExample" >
     select
@@ -110,15 +111,15 @@
   </delete>
   <insert id="insert" parameterType="domain.MemberReturn" >
     insert into ow_member_return (id, user_id, party_id, 
-      branch_id, apply_time, active_time, 
-      candidate_time, grow_time, positive_time, 
-      political_status, status, remark, 
-      create_time)
+      branch_id, apply_time, return_apply_time, 
+      active_time, candidate_time, grow_time, 
+      positive_time, political_status, status, 
+      remark, create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
-      #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, 
-      #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{returnApplyTime,jdbcType=DATE}, 
+      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, 
+      #{positiveTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberReturn" >
     insert into ow_member_return
@@ -137,6 +138,9 @@
       </if>
       <if test="applyTime != null" >
         apply_time,
+      </if>
+      <if test="returnApplyTime != null" >
+        return_apply_time,
       </if>
       <if test="activeTime != null" >
         active_time,
@@ -178,6 +182,9 @@
       </if>
       <if test="applyTime != null" >
         #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="returnApplyTime != null" >
+        #{returnApplyTime,jdbcType=DATE},
       </if>
       <if test="activeTime != null" >
         #{activeTime,jdbcType=DATE},
@@ -229,6 +236,9 @@
       <if test="record.applyTime != null" >
         apply_time = #{record.applyTime,jdbcType=DATE},
       </if>
+      <if test="record.returnApplyTime != null" >
+        return_apply_time = #{record.returnApplyTime,jdbcType=DATE},
+      </if>
       <if test="record.activeTime != null" >
         active_time = #{record.activeTime,jdbcType=DATE},
       </if>
@@ -265,6 +275,7 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       apply_time = #{record.applyTime,jdbcType=DATE},
+      return_apply_time = #{record.returnApplyTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
       grow_time = #{record.growTime,jdbcType=DATE},
@@ -291,6 +302,9 @@
       </if>
       <if test="applyTime != null" >
         apply_time = #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="returnApplyTime != null" >
+        return_apply_time = #{returnApplyTime,jdbcType=DATE},
       </if>
       <if test="activeTime != null" >
         active_time = #{activeTime,jdbcType=DATE},
@@ -325,6 +339,7 @@
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       apply_time = #{applyTime,jdbcType=DATE},
+      return_apply_time = #{returnApplyTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},
       grow_time = #{growTime,jdbcType=DATE},

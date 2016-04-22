@@ -152,6 +152,8 @@
     register_user_select($('#searchForm select[name=userId]'));
 
     $("#jqGrid").jqGrid({
+        multiboxonly:false,
+        ondblClickRow:function(){},
         url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '姓名', name: 'realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
@@ -175,6 +177,7 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
+
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
     <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -201,6 +204,11 @@
                 buttonicon:"fa fa-random",
                 onClickButton: function(){
                     var ids  = $(this).getGridParam("selarrrow");
+                    if(ids.length==0){
+                        SysMsg.warning("请选择行", "提示");
+                        return ;
+                    }
+
                     loadModal("${ctx}/member_changeParty?ids[]={0}".format(ids))
                 }
             });

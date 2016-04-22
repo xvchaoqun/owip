@@ -318,7 +318,8 @@ public class MemberApplyController extends BaseController {
 
         applyApprovalLogService.add(userId,
                 memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请", (byte) 1, "");
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "");
 
         logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
@@ -338,7 +339,8 @@ public class MemberApplyController extends BaseController {
         applyApprovalLogService.add(userId,
                 memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 0, "入党申请未通过");
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
 
         return success(FormUtils.SUCCESS);
 
@@ -365,7 +367,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 1, "通过入党申请");
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
 
             return success(FormUtils.SUCCESS);
         }
@@ -405,7 +408,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE), (byte) 1, "成为积极分子");
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
 
             return success(FormUtils.SUCCESS);
         }
@@ -468,7 +472,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交");
 
             return success(FormUtils.SUCCESS);
@@ -499,7 +504,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE), (byte) 1, "确定为发展对象，已审核");
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
 
             return success(FormUtils.SUCCESS);
         }
@@ -552,7 +558,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交");
 
             return success(FormUtils.SUCCESS);
@@ -588,7 +595,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "列入发展计划，已审核");
 
             return success(FormUtils.SUCCESS);
@@ -637,7 +645,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
 
             return success(FormUtils.SUCCESS);
@@ -668,7 +677,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "领取志愿书，已审核");
 
             return success(FormUtils.SUCCESS);
@@ -717,7 +727,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交");
 
             return success(FormUtils.SUCCESS);
@@ -748,7 +759,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "预备党员，分党委审核");
             return success(FormUtils.SUCCESS);
         }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
@@ -756,7 +768,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "预备党员，党总支直属党支部审核");
             return success(FormUtils.SUCCESS);
         }
@@ -777,7 +790,8 @@ public class MemberApplyController extends BaseController {
         applyApprovalLogService.add(userId,
                 memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW), (byte) 1,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                 "预备党员，组织部审核");
 
         return success(FormUtils.SUCCESS);
@@ -822,7 +836,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交");
 
             return success(FormUtils.SUCCESS);
@@ -855,7 +870,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "正式党员，分党委审核");
             return success(FormUtils.SUCCESS);
         }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
@@ -863,7 +879,8 @@ public class MemberApplyController extends BaseController {
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                     "正式党员，党总支直属党支部审核");
             return success(FormUtils.SUCCESS);
         }
@@ -884,8 +901,48 @@ public class MemberApplyController extends BaseController {
         applyApprovalLogService.add(userId,
                 memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE), (byte) 1,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                 "正式党员，组织部审核");
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:update")
+    @RequestMapping("/memberApply_back")
+    public String memberApply_back() {
+
+        return "party/memberApply/memberApply_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:update")
+    @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_back(@CurrentUser SysUser loginUser,
+                                   int userId, byte stage,
+                                   String reason) {
+
+        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+        MemberApply memberApply = verifyAuth.entity;
+        byte _stage = memberApply.getStage();
+        if(_stage>=SystemConstants.APPLY_STAGE_GROW){
+            return failed("该用户已是党员，不可以打回入党申请状态。");
+        }
+        if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
+            return failed("参数有误。");
+        }
+
+        memberApplyService.memberApply_back(memberApply, stage);
+
+        applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, SystemConstants.APPLY_STAGE_MAP.get(stage),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", userId));
+
 
         return success(FormUtils.SUCCESS);
     }

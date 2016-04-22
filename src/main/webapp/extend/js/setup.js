@@ -346,10 +346,13 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
     var idName = $(this).data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
-    if(!id){
-        SysMsg.warning("请选择行", "提示");
+    var ids  = grid.getGridParam("selarrrow")
+    if(!id || ids.length>1){
+        SysMsg.warning("请选择一行", "提示");
         return ;
     }
+    jgrid_sid = id;
+
     var $div = $(this).closest("div.myTableDiv");
     var url = $div.data("url-au");
     if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
@@ -930,13 +933,13 @@ function register_user_select($select, ts){
     });
 }
 // 日历
-function register_date($date){
-    $date.datepicker({
+function register_date($date, params){
+    $date.datepicker($.extend({
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true,
         clearBtn:true
-    })
+    }, params))
 }
 
 // 选择发文类型

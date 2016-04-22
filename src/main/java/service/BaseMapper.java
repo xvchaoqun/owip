@@ -44,6 +44,9 @@ public class BaseMapper {
 	@Autowired
 	protected MemberStayMapper memberStayMapper;
 	@Autowired
+	protected MemberStayViewMapper memberStayViewMapper;
+
+	@Autowired
 	protected MemberTransferMapper memberTransferMapper;
 	@Autowired
 	protected MemberOutMapper memberOutMapper;

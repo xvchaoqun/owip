@@ -57,6 +57,8 @@
       </table>
        <table tableName="ow_member_stay" domainObjectName="MemberStay">
        </table>-->
+      <table tableName="ow_member_stay_view" domainObjectName="MemberStayView">
+      </table>
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
         <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
@@ -194,8 +196,8 @@
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-      <table tableName="sys_user_reg" domainObjectName="SysUserReg">
-      </table>
+      <!--<table tableName="sys_user_reg" domainObjectName="SysUserReg">
+      </table>-->
       <!--
     <table tableName="sys_login_log" domainObjectName="SysLoginLog">
     </table>

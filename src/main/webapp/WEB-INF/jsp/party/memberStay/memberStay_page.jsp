@@ -23,8 +23,20 @@
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
-                        <li class="${cls==3?'active':''}">
-                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已审核</a>
+
+                        <li class="dropdown <c:if test="${cls==3||cls==4}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-sign-in"></i> 已审核${cls==3?"(未转出)":(cls==4)?"(已转出)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=3">现有暂留的党员</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=4">已转出的暂留党员</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <div class="tab-content">

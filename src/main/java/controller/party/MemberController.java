@@ -147,6 +147,19 @@ public class MemberController extends BaseController {
         }
 
         modelMap.put("ids", ids);
+
+        Integer _partyId = null;
+        for (Integer userId : ids) {
+            Member member = memberService.get(userId);
+            if(_partyId==null) _partyId = member.getPartyId();
+            if(_partyId!=null && _partyId.intValue() != member.getPartyId()){
+                throw new RuntimeException("只允许在同一个分党委内部进行批量转移。");
+            }
+            if(partyService.isDirectBranch(member.getPartyId())){
+                throw new RuntimeException("直属党支部不能进行内部转移。");
+            }
+        }
+
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("party", partyMap.get(partyId));
 
