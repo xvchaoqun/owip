@@ -17,15 +17,16 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.party.MemberApplyOpService;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -44,6 +45,9 @@ import java.util.*;
 public class MemberApplyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    protected MemberApplyOpService memberApplyOpService;
 
     private VerifyAuth<MemberApply> checkVerityAuth(int userId){
         MemberApply memberApply = memberApplyService.get(userId);
@@ -329,51 +333,30 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:deny")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_deny(int userId, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_deny(@RequestParam(value = "ids[]") int[] ids, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+        for (Integer userId : ids) {
+            checkVerityAuth(userId);
+        }
 
-        enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
-
-        MemberApply memberApply = verifyAuth.entity;
-        applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
+        memberApplyOpService.apply_deny(ids, remark, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
-
     }
 
     // 申请通过
     @RequiresPermissions("memberApply:pass")
     @RequestMapping(value = "/apply_pass", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_pass(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_pass(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_PASS);
-        record.setPassTime(new Date());
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            MemberApply memberApply = verifyAuth.entity;
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
-
-            return success(FormUtils.SUCCESS);
+        for (Integer userId : ids) {
+            checkVerityAuth(userId);
         }
 
-        return failed(FormUtils.FAILED);
+        memberApplyOpService.apply_pass(ids, loginUser.getId());
+
+        return success();
     }
 
     @RequiresPermissions("memberApply:active")
@@ -387,34 +370,20 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_active(int userId, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
-
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
+    public Map do_apply_active(@RequestParam(value = "ids[]") int[] ids, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
-        if(activeTime.before(memberApply.getApplyTime())){
-            throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
-        }
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_ACTIVE);
-        record.setActiveTime(activeTime);
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_PASS);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
-
-            return success(FormUtils.SUCCESS);
+        for (Integer userId : ids) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+            MemberApply memberApply = verifyAuth.entity;
+            if (activeTime.before(memberApply.getApplyTime())) {
+                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+            }
         }
 
-        return failed(FormUtils.FAILED);
+        memberApplyOpService.apply_active(ids, activeTime, loginUser.getId());
+
+        return success();
     }
 
     @RequiresPermissions("memberApply:candidate")
@@ -428,89 +397,22 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate(int userId, String _candidateTime, String _trainTime,
+    public Map do_apply_candidate(@RequestParam(value = "ids[]") int[] ids, String _candidateTime, String _trainTime,
                                   @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean partyAdmin = verifyAuth.isPartyAdmin;
-        boolean directParty = verifyAuth.isDirectBranch;
+        memberApplyOpService.apply_candidate(ids, _candidateTime, _trainTime, loginUser.getId());
 
-        DateTime dt = new DateTime(memberApply.getActiveTime());
-        DateTime afterActiveTimeOneYear = dt.plusYears(1);
-        if (afterActiveTimeOneYear.isBeforeNow()) {
-            return failed("确定为入党积极分子满1年之后才能被确定为发展对象。");
-        }
-
-        Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-        if(candidateTime.before(afterActiveTimeOneYear.toDate())){
-            throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满1年之后");
-        }
-
-        Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);
-        if(trainTime.before(memberApply.getActiveTime())){
-            throw new RuntimeException("培训时间应该在确定为入党积极分子之后");
-        }
-
-        MemberApply record = new MemberApply();
-        record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
-        record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
-
-        if(directParty && partyAdmin){ // 直属党支部管理员，不需要通过审核，直接确定发展对象
-            record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
-            record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
-        } else {
-            record.setCandidateStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-        }
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
     // 审核 确定为发展对象
     @RequiresPermissions("memberApply:check")
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_candidate_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_candidate_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
+        memberApplyOpService.apply_candidate_check(ids, loginUser.getId());
 
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
-        record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE)
-                .andCandidateStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     @RequiresPermissions("memberApply:plan")
@@ -524,85 +426,22 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:plan")
     @RequestMapping(value = "/apply_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_plan(int userId, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_plan(@RequestParam(value = "ids[]") int[] ids, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean partyAdmin = verifyAuth.isPartyAdmin;
-        boolean directParty = verifyAuth.isDirectBranch;
-        int partyId = memberApply.getPartyId();
+        memberApplyOpService.apply_plan(ids, _planTime, loginUser.getId());
 
-        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
-            return failed("不在开放时间范围");
-        }
-        Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
-        if(planTime.before(memberApply.getCandidateTime())){
-            throw new RuntimeException("列入发展计划时间应该在确定为发展对象之后");
-        }
-
-        MemberApply record = new MemberApply();
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-            record.setStage(SystemConstants.APPLY_STAGE_PLAN);
-            record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
-        }else{
-            record.setPlanStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-        }
-        record.setPlanTime(planTime);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     //审核 列入发展计划
     @RequiresPermissions("memberApply:plan_check")
     @RequestMapping(value = "/apply_plan_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_plan_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_plan_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        Integer partyId = memberApply.getPartyId();
+        memberApplyOpService.apply_plan_check(ids, loginUser.getId());
 
-        if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
-            return failed("不在开放时间范围");
-        }
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_PLAN);
-        record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE)
-                .andPlanStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "列入发展计划，已审核");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
     @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw")
@@ -615,76 +454,21 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_draw(int userId, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_draw(@RequestParam(value = "ids[]") int[] ids, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean partyAdmin = verifyAuth.isPartyAdmin;
-        boolean directParty = verifyAuth.isDirectBranch;
+        memberApplyOpService.apply_draw(ids, _drawTime, loginUser.getId());
 
-        Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
-        if(drawTime.before(memberApply.getPlanTime())){
-            throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
-        }
-
-        MemberApply record = new MemberApply();
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
-            record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
-        }else {
-            record.setDrawStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-        }
-        record.setDrawTime(drawTime);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
     //审核 领取志愿书
     @RequiresPermissions("memberApply:draw_check")
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_draw_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_draw_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
+        memberApplyOpService.apply_draw_check(ids, loginUser.getId());
 
-        MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_DRAW);
-        record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN)
-                .andDrawStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "领取志愿书，已审核");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     @RequiresPermissions("memberApply:grow")
@@ -698,83 +482,21 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_grow(int userId, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_grow(@RequestParam(value = "ids[]") int[] ids, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean partyAdmin = verifyAuth.isPartyAdmin;
-        boolean directParty = verifyAuth.isDirectBranch;
+        memberApplyOpService.apply_grow(ids, _growTime, loginUser.getId());
 
-        Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-        if(growTime.before(memberApply.getDrawTime())){
-            throw new RuntimeException("发展时间应该在领取志愿书之后");
-        }
-
-        MemberApply record = new MemberApply();
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
-        }else {
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-        }
-        record.setGrowTime(growTime);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
     //审核 预备党员
     @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_grow_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean isParty = verifyAuth.isParty;
+        memberApplyOpService.apply_grow_check(ids, loginUser.getId());
 
-        MemberApply record = new MemberApply();
-        record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
-
-        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
-            memberApplyService.applyGrowCheckByParty(userId, record, example);
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "预备党员，分党委审核");
-            return success(FormUtils.SUCCESS);
-        }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "预备党员，党总支直属党支部审核");
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     //组织部管理员审核 预备党员
@@ -782,17 +504,9 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:grow_check2")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_grow_check2(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        memberApplyService.memberGrow(userId);
-
-        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                "预备党员，组织部审核");
+        memberApplyOpService.apply_grow_check2(ids, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
     }
@@ -807,85 +521,22 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_positive(int userId, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_positive(@RequestParam(value = "ids[]") int[] ids, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean partyAdmin = verifyAuth.isPartyAdmin;
-        boolean directParty = verifyAuth.isDirectBranch;
+        memberApplyOpService.apply_positive(ids, _positiveTime, loginUser.getId());
 
-        Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-        if(positiveTime.before(memberApply.getGrowTime())){
-            throw new RuntimeException("转正时间应该在发展之后");
-        }
-
-        MemberApply record = new MemberApply();
-        if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
-            record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
-        }else {
-            record.setPositiveStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-        }
-        record.setPositiveTime(positiveTime);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
-
-        if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交");
-
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     //审核 正式党员
     @RequiresPermissions("memberApply:positive_check")
     @RequestMapping(value = "/apply_positive_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_positive_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        boolean isParty = verifyAuth.isParty;
+        memberApplyOpService.apply_positive_check(ids, loginUser.getId());
 
-        MemberApply record = new MemberApply();
-        record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
-
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
-                .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
-
-        if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
-            memberApplyService.applyPositiveCheckByParty(userId, record, example);
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "正式党员，分党委审核");
-            return success(FormUtils.SUCCESS);
-        }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "正式党员，党总支直属党支部审核");
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
+        return success();
     }
 
     //组织部管理员审核 正式党员
@@ -893,17 +544,9 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:positive_check2")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check2(int userId, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_positive_check2(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        memberApplyService.memberPositive(userId);
-
-        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                "正式党员，组织部审核");
+        memberApplyOpService.apply_positive_check2(ids, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
     }
@@ -921,29 +564,24 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_back(@CurrentUser SysUser loginUser,
-                                   int userId, byte stage,
+                                   @RequestParam(value = "ids[]") int[] ids, byte stage,
                                    String reason) {
 
-        VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-        MemberApply memberApply = verifyAuth.entity;
-        byte _stage = memberApply.getStage();
-        if(_stage>=SystemConstants.APPLY_STAGE_GROW){
-            return failed("该用户已是党员，不可以打回入党申请状态。");
+        for (int userId : ids) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+            MemberApply memberApply = verifyAuth.entity;
+            byte _stage = memberApply.getStage();
+            if(_stage>=SystemConstants.APPLY_STAGE_GROW){
+                return failed("已是党员，不可以打回入党申请状态。");
+            }
+            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
+                return failed("参数有误。");
+            }
         }
-        if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
-            return failed("参数有误。");
-        }
 
-        memberApplyService.memberApply_back(memberApply, stage);
+        memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, SystemConstants.APPLY_STAGE_MAP.get(stage),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
-
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", userId));
-
-
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", ids));
         return success(FormUtils.SUCCESS);
     }
 

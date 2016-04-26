@@ -150,7 +150,8 @@ public class EnterApplyController extends BaseController {
         applyApprovalLogService.add(loginUser.getId(),
                 memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(), loginUser.getId(),
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT), (byte) 1,
+                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交入党申请");
 
         logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
@@ -246,6 +247,13 @@ public class EnterApplyController extends BaseController {
         }
 
         enterApplyService.memberReturn(record);
+
+        applyApprovalLogService.add(record.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交留学归国申请");
 
         logger.info(addLog(SystemConstants.LOG_USER, "留学归国申请"));
 
@@ -352,6 +360,13 @@ public class EnterApplyController extends BaseController {
 
         enterApplyService.memberIn(record);
 
+        applyApprovalLogService.add(record.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交组织关系转入申请");
+
         logger.info(addLog(SystemConstants.LOG_USER, "组织关系转入申请"));
 
         return success(FormUtils.SUCCESS);
@@ -419,6 +434,13 @@ public class EnterApplyController extends BaseController {
         }
 
         enterApplyService.memberInflow(record);
+
+        applyApprovalLogService.add(record.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交流入党员申请");
 
         logger.info(addLog(SystemConstants.LOG_USER, "流入党员申请"));
 

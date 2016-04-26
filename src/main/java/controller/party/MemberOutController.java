@@ -44,16 +44,6 @@ public class MemberOutController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private VerifyAuth<MemberOut> checkVerityAuth(int id){
-        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth(memberOut, memberOut.getPartyId(), memberOut.getBranchId());
-    }
-
-    private VerifyAuth<MemberOut> checkVerityAuth2(int id){
-        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberOut, memberOut.getPartyId());
-    }
-
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut/printPreview")
     public String memberOut_printPreview(int userId, ModelMap modelMap) {
@@ -117,6 +107,8 @@ public class MemberOutController extends BaseController {
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
+                                    Byte status,
+                                    Boolean isBack,
                                     Byte type,
                                     Integer partyId,
                                     Integer branchId,
@@ -141,8 +133,14 @@ public class MemberOutController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type!=null) {
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(type!=null){
             criteria.andTypeEqualTo(type);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -152,7 +150,10 @@ public class MemberOutController extends BaseController {
         }
 
         if(cls==1){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+            criteria.andStatusIn(statusList);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
@@ -192,7 +193,7 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
     public String memberOut_approval(@CurrentUser SysUser loginUser, Integer id,
-                                    byte type, // 1:支部审核 2：分党委审核
+                                    byte type, // 1:分党委审核 2：组织部审核
                                     ModelMap modelMap) {
 
         MemberOut currentMemberOut = null;
@@ -231,7 +232,7 @@ public class MemberOutController extends BaseController {
 
         return "party/memberOut/memberOut_approval";
     }
-
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_deny")
     public String memberOut_deny(Integer id, ModelMap modelMap) {
@@ -244,72 +245,43 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_deny";
     }
 
-    @RequiresPermissions("memberOut:update")
-    @RequestMapping(value = "/memberOut_deny", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberOut_deny(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                     Integer id,
-                                     byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                     String reason) {
-        MemberOut memberOut = null;
-        if(type==1) {
-            VerifyAuth<MemberOut> verifyAuth = checkVerityAuth2(id);
-            memberOut = verifyAuth.entity;
-        }else if(type==2){
-            SecurityUtils.getSubject().checkRole("odAdmin");
-            memberOut = memberOutMapper.selectByPrimaryKey(id);
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-
-        int loginUserId = loginUser.getId();
-        int userId = memberOut.getUserId();
-
-        memberOutService.deny(memberOut.getUserId(), reason);
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝转出党员申请：%s", id));
-
-        applyApprovalLogService.add(memberOut.getId(),
-                memberOut.getPartyId(), memberOut.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 0, reason);
-
-        return success(FormUtils.SUCCESS);
-    }
-
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                  byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                  Integer id) {
+                                 byte type, // 1:分党委审核 3：组织部审核
+                                 @RequestParam(value = "ids[]") int[] ids) {
 
-        MemberOut memberOut = null;
-        if(type==1) {
-            VerifyAuth<MemberOut> verifyAuth = checkVerityAuth2(id);
-            memberOut = verifyAuth.entity;
-            boolean isParty = verifyAuth.isParty;
 
-            if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
-                memberOutService.checkByParty(memberOut.getUserId(), false);
-                logger.info(addLog(SystemConstants.LOG_OW, "转出党员申请-分党委审核：%s", id));
-            } else {
-                memberOutService.check1(memberOut.getUserId());
-                logger.info(addLog(SystemConstants.LOG_OW, "转出党员申请-党总支、直属党支部审核：%s", id));
-            }
-        }
-        if(type==2) {
-            memberOut = memberOutMapper.selectByPrimaryKey(id);
-            memberOutService.check2(memberOut.getUserId(), false);
-            logger.info(addLog(SystemConstants.LOG_OW, "转出党员申请-组织部审核：%s", id));
-        }
+        memberOutService.memberOut_check(ids, type, loginUser.getId());
 
-        int loginUserId = loginUser.getId();
-        int userId = memberOut.getUserId();
-        applyApprovalLogService.add(memberOut.getId(),
-                memberOut.getPartyId(), memberOut.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 1, null);
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转出申请-审核：%s", ids));
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping("/memberOut_back")
+    public String memberOut_back() {
+
+        return "party/memberOut/memberOut_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOut:update")
+    @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_back(@CurrentUser SysUser loginUser,
+                                @RequestParam(value = "ids[]") int[] ids,
+                                byte status,
+                                String reason) {
+
+
+        memberOutService.memberOut_back(ids, status, reason, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转出申请：%s", ids));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberOut:edit")

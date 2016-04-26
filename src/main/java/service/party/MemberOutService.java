@@ -3,6 +3,8 @@ package service.party;
 import domain.MemberOut;
 import domain.MemberOutExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,9 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +27,19 @@ public class MemberOutService extends BaseMapper {
     @Autowired
     private PartyService partyService;
     @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    @Autowired
     private LoginUserService loginUserService;
+
+    private VerifyAuth<MemberOut> checkVerityAuth(int id){
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberOut, memberOut.getPartyId(), memberOut.getBranchId());
+    }
+
+    private VerifyAuth<MemberOut> checkVerityAuth2(int id){
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberOut, memberOut.getPartyId());
+    }
 
     public int count(Integer partyId, Integer branchId, byte type){
 
@@ -32,9 +48,9 @@ public class MemberOutService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
@@ -53,9 +69,9 @@ public class MemberOutService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
@@ -77,9 +93,9 @@ public class MemberOutService extends BaseMapper {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type==1){ //支部审核
+        if(type==1){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-        } else if(type==2){ //分党委审核
+        } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
@@ -124,6 +140,14 @@ public class MemberOutService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        applyApprovalLogService.add(memberOut.getId(),
+                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(), shiroUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                "撤回",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "撤回组织关系转出申请");
     }
     
     // 不通过
@@ -141,7 +165,7 @@ public class MemberOutService extends BaseMapper {
         updateByPrimaryKeySelective(record);
     }
 
-    // 党总支、直属党支部审核通过
+    // 党总支、直属党支部 通过
     @Transactional
     public void check1(int userId){
 
@@ -213,4 +237,80 @@ public class MemberOutService extends BaseMapper {
         return memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
+    @Transactional
+    public void memberOut_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberOut memberOut = null;
+            if(type==1) {
+                VerifyAuth<MemberOut> verifyAuth = checkVerityAuth2(id);
+                memberOut = verifyAuth.entity;
+                boolean isParty = verifyAuth.isParty;
+
+                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
+                    checkByParty(memberOut.getUserId(), false);
+                } else {
+                    check1(memberOut.getUserId());
+                }
+            }
+            if(type==2) {
+                SecurityUtils.getSubject().checkRole("odAdmin");
+
+                memberOut = memberOutMapper.selectByPrimaryKey(id);
+                check2(memberOut.getUserId(), false);
+            }
+
+            int userId = memberOut.getUserId();
+            applyApprovalLogService.add(memberOut.getId(),
+                    memberOut.getPartyId(), memberOut.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
+                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+        }
+    }
+
+    @Transactional
+    public void memberOut_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        for (int userId : userIds) {
+
+            MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOut.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY){
+                if(!odAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_OUT_STATUS_BACK){
+                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberOut, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberOut memberOut, byte status, int loginUserId, String reason){
+
+        byte _status = memberOut.getStatus();
+        if(_status==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if (status > _status || status<SystemConstants.MEMBER_OUT_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberOut.getUserId();
+        updateMapper.memberOut_back(memberOut.getId(), status);
+
+        MemberOut record = new MemberOut();
+        record.setUserId(memberOut.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberOut.getId(),
+                memberOut.getPartyId(), memberOut.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, SystemConstants.MEMBER_OUT_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
 }

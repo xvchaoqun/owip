@@ -105,6 +105,14 @@ public class UserMemberOutflowController extends BaseController{
         if (memberOutflow == null) {
             memberOutflowService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交流出党员申请"));
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                    "提交",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交流出党员申请");
+
         } else {
 
             memberOutflowService.updateByPrimaryKeySelective(record);

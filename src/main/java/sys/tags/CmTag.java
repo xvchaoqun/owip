@@ -10,9 +10,7 @@ import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
-import service.party.ApplicationContextSupport;
-import service.party.PartyService;
-import service.party.RetireApplyService;
+import service.party.*;
 import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
 import service.sys.SysResourceService;
@@ -40,6 +38,9 @@ public class CmTag {
     static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
     static UnitService unitService = (UnitService) context.getBean("unitService");
     static PartyService partyService = (PartyService) context.getBean("partyService");
+    static PartyMemberService partyMemberService = (PartyMemberService) context.getBean("partyMemberService");
+    static BranchService branchService = (BranchService) context.getBean("branchService");
+    static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
 
     public static String getApplyStatus(MemberApply memberApply) {
@@ -196,6 +197,21 @@ public class CmTag {
     public static Party getParty(Integer partyId) {
 
         return partyService.findAll().get(partyId);
+    }
+
+    public static Boolean isPresentBranchAdmin(Integer userId, Integer branchId){
+        return branchMemberService.isPresentAdmin(userId, branchId);
+    }
+    public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId){
+        return partyMemberService.isPresentAdmin(userId, partyId);
+    }
+    // 是否直属党支部
+    public static Boolean isDirectBranch(Integer partyId){
+        return partyService.isDirectBranch(partyId);
+    }
+    // 是否分党委
+    public static Boolean isParty(Integer partyId){
+        return partyService.isParty(partyId);
     }
 
     public static Unit findUnitByCode(String code) {

@@ -56,7 +56,8 @@ public class CommonController extends BaseController{
         constantMap.put("MEMBER_TRANSFER_STATUS_MAP", SystemConstants.MEMBER_TRANSFER_STATUS_MAP);
         constantMap.put("MEMBER_STAY_STATUS_MAP", SystemConstants.MEMBER_STAY_STATUS_MAP);
         constantMap.put("MEMBER_TYPE_MAP", SystemConstants.MEMBER_TYPE_MAP);
-        constantMap.put("RETIRE_QUIT_TYPE_MAP", SystemConstants.RETIRE_QUIT_TYPE_MAP);
+        constantMap.put("MEMBER_QUIT_TYPE_MAP", SystemConstants.MEMBER_QUIT_TYPE_MAP);
+        constantMap.put("MEMBER_QUIT_STATUS_MAP", SystemConstants.MEMBER_QUIT_STATUS_MAP);
         constantMap.put("APPLY_APPROVAL_LOG_STATUS_MAP", SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP);
         constantMap.put("locationMap", locationService.codeMap());
         constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);

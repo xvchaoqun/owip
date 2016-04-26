@@ -3,6 +3,8 @@ package service.party;
 import domain.MemberOutflow;
 import domain.MemberOutflowExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,9 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +26,19 @@ public class MemberOutflowService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
 
+    private VerifyAuth<MemberOutflow> checkVerityAuth(int id){
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberOutflow, memberOutflow.getPartyId(), memberOutflow.getBranchId());
+    }
+
+    private VerifyAuth<MemberOutflow> checkVerityAuth2(int id){
+        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberOutflow, memberOutflow.getPartyId());
+    }
+    
     public int count(Integer partyId, Integer branchId, byte type){
 
         MemberOutflowExample example = new MemberOutflowExample();
@@ -122,6 +138,14 @@ public class MemberOutflowService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
         //record.setBranchId(memberOutflow.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        applyApprovalLogService.add(memberOutflow.getId(),
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(), shiroUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                "撤回",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "撤回流出党员申请");
     }
 
     // 不通过
@@ -200,5 +224,79 @@ public class MemberOutflowService extends BaseMapper {
         }
 
         return memberOutflowMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void memberOutflow_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+            int userId = memberOutflow.getUserId();
+            if(type==1) {
+                VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth(id);
+                memberOutflow = verifyAuth.entity;
+                if (verifyAuth.isDirectBranch && verifyAuth.isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+                    check2(userId, true);
+                } else {
+                    check1(userId);
+                }
+            }
+            if(type==2) {
+                VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth2(id);
+                memberOutflow = verifyAuth.entity;
+                check2(userId, false);
+            }
+
+            applyApprovalLogService.add(memberOutflow.getId(),
+                    memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1, null);
+
+        }
+    }
+
+    @Transactional
+    public void memberOutflow_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        for (int userId : userIds) {
+
+            MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
+            Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getBranchId());
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
+                if(!presentPartyAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BACK){
+                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberOutflow, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberOutflow memberOutflow, byte status, int loginUserId, String reason){
+
+        byte _status = memberOutflow.getStatus();
+        if(_status==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberOutflow.getUserId();
+        updateMapper.memberOutflow_back(memberOutflow.getId(), status);
+
+        MemberOutflow record = new MemberOutflow();
+        record.setUserId(memberOutflow.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberOutflow.getId(),
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

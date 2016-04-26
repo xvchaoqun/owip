@@ -43,16 +43,6 @@ public class MemberOutflowController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private VerifyAuth<MemberOutflow> checkVerityAuth(int id){
-        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth(memberOutflow, memberOutflow.getPartyId(), memberOutflow.getBranchId());
-    }
-
-    private VerifyAuth<MemberOutflow> checkVerityAuth2(int id){
-        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberOutflow, memberOutflow.getPartyId());
-    }
-
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_view")
     public String memberOutflow_view(int userId, ModelMap modelMap) {
@@ -125,6 +115,8 @@ public class MemberOutflowController extends BaseController {
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_outflow") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
+                                    Byte status,
+                                    Boolean isBack,
                                      Byte type,
                                     Integer partyId,
                                     Integer branchId,
@@ -149,8 +141,14 @@ public class MemberOutflowController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type!=null) {
-            criteria.andTypeEqualTo(type );
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -242,102 +240,58 @@ public class MemberOutflowController extends BaseController {
         return "party/memberOutflow/memberOutflow_approval";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
-    @RequestMapping(value = "/memberOutflow_deny", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberOutflow_deny(@CurrentUser SysUser loginUser,HttpServletRequest request,
-                                    Integer id,
-                                    byte type, // 1:支部审核 2：分党委审核
-                                    String remark) {
+    @RequestMapping("/memberOutflow_deny")
+    public String memberOutflow_deny(Integer id, ModelMap modelMap) {
 
-        MemberOutflow memberOutflow = null;
-        if(type==1) {
-            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth(id);
-            memberOutflow = verifyAuth.entity;
-        }else if(type==2){
-            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth2(id);
-            memberOutflow = verifyAuth.entity;
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberOutflow.getUserId();
-
-        /*//操作人应是申请人所在党支部或直属党支部管理员
-        int loginUserId = loginUser.getId();
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-        int userId= memberOutflow.getUserId();
-        Integer branchId = memberOutflow.getBranchId();
-        Integer partyId = memberOutflow.getPartyId();
-        boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-        boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        boolean directParty = partyService.isDirectBranch(partyId);
-        if(!branchAdmin && (!directParty || !partyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }*/
+        modelMap.put("memberOutflow", memberOutflow);
+        Integer userId = memberOutflow.getUserId();
+        modelMap.put("sysUser", sysUserService.findById(userId));
 
-        memberOutflowService.deny(userId);
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝流出党员申请：%s", id));
-
-        applyApprovalLogService.add(memberOutflow.getId(),
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)0, null);
-
-        return success(FormUtils.SUCCESS);
+        return "party/memberOutflow/memberOutflow_deny";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_check(@CurrentUser SysUser loginUser,
-                                      Integer id,
-                                      byte type, // 1:支部审核 2：分党委审核
-                                      HttpServletRequest request) {
+    public Map do_memberOutflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                 byte type, // 1:支部审核 2：分党委审核
+                                 @RequestParam(value = "ids[]") int[] ids) {
 
-        int loginUserId = loginUser.getId();
-        MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
-        int userId = memberOutflow.getUserId();
-        if(type==1) {
-            /*//操作人应是申请人所在党支部或直属党支部管理员
-            Integer branchId = memberOutflow.getBranchId();
-            Integer partyId = memberOutflow.getPartyId();
-            boolean branchAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-            boolean partyAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            boolean directParty = partyService.isDirectBranch(partyId);
-            if (!branchAdmin && (!directParty || !partyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
-                throw new UnauthorizedException();
-            }*/
-            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth(id);
-            memberOutflow = verifyAuth.entity;
-            if (verifyAuth.isDirectBranch && verifyAuth.isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
-                memberOutflowService.check2(userId, true);
-                logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
-            } else {
-                memberOutflowService.check1(userId);
-                logger.info(addLog(SystemConstants.LOG_OW, "审核流出党员申请：%s", userId));
-            }
-        }
 
-        if(type==2) {
-            VerifyAuth<MemberOutflow> verifyAuth = checkVerityAuth2(id);
-            memberOutflow = verifyAuth.entity;
-            /*//操作人应是申请人所在分党委管理员
-            Integer partyId = memberOutflow.getPartyId();
-            if (!partyMemberService.isPresentAdmin(loginUserId, partyId)) { // 分党委管理员
-                throw new UnauthorizedException();
-            }*/
+        memberOutflowService.memberOutflow_check(ids, type, loginUser.getId());
 
-            memberOutflowService.check2(userId, false);
-            logger.info(addLog(SystemConstants.LOG_OW, "通过流出党员申请：%s", userId));
-        }
-
-        applyApprovalLogService.add(memberOutflow.getId(),
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1, null);
+        logger.info(addLog(SystemConstants.LOG_OW, "流出党员申请-审核：%s", ids));
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOutflow:update")
+    @RequestMapping("/memberOutflow_back")
+    public String memberOutflow_back() {
+
+        return "party/memberOutflow/memberOutflow_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOutflow:update")
+    @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOutflow_back(@CurrentUser SysUser loginUser,
+                                @RequestParam(value = "ids[]") int[] ids,
+                                byte status,
+                                String reason) {
+
+
+        memberOutflowService.memberOutflow_back(ids, status, reason, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流出党员申请：%s", ids));
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("memberOutflow:edit")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)

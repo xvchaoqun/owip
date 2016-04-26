@@ -1,13 +1,61 @@
 package service;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.*;
 import persistence.common.CommonMapper;
 import persistence.common.CommonUnitMapper;
 import persistence.common.SelectMapper;
 import persistence.common.UpdateMapper;
+import shiro.ShiroUser;
+import sys.tags.CmTag;
 
 public class BaseMapper {
+
+	protected class VerifyAuth<T>{
+		public Boolean isBranchAdmin;
+		public Boolean isPartyAdmin;
+		public Boolean isDirectBranch; // 是否直属党支部
+		public Boolean isParty; // 是否分党委
+		public T entity;
+	}
+
+	/**
+	 * 当前操作人员应该是申请人所在党支部或直属党支部的管理员，否则抛出异常
+	 */
+	protected VerifyAuth checkVerityAuth(Object entity, Integer partyId, Integer branchId ){
+
+		VerifyAuth verifyAuth = new VerifyAuth();
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		int loginUserId = shiroUser.getId();
+		verifyAuth.entity = entity;
+
+		verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, branchId);
+		verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+		verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
+		if(!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员
+			throw new UnauthorizedException();
+		}
+		return verifyAuth;
+	}
+	/**
+	 * 当前操作人员应该是应是申请人所在的分党委、党总支、直属党支部的管理员
+	 */
+	protected VerifyAuth checkVerityAuth2(Object entity, Integer partyId){
+		VerifyAuth verifyAuth = new VerifyAuth();
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		int loginUserId = shiroUser.getId();
+		verifyAuth.entity = entity;
+
+		if(!CmTag.isPresentPartyAdmin(loginUserId, partyId)){
+			throw new UnauthorizedException();
+		}
+		verifyAuth.isParty = CmTag.isParty(partyId);
+		return verifyAuth;
+	}
 
 	@Autowired
 	protected ApplicatPostMapper applicatPostMapper;

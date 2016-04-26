@@ -92,6 +92,13 @@ public class UserMemberStayController extends BaseController{
         if (memberStay == null) {
             memberStayService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交暂留申请"));
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                    "提交",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交暂留申请");
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);

@@ -1,6 +1,7 @@
 package service.party;
 
 import domain.*;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -10,6 +11,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.sys.SysUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
@@ -33,7 +35,8 @@ public class EnterApplyService extends BaseMapper{
     private SysUserService sysUserService;
     @Autowired
     private MemberInflowService memberInflowService;
-
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
 
     public List<EnterApply> findApplyList(int userId){
 
@@ -91,10 +94,7 @@ public class EnterApplyService extends BaseMapper{
     public void memberApply(MemberApply record) {
         int userId = record.getUserId();
 
-        Member member = memberService.get(userId);
-        if(member!=null){
-            throw new RuntimeException("已经是党员，不需要申请入党");
-        }
+        checkMemberApplyAuth(userId);
 
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");
@@ -117,6 +117,7 @@ public class EnterApplyService extends BaseMapper{
     public void memberReturn(MemberReturn record) {
 
         int userId = record.getUserId();
+        checkMemberApplyAuth(userId);
 
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
@@ -140,7 +141,9 @@ public class EnterApplyService extends BaseMapper{
     // 组织关系转入申请
     @Transactional
     public void memberIn(MemberIn record) {
+
         int userId = record.getUserId();
+        checkMemberApplyAuth(userId);
 
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_APPLY);
@@ -203,6 +206,8 @@ public class EnterApplyService extends BaseMapper{
     @Transactional
     public void applyBack(int userId, String remark, byte status) {
 
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply==null)
@@ -235,6 +240,14 @@ public class EnterApplyService extends BaseMapper{
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
                 Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0);
+
+                applyApprovalLogService.add(_memberApply.getUserId(),
+                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(), shiroUser.getId(),
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        "撤回",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "撤回入党申请");
+
                 }
                 break;
             case SystemConstants.ENTER_APPLY_TYPE_RETURN: {
@@ -256,6 +269,13 @@ public class EnterApplyService extends BaseMapper{
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
                 Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0);
+
+                applyApprovalLogService.add(_memberReturn.getId(),
+                        _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(), shiroUser.getId(),
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                        "撤回",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "撤回留学党员归国申请");
                 }
                 break;
 
@@ -281,6 +301,13 @@ public class EnterApplyService extends BaseMapper{
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
                 Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0);
+
+                applyApprovalLogService.add(_memberIn.getId(),
+                        _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(), shiroUser.getId(),
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
+                        "撤回",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "撤回组织关系转入申请");
             }
             break;
             case SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW: {
@@ -302,6 +329,13 @@ public class EnterApplyService extends BaseMapper{
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
                 Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0);
+
+                applyApprovalLogService.add(_memberInflow.getId(),
+                        _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(), shiroUser.getId(),
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                        "撤回",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "撤回党员流入申请");
             }
             break;
             default:

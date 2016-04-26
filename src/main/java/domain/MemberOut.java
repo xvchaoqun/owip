@@ -43,6 +43,8 @@ public class MemberOut implements Serializable {
 
     private Byte status;
 
+    private Boolean isBack;
+
     private String reason;
 
     private Date applyTime;
@@ -183,6 +185,14 @@ public class MemberOut implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public String getReason() {

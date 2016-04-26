@@ -12,6 +12,7 @@
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="quit_time" property="quitTime" jdbcType="DATE" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     user_id, party_id, branch_id, party_name, branch_name, type, remark, grow_time, quit_time, 
-    status, create_time
+    status, is_back, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberQuitExample" >
     select
@@ -110,11 +111,13 @@
     insert into ow_member_quit (user_id, party_id, branch_id, 
       party_name, branch_name, type, 
       remark, grow_time, quit_time, 
-      status, create_time)
+      status, is_back, create_time
+      )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{remark,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{quitTime,jdbcType=DATE}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberQuit" >
     insert into ow_member_quit
@@ -148,6 +151,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -183,6 +189,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -228,6 +237,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -248,6 +260,7 @@
       grow_time = #{record.growTime,jdbcType=DATE},
       quit_time = #{record.quitTime,jdbcType=DATE},
       status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,6 +296,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -300,6 +316,7 @@
       grow_time = #{growTime,jdbcType=DATE},
       quit_time = #{quitTime,jdbcType=DATE},
       status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>

@@ -43,16 +43,6 @@ public class MemberStayController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-/*    private VerifyAuth<MemberStay> checkVerityAuth(int id){
-        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth(memberStay, memberStay.getPartyId(), memberStay.getBranchId());
-    }*/
-
-    private VerifyAuth<MemberStay> checkVerityAuth2(int id){
-        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberStay, memberStay.getPartyId());
-    }
-
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_view")
     public String memberStay_view(int userId, ModelMap modelMap) {
@@ -107,6 +97,8 @@ public class MemberStayController extends BaseController {
                                  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_stay") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                 Byte status,
+                                 Boolean isBack,
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
@@ -137,9 +129,18 @@ public class MemberStayController extends BaseController {
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
         }
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
+        }
 
         if(cls==1){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+            criteria.andStatusIn(statusList);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
@@ -221,7 +222,7 @@ public class MemberStayController extends BaseController {
 
         return "party/memberStay/memberStay_approval";
     }
-    
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_deny")
     public String memberStay_deny(Integer id, ModelMap modelMap) {
@@ -234,73 +235,46 @@ public class MemberStayController extends BaseController {
         return "party/memberStay/memberStay_deny";
     }
 
-    @RequiresPermissions("memberStay:update")
-    @RequestMapping(value = "/memberStay_deny", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberStay_deny(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                 Integer id,
-                                 byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                 String reason) {
-
-        MemberStay memberStay = null;
-        if(type==1) {
-            VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
-            memberStay = verifyAuth.entity;
-        }else if(type==2){
-            SecurityUtils.getSubject().checkRole("odAdmin");
-            memberStay = memberStayMapper.selectByPrimaryKey(id);
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberStay.getUserId();
-
-        memberStayService.deny(memberStay.getUserId(), reason);
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝暂留申请：%s", id));
-
-        applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 0, reason);
-        
-        return success(FormUtils.SUCCESS);
-    }
-
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_check(@CurrentUser SysUser loginUser,HttpServletRequest request,
-                                   byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                   Integer id) {
-        MemberStay memberStay = null;
-        if(type==1) {
-            VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
-            memberStay = verifyAuth.entity;
-            boolean isParty = verifyAuth.isParty;
+    public Map do_memberStay_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                 byte type, // 1:分党委审核 3：组织部审核
+                                 @RequestParam(value = "ids[]") int[] ids) {
 
-            if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
-                memberStayService.checkByParty(memberStay.getUserId(), false);
-                logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-分党委审核：%s", id));
-            } else {
-                memberStayService.check1(memberStay.getUserId());
-                logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-党总支、直属党支部审核：%s", id));
-            }
-        }
-        if(type==2) {
-            memberStay = memberStayMapper.selectByPrimaryKey(id);
 
-            memberStayService.check2(memberStay.getUserId(), false);
-            logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-组织部审核：%s", id));
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberStay.getUserId();
-        applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 1, null);
-        
+        memberStayService.memberStay_check(ids, type, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", ids));
+
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping("/memberStay_back")
+    public String memberStay_back() {
+
+        return "party/memberStay/memberStay_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberStay:update")
+    @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberStay_back(@CurrentUser SysUser loginUser,
+                                @RequestParam(value = "ids[]") int[] ids,
+                                byte status,
+                                String reason) {
+
+
+        memberStayService.memberStay_back(ids, status, reason, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", ids));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
@@ -332,11 +306,11 @@ public class MemberStayController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
             memberStayService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "添加公派留学生党员申请组织关系暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加暂留：%s", record.getId()));
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新公派留学生党员申请组织关系暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新暂留：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -363,7 +337,7 @@ public class MemberStayController extends BaseController {
         if (id != null) {
 
             memberStayService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除公派留学生党员申请组织关系暂留：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除暂留：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -376,7 +350,7 @@ public class MemberStayController extends BaseController {
 
         if (null != ids && ids.length>0){
             memberStayService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除公派留学生党员申请组织关系暂留：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除暂留：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

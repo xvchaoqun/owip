@@ -56,7 +56,7 @@
 <c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 
-<c:set var="RETIRE_QUIT_TYPE_MAP" value="<%=SystemConstants.RETIRE_QUIT_TYPE_MAP%>"/>
+<c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=SystemConstants.MEMBER_QUIT_TYPE_MAP%>"/>
 <c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>
 
 <c:set var="MEMBER_STATUS_NORMAL" value="<%=SystemConstants.MEMBER_STATUS_NORMAL%>"/>
@@ -118,6 +118,14 @@
 <c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
 
+<c:set var="MEMBER_QUIT_STATUS_MAP" value="<%=SystemConstants.MEMBER_QUIT_STATUS_MAP%>"/>
+<c:set var="MEMBER_QUIT_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_QUIT_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BACK" value="<%=SystemConstants.MEMBER_QUIT_STATUS_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_APPLY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
+
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MAP%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD%>"/>
@@ -129,10 +137,12 @@
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_USER_REG" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"/>
 
 <c:set var="APPLY_APPROVAL_LOG_STATUS_DENY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_PASS" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_BACK" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK%>"/>
+<c:set var="APPLY_APPROVAL_LOG_STATUS_NONEED" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP%>"/>
 
 <c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>

@@ -37,25 +37,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberReturnController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private VerifyAuth<MemberReturn> checkVerityAuth(int id){
-        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth(memberReturn, memberReturn.getPartyId(), memberReturn.getBranchId());
-    }
-
-    private VerifyAuth<MemberReturn> checkVerityAuth2(int id){
-        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberReturn, memberReturn.getPartyId());
-    }
 
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn")
@@ -98,6 +85,8 @@ public class MemberReturnController extends BaseController {
     public void memberReturn_data(@RequestParam(defaultValue = "1")Integer cls, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_return") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                 Byte status,
+                                 Boolean isBack,
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
@@ -128,8 +117,20 @@ public class MemberReturnController extends BaseController {
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
         }
+
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
+        }
+        
         if(cls==1){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+            criteria.andStatusIn(statusList);
+
         }else if(cls==2){
             criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_DENY);
         }else {
@@ -250,6 +251,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_approval";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping("/memberReturn_deny")
     public String memberReturn_deny(Integer id, ModelMap modelMap) {
@@ -262,77 +264,46 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_deny";
     }
 
-    @RequiresPermissions("memberReturn:update")
-    @RequestMapping(value = "/memberReturn_deny", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberReturn_deny(@CurrentUser SysUser loginUser, String reason,
-                                Integer id,
-                                byte type, // 1:支部审核 2：分党委审核
-                                HttpServletRequest request) {
-        MemberReturn memberReturn = null;
-        if(type==1) {
-            VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth(id);
-            memberReturn = verifyAuth.entity;
-        }else if(type==2){
-            VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth2(id);
-            memberReturn = verifyAuth.entity;
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberReturn.getUserId();
-
-        enterApplyService.applyBack(memberReturn.getUserId(), reason, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝留学归国人员申请恢复组织生活：%s", id));
-
-        applyApprovalLogService.add(memberReturn.getId(),
-                memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
-                        ? "党支部审核" : "分党委审核", (byte) 0, reason);
-
-        return success(FormUtils.SUCCESS);
-    }
-
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                      byte type, // 1:支部审核 2：分党委审核
-                                      Integer id) {
-        MemberReturn memberReturn = null;
-        if(type==1) {
-            VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth(id);
-            boolean isDirectBranch = verifyAuth.isDirectBranch;
-            boolean isPartyAdmin = verifyAuth.isPartyAdmin;
-            memberReturn = verifyAuth.entity;
+                                 byte type, // 1:分党委审核 3：组织部审核
+                                 @RequestParam(value = "ids[]") int[] ids) {
 
-            if (isDirectBranch && isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
-                memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
-                logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-直属党支部审核：%s", id));
-            } else {
-                memberReturnService.checkMember(memberReturn.getUserId());
-                logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-党支部审核：%s", id));
-            }
-        }
 
-        if(type==2) {
-            VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth2(id);
-            memberReturn = verifyAuth.entity;
+        memberReturnService.memberReturn_check(ids, type, loginUser.getId());
 
-            memberReturnService.addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
-            logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活-分党委审核：%s", id));
-        }
-
-        int loginUserId = loginUser.getId();
-        int userId = memberReturn.getUserId();
-        applyApprovalLogService.add(memberReturn.getId(),
-                memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
-                        ? "党支部审核" : "分党委审核", (byte) 1, null);
+        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", ids));
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberReturn:update")
+    @RequestMapping("/memberReturn_back")
+    public String memberReturn_back() {
+
+        return "party/memberReturn/memberReturn_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberReturn:update")
+    @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberReturn_back(@CurrentUser SysUser loginUser,
+                                @RequestParam(value = "ids[]") int[] ids,
+                                byte status,
+                                String reason) {
+
+
+        memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", ids));
+        return success(FormUtils.SUCCESS);
+    }
+    
     @RequiresPermissions("memberReturn:edit")
     @RequestMapping("/memberReturn_au")
     public String memberReturn_au(Integer id, ModelMap modelMap) {

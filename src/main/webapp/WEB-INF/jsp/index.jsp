@@ -57,7 +57,7 @@
   <!-- /.navbar-container -->
 </div>
 <div class="main-container" id="main-container">
-
+  <shiro:lacksRole name="reg">
   <div id="sidebar" class="sidebar responsive">
     <script type="text/javascript">
       try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
@@ -69,7 +69,7 @@
          data-icon2="ace-icon fa fa-angle-double-right"></i>
     </div>
   </div>
-
+  </shiro:lacksRole>
   <div class="main-content" >
     <div class="main-content-inner">
       <c:if test="${fn:length(parentIdSet)>2}">

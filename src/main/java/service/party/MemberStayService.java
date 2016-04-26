@@ -1,10 +1,11 @@
 package service.party;
 
-import domain.MemberStay;
-import domain.MemberStayExample;
+import domain.*;
 import domain.MemberStay;
 import domain.MemberStayExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,9 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +27,19 @@ public class MemberStayService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    private VerifyAuth<MemberStay> checkVerityAuth(int id){
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberStay, memberStay.getPartyId(), memberStay.getBranchId());
+    }
+
+    private VerifyAuth<MemberStay> checkVerityAuth2(int id){
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberStay, memberStay.getPartyId());
+    }
+    
     public int count(Integer partyId, Integer branchId, byte type){
 
         MemberStayExample example = new MemberStayExample();
@@ -123,6 +139,14 @@ public class MemberStayService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
         //record.setBranchId(memberStay.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        applyApprovalLogService.add(memberStay.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), shiroUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                "撤回",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "撤回暂留申请");
     }
 
     // 不通过
@@ -210,5 +234,82 @@ public class MemberStayService extends BaseMapper {
         }
 
         return memberStayMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void memberStay_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberStay memberStay = null;
+            if(type==1) {
+                VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
+                memberStay = verifyAuth.entity;
+                boolean isParty = verifyAuth.isParty;
+
+                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
+                    checkByParty(memberStay.getUserId(), false);
+                } else {
+                    check1(memberStay.getUserId());
+                }
+            }
+            if(type==2) {
+                SecurityUtils.getSubject().checkRole("odAdmin");
+
+                memberStay = memberStayMapper.selectByPrimaryKey(id);
+
+                check2(memberStay.getUserId(), false);
+            }
+            int userId = memberStay.getUserId();
+            applyApprovalLogService.add(memberStay.getId(),
+                    memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
+                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+        }
+    }
+
+    @Transactional
+    public void memberStay_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        for (int userId : userIds) {
+
+            MemberStay memberStay = memberStayMapper.selectByPrimaryKey(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY){
+                if(!odAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_STAY_STATUS_BACK){
+                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberStay, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberStay memberStay, byte status, int loginUserId, String reason){
+
+        byte _status = memberStay.getStatus();
+        if(_status==SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status > _status || status<SystemConstants.MEMBER_STAY_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberStay.getUserId();
+        updateMapper.memberStay_back(memberStay.getId(), status);
+
+        MemberStay record = new MemberStay();
+        record.setUserId(memberStay.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberStay.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, SystemConstants.MEMBER_STAY_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

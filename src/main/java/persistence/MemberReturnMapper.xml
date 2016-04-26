@@ -14,6 +14,7 @@
     <result column="positive_time" property="positiveTime" jdbcType="DATE" />
     <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, party_id, branch_id, apply_time, return_apply_time, active_time, candidate_time, 
-    grow_time, positive_time, political_status, status, remark, create_time
+    grow_time, positive_time, political_status, status, is_back, remark, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberReturnExample" >
     select
@@ -109,19 +110,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.MemberReturn" >
+  <insert keyProperty="id" id="insert" parameterType="domain.MemberReturn" >
     insert into ow_member_return (id, user_id, party_id, 
       branch_id, apply_time, return_apply_time, 
       active_time, candidate_time, grow_time, 
       positive_time, political_status, status, 
-      remark, create_time)
+      is_back, remark, create_time
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{returnApplyTime,jdbcType=DATE}, 
       #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, 
       #{positiveTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{isBack,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.MemberReturn" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberReturn" >
     insert into ow_member_return
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -159,6 +162,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="remark != null" >
         remark,
@@ -203,6 +209,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -257,6 +266,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -282,6 +294,7 @@
       positive_time = #{record.positiveTime,jdbcType=DATE},
       political_status = #{record.politicalStatus,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
@@ -324,6 +337,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -346,6 +362,7 @@
       positive_time = #{positiveTime,jdbcType=DATE},
       political_status = #{politicalStatus,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

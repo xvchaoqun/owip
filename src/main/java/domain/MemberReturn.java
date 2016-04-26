@@ -1,9 +1,14 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberReturn implements Serializable {
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -27,6 +32,8 @@ public class MemberReturn implements Serializable {
     private Byte politicalStatus;
 
     private Byte status;
+
+    private Boolean isBack;
 
     private String remark;
 
@@ -128,6 +135,14 @@ public class MemberReturn implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public String getRemark() {

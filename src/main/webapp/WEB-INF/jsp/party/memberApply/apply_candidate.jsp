@@ -7,7 +7,16 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/apply_candidate" id="modalForm" method="post">
-        <input type="hidden" name="userId" value="${param.userId}">
+        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+        <c:if test="${count>1}">
+            <div class="form-group">
+                <label class="col-xs-5 control-label">处理记录</label>
+                <div class="col-xs-4 label-text">
+                        ${count} 条
+                </div>
+            </div>
+        </c:if>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">确定为发展对象时间</label>
 				<div class="col-xs-4">
@@ -44,9 +53,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        SysMsg.success('操作成功。', '成功', function () {
-                            goto_next("${param.type}");
-                        });
+                        goto_next("${param.type}");
                     }
                 }
             });

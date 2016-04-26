@@ -4,6 +4,8 @@ import domain.Member;
 import domain.MemberIn;
 import domain.MemberInExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -27,6 +30,18 @@ public class MemberInService extends BaseMapper {
     @Autowired
     private LoginUserService loginUserService;
 
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    private VerifyAuth<MemberIn> checkVerityAuth(int id){
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberIn, memberIn.getPartyId(), memberIn.getBranchId());
+    }
+
+    private VerifyAuth<MemberIn> checkVerityAuth2(int id){
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberIn, memberIn.getPartyId());
+    }
+    
     public int count(Integer partyId, Integer branchId, byte type){
 
         MemberInExample example = new MemberInExample();
@@ -210,6 +225,83 @@ public class MemberInService extends BaseMapper {
     @Transactional
     public int updateByExampleSelective(MemberIn record, MemberInExample example){
         return memberInMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void memberIn_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberIn memberIn = null;
+            if(type==1) {
+                VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
+                memberIn = verifyAuth.entity;
+                boolean isParty = verifyAuth.isParty;
+
+                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
+                    checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus());
+                } else {
+                    checkMember(memberIn.getUserId());
+                }
+            }
+            if(type==2) {
+                SecurityUtils.getSubject().checkRole("odAdmin");
+
+                memberIn = memberInMapper.selectByPrimaryKey(id);
+                addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
+            }
+
+            int userId = memberIn.getUserId();
+            applyApprovalLogService.add(memberIn.getId(),
+                    memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
+                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+        }
+    }
+
+    @Transactional
+    public void memberIn_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        for (int userId : userIds) {
+
+            MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
+                if(!odAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_IN_STATUS_BACK){
+                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberIn, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberIn memberIn, byte status, int loginUserId, String reason){
+
+        byte _status = memberIn.getStatus();
+        if(_status==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status>_status || status<SystemConstants.MEMBER_IN_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberIn.getUserId();
+        updateMapper.memberIn_back(memberIn.getId(), status);
+
+        MemberIn record = new MemberIn();
+        record.setUserId(memberIn.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberIn.getId(),
+                memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, SystemConstants.MEMBER_IN_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
 }

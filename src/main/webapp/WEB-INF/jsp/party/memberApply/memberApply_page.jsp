@@ -7,9 +7,6 @@ pageEncoding="UTF-8" %>
             <div class="myTableDiv"
                  data-url-au="${ctx}/memberApply_au"
                  data-url-page="${ctx}/memberApply_page"
-                 data-url-del="${ctx}/memberApply_del"
-                 data-url-bd="${ctx}/memberApply_batchDel"
-                 data-url-co="${ctx}/memberApply_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId
             ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
@@ -114,7 +111,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${candidateCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${candidateCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${candidateCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_CANDIDATE}">
@@ -136,7 +133,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${planCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${planCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${planCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_PLAN}">
@@ -158,7 +155,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${drawCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${drawCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${drawCheckCount}）
                                                                     </button>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_DRAW}">
@@ -180,7 +177,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${growCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${growCheckCount}）
                                                                     </button>
                                                                     <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -212,7 +209,7 @@ pageEncoding="UTF-8" %>
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${positiveCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委党总支直属党支部审核（${positiveCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${positiveCheckCount}）
                                                                     </button>
                                                                     <button id="positiveOdCheckCount" ${positiveOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -226,14 +223,7 @@ pageEncoding="UTF-8" %>
                                                                     </button>
                                                                 </c:when>
                                                             </c:choose>
-                                                            <c:if test="${stage<APPLY_STAGE_GROW && stage>APPLY_STAGE_INIT}">
-                                                            <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                                                    data-url="${ctx}/memberApply_back"
-                                                                    data-id-name="userId"
-                                                                    data-querystr="&stage=${param.stage}">
-                                                                <i class="fa fa-reply-all"></i> 打回申请
-                                                            </button>
-                                                            </c:if>
+
                                                             <button class="jqOpenViewBtn btn btn-info btn-sm"
                                                                     data-url="${ctx}/applyApprovalLog_page"
                                                                     data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"
@@ -339,6 +329,8 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
+        multiboxonly:false,
+        ondblClickRow:function(){},
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 150, frozen: true},
@@ -387,8 +379,9 @@ pageEncoding="UTF-8" %>
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
-            } else if (status) {
-                var rowData = $(this).getRowData(id);
+            } else if (ids.length==1) {
+                jgrid_sid = ids[0];
+                var rowData = $(this).getRowData(ids[0]);
                 $("#applyBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_INIT}");
                 $("#activeBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_PASS}");
                 $("#candidateBtn").prop("disabled", rowData.candidateStatus != '');
@@ -419,46 +412,121 @@ pageEncoding="UTF-8" %>
     });
 
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    <c:if test="${stage==APPLY_STAGE_INIT}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"通过",
-        btnbase:"btn btn-success btn-xs",
+        btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        onClickButton: function(){
-            var ids  = $(this).getGridParam("selarrrow");
-            if(ids.length==0){
-                SysMsg.warning("请选择行", "提示");
-                return ;
-            }
-            //alert(ids)
-            var rowData = $(this).getRowData(ids[0]);
-            //console.log("ids[0]" + ids[0] +rowData)
-        }
+        props:'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
+
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"不通过",
-        btnbase:"btn btn-danger btn-xs",
+        btnbase:"jqBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-times-circle-o",
-        onClickButton: function(){
-            var ids  = $(this).getGridParam("selarrrow");
-            if(ids.length==0){
-                SysMsg.warning("请选择行", "提示");
-                return ;
-            }
-        }
+        props:'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定拒绝这{0}个申请吗？" data-page-reload="true"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"确定为入党积极分子",
-        btnbase:"btn btn-warning btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        onClickButton: function(){
-            var ids  = $(this).getGridParam("selarrrow");
-            if(ids.length==0){
-                SysMsg.warning("请选择行", "提示");
-                return ;
-            }
-        }
+        props:'data-url="${ctx}/apply_active"'
     });
+    </c:if>
+    <c:if test="${stage==APPLY_STAGE_ACTIVE}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"确定为发展对象",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_candidate"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    </c:if>
+    <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"列入发展计划",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_plan"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    </c:if>
+    <c:if test="${stage==APPLY_STAGE_PLAN}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"领取志愿书",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_draw"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_draw_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    </c:if>
+
+    <c:if test="${stage==APPLY_STAGE_DRAW}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"发展为预备党员",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"组织部审核",
+        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    </c:if>
+
+    <c:if test="${stage==APPLY_STAGE_GROW}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"预备党员转正",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_positive"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"组织部审核",
+        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_positive_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+    </c:if>
+
+    <c:if test="${stage<APPLY_STAGE_GROW && stage>=APPLY_STAGE_INIT}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"打回申请",
+        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        buttonicon:"fa fa-reply-all",
+        props:'data-url="${ctx}/memberApply_back" data-querystr="&stage=${param.stage}"'
+    });
+    </c:if>
 
     $(".addBtn").click(function(){
         loadModal("${ctx}/memberApply_au");
@@ -472,14 +540,16 @@ pageEncoding="UTF-8" %>
                 $("#next").click();
             else
                 $("#last").click();
+        }else{
+            page_reload();
         }
     }
     function apply_deny(userId, type){
         bootbox.confirm("确定拒绝该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_deny",{userId:userId},function(ret){
+                $.post("${ctx}/apply_deny",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -490,9 +560,9 @@ pageEncoding="UTF-8" %>
     function apply_pass(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_pass",{userId:userId},function(ret){
+                $.post("${ctx}/apply_pass",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -501,13 +571,13 @@ pageEncoding="UTF-8" %>
         });
     }
     function apply_active(userId, type){
-        var url = "${ctx}/apply_active?userId="+userId;
+        var url = "${ctx}/apply_active?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url);
     }
     function apply_candidate(userId, type){
-        var url = "${ctx}/apply_candidate?userId="+userId;
+        var url = "${ctx}/apply_candidate?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url);
@@ -515,9 +585,9 @@ pageEncoding="UTF-8" %>
     function apply_candidate_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_candidate_check",{userId:userId},function(ret){
+                $.post("${ctx}/apply_candidate_check",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -528,7 +598,7 @@ pageEncoding="UTF-8" %>
 
     function apply_plan(userId, type){
 
-        var url = "${ctx}/apply_plan?userId="+userId;
+        var url = "${ctx}/apply_plan?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url);
@@ -536,9 +606,9 @@ pageEncoding="UTF-8" %>
     function apply_plan_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_plan_check",{userId:userId},function(ret){
+                $.post("${ctx}/apply_plan_check",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -549,7 +619,7 @@ pageEncoding="UTF-8" %>
 
     function apply_draw(userId, type){
 
-        var url = "${ctx}/apply_draw?userId="+userId;
+        var url = "${ctx}/apply_draw?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url);
@@ -557,9 +627,9 @@ pageEncoding="UTF-8" %>
     function apply_draw_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_draw_check",{userId:userId},function(ret){
+                $.post("${ctx}/apply_draw_check",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -569,7 +639,7 @@ pageEncoding="UTF-8" %>
     }
 
     function apply_grow(userId, type){
-        var url = "${ctx}/apply_grow?userId="+userId;
+        var url = "${ctx}/apply_grow?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url);
@@ -577,9 +647,9 @@ pageEncoding="UTF-8" %>
     function apply_grow_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_grow_check",{userId:userId},function(ret){
+                $.post("${ctx}/apply_grow_check",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -590,9 +660,9 @@ pageEncoding="UTF-8" %>
     function apply_grow_check2(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_grow_check2",{userId:userId},function(ret){
+                $.post("${ctx}/apply_grow_check2",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -601,7 +671,7 @@ pageEncoding="UTF-8" %>
         });
     }
     function apply_positive(userId, type){
-        var url = "${ctx}/apply_positive?userId="+userId;
+        var url = "${ctx}/apply_positive?ids[]="+userId;
         if(type!=undefined)
             url += "&type="+ type;
         loadModal(url)
@@ -609,9 +679,9 @@ pageEncoding="UTF-8" %>
     function apply_positive_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_positive_check",{userId:userId},function(ret){
+                $.post("${ctx}/apply_positive_check",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }
@@ -622,9 +692,9 @@ pageEncoding="UTF-8" %>
     function apply_positive_check2(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/apply_positive_check2",{userId:userId},function(ret){
+                $.post("${ctx}/apply_positive_check2",{ids:[userId]},function(ret){
                     if(ret.success){
-                        page_reload();
+                        //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(type);
                     }

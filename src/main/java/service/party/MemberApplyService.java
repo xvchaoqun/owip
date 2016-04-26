@@ -293,7 +293,7 @@ public class MemberApplyService extends BaseMapper {
 
         int userId = memberApply.getUserId();
         switch (stage){
-            case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书(_stage= SystemConstants.APPLY_STAGE_DRAW)
+            case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= SystemConstants.APPLY_STAGE_DRAW)
                 updateMapper.memberApplyBackToPlan(userId);
                 break;
             case SystemConstants.APPLY_STAGE_CANDIDATE:

@@ -44,16 +44,6 @@ public class MemberTransferController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private VerifyAuth<MemberTransfer> checkVerityAuth(int id){
-        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberTransfer, memberTransfer.getPartyId());
-    }
-
-    private VerifyAuth<MemberTransfer> checkVerityAuth2(int id){
-        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberTransfer, memberTransfer.getToPartyId());
-    }
-
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_view")
     public String memberTransfer_view(int userId, ModelMap modelMap) {
@@ -127,6 +117,8 @@ public class MemberTransferController extends BaseController {
     public void memberTransfer_data(@RequestParam(defaultValue = "1")Integer cls,HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_transfer") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                 Byte status,
+                                 Boolean isBack,
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
@@ -148,6 +140,13 @@ public class MemberTransferController extends BaseController {
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
+        }
+
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -160,7 +159,10 @@ public class MemberTransferController extends BaseController {
         }
 
         if(cls==1){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            criteria.andStatusIn(statusList);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
@@ -235,12 +237,10 @@ public class MemberTransferController extends BaseController {
         // 上一条记录
         modelMap.put("last", memberTransferService.last(type, currentMemberTransfer));
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
         return "party/memberTransfer/memberTransfer_approval";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping("/memberTransfer_deny")
     public String memberTransfer_deny(Integer id, ModelMap modelMap) {
@@ -252,66 +252,43 @@ public class MemberTransferController extends BaseController {
 
         return "party/memberTransfer/memberTransfer_deny";
     }
-
-    @RequiresPermissions("memberTransfer:update")
-    @RequestMapping(value = "/memberTransfer_deny", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberTransfer_deny(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                  Integer id,
-                                  byte type,
-                                  String reason) {
-
-        MemberTransfer memberTransfer = null;
-        if(type==1) {
-            VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
-            memberTransfer = verifyAuth.entity;
-        }else if(type==2){
-            VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
-            memberTransfer = verifyAuth.entity;
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberTransfer.getUserId();
-
-        memberTransferService.deny(memberTransfer.getUserId(), reason);
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝校内组织关系转接申请：%s", id));
-
-        applyApprovalLogService.add(memberTransfer.getId(),
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
-                        ? "转出分党委审核" : "转入分党委审核", (byte) 0, reason);
-
-        return success(FormUtils.SUCCESS);
-    }
-
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                       byte type, // 1:转出分党委审核 2：转入分党委审核
-                                       Integer id) {
-        MemberTransfer memberTransfer = null;
-        if(type==1) {
-            VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
-            memberTransfer = verifyAuth.entity;
+                                   byte type, // 1:转出分党委审核 2：转入分党委审核
+                                   @RequestParam(value = "ids[]") int[] ids) {
 
-            memberTransferService.check1(memberTransfer.getUserId());
-            logger.info(addLog(SystemConstants.LOG_OW, "审核校内组织关系转接申请：%s", id));
-        }
-        if(type==2) {
-            VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
-            memberTransfer = verifyAuth.entity;
 
-            memberTransferService.check2(memberTransfer.getUserId(), false);
-            logger.info(addLog(SystemConstants.LOG_OW, "通过校内组织关系转接申请：%s", id));
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberTransfer.getUserId();
-        applyApprovalLogService.add(memberTransfer.getId(),
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
-                        ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
+        memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", ids));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberTransfer:update")
+    @RequestMapping("/memberTransfer_back")
+    public String memberTransfer_back() {
+
+        return "party/memberTransfer/memberTransfer_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberTransfer:update")
+    @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberTransfer_back(@CurrentUser SysUser loginUser,
+                                  @RequestParam(value = "ids[]") int[] ids,
+                                  byte status,
+                                  String reason) {
+
+
+        memberTransferService.memberTransfer_back(ids, status, reason, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", ids));
         return success(FormUtils.SUCCESS);
     }
     

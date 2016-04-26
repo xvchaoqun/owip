@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberInflow implements Serializable {
-
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
@@ -39,6 +38,8 @@ public class MemberInflow implements Serializable {
     private String orLocation;
 
     private Byte inflowStatus;
+
+    private Boolean isBack;
 
     private String outflowUnit;
 
@@ -170,6 +171,14 @@ public class MemberInflow implements Serializable {
 
     public void setInflowStatus(Byte inflowStatus) {
         this.inflowStatus = inflowStatus;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public String getOutflowUnit() {

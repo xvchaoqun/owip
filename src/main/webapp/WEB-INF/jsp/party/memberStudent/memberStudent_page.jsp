@@ -202,15 +202,7 @@
                 caption:"校内组织关系转移",
                 btnbase:"partyChangeBtn btn btn-danger btn-xs",
                 buttonicon:"fa fa-random",
-                onClickButton: function(){
-                    var ids  = $(this).getGridParam("selarrrow");
-                    if(ids.length==0){
-                        SysMsg.warning("请选择行", "提示");
-                        return ;
-                    }
-
-                    loadModal("${ctx}/member_changeParty?ids[]={0}".format(ids))
-                }
+                props:'data-url="${ctx}/member_changeParty"'
             });
     </shiro:hasRole>
 </script>

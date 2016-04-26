@@ -9,26 +9,78 @@
             <div class="myTableDiv"
                  data-url-au="${ctx}/memberQuit_au"
                  data-url-page="${ctx}/memberQuit_page"
-                 data-url-del="${ctx}/memberQuit_del"
-                 data-url-bd="${ctx}/memberQuit_batchDel"
-                 data-url-co="${ctx}/memberQuit_changeOrder"
                  data-url-export="${ctx}/memberQuit_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param._quitTime
+                <c:set var="_query" value="${not empty param.userId ||not empty param.isBack
+                ||not empty param.status||not empty param.type||not empty param._quitTime
                  ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
-
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="${cls==1?'active':''}">
+                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 待审核</a>
+                        </li>
+                        <li class="${cls==2?'active':''}">
+                            <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
+                        </li>
+                        <li class="${cls==3?'active':''}">
+                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已审核</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="home4" class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberQuit:edit">
+                                    <c:if test="${cls==1}">
                                     <a href="javascript:;" class="editBtn btn btn-info btn-sm">
                                         <i class="fa fa-plus"></i> 添加</a>
+                                    </c:if>
+                                    <c:if test="${cls!=3}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-id-name="userId">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
+                                    </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
+                                <c:if test="${cls==1}">
+                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
+                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/memberQuit_approval"
+                                            data-open-by="page"
+                                            data-querystr="&type=1"
+                                            data-need-id="false"
+                                            data-count="${branchApprovalCount}">
+                                        <i class="fa fa-sign-in"></i> 支部审核（${branchApprovalCount}）
+                                    </button>
+                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
+                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/memberQuit_approval"
+                                            data-open-by="page"
+                                            data-querystr="&type=2"
+                                            data-need-id="false"
+                                            data-count="${partyApprovalCount}">
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                    </button>
+                                    <shiro:hasRole name="odAdmin">
+                                        <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
+                                                class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                data-url="${ctx}/memberQuit_approval"
+                                                data-open-by="page"
+                                                data-querystr="&type=3"
+                                                data-need-id="false"
+                                                data-count="${odApprovalCount}">
+                                            <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
+                                        </button>
+                                    </shiro:hasRole>
+                                </c:if>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"
+                                        data-open-by="page">
+                                    <i class="fa fa-sign-in"></i> 查看审批记录
+                                </button>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -47,17 +99,52 @@
                                             <div class="row">
                                                 <div class="col-xs-4">
                                                     <div class="form-group">
+                                                        <label class="col-xs-3 control-label">当前状态</label>
+                                                        <div class="col-xs-6">
+                                                            <div class="input-group">
+                                                                <select name="status" data-rel="select2" data-placeholder="请选择">
+                                                                    <option></option>
+                                                                    <c:forEach var="_status" items="${MEMBER_QUIT_STATUS_MAP}">
+                                                                        <c:if test="${_status.key>MEMBER_QUIT_STATUS_BACK && _status.key<MEMBER_QUIT_STATUS_OW_VERIFY}">
+                                                                        <option value="${_status.key}">${_status.value}</option>
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </select>
+                                                                <script>
+                                                                    $("#searchForm select[name=status]").val("${param.status}");
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-xs-3 control-label">审核类别</label>
+                                                        <div class="col-xs-6">
+                                                            <div class="input-group">
+                                                                <select name="isBack" data-rel="select2" data-placeholder="请选择">
+                                                                    <option></option>
+                                                                    <option value="0">新申请</option>
+                                                                    <option value="1">返回修改</option>
+                                                                </select>
+                                                                <script>
+                                                                    $("#searchForm select[name=isBack]").val("${param.isBack}");
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label class="col-xs-3 control-label">姓名</label>
 
                                                         <div class="col-xs-6">
                                                             <div class="input-group">
-                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_QUIT}"
+                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                     <option value="${sysUser.id}">${sysUser.realname}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    </div>
+                                                <div class="col-xs-4">
                                                     <div class="form-group">
                                                         <label class="col-xs-3 control-label">出党时间</label>
 
@@ -68,6 +155,20 @@
                                                                 </span>
                                                                 <input placeholder="请选择出党时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_quitTime" value="${param._quitTime}"/>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-xs-3 control-label">出党原因</label>
+                                                        <div class="col-xs-6">
+                                                            <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
+                                                                <option></option>
+                                                                <c:forEach items="${MEMBER_QUIT_TYPE_MAP}" var="quitType">
+                                                                    <option value="${quitType.key}">${quitType.value}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <script>
+                                                                $("#searchForm select[name=type]").val("${param.type}");
+                                                            </script>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,12 +184,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
-                                                </div>
-                                                <div class="col-xs-4" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                                    <div class="form-group">
-                                                        <label class="col-xs-4 control-label">党支部</label>
-
+                                                    <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                                        <label class="col-xs-3 control-label">党支部</label>
                                                         <div class="col-xs-6">
                                                             <select class="form-control" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/branch_selects"
@@ -121,6 +218,7 @@
                             <div class="space-4"></div>
                             <table id="jqGrid" class="jqGrid table-striped"></table>
                             <div id="jqGridPager"></div>
+                        </div></div></div>
             </div>
         </div>
         <div id="item-content">
@@ -130,7 +228,39 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    function goto_next(goToNext) {
+        if (goToNext) {
+            if ($("#next").hasClass("disabled") && $("#last").hasClass("disabled"))
+                $(".closeView").click();
+            else if (!$("#next").hasClass("disabled"))
+                $("#next").click();
+            else
+                $("#last").click();
+        }
+    }
+    function apply_deny(id, type, goToNext) {
+
+        loadModal("${ctx}/memberQuit_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+    }
+
+    function apply_pass(id, type, goToNext) {
+        bootbox.confirm("确定通过该申请？", function (result) {
+            if (result) {
+                $.post("${ctx}/memberQuit_check", {ids: [id], type: type}, function (ret) {
+                    if (ret.success) {
+                        SysMsg.success('操作成功。', '成功', function () {
+                            //page_reload();
+                            goto_next(goToNext);
+                        });
+                    }
+                });
+            }
+        });
+    }
+    
     $("#jqGrid").jqGrid({
+        multiboxonly:false,
+        ondblClickRow:function(){},
         url: '${ctx}/memberQuit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '学工号', name: 'user.code', frozen: true},
@@ -151,11 +281,90 @@
             },
             {label: '出党时间', name: 'quitTime', width: 150},
             {label: '出党原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.RETIRE_QUIT_TYPE_MAP[rowObject.type];
-            }}, {hidden: true, name: 'status'},{hidden:true, key:true, name:'userId'}
-        ]
+                return _cMap.MEMBER_QUIT_TYPE_MAP[rowObject.type];
+            }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.MEMBER_QUIT_STATUS_MAP[rowObject.status];
+            }}
+                <c:if test="${cls==1}">
+            ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isBack?"返回修改":"新申请";
+            }}</c:if>
+            , {hidden: true, name: 'status'},{hidden:true, key:true, name:'userId'}
+        ],
+        onSelectRow: function (id, status) {
+            jgrid_sid = id;
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#branchApprovalBtn, #partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+            } else if (ids.length==1) {
+                jgrid_sid = ids[0];
+                var rowData = $(this).getRowData(ids[0]);
+                $("#branchApprovalBtn").prop("disabled", rowData.status != "${MEMBER_QUIT_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_QUIT_STATUS_BRANCH_VERIFY}");
+                $("#odApprovalBtn").prop("disabled", rowData.status != "${MEMBER_QUIT_STATUS_PARTY_VERIFY}");
+            } else {
+                $("*[data-count]").each(function(){
+                    $(this).prop("disabled", $(this).data("count") == 0);
+                })
+            }
+        },
+        onSelectAll: function (aRowids, status) {
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#branchApprovalBtn, #partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+            }else {
+                $("*[data-count]").each(function () {
+                    $(this).prop("disabled", $(this).data("count") == 0);
+                })
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
+
+    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    <c:if test="${cls==1}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"支部审核",
+        btnbase:"jqBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"组织部审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+    });
+
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"打回申请",
+        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        buttonicon:"fa fa-reply-all",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
+            var minStatus;
+            for(var key in ids){
+                var rowData = $(this).getRowData(ids[key]);
+                if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
+            }
+
+            loadModal("${ctx}/memberQuit_back?ids[]={0}&status={1}".format(ids, minStatus))
+        }
+    });
+    </c:if>
 
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=userId]'));

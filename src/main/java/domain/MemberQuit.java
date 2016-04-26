@@ -29,6 +29,8 @@ public class MemberQuit implements Serializable {
 
     private Byte status;
 
+    private Boolean isBack;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -111,6 +113,14 @@ public class MemberQuit implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public Date getCreateTime() {

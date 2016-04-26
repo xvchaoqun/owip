@@ -19,6 +19,7 @@
     <result column="handle_time" property="handleTime" jdbcType="DATE" />
     <result column="has_receipt" property="hasReceipt" jdbcType="BIT" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List" >
     id, user_id, party_id, branch_id, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    status, reason, apply_time
+    status, is_back, reason, apply_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberOutExample" >
     select
@@ -115,23 +116,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.MemberOut" >
+  <insert keyProperty="id" id="insert" parameterType="domain.MemberOut" >
     insert into ow_member_out (id, user_id, party_id, 
       branch_id, type, to_title, 
       to_unit, from_unit, from_address, 
       from_phone, from_fax, from_post_code, 
       pay_time, valid_days, handle_time, 
-      has_receipt, status, reason, 
-      apply_time)
+      has_receipt, status, is_back, 
+      reason, apply_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{toTitle,jdbcType=VARCHAR}, 
       #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
       #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
       #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
-      #{applyTime,jdbcType=TIMESTAMP})
+      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
+      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.MemberOut" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberOut" >
     insert into ow_member_out
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -184,6 +185,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="reason != null" >
         reason,
@@ -243,6 +247,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="reason != null" >
         #{reason,jdbcType=VARCHAR},
@@ -312,6 +319,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.reason != null" >
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
@@ -342,6 +352,7 @@
       handle_time = #{record.handleTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       apply_time = #{record.applyTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
@@ -399,6 +410,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
       <if test="reason != null" >
         reason = #{reason,jdbcType=VARCHAR},
       </if>
@@ -426,6 +440,7 @@
       handle_time = #{handleTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       apply_time = #{applyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

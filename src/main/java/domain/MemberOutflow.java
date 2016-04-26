@@ -6,11 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberOutflow implements Serializable {
-
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
-
     private Integer id;
 
     private Integer userId;
@@ -40,6 +38,8 @@ public class MemberOutflow implements Serializable {
     private Byte orStatus;
 
     private Byte status;
+
+    private Boolean isBack;
 
     private Date createTime;
 
@@ -163,6 +163,14 @@ public class MemberOutflow implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public Date getCreateTime() {

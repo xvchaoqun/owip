@@ -33,6 +33,9 @@
           #{branchId}
         </foreach>
       </if>
+    <if test="adminPartyIdList.size==0 and adminBranchIdList.size==0">
+        and m.user_id is null
+      </if>
     </if>
   </sql>
   <select id="selectMemberList" resultMap="persistence.MemberMapper.BaseResultMap" parameterType="map" >

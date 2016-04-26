@@ -1,9 +1,14 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberStayView implements Serializable {
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -29,6 +34,8 @@ public class MemberStayView implements Serializable {
     private String contactMobile;
 
     private Byte status;
+
+    private Boolean isBack;
 
     private String reason;
 
@@ -140,6 +147,14 @@ public class MemberStayView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
     }
 
     public String getReason() {

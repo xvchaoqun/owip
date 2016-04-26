@@ -17,6 +17,7 @@
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="or_location" property="orLocation" jdbcType="VARCHAR" />
     <result column="inflow_status" property="inflowStatus" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="outflow_unit" property="outflowUnit" jdbcType="VARCHAR" />
     <result column="outflow_location" property="outflowLocation" jdbcType="INTEGER" />
     <result column="outflow_time" property="outflowTime" jdbcType="DATE" />
@@ -83,7 +84,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, type, party_name, branch_name, party_id, branch_id, original_job, province, 
-    has_papers, flow_time, reason, grow_time, or_location, inflow_status, outflow_unit, 
+    has_papers, flow_time, reason, grow_time, or_location, inflow_status, is_back, outflow_unit, 
     outflow_location, outflow_time, outflow_status, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberInflowExample" >
@@ -116,23 +117,25 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.MemberInflow" >
+  <insert keyProperty="id" id="insert" parameterType="domain.MemberInflow" >
     insert into ow_member_inflow (id, user_id, type, 
       party_name, branch_name, party_id, 
       branch_id, original_job, province, 
       has_papers, flow_time, reason, 
       grow_time, or_location, inflow_status, 
-      outflow_unit, outflow_location, outflow_time, 
-      outflow_status, create_time)
+      is_back, outflow_unit, outflow_location, 
+      outflow_time, outflow_status, create_time
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{originalJob,jdbcType=INTEGER}, #{province,jdbcType=INTEGER}, 
       #{hasPapers,jdbcType=BIT}, #{flowTime,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{orLocation,jdbcType=VARCHAR}, #{inflowStatus,jdbcType=TINYINT}, 
-      #{outflowUnit,jdbcType=VARCHAR}, #{outflowLocation,jdbcType=INTEGER}, #{outflowTime,jdbcType=DATE}, 
-      #{outflowStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+      #{isBack,jdbcType=BIT}, #{outflowUnit,jdbcType=VARCHAR}, #{outflowLocation,jdbcType=INTEGER}, 
+      #{outflowTime,jdbcType=DATE}, #{outflowStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.MemberInflow" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberInflow" >
     insert into ow_member_inflow
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -179,6 +182,9 @@
       </if>
       <if test="inflowStatus != null" >
         inflow_status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="outflowUnit != null" >
         outflow_unit,
@@ -241,6 +247,9 @@
       </if>
       <if test="inflowStatus != null" >
         #{inflowStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="outflowUnit != null" >
         #{outflowUnit,jdbcType=VARCHAR},
@@ -313,6 +322,9 @@
       <if test="record.inflowStatus != null" >
         inflow_status = #{record.inflowStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.outflowUnit != null" >
         outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
       </if>
@@ -350,6 +362,7 @@
       grow_time = #{record.growTime,jdbcType=DATE},
       or_location = #{record.orLocation,jdbcType=VARCHAR},
       inflow_status = #{record.inflowStatus,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
       outflow_location = #{record.outflowLocation,jdbcType=INTEGER},
       outflow_time = #{record.outflowTime,jdbcType=DATE},
@@ -404,6 +417,9 @@
       <if test="inflowStatus != null" >
         inflow_status = #{inflowStatus,jdbcType=TINYINT},
       </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
       <if test="outflowUnit != null" >
         outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
       </if>
@@ -438,6 +454,7 @@
       grow_time = #{growTime,jdbcType=DATE},
       or_location = #{orLocation,jdbcType=VARCHAR},
       inflow_status = #{inflowStatus,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
       outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
       outflow_location = #{outflowLocation,jdbcType=INTEGER},
       outflow_time = #{outflowTime,jdbcType=DATE},

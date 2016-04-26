@@ -1,6 +1,6 @@
 package domain;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import sys.constants.SystemConstants;
@@ -967,6 +967,66 @@ public class MemberStayExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsBackIsNull() {
+            addCriterion("is_back is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackIsNotNull() {
+            addCriterion("is_back is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackEqualTo(Boolean value) {
+            addCriterion("is_back =", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackNotEqualTo(Boolean value) {
+            addCriterion("is_back <>", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackGreaterThan(Boolean value) {
+            addCriterion("is_back >", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_back >=", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackLessThan(Boolean value) {
+            addCriterion("is_back <", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_back <=", value, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackIn(List<Boolean> values) {
+            addCriterion("is_back in", values, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackNotIn(List<Boolean> values) {
+            addCriterion("is_back not in", values, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_back between", value1, value2, "isBack");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBackNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_back not between", value1, value2, "isBack");
+            return (Criteria) this;
+        }
+
         public Criteria andReasonIsNull() {
             addCriterion("reason is null");
             return (Criteria) this;
@@ -1103,7 +1163,6 @@ public class MemberStayExample {
         protected Criteria() {
             super();
         }
-
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             Subject subject = SecurityUtils.getSubject();
@@ -1121,7 +1180,7 @@ public class MemberStayExample {
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
             if(branchIdList.isEmpty() && partyIdList.isEmpty())
-                andIdIsNull();
+                andUserIdIsNull();
             return this;
         }
     }

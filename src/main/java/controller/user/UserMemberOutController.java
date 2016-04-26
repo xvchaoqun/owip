@@ -86,6 +86,13 @@ public class UserMemberOutController extends BaseController{
         if (memberOut == null) {
             memberOutService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                    "提交",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交组织关系转出申请");
         } else {
             memberOutService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "修改组织关系转出申请"));

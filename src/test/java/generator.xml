@@ -70,8 +70,8 @@
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
       <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
-      </table>
-      <table tableName="ow_member_quit" domainObjectName="MemberQuit">
+      </table>-->
+      <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
       <!--<table tableName="ow_apply_approval_log" domainObjectName="ApplyApprovalLog">
       </table>-->

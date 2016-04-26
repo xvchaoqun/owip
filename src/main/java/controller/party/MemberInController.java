@@ -44,16 +44,6 @@ public class MemberInController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-  /*  private VerifyAuth<MemberIn> checkVerityAuth(int id){
-        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth(memberIn, memberIn.getPartyId(), memberIn.getBranchId());
-    }*/
-
-    private VerifyAuth<MemberIn> checkVerityAuth2(int id){
-        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        return super.checkVerityAuth2(memberIn, memberIn.getPartyId());
-    }
-
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn")
     public String memberIn() {
@@ -94,6 +84,8 @@ public class MemberInController extends BaseController {
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_in") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
+                                    Byte status,
+                                    Boolean isBack,
                                      Byte type,
                                     Integer partyId,
                                     Integer branchId,
@@ -118,8 +110,14 @@ public class MemberInController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type!=null) {
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(type!=null){
             criteria.andTypeEqualTo(type);
+        }
+        if(isBack!=null){
+            criteria.andIsBackEqualTo(isBack);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -129,7 +127,10 @@ public class MemberInController extends BaseController {
         }
 
         if(cls==1){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            statusList.add(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            criteria.andStatusIn(statusList);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
@@ -167,9 +168,11 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:edit")
     @RequestMapping(value = "/memberIn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_au(MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberIn_au(@CurrentUser SysUser loginUser,MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
                               String _growTime, String _positiveTime,
-                              String _fromHandleTime, String _handleTime, HttpServletRequest request) {
+                              String _fromHandleTime, String _handleTime,
+                              Byte resubmit,
+                              HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -204,14 +207,26 @@ public class MemberInController extends BaseController {
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
-        if (id == null) {
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        if (memberIn == null) {
 
             enterApplyService.memberIn(record);
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转入：%s", record.getId()));
         } else {
-            record.setStatus(null); // 更新的时候不能更新状态
-            memberInService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转入：%s", record.getId()));
+
+            if(resubmit!=null && resubmit==1 && memberIn.getStatus()<SystemConstants.MEMBER_IN_STATUS_APPLY){ // 重新提交
+                enterApplyService.memberIn(record);
+            }else {
+                record.setStatus(null); // 更新的时候不能更新状态
+                memberInService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转入：%s", record.getId()));
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -221,8 +236,8 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
     public String memberIn_approval(@CurrentUser SysUser loginUser, Integer id,
-                                        byte type, // 1:支部审核 2：分党委审核
-                                        ModelMap modelMap) {
+                                      byte type, // 1:分党委审核 2：组织部审核
+                                      ModelMap modelMap) {
 
         MemberIn currentMemberIn = null;
         if (id != null) {
@@ -261,6 +276,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_approval";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_deny")
     public String memberIn_deny(Integer id, ModelMap modelMap) {
@@ -273,73 +289,43 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_deny";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
-    @RequestMapping(value = "/memberIn_deny", method = RequestMethod.POST)
+    @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_deny(@CurrentUser SysUser loginUser, String reason,
-                                Integer id,
-                                byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                HttpServletRequest request) {
-        MemberIn memberIn = null;
-        if(type==1) {
-            VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
-            memberIn = verifyAuth.entity;
-        }else if(type==2){
-            SecurityUtils.getSubject().checkRole("odAdmin");
-            memberIn = memberInMapper.selectByPrimaryKey(id);
-        }else{
-            throw new RuntimeException("审核类型错误");
-        }
-        int loginUserId = loginUser.getId();
-        int userId = memberIn.getUserId();
+    public Map do_memberIn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                   byte type, // 1:分党委审核 3：组织部审核
+                                   @RequestParam(value = "ids[]") int[] ids) {
 
-        enterApplyService.applyBack(memberIn.getUserId(), reason, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT );
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入-返回修改：%s", id));
 
-        applyApprovalLogService.add(memberIn.getId(),
-                memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 0, reason);
+        memberInService.memberIn_check(ids, type, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-审核：%s", ids));
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
-    @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
+    @RequestMapping("/memberIn_back")
+    public String memberIn_back() {
+
+        return "party/memberIn/memberIn_back";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_check(@CurrentUser SysUser loginUser,
-                                  Integer id,
-                                  byte type, // 1:分党委党总支直属党支部审核 2：组织部审核
-                                  HttpServletRequest request) {
-        MemberIn memberIn = null;
-        if(type==1) {
-            VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
-            memberIn = verifyAuth.entity;
-            boolean isParty = verifyAuth.isParty;
+    public Map do_memberIn_back(@CurrentUser SysUser loginUser,
+                                  @RequestParam(value = "ids[]") int[] ids,
+                                  byte status,
+                                  String reason) {
 
-            if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
-                memberInService.checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus());
-                logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入-分党委审核：%s", id));
-            } else {
-                memberInService.checkMember(memberIn.getUserId());
-                logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入-党总支、直属党支部审核：%s", id));
-            }
-        }
-        if(type==2) {
-            SecurityUtils.getSubject().checkRole("odAdmin");
 
-            memberIn = memberInMapper.selectByPrimaryKey(id);
-            memberInService.addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
-            logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入-审核2：%s", id));
-        }
+        memberInService.memberIn_back(ids, status, reason, loginUser.getId());
 
-        int loginUserId = loginUser.getId();
-        int userId = memberIn.getUserId();
-        applyApprovalLogService.add(memberIn.getId(),
-                memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
-                        ? "分党委审核" : "组织部审核", (byte) 1, null);
-
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转入申请：%s", ids));
         return success(FormUtils.SUCCESS);
     }
 

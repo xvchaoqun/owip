@@ -10233,7 +10233,8 @@ $.jgrid.extend({
                     $(tbd).addClass('ui-pg-button '+cornerall).append("<div class='ui-pg-div'>"+p.caption+"</div>");
 				} else	{
 					//$(tbd).addClass('ui-pg-button '+cornerall).append("<div class='ui-pg-div'><span class='"+iconbase+" "+p.buttonicon+"'></span>"+p.caption+"</div>");
-					$(tbd).addClass(' '+cornerall).append("<div class='"+ p.btnbase +"'><i class='"+iconbase+" "+p.buttonicon+"'></i> "+p.caption+"</div>");
+					////////////////
+					$(tbd).addClass(' '+cornerall).append("<div class='"+ p.btnbase +"' "+ p.props +"><i class='"+iconbase+" "+p.buttonicon+"'></i> "+p.caption+"</div>");
 				}
 				if(p.id) {$(tbd).attr("id",p.id);}
 				if(p.position==='first'){
@@ -10248,10 +10249,12 @@ $.jgrid.extend({
 				$(tbd,findnav)
 				.attr("title",p.title  || "")
 				.click(function(e){
-					if (!$(this).hasClass(disabled)) {
-						if ($.isFunction(p.onClickButton) ) {p.onClickButton.call($t,e);}
+					if(typeof p.props=='undefined'){ /////////////////////////////////
+						if (!$(this).hasClass(disabled)) {
+							if ($.isFunction(p.onClickButton) ) {p.onClickButton.call($t,e);}
+						}
+						return false;
 					}
-					return false;
 				})
 				.hover(
 					function () {

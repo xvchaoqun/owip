@@ -40,7 +40,7 @@
                                             data-open-by="page"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 分党委党支部直属党支部审核（${partyApprovalCount}）
+                                        <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"

@@ -2,8 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="RETIRE_QUIT_TYPE_MAP" value="<%=SystemConstants.RETIRE_QUIT_TYPE_MAP%>"/>
-<c:set var="MEMBER_STATUS_NORMAL" value="<%=SystemConstants.MEMBER_STATUS_NORMAL%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberQuit!=null}">编辑</c:if><c:if test="${memberQuit==null}">添加</c:if>党员出党</h3>
@@ -12,12 +10,14 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberQuit_au" id="modalForm" method="post">
         <c:if test="${not empty memberQuit}">
         <input type="hidden" name="userId" value="${memberQuit.userId}">
+        <input type="hidden" name="resubmit">
         </c:if>
         <div class="form-group">
-				<label class="col-xs-3 control-label">账号ID</label>
+				<label class="col-xs-3 control-label">账号</label>
 				<div class="col-xs-6">
                     <c:if test="${empty memberQuit}">
-                    <select required  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
+                    <select required  class="form-control" data-rel="select2-ajax"
+                            data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}</option>
                     </select>
@@ -28,11 +28,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-3 control-label">出党原因</label>
 				<div class="col-xs-6">
                         <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                             <option></option>
-                            <c:forEach items="${RETIRE_QUIT_TYPE_MAP}" var="quitType">
+                            <c:forEach items="${MEMBER_QUIT_TYPE_MAP}" var="quitType">
                                 <option value="${quitType.key}">${quitType.value}</option>
                             </c:forEach>
                         </select>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">备注</label>
+                <label class="col-xs-3 control-label">返回修改原因</label>
                 <div class="col-xs-6">
                     <textarea class="form-control limited" name="remark" rows="5">${memberQuit.remark}</textarea>
                 </div>
@@ -62,6 +62,9 @@ pageEncoding="UTF-8"%>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberQuit!=null}">确定</c:if><c:if test="${memberQuit==null}">添加</c:if>"/>
+    <c:if test="${memberQuit!=null && memberQuit.status<MEMBER_QUIT_STATUS_APPLY}">
+    <input type="button" id="resubmit" class="btn btn-warning" value="修改并重新提交"/>
+    </c:if>
 </div>
 
 <script>
@@ -79,12 +82,15 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        SysMsg.success('提交成功。', '成功',function(){
-                            $("#jqGrid").trigger("reloadGrid");
-                        });
+                        page_reload()
                     }
                 }
             });
         }
+    });
+    $("#resubmit").click(function(){
+        $("input[name=resubmit]", "#modal form").val("1");
+        $("#modal form").submit();
+        return false;
     });
 </script>

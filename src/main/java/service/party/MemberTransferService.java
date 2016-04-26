@@ -3,6 +3,8 @@ package service.party;
 import domain.*;
 import domain.MemberTransfer;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,9 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +26,18 @@ public class MemberTransferService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+    
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    private VerifyAuth<MemberTransfer> checkVerityAuth(int id){
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberTransfer, memberTransfer.getPartyId());
+    }
+
+    private VerifyAuth<MemberTransfer> checkVerityAuth2(int id){
+        MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberTransfer, memberTransfer.getToPartyId());
+    }
 
     public int count(Integer partyId, Integer branchId, byte type){
 
@@ -122,6 +138,14 @@ public class MemberTransferService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        applyApprovalLogService.add(memberTransfer.getId(),
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(), shiroUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                "撤回",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "撤回校内组织关系互转申请");
     }
 
     // 不通过
@@ -207,5 +231,76 @@ public class MemberTransferService extends BaseMapper {
         }
 
         return memberTransferMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void memberTransfer_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberTransfer memberTransfer = null;
+            if(type==1) {
+                VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
+                memberTransfer = verifyAuth.entity;
+
+                check1(memberTransfer.getUserId());
+            }
+            if(type==2) {
+                VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
+                memberTransfer = verifyAuth.entity;
+
+                check2(memberTransfer.getUserId(), false);
+            }
+            int userId = memberTransfer.getUserId();
+            applyApprovalLogService.add(memberTransfer.getId(),
+                    memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
+                            ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
+        }
+    }
+
+    @Transactional
+    public void memberTransfer_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        for (int userId : userIds) {
+
+            MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
+            Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
+
+            if(status >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
+                if(!presentToPartyAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK){
+                if(!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberTransfer, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberTransfer memberTransfer, byte status, int loginUserId, String reason){
+
+        byte _status = memberTransfer.getStatus();
+        if(_status==SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status > _status || status<SystemConstants.MEMBER_TRANSFER_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberTransfer.getUserId();
+        updateMapper.memberTransfer_back(memberTransfer.getId(), status);
+
+        MemberTransfer record = new MemberTransfer();
+        record.setUserId(memberTransfer.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberTransfer.getId(),
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

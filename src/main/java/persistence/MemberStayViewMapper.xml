@@ -15,6 +15,7 @@
     <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
     <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
     <result column="member_status" property="memberStatus" jdbcType="TINYINT" />
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, party_id, branch_id, country, abroad_time, return_time, pay_time, mobile, 
-    email, contact_name, contact_mobile, status, reason, apply_time, member_status
+    email, contact_name, contact_mobile, status, is_back, reason, apply_time, member_status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberStayViewExample" >
     select
@@ -106,14 +107,14 @@
       branch_id, country, abroad_time, 
       return_time, pay_time, mobile, 
       email, contact_name, contact_mobile, 
-      status, reason, apply_time, 
-      member_status)
+      status, is_back, reason, 
+      apply_time, member_status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, #{abroadTime,jdbcType=DATE}, 
       #{returnTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
       #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
-      #{memberStatus,jdbcType=TINYINT})
+      #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberStayView" >
     insert into ow_member_stay_view
@@ -156,6 +157,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="reason != null" >
         reason,
@@ -206,6 +210,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="reason != null" >
         #{reason,jdbcType=VARCHAR},
@@ -266,6 +273,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.reason != null" >
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
@@ -295,6 +305,7 @@
       contact_name = #{record.contactName,jdbcType=VARCHAR},
       contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
       member_status = #{record.memberStatus,jdbcType=TINYINT}

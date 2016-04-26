@@ -4,6 +4,8 @@ import domain.Member;
 import domain.MemberReturn;
 import domain.MemberReturnExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,6 +31,18 @@ public class MemberReturnService extends BaseMapper {
     @Autowired
     private LoginUserService loginUserService;
 
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    private VerifyAuth<MemberReturn> checkVerityAuth(int id){
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberReturn, memberReturn.getPartyId(), memberReturn.getBranchId());
+    }
+
+    private VerifyAuth<MemberReturn> checkVerityAuth2(int id){
+        MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberReturn, memberReturn.getPartyId());
+    }
+    
     public int count(Integer partyId, Integer branchId, byte type){
 
         MemberReturnExample example = new MemberReturnExample();
@@ -214,5 +229,84 @@ public class MemberReturnService extends BaseMapper {
     public int updateByExampleSelective(MemberReturn record, MemberReturnExample example) {
 
         return memberReturnMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void memberReturn_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberReturn memberReturn = null;
+            if(type==1) {
+                VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth(id);
+                boolean isDirectBranch = verifyAuth.isDirectBranch;
+                boolean isPartyAdmin = verifyAuth.isPartyAdmin;
+                memberReturn = verifyAuth.entity;
+
+                if (isDirectBranch && isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+                    addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
+                } else {
+                    checkMember(memberReturn.getUserId());
+                }
+            }
+
+            if(type==2) {
+                VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth2(id);
+                memberReturn = verifyAuth.entity;
+
+                addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
+            }
+
+            int userId = memberReturn.getUserId();
+            applyApprovalLogService.add(memberReturn.getId(),
+                    memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
+                            ? "党支部审核" : "分党委审核", (byte) 1, null);
+        }
+    }
+
+    @Transactional
+    public void memberReturn_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        for (int userId : userIds) {
+
+            MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
+                if(!odAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
+                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberReturn, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberReturn memberReturn, byte status, int loginUserId, String reason){
+
+        byte _status = memberReturn.getStatus();
+        if(_status==SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status>_status || status<SystemConstants.MEMBER_RETURN_STATUS_DENY ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberReturn.getUserId();
+        updateMapper.memberReturn_back(memberReturn.getId(), status);
+
+        MemberReturn record = new MemberReturn();
+        record.setUserId(memberReturn.getUserId());
+        record.setRemark(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberReturn.getId(),
+                memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, SystemConstants.MEMBER_RETURN_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

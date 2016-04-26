@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberIn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberIn.id}">
+		<input type="hidden" name="resubmit">
 			<div class="row">
 				<div class="col-xs-4">
 					<div class="form-group">
@@ -253,6 +254,9 @@ pageEncoding="UTF-8"%>
 <div class="modal-footer center">
     <a href="#" class="closeView btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberIn!=null}">确定</c:if><c:if test="${memberIn==null}">添加</c:if>"/>
+	<c:if test="${memberIn!=null && memberIn.status<MEMBER_IN_STATUS_APPLY}">
+		<input type="button" id="resubmit" class="btn btn-warning" value="修改并重新提交"/>
+	</c:if>
 </div>
 
 <script>
@@ -285,6 +289,12 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+	$("#resubmit").click(function(){
+		$("input[name=resubmit]", "#modalForm").val("1");
+		$("#modalForm").submit();
+		return false;
+	});
 
 	var $select = register_user_select($('#modalForm select[name=userId]'));
 	$select.on("change",function(){

@@ -2,6 +2,7 @@ package service.party;
 
 import domain.*;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import service.DBErrorException;
 import service.LoginUserService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,17 @@ public class MemberInflowService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
+    private VerifyAuth<MemberInflow> checkVerityAuth(int id){
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth(memberInflow, memberInflow.getPartyId(), memberInflow.getBranchId());
+    }
+
+    private VerifyAuth<MemberInflow> checkVerityAuth2(int id){
+        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+        return super.checkVerityAuth2(memberInflow, memberInflow.getPartyId());
+    }
 
     public int count(Integer partyId, Integer branchId, byte type){
 
@@ -202,4 +215,81 @@ public class MemberInflowService extends BaseMapper {
         return memberInflowMapper.updateByExampleSelective(record, example);
     }
 
+    @Transactional
+    public void memberInflow_check(int[] ids, byte type, int loginUserId){
+
+        for (int id : ids) {
+            MemberInflow memberInflow = null;
+            if (type == 1) {
+
+                VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth(id);
+                memberInflow = verifyAuth.entity;
+
+                if (verifyAuth.isDirectBranch && verifyAuth.isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
+                    addMember(memberInflow.getUserId(), true);
+                } else {
+                    checkMember(memberInflow.getUserId());
+                }
+            }
+
+            if (type == 2) {
+                VerifyAuth<MemberInflow> verifyAuth = checkVerityAuth2(id);
+                memberInflow = verifyAuth.entity;
+                addMember(memberInflow.getUserId(), false);
+            }
+
+            int userId = memberInflow.getUserId();
+
+            applyApprovalLogService.add(memberInflow.getId(),
+                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
+
+        }
+    }
+
+    @Transactional
+    public void memberInflow_back(int[] userIds, byte status, String reason, int loginUserId){
+
+        for (int userId : userIds) {
+
+            MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
+            Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getBranchId());
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
+
+            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
+                if(!presentPartyAdmin) throw new UnauthorizedException();
+            }
+            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BACK){
+                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+            }
+
+            back(memberInflow, status, loginUserId, reason);
+        }
+    }
+
+    // 单条记录打回至某一状态
+    private  void back(MemberInflow memberInflow, byte status, int loginUserId, String reason){
+
+        byte _status = memberInflow.getInflowStatus();
+        if(_status==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+            throw new RuntimeException("审核流程已经完成，不可以打回。");
+        }
+        if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
+            throw new RuntimeException("参数有误。");
+        }
+
+        Integer userId = memberInflow.getUserId();
+        updateMapper.memberInflow_back(memberInflow.getId(), status);
+
+        MemberInflow record = new MemberInflow();
+        record.setUserId(memberInflow.getUserId());
+        record.setReason(reason);
+        record.setIsBack(true);
+        updateByPrimaryKeySelective(record);
+
+        applyApprovalLogService.add(memberInflow.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
 }

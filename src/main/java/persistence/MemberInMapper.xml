@@ -25,6 +25,7 @@
     <result column="positive_time" property="positiveTime" jdbcType="DATE" />
     <result column="has_receipt" property="hasReceipt" jdbcType="BIT" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -90,7 +91,7 @@
     id, user_id, political_status, type, party_id, branch_id, from_unit, from_title, 
     from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, from_handle_time, 
     handle_time, apply_time, active_time, candidate_time, grow_time, positive_time, has_receipt, 
-    status, reason, create_time
+    status, is_back, reason, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberInExample" >
     select
@@ -122,7 +123,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.MemberIn" >
+  <insert keyProperty="id" id="insert" parameterType="domain.MemberIn" >
     insert into ow_member_in (id, user_id, political_status, 
       type, party_id, branch_id, 
       from_unit, from_title, from_address, 
@@ -130,8 +131,8 @@
       pay_time, valid_days, from_handle_time, 
       handle_time, apply_time, active_time, 
       candidate_time, grow_time, positive_time, 
-      has_receipt, status, reason, 
-      create_time)
+      has_receipt, status, is_back, 
+      reason, create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, 
       #{type,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{fromUnit,jdbcType=VARCHAR}, #{fromTitle,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
@@ -139,10 +140,10 @@
       #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, 
       #{handleTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
       #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
+      #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.MemberIn" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberIn" >
     insert into ow_member_in
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -213,6 +214,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
       </if>
       <if test="reason != null" >
         reason,
@@ -290,6 +294,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
       </if>
       <if test="reason != null" >
         #{reason,jdbcType=VARCHAR},
@@ -377,6 +384,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
       <if test="record.reason != null" >
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
@@ -413,6 +423,7 @@
       positive_time = #{record.positiveTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
@@ -488,6 +499,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
       <if test="reason != null" >
         reason = #{reason,jdbcType=VARCHAR},
       </if>
@@ -521,6 +535,7 @@
       positive_time = #{positiveTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
