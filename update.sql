@@ -11,29 +11,21 @@ ALTER TABLE `ow_member_inflow`
 	ALTER TABLE `ow_member_return`
 	CHANGE COLUMN `status` `status` TINYINT(4) NOT NULL COMMENT '状态，-1不通过（管理员或本人撤销） 0申请 1支部审核 2分党委审核' AFTER `political_status`;
 
-	ALTER TABLE `ow_member_quit`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+	ALTER TABLE `ow_member_quit` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-ALTER TABLE `ow_member_in`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+ALTER TABLE `ow_member_in` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-ALTER TABLE `ow_member_inflow`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `inflow_status`;
+ALTER TABLE `ow_member_inflow` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `inflow_status`;
 
-	ALTER TABLE `ow_member_out`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+	ALTER TABLE `ow_member_out` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-	ALTER TABLE `ow_member_outflow`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+	ALTER TABLE `ow_member_outflow` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-		ALTER TABLE `ow_member_return`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+		ALTER TABLE `ow_member_return` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-		ALTER TABLE `ow_member_stay`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+		ALTER TABLE `ow_member_stay` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 
-		ALTER TABLE `ow_member_transfer`
-	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
+		ALTER TABLE `ow_member_transfer` ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`;
 --20160421
 ALTER TABLE `ow_member_return`
 	ADD COLUMN `return_apply_time` DATE NULL DEFAULT NULL COMMENT '提交恢复组织生活申请时间' AFTER `apply_time`;
