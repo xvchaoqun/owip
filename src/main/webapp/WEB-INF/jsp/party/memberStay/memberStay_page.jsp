@@ -238,6 +238,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberStay_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '学工号', name: 'user.code', width: 150, frozen: true},
             {label: '姓名', name: 'user.realname', width: 100, frozen: true},
             {
                 label: '所属组织机构', name: 'party', resizable: false, width: 450,
@@ -247,6 +248,7 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
+            {label: '留学国别', name: 'country', width: 150},
             {label: '出国时间', name: 'abroadTime', width: 150},
             {label: '预计回国时间', name: 'returnTime', width: 150},
             {label: '手机号码', name: 'mobile', width: 200},

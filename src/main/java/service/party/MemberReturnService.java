@@ -295,16 +295,18 @@ public class MemberReturnService extends BaseMapper {
             throw new RuntimeException("参数有误。");
         }
 
+        Integer id = memberReturn.getId();
         Integer userId = memberReturn.getUserId();
-        updateMapper.memberReturn_back(memberReturn.getId(), status);
+        updateMapper.memberReturn_back(id, status);
 
         MemberReturn record = new MemberReturn();
-        record.setUserId(memberReturn.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setRemark(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberReturn.getId(),
+        applyApprovalLogService.add(id,
                 memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, SystemConstants.MEMBER_RETURN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

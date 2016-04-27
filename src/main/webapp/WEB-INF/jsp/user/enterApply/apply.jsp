@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="ENTER_APPLY_STATUS_MAP" value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>"/>
-<c:set var="ENTER_APPLY_TYPE_MAP" value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>"/>
 <div class="row">
   <div class="col-xs-12">
     <div id="body-content">

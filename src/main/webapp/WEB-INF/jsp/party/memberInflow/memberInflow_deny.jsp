@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberInflow_back" id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param.id}">
-        <input type="hidden" name="status" value="${memberInflow.status-1}">
+        <input type="hidden" name="status" value="${memberInflow.inflowStatus-1}">
         <div class="form-group">
             <label class="col-xs-3 control-label">申请人</label>
             <div class="col-xs-6 label-text">

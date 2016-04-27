@@ -289,16 +289,18 @@ public class MemberTransferService extends BaseMapper {
             throw new RuntimeException("参数有误。");
         }
 
+        Integer id = memberTransfer.getId();
         Integer userId = memberTransfer.getUserId();
-        updateMapper.memberTransfer_back(memberTransfer.getId(), status);
+        updateMapper.memberTransfer_back(id, status);
 
         MemberTransfer record = new MemberTransfer();
-        record.setUserId(memberTransfer.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberTransfer.getId(),
+        applyApprovalLogService.add(id,
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

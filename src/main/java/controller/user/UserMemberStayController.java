@@ -17,6 +17,7 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -85,6 +86,12 @@ public class UserMemberStayController extends BaseController{
                 && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
+        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())){
+            return failed("手机号码有误");
+        }
+        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getContactMobile())){
+            return failed("国内联系人手机号码有误");
+        }
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
@@ -92,18 +99,18 @@ public class UserMemberStayController extends BaseController{
         if (memberStay == null) {
             memberStayService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交暂留申请"));
-
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
-                    "提交",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交暂留申请");
+            memberStay = record;
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "修改暂留申请"));
         }
+        applyApprovalLogService.add(memberStay.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), userId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交暂留申请");
 
         return success(FormUtils.SUCCESS);
     }

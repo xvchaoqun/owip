@@ -289,16 +289,18 @@ public class MemberInService extends BaseMapper {
             throw new RuntimeException("参数有误。");
         }
 
+        Integer id = memberIn.getId();
         Integer userId = memberIn.getUserId();
-        updateMapper.memberIn_back(memberIn.getId(), status);
+        updateMapper.memberIn_back(id, status);
 
         MemberIn record = new MemberIn();
-        record.setUserId(memberIn.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberIn.getId(),
+        applyApprovalLogService.add(id,
                 memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, SystemConstants.MEMBER_IN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

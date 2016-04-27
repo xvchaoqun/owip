@@ -1,7 +1,9 @@
 package service.party;
 
+import domain.Member;
 import domain.MemberOutflow;
 import domain.MemberOutflowExample;
+import domain.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -12,11 +14,13 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +32,12 @@ public class MemberOutflowService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
+    @Autowired
+    protected MemberService memberService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected SysUserService sysUserService;
 
     private VerifyAuth<MemberOutflow> checkVerityAuth(int id){
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
@@ -195,7 +205,30 @@ public class MemberOutflowService extends BaseMapper {
         updateByPrimaryKeySelective(record);
     }
     @Transactional
-    public int insertSelective(MemberOutflow record){
+    public int add(MemberOutflow record){
+
+        record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
+
+        int userId = record.getUserId();
+
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
+        if(record.getPartyId()!=null) {
+            record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
+        }
+        if(record.getBranchId()!=null) {
+            record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
+        }
+
+        SysUser sysUser = sysUserService.findById(userId);
+        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
+            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
+        else
+            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
+
+        record.setCreateTime(new Date());
 
         return memberOutflowMapper.insertSelective(record);
     }
@@ -250,7 +283,6 @@ public class MemberOutflowService extends BaseMapper {
             applyApprovalLogService.add(memberOutflow.getId(),
                     memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1, null);
-
         }
     }
 
@@ -263,10 +295,10 @@ public class MemberOutflowService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
+            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BACK){
+            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BACK){
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -278,25 +310,27 @@ public class MemberOutflowService extends BaseMapper {
     private  void back(MemberOutflow memberOutflow, byte status, int loginUserId, String reason){
 
         byte _status = memberOutflow.getStatus();
-        if(_status==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+        if(_status==SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY){
             throw new RuntimeException("审核流程已经完成，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
+        if(status>_status || status<SystemConstants.MEMBER_OUTFLOW_STATUS_BACK ){
             throw new RuntimeException("参数有误。");
         }
 
         Integer userId = memberOutflow.getUserId();
-        updateMapper.memberOutflow_back(memberOutflow.getId(), status);
+        Integer id = memberOutflow.getId();
+        updateMapper.memberOutflow_back(id, status);
 
         MemberOutflow record = new MemberOutflow();
-        record.setUserId(memberOutflow.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberOutflow.getId(),
+        applyApprovalLogService.add(id,
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, SystemConstants.MEMBER_OUTFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

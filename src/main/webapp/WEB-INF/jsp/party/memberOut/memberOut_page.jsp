@@ -241,6 +241,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '学工号', name: 'user.code', frozen: true},
             { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
@@ -253,9 +254,16 @@
                     return party + ((branch == '') ? '' : '-' + branch);
                 }, frozen: true
             },
-            {label: '类别', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
+            {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
             }, frozen: true},
+            {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
+            }, frozen: true}<c:if test="${cls==1}">
+            ,{label: '审核类别', name: 'isBackName', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isBack?"返回修改":"新申请";
+            }, frozen: true}</c:if>,
+             <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
@@ -271,17 +279,13 @@
                     return html;
                 }
             }, frozen: true},
-            {label: '转入单位', name: 'toUnit', width: 150},
+            </shiro:hasAnyRoles>
+            {label: '转入单位', name: 'toUnit', width: 250},
             {label: '转入单位抬头', name: 'toTitle', width: 150},
-            {label: '转出单位', name: 'fromUnit', width: 150},
-            {label: '介绍信有效期天数', name: 'validDays', width: 200},
-            {label: '办理时间', name: 'handleTime', width: 350},
-            {label: '状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
-            }}<c:if test="${cls==1}">
-            ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isBack?"返回修改":"新申请";
-            }}</c:if>, {hidden: true, name: 'status'}
+            {label: '转出单位', name: 'fromUnit', width: 250},
+            {label: '介绍信有效期天数', name: 'validDays', width: 150},
+            {label: '办理时间', name: 'handleTime'},
+             {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
             jgrid_sid = id;

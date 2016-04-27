@@ -238,6 +238,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberIn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '学工号', name: 'user.code', width: 150, frozen: true},
             {label: '姓名', name: 'user.realname', width: 100, frozen: true},
             {
                 label: '所属组织机构', name: 'party', resizable: false, width: 450,

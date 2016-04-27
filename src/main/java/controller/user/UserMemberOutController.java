@@ -62,10 +62,6 @@ public class UserMemberOutController extends BaseController{
 
         //Integer userId = record.getUserId();
         Integer userId = loginUser.getId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
-
         if(StringUtils.isNotBlank(_payTime)){
             record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
         }
@@ -79,6 +75,10 @@ public class UserMemberOutController extends BaseController{
                 && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
@@ -87,16 +87,18 @@ public class UserMemberOutController extends BaseController{
             memberOutService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
 
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
-                    "提交",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交组织关系转出申请");
+            memberOut = record;
         } else {
             memberOutService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "修改组织关系转出申请"));
         }
+
+        applyApprovalLogService.add(memberOut.getId(),
+                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(), userId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交组织关系转出申请");
 
         return success(FormUtils.SUCCESS);
     }

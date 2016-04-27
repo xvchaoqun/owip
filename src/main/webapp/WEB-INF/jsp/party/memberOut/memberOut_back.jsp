@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>打回申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberIn_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberOut_back" id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
             <label class="col-xs-3 control-label">打回申请记录</label>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功', function () {
-                            $("#jqGrid").trigger("reloadGrid");
+                            page_reload();
                         });
                     }
                 }

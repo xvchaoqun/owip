@@ -17,7 +17,8 @@ public interface UpdateMapper {
 
     // 如果修改成直属党支部， 则将支部ID设置为NULL
     @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
-    int updateToDirectBranch(@Param("tableName") String tableName, String idName, int id, int partyId);
+    int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,
+                             @Param("id") int id, @Param("partyId") int partyId);
 
     // 批量转校内组织关系
     int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
@@ -97,8 +98,8 @@ public interface UpdateMapper {
     void memberReturn_back(@Param("id") int id, @Param("status") byte status);
 
     // 流入：打回
-    @Update("update ow_member_inflow set status= #{status}"
-            +" where id=#{id} and status >= #{status} and status<"
+    @Update("update ow_member_inflow set inflow_status= #{status}"
+            +" where id=#{id} and inflow_status >= #{status} and inflow_status<"
             + SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY)
     void memberInflow_back(@Param("id") int id, @Param("status") byte status);
 

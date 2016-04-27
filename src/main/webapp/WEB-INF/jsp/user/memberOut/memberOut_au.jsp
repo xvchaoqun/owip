@@ -8,25 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_BACK" value="<%=SystemConstants.MEMBER_OUT_STATUS_BACK%>"/>
+<div  style="width: 950px">
 <c:if test="${memberOut.status==MEMBER_OUT_STATUS_BACK}">
 <div class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert">
-		<i class="ace-icon fa fa-trash"></i>
+		<i class="ace-icon fa fa-times"></i>
 	</button>
-	<strong>
-		<i class="ace-icon fa fa-trash"></i>
-		返回修改
-	</strong>
-	<c:if test="${not empty memberOut.reason}">
-		:${memberOut.reason}
-	</c:if>
-
+	<strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberOut.reason}">: ${memberOut.reason}</c:if>
 	<br>
 </div>
 </c:if>
@@ -34,11 +22,11 @@
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系转出申请</h4>
 
-		<div class="widget-toolbar">
+		<%--<div class="widget-toolbar">
 			<a href="#" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
-		</div>
+		</div>--%>
 	</div>
 	<div class="widget-body">
 		<div class="widget-main">
@@ -148,6 +136,7 @@
 			</form>
 		</div>
 	</div>
+</div>
 </div>
 <script>
 	$('textarea.limited').inputlimiter();

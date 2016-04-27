@@ -299,16 +299,18 @@ public class MemberOutService extends BaseMapper {
             throw new RuntimeException("参数有误。");
         }
 
+        Integer id = memberOut.getId();
         Integer userId = memberOut.getUserId();
-        updateMapper.memberOut_back(memberOut.getId(), status);
+        updateMapper.memberOut_back(id, status);
 
         MemberOut record = new MemberOut();
-        record.setUserId(memberOut.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberOut.getId(),
+        applyApprovalLogService.add(id,
                 memberOut.getPartyId(), memberOut.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, SystemConstants.MEMBER_OUT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

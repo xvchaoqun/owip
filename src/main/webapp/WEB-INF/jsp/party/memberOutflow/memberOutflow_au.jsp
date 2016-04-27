@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberOutflow_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOutflow.id}">
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-5">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">用户</label>
 				<div class="col-xs-6">
@@ -22,42 +22,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2" name="type" data-placeholder="请选择类别">
-						<option></option>
-						<c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-							<option value="${_type.key}">${_type.value}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=type]").val(${memberOutflow.type});
-					</script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">分党委</label>
-				<div class="col-xs-6">
-					<select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-							name="partyId" data-placeholder="请选择">
-						<option value="${party.id}">${party.name}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-				<label class="col-xs-3 control-label">党支部</label>
-				<div class="col-xs-6">
-					<select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
-							name="branchId" data-placeholder="请选择">
-						<option value="${branch.id}">${branch.name}</option>
-					</select>
-				</div>
-			</div>
-				<script>
-					register_party_branch_select($("#modalForm"), "branchDiv",
-							'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
-				</script>
+
 				<div class="form-group">
 					<label class="col-xs-3 control-label">原职业</label>
 					<div class="col-xs-6">
@@ -85,32 +50,30 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">流出时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 200px">
 							<input required class="form-control date-picker" name="_flowTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberOutflow.flowTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">流出省份</label>
+					<div class="col-xs-6">
+						<select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
+						</select>
+					</div>
 				</div>
-				<div class="col-xs-6">
-
-
-			<div class="form-group">
-				<label class="col-xs-3 control-label">流出省份</label>
-				<div class="col-xs-6">
-					<select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
-					</select>
 				</div>
-			</div>
+				<div class="col-xs-7">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">流出原因</label>
+				<label class="col-xs-5 control-label">流出原因</label>
 				<div class="col-xs-6">
                         <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否持有《中国共产党流动党员活动证》</label>
+				<label class="col-xs-5 control-label">是否持有《中国共产党流动党员活动证》</label>
 				<div class="col-xs-6">
 					<label>
 						<input name="hasPapers" ${memberOutflow.hasPapers?"checked":""}  type="checkbox" />
@@ -119,7 +82,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">组织关系状态</label>
+				<label class="col-xs-5 control-label">组织关系状态</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="orStatus" data-placeholder="请选择">
 						<option></option>

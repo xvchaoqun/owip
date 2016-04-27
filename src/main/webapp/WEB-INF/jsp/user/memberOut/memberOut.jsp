@@ -8,12 +8,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
-
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系转出申请</h4>
@@ -77,13 +71,7 @@
                         类别
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)} &nbsp;
-                            <c:if test="${memberOut.type==MEMBER_INOUT_TYPE_INSIDE}">
-                                <button class="btn btn-white btn-primary" id="print">
-                                    <i class="fa fa-print"></i>
-                                    打印介绍信
-                                </button>
-                            </c:if>
+                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
                     </td>
                 </tr>
                 <tr>
@@ -171,10 +159,6 @@
     </div>
 </div>
 <script>
-    $("#print").click(function(){
-        printWindow("${ctx}/report/member_in_bj?userId=${memberOut.userId}");
-    });
-
     function _applyBack(){
         bootbox.confirm("确定撤销申请吗？", function (result) {
             if(result){

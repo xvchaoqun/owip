@@ -2,24 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="MEMBER_IN_STATUS_BACK" value="<%=SystemConstants.MEMBER_IN_STATUS_BACK%>"/>
 <c:if test="${memberIn.status==MEMBER_IN_STATUS_BACK}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">
       <i class="ace-icon fa fa-times"></i>
     </button>
-    <strong>
-      <i class="ace-icon fa fa-times"></i>
-      返回修改
-    </strong>
-    <c:if test="${not empty memberIn.reason}">
-      :${memberIn.reason}
-    </c:if>
-
+    <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberIn.reason}">: ${memberIn.reason}</c:if>
     <br>
   </div>
 </c:if>

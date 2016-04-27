@@ -165,7 +165,7 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:edit")
     @RequestMapping(value = "/memberReturn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_au(MemberReturn record,String _returnApplyTime,
+    public Map do_memberReturn_au(@CurrentUser SysUser loginUser, MemberReturn record,String _returnApplyTime,
                                   String _applyTime, String _activeTime, String _candidateTime,
                                   String _growTime, String _positiveTime,HttpServletRequest request) {
 
@@ -197,6 +197,14 @@ public class MemberReturnController extends BaseController {
 
             enterApplyService.memberReturn(record);
             logger.info(addLog(SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                    "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交留学归国人员申请恢复组织生活申请");
+
         } else {
 
             record.setStatus(null); // 更新的时候不能更新状态

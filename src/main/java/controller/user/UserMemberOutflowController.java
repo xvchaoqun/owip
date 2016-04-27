@@ -75,50 +75,27 @@ public class UserMemberOutflowController extends BaseController{
         if(StringUtils.isNotBlank(_flowTime)){
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
-        record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
-
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
-
-        if(record.getPartyId()!=null) {
-            record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
-        }
-        if(record.getBranchId()!=null) {
-            record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
-        }
 
         MemberOutflow memberOutflow = memberOutflowService.get(loginUser.getId());
-
         if(memberOutflow!=null && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
         record.setUserId(userId);
-        record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
-
-        if(loginUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
-
         if (memberOutflow == null) {
-            memberOutflowService.insertSelective(record);
+            memberOutflowService.add(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交流出党员申请"));
-
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
-                    "提交",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交流出党员申请");
-
+            memberOutflow = record;
         } else {
-
             memberOutflowService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交修改流出党员申请"));
         }
-
+        applyApprovalLogService.add(memberOutflow.getId(),
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(), userId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交流出党员申请");
         return success(FormUtils.SUCCESS);
     }
 

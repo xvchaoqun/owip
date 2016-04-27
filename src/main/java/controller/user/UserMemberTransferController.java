@@ -110,19 +110,18 @@ public class UserMemberTransferController extends BaseController{
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "本人提交校内组织关系互转"));
-
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), userId,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
-                    "提交",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交校内组织关系互转申请");
-
+            memberTransfer = record;
         } else {
 
             memberTransferService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "本人修改校内组织关系互转"));
         }
+        applyApprovalLogService.add(memberTransfer.getId(),
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(), userId,
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交校内组织关系互转申请");
 
         return success(FormUtils.SUCCESS);
     }

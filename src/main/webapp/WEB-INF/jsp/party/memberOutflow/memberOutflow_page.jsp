@@ -221,6 +221,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOutflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '学工号',  name: 'user.code', width: 120 ,frozen:true},
             { label: '姓名',  name: 'user.realname', width: 100 ,frozen:true},
             { label: '所属组织机构', name: 'party',resizable:false, width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
@@ -228,9 +229,15 @@
                     var branch = rowObject.branch;
                     return party + (($.trim(branch)=='')?'':'-'+branch);
                 } ,frozen:true },
+            { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
+                return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
+            },frozen:true }<c:if test="${cls==1}">
+            ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isBack?"返回修改":"新申请";
+            }}</c:if>,
             { label:'原职业',  name:'originalJob',width: 200 , formatter:function(cellvalue, options, rowObject){
                 return _metaMap[cellvalue];
-            }, frozen:true },
+            }},
             { label: '外出流向',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _metaMap[cellvalue];
             }},
@@ -246,12 +253,7 @@
                 return _cMap.OR_STATUS_MAP[cellvalue];
             }  },
             { label: '申请时间',   name: 'createTime', width: 150 },
-            { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
-                return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
-            }}<c:if test="${cls==1}">
-            ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isBack?"返回修改":"新申请";
-            }}</c:if>,{hidden:true, name:'status'}
+            {hidden:true, name:'status'}
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;

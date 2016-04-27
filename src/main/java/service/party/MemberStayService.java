@@ -297,17 +297,18 @@ public class MemberStayService extends BaseMapper {
         if(status > _status || status<SystemConstants.MEMBER_STAY_STATUS_BACK ){
             throw new RuntimeException("参数有误。");
         }
-
+        Integer id = memberStay.getId();
         Integer userId = memberStay.getUserId();
-        updateMapper.memberStay_back(memberStay.getId(), status);
+        updateMapper.memberStay_back(id, status);
 
         MemberStay record = new MemberStay();
-        record.setUserId(memberStay.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberStay.getId(),
+        applyApprovalLogService.add(id,
                 memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, SystemConstants.MEMBER_STAY_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

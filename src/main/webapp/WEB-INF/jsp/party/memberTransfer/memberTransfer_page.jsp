@@ -222,6 +222,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberTransfer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '学工号', name: 'user.code', width: 150, frozen: true},
             {label: '类别', name: 'user.typeName', frozen: true},
             {label: '姓名', name: 'user.realname', frozen: true},
             {

@@ -2,17 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
+<div style="width: 900px">
     <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberTransfer_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberTransfer.id}">
 		<div class="row">
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 			<div class="form-group">
 				<label class="col-xs-5 control-label">用户</label>
 				<c:if test="${not empty userBean}">
@@ -81,16 +77,8 @@ pageEncoding="UTF-8"%>
 
 	<%--</c:if>--%>
 			</div>
-			<div class="col-xs-4">
-				<c:if test="${not empty userBean}">
-					<div class="form-group">
-						<label class="col-xs-5 control-label">转出组织机构</label>
-						<div class="col-xs-6">
-							<textarea disabled class="form-control">${fromParty.name}<c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
-							</textarea>
-						</div>
-					</div>
-				</c:if>
+			<div class="col-xs-6">
+
 				<div class="form-group">
 					<label class="col-xs-5 control-label">转入分党委</label>
 					<div class="col-xs-6">
@@ -172,6 +160,7 @@ pageEncoding="UTF-8"%>
 		<a href="#" class="btn btn-default closeView">返回</a>
 	</div>
 </c:if>
+	</div>
 <script>
 
 	$('textarea.limited').inputlimiter();

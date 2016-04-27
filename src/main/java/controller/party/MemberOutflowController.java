@@ -296,40 +296,28 @@ public class MemberOutflowController extends BaseController {
     @RequiresPermissions("memberOutflow:edit")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_au(MemberOutflow record, String _flowTime, HttpServletRequest request) {
+    public Map do_memberOutflow_au(@CurrentUser SysUser loginUser,MemberOutflow record, String _flowTime, HttpServletRequest request) {
 
         Integer id = record.getId();
-
         if (memberOutflowService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
         if(StringUtils.isNotBlank(_flowTime)){
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
-        record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
-
-        if(record.getPartyId()!=null) {
-            record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
-        }
-        if(record.getBranchId()!=null) {
-            record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
-        }
-        Integer userId = record.getUserId();
-        SysUser sysUser = sysUserService.findById(userId);
-        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
 
         if (id == null) {
-            record.setCreateTime(new Date());
             record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
-
-            memberOutflowService.insertSelective(record);
+            memberOutflowService.add(record);
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                    "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交流出党员申请");
             logger.info(addLog(SystemConstants.LOG_OW, "添加流出党员：%s", record.getId()));
         } else {
             record.setStatus(null);// 不修改状态
-
             memberOutflowService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "更新流出党员：%s", record.getId()));
         }

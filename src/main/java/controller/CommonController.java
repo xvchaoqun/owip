@@ -60,6 +60,7 @@ public class CommonController extends BaseController{
         constantMap.put("MEMBER_QUIT_STATUS_MAP", SystemConstants.MEMBER_QUIT_STATUS_MAP);
         constantMap.put("APPLY_APPROVAL_LOG_STATUS_MAP", SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP);
         constantMap.put("locationMap", locationService.codeMap());
+        //constantMap.put("countryMap", countryService.findAll());
         constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);
         constantMap.put("USER_TYPE_MAP", SystemConstants.USER_TYPE_MAP);
         modelMap.put("cMap", JSONUtils.toString(constantMap));

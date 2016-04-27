@@ -287,7 +287,7 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_au(MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
+    public Map do_memberOut_au(@CurrentUser SysUser loginUser,MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -310,6 +310,14 @@ public class MemberOutController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
             memberOutService.insertSelective(record);
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                    "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交组织关系转出申请");
+
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转出：%s", record.getId()));
         } else {
 

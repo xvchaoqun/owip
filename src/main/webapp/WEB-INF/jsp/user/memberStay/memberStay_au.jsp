@@ -8,20 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<div  style="width: 900px">
 <c:if test="${memberStay.status==MEMBER_STAY_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
-            <i class="ace-icon fa fa-trash"></i>
+            <i class="ace-icon fa fa-times"></i>
         </button>
-        <strong>
-            <i class="ace-icon fa fa-trash"></i>
-            返回修改
-        </strong>
-        <c:if test="${not empty memberStay.reason}">
-            :${memberStay.reason}
-        </c:if>
-
+        <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberStay.reason}">: ${memberStay.reason}</c:if>
         <br>
     </div>
 </c:if>
@@ -29,11 +22,11 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 公派留学生党员申请组织关系暂留</h4>
 
-        <div class="widget-toolbar">
+        <%--<div class="widget-toolbar">
             <a href="#" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
             </a>
-        </div>
+        </div>--%>
     </div>
     <div class="widget-body">
         <div class="widget-main">
@@ -44,7 +37,15 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">留学国别</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="country" value="${memberStay.country}">
+                                <select required  name="country" data-rel="select2" data-placeholder="请选择">
+                                    <option></option>
+                                    <c:forEach var="entity" items="${countryMap}">
+                                        <option value="${entity.value.cninfo}">${entity.value.cninfo}</option>
+                                    </c:forEach>
+                                </select>
+                                <script>
+                                    $("#modalForm select[name=country]").val("${memberStay.country}");
+                                </script>
                             </div>
                         </div>
                         <div class="form-group">
@@ -115,6 +116,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>

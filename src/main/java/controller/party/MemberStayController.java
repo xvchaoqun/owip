@@ -278,7 +278,7 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_au(MemberStay record,
+    public Map do_memberStay_au(@CurrentUser SysUser loginUser,MemberStay record,
                                 String _abroadTime, String _returnTime, String _payTime,  HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -306,6 +306,14 @@ public class MemberStayController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
             memberStayService.insertSelective(record);
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                    "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交暂留申请");
+
             logger.info(addLog(SystemConstants.LOG_OW, "添加暂留：%s", record.getId()));
         } else {
 

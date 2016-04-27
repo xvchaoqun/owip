@@ -295,7 +295,7 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:edit")
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_au(MemberTransfer record,
+    public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,MemberTransfer record,
                                     String _payTime, String _fromHandleTime, HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -325,6 +325,15 @@ public class MemberTransferController extends BaseController {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
             memberTransferService.insertSelective(record);
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                    "后台添加",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "提交校内组织关系转接申请");
+
+
             logger.info(addLog(SystemConstants.LOG_OW, "添加校内组织关系转接申请：%s", record.getId()));
         } else {
             record.setStatus(null); // 不改状态

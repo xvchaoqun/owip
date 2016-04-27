@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功', function () {
-                            $("#jqGrid").trigger("reloadGrid");
+                            page_reload();
                         });
                     }
                 }

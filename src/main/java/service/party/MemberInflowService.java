@@ -278,16 +278,18 @@ public class MemberInflowService extends BaseMapper {
             throw new RuntimeException("参数有误。");
         }
 
+        Integer id = memberInflow.getId();
         Integer userId = memberInflow.getUserId();
-        updateMapper.memberInflow_back(memberInflow.getId(), status);
+        updateMapper.memberInflow_back(id, status);
 
         MemberInflow record = new MemberInflow();
-        record.setUserId(memberInflow.getUserId());
+        record.setId(id);
+        record.setUserId(userId);
         record.setReason(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(memberInflow.getId(),
+        applyApprovalLogService.add(id,
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);

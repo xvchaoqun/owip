@@ -2,15 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
+<div style="width: 900px">
     <h3><c:if test="${memberStay!=null}">编辑</c:if><c:if test="${memberStay==null}">添加</c:if>公派留学生党员申请组织关系暂留</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberStay_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberStay.id}">
 		<div class="row">
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 			<div class="form-group">
 				<label class="col-xs-5 control-label">用户</label>
 				<c:if test="${not empty userBean}">
@@ -78,7 +76,15 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">留学国别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="country" value="${memberStay.country}">
+					<select  required name="country" data-rel="select2" data-placeholder="请选择">
+						<option></option>
+						<c:forEach var="entity" items="${countryMap}">
+							<option value="${entity.value.cninfo}">${entity.value.cninfo}</option>
+						</c:forEach>
+					</select>
+					<script>
+						$("#modalForm select[name=country]").val("${memberStay.country}");
+					</script>
 				</div>
 			</div>
 			<div class="form-group">
@@ -112,33 +118,33 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 				</div>
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 			<div class="form-group">
-				<label class="col-xs-6 control-label">手机号码</label>
+				<label class="col-xs-5 control-label">手机号码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="mobile" value="${memberStay.mobile}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-6 control-label">电子邮箱</label>
+				<label class="col-xs-5 control-label">电子邮箱</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="email" value="${memberStay.email}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-6 control-label">国内联系人姓名</label>
+				<label class="col-xs-5 control-label">国内联系人姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="contactName" value="${memberStay.contactName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-6 control-label">国内联系人手机号码</label>
+				<label class="col-xs-5 control-label">国内联系人手机号码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="contactMobile" value="${memberStay.contactMobile}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-6 control-label">修改原因</label>
+				<label class="col-xs-5 control-label">修改原因</label>
 				<div class="col-xs-6">
 					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberStay.reason}</textarea>
 				</div>
@@ -157,7 +163,7 @@ pageEncoding="UTF-8"%>
 		<a href="#" class="btn btn-default closeView">返回</a>
 	</div>
 </c:if>
-
+</div>
 <script>
 	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();

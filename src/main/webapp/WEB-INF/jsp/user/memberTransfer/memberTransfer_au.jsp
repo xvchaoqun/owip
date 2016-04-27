@@ -8,30 +8,24 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<div style="width: 800px">
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
-            <i class="ace-icon fa fa-trash"></i>
+            <i class="ace-icon fa fa-times"></i>
         </button>
-        <strong>
-            <i class="ace-icon fa fa-trash"></i>
-            返回修改
-        </strong>
-        <c:if test="${not empty memberTransfer.reason}">
-            :${memberTransfer.reason}
-        </c:if>
+        <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberTransfer.reason}">: ${memberTransfer.reason}</c:if>
         <br>
     </div>
 </c:if>
-<div class="widget-box">
+<div class="widget-box" >
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 校内组织关系转接申请</h4>
-        <div class="widget-toolbar">
+        <%--<div class="widget-toolbar">
             <a href="#" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
             </a>
-        </div>
+        </div>--%>
     </div>
     <div class="widget-body">
         <div class="widget-main">
@@ -41,14 +35,14 @@
                     <div class="col-xs-offset-2 col-xs-9">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出组织机构</label>
-                            <div class="col-xs-6 label-text">
+                            <div class="col-xs-9 label-text">
                             ${fromParty.name}<c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转入分党委</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9">
                                 <select required class="form-control"  data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects" data-width="100%"
                                         name="toPartyId" data-placeholder="请选择" >
@@ -58,7 +52,7 @@
                         </div>
                         <div class="form-group" style="${(empty toBranch)?'display: none':''}" id="toBranchDiv">
                             <label class="col-xs-3 control-label">转入党支部</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9">
                                 <select class="form-control"  data-rel="select2-ajax"  data-width="100%"
                                         data-ajax-url="${ctx}/branch_selects"
                                         name="toBranchId" data-placeholder="请选择">
@@ -74,19 +68,19 @@
 
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出单位联系电话</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9" style="width:200px;">
                                 <input required class="form-control" type="text" name="fromPhone" value="${memberTransfer.fromPhone}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出单位传真</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <input required class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">党费缴纳至年月</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
                                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}" />
@@ -96,13 +90,13 @@
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">介绍信有效期天数</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <input required class="form-control digits" type="text" name="validDays" value="${memberTransfer.validDays}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">转出办理时间</label>
-                            <div class="col-xs-6">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"
                                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}" />
@@ -121,7 +115,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
 
