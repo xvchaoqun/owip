@@ -74,7 +74,7 @@ public class MemberOutController extends BaseController {
     }
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_page")
-    public String memberOut_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberOut_page(@RequestParam(defaultValue = "1")byte cls, // 1 待审核 2未通过 3 已审核
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {
@@ -94,16 +94,16 @@ public class MemberOutController extends BaseController {
         }
 
         // 分党委党总支直属党支部待审核总数
-        modelMap.put("partyApprovalCount", memberOutService.count(null, null, (byte)1));
+        modelMap.put("partyApprovalCount", memberOutService.count(null, null, (byte)1, cls));
         // 组织部待审核数目
-        modelMap.put("odApprovalCount", memberOutService.count(null, null, (byte)2));
+        modelMap.put("odApprovalCount", memberOutService.count(null, null, (byte)2, cls));
 
         return "party/memberOut/memberOut_page";
     }
 
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_data")
-    public void memberOut_data(@RequestParam(defaultValue = "1")Integer cls, HttpServletResponse response,
+    public void memberOut_data(@RequestParam(defaultValue = "1")byte cls, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -149,11 +149,20 @@ public class MemberOutController extends BaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
 
-        if(cls==1){
-            List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-            criteria.andStatusIn(statusList);
+        if(cls==1){ // 分党委审核（新申请）
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
+            .andIsBackNotEqualTo(true);
+        }else if(cls==4){ // 分党委审核(返回修改)
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
+                    .andIsBackEqualTo(true);;
+        }else if(cls==5){ // 分党委已审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+        }else if(cls==6){ // 组织部审核(新申请)
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==7){ // 组织部审核(返回修改)
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
+                    .andIsBackEqualTo(true);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
@@ -192,7 +201,7 @@ public class MemberOutController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
-    public String memberOut_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberOut_approval(@RequestParam(defaultValue = "1")byte cls, @CurrentUser SysUser loginUser, Integer id,
                                     byte type, // 1:分党委审核 2：组织部审核
                                     ModelMap modelMap) {
 
@@ -208,7 +217,7 @@ public class MemberOutController extends BaseController {
                     currentMemberOut = null;
             }
         } else {
-            currentMemberOut = memberOutService.next(type, null);
+            currentMemberOut = memberOutService.next(null, type, cls);
         }
         if (currentMemberOut == null)
             throw new RuntimeException("当前没有需要审批的记录");
@@ -224,11 +233,11 @@ public class MemberOutController extends BaseController {
         }
 
         // 读取总数
-        modelMap.put("count", memberOutService.count(null, null, type));
+        modelMap.put("count", memberOutService.count(null, null, type, cls));
         // 下一条记录
-        modelMap.put("next", memberOutService.next(type, currentMemberOut));
+        modelMap.put("next", memberOutService.next(currentMemberOut, type, cls));
         // 上一条记录
-        modelMap.put("last", memberOutService.last(type, currentMemberOut));
+        modelMap.put("last", memberOutService.last(currentMemberOut, type, cls));
 
         return "party/memberOut/memberOut_approval";
     }

@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
             <label class="col-xs-4 control-label">提交恢复组织生活申请时间</label>
-            <div class="col-xs-6">
+            <div class="col-xs-6" style="width: 220px">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="_returnApplyTime" type="text"
                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.returnApplyTime,'yyyy-MM-dd')}" />
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
             <label class="col-xs-4 control-label">提交书面申请书时间</label>
-            <div class="col-xs-6">
+            <div class="col-xs-6" style="width: 220px">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="_applyTime" type="text"
                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}" />
@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
         </div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">确定为入党积极分子时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_activeTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.activeTime,'yyyy-MM-dd')}" />
@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">确定为发展对象时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_candidateTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.candidateTime,'yyyy-MM-dd')}" />
@@ -105,7 +105,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">入党时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_growTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.growTime,'yyyy-MM-dd')}" />
@@ -115,7 +115,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">转正时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_positiveTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.positiveTime,'yyyy-MM-dd')}" />
@@ -125,7 +125,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6"  style="width: 250px">
                         <textarea class="form-control limited" name="remark" rows="5">${memberReturn.remark}</textarea>
 				</div>
 			</div>

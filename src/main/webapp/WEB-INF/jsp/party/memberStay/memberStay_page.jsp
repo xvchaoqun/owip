@@ -238,8 +238,11 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberStay_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 150, frozen: true},
-            {label: '姓名', name: 'user.realname', width: 100, frozen: true},
+            {label: '学工号', name: 'user.code', width: 120, frozen: true},
+            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
+                        .format(rowObject.userId, cellvalue);
+            } ,frozen:true },
             {
                 label: '所属组织机构', name: 'party', resizable: false, width: 450,
                 formatter: function (cellvalue, options, rowObject) {

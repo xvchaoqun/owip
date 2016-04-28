@@ -125,7 +125,13 @@ public class MemberService extends BaseMapper {
             throw new DBErrorException("添加失败，该账号不是教工或学生");
         }
 
-        Assert.isTrue(memberMapper.insertSelective(record)==1);
+        Member _member = get(userId);
+        if(_member!=null && _member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+            // 允许挂职干部转出后用原账号转入
+            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record)==1);
+        }else if(_member==null) {
+            Assert.isTrue(memberMapper.insertSelective(record) == 1);
+        }else throw new RuntimeException("数据异常，入党失败");
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,

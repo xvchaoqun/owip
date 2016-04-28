@@ -119,10 +119,12 @@ public class MemberInService extends BaseMapper {
         return memberInMapper.countByExample(example) > 0;
     }
 
+    // 获取最新没有完成审批的记录，为了可以再次转入( 允许挂职干部转出后用原账号转入 )
     public MemberIn get(int userId) {
 
         MemberInExample example = new MemberInExample();
-        MemberInExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        example.setOrderByClause("create_time desc");
         List<MemberIn> memberIns = memberInMapper.selectByExample(example);
         if(memberIns.size()>0) return memberIns.get(0);
 
@@ -155,10 +157,10 @@ public class MemberInService extends BaseMapper {
     @Transactional
     public void addMember(int userId, byte politicalStatus){
 
-        Member _member = memberService.get(userId);
+       /* Member _member = memberService.get(userId);
         if(_member!=null){
             throw new RuntimeException("已经是党员");
-        }
+        }*/
 
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY)

@@ -81,7 +81,8 @@ public class EnterApplyService extends BaseMapper{
                 throw new RuntimeException("您已退休");
             }
             if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
-                throw new RuntimeException("您已办理组织关系转出");
+                //throw new RuntimeException("您已办理组织关系转出");
+                return;// 允许挂职干部转出后用原账号转入
             }
 
             throw new RuntimeException("您已经是党员");

@@ -282,6 +282,21 @@ public class EnterApplyController extends BaseController {
         modelMap.put("userBean", userBeanService.get(userId));
 
         MemberIn memberIn = memberInService.get(userId);
+        // 允许挂职干部转出后用原账号转入
+        Member member = memberService.get(userId);
+        if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+            if(memberIn==null)
+                memberIn = new MemberIn();
+            memberIn.setPoliticalStatus(member.getPoliticalStatus());
+            memberIn.setPartyId(member.getPartyId());
+            memberIn.setBranchId(member.getBranchId());
+            memberIn.setUserId(userId);
+            memberIn.setApplyTime(member.getApplyTime());
+            memberIn.setActiveTime(member.getActiveTime());
+            memberIn.setCandidateTime(member.getCandidateTime());
+            memberIn.setGrowTime(member.getGrowTime());
+            memberIn.setPositiveTime(member.getPositiveTime());
+        }
         modelMap.put("memberIn", memberIn);
 
         if(memberIn!=null){

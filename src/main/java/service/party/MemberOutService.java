@@ -41,7 +41,7 @@ public class MemberOutService extends BaseMapper {
         return super.checkVerityAuth2(memberOut, memberOut.getPartyId());
     }
 
-    public int count(Integer partyId, Integer branchId, byte type){
+    public int count(Integer partyId, Integer branchId, byte type, byte cls){
 
         MemberOutExample example = new MemberOutExample();
         MemberOutExample.Criteria criteria = example.createCriteria();
@@ -55,6 +55,11 @@ public class MemberOutService extends BaseMapper {
         }else{
             throw new RuntimeException("审核类型错误");
         }
+        if(cls==1 || cls==6){// 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4 || cls==7){// 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
+        }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
@@ -62,7 +67,7 @@ public class MemberOutService extends BaseMapper {
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public MemberOut next(byte type, MemberOut memberOut){
+    public MemberOut next(MemberOut memberOut, byte type, byte cls){
 
         MemberOutExample example = new MemberOutExample();
         MemberOutExample.Criteria criteria = example.createCriteria();
@@ -75,6 +80,11 @@ public class MemberOutService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+        if(cls==1 || cls==6){// 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4 || cls==7){// 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(memberOut!=null)
@@ -86,7 +96,7 @@ public class MemberOutService extends BaseMapper {
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public MemberOut last(byte type, MemberOut memberOut){
+    public MemberOut last(MemberOut memberOut, byte type, byte cls){
 
         MemberOutExample example = new MemberOutExample();
         MemberOutExample.Criteria criteria = example.createCriteria();
@@ -99,6 +109,11 @@ public class MemberOutService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+        if(cls==1 || cls==6){// 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4 || cls==7){// 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(memberOut!=null)
@@ -165,7 +180,7 @@ public class MemberOutService extends BaseMapper {
         updateByPrimaryKeySelective(record);
     }
 
-    // 党总支、直属党支部 通过
+    // 分党委、党总支、直属党支部 通过
     @Transactional
     public void check1(int userId){
 
@@ -179,13 +194,6 @@ public class MemberOutService extends BaseMapper {
         updateByPrimaryKeySelective(record);
     }
 
-    // 分党委审核通过
-    @Transactional
-    public void checkByParty(int userId, boolean isDirect){
-
-        check1(userId);
-        check2(userId, isDirect);
-    }
     // 组织部审核通过
     @Transactional
     public void check2(int userId, boolean isDirect){
@@ -245,13 +253,8 @@ public class MemberOutService extends BaseMapper {
             if(type==1) {
                 VerifyAuth<MemberOut> verifyAuth = checkVerityAuth2(id);
                 memberOut = verifyAuth.entity;
-                boolean isParty = verifyAuth.isParty;
 
-                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
-                    checkByParty(memberOut.getUserId(), false);
-                } else {
-                    check1(memberOut.getUserId());
-                }
+                check1(memberOut.getUserId());
             }
             if(type==2) {
                 SecurityUtils.getSubject().checkRole("odAdmin");

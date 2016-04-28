@@ -16,9 +16,40 @@
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 待审核</a>
+                        <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-circle-o"></i> 分党委审核${cls==1?"(新申请)":(cls==4)?"(返回修改)":(cls==5)?"(已审核)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=1">新申请</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=4">返回修改</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=5">已审核</a>
+                                </li>
+                            </ul>
                         </li>
+                        <shiro:hasRole name="odAdmin">
+                            <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
+                                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                    <li>
+                                        <a href="?cls=6">新申请</a>
+                                    </li>
+                                    <li>
+                                        <a href="?cls=7">返回修改</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </shiro:hasRole>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
@@ -44,17 +75,18 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
-                                <c:if test="${cls==1}">
+                                <c:if test="${cls==1||cls==4}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=1"
+                                            data-querystr="&type=1&cls=${cls}"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
-                                    <shiro:hasRole name="odAdmin">
+                                </c:if>
+                                <c:if test="${cls==6||cls==7}">
                                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
@@ -62,9 +94,8 @@
                                             data-querystr="&type=2"
                                             data-need-id="false"
                                             data-count="${odApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 组织部审核（${odApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
                                     </button>
-                                    </shiro:hasRole>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog_page"
@@ -141,7 +172,7 @@
                                                         <div class="col-xs-6">
                                                             <select required data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
-                                                                <c:forEach items="${MEMBER_OUTOUT_TYPE_MAP}" var="_type">
+                                                                <c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
                                                                     <option value="${_type.key}">${_type.value}</option>
                                                                 </c:forEach>
                                                             </select>
@@ -241,7 +272,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', frozen: true},
+            {label: '学工号', name: 'user.code', width: 120,frozen: true},
             { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
@@ -251,7 +282,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
-                    return party + ((branch == '') ? '' : '-' + branch);
+                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
@@ -259,10 +290,8 @@
             }, frozen: true},
             {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
-            }, frozen: true}<c:if test="${cls==1}">
-            ,{label: '审核类别', name: 'isBackName', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isBack?"返回修改":"新申请";
-            }, frozen: true}</c:if>,
+            }, frozen: true}<c:if test="${cls==4||cls==7}">
+            ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
              <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 
@@ -318,21 +347,23 @@
     $(window).triggerHandler('resize.jqGrid');
 
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
-    <c:if test="${cls==1}">
+    <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </shiro:hasRole>
+    <c:if test="${cls==1||cls==4||cls==6||cls==7}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
