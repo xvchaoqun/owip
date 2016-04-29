@@ -86,7 +86,7 @@
           <li data-step="1" class="complete">
             <span class="step">0</span>
         <span class="title">申请已提交
-        <c:if test="${memberIn.status==0}">
+        <c:if test="${memberIn.status==MEMBER_IN_STATUS_APPLY}">
           <small>
             <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
               <i class="fa fa-undo"></i>

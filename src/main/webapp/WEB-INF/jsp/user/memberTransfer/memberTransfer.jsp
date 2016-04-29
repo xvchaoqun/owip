@@ -135,7 +135,7 @@
                     <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}
                             &nbsp;
-                            <c:if test="${memberTransfer.status==0}">
+                            <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_APPLY}">
                                 <small>
                                     <button class="btn btn-white btn-warning " onclick="_applyBack()">
                                         <i class="fa fa-undo"></i>

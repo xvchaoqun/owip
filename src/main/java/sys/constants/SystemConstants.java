@@ -362,6 +362,21 @@ public class SystemConstants {
 		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_BRANCH_VERIFY, "党支部审核通过");
 		MEMBER_INFLOW_STATUS_MAP.put(MEMBER_INFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
 	}
+	// 党员流入转出状态
+	public final static byte MEMBER_INFLOW_OUT_STATUS_SELF_BACK = -2; // 本人撤回
+	public final static byte MEMBER_INFLOW_OUT_STATUS_BACK = -1; // 审核不通过
+	public final static byte MEMBER_INFLOW_OUT_STATUS_APPLY = 0;
+	public final static byte MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY= 1;
+	public final static byte MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY= 2;
+	public final static Map<Byte, String> MEMBER_INFLOW_OUT_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		MEMBER_INFLOW_OUT_STATUS_MAP.put(MEMBER_INFLOW_OUT_STATUS_SELF_BACK, "本人撤回");
+		MEMBER_INFLOW_OUT_STATUS_MAP.put(MEMBER_INFLOW_OUT_STATUS_BACK, "不通过");
+		MEMBER_INFLOW_OUT_STATUS_MAP.put(MEMBER_INFLOW_OUT_STATUS_APPLY, "申请");
+		MEMBER_INFLOW_OUT_STATUS_MAP.put(MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY, "党支部审核通过");
+		MEMBER_INFLOW_OUT_STATUS_MAP.put(MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY, "分党委审核通过");
+	}
+
 
 	// 党员流出状态
 	public final static byte MEMBER_OUTFLOW_STATUS_BACK = -1; // 本人撤回、审核不通过
@@ -388,6 +403,7 @@ public class SystemConstants {
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 9;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_USER_REG = 10;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT = 11;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT = 12;
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
@@ -401,6 +417,7 @@ public class SystemConstants {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, "公派留学生党员申请组织关系暂留");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "党员出党");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, "流入党员转出");
 	}
 
 	// 党员各类申请的审批结果

@@ -104,6 +104,8 @@ public class BaseMapper {
 	@Autowired
 	protected MemberOutflowMapper memberOutflowMapper;
 	@Autowired
+	protected MemberOutflowViewMapper memberOutflowViewMapper;
+	@Autowired
 	protected MemberInflowMapper memberInflowMapper;
 	@Autowired
 	protected MemberReturnMapper memberReturnMapper;

@@ -5,10 +5,10 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${memberInflow!=null}">编辑</c:if><c:if test="${memberInflow==null}">添加</c:if>流入党员</h3>
+    <h3><c:if test="${memberInflow!=null}">编辑</c:if><c:if test="${memberInflow==null}">添加</c:if>流入党员转出</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberInflow_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberInflowOut_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberInflow.id}">
 		<div class="row">
 			<div class="col-xs-6">
@@ -131,8 +131,8 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">转出时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input required class="form-control date-picker" name="_outTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberInflow.outTime,'yyyy-MM-dd')}" />
+						<input required class="form-control date-picker" name="_outflowTime" type="text"
+							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberInflow.outflowTime,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>

@@ -10,14 +10,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class MemberInflowExample {
+public class MemberOutflowViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public MemberInflowExample() {
+    public MemberOutflowViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -637,123 +637,63 @@ public class MemberInflowExample {
             return (Criteria) this;
         }
 
-        public Criteria andProvinceIsNull() {
-            addCriterion("province is null");
+        public Criteria andDirectionIsNull() {
+            addCriterion("direction is null");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceIsNotNull() {
-            addCriterion("province is not null");
+        public Criteria andDirectionIsNotNull() {
+            addCriterion("direction is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceEqualTo(Integer value) {
-            addCriterion("province =", value, "province");
+        public Criteria andDirectionEqualTo(Integer value) {
+            addCriterion("direction =", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceNotEqualTo(Integer value) {
-            addCriterion("province <>", value, "province");
+        public Criteria andDirectionNotEqualTo(Integer value) {
+            addCriterion("direction <>", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceGreaterThan(Integer value) {
-            addCriterion("province >", value, "province");
+        public Criteria andDirectionGreaterThan(Integer value) {
+            addCriterion("direction >", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceGreaterThanOrEqualTo(Integer value) {
-            addCriterion("province >=", value, "province");
+        public Criteria andDirectionGreaterThanOrEqualTo(Integer value) {
+            addCriterion("direction >=", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceLessThan(Integer value) {
-            addCriterion("province <", value, "province");
+        public Criteria andDirectionLessThan(Integer value) {
+            addCriterion("direction <", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceLessThanOrEqualTo(Integer value) {
-            addCriterion("province <=", value, "province");
+        public Criteria andDirectionLessThanOrEqualTo(Integer value) {
+            addCriterion("direction <=", value, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceIn(List<Integer> values) {
-            addCriterion("province in", values, "province");
+        public Criteria andDirectionIn(List<Integer> values) {
+            addCriterion("direction in", values, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceNotIn(List<Integer> values) {
-            addCriterion("province not in", values, "province");
+        public Criteria andDirectionNotIn(List<Integer> values) {
+            addCriterion("direction not in", values, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceBetween(Integer value1, Integer value2) {
-            addCriterion("province between", value1, value2, "province");
+        public Criteria andDirectionBetween(Integer value1, Integer value2) {
+            addCriterion("direction between", value1, value2, "direction");
             return (Criteria) this;
         }
 
-        public Criteria andProvinceNotBetween(Integer value1, Integer value2) {
-            addCriterion("province not between", value1, value2, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersIsNull() {
-            addCriterion("has_papers is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersIsNotNull() {
-            addCriterion("has_papers is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersEqualTo(Boolean value) {
-            addCriterion("has_papers =", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersNotEqualTo(Boolean value) {
-            addCriterion("has_papers <>", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersGreaterThan(Boolean value) {
-            addCriterion("has_papers >", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("has_papers >=", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersLessThan(Boolean value) {
-            addCriterion("has_papers <", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersLessThanOrEqualTo(Boolean value) {
-            addCriterion("has_papers <=", value, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersIn(List<Boolean> values) {
-            addCriterion("has_papers in", values, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersNotIn(List<Boolean> values) {
-            addCriterion("has_papers not in", values, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_papers between", value1, value2, "hasPapers");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasPapersNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_papers not between", value1, value2, "hasPapers");
+        public Criteria andDirectionNotBetween(Integer value1, Integer value2) {
+            addCriterion("direction not between", value1, value2, "direction");
             return (Criteria) this;
         }
 
@@ -817,323 +757,63 @@ public class MemberInflowExample {
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonIsNull() {
-            addCriterion("flow_reason is null");
+        public Criteria andProvinceIsNull() {
+            addCriterion("province is null");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonIsNotNull() {
-            addCriterion("flow_reason is not null");
+        public Criteria andProvinceIsNotNull() {
+            addCriterion("province is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonEqualTo(String value) {
-            addCriterion("flow_reason =", value, "flowReason");
+        public Criteria andProvinceEqualTo(Integer value) {
+            addCriterion("province =", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonNotEqualTo(String value) {
-            addCriterion("flow_reason <>", value, "flowReason");
+        public Criteria andProvinceNotEqualTo(Integer value) {
+            addCriterion("province <>", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonGreaterThan(String value) {
-            addCriterion("flow_reason >", value, "flowReason");
+        public Criteria andProvinceGreaterThan(Integer value) {
+            addCriterion("province >", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("flow_reason >=", value, "flowReason");
+        public Criteria andProvinceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("province >=", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonLessThan(String value) {
-            addCriterion("flow_reason <", value, "flowReason");
+        public Criteria andProvinceLessThan(Integer value) {
+            addCriterion("province <", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonLessThanOrEqualTo(String value) {
-            addCriterion("flow_reason <=", value, "flowReason");
+        public Criteria andProvinceLessThanOrEqualTo(Integer value) {
+            addCriterion("province <=", value, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonLike(String value) {
-            addCriterion("flow_reason like", value, "flowReason");
+        public Criteria andProvinceIn(List<Integer> values) {
+            addCriterion("province in", values, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonNotLike(String value) {
-            addCriterion("flow_reason not like", value, "flowReason");
+        public Criteria andProvinceNotIn(List<Integer> values) {
+            addCriterion("province not in", values, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonIn(List<String> values) {
-            addCriterion("flow_reason in", values, "flowReason");
+        public Criteria andProvinceBetween(Integer value1, Integer value2) {
+            addCriterion("province between", value1, value2, "province");
             return (Criteria) this;
         }
 
-        public Criteria andFlowReasonNotIn(List<String> values) {
-            addCriterion("flow_reason not in", values, "flowReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andFlowReasonBetween(String value1, String value2) {
-            addCriterion("flow_reason between", value1, value2, "flowReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andFlowReasonNotBetween(String value1, String value2) {
-            addCriterion("flow_reason not between", value1, value2, "flowReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIsNull() {
-            addCriterion("grow_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIsNotNull() {
-            addCriterion("grow_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time =", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <>", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("grow_time >", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time >=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThan(Date value) {
-            addCriterionForJDBCDate("grow_time <", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time not in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time not between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationIsNull() {
-            addCriterion("or_location is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationIsNotNull() {
-            addCriterion("or_location is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationEqualTo(String value) {
-            addCriterion("or_location =", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationNotEqualTo(String value) {
-            addCriterion("or_location <>", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationGreaterThan(String value) {
-            addCriterion("or_location >", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationGreaterThanOrEqualTo(String value) {
-            addCriterion("or_location >=", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationLessThan(String value) {
-            addCriterion("or_location <", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationLessThanOrEqualTo(String value) {
-            addCriterion("or_location <=", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationLike(String value) {
-            addCriterion("or_location like", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationNotLike(String value) {
-            addCriterion("or_location not like", value, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationIn(List<String> values) {
-            addCriterion("or_location in", values, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationNotIn(List<String> values) {
-            addCriterion("or_location not in", values, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationBetween(String value1, String value2) {
-            addCriterion("or_location between", value1, value2, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrLocationNotBetween(String value1, String value2) {
-            addCriterion("or_location not between", value1, value2, "orLocation");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusIsNull() {
-            addCriterion("inflow_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusIsNotNull() {
-            addCriterion("inflow_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusEqualTo(Byte value) {
-            addCriterion("inflow_status =", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusNotEqualTo(Byte value) {
-            addCriterion("inflow_status <>", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusGreaterThan(Byte value) {
-            addCriterion("inflow_status >", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("inflow_status >=", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusLessThan(Byte value) {
-            addCriterion("inflow_status <", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("inflow_status <=", value, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusIn(List<Byte> values) {
-            addCriterion("inflow_status in", values, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusNotIn(List<Byte> values) {
-            addCriterion("inflow_status not in", values, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusBetween(Byte value1, Byte value2) {
-            addCriterion("inflow_status between", value1, value2, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andInflowStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("inflow_status not between", value1, value2, "inflowStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackIsNull() {
-            addCriterion("is_back is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackIsNotNull() {
-            addCriterion("is_back is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackEqualTo(Boolean value) {
-            addCriterion("is_back =", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackNotEqualTo(Boolean value) {
-            addCriterion("is_back <>", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackGreaterThan(Boolean value) {
-            addCriterion("is_back >", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_back >=", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackLessThan(Boolean value) {
-            addCriterion("is_back <", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_back <=", value, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackIn(List<Boolean> values) {
-            addCriterion("is_back in", values, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackNotIn(List<Boolean> values) {
-            addCriterion("is_back not in", values, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_back between", value1, value2, "isBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBackNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_back not between", value1, value2, "isBack");
+        public Criteria andProvinceNotBetween(Integer value1, Integer value2) {
+            addCriterion("province not between", value1, value2, "province");
             return (Criteria) this;
         }
 
@@ -1207,383 +887,243 @@ public class MemberInflowExample {
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitIsNull() {
-            addCriterion("out_unit is null");
+        public Criteria andHasPapersIsNull() {
+            addCriterion("has_papers is null");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitIsNotNull() {
-            addCriterion("out_unit is not null");
+        public Criteria andHasPapersIsNotNull() {
+            addCriterion("has_papers is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitEqualTo(String value) {
-            addCriterion("out_unit =", value, "outUnit");
+        public Criteria andHasPapersEqualTo(Boolean value) {
+            addCriterion("has_papers =", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitNotEqualTo(String value) {
-            addCriterion("out_unit <>", value, "outUnit");
+        public Criteria andHasPapersNotEqualTo(Boolean value) {
+            addCriterion("has_papers <>", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitGreaterThan(String value) {
-            addCriterion("out_unit >", value, "outUnit");
+        public Criteria andHasPapersGreaterThan(Boolean value) {
+            addCriterion("has_papers >", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitGreaterThanOrEqualTo(String value) {
-            addCriterion("out_unit >=", value, "outUnit");
+        public Criteria andHasPapersGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_papers >=", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitLessThan(String value) {
-            addCriterion("out_unit <", value, "outUnit");
+        public Criteria andHasPapersLessThan(Boolean value) {
+            addCriterion("has_papers <", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitLessThanOrEqualTo(String value) {
-            addCriterion("out_unit <=", value, "outUnit");
+        public Criteria andHasPapersLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_papers <=", value, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitLike(String value) {
-            addCriterion("out_unit like", value, "outUnit");
+        public Criteria andHasPapersIn(List<Boolean> values) {
+            addCriterion("has_papers in", values, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitNotLike(String value) {
-            addCriterion("out_unit not like", value, "outUnit");
+        public Criteria andHasPapersNotIn(List<Boolean> values) {
+            addCriterion("has_papers not in", values, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitIn(List<String> values) {
-            addCriterion("out_unit in", values, "outUnit");
+        public Criteria andHasPapersBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_papers between", value1, value2, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitNotIn(List<String> values) {
-            addCriterion("out_unit not in", values, "outUnit");
+        public Criteria andHasPapersNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_papers not between", value1, value2, "hasPapers");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitBetween(String value1, String value2) {
-            addCriterion("out_unit between", value1, value2, "outUnit");
+        public Criteria andOrStatusIsNull() {
+            addCriterion("or_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andOutUnitNotBetween(String value1, String value2) {
-            addCriterion("out_unit not between", value1, value2, "outUnit");
+        public Criteria andOrStatusIsNotNull() {
+            addCriterion("or_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationIsNull() {
-            addCriterion("out_location is null");
+        public Criteria andOrStatusEqualTo(Byte value) {
+            addCriterion("or_status =", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationIsNotNull() {
-            addCriterion("out_location is not null");
+        public Criteria andOrStatusNotEqualTo(Byte value) {
+            addCriterion("or_status <>", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationEqualTo(Integer value) {
-            addCriterion("out_location =", value, "outLocation");
+        public Criteria andOrStatusGreaterThan(Byte value) {
+            addCriterion("or_status >", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationNotEqualTo(Integer value) {
-            addCriterion("out_location <>", value, "outLocation");
+        public Criteria andOrStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("or_status >=", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationGreaterThan(Integer value) {
-            addCriterion("out_location >", value, "outLocation");
+        public Criteria andOrStatusLessThan(Byte value) {
+            addCriterion("or_status <", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationGreaterThanOrEqualTo(Integer value) {
-            addCriterion("out_location >=", value, "outLocation");
+        public Criteria andOrStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("or_status <=", value, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationLessThan(Integer value) {
-            addCriterion("out_location <", value, "outLocation");
+        public Criteria andOrStatusIn(List<Byte> values) {
+            addCriterion("or_status in", values, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationLessThanOrEqualTo(Integer value) {
-            addCriterion("out_location <=", value, "outLocation");
+        public Criteria andOrStatusNotIn(List<Byte> values) {
+            addCriterion("or_status not in", values, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationIn(List<Integer> values) {
-            addCriterion("out_location in", values, "outLocation");
+        public Criteria andOrStatusBetween(Byte value1, Byte value2) {
+            addCriterion("or_status between", value1, value2, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationNotIn(List<Integer> values) {
-            addCriterion("out_location not in", values, "outLocation");
+        public Criteria andOrStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("or_status not between", value1, value2, "orStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationBetween(Integer value1, Integer value2) {
-            addCriterion("out_location between", value1, value2, "outLocation");
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
             return (Criteria) this;
         }
 
-        public Criteria andOutLocationNotBetween(Integer value1, Integer value2) {
-            addCriterion("out_location not between", value1, value2, "outLocation");
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeIsNull() {
-            addCriterion("out_time is null");
+        public Criteria andStatusEqualTo(Byte value) {
+            addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeIsNotNull() {
-            addCriterion("out_time is not null");
+        public Criteria andStatusNotEqualTo(Byte value) {
+            addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("out_time =", value, "outTime");
+        public Criteria andStatusGreaterThan(Byte value) {
+            addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("out_time <>", value, "outTime");
+        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("out_time >", value, "outTime");
+        public Criteria andStatusLessThan(Byte value) {
+            addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("out_time >=", value, "outTime");
+        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeLessThan(Date value) {
-            addCriterionForJDBCDate("out_time <", value, "outTime");
+        public Criteria andStatusIn(List<Byte> values) {
+            addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("out_time <=", value, "outTime");
+        public Criteria andStatusNotIn(List<Byte> values) {
+            addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("out_time in", values, "outTime");
+        public Criteria andStatusBetween(Byte value1, Byte value2) {
+            addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("out_time not in", values, "outTime");
+        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("out_time between", value1, value2, "outTime");
+        public Criteria andIsBackIsNull() {
+            addCriterion("is_back is null");
             return (Criteria) this;
         }
 
-        public Criteria andOutTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("out_time not between", value1, value2, "outTime");
+        public Criteria andIsBackIsNotNull() {
+            addCriterion("is_back is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusIsNull() {
-            addCriterion("out_status is null");
+        public Criteria andIsBackEqualTo(Boolean value) {
+            addCriterion("is_back =", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusIsNotNull() {
-            addCriterion("out_status is not null");
+        public Criteria andIsBackNotEqualTo(Boolean value) {
+            addCriterion("is_back <>", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusEqualTo(Byte value) {
-            addCriterion("out_status =", value, "outStatus");
+        public Criteria andIsBackGreaterThan(Boolean value) {
+            addCriterion("is_back >", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusNotEqualTo(Byte value) {
-            addCriterion("out_status <>", value, "outStatus");
+        public Criteria andIsBackGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_back >=", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusGreaterThan(Byte value) {
-            addCriterion("out_status >", value, "outStatus");
+        public Criteria andIsBackLessThan(Boolean value) {
+            addCriterion("is_back <", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("out_status >=", value, "outStatus");
+        public Criteria andIsBackLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_back <=", value, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusLessThan(Byte value) {
-            addCriterion("out_status <", value, "outStatus");
+        public Criteria andIsBackIn(List<Boolean> values) {
+            addCriterion("is_back in", values, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("out_status <=", value, "outStatus");
+        public Criteria andIsBackNotIn(List<Boolean> values) {
+            addCriterion("is_back not in", values, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusIn(List<Byte> values) {
-            addCriterion("out_status in", values, "outStatus");
+        public Criteria andIsBackBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_back between", value1, value2, "isBack");
             return (Criteria) this;
         }
 
-        public Criteria andOutStatusNotIn(List<Byte> values) {
-            addCriterion("out_status not in", values, "outStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutStatusBetween(Byte value1, Byte value2) {
-            addCriterion("out_status between", value1, value2, "outStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("out_status not between", value1, value2, "outStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackIsNull() {
-            addCriterion("out_is_back is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackIsNotNull() {
-            addCriterion("out_is_back is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackEqualTo(Boolean value) {
-            addCriterion("out_is_back =", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackNotEqualTo(Boolean value) {
-            addCriterion("out_is_back <>", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackGreaterThan(Boolean value) {
-            addCriterion("out_is_back >", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("out_is_back >=", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackLessThan(Boolean value) {
-            addCriterion("out_is_back <", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackLessThanOrEqualTo(Boolean value) {
-            addCriterion("out_is_back <=", value, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackIn(List<Boolean> values) {
-            addCriterion("out_is_back in", values, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackNotIn(List<Boolean> values) {
-            addCriterion("out_is_back not in", values, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackBetween(Boolean value1, Boolean value2) {
-            addCriterion("out_is_back between", value1, value2, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutIsBackNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("out_is_back not between", value1, value2, "outIsBack");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonIsNull() {
-            addCriterion("out_reason is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonIsNotNull() {
-            addCriterion("out_reason is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonEqualTo(String value) {
-            addCriterion("out_reason =", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonNotEqualTo(String value) {
-            addCriterion("out_reason <>", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonGreaterThan(String value) {
-            addCriterion("out_reason >", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("out_reason >=", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonLessThan(String value) {
-            addCriterion("out_reason <", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonLessThanOrEqualTo(String value) {
-            addCriterion("out_reason <=", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonLike(String value) {
-            addCriterion("out_reason like", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonNotLike(String value) {
-            addCriterion("out_reason not like", value, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonIn(List<String> values) {
-            addCriterion("out_reason in", values, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonNotIn(List<String> values) {
-            addCriterion("out_reason not in", values, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonBetween(String value1, String value2) {
-            addCriterion("out_reason between", value1, value2, "outReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andOutReasonNotBetween(String value1, String value2) {
-            addCriterion("out_reason not between", value1, value2, "outReason");
+        public Criteria andIsBackNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_back not between", value1, value2, "isBack");
             return (Criteria) this;
         }
 
@@ -1644,6 +1184,66 @@ public class MemberInflowExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIsNull() {
+            addCriterion("member_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIsNotNull() {
+            addCriterion("member_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusEqualTo(Byte value) {
+            addCriterion("member_status =", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotEqualTo(Byte value) {
+            addCriterion("member_status <>", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusGreaterThan(Byte value) {
+            addCriterion("member_status >", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("member_status >=", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusLessThan(Byte value) {
+            addCriterion("member_status <", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("member_status <=", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIn(List<Byte> values) {
+            addCriterion("member_status in", values, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotIn(List<Byte> values) {
+            addCriterion("member_status not in", values, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusBetween(Byte value1, Byte value2) {
+            addCriterion("member_status between", value1, value2, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("member_status not between", value1, value2, "memberStatus");
             return (Criteria) this;
         }
     }

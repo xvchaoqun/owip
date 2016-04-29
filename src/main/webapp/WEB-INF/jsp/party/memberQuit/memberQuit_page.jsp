@@ -17,8 +17,16 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
                         </li>
+                        <li class="${cls==11?'active':''}">
+                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核（${partyApprovalCount}）</a>
+                        </li>
+                        <shiro:hasRole name="odAdmin">
+                        <li class="${cls==12?'active':''}">
+                            <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
+                        </li>
+                            </shiro:hasRole>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
@@ -54,6 +62,8 @@
                                             data-count="${branchApprovalCount}">
                                         <i class="fa fa-sign-in"></i> 支部审核（${branchApprovalCount}）
                                     </button>
+                                </c:if>
+                                    <c:if test="${cls==11}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberQuit_approval"
@@ -63,7 +73,8 @@
                                             data-count="${partyApprovalCount}">
                                         <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
-                                    <shiro:hasRole name="odAdmin">
+                                    </c:if>
+                                        <c:if test="${cls==12}">
                                         <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                                                 class="jqOpenViewBtn btn btn-warning btn-sm"
                                                 data-url="${ctx}/memberQuit_approval"
@@ -73,7 +84,6 @@
                                                 data-count="${odApprovalCount}">
                                             <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
                                         </button>
-                                    </shiro:hasRole>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog_page"
@@ -285,10 +295,12 @@
             }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_STATUS_MAP[rowObject.status];
             }}
-                <c:if test="${cls==1}">
+                <c:if test="${cls!=3}">
             ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isBack?"返回修改":"新申请";
-            }}</c:if>
+            }}
+            ,{label: '返回修改原因', name: 'remark', width: 200}
+            </c:if>
             , {hidden: true, name: 'status'},{hidden:true, key:true, name:'userId'}
         ],
         onSelectRow: function (id, status) {
@@ -330,21 +342,24 @@
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <c:if test="${cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+        <c:if test="${cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <c:if test="${cls==1||cls==11||cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",

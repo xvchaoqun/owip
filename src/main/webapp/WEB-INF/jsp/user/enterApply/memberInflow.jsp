@@ -62,7 +62,7 @@
       <div class="form-group">
         <label class="col-xs-4 control-label">流入原因</label>
         <div class="col-xs-6">
-          <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberInflow.reason}</textarea>
+          <textarea required class="form-control limited" type="text" name="flowReason" rows="5">${memberInflow.flowReason}</textarea>
         </div>
       </div>
     </div>

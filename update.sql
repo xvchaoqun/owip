@@ -1,4 +1,23 @@
 
+--20160428
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_outflow_view` AS SELECT omo.*,  om.`status` as member_status from ow_member_outflow omo, ow_member om where omo.user_id=om.user_id  ;
+
+ALTER TABLE `ow_member_inflow`
+	CHANGE COLUMN `outflow_unit` `out_unit` VARCHAR(200) NULL DEFAULT NULL COMMENT '转出单位' AFTER `is_back`,
+	CHANGE COLUMN `outflow_location` `out_location` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '转出地' AFTER `out_unit`,
+	CHANGE COLUMN `outflow_time` `out_time` DATE NULL DEFAULT NULL COMMENT '转出时间' AFTER `out_location`,
+	CHANGE COLUMN `outflow_status` `out_status` TINYINT(4) NULL COMMENT '转出状态，-1不通过 0申请 1党支部审核 2分党委审核' AFTER `out_time`,
+	ADD COLUMN `out_is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '转出是否打回，当前状态是否是打回的' AFTER `out_status`;
+
+ALTER TABLE `ow_member_inflow`
+	ADD UNIQUE INDEX `user_id` (`user_id`);
+
+	ALTER TABLE `ow_member_inflow`
+	ADD COLUMN `flow_reason` VARCHAR(255) NULL DEFAULT NULL COMMENT '流入原因' AFTER `flow_time`,
+	CHANGE COLUMN `reason` `reason` VARCHAR(255) NULL DEFAULT NULL COMMENT '打回原因' AFTER `is_back`;
+ALTER TABLE `ow_member_inflow`
+	ADD COLUMN `out_reason` VARCHAR(255) NULL COMMENT '转出打回原因' AFTER `out_is_back`;
+
 --20160425
 ALTER TABLE `ow_member_quit`
 	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1支部审核 2分党委审批 3组织部审批' AFTER `quit_time`;

@@ -15,7 +15,7 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
@@ -40,7 +40,7 @@
                                             data-open-by="page"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"

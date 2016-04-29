@@ -145,7 +145,7 @@
                     <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
                             &nbsp;
-                        <c:if test="${memberOut.status==0}">
+                        <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
                                 <button class="btn btn-white btn-warning" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>
                                     撤销申请

@@ -134,13 +134,12 @@ public class MemberQuitController extends BaseController {
             criteria.andIsBackEqualTo(isBack);
         }
 
-        if(cls==1){
-            List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
-            statusList.add(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
-            criteria.andStatusIn(statusList);
-
+        if(cls==1){ // 支部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
+        }else if(cls==11){ // 分党委审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
+        }else if(cls==12){// 组织部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_QUIT_STATUS_SELF_BACK);

@@ -48,6 +48,7 @@ public class CommonController extends BaseController{
         Map constantMap = new HashMap();
         constantMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
         constantMap.put("MEMBER_INFLOW_STATUS_MAP", SystemConstants.MEMBER_INFLOW_STATUS_MAP);
+        constantMap.put("MEMBER_INFLOW_OUT_STATUS_MAP", SystemConstants.MEMBER_INFLOW_OUT_STATUS_MAP);
         constantMap.put("MEMBER_OUTFLOW_STATUS_MAP", SystemConstants.MEMBER_OUTFLOW_STATUS_MAP);
         constantMap.put("MEMBER_INOUT_TYPE_MAP", SystemConstants.MEMBER_INOUT_TYPE_MAP);
         constantMap.put("MEMBER_IN_STATUS_MAP", SystemConstants.MEMBER_IN_STATUS_MAP);

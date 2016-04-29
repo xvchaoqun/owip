@@ -427,7 +427,7 @@ public class EnterApplyController extends BaseController {
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow(@CurrentUser SysUser loginUser,MemberInflow record,
-                               String _flowTime, String _growTime, String _outflowTime, HttpServletRequest request) {
+                               String _flowTime, String _growTime, HttpServletRequest request) {
 
         //
         record.setUserId(loginUser.getId());
@@ -438,9 +438,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_growTime)){
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
         }
-        if (StringUtils.isNotBlank(_outflowTime)) {
-            record.setOutflowTime(DateUtils.parseDate(_outflowTime, DateUtils.YYYY_MM_DD));
-        }
+
         if(record.getPartyId()!=null) {
             record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
         }

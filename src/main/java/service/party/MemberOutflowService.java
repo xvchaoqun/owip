@@ -49,7 +49,7 @@ public class MemberOutflowService extends BaseMapper {
         return super.checkVerityAuth2(memberOutflow, memberOutflow.getPartyId());
     }
     
-    public int count(Integer partyId, Integer branchId, byte type){
+    public int count(Integer partyId, Integer branchId, byte type, byte cls){
 
         MemberOutflowExample example = new MemberOutflowExample();
         MemberOutflowExample.Criteria criteria = example.createCriteria();
@@ -63,6 +63,12 @@ public class MemberOutflowService extends BaseMapper {
         }else{
             throw new RuntimeException("审核类型错误");
         }
+        if(cls==1){// 支部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4){// 支部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
+        }
+
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
@@ -70,7 +76,7 @@ public class MemberOutflowService extends BaseMapper {
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public MemberOutflow next(byte type, MemberOutflow memberOutflow){
+    public MemberOutflow next(MemberOutflow memberOutflow, byte type, byte cls){
 
         MemberOutflowExample example = new MemberOutflowExample();
         MemberOutflowExample.Criteria criteria = example.createCriteria();
@@ -83,6 +89,11 @@ public class MemberOutflowService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+        if(cls==1){// 支部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4){// 支部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(memberOutflow!=null)
@@ -94,7 +105,7 @@ public class MemberOutflowService extends BaseMapper {
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public MemberOutflow last(byte type, MemberOutflow memberOutflow){
+    public MemberOutflow last(MemberOutflow memberOutflow, byte type, byte cls){
 
         MemberOutflowExample example = new MemberOutflowExample();
         MemberOutflowExample.Criteria criteria = example.createCriteria();
@@ -107,6 +118,12 @@ public class MemberOutflowService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+
+        if(cls==1){// 支部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==4){// 支部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(memberOutflow!=null)

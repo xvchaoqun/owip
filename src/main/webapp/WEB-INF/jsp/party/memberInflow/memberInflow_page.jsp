@@ -16,17 +16,47 @@
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
 
                 <div class="tabbable">
-                    <jsp:include page="menu.jsp"/>
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==4)?"(返回修改)":(cls==5)?"(已审核)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=1">新申请</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=4">返回修改</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=5">已审核</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="${cls==6?'active':''}">
+                            <a ${cls!=6?'href="?cls=6"':''}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                        </li>
+                        <li class="${cls==2?'active':''}">
+                            <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
+                        </li>
+                        <li class="${cls==3?'active':''}">
+                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已审核</a>
+                        </li>
+                        <li class="${cls==31?'active':''}">
+                            <a ${cls!=31?'href="?cls=31"':''}><i class="fa fa-sign-out"></i> 已转出的流入党员</a>
+                        </li>
+                    </ul>
 
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
 
                                 <shiro:hasPermission name="memberInflow:edit">
-                                    <c:if test="${cls==4}">
+                                    <c:if test="${cls==1}">
                                     <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流入党员</a>
                                     </c:if>
-                                    <c:if test="${cls==4||cls==5}">
+                                    <c:if test="${cls!=3}">
                                 <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
@@ -35,19 +65,21 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
 
-                                <c:if test="${cls==4}">
+                                <c:if test="${cls==1||cls==4}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                                    data-url="${ctx}/memberInflow_approval"
                                                                                    data-open-by="page"
-                                                                                   data-querystr="&type=1"
+                                                                                   data-querystr="&type=1&cls=${cls}"
                                                                                    data-need-id="false"
                                                                                    data-count="${branchApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
                                     </button>
+                                </c:if>
+                                <c:if test="${cls==6}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                                   data-url="${ctx}/memberInflow_approval"
                                                                                   data-open-by="page"
-                                                                                  data-querystr="&type=2"
+                                                                                  data-querystr="&type=2&cls=${cls}"
                                                                                   data-need-id="false"
                                                                                   data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
@@ -228,25 +260,24 @@
                 var branch = rowObject.branch;
                 return party + (($.trim(branch)=='')?'':'-'+branch);
             } ,frozen:true },
+            { label: '状态',   name: 'inflowStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
+                return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
+            }}<c:if test="${cls==4}">
+            ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             { label:'原职业',  name:'originalJob', width: 200 ,formatter:function(cellvalue, options, rowObject){
                 return _metaMap[cellvalue];
-            }, frozen:true },
+            }},
             { label: '流入前所在省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;
             }},
             { label: '是否持有《中国共产党流动党员活动证》',   name: 'hasPapers', width: 300, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             } },
-            { label: '流入时间',   name: 'flowTime', width: 350 },
-            { label: '流入原因',   name: 'reason', width: 350 },
-            { label: '入党时间',   name: 'growTime', width: 150 },
+            { label: '流入时间',   name: 'flowTime', width: 100 },
+            { label: '流入原因',   name: 'flowReason', width: 350 },
+            { label: '入党时间',   name: 'growTime', width: 100 },
             { label: '组织关系所在地',   name: 'orLocation', width: 150 },
-            { label: '状态',   name: 'inflowStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
-                return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
-            }}<c:if test="${cls==1}">
-            ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isBack?"返回修改":"新申请";
-            }}</c:if>,{hidden:true, name:'inflowStatus'}
+            {hidden:true, name:'inflowStatus'}
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
@@ -278,21 +309,23 @@
     $(window).triggerHandler('resize.jqGrid');
 
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
-    <c:if test="${cls==4}">
+    <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberInflow_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <c:if test="${cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberInflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <c:if test="${cls==1||cls==4||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",

@@ -13,15 +13,18 @@
     <result column="province" property="province" jdbcType="INTEGER" />
     <result column="has_papers" property="hasPapers" jdbcType="BIT" />
     <result column="flow_time" property="flowTime" jdbcType="DATE" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="flow_reason" property="flowReason" jdbcType="VARCHAR" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="or_location" property="orLocation" jdbcType="VARCHAR" />
     <result column="inflow_status" property="inflowStatus" jdbcType="TINYINT" />
     <result column="is_back" property="isBack" jdbcType="BIT" />
-    <result column="outflow_unit" property="outflowUnit" jdbcType="VARCHAR" />
-    <result column="outflow_location" property="outflowLocation" jdbcType="INTEGER" />
-    <result column="outflow_time" property="outflowTime" jdbcType="DATE" />
-    <result column="outflow_status" property="outflowStatus" jdbcType="TINYINT" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="out_unit" property="outUnit" jdbcType="VARCHAR" />
+    <result column="out_location" property="outLocation" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="DATE" />
+    <result column="out_status" property="outStatus" jdbcType="TINYINT" />
+    <result column="out_is_back" property="outIsBack" jdbcType="BIT" />
+    <result column="out_reason" property="outReason" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -84,8 +87,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, type, party_name, branch_name, party_id, branch_id, original_job, province, 
-    has_papers, flow_time, reason, grow_time, or_location, inflow_status, is_back, outflow_unit, 
-    outflow_location, outflow_time, outflow_status, create_time
+    has_papers, flow_time, flow_reason, grow_time, or_location, inflow_status, is_back, 
+    reason, out_unit, out_location, out_time, out_status, out_is_back, out_reason, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberInflowExample" >
     select
@@ -121,18 +124,20 @@
     insert into ow_member_inflow (id, user_id, type, 
       party_name, branch_name, party_id, 
       branch_id, original_job, province, 
-      has_papers, flow_time, reason, 
+      has_papers, flow_time, flow_reason, 
       grow_time, or_location, inflow_status, 
-      is_back, outflow_unit, outflow_location, 
-      outflow_time, outflow_status, create_time
+      is_back, reason, out_unit, 
+      out_location, out_time, out_status, 
+      out_is_back, out_reason, create_time
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{originalJob,jdbcType=INTEGER}, #{province,jdbcType=INTEGER}, 
-      #{hasPapers,jdbcType=BIT}, #{flowTime,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{hasPapers,jdbcType=BIT}, #{flowTime,jdbcType=DATE}, #{flowReason,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{orLocation,jdbcType=VARCHAR}, #{inflowStatus,jdbcType=TINYINT}, 
-      #{isBack,jdbcType=BIT}, #{outflowUnit,jdbcType=VARCHAR}, #{outflowLocation,jdbcType=INTEGER}, 
-      #{outflowTime,jdbcType=DATE}, #{outflowStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{outUnit,jdbcType=VARCHAR}, 
+      #{outLocation,jdbcType=INTEGER}, #{outTime,jdbcType=DATE}, #{outStatus,jdbcType=TINYINT}, 
+      #{outIsBack,jdbcType=BIT}, #{outReason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberInflow" >
@@ -171,8 +176,8 @@
       <if test="flowTime != null" >
         flow_time,
       </if>
-      <if test="reason != null" >
-        reason,
+      <if test="flowReason != null" >
+        flow_reason,
       </if>
       <if test="growTime != null" >
         grow_time,
@@ -186,17 +191,26 @@
       <if test="isBack != null" >
         is_back,
       </if>
-      <if test="outflowUnit != null" >
-        outflow_unit,
+      <if test="reason != null" >
+        reason,
       </if>
-      <if test="outflowLocation != null" >
-        outflow_location,
+      <if test="outUnit != null" >
+        out_unit,
       </if>
-      <if test="outflowTime != null" >
-        outflow_time,
+      <if test="outLocation != null" >
+        out_location,
       </if>
-      <if test="outflowStatus != null" >
-        outflow_status,
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="outStatus != null" >
+        out_status,
+      </if>
+      <if test="outIsBack != null" >
+        out_is_back,
+      </if>
+      <if test="outReason != null" >
+        out_reason,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -236,8 +250,8 @@
       <if test="flowTime != null" >
         #{flowTime,jdbcType=DATE},
       </if>
-      <if test="reason != null" >
-        #{reason,jdbcType=VARCHAR},
+      <if test="flowReason != null" >
+        #{flowReason,jdbcType=VARCHAR},
       </if>
       <if test="growTime != null" >
         #{growTime,jdbcType=DATE},
@@ -251,17 +265,26 @@
       <if test="isBack != null" >
         #{isBack,jdbcType=BIT},
       </if>
-      <if test="outflowUnit != null" >
-        #{outflowUnit,jdbcType=VARCHAR},
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="outflowLocation != null" >
-        #{outflowLocation,jdbcType=INTEGER},
+      <if test="outUnit != null" >
+        #{outUnit,jdbcType=VARCHAR},
       </if>
-      <if test="outflowTime != null" >
-        #{outflowTime,jdbcType=DATE},
+      <if test="outLocation != null" >
+        #{outLocation,jdbcType=INTEGER},
       </if>
-      <if test="outflowStatus != null" >
-        #{outflowStatus,jdbcType=TINYINT},
+      <if test="outTime != null" >
+        #{outTime,jdbcType=DATE},
+      </if>
+      <if test="outStatus != null" >
+        #{outStatus,jdbcType=TINYINT},
+      </if>
+      <if test="outIsBack != null" >
+        #{outIsBack,jdbcType=BIT},
+      </if>
+      <if test="outReason != null" >
+        #{outReason,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -310,8 +333,8 @@
       <if test="record.flowTime != null" >
         flow_time = #{record.flowTime,jdbcType=DATE},
       </if>
-      <if test="record.reason != null" >
-        reason = #{record.reason,jdbcType=VARCHAR},
+      <if test="record.flowReason != null" >
+        flow_reason = #{record.flowReason,jdbcType=VARCHAR},
       </if>
       <if test="record.growTime != null" >
         grow_time = #{record.growTime,jdbcType=DATE},
@@ -325,17 +348,26 @@
       <if test="record.isBack != null" >
         is_back = #{record.isBack,jdbcType=BIT},
       </if>
-      <if test="record.outflowUnit != null" >
-        outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
       </if>
-      <if test="record.outflowLocation != null" >
-        outflow_location = #{record.outflowLocation,jdbcType=INTEGER},
+      <if test="record.outUnit != null" >
+        out_unit = #{record.outUnit,jdbcType=VARCHAR},
       </if>
-      <if test="record.outflowTime != null" >
-        outflow_time = #{record.outflowTime,jdbcType=DATE},
+      <if test="record.outLocation != null" >
+        out_location = #{record.outLocation,jdbcType=INTEGER},
       </if>
-      <if test="record.outflowStatus != null" >
-        outflow_status = #{record.outflowStatus,jdbcType=TINYINT},
+      <if test="record.outTime != null" >
+        out_time = #{record.outTime,jdbcType=DATE},
+      </if>
+      <if test="record.outStatus != null" >
+        out_status = #{record.outStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.outIsBack != null" >
+        out_is_back = #{record.outIsBack,jdbcType=BIT},
+      </if>
+      <if test="record.outReason != null" >
+        out_reason = #{record.outReason,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -358,15 +390,18 @@
       province = #{record.province,jdbcType=INTEGER},
       has_papers = #{record.hasPapers,jdbcType=BIT},
       flow_time = #{record.flowTime,jdbcType=DATE},
-      reason = #{record.reason,jdbcType=VARCHAR},
+      flow_reason = #{record.flowReason,jdbcType=VARCHAR},
       grow_time = #{record.growTime,jdbcType=DATE},
       or_location = #{record.orLocation,jdbcType=VARCHAR},
       inflow_status = #{record.inflowStatus,jdbcType=TINYINT},
       is_back = #{record.isBack,jdbcType=BIT},
-      outflow_unit = #{record.outflowUnit,jdbcType=VARCHAR},
-      outflow_location = #{record.outflowLocation,jdbcType=INTEGER},
-      outflow_time = #{record.outflowTime,jdbcType=DATE},
-      outflow_status = #{record.outflowStatus,jdbcType=TINYINT},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      out_unit = #{record.outUnit,jdbcType=VARCHAR},
+      out_location = #{record.outLocation,jdbcType=INTEGER},
+      out_time = #{record.outTime,jdbcType=DATE},
+      out_status = #{record.outStatus,jdbcType=TINYINT},
+      out_is_back = #{record.outIsBack,jdbcType=BIT},
+      out_reason = #{record.outReason,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -405,8 +440,8 @@
       <if test="flowTime != null" >
         flow_time = #{flowTime,jdbcType=DATE},
       </if>
-      <if test="reason != null" >
-        reason = #{reason,jdbcType=VARCHAR},
+      <if test="flowReason != null" >
+        flow_reason = #{flowReason,jdbcType=VARCHAR},
       </if>
       <if test="growTime != null" >
         grow_time = #{growTime,jdbcType=DATE},
@@ -420,17 +455,26 @@
       <if test="isBack != null" >
         is_back = #{isBack,jdbcType=BIT},
       </if>
-      <if test="outflowUnit != null" >
-        outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="outflowLocation != null" >
-        outflow_location = #{outflowLocation,jdbcType=INTEGER},
+      <if test="outUnit != null" >
+        out_unit = #{outUnit,jdbcType=VARCHAR},
       </if>
-      <if test="outflowTime != null" >
-        outflow_time = #{outflowTime,jdbcType=DATE},
+      <if test="outLocation != null" >
+        out_location = #{outLocation,jdbcType=INTEGER},
       </if>
-      <if test="outflowStatus != null" >
-        outflow_status = #{outflowStatus,jdbcType=TINYINT},
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=DATE},
+      </if>
+      <if test="outStatus != null" >
+        out_status = #{outStatus,jdbcType=TINYINT},
+      </if>
+      <if test="outIsBack != null" >
+        out_is_back = #{outIsBack,jdbcType=BIT},
+      </if>
+      <if test="outReason != null" >
+        out_reason = #{outReason,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -450,15 +494,18 @@
       province = #{province,jdbcType=INTEGER},
       has_papers = #{hasPapers,jdbcType=BIT},
       flow_time = #{flowTime,jdbcType=DATE},
-      reason = #{reason,jdbcType=VARCHAR},
+      flow_reason = #{flowReason,jdbcType=VARCHAR},
       grow_time = #{growTime,jdbcType=DATE},
       or_location = #{orLocation,jdbcType=VARCHAR},
       inflow_status = #{inflowStatus,jdbcType=TINYINT},
       is_back = #{isBack,jdbcType=BIT},
-      outflow_unit = #{outflowUnit,jdbcType=VARCHAR},
-      outflow_location = #{outflowLocation,jdbcType=INTEGER},
-      outflow_time = #{outflowTime,jdbcType=DATE},
-      outflow_status = #{outflowStatus,jdbcType=TINYINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      out_unit = #{outUnit,jdbcType=VARCHAR},
+      out_location = #{outLocation,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=DATE},
+      out_status = #{outStatus,jdbcType=TINYINT},
+      out_is_back = #{outIsBack,jdbcType=BIT},
+      out_reason = #{outReason,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

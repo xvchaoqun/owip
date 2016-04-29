@@ -6,9 +6,9 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-                  data-url-au="${ctx}/memberOutflow_au"
-                  data-url-page="${ctx}/memberOutflow_page"
-                  data-url-export="${ctx}/memberOutflow_data"
+                  data-url-au="${ctx}/memberInflowOut_au?cls=${cls}"
+                  data-url-page="${ctx}/memberInflowOut_page"
+                  data-url-export="${ctx}/memberInflowOut_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
                 || not empty param.status ||not empty param.isBack
@@ -42,19 +42,18 @@
                         <li class="${cls==3?'active':''}">
                             <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已审核</a>
                         </li>
-                        <li class="${cls==31?'active':''}">
-                            <a ${cls!=31?'href="?cls=31"':''}><i class="fa fa-sign-out"></i> 已转出的流出党员</a>
-                        </li>
                     </ul>
+
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
-                                <shiro:hasPermission name="memberOutflow:edit">
+
+                                <shiro:hasPermission name="memberInflow:edit">
                                     <c:if test="${cls==1}">
-                                    <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流出党员</a>
+                                    <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流入党员</a>
                                     </c:if>
-                                    <c:if test="${cls!=3&&cls!=31}">
-                                <button  id="editBtn"  class="jqEditBtn btn btn-primary btn-sm" data-width="800">
+                                    <c:if test="${cls!=3}">
+                                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                                     </c:if>
@@ -62,32 +61,32 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
 
-                                    <c:if test="${cls==1||cls==4}">
+                                <c:if test="${cls==1||cls==4}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/memberOutflow_approval"
-                                            data-open-by="page"
-                                            data-querystr="&type=1&cls=${cls}"
-                                            data-need-id="false"
-                                            data-count="${branchApprovalCount}">
+                                                                                   data-url="${ctx}/memberInflowOut_approval"
+                                                                                   data-open-by="page"
+                                                                                   data-querystr="&type=1&cls=${cls}"
+                                                                                   data-need-id="false"
+                                                                                   data-count="${branchApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
                                     </button>
-                                    </c:if>
-                                    <c:if test="${cls==6}">
+                                </c:if>
+                                <c:if test="${cls==6}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/memberOutflow_approval"
-                                            data-open-by="page"
-                                            data-querystr="&type=2&cls=${cls}"
-                                            data-need-id="false"
-                                            data-count="${partyApprovalCount}">
+                                                                                  data-url="${ctx}/memberInflowOut_approval"
+                                                                                  data-open-by="page"
+                                                                                  data-querystr="&type=2&cls=${cls}"
+                                                                                  data-need-id="false"
+                                                                                  data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
-                                    </c:if>
-                                    <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                                                                  data-url="${ctx}/applyApprovalLog_page"
-                                                                                  data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"
-                                                                                  data-open-by="page">
-                                        <i class="fa fa-check-circle-o"></i> 查看审批记录
-                                    </button>
+                                </c:if>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT}"
+                                        data-open-by="page">
+                                    <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                </button>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -109,8 +108,8 @@
                                                             <div class="input-group">
                                                                 <select name="status" data-rel="select2" data-placeholder="请选择">
                                                                     <option></option>
-                                                                    <c:forEach var="_status" items="${MEMBER_OUTFLOW_STATUS_MAP}">
-                                                                        <c:if test="${_status.key>MEMBER_OUTFLOW_STATUS_BACK && _status.key<MEMBER_OUTFLOW_STATUS_PARTY_VERIFY}">
+                                                                    <c:forEach var="_status" items="${MEMBER_INFLOW_OUT_STATUS_MAP}">
+                                                                        <c:if test="${_status.key>MEMBER_INFLOW_OUT_STATUS_BACK && _status.key<MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY}">
                                                                             <option value="${_status.key}">${_status.value}</option>
                                                                         </c:if>
                                                                     </c:forEach>
@@ -136,6 +135,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label class="col-xs-3 control-label">姓名</label>
                                                         <div class="col-xs-6">
@@ -185,15 +185,14 @@
                                                 </div>
                                                 <script>
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
-                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", null, null, "${party.classId}" );
+                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
-                                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                            data-querystr="cls=${cls}">
+                                                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>
@@ -216,7 +215,6 @@
     </div>
 </div>
 <script>
-
     function goto_next(goToNext){
         if(goToNext){
             if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )
@@ -229,12 +227,12 @@
     }
     function apply_deny(id, type, goToNext) {
 
-        loadModal("${ctx}/memberOutflow_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        loadModal("${ctx}/memberInflowOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, type, goToNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
-                $.post("${ctx}/memberOutflow_check",{ids:[id], type:type},function(ret){
+                $.post("${ctx}/memberInflowOut_check",{ids: [id], type:type},function(ret){
                     if(ret.success){
                         SysMsg.success('操作成功。', '成功',function(){
                             //page_reload();
@@ -245,46 +243,41 @@
             }
         });
     }
-
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
-        url: '${ctx}/memberOutflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberInflowOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',  name: 'user.code', width: 120 ,frozen:true},
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            { label: '姓名',  name: 'user.realname', width: 100 ,frozen:true},
             { label: '所属组织机构', name: 'party',resizable:false, width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch)=='')?'':'-'+branch);
-                } ,frozen:true },
-            { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
-                return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
-            },frozen:true }<c:if test="${cls==4}">
-            ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
-            { label:'原职业',  name:'originalJob',width: 200 , formatter:function(cellvalue, options, rowObject){
+                var party = rowObject.party;
+                var branch = rowObject.branch;
+                return party + (($.trim(branch)=='')?'':'-'+branch);
+            } ,frozen:true },
+            { label: '状态',   name: 'outStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
+                return _cMap.MEMBER_INFLOW_OUT_STATUS_MAP[rowObject.outStatus];
+            }}<c:if test="${cls==4}">
+            ,{label: '返回修改原因', name: 'outReason', width: 180}</c:if>,
+            { label: '转出单位',   name: 'outUnit', width: 200 },
+            { label: '转出地',   name: 'outLocation', width: 150 , formatter:function(cellvalue, options, rowObject){
+                return _cMap.locationMap[cellvalue].name;
+            } },
+            { label: '转出时间',   name: 'outTime', width: 100 },
+            { label:'原职业',  name:'originalJob', width: 200 ,formatter:function(cellvalue, options, rowObject){
                 return _metaMap[cellvalue];
-            }},
-            { label: '外出流向',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
-            }},
-            { label: '流出时间',   name: 'flowTime', width: 100 },
-            { label: '流出省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
+            } },
+            { label: '流入前所在省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;
             }},
-            { label: '流出原因',   name: 'reason', width: 350 },
             { label: '是否持有《中国共产党流动党员活动证》',   name: 'hasPapers', width: 300, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             } },
-            { label: '组织关系状态',   name: 'orStatus', width: 150, formatter:function(cellvalue, options, rowObject){
-                return _cMap.OR_STATUS_MAP[cellvalue];
-            }  },
-            { label: '申请时间',   name: 'createTime', width: 150 },
-            {hidden:true, name:'status'}
+            { label: '流入时间',   name: 'flowTime', width: 100 },
+            { label: '流入原因',   name: 'flowReason', width: 350 },
+            { label: '入党时间',   name: 'growTime', width: 100 },
+            { label: '组织关系所在地',   name: 'orLocation', width: 150 },{hidden:true, name:'outStatus'}
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
@@ -295,8 +288,8 @@
             } else if (ids.length==1) {
                 jgrid_sid = ids[0];
                 var rowData = $(this).getRowData(ids[0]);
-                $("#branchApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_APPLY}");
-                $("#partyApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}");
+                $("#branchApprovalBtn").prop("disabled",rowData.outStatus!="${MEMBER_INFLOW_OUT_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled",rowData.outStatus!="${MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY}");
             }else{
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);
@@ -312,8 +305,7 @@
                     $(this).prop("disabled", $(this).data("count") == 0);
                 })
             }
-        }
-    }).jqGrid("setFrozenColumns");
+        }}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
@@ -322,7 +314,7 @@
         caption:"支部审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberInflowOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </c:if>
     <c:if test="${cls==6}">
@@ -330,7 +322,7 @@
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberInflowOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </c:if>
     <c:if test="${cls==1||cls==4||cls==6}">
@@ -347,10 +339,10 @@
             var minStatus;
             for(var key in ids){
                 var rowData = $(this).getRowData(ids[key]);
-                if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
+                if(minStatus==undefined || minStatus>rowData.outStatus) minStatus = rowData.outStatus;
             }
 
-            loadModal("${ctx}/memberOutflow_back?ids[]={0}&status={1}".format(ids, minStatus))
+            loadModal("${ctx}/memberInflowOut_back?ids[]={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

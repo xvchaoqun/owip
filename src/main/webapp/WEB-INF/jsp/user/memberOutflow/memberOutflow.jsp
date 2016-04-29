@@ -93,7 +93,7 @@
                 <td  class="bg-left">
                     ${MEMBER_OUTFLOW_STATUS_MAP.get(memberOutflow.status)}
                         &nbsp;
-                        <c:if test="${memberOutflow.status==0}">
+                        <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_APPLY}">
                             <small>
                                 <button class="btn btn-white btn-warning" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>

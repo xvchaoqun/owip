@@ -52,7 +52,7 @@ public class MemberInflowController extends BaseController {
 
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_page")
-    public String memberInflow_page(@RequestParam(defaultValue = "4") Integer cls, Integer userId,
+    public String memberInflow_page(@RequestParam(defaultValue = "1") byte cls, Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 
@@ -70,19 +70,17 @@ public class MemberInflowController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if (cls == 4) {
-            // 支部待审核总数
-            modelMap.put("branchApprovalCount", memberInflowService.count(null, null, (byte) 1));
-            // 分党委待审核数目
-            modelMap.put("partyApprovalCount", memberInflowService.count(null, null, (byte) 2));
-        }
+        // 支部待审核总数
+        modelMap.put("branchApprovalCount", memberInflowService.count(null, null, (byte) 1, cls));
+        // 分党委待审核数目
+        modelMap.put("partyApprovalCount", memberInflowService.count(null, null, (byte) 2, cls));
 
         return "party/memberInflow/memberInflow_page";
     }
 
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_data")
-    public void memberInflow_data(@RequestParam(defaultValue = "4") Integer cls, HttpServletResponse response,
+    public void memberInflow_data(@RequestParam(defaultValue = "1") byte cls, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "id", tableName = "ow_member_inflow") String sort,
                                   @OrderParam(required = false, defaultValue = "desc") String order,
                                   Integer userId,
@@ -128,18 +126,22 @@ public class MemberInflowController extends BaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
 
-        if (cls == 4) {// 未完成审核
-
+        if(cls==1){ // 支部审核（新申请）
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==4){ // 支部审核(返回修改)
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+                    .andIsBackEqualTo(true);;
+        }else if(cls==5 || cls==6){ // 支部已审核
+            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+        }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
             criteria.andInflowStatusIn(statusList);
-        }
-        if (cls == 5) {// 已完成审核
+        }else {// 已审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
-        }
-        if (cls == 6) {// 未通过
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
+            if(cls==31)// 已审核（已转出）
+                criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
         }
 
         if (export == 1) {
@@ -171,14 +173,10 @@ public class MemberInflowController extends BaseController {
     @RequestMapping(value = "/memberInflow_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_au(@CurrentUser SysUser loginUser,MemberInflow record,
-                                  String _flowTime, String _growTime, String _outflowTime,
+                                  String _flowTime, String _growTime, String _outTime,
                                   HttpServletRequest request) {
 
         Integer id = record.getId();
-
-        if (memberInflowService.idDuplicate(id, record.getUserId())) {
-            return failed("添加重复");
-        }
 
         record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
 
@@ -188,8 +186,8 @@ public class MemberInflowController extends BaseController {
         if (StringUtils.isNotBlank(_growTime)) {
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
         }
-        if (StringUtils.isNotBlank(_outflowTime)) {
-            record.setOutflowTime(DateUtils.parseDate(_outflowTime, DateUtils.YYYY_MM_DD));
+        if (StringUtils.isNotBlank(_outTime)) {
+            record.setOutTime(DateUtils.parseDate(_outTime, DateUtils.YYYY_MM_DD));
         }
 
         if (record.getPartyId() != null) {
@@ -221,7 +219,7 @@ public class MemberInflowController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_approval")
-    public String memberInflow_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberInflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUser loginUser, Integer id,
                                         byte type, // 1:支部审核 2：分党委审核
                                         ModelMap modelMap) {
 
@@ -237,7 +235,7 @@ public class MemberInflowController extends BaseController {
                     currentMemberInflow = null;
             }
         } else {
-            currentMemberInflow = memberInflowService.next(type, null);
+            currentMemberInflow = memberInflowService.next(null, type, cls);
         }
         if (currentMemberInflow == null)
             throw new RuntimeException("当前没有需要审批的记录");
@@ -253,11 +251,11 @@ public class MemberInflowController extends BaseController {
         }
 
         // 读取总数
-        modelMap.put("count", memberInflowService.count(null, null, type));
+        modelMap.put("count", memberInflowService.count(null, null, type, cls));
         // 下一条记录
-        modelMap.put("next", memberInflowService.next(type, currentMemberInflow));
+        modelMap.put("next", memberInflowService.next(currentMemberInflow, type, cls));
         // 上一条记录
-        modelMap.put("last", memberInflowService.last(type, currentMemberInflow));
+        modelMap.put("last", memberInflowService.last(currentMemberInflow, type, cls));
 
         return "party/memberInflow/memberInflow_approval";
     }

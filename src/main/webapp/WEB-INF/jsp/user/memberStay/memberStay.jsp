@@ -137,7 +137,7 @@
                     <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${MEMBER_STAY_STATUS_MAP.get(memberStay.status)}
                             &nbsp;
-                            <c:if test="${memberStay.status==0}">
+                            <c:if test="${memberStay.status==MEMBER_STAY_STATUS_APPLY}">
                                 <small>
                                     <button class="btn btn-white btn-warning" onclick="_applyBack()">
                                         <i class="fa fa-undo"></i>

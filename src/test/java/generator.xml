@@ -57,15 +57,18 @@
       </table>
        <table tableName="ow_member_stay" domainObjectName="MemberStay">
        </table>-->
-      <table tableName="ow_member_stay_view" domainObjectName="MemberStayView">
-      </table>
+      <!--<table tableName="ow_member_stay_view" domainObjectName="MemberStayView">
+      </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
         <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
        </table>-->
-      <!--<table tableName="ow_member_inflow" domainObjectName="MemberInflow">
-      </table>-->
+
+      <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
+      </table>
       <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
+      </table>-->
+     <!-- <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
       </table>-->
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->

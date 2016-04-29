@@ -102,10 +102,21 @@ public interface UpdateMapper {
             +" where id=#{id} and inflow_status >= #{status} and inflow_status<"
             + SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY)
     void memberInflow_back(@Param("id") int id, @Param("status") byte status);
+    // 流入转出：打回
+    @Update("update ow_member_inflow set out_status= #{status}"
+            +" where id=#{id} and out_status >= #{status} and out_status<"
+            + SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY)
+    void memberInflowOut_back(@Param("id") int id, @Param("status") byte status);
 
     // 流出：打回
     @Update("update ow_member_outflow set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
             + SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY)
     void memberOutflow_back(@Param("id") int id, @Param("status") byte status);
+
+    // 清空是否打回状态
+    @Update("update ${tableName} set ${isBackName}=#{isBack} where ${idName}=#{id}")
+    int resetIsBack(@Param("tableName") String tableName,
+                            @Param("isBackName") String isBackName, @Param("isBack") Boolean isBack,
+                            @Param("idName") String idName, @Param("id") int id);
 }

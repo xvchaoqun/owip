@@ -69,7 +69,7 @@
           <div class="profile-info-name"> 流入原因 </div>
 
           <div class="profile-info-value">
-            <span class="editable" >${memberInflow.reason}</span>
+            <span class="editable" >${memberInflow.flowReason}</span>
           </div>
         </div>
 
@@ -77,14 +77,14 @@
           <div class="profile-info-name"> 入党时间 </div>
 
           <div class="profile-info-value">
-            <span class="editable" id="about">${cm:formatDate(memberInflow.growTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(memberInflow.growTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name"> 组织关系所在地 </div>
 
           <div class="profile-info-value">
-            <span class="editable" id="about">${memberInflow.orLocation}</span>
+            <span class="editable">${memberInflow.orLocation}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -100,7 +100,7 @@
           <li data-step="1" class="complete">
             <span class="step">0</span>
         <span class="title">申请已提交
-        <c:if test="${memberInflow.inflowStatus==0}">
+        <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_APPLY}">
           <small>
             <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
               <i class="fa fa-undo"></i>

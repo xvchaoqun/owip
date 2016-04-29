@@ -170,6 +170,17 @@ public class EnterApplyService extends BaseMapper{
     public void memberInflow(MemberInflow record) {
 
         int userId = record.getUserId();
+
+        // 当前只允许流入一次
+        if (memberInflowService.idDuplicate(record.getId(), record.getUserId())) {
+            throw new RuntimeException("添加重复");
+        }
+        MemberInflow memberInflow = memberInflowService.get(userId);
+        if(memberInflow!=null && memberInflow.getInflowStatus()
+                ==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+            throw new RuntimeException("已经是流入党员");
+        }
+
         SysUser sysUser = sysUserService.findById(userId);
         if(sysUser.getType() == SystemConstants.USER_TYPE_JZG)
             record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
@@ -185,7 +196,7 @@ public class EnterApplyService extends BaseMapper{
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");
 
-        if(memberInflowService.get(userId)==null)
+        if(memberInflow==null)
             memberInflowMapper.insert(record);
         else
             memberInflowMapper.updateByPrimaryKey(record);
@@ -248,7 +259,6 @@ public class EnterApplyService extends BaseMapper{
                         "撤回",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "撤回入党申请");
-
                 }
                 break;
             case SystemConstants.ENTER_APPLY_TYPE_RETURN: {

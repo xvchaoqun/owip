@@ -25,4 +25,7 @@ public class MemberInflowMixin {
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date flowTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+    public Date outTime;
 }

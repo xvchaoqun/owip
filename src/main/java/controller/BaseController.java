@@ -69,6 +69,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MemberInflowService memberInflowService;
     @Autowired
+    protected MemberInflowOutService memberInflowOutService;
+    @Autowired
     protected MemberOutflowService memberOutflowService;
     @Autowired
     protected MemberReturnService memberReturnService;

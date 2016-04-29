@@ -82,7 +82,7 @@ public class MemberOutflowController extends BaseController {
 
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_page")
-    public String memberOutflow_page(@RequestParam(defaultValue = "1")Integer cls,Integer userId,
+    public String memberOutflow_page(@RequestParam(defaultValue = "1")byte cls,Integer userId,
                                      Integer partyId,
                                      Integer branchId, ModelMap modelMap) {
 
@@ -100,18 +100,16 @@ public class MemberOutflowController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if(cls==1) {
-            // 支部待审核总数
-            modelMap.put("branchApprovalCount", memberOutflowService.count(null, null, (byte)1));
-            // 分党委待审核数目
-            modelMap.put("partyApprovalCount", memberOutflowService.count(null, null, (byte)2));
-        }
+        // 支部待审核总数
+        modelMap.put("branchApprovalCount", memberOutflowService.count(null, null, (byte)1, cls));
+        // 分党委待审核数目
+        modelMap.put("partyApprovalCount", memberOutflowService.count(null, null, (byte)2, cls));
 
         return "party/memberOutflow/memberOutflow_page";
     }
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_data")
-    public void memberOutflow_data(@RequestParam(defaultValue = "1")Integer cls, HttpServletResponse response,
+    public void memberOutflow_data(@RequestParam(defaultValue = "1")byte cls, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_outflow") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -131,8 +129,8 @@ public class MemberOutflowController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberOutflowExample example = new MemberOutflowExample();
-        Criteria criteria = example.createCriteria();
+        MemberOutflowViewExample example = new MemberOutflowViewExample();
+        MemberOutflowViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -156,18 +154,25 @@ public class MemberOutflowController extends BaseController {
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-        if(cls==1){// 未完成审核
 
+        if(cls==1){ // 支部审核（新申请）
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==4){ // 支部审核(返回修改)
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+                    .andIsBackEqualTo(true);;
+        }else if(cls==5 ||cls==6){ // 支部已审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+        }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
             criteria.andStatusIn(statusList);
-        }
-        if(cls==2) {// 已完成审核
+        }else {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
-        }
-        if(cls==3) {// 未通过
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
+           /* if(cls==3)// 已审核（未转出）
+                criteria.andMemberStatusNotEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);*/
+            if(cls==31)// 已审核（已转出）
+                criteria.andMemberStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
         }
 
         if (export == 1) {
@@ -175,12 +180,12 @@ public class MemberOutflowController extends BaseController {
             return;
         }
 
-        int count = memberOutflowMapper.countByExample(example);
+        int count = memberOutflowViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberOutflowView> memberOutflows = memberOutflowViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -191,7 +196,7 @@ public class MemberOutflowController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberOutflow.class, MemberOutflowMixin.class);
+        sourceMixins.put(MemberOutflowView.class, MemberOutflowMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -199,7 +204,7 @@ public class MemberOutflowController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_approval")
-    public String memberOutflow_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberOutflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUser loginUser, Integer id,
                                          byte type, // 1:支部审核 2：分党委审核
                                          ModelMap modelMap) {
 
@@ -215,7 +220,7 @@ public class MemberOutflowController extends BaseController {
                     currentMemberOutflow = null;
             }
         }else{
-            currentMemberOutflow = memberOutflowService.next(type, null);
+            currentMemberOutflow = memberOutflowService.next(null, type, cls);
         }
         if(currentMemberOutflow==null)
             throw new RuntimeException("当前没有需要审批的记录");
@@ -231,11 +236,11 @@ public class MemberOutflowController extends BaseController {
         }
 
         // 读取总数
-        modelMap.put("count", memberOutflowService.count(null, null, type));
+        modelMap.put("count", memberOutflowService.count(null, null, type, cls));
         // 下一条记录
-        modelMap.put("next", memberOutflowService.next(type, currentMemberOutflow));
+        modelMap.put("next", memberOutflowService.next(currentMemberOutflow, type, cls));
         // 上一条记录
-        modelMap.put("last", memberOutflowService.last(type, currentMemberOutflow));
+        modelMap.put("last", memberOutflowService.last(currentMemberOutflow, type, cls));
 
         return "party/memberOutflow/memberOutflow_approval";
     }
@@ -375,10 +380,10 @@ public class MemberOutflowController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-    public void memberOutflow_export(MemberOutflowExample example, HttpServletResponse response) {
+    public void memberOutflow_export(MemberOutflowViewExample example, HttpServletResponse response) {
 
-        List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
-        int rownum = memberOutflowMapper.countByExample(example);
+        List<MemberOutflowView> memberOutflowViews = memberOutflowViewMapper.selectByExample(example);
+        int rownum = memberOutflowViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -393,7 +398,7 @@ public class MemberOutflowController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            MemberOutflow memberOutflow = memberOutflows.get(i);
+            MemberOutflowView memberOutflow = memberOutflowViews.get(i);
             String[] values = {
                         memberOutflow.getUserId()+"",
                                             memberOutflow.getPartyName(),

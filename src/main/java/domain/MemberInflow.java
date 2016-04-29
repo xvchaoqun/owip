@@ -9,6 +9,7 @@ public class MemberInflow implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+
     private Integer id;
 
     private Integer userId;
@@ -31,7 +32,7 @@ public class MemberInflow implements Serializable {
 
     private Date flowTime;
 
-    private String reason;
+    private String flowReason;
 
     private Date growTime;
 
@@ -41,13 +42,19 @@ public class MemberInflow implements Serializable {
 
     private Boolean isBack;
 
-    private String outflowUnit;
+    private String reason;
 
-    private Integer outflowLocation;
+    private String outUnit;
 
-    private Date outflowTime;
+    private Integer outLocation;
 
-    private Byte outflowStatus;
+    private Date outTime;
+
+    private Byte outStatus;
+
+    private Boolean outIsBack;
+
+    private String outReason;
 
     private Date createTime;
 
@@ -141,12 +148,12 @@ public class MemberInflow implements Serializable {
         this.flowTime = flowTime;
     }
 
-    public String getReason() {
-        return reason;
+    public String getFlowReason() {
+        return flowReason;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
+    public void setFlowReason(String flowReason) {
+        this.flowReason = flowReason == null ? null : flowReason.trim();
     }
 
     public Date getGrowTime() {
@@ -181,36 +188,60 @@ public class MemberInflow implements Serializable {
         this.isBack = isBack;
     }
 
-    public String getOutflowUnit() {
-        return outflowUnit;
+    public String getReason() {
+        return reason;
     }
 
-    public void setOutflowUnit(String outflowUnit) {
-        this.outflowUnit = outflowUnit == null ? null : outflowUnit.trim();
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
-    public Integer getOutflowLocation() {
-        return outflowLocation;
+    public String getOutUnit() {
+        return outUnit;
     }
 
-    public void setOutflowLocation(Integer outflowLocation) {
-        this.outflowLocation = outflowLocation;
+    public void setOutUnit(String outUnit) {
+        this.outUnit = outUnit == null ? null : outUnit.trim();
     }
 
-    public Date getOutflowTime() {
-        return outflowTime;
+    public Integer getOutLocation() {
+        return outLocation;
     }
 
-    public void setOutflowTime(Date outflowTime) {
-        this.outflowTime = outflowTime;
+    public void setOutLocation(Integer outLocation) {
+        this.outLocation = outLocation;
     }
 
-    public Byte getOutflowStatus() {
-        return outflowStatus;
+    public Date getOutTime() {
+        return outTime;
     }
 
-    public void setOutflowStatus(Byte outflowStatus) {
-        this.outflowStatus = outflowStatus;
+    public void setOutTime(Date outTime) {
+        this.outTime = outTime;
+    }
+
+    public Byte getOutStatus() {
+        return outStatus;
+    }
+
+    public void setOutStatus(Byte outStatus) {
+        this.outStatus = outStatus;
+    }
+
+    public Boolean getOutIsBack() {
+        return outIsBack;
+    }
+
+    public void setOutIsBack(Boolean outIsBack) {
+        this.outIsBack = outIsBack;
+    }
+
+    public String getOutReason() {
+        return outReason;
+    }
+
+    public void setOutReason(String outReason) {
+        this.outReason = outReason == null ? null : outReason.trim();
     }
 
     public Date getCreateTime() {
