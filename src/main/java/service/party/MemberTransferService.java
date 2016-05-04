@@ -26,6 +26,8 @@ public class MemberTransferService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private MemberOpService memberOpService;
     
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -135,6 +137,7 @@ public class MemberTransferService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -159,6 +162,7 @@ public class MemberTransferService extends BaseMapper {
         record.setId(memberTransfer.getId());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_BACK);
         record.setReason(reason);
+        record.setUserId(userId);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -172,6 +176,7 @@ public class MemberTransferService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -190,6 +195,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -203,6 +209,8 @@ public class MemberTransferService extends BaseMapper {
 
     @Transactional
     public int insertSelective(MemberTransfer record){
+
+        memberOpService.checkOpAuth(record.getUserId());
 
         return memberTransferMapper.insertSelective(record);
     }
@@ -224,6 +232,14 @@ public class MemberTransferService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberTransfer record){
+
+        Assert.isTrue(record.getUserId()!=null);
+
+        int opAuth = memberOpService.findOpAuth(record.getUserId());
+        if(opAuth==1){
+            throw new RuntimeException("已经申请了组织关系转出");
+        }
+
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));

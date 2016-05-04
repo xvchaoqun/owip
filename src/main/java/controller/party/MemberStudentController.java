@@ -140,6 +140,9 @@ public class MemberStudentController extends BaseController {
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
 
+        modelMap.put("studentGrades", searchMapper.studentGrades());
+        modelMap.put("studentTypes", searchMapper.studentTypes());
+
         return "party/memberStudent/memberStudent_page";
     }
     @RequiresPermissions("memberStudent:list")
@@ -152,6 +155,10 @@ public class MemberStudentController extends BaseController {
                                      Integer unitId,
                                      Integer partyId,
                                      Integer branchId,
+                                     Byte gender,
+                                     Integer age,
+                                     String grade,
+                                     String type,
                                      String _growTime,
                                      String _positiveTime,
                                      @RequestParam(required = false, defaultValue = "0") int export,
@@ -182,6 +189,38 @@ public class MemberStudentController extends BaseController {
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if(gender!=null){
+            criteria.andGenderEqualTo(gender);
+        }
+
+        if(age!=null){
+            switch (age){
+                case 1: // 20岁以下
+                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                    break;
+                case 2:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                    break;
+                case 3:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    break;
+                case 4:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    break;
+                case 5:
+                    criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+            }
+        }
+        if(StringUtils.isNotBlank(grade)){
+            criteria.andGradeEqualTo(grade);
+        }
+        if(StringUtils.isNotBlank(type)){
+            criteria.andTypeEqualTo(type);
         }
 
         if (StringUtils.isNotBlank(_growTime)) {

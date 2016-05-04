@@ -38,6 +38,8 @@ public class MemberOutflowService extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected SysUserService sysUserService;
+    @Autowired
+    private MemberOpService memberOpService;
 
     private VerifyAuth<MemberOutflow> checkVerityAuth(int id){
         MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
@@ -224,6 +226,8 @@ public class MemberOutflowService extends BaseMapper {
     @Transactional
     public int add(MemberOutflow record){
 
+        memberOpService.checkOpAuth(record.getUserId());
+
         record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
 
         int userId = record.getUserId();
@@ -267,6 +271,9 @@ public class MemberOutflowService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberOutflow record){
+
+        memberOpService.checkOpAuth(record.getUserId());
+
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));

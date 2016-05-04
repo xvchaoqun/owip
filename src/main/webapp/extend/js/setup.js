@@ -557,7 +557,7 @@ $(document).on("click", " .jqSearchBtn", function(){
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
     $target.renderUrl({
         url : $div.data("url-page"),
-        params : $("div.myTableDiv #searchForm").serialize(),
+        params : $("div.myTableDiv #searchForm").serialize()
     });
 });
 
@@ -569,7 +569,11 @@ $(document).on("click", " .resetBtn", function(){
     var querystr = $(this).data("querystr");
 
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
-    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + querystr);
+   // _tunePage(1, "", $div.data("url-page"), $target, "", "&" + querystr);
+    $target.renderUrl({
+        url : $div.data("url-page"),
+        params : "&" + querystr
+    });
 });
 // 排序
 $(document).on("click",".myTableDiv .table th.sortable", function(){

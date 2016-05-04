@@ -1,7 +1,9 @@
 package controller;
 
 import domain.*;
-import mixin.MetaTypeMixin;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -25,6 +27,24 @@ import java.util.Map;
  */
 @Controller
 public class CommonController extends BaseController{
+
+    @RequestMapping("/cache/clear")
+    @ResponseBody
+    public Map clearCache(){
+        /*CacheManager manager = CacheManager.getInstance();
+        String[] names = manager.getCacheNames();
+        for (String name : names)
+        {
+            Cache cache = manager.getCache(name);
+            cache.removeAll();
+        }*/
+        CacheManager.create().clearAll();
+        /*CacheManager cacheManager = CacheManager.create();
+        Ehcache cache = cacheManager.getEhcache(cacheConfiguration.getName());
+        cache.removeAll();*/
+
+        return success();
+    }
 
     @RequestMapping("/metaMap_JSON")
     public String metaMap_JSON(ModelMap modelMap) {
@@ -64,6 +84,7 @@ public class CommonController extends BaseController{
         //constantMap.put("countryMap", countryService.findAll());
         constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);
         constantMap.put("USER_TYPE_MAP", SystemConstants.USER_TYPE_MAP);
+        constantMap.put("ROLE_MAP", SystemConstants.ROLE_MAP);
         modelMap.put("cMap", JSONUtils.toString(constantMap));
 
         return "common/metaMap_JSON";

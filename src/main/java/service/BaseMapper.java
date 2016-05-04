@@ -4,10 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.*;
-import persistence.common.CommonMapper;
-import persistence.common.CommonUnitMapper;
-import persistence.common.SelectMapper;
-import persistence.common.UpdateMapper;
+import persistence.common.*;
 import shiro.ShiroUser;
 import sys.tags.CmTag;
 
@@ -229,6 +226,8 @@ public class BaseMapper {
 	protected CommonUnitMapper commonUnitMapper;
 	@Autowired
 	protected CommonMapper commonMapper;
+	@Autowired
+	protected SearchMapper searchMapper;
 	@Autowired
 	protected SelectMapper selectMapper;
 	@Autowired

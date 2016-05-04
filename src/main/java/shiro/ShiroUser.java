@@ -1,6 +1,7 @@
 package shiro;
 
 import bean.ApproverTypeBean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Set;
 
@@ -15,8 +16,10 @@ public class ShiroUser {
     private Byte type;
 
     private Set<String> roles;
+    @JsonIgnore
     private Set<String> permissions;
 
+    @JsonIgnore
     private ApproverTypeBean approverTypeBean; // 干部审批权限
 
     public ShiroUser(Integer id, String username, String realname, Byte type, Set<String> roles, Set<String> permissions, ApproverTypeBean approverTypeBean) {

@@ -48,7 +48,19 @@ public class SystemConstants {
 	public static final String ROLE_BRANCHADMIN = "branchAdmin";
 	public static final String ROLE_ODADMIN = "odAdmin";
 	public static final String ROLE_CADREADMIN = "cadreAdmin";
-
+	public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
+	static {
+		ROLE_MAP.put(ROLE_ADMIN, "系统管理员");
+		ROLE_MAP.put(ROLE_GUEST, "非党员");
+		ROLE_MAP.put(ROLE_REG, "注册用户");
+		ROLE_MAP.put(ROLE_CADRE, "干部");
+		ROLE_MAP.put(ROLE_MEMBER, "党员");
+		ROLE_MAP.put(ROLE_INFLOWMEMBER, "流入党员");
+		ROLE_MAP.put(ROLE_PARTYADMIN, "分党委管理员");
+		ROLE_MAP.put(ROLE_BRANCHADMIN, "党支部管理员");
+		ROLE_MAP.put(ROLE_ODADMIN, "组织部管理员");
+		ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
+	}
 
 	public static final String LOG_LOGIN = "mt_log_login";
 	public static final String LOG_ADMIN = "mt_log_admin";

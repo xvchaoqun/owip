@@ -11,6 +11,8 @@
                  data-url-export="${ctx}/memberStudent_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
+            ||not empty param.age ||not empty param.gender
+            ||not empty param.type ||not empty param.grade
                 ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
@@ -69,8 +71,70 @@
                                                         </script>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label class="col-xs-3 control-label">性别</label>
+                                                    <div class="col-xs-6">
+                                                        <div class="input-group">
+                                                            <select name="gender" data-rel="select2" data-placeholder="请选择">
+                                                                <option></option>
+                                                                <c:forEach items="${GENDER_MAP}" var="entity">
+                                                                    <option value="${entity.key}">${entity.value}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <script>
+                                                                $("#searchForm select[name=gender]").val('${param.gender}');
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-xs-3 control-label">年龄</label>
+                                                    <div class="col-xs-6">
+                                                        <select name="age" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">20岁及以下</option>
+                                                            <option value="2">21岁~30岁</option>
+                                                            <option value="3">31岁~40岁</option>
+                                                            <option value="4">41岁~50岁</option>
+                                                            <option value="5">51岁及以上</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=age]").val('${param.age}');
+                                                        </script>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label class="col-xs-4 control-label">学生类别</label>
+                                                    <div class="col-xs-6">
+                                                        <div class="input-group">
+                                                            <select name="type" data-rel="select2" data-placeholder="请选择">
+                                                                <option></option>
+                                                                <c:forEach items="${studentTypes}" var="type">
+                                                                    <option value="${type}">${type}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <script>
+                                                                $("#searchForm select[name=type]").val('${param.type}');
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-xs-4 control-label">年级</label>
+                                                    <div class="col-xs-6">
+                                                        <select name="grade" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:forEach items="${studentGrades}" var="grade">
+                                                                <option value="${grade}">${grade}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=grade]").val('${param.grade}');
+                                                        </script>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-4 control-label">入党时间</label>
                                                     <div class="col-xs-6">

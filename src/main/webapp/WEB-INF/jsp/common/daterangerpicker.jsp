@@ -6,6 +6,8 @@
 <script>
   $('[data-rel=date-range-picker]').daterangepicker({
     autoUpdateInput:false,
+    showDropdowns:true,
+    linkedCalendars:false,
     'applyClass' : 'btn-sm btn-success',
     'cancelClass' : 'btn-sm btn-default',
     locale: {

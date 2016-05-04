@@ -27,6 +27,8 @@ public class MemberStayService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private MemberOpService memberOpService;
 
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -206,6 +208,8 @@ public class MemberStayService extends BaseMapper {
     @Transactional
     public int insertSelective(MemberStay record){
 
+        memberOpService.checkOpAuth(record.getUserId());
+
         return memberStayMapper.insertSelective(record);
     }
     @Transactional
@@ -226,6 +230,8 @@ public class MemberStayService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberStay record){
+
+        memberOpService.checkOpAuth(record.getUserId());
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部

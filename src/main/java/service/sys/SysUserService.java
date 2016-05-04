@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.SysUserMapper;
 import service.BaseMapper;
+import service.helper.ShiroSecurityHelper;
 import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
 
@@ -292,6 +293,8 @@ public class SysUserService extends BaseMapper {
 				+ SystemConstants.USER_ROLEIDS_SEPARTOR);
 		updateByPrimaryKeySelective(record, sysUser.getUsername());
 
+		//踢下线（如果登入的话）
+		ShiroSecurityHelper.kickOutUser(username);
 	}
 
 	// 根据账号查找所有的角色（对象）

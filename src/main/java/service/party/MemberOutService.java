@@ -25,6 +25,9 @@ public class MemberOutService extends BaseMapper {
     @Autowired
     private MemberService memberService;
     @Autowired
+    private MemberOpService memberOpService;
+
+    @Autowired
     private PartyService partyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -152,6 +155,7 @@ public class MemberOutService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -176,6 +180,7 @@ public class MemberOutService extends BaseMapper {
         record.setId(memberOut.getId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_BACK);
         record.setReason(reason);
+        record.setUserId(userId);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -189,6 +194,7 @@ public class MemberOutService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -207,6 +213,7 @@ public class MemberOutService extends BaseMapper {
 
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
+        record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -215,6 +222,8 @@ public class MemberOutService extends BaseMapper {
     }
     @Transactional
     public int insertSelective(MemberOut record){
+
+        memberOpService.checkOpAuth(record.getUserId());
 
         return memberOutMapper.insertSelective(record);
     }
@@ -236,6 +245,14 @@ public class MemberOutService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberOut record){
+
+        Assert.isTrue(record.getUserId()!=null);
+
+        int opAuth = memberOpService.findOpAuth(record.getUserId());
+        if(opAuth==2){
+            throw new RuntimeException("已经申请了校内组织关系转接");
+        }
+
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
