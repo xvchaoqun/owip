@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ public class XlsUpload {
 
 	public final static int passportXLSColumnCount = 8;
 	public final static int cadreXLSColumnCount = 6;
+	public final static int userXLSColumnCount = 4;
 
 	public static List<XlsPassport> fetchPassports(XSSFSheet sheet){
 		
@@ -162,6 +162,67 @@ public class XlsUpload {
 
 		return cadreRows;
 	}
+
+	public static List<XlsUser> fetchUsers(XSSFSheet sheet){
+
+		List<XlsUser> rows = new ArrayList<XlsUser>();
+		XSSFRow rowTitle = sheet.getRow(0);
+		if(null == rowTitle)
+			return rows;
+		int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
+		if(cellCount != userXLSColumnCount)
+			return rows;
+
+		for (int i = sheet.getFirstRowNum() + 1 ; i <= sheet.getLastRowNum(); i++) {
+
+			XSSFRow row = sheet.getRow(i);
+			if (row == null) {// 如果为空，不处理
+				continue;
+			}
+
+			XlsUser dataRow = new XlsUser();
+			XSSFCell cell = row.getCell(0);
+			if (null != cell){
+				String realname = getCell(cell);
+				if(StringUtils.isBlank(realname)) {
+					continue;
+				}
+				dataRow.setRealname(realname);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(1);
+			if (null != cell){
+				String _gender = getCell(cell);
+				if(StringUtils.isBlank(_gender)) {
+					continue;
+				}
+				dataRow.setGender((byte)(StringUtils.equals(_gender, "男")?1:2));
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(2);
+			if (null != cell){
+				String idcard = getCell(cell);
+				if(StringUtils.isBlank(idcard)) {
+					continue;
+				}
+				dataRow.setIdcard(idcard);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(3);
+			dataRow.setUnit( getCell(cell));
+
+			rows.add(dataRow);
+		}
+
+		return rows;
+	}
+
 	public static String getCell(XSSFCell cell) {
 
 		if (cell == null)

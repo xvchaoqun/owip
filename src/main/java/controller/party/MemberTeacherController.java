@@ -68,6 +68,10 @@ public class MemberTeacherController extends BaseController {
             modelMap.put("party", partyMap.get(partyId));
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
+
+        modelMap.put("teacherEducationTypes", searchMapper.teacherEducationTypes());
+        modelMap.put("teacherPostClasses", searchMapper.teacherPostClasses());
+
         return "party/memberTeacher/memberTeacher_page";
     }
 
@@ -81,6 +85,12 @@ public class MemberTeacherController extends BaseController {
                                     Integer unitId,
                                     Integer partyId,
                                     Integer branchId,
+                                    Byte gender,
+                                    Integer age,
+                                    String education,
+                                    String postClass,
+                                    String _retireTime,
+                                    Boolean isHonorRetire,
                                     String _growTime,
                                     String _positiveTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -111,6 +121,52 @@ public class MemberTeacherController extends BaseController {
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if(gender!=null){
+            criteria.andGenderEqualTo(gender);
+        }
+        if(age!=null){
+            switch (age){
+                case 1: // 20岁以下
+                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                    break;
+                case 2:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                    break;
+                case 3:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    break;
+                case 4:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    break;
+                case 5:
+                    criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+            }
+        }
+        if(StringUtils.isNotBlank(education)){
+            criteria.andEducationEqualTo(education);
+        }
+        if(StringUtils.isNotBlank(postClass)){
+            criteria.andPostClassEqualTo(postClass);
+        }
+
+        if (StringUtils.isNotBlank(_retireTime)) {
+            String start = _retireTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _retireTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andRetireTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andRetireTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(isHonorRetire!=null){
+            criteria.andIsHonorRetireEqualTo(isHonorRetire);
         }
 
         if (StringUtils.isNotBlank(_growTime)) {

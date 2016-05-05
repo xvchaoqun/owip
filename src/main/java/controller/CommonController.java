@@ -127,24 +127,22 @@ public class CommonController extends BaseController{
                 option.put("user", userBeanService.get(sysUser.getId()));
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
                         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                         if (extJzg != null) {
-                            option.put("code", extJzg.getZgh());
                             option.put("unit", extJzg.getDwmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(sysUser.getCode());
                         if (extBks != null) {
-                            option.put("code", extBks.getXh());
                             option.put("unit", extBks.getYxmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
                         ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
                         if (extYjs != null) {
-                            option.put("code", extYjs.getXh());
                             option.put("unit", extYjs.getYxsmc());
                         }
                     }

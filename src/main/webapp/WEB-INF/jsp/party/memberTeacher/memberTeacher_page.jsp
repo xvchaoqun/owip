@@ -11,6 +11,9 @@ pageEncoding="UTF-8" %>
              data-url-export="${ctx}/memberTeacher_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
+             ||not empty param.age ||not empty param.gender
+             ||not empty param.education ||not empty param.postClass
+             ||not empty param._retireTime ||not empty param.isHonorRetire
                 ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
         <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
@@ -70,8 +73,71 @@ pageEncoding="UTF-8" %>
                                                     </script>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">性别</label>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group">
+                                                        <select name="gender" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:forEach items="${GENDER_MAP}" var="entity">
+                                                                <option value="${entity.key}">${entity.value}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=gender]").val('${param.gender}');
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">年龄</label>
+                                                <div class="col-xs-6">
+                                                    <select name="age" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="1">20岁及以下</option>
+                                                        <option value="2">21岁~30岁</option>
+                                                        <option value="3">31岁~40岁</option>
+                                                        <option value="4">41岁~50岁</option>
+                                                        <option value="5">51岁及以上</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=age]").val('${param.age}');
+                                                    </script>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">最高学历</label>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group">
+                                                        <select name="education" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:forEach items="${teacherEducationTypes}" var="education">
+                                                                <option value="${education}">${education}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=education]").val('${param.education}');
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">岗位类别</label>
+                                                <div class="col-xs-6">
+                                                    <select name="postClass" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach items="${teacherPostClasses}" var="postClass">
+                                                            <option value="${postClass}">${postClass}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=postClass]").val('${param.postClass}');
+                                                    </script>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-xs-4 control-label">入党时间</label>
                                                 <div class="col-xs-6">
@@ -98,6 +164,33 @@ pageEncoding="UTF-8" %>
                                             </div>
                                         </div>
                                         <div class="col-xs-4">
+                                            <c:if test="${cls>=3}">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">退休时间</label>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="退休时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择退休时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_retireTime" value="${param._retireTime}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">是否离休</label>
+                                                <div class="col-xs-6">
+                                                    <select name="isHonorRetire" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="1">是</option>
+                                                        <option value="0">否</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            </c:if>
                                             <div class="form-group">
                                                 <label class="col-xs-3 control-label">所在分党委</label>
                                                 <div class="col-xs-6">
@@ -187,6 +280,7 @@ pageEncoding="UTF-8" %>
             { label: '专业技术职务', align:'center', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter },
             { label:'入党时间', align:'center', name: 'growTime', width: 100 },
+            { label:'转正时间',  name: 'positiveTime', width: 100 },
             { label:'联系手机', align:'center', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
             { label:'退休时间', align:'center', name: 'retireTime', width: 100 },

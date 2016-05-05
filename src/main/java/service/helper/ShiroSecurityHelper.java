@@ -79,6 +79,7 @@ public class ShiroSecurityHelper {
 		Collection<Session> sessions = sessionDAO.getActiveSessions();
 		for(Session session : sessions){
 			PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+			if(principals==null || principals.isEmpty()) continue;
 			ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
 			if(null != session && StringUtils.equals(shiroUser.getUsername(), username)){
 				return session;
@@ -106,6 +107,7 @@ public class ShiroSecurityHelper {
 		Collection<Session> sessions = sessionDAO.getActiveSessions();
 		for(Session session : sessions){
 			PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+			if(principals==null || principals.isEmpty()) continue;
 			ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
 			if(null != session && usernames.contains(shiroUser.getUsername())){
 				session.setTimeout(0);//设置session立即失效，即将其踢出系统
