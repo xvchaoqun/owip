@@ -100,7 +100,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">提交书面申请书时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_applyTime" type="text"
+							<input class="form-control date-picker" name="_applyTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.applyTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -110,7 +110,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">确定为入党积极分子时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_activeTime" type="text"
+							<input  class="form-control date-picker" name="_activeTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.activeTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">确定为发展对象时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_candidateTime" type="text"
+							<input  class="form-control date-picker" name="_candidateTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.candidateTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -130,7 +130,7 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">入党时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
-							<input required class="form-control date-picker" name="_growTime" type="text"
+							<input  class="form-control date-picker" name="_growTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.growTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
