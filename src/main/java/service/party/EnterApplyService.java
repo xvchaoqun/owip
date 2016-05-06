@@ -77,9 +77,9 @@ public class EnterApplyService extends BaseMapper{
             if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
                 throw new RuntimeException("您已出党");
             }
-            if(member.getStatus()==SystemConstants.MEMBER_STATUS_RETIRE){
+            /*if(member.getStatus()==SystemConstants.MEMBER_STATUS_RETIRE){
                 throw new RuntimeException("您已退休");
-            }
+            }*/
             if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
                 //throw new RuntimeException("您已办理组织关系转出");
                 return;// 允许挂职干部转出后用原账号转入

@@ -47,7 +47,7 @@ public class RetireApplyService extends BaseMapper{
         record.setVerifyTime(new Date());
         retireApplyMapper.updateByPrimaryKeySelective(record);
 
-        memberService.quit(userId, SystemConstants.MEMBER_STATUS_RETIRE);
+        //memberService.quit(userId, SystemConstants.MEMBER_STATUS_RETIRE);
     }
 
 }

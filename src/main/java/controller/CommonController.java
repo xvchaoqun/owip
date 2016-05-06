@@ -104,7 +104,7 @@ public class CommonController extends BaseController{
         pageNo = Math.max(1, pageNo);
 
         SysUserExample example = new SysUserExample();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("create_time desc");
         if(StringUtils.isNotBlank(searchStr)){
             example.or().andUsernameLike("%" + searchStr + "%");
             example.or().andCodeLike("%" + searchStr + "%");
@@ -188,11 +188,10 @@ public class CommonController extends BaseController{
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
                 option.put("id", cadre.getId() + "");
                 option.put("text", sysUser.getRealname());
-
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
                     ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                     if(extJzg!=null) {
-                        option.put("code", extJzg.getZgh());
                         option.put("unit", extJzg.getDwmc());
                     }
                 }
@@ -238,24 +237,22 @@ public class CommonController extends BaseController{
                 option.put("text", sysUser.getRealname());
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
                         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                         if (extJzg != null) {
-                            option.put("code", extJzg.getZgh());
                             option.put("unit", extJzg.getDwmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(sysUser.getCode());
                         if (extBks != null) {
-                            option.put("code", extBks.getXh());
                             option.put("unit", extBks.getYxmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
                         ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
                         if (extYjs != null) {
-                            option.put("code", extYjs.getXh());
                             option.put("unit", extYjs.getYxsmc());
                         }
                     }
@@ -269,6 +266,7 @@ public class CommonController extends BaseController{
         resultMap.put("options", options);
         return resultMap;
     }
+
 
 
     // 根据账号或姓名或学工号选择 所在单位和兼职单位 都关联该单位的干部
@@ -304,24 +302,22 @@ public class CommonController extends BaseController{
                 option.put("text", sysUser.getRealname());
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
                         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                         if (extJzg != null) {
-                            option.put("code", extJzg.getZgh());
                             option.put("unit", extJzg.getDwmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(sysUser.getCode());
                         if (extBks != null) {
-                            option.put("code", extBks.getXh());
                             option.put("unit", extBks.getYxmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
                         ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
                         if (extYjs != null) {
-                            option.put("code", extYjs.getXh());
                             option.put("unit", extYjs.getYxsmc());
                         }
                     }
@@ -378,24 +374,84 @@ public class CommonController extends BaseController{
                 option.put("user", userBeanService.get(member.getUserId()));
 
                 if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
                     if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
                         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
                         if (extJzg != null) {
-                            option.put("code", extJzg.getZgh());
                             option.put("unit", extJzg.getDwmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(sysUser.getCode());
                         if (extBks != null) {
-                            option.put("code", extBks.getXh());
                             option.put("unit", extBks.getYxmc());
                         }
                     }
                     if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
                         ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
                         if (extYjs != null) {
-                            option.put("code", extYjs.getXh());
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
+    // 根据账号或姓名或学工号选择非党员用户
+    @RequestMapping("/notMember_selects")
+    @ResponseBody
+    public Map notMember_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
+
+        int count = commonMapper.countNotMember(searchStr);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<SysUser> sysUsers = commonMapper.selectNotMemberList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if(null != sysUsers && sysUsers.size()>0){
+
+            for(SysUser sysUser:sysUsers){
+                Map<String, String> option = new HashMap<>();
+                option.put("id", sysUser.getId() + "");
+                option.put("text", sysUser.getRealname());
+
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                        if (extJzg != null) {
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(sysUser.getCode());
+                        if (extBks != null) {
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
+                        if (extYjs != null) {
                             option.put("unit", extYjs.getYxsmc());
                         }
                     }

@@ -206,14 +206,14 @@ public class MemberTeacherController extends BaseController {
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
-            case 4:
+           /* case 4:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
             case 5:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_RETIRE)
                         .andIsRetireEqualTo(true);
-                break;
+                break;*/
         }
 
         if (export == 1) {

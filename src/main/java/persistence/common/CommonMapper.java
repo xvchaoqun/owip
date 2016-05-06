@@ -107,6 +107,10 @@ public interface CommonMapper {
     List<SysUser> selectNotCadreList(@Param("search") String search, RowBounds rowBounds);
     int countNotCadre(@Param("search") String search);
 
+    // 根据账号、姓名、学工号查找 不是 党员的用户
+    List<SysUser> selectNotMemberList(@Param("search") String search, RowBounds rowBounds);
+    int countNotMember(@Param("search") String search);
+
     // 根据类别、状态、账号、姓名、学工号查找党员
     List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
                                   @Param("addPermits")Boolean addPermits,
