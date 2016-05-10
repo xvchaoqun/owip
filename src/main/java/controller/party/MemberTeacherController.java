@@ -200,7 +200,7 @@ public class MemberTeacherController extends BaseController {
         switch (cls){
             case 2:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireEqualTo(false);
+                        .andIsRetireNotEqualTo(true);
                 break;
             case 3:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
