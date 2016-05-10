@@ -1,4 +1,8 @@
 
+--20160510
+CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_group_view` AS SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bmg.branch_id=b.id ;
+
+
 --20160428
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_outflow_view` AS SELECT omo.*,  om.`status` as member_status from ow_member_outflow omo, ow_member om where omo.user_id=om.user_id  ;
 

@@ -131,6 +131,8 @@ public class BaseMapper {
 	@Autowired
 	protected BranchMemberGroupMapper branchMemberGroupMapper;
 	@Autowired
+	protected BranchMemberGroupViewMapper branchMemberGroupViewMapper;
+	@Autowired
 	protected BranchMemberMapper branchMemberMapper;
 	@Autowired
 	protected PartyMapper partyMapper;

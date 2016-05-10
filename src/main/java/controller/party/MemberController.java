@@ -250,9 +250,9 @@ public class MemberController extends BaseController {
         Member member = memberService.get(userId);
         if(member!=null) {
             if(sysUser.getType()== SystemConstants.USER_TYPE_JZG)
-                memberService.snycTeacher(sysUser.getId(), sysUser.getCode());
+                memberService.snycTeacher(sysUser.getId(), sysUser);
             else
-                memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+                memberService.snycStudent(sysUser.getId(), sysUser);
         }
         return success(FormUtils.SUCCESS);
     }

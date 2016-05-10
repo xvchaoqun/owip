@@ -5,6 +5,7 @@ import domain.*;
 import domain.BranchMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.BranchMemberGroupViewMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,16 +27,14 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BranchMemberGroupController extends BaseController {
@@ -62,15 +61,36 @@ public class BranchMemberGroupController extends BaseController {
         modelMap.put("branchMemberGroups", BranchMemberGroups);
         return "party/branchMemberGroup/branchMemberGroup_view";
     }
+
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_page")
     public String branchMemberGroup_page(HttpServletResponse response,
+                                         Integer partyId,
+                                         Integer branchId,
+                                         String name,
+                                         Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+
+        return "party/branchMemberGroup/branchMemberGroup_page";
+    }
+    @RequiresPermissions("branchMemberGroup:list")
+    @RequestMapping("/branchMemberGroup_data")
+    public void branchMemberGroup_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                    Integer partyId,
                                     Integer branchId,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -80,9 +100,13 @@ public class BranchMemberGroupController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        BranchMemberGroupExample example = new BranchMemberGroupExample();
-        Criteria criteria = example.createCriteria();
+        BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
+        BranchMemberGroupViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if (partyId!=null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
 
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
@@ -93,41 +117,29 @@ public class BranchMemberGroupController extends BaseController {
 
         if (export == 1) {
             branchMemberGroup_export(example, response);
-            return null;
+            return;
         }
 
-        int count = branchMemberGroupMapper.countByExample(example);
+        int count = branchMemberGroupViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<BranchMemberGroup> BranchMemberGroups = branchMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("branchMemberGroups", BranchMemberGroups);
+        List<BranchMemberGroupView> BranchMemberGroups = branchMemberGroupViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
 
-        if (branchId!=null) {
-            searchStr += "&branchId=" + branchId;
-        }
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", BranchMemberGroups);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
-        return "party/branchMemberGroup/branchMemberGroup_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(BranchMemberGroupView.class, BranchMemberGroupViewMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("branchMemberGroup:edit")
@@ -241,10 +253,10 @@ public class BranchMemberGroupController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void branchMemberGroup_export(BranchMemberGroupExample example, HttpServletResponse response) {
+    public void branchMemberGroup_export(BranchMemberGroupViewExample example, HttpServletResponse response) {
 
-        List<BranchMemberGroup> branchMemberGroups = branchMemberGroupMapper.selectByExample(example);
-        int rownum = branchMemberGroupMapper.countByExample(example);
+        List<BranchMemberGroupView> branchMemberGroups = branchMemberGroupViewMapper.selectByExample(example);
+        int rownum = branchMemberGroupViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -259,7 +271,7 @@ public class BranchMemberGroupController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            BranchMemberGroup branchMemberGroup = branchMemberGroups.get(i);
+            BranchMemberGroupView branchMemberGroup = branchMemberGroups.get(i);
             String[] values = {
                         branchMemberGroup.getBranchId()+"",
                                             DateUtils.formatDate(branchMemberGroup.getTranTime(), DateUtils.YYYY_MM_DD),

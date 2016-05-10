@@ -237,11 +237,11 @@ public class SysUserRegController extends BaseController {
 
         Assert.isTrue(record.getId()!=null);
 
-        if (sysUserRegService.usernameDuplicate(record.getUsername())
+        if (sysUserRegService.usernameDuplicate(record.getId(), record.getUserId(), record.getUsername())
                 || sysUserService.idDuplicate(record.getUserId(), record.getUsername(), record.getCode())) {
             return failed("用户名或学工号已被注册。");
         }
-        if(sysUserRegService.idcardDuplicate(record.getIdcard())){
+        if(sysUserRegService.idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard())){
             return failed("身份证已被注册。");
         }
 

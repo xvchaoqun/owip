@@ -10,6 +10,7 @@ import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
+import service.dispatch.DispatchUnitService;
 import service.party.*;
 import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
@@ -32,6 +33,7 @@ public class CmTag {
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
     static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
     static DispatchService dispatchService = (DispatchService) context.getBean("dispatchService");
+    static DispatchUnitService dispatchUnitService = (DispatchUnitService) context.getBean("dispatchUnitService");
     static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
     static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
     static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
@@ -250,6 +252,9 @@ public class CmTag {
     public static Dispatch getDispatch(Integer dispatchId){
 
         return dispatchService.findAll().get(dispatchId);
+    }
+    public static DispatchUnit getDispatchUnit(Integer dispatchUnitId){
+        return dispatchUnitService.findAll().get(dispatchUnitId);
     }
     // 发文号
     public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {

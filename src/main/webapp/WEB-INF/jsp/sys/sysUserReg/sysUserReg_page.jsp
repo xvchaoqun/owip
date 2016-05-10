@@ -29,8 +29,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${cls==1}">
                                 <shiro:hasPermission name="sysUserReg:edit">
-                                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
-                                            data-open-by="page">
+                                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
                                 </shiro:hasPermission>
@@ -53,7 +52,6 @@
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
-
                                     <div class="widget-toolbar">
                                         <a href="#" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -62,44 +60,28 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main no-padding">
-                                        <form class="form-horizontal " id="searchForm">
-                                            <input type="hidden" name="cls" value="${cls}">
-                                            <div class="row">
-                                                <div class="col-xs-4">
+                                        <form class="form-inline " id="searchForm">
+                                            <div class="search-columns">
+                                                    <input type="hidden" name="cls" value="${cls}">
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">注册账号</label>
-                                                        <div class="col-xs-6">
-                                                            <div class="input-group">
-                                                                <input type="text" name="username" value="${param.username}">
-                                                            </div>
-                                                        </div>
+                                                        <label>注册账号</label>
+                                                        <input type="text" name="username" value="${param.username}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">关联系统账号</label>
-                                                        <div class="col-xs-6">
-                                                            <div class="input-group">
-                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                                    <option value="${sysUser.id}">${sysUser.realname}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-4">
-                                                    <div class="form-group">
-                                                        <label class="col-xs-3 control-label">真实姓名</label>
-                                                        <div class="col-xs-6">
-                                                            <div class="input-group">
-                                                                <input type="text" name="realname" value="${param.realname}">
-                                                            </div>
-                                                        </div>
+                                                        <label>关联系统账号</label>
+                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                            <option value="${sysUser.id}">${sysUser.realname}</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">分党委</label>
-
-                                                        <div class="col-xs-6">
-                                                            <select name="partyId" data-rel="select2" data-placeholder="请选择所属分党委">
+                                                        <label>真实姓名</label>
+                                                        <input type="text" name="realname" value="${param.realname}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>分党委</label>
+                                                            <select name="partyId" data-rel="select2"
+                                                                    data-placeholder="请选择所属分党委" data-width="350">
                                                                 <option></option>
                                                                 <c:forEach var="entity" items="${partyMap}">
                                                                     <option value="${entity.key}">${entity.value.name}</option>
@@ -108,19 +90,11 @@
                                                             <script>
                                                                 $("#searchForm select[name=partyId]").val('${param.partyId}');
                                                             </script>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xs-4">
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">身份证号码</label>
-                                                        <div class="col-xs-6">
-                                                            <div class="input-group">
+                                                        <label>身份证号码</label>
                                                                 <input type="text" name="idcard" value="${param.idcard}">
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                </div>
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>

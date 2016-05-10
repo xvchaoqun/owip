@@ -64,8 +64,8 @@
         <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
        </table>-->
 
-      <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
-      </table>
+    <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
+      </table>-->
       <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>-->
      <!-- <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
@@ -105,6 +105,9 @@
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
       </table>-->
+      <table tableName="ow_branch_member_group_view" domainObjectName="BranchMemberGroupView">
+      </table>
+
    <!--<table tableName="ow_party" domainObjectName="Party">
        <ignoreColumn column="update_time"/>
     </table>

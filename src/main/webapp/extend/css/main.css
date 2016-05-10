@@ -99,10 +99,21 @@ body{
 .navbar .navbar-header .logo{padding-right:25px;float:left;height:58px;border-right:1px solid #fff;}
 .navbar .navbar-header .txt{float:left;height:58px;line-height:58px;font-size:30px;margin-left:25px;font-weight:bold;color:#fff}
 
+/*============search form=======*/
+.search-columns{
+    padding: 10px;
+}
+.search-columns .form-group{
+    padding-bottom: 10px;
+}
+
 /*============table================*/
 .table-container{
     overflow: auto;
     max-height: 500px;
+}
+.table-responsive{
+    overflow-x: hidden;
 }
 /*jqgrid start*/
 .table > thead > tr > th:last-child {

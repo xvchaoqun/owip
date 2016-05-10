@@ -86,7 +86,11 @@ $(window).on('resize.jqGrid', function () {
     if( $("#body-content").is(":hidden")){
         return;
     }
-    $(".jqGrid").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-60 );
+    var gridWidth = $(window).width()-60;
+    if($("#menu-toggler").is(":hidden")){ // 手机屏幕
+        gridWidth -= $(".nav-list").width()
+    }
+    $(".jqGrid").jqGrid( 'setGridWidth', gridWidth );
     var height = 0;
     $("#body-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();
@@ -104,7 +108,11 @@ $(window).on('resize.jqGrid2', function () {
     if( $("#item-content").is(":hidden")){
         return;
     }
-    $(".jqGrid2").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-70 );
+    var gridWidth = $(window).width()-70;
+    if($("#menu-toggler").is(":hidden")){ // 手机屏幕
+        gridWidth -= $(".nav-list").width()
+    }
+    $(".jqGrid2").jqGrid( 'setGridWidth', gridWidth );
     var height = 0;
     $("#item-content .jqgrid-vertical-offset").each(function(){
         height += $(this).height();

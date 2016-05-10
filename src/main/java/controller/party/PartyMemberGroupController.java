@@ -5,6 +5,7 @@ import domain.*;
 import domain.PartyMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.PartyMemberGroupMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,16 +27,14 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PartyMemberGroupController extends BaseController {
@@ -67,12 +66,22 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_page")
     public String partyMemberGroup_page(HttpServletResponse response,
+                                        String name,
+                                        Integer partyId,
+                                        Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+
+        return "party/partyMemberGroup/partyMemberGroup_page";
+    }
+    @RequiresPermissions("partyMemberGroup:list")
+    @RequestMapping("/partyMemberGroup_data")
+    public void partyMemberGroup_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party_member_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     String name,
                                     Integer partyId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -95,7 +104,7 @@ public class PartyMemberGroupController extends BaseController {
 
         if (export == 1) {
             partyMemberGroup_export(example, response);
-            return null;
+            return;
         }
 
         int count = partyMemberGroupMapper.countByExample(example);
@@ -104,32 +113,19 @@ public class PartyMemberGroupController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PartyMemberGroup> PartyMemberGroups = partyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("partyMemberGroups", PartyMemberGroups);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", PartyMemberGroups);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if(partyId!=null){
-            searchStr += "&partyId=" + partyId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(PartyMemberGroup.class, PartyMemberGroupMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
 
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
-
-        return "party/partyMemberGroup/partyMemberGroup_page";
     }
 
     @RequiresPermissions("partyMemberGroup:edit")

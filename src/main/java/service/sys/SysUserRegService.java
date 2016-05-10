@@ -159,9 +159,9 @@ public class SysUserRegService extends BaseMapper {
                        String realname, String idcard, String phone,
                        Integer party, String ip){
 
-        if(usernameDuplicate(username))
+        if(usernameDuplicate(null, null, username))
             throw new RuntimeException("该用户名已被注册。");
-        if(idcardDuplicate(idcard))
+        if(idcardDuplicate(null, null, idcard))
             throw new RuntimeException("该身份证已被注册。");
 
         if(!FormUtils.usernameFormatRight(username)){
@@ -206,37 +206,44 @@ public class SysUserRegService extends BaseMapper {
         sysUserRegMapper.insertSelective(reg);
     }
 
-    public boolean usernameDuplicate(String username){
+    public boolean usernameDuplicate(Integer id, Integer userId, String username){
 
         Assert.isTrue(StringUtils.isNotBlank(username));
         {
             SysUserRegExample example = new SysUserRegExample();
-            example.createCriteria().andUsernameEqualTo(username)
+            SysUserRegExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username)
                     .andStatusNotEqualTo(SystemConstants.USER_REG_STATUS_DENY);
+            if(id!=null) criteria.andIdNotEqualTo(id);
+
             if (sysUserRegMapper.countByExample(example) > 0) return true;
         }
         {
             SysUserExample example = new SysUserExample();
-            example.createCriteria().andUsernameEqualTo(username);
+            SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
+            if(userId!=null) criteria.andIdNotEqualTo(userId);
+
             if (sysUserMapper.countByExample(example) > 0) return true;
         }
 
         return false;
     }
 
-    public boolean idcardDuplicate(String idcard){
+    public boolean idcardDuplicate(Integer id, Integer userId, String idcard){
 
         Assert.isTrue(StringUtils.isNotBlank(idcard));
         {
             SysUserRegExample example = new SysUserRegExample();
-            example.createCriteria().andIdcardEqualTo(idcard)
+            SysUserRegExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard)
                     .andStatusNotEqualTo(SystemConstants.USER_REG_STATUS_DENY);
+
+            if(id!=null) criteria.andIdNotEqualTo(id);
             if (sysUserRegMapper.countByExample(example) > 0) return true;
         }
 
         {
             SysUserExample example = new SysUserExample();
-            example.createCriteria().andIdcardEqualTo(idcard);
+            SysUserExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard);
+            if(userId!=null) criteria.andIdNotEqualTo(userId);
             if (sysUserMapper.countByExample(example) > 0) return true;
         }
 
@@ -246,8 +253,8 @@ public class SysUserRegService extends BaseMapper {
     @Transactional
     public int insertSelective(SysUserReg record){
 
-        Assert.isTrue(!usernameDuplicate(record.getUsername()));
-        Assert.isTrue(!idcardDuplicate(record.getIdcard()));
+        Assert.isTrue(!usernameDuplicate(record.getId(), record.getUserId(), record.getUsername()));
+        Assert.isTrue(!idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard()));
         return sysUserRegMapper.insertSelective(record);
     }
     @Transactional

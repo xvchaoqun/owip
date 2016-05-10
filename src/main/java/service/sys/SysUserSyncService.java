@@ -128,7 +128,7 @@ public class SysUserSyncService extends BaseMapper {
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycTeacher(sysUser.getId(), sysUser.getCode());
+                            memberService.snycTeacher(sysUser.getId(), sysUser);
 
                         updateCount++;
                     }
@@ -244,7 +244,7 @@ public class SysUserSyncService extends BaseMapper {
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+                            memberService.snycStudent(sysUser.getId(), sysUser);
 
                         updateCount++;
                     }
@@ -364,7 +364,7 @@ public class SysUserSyncService extends BaseMapper {
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycStudent(sysUser.getId(), sysUser.getType(), sysUser.getCode());
+                            memberService.snycStudent(sysUser.getId(), sysUser);
 
                         updateCount++;
                     }

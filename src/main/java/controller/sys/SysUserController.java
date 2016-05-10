@@ -193,8 +193,6 @@ public class SysUserController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        modelMap.put("userTypeMap", SystemConstants.USER_TYPE_MAP);
-
         return "sys/sysUser/sysUser_au";
     }
 

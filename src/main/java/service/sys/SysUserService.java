@@ -106,11 +106,11 @@ public class SysUserService extends BaseMapper {
 	}
 
 
-	public boolean idDuplicate(Integer id, String username, String code){
+	public boolean idDuplicate(Integer userId, String username, String code){
 
 		SysUserExample example = new SysUserExample();
 		SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
-		if(id!=null) criteria.andIdNotEqualTo(id);
+		if(userId!=null) criteria.andIdNotEqualTo(userId);
 		if(StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
 
 		return sysUserMapper.countByExample(example) > 0;

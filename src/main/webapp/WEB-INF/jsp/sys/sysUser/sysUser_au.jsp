@@ -32,7 +32,7 @@
 			<label class="col-xs-3 control-label">类别</label>
 			<div class="col-xs-9">
 				<div class="radio">
-					<c:forEach var="userType" items="${userTypeMap}">
+					<c:forEach var="userType" items="${USER_TYPE_MAP}">
 					<label>
 						<input name="type" type="radio" class="ace" value="${userType.key}"
 							   <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
