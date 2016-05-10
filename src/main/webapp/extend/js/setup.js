@@ -154,6 +154,13 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+$(document).on("click", ".widget-header", function(){
+    $("a[data-action=collapse]", this).click()
+})
+$(document).on("click", ".widget-header a[data-action=collapse]",function(e){
+    e.stopPropagation();
+})
+
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){
     //alert(0)
     try{$(this).valid();}catch (e){}

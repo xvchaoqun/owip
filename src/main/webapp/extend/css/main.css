@@ -81,11 +81,12 @@ body{
 
 /*.widget-box{
     border: none;
-}
-.widget-header{
-    background-image: none;
-    background: none;
 }*/
+.widget-header{
+    /*background-image: none;
+    background: none;*/
+    cursor: pointer;
+}
 /**skin**/
 .skin-1 .navbar{
     background: #222a2d;

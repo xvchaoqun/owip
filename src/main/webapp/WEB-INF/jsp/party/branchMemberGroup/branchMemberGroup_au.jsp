@@ -103,10 +103,15 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         if("${param.type}"=="view"){
                             _reload();
+                            SysMsg.success('操作成功。', '成功');
                         }else {
-                            page_reload();
+                            $("#modal").modal("hide")
+                            SysMsg.success('提交成功。', '成功',function(){
+                                $("#jqGrid").trigger("reloadGrid");
+                                $(".closeView").click();
+                            });
                         }
-                        SysMsg.success('操作成功。', '成功');
+
                     }
                 }
             });
