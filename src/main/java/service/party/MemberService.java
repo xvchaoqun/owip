@@ -74,15 +74,15 @@ public class MemberService extends BaseMapper {
         if(type== SystemConstants.USER_TYPE_JZG){
 
             // 同步教职工信息到ow_member_teacher表
-            snycTeacher(userId, sysUser.getCode());
+            snycTeacher(userId, sysUser);
         }else if(type==SystemConstants.USER_TYPE_BKS){
 
             // 同步本科生信息到 ow_member_student表
-            snycStudent(userId, type, sysUser.getCode());
+            snycStudent(userId, sysUser);
         }else if(type==SystemConstants.USER_TYPE_YJS){
 
             // 同步研究生信息到 ow_member_student表
-            snycStudent(userId, type, sysUser.getCode());
+            snycStudent(userId, sysUser);
         }else{
             throw new DBErrorException("添加失败，该账号不是教工或学生");
         }
@@ -110,17 +110,17 @@ public class MemberService extends BaseMapper {
 
             // 同步教职工信息到ow_member_teacher表
             record.setType(SystemConstants.MEMBER_TYPE_TEACHER); // 教职工党员
-            snycTeacher(userId, sysUser.getCode());
+            snycTeacher(userId, sysUser);
         }else if(type==SystemConstants.USER_TYPE_BKS){
 
             // 同步本科生信息到 ow_member_student表
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            snycStudent(userId, type, sysUser.getCode());
+            snycStudent(userId, sysUser);
         }else if(type==SystemConstants.USER_TYPE_YJS){
 
             // 同步研究生信息到 ow_member_student表
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            snycStudent(userId, type, sysUser.getCode());
+            snycStudent(userId, sysUser);
         }else{
             throw new DBErrorException("添加失败，该账号不是教工或学生");
         }
@@ -140,11 +140,14 @@ public class MemberService extends BaseMapper {
 
 
     // 同步教职工党员信息
-    public  void snycTeacher(int userId ,String code){
+    public  void snycTeacher(int userId , SysUser sysUser){
 
+        String code = sysUser.getCode();
         Teacher teacher = new Teacher();
         teacher.setUserId(userId);
         teacher.setCode(code);
+        teacher.setRealname(sysUser.getRealname()); // 如果是后台添加的用户，则需要同步姓名和身份号码
+        teacher.setIdcard(sysUser.getIdcard());
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
@@ -214,13 +217,19 @@ public class MemberService extends BaseMapper {
     }
 
     // 同步学生党员信息
-    public void snycStudent(int userId, byte userType, String code){
+    public void snycStudent(int userId, SysUser sysUser){
+
+        String code = sysUser.getCode();
 
         Student student = new Student();
         student.setUserId(userId);
         student.setCode(code);
+        student.setRealname(sysUser.getRealname());
+        student.setIdcard(sysUser.getIdcard());
 
-        if(userType==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
+        byte userType = sysUser.getType();
+
+        if(userType ==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
             ExtBks extBks = extService.getExtBks(code);
             if(extBks!=null){
                 student.setRealname(extBks.getXm());
