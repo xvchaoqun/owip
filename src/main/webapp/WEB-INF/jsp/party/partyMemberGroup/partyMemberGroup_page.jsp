@@ -92,12 +92,25 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称',  name: 'name', width: 400, frozen:true},
+            { label: '名称',  name: 'name', width: 400,formatter:function(cellvalue, options, rowObject){
+                var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
+                return (rowObject.isPresent)?str+cellvalue:cellvalue;
+            }, frozen:true},
             { label:'所属分党委', align:'center', name: 'party', width: 280},
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },
-            { label: '任命时间', align:'center', name: 'appointTime', width: 100 }
-        ]
+            { label: '任命时间', align:'center', name: 'appointTime', width: 100 },
+            {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
+                return (rowObject.isPresent)?1:0;
+            }}
+        ],
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            if(rowData.isPresent) {
+                //console.log(rowData)
+                return {'class':'success'}
+            }
+        }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })
