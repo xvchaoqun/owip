@@ -10,6 +10,9 @@ import sys.constants.SystemConstants;
  */
 public interface UpdateMapper {
 
+    @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
+    void globalApplyOpenTime(@Param("id") int id);
+
     @Update("update base_dispatch set file=null, file_name=null where id=#{id}")
     void del_dispatch_file(@Param("id") int id);
     @Update("update base_dispatch set ppt=null, ppt_name=null where id=#{id}")

@@ -8,39 +8,33 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/applyOpenTime_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${applyOpenTime.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分党委</label>
-				<div class="col-xs-6">
-                    <select class="form-control" name="partyId" data-rel="select2" data-placeholder="请选择分党委">
-                        <option></option>
-                        <c:forEach items="${partyMap}" var="party">
-                                <option value="${party.key}">${party.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=partyId]").val('${applyOpenTime.partyId}');
-                    </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党支部</label>
-				<div class="col-xs-6">
-                    <select class="form-control" name="branchId" data-rel="select2" data-placeholder="请选择党支部">
-                        <option></option>
-                        <c:forEach items="${branchMap}" var="branch">
-                            <option value="${branch.key}">${branch.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=branchId]").val('${applyOpenTime.branchId}');
-                    </script>
-				</div>
-			</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">所属分党委</label>
+            <div class="col-xs-6">
+                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                        name="partyId" data-placeholder="请选择分党委">
+                    <option value="${party.id}">${party.name}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+            <label class="col-xs-3 control-label">所属党支部</label>
+            <div class="col-xs-6">
+                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                        name="branchId" data-placeholder="请选择党支部">
+                    <option value="${branch.id}">${branch.name}</option>
+                </select>
+            </div>
+        </div>
+        <script>
+            register_party_branch_select($("#modalForm"), "branchDiv",
+                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+        </script>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">开始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_startTime" type="text"
+                        <input required class="form-control date-picker" name="_startTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(applyOpenTime.startTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -50,7 +44,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">结束时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_endTime" type="text"
+                        <input required class="form-control date-picker" name="_endTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(applyOpenTime.endTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.ApplyOpenTime;
 import domain.ApplyOpenTimeExample;
 import domain.ApplyOpenTimeExample.Criteria;
+import domain.Branch;
+import domain.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -112,6 +114,9 @@ public class ApplyOpenTimeController extends BaseController {
 
         record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
         record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
+        if(record.getStartTime().after(record.getEndTime())){
+            return failed("时间有误");
+        }
         record.setIsGlobal((record.getIsGlobal() == null) ? false : record.getIsGlobal());
 
         if (id == null) {
@@ -133,6 +138,16 @@ public class ApplyOpenTimeController extends BaseController {
         if (id != null) {
             ApplyOpenTime applyOpenTime = applyOpenTimeMapper.selectByPrimaryKey(id);
             modelMap.put("applyOpenTime", applyOpenTime);
+
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+
+            if (applyOpenTime.getPartyId() != null) {
+                modelMap.put("party", partyMap.get(applyOpenTime.getPartyId()));
+            }
+            if (applyOpenTime.getBranchId() != null) {
+                modelMap.put("branch", branchMap.get(applyOpenTime.getBranchId()));
+            }
         }
         modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
         modelMap.put("partyMap", partyService.findAll());

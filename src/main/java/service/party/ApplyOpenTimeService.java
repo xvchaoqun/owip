@@ -16,7 +16,7 @@ public class ApplyOpenTimeService extends BaseMapper {
     public boolean isOpen(Integer partyId, byte type){
 
         ApplyOpenTimeExample example = new ApplyOpenTimeExample();
-        example.or().andTypeEqualTo(type).andPartyIdEqualTo(partyId);
+        ApplyOpenTimeExample.Criteria criteria = example.or().andTypeEqualTo(type).andPartyIdEqualTo(partyId);
         example.or().andTypeEqualTo(type).andIsGlobalEqualTo(true);
 
         List<ApplyOpenTime> applyOpenTimes = applyOpenTimeMapper.selectByExample(example);
@@ -31,6 +31,11 @@ public class ApplyOpenTimeService extends BaseMapper {
     }
 
     public int insertSelective(ApplyOpenTime record){
+
+        if(record.getIsGlobal()){
+            record.setPartyId(null);
+            record.setBranchId(null);
+        }
 
         return applyOpenTimeMapper.insertSelective(record);
     }
@@ -52,6 +57,12 @@ public class ApplyOpenTimeService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(ApplyOpenTime record){
+        if(record.getIsGlobal()){
+            record.setPartyId(null);
+            record.setBranchId(null);
+            updateMapper.globalApplyOpenTime(record.getId());
+        }
+
         return applyOpenTimeMapper.updateByPrimaryKeySelective(record);
     }
 }

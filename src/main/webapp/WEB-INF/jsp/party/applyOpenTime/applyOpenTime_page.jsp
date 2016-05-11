@@ -24,6 +24,7 @@ pageEncoding="UTF-8" %>
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
                                     <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+                                        <input type="hidden" name="cls" value="${param.cls}">
                                         <select name="type" data-rel="select2" data-placeholder="请选择阶段">
                                             <option></option>
                                             <c:forEach items="${APPLY_STAGE_MAP}" var="type">
@@ -38,7 +39,9 @@ pageEncoding="UTF-8" %>
                                         <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                         <c:set var="_query" value="${not empty param.type ||not empty param.branchId ||not empty param.startTime ||not empty param.endTime || not empty param.code || not empty param.sort}"/>
                                         <c:if test="${_query}">
-                                            <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                            <button type="button"
+                                                    class="resetBtn btn btn-warning btn-sm"
+                                                    data-querystr="cls=${param.cls}">
                                                 <i class="fa fa-reply"></i> 重置
                                             </button>
                                         </c:if>
@@ -47,13 +50,7 @@ pageEncoding="UTF-8" %>
                                             <shiro:hasPermission name="applyOpenTime:edit">
                                                 <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                                             </shiro:hasPermission>
-                                            <c:if test="${commonList.recNum>0}">
-                                                <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
-                                                <shiro:hasPermission name="applyOpenTime:del">
-                                                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
-                                                </shiro:hasPermission>
-                                            </c:if>
+
                                         </div>
                                     </mytag:sort-form>
                                     <div class="space-4"></div>
@@ -72,11 +69,6 @@ pageEncoding="UTF-8" %>
                                                 <th>结束时间</th>
                                                 <th>生效阶段</th>
                                                 <th>是否全局</th>
-                                                <shiro:hasPermission name="applyOpenTime:changeOrder">
-                                                    <c:if test="${!_query && commonList.recNum>1}">
-                                                        <th nowrap class="hidden-480">排序</th>
-                                                    </c:if>
-                                                </shiro:hasPermission>
                                                 <th nowrap></th>
                                             </tr>
                                             </thead>
@@ -89,21 +81,21 @@ pageEncoding="UTF-8" %>
                                                             <span class="lbl"></span>
                                                         </label>
                                                     </td>
-                                                    <td>${applyOpenTime.isGlobal?"--":applyOpenTime.partyId}</td>
+                                                    <td>
+                                                    <c:if test="${applyOpenTime.isGlobal}">
+                                                        --
+                                                    </c:if>
+                                                        <c:if test="${!applyOpenTime.isGlobal}">
+                                                            ${partyMap.get(applyOpenTime.partyId).name}
+                                                            <c:if test="${not empty applyOpenTime.branchId}">
+                                                                -${branchMap.get(applyOpenTime.branchId).name}
+                                                            </c:if>
+                                                                </c:if>
+                                                    </td>
                                                     <td>${cm:formatDate(applyOpenTime.startTime,'yyyy-MM-dd')}</td>
                                                     <td>${cm:formatDate(applyOpenTime.endTime,'yyyy-MM-dd')}</td>
                                                     <td>${APPLY_STAGE_MAP.get(applyOpenTime.type)}</td>
                                                     <td>${applyOpenTime.isGlobal?"是":"否"}</td>
-                                                    <shiro:hasPermission name="applyOpenTime:changeOrder">
-                                                        <c:if test="${!_query && commonList.recNum>1}">
-                                                            <td class="hidden-480">
-                                                                <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applyOpenTime.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                                                <input type="text" value="1"
-                                                                       class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                                                <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applyOpenTime.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                                            </td>
-                                                        </c:if>
-                                                    </shiro:hasPermission>
                                                     <td>
                                                         <div class="hidden-sm hidden-xs action-buttons">
                                                             <shiro:hasPermission name="applyOpenTime:edit">

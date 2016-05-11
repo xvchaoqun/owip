@@ -324,8 +324,7 @@ public class MemberInflowController extends BaseController {
 
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
-            modelMap.put("branchMap", branchMap);
-            modelMap.put("partyMap", partyMap);
+
             if (memberInflow.getPartyId() != null) {
                 modelMap.put("party", partyMap.get(memberInflow.getPartyId()));
             }
