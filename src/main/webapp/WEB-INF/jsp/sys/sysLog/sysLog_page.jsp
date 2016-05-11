@@ -24,13 +24,9 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal " id="searchForm">
-                                <div class="row">
-
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">类别</label>
-                                            <div class="col-xs-6">
+                                            <label>类别</label>
                                                 <select name="typeId" data-placeholder="请选择类别">
                                                     <option></option>
                                                     <c:forEach var="metaType" items="${metaTypeMap}">
@@ -41,21 +37,14 @@
                                                     $("#searchForm select[name=typeId]").val('${param.typeId}');
                                                     $("#searchForm select[name=typeId]").select2();
                                                 </script>
-                                            </div>
                                         </div>
-                                    </div>
                                     <shiro:hasRole name="admin">
-                                        <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label class="col-xs-3 control-label">内容</label>
-                                                <div class="col-xs-6">
+                                                <label>内容</label>
                                                     <input class="form-control search-query search-input"
                                                            name="content" type="text" value="${param.content}" placeholder="请输入日志内容">
-                                                </div>
                                             </div>
-                                        </div>
                                     </shiro:hasRole>
-                                </div>
 
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -65,7 +54,7 @@
                                         </button>
                                     </c:if>
                                 </div>
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

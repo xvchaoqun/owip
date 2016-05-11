@@ -100,10 +100,10 @@ body{
 .navbar .navbar-header .txt{float:left;height:58px;line-height:58px;font-size:30px;margin-left:25px;font-weight:bold;color:#fff}
 
 /*============search form=======*/
-.search-columns{
+.search-form{
     padding: 10px;
 }
-.search-columns .form-group{
+.search-form .form-group{
     padding-bottom: 10px;
 }
 
@@ -226,17 +226,17 @@ body{
     text-align: right;
 }*/
 
- #view-box .table-striped > tbody > tr:nth-of-type(odd) {
+ #view-box .widget-box .table-striped > tbody > tr:nth-of-type(odd) {
      background-color:inherit;
  }
-#view-box .table tbody tr:hover td, .table tbody tr:hover th {
+#view-box .widget-box .table tbody tr:hover td, #view-box .table tbody tr:hover th {
     background-color:transparent;
 }
-#view-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
     background-color: #f9f9f9;
     text-align: right;
 }
-#view-box  .widget-main.no-padding .table{
+#view-box .widget-main.no-padding .table{
 
     border: 1px solid #E5E5E5
 }

@@ -76,12 +76,9 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
-                                    <mytag:sort-form css="form-horizontal" id="searchForm">
-                                        <div class="row">
-                                            <div class="col-xs-4">
+                                    <form class="form-inline search-form" id="searchForm">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">姓名</label>
-                                                    <div class="col-xs-6">
+                                                    <label>姓名</label>
                                                         <div class="input-group">
                                                             <input type="hidden" name="status" value="${status}">
                                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
@@ -89,13 +86,9 @@ pageEncoding="UTF-8" %>
                                                                 <option value="${cadre.id}">${sysUser.realname}</option>
                                                             </select>
                                                         </div>
-                                                    </div>
                                                 </div>
-                                                </div>
-                                                <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">证件名称</label>
-                                                    <div class="col-xs-6">
+                                                    <label>证件名称</label>
                                                         <select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
                                                             <option></option>
                                                             <c:import url="/metaTypes?__code=mc_passport_type"/>
@@ -103,23 +96,15 @@ pageEncoding="UTF-8" %>
                                                         <script type="text/javascript">
                                                             $("#searchForm select[name=classId]").val(${param.classId});
                                                         </script>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">年份</label>
-                                                    <div class="col-xs-6">
+                                                    <label>年份</label>
                                                         <div class="input-group" style="width: 120px">
                                                             <input class="form-control date-picker" name="year" type="text"
                                                                    data-date-format="yyyy" placeholder="年份" data-date-min-view-mode="2" value="${param.year}" />
                                                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                         </div>
-                                                    </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -129,7 +114,7 @@ pageEncoding="UTF-8" %>
                                                 </button>
                                             </c:if>
                                         </div>
-                                    </mytag:sort-form>
+                                    </form>
                                 </div>
                             </div>
                         </div>

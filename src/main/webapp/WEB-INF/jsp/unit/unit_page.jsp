@@ -75,32 +75,20 @@
                             </div>
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
-                                    <mytag:sort-form css="form-horizontal " id="searchForm">
-                                        <div class="row">
-                                            <div class="col-xs-4">
+                                    <form class="form-inline search-form" id="searchForm">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">单位编号</label>
-                                                    <div class="col-xs-6">
+                                                    <label>单位编号</label>
                                                         <input type="hidden" name="status" value="${status}">
                                                         <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                                placeholder="请输入单位编号">
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">单位名称</label>
-                                                    <div class="col-xs-6">
+                                                    <label>单位名称</label>
                                                         <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                                placeholder="请输入单位名称">
-                                                    </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-4 control-label">单位类型</label>
-                                                    <div class="col-xs-6">
+                                                    <label>单位类型</label>
                                                         <select data-rel="select2" name="typeId" data-placeholder="请选择单位类型">
                                                             <option></option>
                                                             <c:forEach var="unitType" items="${unitTypeMap}">
@@ -110,21 +98,16 @@
                                                         <script type="text/javascript">
                                                             $("#searchForm select[name=typeId]").val('${param.typeId}');
                                                         </script>
-                                                    </div>
                                                 </div>
-                                            </div>
-
-                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
                                         </div>
-                                    </mytag:sort-form>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -37,27 +37,17 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal hidden-sm hidden-xs" id="searchForm">
-                                <div class="row">
-                                    <div class="col-xs-4">
-
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">年份</label>
-                                            <div class="col-xs-6">
+                                            <label>年份</label>
                                                 <div class="input-group">
                                                     <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                                                            data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
                                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                 </div>
-                                            </div>
                                         </div>
-
-                                    </div>
-
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">所属单位</label>
-                                            <div class="col-xs-6">
+                                            <label>所属单位</label>
                                                 <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                                                     <option></option>
                                                     <c:forEach items="${unitMap}" var="unit">
@@ -67,14 +57,9 @@
                                                 <script>
                                                     $("#searchForm select[name=unitId]").val('${param.unitId}');
                                                 </script>
-                                            </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">类型</label>
-                                            <div class="col-xs-6">
+                                            <label>类型</label>
                                                 <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
                                                     <option></option>
                                                     <c:forEach var="dispatchUnitType" items="${dispatchUnitTypeMap}">
@@ -84,10 +69,7 @@
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=typeId]").val('${param.typeId}');
                                                 </script>
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
                                 <div class="clearfix form-actions center">
                                     <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
@@ -96,7 +78,7 @@
                                         </button>
                                     </c:if>
                                 </div>
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

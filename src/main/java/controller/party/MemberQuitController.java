@@ -92,6 +92,8 @@ public class MemberQuitController extends BaseController {
                                     Boolean isBack,
                                     Byte type,
                                     String _quitTime,
+                                    Integer partyId,
+                                    Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -132,6 +134,12 @@ public class MemberQuitController extends BaseController {
         }
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
+        }
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
         }
 
         if(cls==1){ // 支部审核

@@ -43,81 +43,55 @@ pageEncoding="UTF-8" %>
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <form class="form-horizontal " id="searchForm">
-                                <div class="row">
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">年份</label>
-                                            <div class="col-xs-6">
+                                            <label>年份</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                     <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                                                            data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
                                                 </div>
-                                            </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">任免日期</label>
-                                            <div class="col-xs-6">
+                                            <label>任免日期</label>
                                                 <div class="input-group tooltip-success" data-rel="tooltip" title="任免日期范围">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                     </span>
                                                     <input placeholder="请选择任免日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_workTime" value="${param._workTime}"/>
                                                 </div>
-                                            </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发文类型</label>
-                                            <div class="col-xs-6">
+                                            <label>发文类型</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
                                                         name="dispatchTypeId" data-placeholder="请选择发文类型">
                                                     <option value="${dispatchType.id}">${dispatchType.name}</option>
                                                 </select>
-                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发文日期</label>
-                                            <div class="col-xs-6">
+                                            <label>发文日期</label>
                                                 <div class="input-group tooltip-success" data-rel="tooltip" title="发文日期范围">
                                                     <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
                                                     <input placeholder="请选择发文日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_pubTime" value="${param._pubTime}"/>
                                                 </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
-
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发文号</label>
-                                            <div class="col-xs-6">
+                                            <label>发文号</label>
                                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                        placeholder="请输入发文号">
-                                            </div>
                                         </div>
-
-
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">常委会</label>
-                                            <div class="col-xs-6">
+                                            <label>常委会</label>
                                                 <div class="input-group tooltip-success" data-rel="tooltip" title="党委常委会日期范围">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar bigger-110"></i>
                                             </span>
                                                     <input placeholder="请选择党委常委会日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_meetingTime" value="${param._meetingTime}"/>
                                                 </div>
-                                            </div>
                                         </div>
-
-                                    </div>
-                                </div>
                                 <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-
                                     <c:if test="${_query || not empty param.sort}">&nbsp;
                                         <button type="button" class="resetBtn btn btn-warning btn-sm">
                                             <i class="fa fa-reply"></i> 重置

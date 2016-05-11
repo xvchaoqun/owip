@@ -52,30 +52,19 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <mytag:sort-form css="form-horizontal " id="searchForm">
-                            <div class="row">
-                                <div class="col-xs-4">
+                        <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">账号</label>
-                                        <div class="col-xs-6">
+                                        <label>账号</label>
                                             <input class="form-control search-query" name="username" type="text" value="${param.username}"
                                                    placeholder="请输入账号">
-                                        </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">姓名</label>
-                                        <div class="col-xs-6">
+                                        <label>姓名</label>
                                             <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
                                                    placeholder="请输入姓名">
-                                        </div>
                                     </div>
-
-                                </div>
-                                <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">类别</label>
-                                        <div class="col-xs-6">
+                                        <label>类别</label>
                                             <select name="type" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
                                                 <c:forEach items="${USER_TYPE_MAP}" var="userType">
@@ -85,11 +74,9 @@
                                             <script>
                                                 $("#searchForm select[name=type]").val('${param.type}');
                                             </script>
-                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">角色</label>
-                                        <div class="col-xs-6">
+                                        <label>角色</label>
                                             <select name="roleId" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
                                                 <c:forEach items="${roleMap}" var="role">
@@ -99,15 +86,9 @@
                                             <script>
                                                 $("#searchForm select[name=roleId]").val('${param.roleId}');
                                             </script>
-                                             
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-4">
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">状态</label>
-                                        <div class="col-xs-6">
+                                        <label>状态</label>
                                             <select name="locked" data-placeholder="请选择">
                                                 <option></option>
                                                 <option value="0">正常账号</option>
@@ -116,13 +97,9 @@
                                             <script>
                                                 $("#searchForm select[name=locked]").val('${param.locked}');
                                             </script>
-                                             
-                                        </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">来源</label>
-                                        <div class="col-xs-6">
+                                        <label>来源</label>
                                             <select name="source" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
                                                 <c:forEach items="${USER_SOURCE_MAP}" var="userSource">
@@ -132,11 +109,7 @@
                                             <script>
                                                 $("#searchForm select[name=source]").val('${param.source}');
                                             </script>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
@@ -145,7 +118,7 @@
                                     </button>
                                 </c:if>
                             </div>
-                        </mytag:sort-form>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/party_batchDel"
              data-url-co="${ctx}/party_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
+            <c:set var="_query" value="${not empty param._foundTime || not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
             ||not empty param.isEnterpriseBig||not empty param.isEnterpriseNationalized||not empty param.isSeparate
             || not empty param.code}"/>
@@ -59,8 +59,7 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <form class="form-inline" id="searchForm">
-                            <div class="search-columns">
+                        <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
                                         <label>编号</label>
                                          <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
@@ -89,6 +88,15 @@ pageEncoding="UTF-8" %>
                                             <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                                              
                                     </div>
+                                <div class="form-group">
+                                    <label>成立时间</label>
+                                    <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                    </span>
+                                        <input placeholder="请选择成立时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_foundTime" value="${param._foundTime}"/>
+                                    </div>
+                                </div>
                                     <div class="form-group">
                                         <label>组织类型</label>
                                         <select data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
@@ -156,7 +164,6 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </c:if>
                             </div>
-                                </div>
                         </form>
                     </div>
                 </div>
@@ -169,6 +176,7 @@ pageEncoding="UTF-8" %>
         <div id="item-content"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">

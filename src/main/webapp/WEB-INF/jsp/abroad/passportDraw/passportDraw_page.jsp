@@ -46,12 +46,9 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <mytag:sort-form css="form-horizontal" id="searchForm">
-                            <div class="row">
-                                <div class="col-xs-4">
+                        <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">姓名</label>
-                                        <div class="col-xs-6">
+                                        <label>姓名</label>
                                             <div class="input-group">
                                                 <input type="hidden" name="type" value="${type}">
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
@@ -59,23 +56,16 @@ pageEncoding="UTF-8" %>
                                                     <option value="${cadre.id}">${sysUser.realname}</option>
                                                 </select>
                                             </div>
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">申请日期</label>
-                                        <div class="col-xs-6">
+                                        <label>申请日期</label>
                                             <div class="input-group tooltip-success" data-rel="tooltip" title="申请日期范围">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar bigger-110"></i>
                                             </span>
                                                 <input placeholder="请选择申请日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_applyDate" value="${param._applyDate}"/>
                                             </div>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -85,7 +75,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </c:if>
                             </div>
-                        </mytag:sort-form>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -42,23 +42,16 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal " id="searchForm">
-                                <div class="row">
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">账号</label>
-                                            <div class="col-xs-6">
+                                            <label>账号</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${cadre.id}">${sysUser.realname}</option>
                                                 </select>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">类别</label>
-                                            <div class="col-xs-6">
+                                            <label>类别</label>
                                                 <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                                                     <option></option>
                                                     <c:forEach var="leaderType" items="${leaderTypeMap}">
@@ -68,20 +61,14 @@
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=typeId]").val('${param.typeId}');
                                                 </script>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
-
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">分管工作</label>
-                                            <div class="col-xs-6">
-                                                <input class="form-control search-query" name="job" type="text" value="${param.job}"
+                                            <label>分管工作</label>
+                                                <input class="form-control search-query"
+                                                       style="width: 300px"
+                                                       name="job" type="text" value="${param.job}"
                                                        placeholder="请输入分管工作">
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -91,7 +78,7 @@
                                         </button>
                                     </c:if>
                                 </div>
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -25,33 +25,21 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal " id="searchForm">
-                                <div class="row">
-
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">账号</label>
-                                            <div class="col-xs-6">
+                                            <label>账号</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                         name="receiverId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}</option>
                                                 </select>
-                                            </div>
                                         </div>
-                                    </div>
                                     <shiro:hasRole name="admin">
-                                        <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label class="col-xs-3 control-label">手机</label>
-                                                <div class="col-xs-6">
+                                                <label>手机</label>
                                                     <input class="form-control search-query" name="mobile" type="text" value="${param.mobile}"
                                                            placeholder="请输入手机号码">
-                                                </div>
                                             </div>
-                                        </div>
                                     </shiro:hasRole>
-                                </div>
-
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
@@ -60,7 +48,7 @@
                                         </button>
                                     </c:if>
                                 </div>
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -58,8 +58,7 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <form class="form-inline" id="searchForm">
-                            <div class="search-columns">
+                        <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
                                         <label>编号</label>
                                             <input class="form-control search-query" name="code" type="text" value="${param.code}"            placeholder="请输入编号">
@@ -147,7 +146,6 @@ pageEncoding="UTF-8" %>
                                     <script>
                                         $("#searchForm select[name=isBaseTeam]").val('${param.isBaseTeam}');
                                     </script>
-                                </div>
                             </div>
 
                             <div class="clearfix form-actions center">

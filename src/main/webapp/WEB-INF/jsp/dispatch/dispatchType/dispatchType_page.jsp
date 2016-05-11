@@ -43,41 +43,25 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal " id="searchForm">
-                                <div class="row">
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">年份</label>
-                                            <div class="col-xs-6">
+                                            <label>年份</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                     <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                                                            data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
                                                 </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">名称</label>
-                                            <div class="col-xs-6">
+                                            <label>名称</label>
                                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                        placeholder="请输入名称">
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发文属性</label>
-                                            <div class="col-xs-6">
+                                            <label>发文属性</label>
                                                 <input class="form-control search-query" name="attr" type="text" value="${param.attr}"
                                                        placeholder="请输入发文属性">
-                                            </div>
                                         </div>
-                                    </div>
-
-                                </div>
-
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
@@ -86,7 +70,7 @@
                                         </button>
                                     </c:if>
                                 </div>
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

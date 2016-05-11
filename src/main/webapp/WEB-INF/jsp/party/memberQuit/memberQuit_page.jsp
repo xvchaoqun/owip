@@ -104,13 +104,10 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main no-padding">
-                                        <form class="form-horizontal " id="searchForm">
+                                        <form class="form-inline search-form " id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
-                                            <div class="row">
-                                                <div class="col-xs-4">
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">当前状态</label>
-                                                        <div class="col-xs-6">
+                                                        <label>当前状态</label>
                                                             <div class="input-group">
                                                                 <select name="status" data-rel="select2" data-placeholder="请选择">
                                                                     <option></option>
@@ -124,11 +121,9 @@
                                                                     $("#searchForm select[name=status]").val("${param.status}");
                                                                 </script>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">审核类别</label>
-                                                        <div class="col-xs-6">
+                                                        <label>审核类别</label>
                                                             <div class="input-group">
                                                                 <select name="isBack" data-rel="select2" data-placeholder="请选择">
                                                                     <option></option>
@@ -139,37 +134,27 @@
                                                                     $("#searchForm select[name=isBack]").val("${param.isBack}");
                                                                 </script>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">姓名</label>
-
-                                                        <div class="col-xs-6">
+                                                        <label>姓名</label>
                                                             <div class="input-group">
                                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                     <option value="${sysUser.id}">${sysUser.realname}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
                                                     </div>
-                                                    </div>
-                                                <div class="col-xs-4">
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">出党时间</label>
-
-                                                        <div class="col-xs-6">
+                                                        <label>出党时间</label>
                                                             <div class="input-group tooltip-success" data-rel="tooltip" title="出党时间范围">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar bigger-110"></i>
                                                                 </span>
                                                                 <input placeholder="请选择出党时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_quitTime" value="${param._quitTime}"/>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">出党原因</label>
-                                                        <div class="col-xs-6">
+                                                        <label>出党原因</label>
                                                             <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
                                                                 <c:forEach items="${MEMBER_QUIT_TYPE_MAP}" var="quitType">
@@ -179,37 +164,27 @@
                                                             <script>
                                                                 $("#searchForm select[name=type]").val("${param.type}");
                                                             </script>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xs-4">
                                                     <div class="form-group">
-                                                        <label class="col-xs-3 control-label">分党委</label>
-
-                                                        <div class="col-xs-6">
-                                                            <select class="form-control" data-rel="select2-ajax"
+                                                        <label>分党委</label>
+                                                            <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/party_selects"
                                                                     name="partyId" data-placeholder="请选择分党委">
                                                                 <option value="${party.id}">${party.name}</option>
                                                             </select>
-                                                        </div>
                                                     </div>
                                                     <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                                        <label class="col-xs-3 control-label">党支部</label>
-                                                        <div class="col-xs-6">
+                                                        <label>党支部</label>
                                                             <select class="form-control" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/branch_selects"
                                                                     name="branchId" data-placeholder="请选择党支部">
                                                                 <option value="${branch.id}">${branch.name}</option>
                                                             </select>
-                                                        </div>
                                                     </div>
-                                                </div>
                                                 <script>
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
-                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

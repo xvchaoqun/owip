@@ -60,8 +60,8 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main no-padding">
-                                        <form class="form-inline " id="searchForm">
-                                            <div class="search-columns">
+                                        <form class="form-inline search-form" id="searchForm">
+
                                                     <input type="hidden" name="cls" value="${cls}">
                                                     <div class="form-group">
                                                         <label>注册账号</label>
@@ -95,7 +95,7 @@
                                                         <label>身份证号码</label>
                                                                 <input type="text" name="idcard" value="${param.idcard}">
                                                     </div>
-                                            </div>
+
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

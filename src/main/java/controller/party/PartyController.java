@@ -94,6 +94,7 @@ public class PartyController extends BaseController {
                                     Boolean isEnterpriseBig,
                                     Boolean isEnterpriseNationalized,
                                     Boolean isSeparate,
+                                    String _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -135,6 +136,16 @@ public class PartyController extends BaseController {
         }
         if(isSeparate!=null){
             criteria.andIsSeparateEqualTo(isSeparate);
+        }
+        if(StringUtils.isNotBlank(_foundTime)) {
+            String foundTimeStart = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String foundTimeEnd = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(foundTimeStart)) {
+                criteria.andFoundTimeGreaterThanOrEqualTo(DateUtils.parseDate(foundTimeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(foundTimeEnd)) {
+                criteria.andFoundTimeLessThanOrEqualTo(DateUtils.parseDate(foundTimeEnd, DateUtils.YYYY_MM_DD));
+            }
         }
 
         if (export == 1) {

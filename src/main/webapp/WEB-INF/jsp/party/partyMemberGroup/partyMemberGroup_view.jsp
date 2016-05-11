@@ -1,137 +1,79 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="buttons pull-right">
+<div class="jqgrid-vertical-offset buttons">
     <button class="btn btn-primary btn-mini btn-xs" onclick="_au()">
         <i class="fa fa-users"></i> 添加分党委班子
     </button>
+    <a href="javascript:;" onclick="_au(1)" class="btn btn-primary btn-xs" >
+        <i class="fa fa-edit"></i> 修改信息</a>
+
+    <button onclick="_editMember()" class="btn btn-warning btn-xs">
+        <i class="fa fa-user"></i> 编辑委员
+    </button>
+
+    <shiro:hasPermission name="partyMemberGroup:del">
+        <a class="btn btn-danger btn-xs" onclick="_del()"><i class="fa fa-trash"></i> 删除</a>
+    </shiro:hasPermission>
 </div>
-<h4>&nbsp;</h4>
-            <div class="space-4"></div>
-
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
-							<th>名称</th>
-							<th>所属党总支</th>
-                        <mytag:sort-th field="tran_time">应换届时间</mytag:sort-th>
-                        <mytag:sort-th field="actual_tran_time">实际换届时间</mytag:sort-th>
-                        <mytag:sort-th field="appoint_time">任命时间</mytag:sort-th>
-							<th>单位发文</th>
-                        <%--<shiro:hasPermission name="partyMemberGroup:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap>排序</th>
-                            </c:if>
-                        </shiro:hasPermission>--%>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${partyMemberGroups}" var="partyMemberGroup" varStatus="st">
-                        <tr <c:if test="${partyMemberGroup.isPresent}">class="success" </c:if>>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${partyMemberGroup.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-								<td>
-								<c:if test="${partyMemberGroup.isPresent}">
-                                    <span class="label label-sm label-primary arrowed-in arrowed-in-right">现任班子</span>
-								</c:if>${partyMemberGroup.name}
-								</td>
-								<td>${partyMap.get(partyMemberGroup.partyId).name}</td>
-								<td>${cm:formatDate(partyMemberGroup.tranTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}</td>
-								<td >
-                                    <c:set var="dispatchUnit" value="${dispatchUnitMap.get(partyMemberGroup.dispatchUnitId)}"/>
-                                    <c:set var="dispatch" value="${dispatchMap.get(dispatchUnit.dispatchId)}"/>
-                                        ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}
-                                </td>
-                            <%--<shiro:hasPermission name="partyMemberGroup:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${partyMemberGroup.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${partyMemberGroup.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>--%>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="partyMemberGroup:edit">
-                                    <button onclick="_au(${partyMemberGroup.id})" class="btn btn-default btn-mini btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                    <shiro:hasPermission name="partyMember:list">
-                                        <button data-id="${partyMemberGroup.id}" class="memberBtn btn btn-primary btn-mini btn-xs">
-                                            <i class="fa fa-user"></i> 编辑委员
-                                        </button>
-                                    </shiro:hasPermission>
-                                     <shiro:hasPermission name="partyMemberGroup:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${partyMemberGroup.id})">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="partyMemberGroup:edit">
-                                            <li>
-                                                <a href="#" data-id="${partyMemberGroup.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="partyMemberGroup:del">
-                                            <li>
-                                                <a href="#" data-id="${partyMemberGroup.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+<div class="space-4"></div>
+<table id="jqGrid2" class="jqGrid2 table-striped"> </table>
+<div id="jqGridPager2"> </div>
 <script>
+    $("#jqGrid2").jqGrid({
+        //multiselect:false,
+        pager:"jqGridPager2",
+        url: '${ctx}/partyMemberGroup_data?callback=?&partyId=${param.partyId}',
+        colModel: [
+            { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
+                var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
+                return (rowObject.isPresent)?str+cellvalue:cellvalue;
+            }, frozen:true},
+            { label:'所属分党委', align:'center', name: 'party', width: 280},
+            { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
+            { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },
+            { label: '任命时间', align:'center', name: 'appointTime', width: 100 },
+            {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
+                return (rowObject.isPresent)?1:0;
+            }}
+        ],
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            if(rowData.isPresent) {
+                //console.log(rowData)
+                return {'class':'success'}
+            }
+        },
+        gridComplete:function(){
+            $(window).triggerHandler('resize.jqGrid2');
+        }
+    }).jqGrid("setFrozenColumns");
 
-    function _au(id) {
+    function _au(type) {
+        if(type==1) {
+            var grid = $("#jqGrid2");
+            var id = grid.getGridParam("selrow");
+            var ids = grid.getGridParam("selarrrow")
+            if (!id || ids.length > 1) {
+                SysMsg.warning("请选择一行", "提示");
+                return;
+            }
+        }
+
         url = "${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}";
         if (id > 0)  url += "&id=" + id;
         loadModal(url);
     }
 
-    function _del(id){
+    function _del(){
+        var grid = $("#jqGrid2");
+        var id  = grid.getGridParam("selrow");
+        var ids  = grid.getGridParam("selarrrow")
+        if(!id || ids.length>1){
+            SysMsg.warning("请选择一行", "提示");
+            return ;
+        }
+
         bootbox.confirm("确定删除该记录吗？", function (result) {
             if (result) {
                 $.post("${ctx}/partyMemberGroup_del", {id: id}, function (ret) {
@@ -147,10 +89,18 @@ pageEncoding="UTF-8" %>
         $("#modal").modal('hide');
         $("#view-box .tab-content").load("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
-    // 编辑成员
-    $(".memberBtn").click(function(){
-        loadModal("${ctx}/party_member?id="+$(this).data("id"));
-    });
+
+    function _editMember(){
+        var grid = $("#jqGrid2");
+        var id  = grid.getGridParam("selrow");
+        var ids  = grid.getGridParam("selarrrow")
+        if(!id || ids.length>1){
+            SysMsg.warning("请选择一行", "提示");
+            return ;
+        }
+
+        loadModal("${ctx}/party_member?id="+ id);
+    }
 
     $('[data-rel="select2"]').select2({width:300});
     $('[data-rel="tooltip"]').tooltip();

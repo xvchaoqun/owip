@@ -616,22 +616,6 @@ pageEncoding="UTF-8"%>
 				</tbody>
 			</table>
 		</div></div></div>
-<style>
-	#view-box .table-striped > tbody > tr:nth-of-type(odd) {
-		background-color:inherit;
-	}
-	#view-box .table tbody tr:hover td, .table tbody tr:hover th {
-		background-color:transparent;
-	}
-	#view-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-		background-color: #f9f9f9;
-		text-align: right;
-	}
-	#view-box  .widget-main.no-padding .table{
-
-		border: 1px solid #E5E5E5
-	}
-</style>
 <script>
     $("#modal form").validate({
         submitHandler: function (form) {

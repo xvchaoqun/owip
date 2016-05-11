@@ -74,12 +74,9 @@ pageEncoding="UTF-8" %>
                         </div>
                         <div class="widget-body">
                             <div class="widget-main no-padding">
-                                <form class="form-horizontal " id="searchForm">
-                                    <div class="row">
-                                        <div class="col-xs-4">
+                                <form class="form-inline search-form" id="searchForm">
                                             <div class="form-group">
-                                                <label class="col-xs-3 control-label">姓名</label>
-                                                <div class="col-xs-6">
+                                                <label>姓名</label>
                                                     <div class="input-group">
                                                         <input type="hidden" name="status" value="${status}">
                                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
@@ -87,12 +84,9 @@ pageEncoding="UTF-8" %>
                                                             <option value="${cadre.id}">${sysUser.realname}</option>
                                                         </select>
                                                     </div>
-                                                </div>
                                             </div>
-
                                             <div class="form-group">
-                                                <label class="col-xs-3 control-label">行政级别</label>
-                                                <div class="col-xs-6">
+                                                <label>行政级别</label>
                                                     <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
                                                         <option></option>
                                                         <jsp:include page="/metaTypes?__code=mc_admin_level"/>
@@ -100,13 +94,9 @@ pageEncoding="UTF-8" %>
                                                     <script type="text/javascript">
                                                         $("#searchForm select[name=typeId]").val(${param.typeId});
                                                     </script>
-                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label class="col-xs-3 control-label">职务属性</label>
-                                                <div class="col-xs-6">
+                                                <label>职务属性</label>
                                                     <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                                                         <option></option>
                                                         <jsp:include page="/metaTypes?__code=mc_post"/>
@@ -114,21 +104,12 @@ pageEncoding="UTF-8" %>
                                                     <script type="text/javascript">
                                                         $("#searchForm select[name=postId]").val(${param.postId});
                                                     </script>
-                                                </div>
                                             </div>
-
-                                        </div>
-                                        <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label class="col-xs-4 control-label">单位及职务</label>
-                                                <div class="col-xs-6">
+                                                <label>单位及职务</label>
                                                     <input class="form-control search-query" name="title" type="text" value="${param.title}"
                                                            placeholder="请输入单位及职务">
-                                                </div>
                                             </div>
-                                        </div>
-
-                                    </div>
                                     <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm" ><i class="fa fa-search"></i> 查找</a>
 

@@ -50,16 +50,13 @@ public class PartyMemberGroupController extends BaseController {
 
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_view")
-    public String partyMemberGroup_view(
-                                        @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party_member_group") String sort,
-                                        @OrderParam(required = false, defaultValue = "desc") String order,
-                                        Integer partyId, ModelMap modelMap) {
+    public String partyMemberGroup_view() {
 
-        PartyMemberGroupExample example = new PartyMemberGroupExample();
+        /*PartyMemberGroupExample example = new PartyMemberGroupExample();
         example.createCriteria().andPartyIdEqualTo(partyId);
         example.setOrderByClause(String.format("%s %s", sort, order));
         List<PartyMemberGroup> PartyMemberGroups = partyMemberGroupMapper.selectByExample(example);
-        modelMap.put("partyMemberGroups", PartyMemberGroups);
+        modelMap.put("partyMemberGroups", PartyMemberGroups);*/
         return "party/partyMemberGroup/partyMemberGroup_view";
     }
 

@@ -49,16 +49,13 @@ public class BranchMemberGroupController extends BaseController {
     }
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_view")
-    public String branchMemberGroup_view(
-            @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
-            @OrderParam(required = false, defaultValue = "desc") String order,
-            Integer branchId, ModelMap modelMap) {
+    public String branchMemberGroup_view() {
 
-        BranchMemberGroupExample example = new BranchMemberGroupExample();
+        /*BranchMemberGroupExample example = new BranchMemberGroupExample();
         example.createCriteria().andBranchIdEqualTo(branchId);
         example.setOrderByClause(String.format("%s %s", sort, order));
         List<BranchMemberGroup> BranchMemberGroups = branchMemberGroupMapper.selectByExample(example);
-        modelMap.put("branchMemberGroups", BranchMemberGroups);
+        modelMap.put("branchMemberGroups", BranchMemberGroups);*/
         return "party/branchMemberGroup/branchMemberGroup_view";
     }
 

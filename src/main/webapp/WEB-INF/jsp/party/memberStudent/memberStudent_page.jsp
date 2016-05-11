@@ -42,24 +42,19 @@
                             </div>
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
-                                    <mytag:sort-form css="form-horizontal " id="searchForm">
+                                    <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
-                                        <div class="row">
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">姓名</label>
-                                                    <div class="col-xs-6">
+                                                    <label>姓名</label>
                                                         <div class="input-group">
                                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_STUDENT}&status=${MEMBER_STATUS_NORMAL}"
                                                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                 <option value="${sysUser.id}">${sysUser.realname}</option>
                                                             </select>
                                                         </div>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">所在单位</label>
-                                                    <div class="col-xs-6">
+                                                    <label>所在单位</label>
                                                         <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                                                             <option></option>
                                                             <c:forEach items="${unitMap}" var="unit">
@@ -69,13 +64,11 @@
                                                         <script>
                                                             $("#searchForm select[name=unitId]").val('${param.unitId}');
                                                         </script>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">性别</label>
-                                                    <div class="col-xs-6">
+                                                    <label>性别</label>
                                                         <div class="input-group">
-                                                            <select name="gender" data-rel="select2" data-placeholder="请选择">
+                                                            <select name="gender" data-width="100" data-rel="select2" data-placeholder="请选择">
                                                                 <option></option>
                                                                 <c:forEach items="${GENDER_MAP}" var="entity">
                                                                     <option value="${entity.key}">${entity.value}</option>
@@ -85,12 +78,10 @@
                                                                 $("#searchForm select[name=gender]").val('${param.gender}');
                                                             </script>
                                                         </div>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">年龄</label>
-                                                    <div class="col-xs-6">
-                                                        <select name="age" data-rel="select2" data-placeholder="请选择">
+                                                    <label>年龄</label>
+                                                        <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="1">20岁及以下</option>
                                                             <option value="2">21岁~30岁</option>
@@ -101,13 +92,9 @@
                                                         <script>
                                                             $("#searchForm select[name=age]").val('${param.age}');
                                                         </script>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-4 control-label">学生类别</label>
-                                                    <div class="col-xs-6">
+                                                    <label>学生类别</label>
                                                         <div class="input-group">
                                                             <select name="type" data-rel="select2" data-placeholder="请选择">
                                                                 <option></option>
@@ -119,12 +106,10 @@
                                                                 $("#searchForm select[name=type]").val('${param.type}');
                                                             </script>
                                                         </div>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-4 control-label">年级</label>
-                                                    <div class="col-xs-6">
-                                                        <select name="grade" data-rel="select2" data-placeholder="请选择">
+                                                    <label>年级</label>
+                                                        <select name="grade" data-width="100" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <c:forEach items="${studentGrades}" var="grade">
                                                                 <option value="${grade}">${grade}</option>
@@ -133,11 +118,9 @@
                                                         <script>
                                                             $("#searchForm select[name=grade]").val('${param.grade}');
                                                         </script>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-4 control-label">入党时间</label>
-                                                    <div class="col-xs-6">
+                                                    <label>入党时间</label>
                                                         <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar bigger-110"></i>
@@ -145,11 +128,9 @@
                                                             <input placeholder="请选择入党时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
                                                                    type="text" name="_growTime" value="${param._growTime}"/>
                                                         </div>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-xs-4 control-label">转正时间</label>
-                                                    <div class="col-xs-6">
+                                                    <label>转正时间</label>
                                                         <div class="input-group tooltip-success" data-rel="tooltip" title="转正时间范围">
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar bigger-110"></i>
@@ -157,36 +138,25 @@
                                                             <input placeholder="请选择转正时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
                                                                    type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                                         </div>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-4">
                                                 <div class="form-group">
-                                                    <label class="col-xs-3 control-label">所在分党委</label>
-                                                    <div class="col-xs-6">
-                                                        <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                                    <label>所在分党委</label>
+                                                        <select class="form-control" data-width="350"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                                 name="partyId" data-placeholder="请选择分党委">
                                                             <option value="${party.id}">${party.name}</option>
                                                         </select>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                                    <label class="col-xs-3 control-label">所在党支部</label>
-                                                    <div class="col-xs-6">
+                                                    <label>所在党支部</label>
                                                         <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
                                                                 name="branchId" data-placeholder="请选择党支部">
                                                             <option value="${branch.id}">${branch.name}</option>
                                                         </select>
-                                                    </div>
                                                 </div>
                                                 <script>
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
-
-                                            </div>
-
-                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -196,7 +166,7 @@
                                                 </button>
                                             </c:if>
                                         </div>
-                                    </mytag:sort-form>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-    <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
         <div class="widget-box transparent" id="view-box">
             <div class="widget-header">
@@ -30,7 +29,6 @@
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
-    </div>
 <script>
     $("#jqGrid").setSelection('${param.id}', true);
 </script>

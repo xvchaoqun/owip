@@ -37,11 +37,9 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <mytag:sort-form css="form-horizontal hidden-sm hidden-xs" id="searchForm">
-                                <div class="row">
-                                    <div class="col-xs-4">
+                            <form class="form-inline search-form" id="searchForm">
                                             <%--<div class="form-group">
-                                            <label class="col-xs-3 control-label">发文</label>
+                                            <label>发文</label>
                                             <div class="col-xs-6">
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
                                                         name="dispatchId" data-placeholder="请选择">
@@ -50,21 +48,14 @@
                                             </div>
                                         </div>--%>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">干部</label>
-                                            <div class="col-xs-6">
+                                            <label>干部</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${cadre.id}">${sysUser.realname}</option>
                                                 </select>
-                                            </div>
                                         </div>
-
-                                    </div>
-
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">任免方式</label>
-                                            <div class="col-xs-6">
+                                            <label>任免方式</label>
                                                 <select data-rel="select2" name="wayId" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:forEach var="way" items="${wayMap}">
@@ -74,11 +65,9 @@
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=wayId]").val('${param.wayId}');
                                                 </script>
-                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">任免程序</label>
-                                            <div class="col-xs-6">
+                                            <label>任免程序</label>
                                                 <select data-rel="select2" name="procedureId" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:forEach var="procedure" items="${procedureMap}">
@@ -88,13 +77,9 @@
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=procedureId]").val('${param.procedureId}');
                                                 </script>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">行政级别</label>
-                                            <div class="col-xs-6">
+                                            <label>行政级别</label>
                                                 <select data-rel="select2" name="adminLevelId" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:forEach var="adminLevel" items="${adminLevelMap}">
@@ -104,11 +89,9 @@
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=adminLevelId]").val('${param.adminLevelId}');
                                                 </script>
-                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">所属单位</label>
-                                            <div class="col-xs-6">
+                                            <label>所属单位</label>
                                                 <select name="unitId" data-rel="select2" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:forEach items="${unitMap}" var="unit">
@@ -118,13 +101,7 @@
                                                 <script>
                                                     $("#searchForm select[name=unitId]").val('${param.unitId}');
                                                 </script>
-                                            </div>
                                         </div>
-
-
-                                    </div>
-                                </div>
-
                                 <div class="clearfix form-actions center">
 
                                     <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -136,7 +113,7 @@
                                     </c:if>
                                 </div>
 
-                            </mytag:sort-form>
+                            </form>
                         </div>
                     </div>
                 </div>

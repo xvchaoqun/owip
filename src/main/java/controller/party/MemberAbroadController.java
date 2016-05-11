@@ -76,6 +76,8 @@ public class MemberAbroadController extends BaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                     String _abroadTime,
+                                    Integer partyId,
+                                    Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -96,6 +98,12 @@ public class MemberAbroadController extends BaseController {
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
         }
 
         if(StringUtils.isNotBlank(_abroadTime)) {
