@@ -5,6 +5,7 @@ import domain.*;
 import domain.PartyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.PartyMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -90,6 +91,9 @@ public class PartyController extends BaseController {
                                     Integer classId,
                                     Integer typeId,
                                     Integer unitTypeId,
+                                    Boolean isEnterpriseBig,
+                                    Boolean isEnterpriseNationalized,
+                                    Boolean isSeparate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -123,6 +127,15 @@ public class PartyController extends BaseController {
         if (unitTypeId!=null) {
             criteria.andUnitTypeIdEqualTo(unitTypeId);
         }
+        if(isEnterpriseBig!=null){
+            criteria.andIsEnterpriseBigEqualTo(isEnterpriseBig);
+        }
+        if(isEnterpriseNationalized!=null){
+            criteria.andIsEnterpriseNationalizedEqualTo(isEnterpriseNationalized);
+        }
+        if(isSeparate!=null){
+            criteria.andIsSeparateEqualTo(isSeparate);
+        }
 
         if (export == 1) {
             party_export(example, response);
@@ -143,7 +156,9 @@ public class PartyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 

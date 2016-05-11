@@ -95,6 +95,9 @@ public class BranchController extends BaseController {
                                     Integer typeId,
                                     Integer unitTypeId,
                                     String _foundTime,
+                                    Boolean isStaff,
+                                    Boolean isPrefessional,
+                                    Boolean isBaseTeam,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -124,6 +127,15 @@ public class BranchController extends BaseController {
         }
         if (unitTypeId!=null) {
             criteria.andUnitTypeIdEqualTo(unitTypeId);
+        }
+        if(isStaff!=null){
+            criteria.andIsStaffEqualTo(isStaff);
+        }
+        if(isPrefessional!=null){
+            criteria.andIsPrefessionalEqualTo(isPrefessional);
+        }
+        if(isBaseTeam!=null){
+            criteria.andIsBaseTeamEqualTo(isBaseTeam);
         }
         if(StringUtils.isNotBlank(_foundTime)) {
             String foundTimeStart = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];

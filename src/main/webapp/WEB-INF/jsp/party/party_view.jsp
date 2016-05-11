@@ -31,3 +31,6 @@
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div>
+<script>
+    $("#jqGrid").setSelection('${param.id}', true);
+</script>

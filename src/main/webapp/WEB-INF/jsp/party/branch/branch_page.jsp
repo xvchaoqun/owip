@@ -15,6 +15,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code
                                 ||not empty param.name ||not empty param.partyId
+                                ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.typeId ||not empty param.unitTypeId}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="branch:edit">
@@ -57,41 +58,31 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <mytag:sort-form css="form-horizontal " id="searchForm">
-                            <div class="row">
-                                <div class="col-xs-4">
+                        <form class="form-inline" id="searchForm">
+                            <div class="search-columns">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">编号</label>
-                                        <div class="col-xs-6">
+                                        <label>编号</label>
                                             <input class="form-control search-query" name="code" type="text" value="${param.code}"            placeholder="请输入编号">
-                                        </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">名称</label>
-                                        <div class="col-xs-6">
+                                        <label>名称</label>
                                             <input class="form-control search-query" name="name" type="text"
                                                    value="${param.name}"   placeholder="请输入名称">
-                                        </div>
                                     </div>
 
-                                </div>
-                                <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">成立时间</label>
-                                        <div class="col-xs-6">
+                                        <label>成立时间</label>
                                             <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                     </span>
                                                 <input placeholder="请选择成立时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_foundTime" value="${param._foundTime}"/>
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">分党委</label>
-                                        <div class="col-xs-6">
-                                            <select name="partyId" data-rel="select2" data-placeholder="请选择"> 
+                                        <label>分党委</label>
+                                            <select name="partyId" data-rel="select2" data-width="350" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${partyMap}" var="party">  <c:if
                                                         test="${not cm:typeEqualsCode(party.value.classId,'mt_direct_branch')}"> 
@@ -99,14 +90,9 @@ pageEncoding="UTF-8" %>
                                                       </c:if>  </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=partyId]").val('${param.partyId}');     </script>
                                              
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-4">
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">类别</label>
-                                        <div class="col-xs-6">
+                                        <label>类别</label>
                                             <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${typeMap}" var="type"> 
@@ -114,23 +100,53 @@ pageEncoding="UTF-8" %>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
                                              
-                                        </div>
                                     </div>
-
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">单位属性</label>
-                                        <div class="col-xs-6">
+                                        <label>单位属性</label>
                                             <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性"> 
                                                 <option></option>
                                                   <c:forEach items="${branchUnitTypeMap}" var="unitType"> 
                                                     <option value="${unitType.key}">${unitType.value.name}</option>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
-                                             
-                                        </div>
                                     </div>
+                                <div class="form-group">
+                                    <label>是否是教工党支部</label>
+                                    <select name="isStaff"
+                                            data-rel="select2"
+                                            data-width="80"
+                                            data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isStaff]").val('${param.isStaff}');
+                                    </script>
+                                </div>
 
+                                <div class="form-group">
+                                    <label>是否是专业教师党支部</label>
+                                    <select name="isPrefessional" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isPrefessional]").val('${param.isPrefessional}');
+                                    </script>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>是否建立在团队</label>
+                                    <select name="isBaseTeam" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isBaseTeam]").val('${param.isBaseTeam}');
+                                    </script>
                                 </div>
                             </div>
 
@@ -143,7 +159,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </c:if>
                             </div>
-                        </mytag:sort-form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -168,6 +184,7 @@ pageEncoding="UTF-8" %>
             { label: '编号',align:'center', name: 'code',resizable:false, width: 75, frozen:true },
             { label: '所属党总支', name: 'party.name',width: 400, frozen:true },
             { label: '名称',  name: 'name',align:'center', width: 200,formatter:function(cellvalue, options, rowObject){
+
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true},
@@ -176,8 +193,17 @@ pageEncoding="UTF-8" %>
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
             </c:if>
-            { label:'类别', align:'center', name: 'branchType.name', width: 280},
-            { label:'单位属性', align:'center', name: 'unitType.name', width: 280},
+            { label:'类别', align:'center', name: 'branchType.name', width: 150},
+            { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            { label: '是否是专业教师党支部', name: 'isPrefessional' , width: 170,  formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            { label:'单位属性', align:'center', name: 'unitType.name', width: 150},
             { label: '联系电话', align:'center', name: 'phone', width: 130 },
             { label: '传真', align:'center', name: 'fax', width: 100 },
             { label: '邮箱', align:'center', name: 'email', width: 100 },

@@ -95,9 +95,9 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-3 control-label">组织类别</label>
+					<label class="col-xs-3 control-label">组织类型</label>
 					<div class="col-xs-8">
-						<select required data-rel="select2" name="typeId" data-placeholder="请选择组织类别">
+						<select required data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_party_type"/>
 						</select>

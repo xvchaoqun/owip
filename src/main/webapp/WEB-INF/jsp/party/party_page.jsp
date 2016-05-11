@@ -15,6 +15,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
+            ||not empty param.isEnterpriseBig||not empty param.isEnterpriseNationalized||not empty param.isSeparate
             || not empty param.code}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="party:edit">
@@ -58,39 +59,28 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <mytag:sort-form css="form-horizontal " id="searchForm">
-                            <div class="row">
-                                <div class="col-xs-4">
+                        <form class="form-inline" id="searchForm">
+                            <div class="search-columns">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">编号</label>
-                                        <div class="col-xs-6">
-                                            <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
-                                        </div>
+                                        <label>编号</label>
+                                         <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">名称</label>
-                                        <div class="col-xs-6">
+                                        <label>名称</label>
                                             <input class="form-control search-query" name="name" type="text" value="${param.name}"            placeholder="请输入名称">
-                                        </div>
                                     </div>
-
-                                </div>
-                                <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">所属单位</label>
-                                        <div class="col-xs-6">
+                                        <label>所属单位</label>
                                             <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${unitMap}" var="unit"> 
                                                     <option value="${unit.key}">${unit.value.name}</option>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
-                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">组织类别</label>
-                                        <div class="col-xs-6">
+                                        <label>分党委类别</label>
                                             <select name="classId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${partyClassMap}" var="cls"> 
@@ -98,42 +88,64 @@ pageEncoding="UTF-8" %>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                                              
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-4">
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">组织类型</label>
-                                        <div class="col-xs-6">
-                                            <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
-                                                <option></option>
-                                                  <c:forEach items="${partyTypeMap}" var="type"> 
-                                                    <option value="${type.key}">${type.value.name}</option>
-                                                      </c:forEach>  </select> 
-                                            <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
-                                             
-                                        </div>
+                                        <label>组织类型</label>
+                                        <select data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
+                                            <option></option>
+                                            <c:import url="/metaTypes?__code=mc_party_type"/>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=typeId]").val('${param.typeId}');
+                                        </script>
                                     </div>
-
-
                                     <div class="form-group">
-                                        <label class="col-xs-3 control-label">单位属性</label>
-                                        <div class="col-xs-6">
-                                            <select name="unitTypeId" data-rel="select2" data-placeholder="请选择"> 
+                                        <label>单位属性</label>
+                                            <select name="unitTypeId" data-width="120" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${partyUnitTypeMap}" var="unitType"> 
                                                     <option value="${unitType.key}">${unitType.value.name}</option>
                                                       </c:forEach>  </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
-                                        </div>
                                     </div>
-
+                                <div class="form-group">
+                                    <label>是否大中型</label>
+                                    <select name="isEnterpriseBig"
+                                            data-rel="select2"
+                                            data-width="80"
+                                            data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isEnterpriseBig]").val('${param.isEnterpriseBig}');
+                                    </script>
                                 </div>
-                            </div>
 
+                                <div class="form-group">
+                                    <label>是否国有独资</label>
+                                    <select name="isEnterpriseNationalized" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isEnterpriseNationalized]").val('${param.isEnterpriseNationalized}');
+                                    </script>
+                                </div>
 
-
+                                <div class="form-group">
+                                    <label>是否独立法人</label>
+                                    <select name="isSeparate" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isSeparate]").val('${param.isSeparate}');
+                                    </script>
+                                </div>
 
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -144,7 +156,8 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </c:if>
                             </div>
-                        </mytag:sort-form>
+                                </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -166,8 +179,8 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',align:'center', name: 'code',resizable:false, width: 75, frozen:true },
-            { label: '名称',  name: 'name', width: 400,formatter:function(cellvalue, options, rowObject){
+            { label: '编号',name: 'code',resizable:false, width: 75, frozen:true },
+            { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/party_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true},
@@ -176,9 +189,28 @@ pageEncoding="UTF-8" %>
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
             </c:if>
-            { label:'所属单位', align:'center', name: 'unit.name', width: 280},
-            { label: '党总支类别', align:'center', name: 'partyClass.name', width: 130 },
-            { label: '联系电话', align:'center', name: 'phone', width: 100 }
+            { label:'简称', name: 'shortName', align:'left', width: 180},
+            { label:'所属单位', name: 'unit.name', width: 180},
+            { label: '分党委类别', name: 'partyClass.name'},
+            { label: '组织类别', name: 'typeId', width: 180, formatter:function(cellvalue, options, rowObject){
+                return _metaMap[cellvalue];
+            }},
+            { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter:function(cellvalue, options, rowObject){
+                return _metaMap[cellvalue];
+            }},
+            { label: '是否大中型', name: 'isEnterpriseBig', formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            { label: '是否国有独资', name: 'isEnterpriseNationalized', width: 110, formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            } },
+            { label: '是否独立法人', name: 'isSeparate', width: 110, formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            } },
+            { label: '联系电话', name: 'phone', width: 100 },
+            { label: '传真', name: 'fax', width: 100 },
+            { label: '邮箱', name: 'email', width: 100 },
+            { label: '成立时间', name: 'foundTime'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
