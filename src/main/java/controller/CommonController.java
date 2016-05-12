@@ -1,9 +1,12 @@
 package controller;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
-import net.sf.ehcache.Cache;
+import mixin.OptionMixin;
 import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -12,11 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +49,19 @@ public class CommonController extends BaseController{
         return success();
     }
 
+/*    public static void main(String[] args) throws IllegalAccessException {
+
+        Field[] fields = SystemConstants.class.getFields();
+        for (Field field : fields) {
+            if(StringUtils.equals(field.getType().getName(), "java.util.Map")){
+
+                System.out.println(field.getName() + ":"+ field.get(null));
+            }
+        }
+    }*/
+
     @RequestMapping("/metaMap_JSON")
-    public String metaMap_JSON(ModelMap modelMap) {
+    public String metaMap_JSON(ModelMap modelMap) throws JsonProcessingException {
 
         /*Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(MetaType.class, MetaTypeMixin.class);
@@ -63,29 +77,46 @@ public class CommonController extends BaseController{
         for (MetaType metaType : metaTypeMap.values()) {
             map.put(metaType.getId(), metaType.getName());
         }
-        modelMap.put("metaMap", JSONUtils.toString(map));
+        modelMap.put("metaTypeMap", JSONUtils.toString(map));
 
+        Map cMap = new HashMap();
+
+        Map metaMap = getMetaMap();
         Map constantMap = new HashMap();
-        constantMap.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
-        constantMap.put("MEMBER_INFLOW_STATUS_MAP", SystemConstants.MEMBER_INFLOW_STATUS_MAP);
-        constantMap.put("MEMBER_INFLOW_OUT_STATUS_MAP", SystemConstants.MEMBER_INFLOW_OUT_STATUS_MAP);
-        constantMap.put("MEMBER_OUTFLOW_STATUS_MAP", SystemConstants.MEMBER_OUTFLOW_STATUS_MAP);
-        constantMap.put("MEMBER_INOUT_TYPE_MAP", SystemConstants.MEMBER_INOUT_TYPE_MAP);
-        constantMap.put("MEMBER_IN_STATUS_MAP", SystemConstants.MEMBER_IN_STATUS_MAP);
-        constantMap.put("MEMBER_OUT_STATUS_MAP", SystemConstants.MEMBER_OUT_STATUS_MAP);
-        constantMap.put("MEMBER_RETURN_STATUS_MAP", SystemConstants.MEMBER_RETURN_STATUS_MAP);
-        constantMap.put("MEMBER_TRANSFER_STATUS_MAP", SystemConstants.MEMBER_TRANSFER_STATUS_MAP);
-        constantMap.put("MEMBER_STAY_STATUS_MAP", SystemConstants.MEMBER_STAY_STATUS_MAP);
-        constantMap.put("MEMBER_TYPE_MAP", SystemConstants.MEMBER_TYPE_MAP);
-        constantMap.put("MEMBER_QUIT_TYPE_MAP", SystemConstants.MEMBER_QUIT_TYPE_MAP);
-        constantMap.put("MEMBER_QUIT_STATUS_MAP", SystemConstants.MEMBER_QUIT_STATUS_MAP);
-        constantMap.put("APPLY_APPROVAL_LOG_STATUS_MAP", SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP);
-        constantMap.put("locationMap", locationService.codeMap());
-        //constantMap.put("countryMap", countryService.findAll());
-        constantMap.put("OR_STATUS_MAP", SystemConstants.OR_STATUS_MAP);
-        constantMap.put("USER_TYPE_MAP", SystemConstants.USER_TYPE_MAP);
-        constantMap.put("ROLE_MAP", SystemConstants.ROLE_MAP);
-        modelMap.put("cMap", JSONUtils.toString(constantMap));
+
+        Field[] fields = SystemConstants.class.getFields();
+        for (Field field : fields) {
+            if(StringUtils.equals(field.getType().getName(), "java.util.Map")){
+                try {
+                    constantMap.put(field.getName(), field.get(null));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        cMap.putAll(metaMap);
+        cMap.putAll(constantMap);
+
+        ObjectMapper mapper = JSONUtils.buildObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+
+        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
+        sourceMixins.put(MetaType.class, OptionMixin.class);
+        sourceMixins.put(Party.class, OptionMixin.class);
+        sourceMixins.put(Branch.class, OptionMixin.class);
+        //sourceMixins.put(Dispatch.class, OptionMixin.class);
+        //sourceMixins.put(DispatchUnit.class, OptionMixin.class);
+        sourceMixins.put(Unit.class, OptionMixin.class);
+        //sourceMixins.put(Cadre.class, OptionMixin.class);
+        sourceMixins.put(DispatchType.class, OptionMixin.class);
+        //sourceMixins.put(SafeBox.class, OptionMixin.class);
+        sourceMixins.put(ApproverType.class, OptionMixin.class);
+        sourceMixins.put(Location.class, OptionMixin.class);
+        //sourceMixins.put(Country.class, OptionMixin.class);
+        mapper.setMixInAnnotations(sourceMixins);
+
+        modelMap.put("cMap", mapper.writeValueAsString(cMap));
 
         return "common/metaMap_JSON";
     }

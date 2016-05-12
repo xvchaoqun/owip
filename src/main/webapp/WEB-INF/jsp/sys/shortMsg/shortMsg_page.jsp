@@ -30,7 +30,7 @@
                                             <label>账号</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                         name="receiverId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${sysUser.id}">${sysUser.realname}</option>
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                         </div>
                                     <shiro:hasRole name="admin">

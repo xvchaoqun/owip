@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
 
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
-                    <option value="${sysUser.id}">${sysUser.realname}</option>
+                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>
                 <select class="form-control" name="stage" data-rel="select2" data-placeholder="请选择阶段">
                     <option></option>

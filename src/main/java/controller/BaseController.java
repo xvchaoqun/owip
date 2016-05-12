@@ -19,7 +19,6 @@ import service.party.*;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
-import sys.constants.DispatchConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -308,8 +307,6 @@ public class BaseController extends BaseMapper {
         map.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
 
         map.put("safeBoxMap", safeBoxService.findAll());
-
-        map.put("DISPATCH_CADRE_TYPE_MAP", DispatchConstants.DISPATCH_CADRE_TYPE_MAP);
 
         map.put("approverTypeMap", approverTypeService.findAll());
 

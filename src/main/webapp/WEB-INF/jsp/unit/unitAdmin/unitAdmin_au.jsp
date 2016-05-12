@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unitCadre_selects?unitId=${unit.id}"
                             name="cadreId" data-placeholder="请选择">
-                        <option value="${cadre.id}">${sysUser.realname}</option>
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
 				</div>
 			</div>

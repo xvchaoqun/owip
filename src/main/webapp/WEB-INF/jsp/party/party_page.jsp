@@ -201,10 +201,10 @@ pageEncoding="UTF-8" %>
             { label:'所属单位', name: 'unit.name', width: 180},
             { label: '分党委类别', name: 'partyClass.name'},
             { label: '组织类别', name: 'typeId', width: 180, formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label: '是否大中型', name: 'isEnterpriseBig', formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";

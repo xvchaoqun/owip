@@ -1,5 +1,4 @@
 <%@ page import="sys.constants.SystemConstants" %>
-<%@ page import="sys.constants.DispatchConstants" %>
 <%@ page import="shiro.Constants" %>
 <%@ page import="java.util.Date" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
@@ -166,7 +165,7 @@
 <c:set var="APPLY_STAGE_GROW" value="<%=SystemConstants.APPLY_STAGE_GROW%>"/>
 <c:set var="APPLY_STAGE_POSITIVE" value="<%=SystemConstants.APPLY_STAGE_POSITIVE%>"/>
 
-<c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
+<c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=SystemConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
 
 <c:set var="APPLY_SELF_DATE_TYPE_MAP" value="<%=SystemConstants.APPLY_SELF_DATE_TYPE_MAP%>"/>
 <c:set var="PASSPORT_DRAW_TYPE_MAP" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_MAP%>"/>

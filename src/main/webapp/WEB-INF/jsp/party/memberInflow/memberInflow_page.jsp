@@ -140,7 +140,7 @@
                                                                 <input type="hidden" name="cls" value="${cls}">
                                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                                    <option value="${sysUser.id}">${sysUser.realname}</option>
+                                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                                 </select>
                                                             </div>
                                                     </div>
@@ -246,7 +246,7 @@
             }}<c:if test="${cls==4}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             { label:'原职业',  name:'originalJob', width: 200 ,formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label: '流入前所在省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;

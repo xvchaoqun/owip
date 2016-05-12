@@ -49,7 +49,7 @@
                                                         <div class="input-group">
                                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_STUDENT}&status=${MEMBER_STATUS_NORMAL}"
                                                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                                <option value="${sysUser.id}">${sysUser.realname}</option>
+                                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                             </select>
                                                         </div>
                                                 </div>
@@ -205,8 +205,13 @@
                 //console.log(branch)
                 return party + (($.trim(branch)=='')?'':'-'+branch);
             } },
-            { label:'入党时间',  name: 'growTime', width: 100 },
-            { label:'转正时间',  name: 'positiveTime', width: 100 },
+            { label:'入党时间',  name: 'growTime'},
+            { label:'转正时间',  name: 'positiveTime'},
+            { label:'培养层次',  name: 'eduLevel' },
+            { label:'培养类型',  name: 'eduType' },
+            { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
+                return _cMap.unitMap[cellvalue].name;
+            }},
             {hidden:true, key:true, name:'userId'}, {hidden: true, name: 'partyId'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -51,7 +51,7 @@
                                             <label>干部</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${cadre.id}">${sysUser.realname}</option>
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                         </div>
                                         <div class="form-group">
@@ -150,26 +150,26 @@
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             }, frozen:true },
             { label:'任免方式', name: 'wayId', formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label:'任免程序', name: 'procedureId', formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label:'干部类型', name: 'cadreTypeId', formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             } },
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname'},
             { label:'职务', name: 'post', width: 150 },
             { label:'职务属性', name: 'postId', width: 120 , formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             } },
             { label:'行政级别', name: 'adminLevelId', formatter:function(cellvalue, options, rowObject){
-               return _metaMap[cellvalue];
+               return _metaTypeMap[cellvalue];
             } },
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'单位类型', name: 'unit.typeId', width: 120  , formatter:function(cellvalue, options, rowObject){
-                return _metaMap[cellvalue];
+                return _metaTypeMap[cellvalue];
             }},
             { label:'发文类型', name: 'dispatch.dispatchType.name'},
             { label:'党委常委会日期', name: 'dispatch.meetingTime'},

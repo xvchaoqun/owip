@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
-                        <option value="${cadre.id}">${sysUser.realname}</option>
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
 				</div>
 			</div>

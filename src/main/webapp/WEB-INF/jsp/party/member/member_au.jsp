@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 						</c:if>
 						<select ${not empty member?"disabled data-theme='default'":""} required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
 								name="userId" data-placeholder="请输入账号或姓名或学工号">
-							<option value="${sysUser.id}">${sysUser.realname}</option>
+							<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 						</select>
 					</div>
 				</div>

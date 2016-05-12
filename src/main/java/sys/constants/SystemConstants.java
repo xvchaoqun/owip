@@ -459,6 +459,15 @@ public class SystemConstants {
 		CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
 	}
 
+	// 干部任免类别
+	public static final byte DISPATCH_CADRE_TYPE_ASSIGN = 1;
+	public static final byte DISPATCH_CADRE_TYPE_DEPOSE = 2;
+	public final static Map<Byte, String> DISPATCH_CADRE_TYPE_MAP = new HashMap();
+	static {
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_ASSIGN, "任命");
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_DEPOSE, "免职");
+	}
+
 	// 干部学习经历 学校类型 1本校 2境内 3境外
 	public final static byte CADRE_SCHOOL_TYPE_THIS_SCHOOL = 1;
 	public final static byte CADRE_SCHOOL_TYPE_DOMESTIC = 2;

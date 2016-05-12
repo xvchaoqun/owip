@@ -970,7 +970,10 @@ function formatState (state) {
     return $state;
 };
 function templateSelection(state){
-    return state.text;
+    var $state = state.text;
+    if(state.code!=undefined && state.code.length>0)
+        $state += '-' + state.code;
+    return $state;
 }
 // 选择账号
 function register_user_select($select, ts){
