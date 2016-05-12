@@ -9,11 +9,6 @@ import interceptor.SortParam;
 import mixin.MemberTransferMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -25,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -405,49 +399,32 @@ public class MemberTransferController extends BaseController {
     }
     public void memberTransfer_export(MemberTransferExample example, HttpServletResponse response) {
 
-        List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
-        int rownum = memberTransferMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"用户",/*"人员类别","转入单位","转出单位",*/"转出办理时间","状态"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberTransfer> records = memberTransferMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学工号","姓名","所在分党委","所在党支部", "转入分党委",
+                "转入党支部", "介绍信有效期天数","转出办理时间","状态"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MemberTransfer memberTransfer = memberTransfers.get(i);
+            MemberTransfer record = records.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            Integer toPartyId = record.getToPartyId();
+            Integer toBranchId = record.getToBranchId();
             String[] values = {
-                        memberTransfer.getUserId()+"",/*
-                                            memberTransfer.getType()+"",
-                                            memberTransfer.getToUnit(),
-                                            memberTransfer.getFromUnit(),*/
-                                            DateUtils.formatDate(memberTransfer.getFromHandleTime(), DateUtils.YYYY_MM_DD),
-                                            memberTransfer.getStatus()+""
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    toPartyId==null?"":partyService.findAll().get(toPartyId).getName(),
+                    toBranchId==null?"":branchService.findAll().get(toBranchId).getName(),
+                    record.getValidDays()+"",
+                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
+                    record.getStatus()==null?"":SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus())
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "校内组织关系转接_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "校内组织关系转接_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

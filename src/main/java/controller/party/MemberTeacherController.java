@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -32,10 +33,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberTeacherController extends BaseController {
@@ -262,53 +260,35 @@ public class MemberTeacherController extends BaseController {
 
     public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {
 
-        List<MemberTeacher> memberTeachers = memberTeacherMapper.selectByExample(example);
-        int rownum = memberTeacherMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"所属党支部","所属分党委","入党时间","工作证号","最高学历","性别","岗位类别","专业技术职务","联系手机","出生日期"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工作证号","姓名","性别","出生日期","所属分党委","所属党支部",
+                "入党时间","最高学历","岗位类别","专业技术职务","联系手机"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
+            MemberTeacher record = records.get(i);
+            Byte gender = record.getGender();
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
 
-            MemberTeacher memberTeacher = memberTeachers.get(i);
             String[] values = {
-                        memberTeacher.getBranchId()+"",
-                                            memberTeacher.getPartyId()+"",
-                                            DateUtils.formatDate(memberTeacher.getGrowTime(), DateUtils.YYYY_MM_DD),
-                                            memberTeacher.getCode(),
-                                            memberTeacher.getEducation(),
-                                            memberTeacher.getGender()+"",
-                                            memberTeacher.getPostClass(),
-                                            memberTeacher.getProPost(),
-                                            memberTeacher.getMobile(),
-                                            DateUtils.formatDate(memberTeacher.getBirth(), DateUtils.YYYY_MM_DD)
-                    };
+                    record.getCode(),
+                    record.getRealname(),
+                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    record.getEducation(),
+                    record.getPostClass(),
+                    record.getProPost(),
+                    record.getMobile()
+            };
 
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
+            valuesList.add(values);
+        }
+        String fileName = "教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
 
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-        try {
-            String fileName = "教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

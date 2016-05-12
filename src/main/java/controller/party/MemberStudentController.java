@@ -24,6 +24,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -33,10 +34,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberStudentController extends BaseController {
@@ -293,51 +291,30 @@ public class MemberStudentController extends BaseController {
 
     public void memberStudent_export(MemberStudentExample example, HttpServletResponse response) {
 
-        List<MemberStudent> memberStudents = memberStudentMapper.selectByExample(example);
-        int rownum = memberStudentMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"转正时间", "所属党支部", "所属分党委", "入党时间", "学生证号", "性别", "学生类别", "年级"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberStudent> records = memberStudentMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学生证号","姓名", "性别", "学生类别", "年级", "入党时间","转正时间", "所属分党委", "所属党支部"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MemberStudent memberStudent = memberStudents.get(i);
+            MemberStudent record = records.get(i);
+            Byte gender = record.getGender();
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
             String[] values = {
-                    DateUtils.formatDate(memberStudent.getPositiveTime(), DateUtils.YYYY_MM_DD),
-                    memberStudent.getBranchId() + "",
-                    memberStudent.getPartyId() + "",
-                    DateUtils.formatDate(memberStudent.getGrowTime(), DateUtils.YYYY_MM_DD),
-                    memberStudent.getCode(),
-                    memberStudent.getGender()+"",
-                    memberStudent.getType(),
-                    memberStudent.getGrade() + ""
+                    record.getCode(),
+                    record.getRealname(),
+                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    record.getType(),
+                    record.getGrade(),
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName()
             };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
-        try {
-            String fileName = "VIEW_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "学生党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

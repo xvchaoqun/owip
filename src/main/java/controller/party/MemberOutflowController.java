@@ -2,17 +2,11 @@ package controller.party;
 
 import controller.BaseController;
 import domain.*;
-import domain.MemberOutflowExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberOutflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -24,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -382,53 +375,33 @@ public class MemberOutflowController extends BaseController {
     }
     public void memberOutflow_export(MemberOutflowViewExample example, HttpServletResponse response) {
 
-        List<MemberOutflowView> memberOutflowViews = memberOutflowViewMapper.selectByExample(example);
-        int rownum = memberOutflowViewMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"用户","分党委名称","党支部名称","原职业","外出流向","流出时间","流出省份","流出原因","是否持有《中国共产党流动党员活动证》","组织关系状态"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberOutflowView> records = memberOutflowViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学工号","姓名","所在分党委","所在党支部","原职业","外出流向",
+                "流出时间","流出省份","流出原因","是否持有《中国共产党流动党员活动证》","组织关系状态"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MemberOutflowView memberOutflow = memberOutflowViews.get(i);
+            MemberOutflowView record = records.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
             String[] values = {
-                        memberOutflow.getUserId()+"",
-                                            memberOutflow.getPartyName(),
-                                            memberOutflow.getBranchName(),
-                                            memberOutflow.getOriginalJob()+"",
-                                            memberOutflow.getDirection()+"",
-                                            DateUtils.formatDate(memberOutflow.getFlowTime(), DateUtils.YYYY_MM_DD),
-                                            memberOutflow.getProvince()+"",
-                                            memberOutflow.getReason(),
-                                            memberOutflow.getHasPapers() +"",
-                                            memberOutflow.getOrStatus()+""
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getOriginalJob()==null?"":metaTypeMap.get(record.getOriginalJob()).getName(),
+                    record.getDirection()==null?"":metaTypeMap.get(record.getDirection()).getName(),
+                    DateUtils.formatDate(record.getFlowTime(), DateUtils.YYYY_MM_DD),
+                    record.getProvince()==null?"":locationService.codeMap().get(record.getProvince()).getName(),
+                    record.getReason(),
+                    record.getHasPapers()==null?"":record.getHasPapers()?"是":"否",
+                    record.getOrStatus()==null?"":SystemConstants.OR_STATUS_MAP.get(record.getOrStatus())
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "流出党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "流出党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

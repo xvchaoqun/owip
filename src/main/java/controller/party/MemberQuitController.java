@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -372,44 +373,29 @@ public class MemberQuitController extends BaseController {
 
     public void memberQuit_export(MemberQuitExample example, HttpServletResponse response) {
 
-        List<MemberQuit> memberQuits = memberQuitMapper.selectByExample(example);
-        int rownum = memberQuitMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"账号ID"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberQuit> records = memberQuitMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学工号","姓名", "所在分党委","所在党支部", "类别", "入党时间", "出党时间", "审核状态"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
+            MemberQuit record = records.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
 
-            MemberQuit memberQuit = memberQuits.get(i);
             String[] values = {
-                        memberQuit.getUserId()+""
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getType()==null?"":SystemConstants.MEMBER_QUIT_TYPE_MAP.get(record.getType()),
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getQuitTime(), DateUtils.YYYY_MM_DD),
+                    record.getStatus()==null?"":SystemConstants.MEMBER_QUIT_STATUS_MAP.get(record.getStatus())
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "党员出党_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "党员出党_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

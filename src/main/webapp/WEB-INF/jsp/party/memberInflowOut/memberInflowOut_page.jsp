@@ -8,7 +8,6 @@
             <div  class="myTableDiv"
                   data-url-au="${ctx}/memberInflowOut_au?cls=${cls}"
                   data-url-page="${ctx}/memberInflowOut_page"
-                  data-url-export="${ctx}/memberInflowOut_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
                 || not empty param.status ||not empty param.isBack
@@ -58,8 +57,7 @@
                                 </button>
                                     </c:if>
                                 </shiro:hasPermission>
-                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+
 
                                 <c:if test="${cls==1||cls==4}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"

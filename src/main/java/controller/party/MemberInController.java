@@ -8,11 +8,6 @@ import interceptor.SortParam;
 import mixin.MemberInMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -381,50 +375,32 @@ public class MemberInController extends BaseController {
     }
     public void memberIn_export(MemberInExample example, HttpServletResponse response) {
 
-        List<MemberIn> memberIns = memberInMapper.selectByExample(example);
-        int rownum = memberInMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"用户","类别","转出单位","转出单位抬头","介绍信有效期天数","转出办理时间","状态"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberIn> records = memberInMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学工号","姓名", "类别", "所在分党委","所在党支部",
+                "转出单位","转出单位抬头","介绍信有效期天数","转出办理时间","状态"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MemberIn memberIn = memberIns.get(i);
+            MemberIn record = records.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
             String[] values = {
-                        memberIn.getUserId()+"",
-                                            memberIn.getType() +"",
-                                            memberIn.getFromUnit(),
-                                            memberIn.getFromTitle(),
-                                            memberIn.getValidDays()+"",
-                                            DateUtils.formatDate(memberIn.getFromHandleTime(), DateUtils.YYYY_MM_DD),
-                                            memberIn.getStatus()+""
-                    };
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    record.getType()==null?"":SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getFromUnit(),
+                    record.getFromTitle(),
+                    record.getValidDays()+"",
+                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
+                    record.getStatus()==null?"":SystemConstants.MEMBER_IN_STATUS_MAP.get(record.getStatus())
+            };
 
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
-        try {
-            String fileName = "组织关系转入_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "组织关系转入_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

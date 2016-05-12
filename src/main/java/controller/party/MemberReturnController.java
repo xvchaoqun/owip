@@ -8,12 +8,6 @@ import interceptor.SortParam;
 import mixin.MemberReturnMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -25,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -364,53 +357,34 @@ public class MemberReturnController extends BaseController {
     }
     public void memberReturn_export(MemberReturnExample example, HttpServletResponse response) {
 
-        List<MemberReturn> memberReturns = memberReturnMapper.selectByExample(example);
-        int rownum = memberReturnMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"用户","所属分党委","所属党支部","确定为入党积极分子时间","确定为发展对象时间","入党时间","转正时间","状态","备注","创建时间"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<MemberReturn> records = memberReturnMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"学工号","姓名", "所属分党委","所属党支部","确定为入党积极分子时间",
+                "确定为发展对象时间","入党时间","转正时间","状态","备注","创建时间"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MemberReturn memberReturn = memberReturns.get(i);
+            MemberReturn record = records.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
             String[] values = {
-                        memberReturn.getUserId()+"",
-                                            memberReturn.getPartyId()+"",
-                                            memberReturn.getBranchId()+"",
-                                            DateUtils.formatDate(memberReturn.getActiveTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(memberReturn.getCandidateTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(memberReturn.getGrowTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(memberReturn.getPositiveTime(), DateUtils.YYYY_MM_DD),
-                                            memberReturn.getStatus()+"",
-                                            memberReturn.getRemark(),
-                                            DateUtils.formatDate(memberReturn.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-                    };
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    DateUtils.formatDate(record.getActiveTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getCandidateTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                    record.getStatus()==null?"":SystemConstants.MEMBER_RETURN_STATUS_MAP.get(record.getStatus()),
+                    record.getRemark(),
+                    DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+            };
 
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
-        try {
-            String fileName = "留学归国人员申请恢复组织生活_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "留学归国党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }
