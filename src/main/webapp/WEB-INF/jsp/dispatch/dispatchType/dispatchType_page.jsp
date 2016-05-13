@@ -23,7 +23,7 @@
                                 <i class="fa fa-edit"></i> 修改信息
                             </button>
                         </shiro:hasPermission>
-                        <a class="exportBtn btn btn-success btn-sm tooltip-success"
+                        <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="dispatchType:del">
                             <a class="jqBatchBtn btn btn-danger btn-sm"

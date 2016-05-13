@@ -20,7 +20,7 @@
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm" data-width="700">
                         <i class="fa fa-edit"></i> 修改信息</a>
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchCadre:del">
                         <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
@@ -51,7 +51,7 @@
                                             <label>干部</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                    <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                         </div>
                                         <div class="form-group">

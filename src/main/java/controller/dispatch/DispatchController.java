@@ -10,11 +10,6 @@ import interceptor.SortParam;
 import mixin.DispatchMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -406,53 +404,27 @@ public class DispatchController extends BaseController {
 
     public void dispatch_export(DispatchExample example, HttpServletResponse response) {
 
-        List<Dispatch> dispatchs = dispatchMapper.selectByExample(example);
-        int rownum = dispatchMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"年份","发文类型","发文号","党委常委会日期","发文日期","任免日期","任免文件","上会ppt","备注"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<Dispatch> records = dispatchMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"年份","发文类型","发文号","党委常委会日期","发文日期","任免日期","备注"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            Dispatch dispatch = dispatchs.get(i);
+            Dispatch record = records.get(i);
             String[] values = {
-                        dispatch.getYear()+"",
-                    dispatch.getDispatchTypeId()+"",
-                                            dispatch.getCode()+"",
-                                            DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(dispatch.getPubTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(dispatch.getWorkTime(), DateUtils.YYYY_MM_DD),
-                                            dispatch.getFile(),
-                                            dispatch.getPpt(),
-                                            dispatch.getRemark()
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    record.getYear()+"",
+                    record.getDispatchTypeId()==null?"":dispatchTypeService.findAll().get(record.getDispatchTypeId()).getName(),
+                    CmTag.getDispatchCode(record.getCode(), record.getDispatchTypeId(), record.getYear()),
+                    DateUtils.formatDate(record.getMeetingTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPubTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD),
+                    record.getFile(),
+                    record.getPpt(),
+                    record.getRemark()
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
    @RequestMapping("/dispatch_selects")

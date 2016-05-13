@@ -12,10 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,14 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -327,51 +322,26 @@ public class CadreController extends BaseController {
 
     public void cadre_export(CadreExample example, HttpServletResponse response) {
 
-        List<Cadre> cadres = cadreMapper.selectByExample(example);
-        int rownum = cadreMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"工号","姓名","行政级别","职务属性","单位及职务","备注"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<Cadre> records = cadreMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","备注"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            Cadre cadre = cadres.get(i);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            Cadre record = records.get(i);
+            SysUser sysUser =  record.getUser();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                                            cadre.getTypeId()+"",
-                                            cadre.getPostId()+"",
-                                            cadre.getTitle(),
-                                            cadre.getRemark()
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    metaTypeService.getName(record.getTypeId()),
+                    metaTypeService.getName(record.getPostId()),
+                    record.getPost(),
+                    record.getTitle(),
+                    record.getRemark()
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "干部库_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "干部库_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequiresPermissions("cadre:import")

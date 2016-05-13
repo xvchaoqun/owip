@@ -7,11 +7,6 @@ import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -23,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
@@ -31,9 +27,7 @@ import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -224,46 +218,21 @@ public class MetaClassController extends BaseController {
 
     public void metaClass_export(MetaClassExample example, HttpServletResponse response) {
 
-        List<MetaClass> metaClasss = metaClassMapper.selectByExample(example);
-        int rownum = metaClassMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
+        List<MetaClass> records = metaClassMapper.selectByExample(example);
+        int rownum = records.size();
         String[] titles = {"名称", "代码", "布尔属性名称", "附加属性名称"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            MetaClass metaClass = metaClasss.get(i);
+            MetaClass record = records.get(i);
             String[] values = {
-                    metaClass.getName(),
-                    metaClass.getCode(),
-                    metaClass.getBoolAttr(),
-                    metaClass.getExtraAttr()};
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    record.getName(),
+                    record.getCode(),
+                    record.getBoolAttr(),
+                    record.getExtraAttr()};
+            valuesList.add(values);
         }
-        try {
-            String fileName = "元数据分类_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "元数据分类_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/metaClass_selects")

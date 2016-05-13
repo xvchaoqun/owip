@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.helper.ExportHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -199,52 +200,26 @@ public class ${TableName}Controller extends BaseController {
 
     public void ${tableName}_export(${TableName}Example example, HttpServletResponse response) {
 
-        List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExample(example);
-        int rownum = ${tableName}Mapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
+        List<${TableName}> records = ${tableName}Mapper.selectByExample(example);
+        int rownum = records.size();
         String[] titles = {<#list tableColumns as column>"${column.comments}"<#if column_has_next>,</#if></#list>};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            ${TableName} ${tableName} = ${tableName}s.get(i);
+            ${TableName} record = ${tableName}s.get(i);
             String[] values = {
-                    <#list tableColumns as column>
-                        <#if column.type=="datetime">
-                        DateUtils.formatDate(${tableName}.get${tbn(column.name, "TableName")}(), DateUtils.YYYY_MM_DD_HH_MM_SS)<#if column_has_next>,</#if>
-                        <#elseif column.type=="date">
-                        DateUtils.formatDate(${tableName}.get${tbn(column.name, "TableName")}(), DateUtils.YYYY_MM_DD)<#if column_has_next>,</#if>
-                        <#else>
-                        ${tableName}.get${tbn(column.name, "TableName")}()<#if column.type=="int">+""</#if><#if column_has_next>,</#if>
-                        </#if>
-                    </#list>};
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            <#list tableColumns as column>
+                <#if column.type=="datetime">
+                DateUtils.formatDate(record.get${tbn(column.name, "TableName")}(), DateUtils.YYYY_MM_DD_HH_MM_SS)<#if column_has_next>,</#if>
+                <#elseif column.type=="date">
+                DateUtils.formatDate(record.get${tbn(column.name, "TableName")}(), DateUtils.YYYY_MM_DD)<#if column_has_next>,</#if>
+                <#else>
+                record.get${tbn(column.name, "TableName")}()<#if column.type=="int">+""</#if><#if column_has_next>,</#if>
+                </#if>
+            </#list>};
+            valuesList.add(values);
         }
-        try {
-            String fileName = "${cnTableName}_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "${cnTableName}_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/${tableName}_selects")

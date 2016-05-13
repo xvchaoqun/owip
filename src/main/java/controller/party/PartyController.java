@@ -8,11 +8,6 @@ import interceptor.SortParam;
 import mixin.PartyMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -253,54 +247,28 @@ public class PartyController extends BaseController {
 
     public void party_export(PartyExample example, HttpServletResponse response) {
 
-        List<Party> partys = partyMapper.selectByExample(example);
-        int rownum = partyMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
+        List<Party> records = partyMapper.selectByExample(example);
+        int rownum = records.size();
         String[] titles = {"编号","名称","简称","网址","所属单位","党总支类别","组织类别","所在单位属性","联系电话","邮箱"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            Party party = partys.get(i);
+            Party record = records.get(i);
             String[] values = {
-                        party.getCode(),
-                                            party.getName(),
-                                            party.getShortName(),
-                                            party.getUrl(),
-                                            party.getUnitId()+"",
-                                            party.getClassId()+"",
-                                            party.getTypeId()+"",
-                                            party.getUnitTypeId()+"",
-                                            party.getPhone(),
-                                            party.getEmail()
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    record.getCode(),
+                    record.getName(),
+                    record.getShortName(),
+                    record.getUrl(),
+                    record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
+                    metaTypeService.getName(record.getClassId()),
+                    metaTypeService.getName(record.getTypeId()),
+                    metaTypeService.getName(record.getUnitTypeId()),
+                    record.getPhone(),
+                    record.getEmail()
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "基层党组织_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "基层党组织_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/party_selects")

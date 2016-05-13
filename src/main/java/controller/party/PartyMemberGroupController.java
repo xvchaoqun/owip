@@ -6,13 +6,9 @@ import domain.PartyMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMemberGroupMixin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -237,50 +233,28 @@ public class PartyMemberGroupController extends BaseController {
 
     public void partyMemberGroup_export(PartyMemberGroupExample example, HttpServletResponse response) {
 
-        List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExample(example);
-        int rownum = partyMemberGroupMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"名称","是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<PartyMemberGroup> records = partyMemberGroupMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"名称","所属分党委", "是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            PartyMemberGroup partyMemberGroup = partyMemberGroups.get(i);
+            PartyMemberGroup record = records.get(i);
+            DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
+            Dispatch dispatch = dispatchUnit.getDispatch();
+            Integer partyId = record.getPartyId();
             String[] values = {
-                        partyMemberGroup.getName(),
-                                            partyMemberGroup.getIsPresent()+"",
-                                            DateUtils.formatDate(partyMemberGroup.getTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(partyMemberGroup.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(partyMemberGroup.getAppointTime(), DateUtils.YYYY_MM_DD),
-                                            partyMemberGroup.getDispatchUnitId()+""
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    record.getName(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    BooleanUtils.isTrue(record.getIsPresent())?"是":"否",
+                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
+                    CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "基层党组织领导班子_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "领导班子_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/partyMemberGroup_selects")

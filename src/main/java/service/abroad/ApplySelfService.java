@@ -7,11 +7,6 @@ import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.SpringProps;
 import service.cadre.CadreService;
+import service.helper.ExportHelper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
@@ -28,9 +24,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -646,55 +640,43 @@ public class ApplySelfService extends BaseMapper {
 
     public void applySelf_export(ApplySelfExample example, HttpServletResponse response) {
 
-        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
-        int rownum = applySelfMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"干部", "申请日期", "出行时间范围", "出发时间", "返回时间", "前往国家或地区", "出国事由", "同行人员", "费用来源", "所需证件", "创建时间"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<ApplySelf> records = applySelfMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工号","干部", "申请日期", "出行时间范围", "出发时间", "返回时间",
+                "前往国家或地区", "出国事由", "同行人员", "费用来源", "所需证件", "创建时间"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
+            ApplySelf record = records.get(i);
+            SysUser sysUser = record.getUser();
 
-            ApplySelf applySelf = applySelfs.get(i);
-            String[] values = {
-                    applySelf.getCadreId() + "",
-                    DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    applySelf.getType() + "",
-                    DateUtils.formatDate(applySelf.getStartDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD),
-                    applySelf.getToCountry(),
-                    applySelf.getReason(),
-                    applySelf.getPeerStaff(),
-                    applySelf.getCostSource(),
-                    applySelf.getNeedPassports(),
-
-                    DateUtils.formatDate(applySelf.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-            };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
+            List<String> passportList = new ArrayList<>();
+            String needPassports = record.getNeedPassports();
+            if(needPassports!=null){
+                String[] passportIds = needPassports.split(",");
+                for (String passportIdStr : passportIds) {
+                    int passportId = Integer.parseInt(passportIdStr);
+                    String name = metaTypeService.getName(passportId);
+                    passportList.add(name);
+                }
             }
+
+            String[] values = {
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    DateUtils.formatDate(record.getApplyDate(), DateUtils.YYYY_MM_DD),
+                    SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(record.getType()),
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
+                    record.getToCountry(),
+                    record.getReason()==null?"":record.getReason().replaceAll("\\+\\+\\+", ","),
+                    record.getPeerStaff()==null?"":record.getPeerStaff().replaceAll("\\+\\+\\+", ","),
+                    record.getCostSource(),
+                    StringUtils.join(passportList, ","),
+                    DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "因私出国申请_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "因私出国申请_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

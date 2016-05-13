@@ -314,7 +314,6 @@ public class MemberStudentController extends BaseController {
             valuesList.add(values);
         }
         String fileName = "学生党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

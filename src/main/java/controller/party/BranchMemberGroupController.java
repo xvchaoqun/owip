@@ -6,13 +6,9 @@ import domain.BranchMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMemberGroupViewMixin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -252,49 +248,34 @@ public class BranchMemberGroupController extends BaseController {
 
     public void branchMemberGroup_export(BranchMemberGroupViewExample example, HttpServletResponse response) {
 
-        List<BranchMemberGroupView> branchMemberGroups = branchMemberGroupViewMapper.selectByExample(example);
-        int rownum = branchMemberGroupViewMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"所属党支部","应换届时间","实际换届时间","任命时间","发文"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        List<BranchMemberGroupView> records = branchMemberGroupViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"名称", "所属分党委", "所属党支部", "是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            BranchMemberGroupView branchMemberGroup = branchMemberGroups.get(i);
-            String[] values = {
-                        branchMemberGroup.getBranchId()+"",
-                                            DateUtils.formatDate(branchMemberGroup.getTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(branchMemberGroup.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(branchMemberGroup.getAppointTime(), DateUtils.YYYY_MM_DD),
-                                            branchMemberGroup.getDispatchUnitId()+""
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
+            BranchMemberGroupView record = records.get(i);
+            Dispatch dispatch = null;
+            if(record.getDispatchUnitId()!=null) {
+                DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
+                if(dispatchUnit!=null)
+                    dispatch = dispatchUnit.getDispatch();
             }
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            String[] values = {
+                    record.getName(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    BooleanUtils.isTrue(record.getIsPresent())?"是":"否",
+                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
+                    dispatch==null?"":CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "支部委员会_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "支部委员会_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/branchMemberGroup_selects")

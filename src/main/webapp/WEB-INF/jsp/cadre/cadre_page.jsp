@@ -12,6 +12,7 @@ pageEncoding="UTF-8" %>
                   data-url-del="${ctx}/cadre_del"
                   data-url-bd="${ctx}/cadre_batchDel"
                   data-url-co="${ctx}/cadre_changeOrder?status=${status}"
+                  data-url-export="${ctx}/cadre_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
@@ -57,7 +58,7 @@ pageEncoding="UTF-8" %>
                         </c:if>
                         <a class="importBtn btn btn-primary btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
-                        <a class="exportBtn btn btn-success btn-sm tooltip-success"
+                        <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="cadre:del">
                             <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
@@ -81,7 +82,7 @@ pageEncoding="UTF-8" %>
                                                         <input type="hidden" name="status" value="${status}">
                                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                                                                 name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                            <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                            <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                                                         </select>
                                                     </div>
                                             </div>

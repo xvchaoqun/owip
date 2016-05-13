@@ -3,17 +3,10 @@ package controller.dispatch;
 import controller.BaseController;
 import domain.*;
 import domain.DispatchCadreExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.DispatchMixin;
 import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatchCadreController extends BaseController {
@@ -94,7 +84,6 @@ public class DispatchCadreController extends BaseController {
                                     /*String name,*/
                                     Integer adminLevelId,
                                     Integer unitId,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (dispatchId!=null) {
@@ -271,63 +260,28 @@ public class DispatchCadreController extends BaseController {
 
     public void dispatchCadre_export(DispatchCadreExample example, HttpServletResponse response) {
 
-        List<DispatchCadre> dispatchCadres = dispatchCadreMapper.selectByExample(example);
-        int rownum = dispatchCadreMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
+        List<DispatchCadre> records = dispatchCadreMapper.selectByExample(example);
+        int rownum = records.size();
         String[] titles = {"发文号","任免方式","任免程序","工作证号","姓名","行政级别","所属单位","备注"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        Map<Integer, Unit> unitMap = unitService.findAll();
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
-
-        Map<Integer, MetaType> wayMap = metaTypeService.metaTypes("mc_dispatch_cadre_way");
-        Map<Integer, MetaType> procedureMap = metaTypeService.metaTypes("mc_dispatch_cadre_procedure");
-        //Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            DispatchCadre dispatchCadre = dispatchCadres.get(i);
-            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId());
-            Unit unit = unitMap.get(dispatchCadre.getUnitId());
-            Cadre cadre = cadreMap.get(dispatchCadre.getCadreId());
-            SysUser user = sysUserService.findById(cadre.getUserId());
+            DispatchCadre record = records.get(i);
+            Dispatch dispatch = record.getDispatch();
+            SysUser sysUser =  record.getUser();
             String[] values = {
-                                            dispatch.getCode() + "",
-                                            wayMap.get(dispatchCadre.getWayId()).getName(),
-                                            procedureMap.get(dispatchCadre.getProcedureId()).getName(),
-                                            user.getCode(),
-                    user.getRealname(),
-                                            adminLevelMap.get(dispatchCadre.getAdminLevelId()).getName(),
-                                            unit.getName(),
-                                            dispatchCadre.getRemark()
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+                    CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),
+                    metaTypeService.getName(record.getWayId()),
+                    metaTypeService.getName(record.getProcedureId()),
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    metaTypeService.getName(record.getAdminLevelId()),
+                    record.getUnitId()==null?"":record.getUnit().getName(),
+                    record.getRemark()
+            };
+            valuesList.add(values);
         }
-        try {
-            String fileName = "干部发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "干部发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     /*@RequestMapping("/dispatchCadre_selects")

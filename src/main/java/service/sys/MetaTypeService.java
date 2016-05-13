@@ -21,6 +21,10 @@ import java.util.*;
 @Service
 public class MetaTypeService extends BaseMapper {
 
+    public String getName(Integer id){
+        return id==null?"":findAll().get(id).getName();
+    }
+
     // Set<MetaTypeId>
     public TreeNode getTree( String classCode,  Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
 
