@@ -83,6 +83,13 @@ public class MemberInflowController extends BaseController {
                                   Byte type,
                                   Integer partyId,
                                   Integer branchId,
+                                  Integer originalJob,
+                                  Integer province,
+                                  String flowReason,
+                                  Boolean hasPapers,
+                                  String orLocation,
+                                  String _flowTime,
+                                  String _growTime,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer pageSize, Integer pageNo) throws IOException {
 
@@ -118,6 +125,42 @@ public class MemberInflowController extends BaseController {
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if(originalJob!=null){
+            criteria.andOriginalJobEqualTo(originalJob);
+        }
+        if(province!=null){
+            criteria.andProvinceEqualTo(province);
+        }
+        if (StringUtils.isNotBlank(flowReason)) {
+            criteria.andFlowReasonLike("%" + flowReason + "%");
+        }
+        if(hasPapers!=null){
+            criteria.andHasPapersEqualTo(hasPapers);
+        }
+        if (StringUtils.isNotBlank(orLocation)) {
+            criteria.andOrLocationLike("%" + orLocation + "%");
+        }
+        if (StringUtils.isNotBlank(_flowTime)) {
+            String start = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andFlowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andFlowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if (StringUtils.isNotBlank(_growTime)) {
+            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         if(cls==1){ // 支部审核（新申请）

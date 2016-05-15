@@ -112,7 +112,7 @@ public class SysUserRegController extends BaseController {
             criteria.andRealnameLike("%" + realname + "%");
         }
         if(StringUtils.isNotBlank(idcard)){
-            criteria.andIdcardEqualTo(idcard);
+            criteria.andIdcardLike("%" + idcard + "%");
         }
 
         if(cls==1){

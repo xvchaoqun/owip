@@ -11,6 +11,9 @@
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
                 || not empty param.status ||not empty param.isBack
+                || not empty param.outUnit ||not empty param.outLocation||not empty param._outTime
+                ||not empty param.originalJob||not empty param.province||not empty param.flowReason||not empty param.hasPapers
+                ||not empty param.orLocation||not empty param._flowTime||not empty param._growTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
 
                 <div class="tabbable">
@@ -99,36 +102,6 @@
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form " id="searchForm">
                                                     <div class="form-group">
-                                                        <label>当前状态</label>
-                                                            <div class="input-group">
-                                                                <select name="status" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <c:forEach var="_status" items="${MEMBER_INFLOW_OUT_STATUS_MAP}">
-                                                                        <c:if test="${_status.key>MEMBER_INFLOW_OUT_STATUS_BACK && _status.key<MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY}">
-                                                                            <option value="${_status.key}">${_status.value}</option>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=status]").val("${param.status}");
-                                                                </script>
-                                                            </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>审核类别</label>
-                                                            <div class="input-group">
-                                                                <select name="isBack" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <option value="0">新申请</option>
-                                                                    <option value="1">返回修改</option>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=isBack]").val("${param.isBack}");
-                                                                </script>
-                                                            </div>
-                                                    </div>
-
-                                                    <div class="form-group">
                                                         <label>姓名</label>
                                                             <div class="input-group">
                                                                 <input type="hidden" name="cls" value="${cls}">
@@ -168,6 +141,110 @@
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
+                                            <div class="form-group">
+                                                <label>转出单位</label>
+                                                <input type="text" name="outUnit" value="${param.outUnit}">
+                                            </div>
+                                            <div class="form-group" id="outLocation">
+                                                <label>转出地</label>
+                                                <select class="loc_province" name="outLocation" style="width:120px;"
+                                                        data-placeholder="请选择">
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>转出时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_outTime" value="${param._outTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>原职业</label>
+                                                <select data-rel="select2" name="originalJob" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <jsp:include page="/metaTypes?__code=mc_job"/>
+                                                </select>
+                                                <script type="text/javascript">
+                                                    $("#searchForm select[name=originalJob]").val(${param.originalJob});
+                                                </script>
+                                            </div>
+                                            <div class="form-group" id="province">
+                                                <label>流入前所在省份</label>
+                                                <select class="loc_province" name="province" style="width:120px;"
+                                                        data-placeholder="请选择">
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否持有《中国共产党流动党员活动证》</label>
+                                                <select name="hasPapers" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select> 
+                                                <script>
+                                                    $("#searchForm select[name=hasPapers]").val('${param.hasPapers}');
+                                                </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>流入原因</label>
+                                                <input type="text" name="flowReason" value="${param.flowReason}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>流入时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_flowTime" value="${param._flowTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>入党时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_growTime" value="${param._growTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>组织关系所在地</label>
+                                                <input type="text" name="orLocation" value="${param.orLocation}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>当前状态</label>
+                                                <div class="input-group">
+                                                    <select name="status" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach var="_status" items="${MEMBER_INFLOW_OUT_STATUS_MAP}">
+                                                            <c:if test="${_status.key>MEMBER_INFLOW_OUT_STATUS_BACK && _status.key<MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY}">
+                                                                <option value="${_status.key}">${_status.value}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=status]").val("${param.status}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>审核类别</label>
+                                                <div class="input-group">
+                                                    <select name="isBack" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">新申请</option>
+                                                        <option value="1">返回修改</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isBack]").val("${param.isBack}");
+                                                    </script>
+                                                </div>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -194,7 +271,11 @@
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
+    showLocation("${param.province}", '', '', $("#province"));
+    showLocation("${param.outLocation}", '', '', $("#outLocation"));
     function goto_next(goToNext){
         if(goToNext){
             if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )

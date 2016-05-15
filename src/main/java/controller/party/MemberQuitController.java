@@ -93,6 +93,7 @@ public class MemberQuitController extends BaseController {
                                     Boolean isBack,
                                     Byte type,
                                     String _quitTime,
+                                    String _growTime,
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -112,7 +113,6 @@ public class MemberQuitController extends BaseController {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
-
         if(StringUtils.isNotBlank(_quitTime)) {
             String quitTimeStart = _quitTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String quitTimeEnd = _quitTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
@@ -123,7 +123,16 @@ public class MemberQuitController extends BaseController {
                 criteria.andQuitTimeLessThanOrEqualTo(DateUtils.parseDate(quitTimeEnd, DateUtils.YYYY_MM_DD));
             }
         }
-
+        if(StringUtils.isNotBlank(_growTime)) {
+            String quitTimeStart = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String quitTimeEnd = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(quitTimeStart)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(quitTimeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(quitTimeEnd)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(quitTimeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }

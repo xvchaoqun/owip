@@ -159,6 +159,8 @@ public class MemberStudentController extends BaseController {
                                      String type,
                                      String _growTime,
                                      String _positiveTime,
+                                     String eduLevel,
+                                     String eduType,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      Integer pageSize, Integer pageNo) throws IOException {
 
@@ -190,6 +192,12 @@ public class MemberStudentController extends BaseController {
         }
         if(gender!=null){
             criteria.andGenderEqualTo(gender);
+        }
+        if (StringUtils.isNotBlank(eduLevel)) {
+            criteria.andEduLevelLike("%" + eduLevel + "%");
+        }
+        if (StringUtils.isNotBlank(eduType)) {
+            criteria.andEduTypeLike("%" + eduType + "%");
         }
 
         if(age!=null){

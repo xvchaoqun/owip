@@ -12,7 +12,9 @@
                  data-url-export="${ctx}/memberReturn_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId
-                || not empty param.status ||not empty param.isBack
+                || not empty param.status ||not empty param.isBack||not empty param.politicalStatus
+                || not empty param._returnApplyTime ||not empty param._applyTime||not empty param._activeTime
+                || not empty param._candidateTime ||not empty param._growTime || not empty param._positiveTime
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -83,35 +85,7 @@
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
-                                                    <div class="form-group">
-                                                        <label>当前状态</label>
-                                                            <div class="input-group">
-                                                                <select name="status" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <c:forEach var="_status" items="${MEMBER_RETURN_STATUS_MAP}">
-                                                                        <c:if test="${_status.key>MEMBER_RETURN_STATUS_DENY && _status.key<MEMBER_RETURN_STATUS_PARTY_VERIFY}">
-                                                                            <option value="${_status.key}">${_status.value}</option>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=status]").val("${param.status}");
-                                                                </script>
-                                                            </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>审核类别</label>
-                                                            <div class="input-group">
-                                                                <select name="isBack" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <option value="0">新申请</option>
-                                                                    <option value="1">返回修改</option>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=isBack]").val("${param.isBack}");
-                                                                </script>
-                                                            </div>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>姓名</label>
                                                             <div class="input-group">
@@ -141,6 +115,113 @@
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
+                                            <div class="form-group">
+                                                <label>提交恢复组织生活申请时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_returnApplyTime" value="${param._returnApplyTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>提交书面申请书时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_applyTime" value="${param._applyTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>确定为入党积极分子时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_activeTime" value="${param._activeTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>确定为发展对象时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_candidateTime" value="${param._candidateTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>入党时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_growTime" value="${param._growTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>转正时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker"
+                                                           class="form-control date-range-picker" type="text"
+                                                           name="_positiveTime" value="${param._positiveTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>政治面貌</label>
+                                                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+                                                        <option></option>
+                                                        <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                                                            <option value="${_status.key}">${_status.value}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
+                                                    </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>当前状态</label>
+                                                <div class="input-group">
+                                                    <select name="status" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach var="_status" items="${MEMBER_RETURN_STATUS_MAP}">
+                                                            <c:if test="${_status.key>MEMBER_RETURN_STATUS_DENY && _status.key<MEMBER_RETURN_STATUS_PARTY_VERIFY}">
+                                                                <option value="${_status.key}">${_status.value}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=status]").val("${param.status}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>审核类别</label>
+                                                <div class="input-group">
+                                                    <select name="isBack" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">新申请</option>
+                                                        <option value="1">返回修改</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isBack]").val("${param.isBack}");
+                                                    </script>
+                                                </div>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -167,6 +248,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     function goto_next(goToNext) {
         if (goToNext) {
@@ -225,7 +307,10 @@
             {label: '确定为发展对象时间', name: 'candidateTime', width: 200},
             {label: '入党时间', name: 'growTime', width: 100},
             {label: '转正时间', name: 'positiveTime', width: 100},
-            {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
+            {label: '政治面貌', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
+            }},
+            {label: '状态', name: 'statusName', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_RETURN_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==1}">
             ,{label: '审核类别', name: 'isBackName', width: 200, formatter: function (cellvalue, options, rowObject) {

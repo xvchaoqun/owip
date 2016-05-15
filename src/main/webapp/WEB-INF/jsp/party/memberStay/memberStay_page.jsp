@@ -13,6 +13,8 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId 
                 || not empty param.status ||not empty param.isBack
+                || not empty param.country ||not empty param._abroadTime|| not empty param._returnTime
+                 ||not empty param._payTime||not empty param.mobile
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -99,35 +101,7 @@
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
-                                                    <div class="form-group">
-                                                        <label>当前状态</label>
-                                                            <div class="input-group">
-                                                                <select name="status" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <c:forEach var="_status" items="${MEMBER_STAY_STATUS_MAP}">
-                                                                        <c:if test="${_status.key>MEMBER_STAY_STATUS_BACK && _status.key<MEMBER_STAY_STATUS_OW_VERIFY}">
-                                                                            <option value="${_status.key}">${_status.value}</option>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=status]").val("${param.status}");
-                                                                </script>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>审核类别</label>
-                                                            <div class="input-group">
-                                                                <select name="isBack" data-rel="select2" data-placeholder="请选择">
-                                                                    <option></option>
-                                                                    <option value="0">新申请</option>
-                                                                    <option value="1">返回修改</option>
-                                                                </select>
-                                                                <script>
-                                                                    $("#searchForm select[name=isBack]").val("${param.isBack}");
-                                                                </script>
-                                                            </div>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>姓名</label>
                                                             <div class="input-group">
@@ -158,6 +132,75 @@
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
+
+                                            <div class="form-group">
+                                                <label>留学国别</label>
+                                                <input type="text" name="country" value="${param.country}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>出国时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_abroadTime" value="${param._abroadTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>预计回国时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_returnTime" value="${param._returnTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>党费缴纳至年月</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                    <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_payTime" value="${param._payTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>手机号码</label>
+                                                <input type="text" name="mobile" value="${param.mobile}">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>当前状态</label>
+                                                <div class="input-group">
+                                                    <select name="status" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach var="_status" items="${MEMBER_STAY_STATUS_MAP}">
+                                                            <c:if test="${_status.key>MEMBER_STAY_STATUS_BACK && _status.key<MEMBER_STAY_STATUS_OW_VERIFY}">
+                                                                <option value="${_status.key}">${_status.value}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=status]").val("${param.status}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>审核类别</label>
+                                                <div class="input-group">
+                                                    <select name="isBack" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">新申请</option>
+                                                        <option value="1">返回修改</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isBack]").val("${param.isBack}");
+                                                    </script>
+                                                </div>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -184,6 +227,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     function goto_next(goToNext) {
         if (goToNext) {

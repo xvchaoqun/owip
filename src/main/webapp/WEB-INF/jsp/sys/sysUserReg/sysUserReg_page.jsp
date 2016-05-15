@@ -67,19 +67,17 @@
                                                         <label>注册账号</label>
                                                         <input type="text" name="username" value="${param.username}">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>关联系统账号</label>
-                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                            <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-                                                        </select>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>真实姓名</label>
                                                         <input type="text" name="realname" value="${param.realname}">
                                                     </div>
+                                            <div class="form-group">
+                                                <label>身份证号码</label>
+                                                <input type="text" name="idcard" value="${param.idcard}">
+                                            </div>
                                                     <div class="form-group">
-                                                        <label>分党委</label>
+                                                        <label>所属分党委</label>
                                                             <select name="partyId" data-rel="select2"
                                                                     data-placeholder="请选择所属分党委" data-width="350">
                                                                 <option></option>
@@ -91,11 +89,14 @@
                                                                 $("#searchForm select[name=partyId]").val('${param.partyId}');
                                                             </script>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>身份证号码</label>
-                                                                <input type="text" name="idcard" value="${param.idcard}">
-                                                    </div>
 
+                                            <div class="form-group">
+                                                <label>关联系统账号</label>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                </select>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

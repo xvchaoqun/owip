@@ -83,6 +83,13 @@ public class MemberReturnController extends BaseController {
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
+                                    String _returnApplyTime,
+                                    String _applyTime,
+                                    String _activeTime,
+                                    String _candidateTime,
+                                    String _growTime,
+                                    String _positiveTime,
+                                    Byte politicalStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -116,6 +123,70 @@ public class MemberReturnController extends BaseController {
         }
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
+        }
+        if(politicalStatus!=null){
+            criteria.andPoliticalStatusEqualTo(politicalStatus);
+        }
+
+        if(StringUtils.isNotBlank(_returnApplyTime)) {
+            String timeStart = _returnApplyTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _returnApplyTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andReturnApplyTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andReturnApplyTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(StringUtils.isNotBlank(_applyTime)) {
+            String timeStart = _applyTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _applyTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andApplyTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andApplyTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(StringUtils.isNotBlank(_activeTime)) {
+            String timeStart = _activeTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _activeTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andActiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andActiveTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(StringUtils.isNotBlank(_candidateTime)) {
+            String timeStart = _candidateTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _candidateTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andCandidateTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andCandidateTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(StringUtils.isNotBlank(_growTime)) {
+            String timeStart = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(StringUtils.isNotBlank(_positiveTime)) {
+            String timeStart = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String timeEnd = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(timeStart)) {
+                criteria.andPositiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(timeEnd)) {
+                criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
+            }
         }
         
         if(cls==1){

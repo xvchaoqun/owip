@@ -108,10 +108,18 @@ public class MemberOutflowController extends BaseController {
                                     Integer userId,
                                     Byte status,
                                     Boolean isBack,
-                                     Byte type,
+                                    Byte type,
                                     Integer partyId,
                                     Integer branchId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                    Integer originalJob,
+                                    Integer direction,
+                                    String _flowTime,
+                                    Integer province,
+                                    String reason,
+                                    Boolean hasPapers,
+                                    Byte orStatus,
+                                    String _createTime,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -146,6 +154,44 @@ public class MemberOutflowController extends BaseController {
         }
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if(originalJob!=null){
+            criteria.andOriginalJobEqualTo(originalJob);
+        }
+        if(direction!=null){
+            criteria.andDirectionEqualTo(direction);
+        }
+        if (StringUtils.isNotBlank(_flowTime)) {
+            String start = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andFlowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andFlowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if(province!=null){
+            criteria.andProvinceEqualTo(province);
+        }
+        if (StringUtils.isNotBlank(reason)) {
+            criteria.andReasonLike("%" + reason + "%");
+        }
+        if(hasPapers!=null){
+            criteria.andHasPapersEqualTo(hasPapers);
+        }
+        if(orStatus!=null){
+            criteria.andOrStatusEqualTo(orStatus);
+        }
+        if (StringUtils.isNotBlank(_createTime)) {
+            String start = _createTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _createTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andCreateTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andCreateTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         if(cls==1){ // 支部审核（新申请）

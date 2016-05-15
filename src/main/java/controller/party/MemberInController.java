@@ -83,6 +83,9 @@ public class MemberInController extends BaseController {
                                      Byte type,
                                     Integer partyId,
                                     Integer branchId,
+                                    String fromUnit,
+                                    String fromTitle,
+                                    String _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -119,7 +122,22 @@ public class MemberInController extends BaseController {
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-
+        if (StringUtils.isNotBlank(fromUnit)) {
+            criteria.andFromUnitLike("%" + fromUnit + "%");
+        }
+        if (StringUtils.isNotBlank(fromTitle)) {
+            criteria.andFromTitleLike("%" + fromTitle + "%");
+        }
+        if (StringUtils.isNotBlank(_fromHandleTime)) {
+            String start = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andFromHandleTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andFromHandleTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
         if(cls==1){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_IN_STATUS_APPLY);

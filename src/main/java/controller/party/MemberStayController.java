@@ -96,6 +96,11 @@ public class MemberStayController extends BaseController {
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
+                                    String country,
+                                    String _abroadTime,
+                                    String _returnTime,
+                                    String _payTime,
+                                    String mobile,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
@@ -129,7 +134,42 @@ public class MemberStayController extends BaseController {
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
         }
-
+        if (StringUtils.isNotBlank(country)) {
+            criteria.andCountryLike("%" + country + "%");
+        }
+        if (StringUtils.isNotBlank(_abroadTime)) {
+            String start = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andAbroadTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andAbroadTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if (StringUtils.isNotBlank(_returnTime)) {
+            String start = _returnTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _returnTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andReturnTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andReturnTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if (StringUtils.isNotBlank(_payTime)) {
+            String start = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andPayTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andPayTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+        if (StringUtils.isNotBlank(mobile)) {
+            criteria.andMobileLike("%" + mobile + "%");
+        }
         if(cls==1){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_STAY_STATUS_APPLY);

@@ -82,7 +82,10 @@ public class MemberTransferController extends BaseController {
     public String memberTransfer_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
                                   Integer userId,
                                   Integer partyId,
-                                  Integer branchId,ModelMap modelMap) {
+                                  Integer branchId,
+                                  Integer toPartyId,
+                                  Integer toBranchId,
+                                  ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
@@ -96,6 +99,12 @@ public class MemberTransferController extends BaseController {
         }
         if (branchId != null) {
             modelMap.put("branch", branchMap.get(branchId));
+        }
+        if (toPartyId != null) {
+            modelMap.put("toParty", partyMap.get(toPartyId));
+        }
+        if (toBranchId != null) {
+            modelMap.put("toBranch", branchMap.get(toBranchId));
         }
 
         // 转出分党委待审核总数
@@ -116,6 +125,9 @@ public class MemberTransferController extends BaseController {
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
+                                    Integer toPartyId,
+                                    Integer toBranchId,
+                                    String _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -150,6 +162,22 @@ public class MemberTransferController extends BaseController {
         }
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if (toPartyId!=null) {
+            criteria.andToPartyIdEqualTo(toPartyId);
+        }
+        if (toBranchId!=null) {
+            criteria.andToBranchIdEqualTo(toBranchId);
+        }
+        if (StringUtils.isNotBlank(_fromHandleTime)) {
+            String start = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andFromHandleTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andFromHandleTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         if(cls==1){

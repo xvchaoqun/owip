@@ -106,6 +106,10 @@ public class MemberOutController extends BaseController {
                                     Byte type,
                                     Integer partyId,
                                     Integer branchId,
+                                    String toUnit,
+                                    String toTitle,
+                                    String fromUnit,
+                                    String _handleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -141,6 +145,25 @@ public class MemberOutController extends BaseController {
         }
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if (StringUtils.isNotBlank(toUnit)) {
+            criteria.andToUnitLike("%" + toUnit + "%");
+        }
+        if (StringUtils.isNotBlank(toTitle)) {
+            criteria.andToTitleLike("%" + toTitle + "%");
+        }
+        if (StringUtils.isNotBlank(fromUnit)) {
+            criteria.andFromUnitLike("%" + fromUnit + "%");
+        }
+        if (StringUtils.isNotBlank(_handleTime)) {
+            String start = _handleTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _handleTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andHandleTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andHandleTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         if(cls==1){ // 分党委审核（新申请）

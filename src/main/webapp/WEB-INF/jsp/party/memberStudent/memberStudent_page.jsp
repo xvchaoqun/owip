@@ -13,6 +13,7 @@
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
             ||not empty param.age ||not empty param.gender
             ||not empty param.type ||not empty param.grade
+            ||not empty param.eduLevel ||not empty param.eduType
                 ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
@@ -53,18 +54,7 @@
                                                             </select>
                                                         </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>所在单位</label>
-                                                        <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                                                            <option></option>
-                                                            <c:forEach items="${unitMap}" var="unit">
-                                                                <option value="${unit.key}">${unit.value.name}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=unitId]").val('${param.unitId}');
-                                                        </script>
-                                                </div>
+
                                                 <div class="form-group">
                                                     <label>性别</label>
                                                         <div class="input-group">
@@ -119,26 +109,7 @@
                                                             $("#searchForm select[name=grade]").val('${param.grade}');
                                                         </script>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>入党时间</label>
-                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                            <input placeholder="请选择入党时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                                   type="text" name="_growTime" value="${param._growTime}"/>
-                                                        </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>转正时间</label>
-                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="转正时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                            <input placeholder="请选择转正时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                                   type="text" name="_positiveTime" value="${param._positiveTime}"/>
-                                                        </div>
-                                                </div>
+
                                                 <div class="form-group">
                                                     <label>所在分党委</label>
                                                         <select class="form-control" data-width="350"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
@@ -157,6 +128,46 @@
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
+                                        <div class="form-group">
+                                            <label>入党时间</label>
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                <input placeholder="请选择入党时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                       type="text" name="_growTime" value="${param._growTime}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>转正时间</label>
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="转正时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                <input placeholder="请选择转正时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                       type="text" name="_positiveTime" value="${param._positiveTime}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>培养层次</label>
+                                            <input type="text" name="eduLevel" value="${param.eduLevel}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>培养类型</label>
+                                            <input type="text" name="eduType" value="${param.eduType}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>所在单位</label>
+                                            <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                                <option></option>
+                                                <c:forEach items="${unitMap}" var="unit">
+                                                    <option value="${unit.key}">${unit.value.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                            </script>
+                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
