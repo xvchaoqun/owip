@@ -50,7 +50,7 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_au(@CurrentUser SysUser loginUser, Member record,  String _applyTime, String _activeTime, String _candidateTime,
-                            String _growTime, String _positiveTime, String _transferTime, HttpServletRequest request) {
+                            String _growTime, String _positiveTime, String _transferTime,String reason, HttpServletRequest request) {
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
@@ -93,16 +93,25 @@ public class MemberController extends BaseController {
         if(StringUtils.isNotBlank(_transferTime)){
             record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYY_MM_DD));
         }
-
+        SysUser sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);
         if (member == null) {
+            record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "添加党员信息表：%s", record.getUserId()));
+
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+                    "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
+                    partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         } else {
             memberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "更新党员信息表：%s", record.getUserId()));
+
+            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+                    "更新党员信息表：%s %s %s %s, 更新原因：%s", sysUser.getId(), sysUser.getRealname(),
+                    partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         }
 
         return success(FormUtils.SUCCESS);

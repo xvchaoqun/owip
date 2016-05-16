@@ -59,20 +59,6 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<%--<div class="form-group">
-					<label class="col-xs-3 control-label">类别</label>
-					<div class="col-xs-6">
-						<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="120">
-							<option></option>
-							<c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-								<option value="${_type.key}">${_type.value}</option>
-							</c:forEach>
-						</select>
-						<script>
-							$("#modalForm select[name=type]").val(${member.type});
-						</script>
-					</div>
-				</div>--%>
-				<div class="form-group">
 					<label class="col-xs-3 control-label">状态</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="status" data-placeholder="请选择"  data-width="120">
@@ -85,7 +71,7 @@ pageEncoding="UTF-8"%>
 							$("#modalForm select[name=status]").val(${member.status});
 						</script>
 					</div>
-				</div>
+				</div>--%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">组织关系转入时间</label>
 					<div class="col-xs-6">
@@ -153,24 +139,30 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">党内职务</label>
 					<div class="col-xs-6">
 						<textarea class="form-control limited" type="text"
-								  name="partyPost" rows="6">${member.partyPost}</textarea>
+								  name="partyPost" rows="3">${member.partyPost}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">党内奖励</label>
 					<div class="col-xs-6">
 						<textarea class="form-control limited" type="text"
-								  name="partyReward" rows="6">${member.partyReward}</textarea>
+								  name="partyReward" rows="3">${member.partyReward}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">其他奖励</label>
 					<div class="col-xs-6">
 						<textarea  class="form-control limited" type="text"
-								   name="otherReward" rows="6">${member.otherReward}</textarea>
+								   name="otherReward" rows="3">${member.otherReward}</textarea>
 					</div>
 				</div>
-
+				<div class="form-group">
+					<label class="col-xs-3 control-label">添加/更新原因</label>
+					<div class="col-xs-6">
+						<textarea required class="form-control limited" type="text"
+								   name="reason" rows="3"></textarea>
+					</div>
+				</div>
 			</div>
 		</div>
     </form>
