@@ -18,6 +18,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -309,14 +310,17 @@ public class MemberQuitController extends BaseController {
 
         Integer partyId = member.getPartyId();
         Integer branchId = member.getBranchId();
-
+        //===========权限
         Integer loginUserId = loginUser.getId();
-
-        boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-        if(!isAdmin && branchId!=null) {
-            isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            }
+            if(!isAdmin) throw new UnauthorizedException();
         }
-        if(!isAdmin) throw new UnauthorizedException();
 
         record.setPartyId(partyId);
         record.setBranchId(branchId);

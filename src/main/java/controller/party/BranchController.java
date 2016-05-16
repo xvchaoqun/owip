@@ -6,9 +6,12 @@ import domain.BranchExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMixin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -286,7 +289,7 @@ public class BranchController extends BaseController {
 
     @RequestMapping("/branch_selects")
     @ResponseBody
-    public Map branch_selects(Integer pageSize, Integer pageNo, Integer partyId, String searchStr) throws IOException {
+    public Map branch_selects(Integer pageSize, Boolean auth, Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -300,10 +303,31 @@ public class BranchController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(partyId==null)criteria.andIdIsNull(); // partyId肯定存在
+
+        criteria.andPartyIdEqualTo(partyId);
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
+        }
+
+        //===========权限
+        if(BooleanUtils.isTrue(auth)) {
+            Subject subject = SecurityUtils.getSubject();
+            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+                List<Integer> partyIdList = loginUserService.adminPartyIdList();
+                Set<Integer> partyIdSet = new HashSet<>();
+                partyIdSet.addAll(partyIdList);
+                if (!partyIdSet.contains(partyId)) { // 当前partyId不是管理员，则只能在管理的党支部中选择
+                    List<Integer> branchIdList = loginUserService.adminBranchIdList();
+                    if (branchIdList.size() > 0)
+                        criteria.andIdIn(branchIdList);
+                    else
+                        criteria.andIdIsNull();
+                }
+            }
         }
 
         int count = branchMapper.countByExample(example);

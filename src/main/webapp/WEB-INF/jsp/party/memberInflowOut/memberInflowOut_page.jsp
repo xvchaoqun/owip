@@ -52,10 +52,10 @@
 
                                 <shiro:hasPermission name="memberInflow:edit">
                                     <c:if test="${cls==1}">
-                                    <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流入党员</a>
+                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls!=3}">
-                                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
+                                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                                     </c:if>
@@ -102,10 +102,11 @@
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form " id="searchForm">
                                                     <div class="form-group">
-                                                        <label>姓名</label>
+                                                        <label>用户</label>
                                                             <div class="input-group">
                                                                 <input type="hidden" name="cls" value="${cls}">
-                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                                <select data-rel="select2-ajax"
+                                                                        data-ajax-url="${ctx}/memberInflow_selects?status=${MEMBER_INFLOW_STATUS_PARTY_VERIFY}"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                                 </select>
@@ -125,14 +126,16 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>分党委</label>
-                                                            <select class="form-control" data-width="350"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                                            <select class="form-control" data-width="350"
+                                                                    data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
                                                                     name="partyId" data-placeholder="请选择分党委">
                                                                 <option value="${party.id}">${party.name}</option>
                                                             </select>
                                                     </div>
                                                     <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                                                         <label>党支部</label>
-                                                            <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                                            <select class="form-control"  data-rel="select2-ajax"
+                                                                    data-ajax-url="${ctx}/branch_selects?auth=1"
                                                                     name="branchId" data-placeholder="请选择党支部">
                                                                 <option value="${branch.id}">${branch.name}</option>
                                                             </select>

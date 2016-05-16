@@ -6,9 +6,12 @@ import domain.PartyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMixin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -273,7 +276,7 @@ public class PartyController extends BaseController {
 
     @RequestMapping("/party_selects")
     @ResponseBody
-    public Map party_selects(Integer pageSize, Integer pageNo, Integer classId, String searchStr) throws IOException {
+    public Map party_selects(Integer pageSize, Boolean auth, Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -291,6 +294,28 @@ public class PartyController extends BaseController {
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
+        }
+
+        //===========权限
+        if(BooleanUtils.isTrue(auth)) {
+            Subject subject = SecurityUtils.getSubject();
+            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+                List<Integer> partyIdList = loginUserService.adminPartyIdList();
+                List<Integer> branchIdList = loginUserService.adminBranchIdList();
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                for (Integer branchId : branchIdList) {
+                    Branch branch = branchMap.get(branchId);
+                    if (branch != null) {
+                        partyIdList.add(branch.getPartyId());
+                    }
+                }
+                if (partyIdList.size() > 0)
+                    criteria.andIdIn(partyIdList);
+                else
+                    criteria.andIdIsNull();
+            }
         }
 
         int count = partyMapper.countByExample(example);

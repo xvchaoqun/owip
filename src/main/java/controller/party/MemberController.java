@@ -3,9 +3,11 @@ package controller.party;
 import controller.BaseController;
 import domain.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
@@ -48,7 +49,7 @@ public class MemberController extends BaseController {
     @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_au(Member record,  String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_member_au(@CurrentUser SysUser loginUser, Member record,  String _applyTime, String _activeTime, String _candidateTime,
                             String _growTime, String _positiveTime, String _transferTime, HttpServletRequest request) {
 
         Integer partyId = record.getPartyId();
@@ -57,6 +58,19 @@ public class MemberController extends BaseController {
             if(!partyService.isDirectBranch(partyId)){
                 throw new RuntimeException("只有直属党支部或党支部可以添加党员");
             }
+        }
+
+        //===========权限
+        Integer loginUserId = loginUser.getId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            }
+            if(!isAdmin) throw new UnauthorizedException();
         }
 
         Integer userId = record.getUserId();

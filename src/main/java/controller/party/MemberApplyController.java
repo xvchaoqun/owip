@@ -17,6 +17,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -289,6 +290,19 @@ public class MemberApplyController extends BaseController {
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUser loginUser, int userId, Integer partyId,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+
+        //===========权限
+        Integer loginUserId = loginUser.getId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            }
+            if(!isAdmin) throw new UnauthorizedException();
+        }
 
         enterApplyService.checkMemberApplyAuth(userId);
 

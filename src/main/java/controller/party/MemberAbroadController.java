@@ -13,7 +13,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -146,11 +150,26 @@ public class MemberAbroadController extends BaseController {
     @RequiresPermissions("memberAbroad:edit")
     @RequestMapping(value = "/memberAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberAbroad_au(MemberAbroad record,
+    public Map do_memberAbroad_au(@CurrentUser SysUser loginUser, MemberAbroad record,
                                   String _abroadTime,
                                   String _expectReturnTime,
                                   String _actualReturnTime,
                                   HttpServletRequest request) {
+
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        //===========权限
+        Integer loginUserId = loginUser.getId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            }
+            if(!isAdmin) throw new UnauthorizedException();
+        }
 
         if(StringUtils.isNotBlank(_abroadTime))
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));

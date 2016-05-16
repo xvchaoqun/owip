@@ -435,6 +435,77 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
+    // 根据类别、状态、账号或姓名或学工号 查询 流入党员
+    @RequestMapping("/memberInflow_selects")
+    @ResponseBody
+    public Map memberInflow_selects(Integer pageSize, Byte type, Byte status, Boolean hasOutApply, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if(searchStr!= null) searchStr = "%"+searchStr+"%";
+
+        Subject subject = SecurityUtils.getSubject();
+        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        int count = commonMapper.countMemberInflow(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<MemberInflow> memberInflows = commonMapper.selectMemberInflowList(type, status, hasOutApply, searchStr,
+                addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if(null != memberInflows && memberInflows.size()>0){
+
+            for(MemberInflow m:memberInflows){
+                Map<String, Object> option = new HashMap<>();
+                SysUser sysUser = sysUserService.findById(m.getUserId());
+                option.put("id", m.getUserId() + "");
+                option.put("text", sysUser.getRealname());
+                option.put("user", userBeanService.get(m.getUserId()));
+
+                if(StringUtils.isNotBlank(sysUser.getCode())) {
+                    option.put("code", sysUser.getCode());
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                        if (extJzg != null) {
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(sysUser.getCode());
+                        if (extBks != null) {
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(sysUser.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(sysUser.getCode());
+                        if (extYjs != null) {
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
     // 根据账号或姓名或学工号选择非党员用户
     @RequestMapping("/notMember_selects")
     @ResponseBody

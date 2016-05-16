@@ -1,5 +1,12 @@
 
 --20160510
+update ow_teacher set is_retire=0 where is_retire is null;
+ALTER TABLE `ow_teacher`
+	CHANGE COLUMN `is_retire` `is_retire` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否退休，参与分类，不可为空' AFTER `phone`;
+	ALTER TABLE `ow_teacher`
+	CHANGE COLUMN `update_time` `update_time` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间' AFTER `create_time`;
+
+--20160510
 CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_group_view` AS SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bmg.branch_id=b.id ;
 
 

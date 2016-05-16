@@ -3,6 +3,7 @@ package service.party;
 import domain.MemberInflow;
 import domain.MemberInflowExample;
 import domain.SysUser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -16,6 +17,7 @@ import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.util.List;
 
@@ -168,9 +170,23 @@ public class MemberInflowOutService extends BaseMapper {
     }
 
     @Transactional
-    public void out(MemberInflow record){
+    public MemberInflow out(int userId, String outUnit, Integer outLocation, String _outTime){
 
-        MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(record.getId());
+        MemberInflow memberInflow = memberInflowService.get(userId);
+        if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+            throw new RuntimeException("状态异常");
+        }
+
+        //
+        MemberInflow record = new MemberInflow();
+        record.setId(memberInflow.getId());
+        record.setOutUnit(outUnit);
+        record.setOutLocation(outLocation);
+        record.setUserId(userId);
+        if(StringUtils.isNotBlank(_outTime)){
+            record.setOutTime(DateUtils.parseDate(_outTime, DateUtils.YYYY_MM_DD));
+        }
+
         if(memberInflow==null ||
                 memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY
                 || !(memberInflow.getOutStatus()==null||memberInflow.getOutStatus()<=SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK)){
@@ -181,6 +197,8 @@ public class MemberInflowOutService extends BaseMapper {
 
         // 清空是否打回状态
         updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+
+        return memberInflow;
     }
 
     // 党支部审核通过

@@ -7,6 +7,7 @@ import service.party.BranchMemberAdminService;
 import service.party.PartyMemberAdminService;
 import shiro.ShiroUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,10 +23,10 @@ public class LoginUserService {
 
     public List<Integer> adminPartyIdList(){
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  partyMemberAdminService.adminPartyIdList(shiroUser.getId());
+        return  new ArrayList<>(partyMemberAdminService.adminPartyIdList(shiroUser.getId()));
     }
     public List<Integer> adminBranchIdList(){
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  branchMemberAdminService.adminBranchIdList(shiroUser.getId());
+        return  new ArrayList<>(branchMemberAdminService.adminBranchIdList(shiroUser.getId()));
     }
 }

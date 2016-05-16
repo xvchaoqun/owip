@@ -88,7 +88,7 @@
                                             <input type="hidden" name="cls" value="${cls}">
 
                                                     <div class="form-group">
-                                                        <label>姓名</label>
+                                                        <label>用户</label>
                                                             <div class="input-group">
                                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">

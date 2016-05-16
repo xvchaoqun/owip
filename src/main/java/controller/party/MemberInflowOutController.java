@@ -343,4 +343,23 @@ public class MemberInflowOutController extends BaseController {
         }
         return "party/memberInflowOut/memberInflowOut_au";
     }
+
+    @RequestMapping(value = "/memberInflowOut_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberInflowOut(@CurrentUser SysUser loginUser, int userId, String outUnit, Integer outLocation,
+                                  String _outTime, HttpServletRequest request) {
+
+        MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime);
+
+        applyApprovalLogService.add(memberInflow.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUser.getId(),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
+                "提交",
+                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "后台提交流入党员转出申请");
+
+        logger.info(addLog(SystemConstants.LOG_OW, "后台提交流入党员转出申请"));
+
+        return success(FormUtils.SUCCESS);
+    }
 }

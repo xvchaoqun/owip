@@ -121,6 +121,22 @@ public interface CommonMapper {
                     @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                     @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
+    // 根据类别、状态、账号、姓名、学工号查找流入党员
+    List<MemberInflow> selectMemberInflowList(@Param("type")Byte type,
+                                              @Param("inflowStatus")Byte inflowStatus,
+                                              @Param("hasOutApply")Boolean hasOutApply, // 是否已经提交申请
+                                              @Param("search") String search,
+                                  @Param("addPermits")Boolean addPermits,
+                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
+    int countMemberInflow(@Param("type")Byte type,
+                          @Param("inflowStatus")Byte inflowStatus,
+                          @Param("hasOutApply")Boolean hasOutApply,
+                          @Param("search") String search,
+                    @Param("addPermits")Boolean addPermits,
+                    @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                    @Param("adminBranchIdList")List<Integer> adminBranchIdList);
+
     // 根据发文号查找单位发文
     List<DispatchUnit> selectDispatchUnitByCodeList(@Param("search") String code, @Param("unitId") int unitId, RowBounds rowBounds);
     int countDispatchByCodeUnit(@Param("search") String code, @Param("unitId") int unitId);

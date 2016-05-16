@@ -5,7 +5,6 @@ import domain.Branch;
 import domain.MemberInflow;
 import domain.Party;
 import domain.SysUser;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,22 +87,8 @@ public class UserMemberInflowController extends BaseController{
     public Map do_memberInflowOut(@CurrentUser SysUser loginUser, String outUnit, Integer outLocation,
                                String _outTime, HttpServletRequest request) {
 
-        MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
-        if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("状态异常");
-        }
 
-        //
-        MemberInflow record = new MemberInflow();
-        record.setId(memberInflow.getId());
-        record.setOutUnit(outUnit);
-        record.setOutLocation(outLocation);
-        record.setUserId(loginUser.getId());
-        if(StringUtils.isNotBlank(_outTime)){
-            record.setOutTime(DateUtils.parseDate(_outTime, DateUtils.YYYY_MM_DD));
-        }
-
-        memberInflowOutService.out(record);
+        MemberInflow memberInflow = memberInflowOutService.out(loginUser.getId(), outUnit, outLocation, _outTime);
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), loginUser.getId(), loginUser.getId(),

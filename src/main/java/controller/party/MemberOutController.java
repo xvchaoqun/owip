@@ -9,9 +9,11 @@ import mixin.MemberOutMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -314,6 +316,21 @@ public class MemberOutController extends BaseController {
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUser loginUser,MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
+
+
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        //===========权限
+        Integer loginUserId = loginUser.getId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            }
+            if(!isAdmin) throw new UnauthorizedException();
+        }
 
         Integer id = record.getId();
 

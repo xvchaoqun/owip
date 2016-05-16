@@ -14,7 +14,7 @@
         <label class="col-sm-3 control-label no-padding-right">账号</label>
         <div class="col-sm-9">
           <select ${not empty member?"disabled data-theme='default'":""}
-                  required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                  required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
                   name="userId" data-placeholder="请输入账号或姓名或学工号">
             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
           </select>

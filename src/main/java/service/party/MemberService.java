@@ -148,6 +148,8 @@ public class MemberService extends BaseMapper {
         teacher.setCode(code);
         teacher.setRealname(sysUser.getRealname()); // 如果是后台添加的用户，则需要同步姓名和身份号码
         teacher.setIdcard(sysUser.getIdcard());
+        teacher.setIsRetire(false); // 此值不能为空
+        teacher.setCreateTime(new Date());
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
@@ -206,8 +208,6 @@ public class MemberService extends BaseMapper {
 
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
-
-            teacher.setCreateTime(new Date());
         }
 
         if(teacherMapper.selectByPrimaryKey(userId)==null)
@@ -226,7 +226,7 @@ public class MemberService extends BaseMapper {
         student.setCode(code);
         student.setRealname(sysUser.getRealname());
         student.setIdcard(sysUser.getIdcard());
-
+        student.setCreateTime(new Date());
         byte userType = sysUser.getType();
 
         if(userType ==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
