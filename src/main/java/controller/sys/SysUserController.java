@@ -50,6 +50,9 @@ public class SysUserController extends BaseController {
         modelMap.put("sysUser", sysUser);
         modelMap.put("roleMap", sysRoleService.findAll());
 
+        modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
+        modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
+
         return "sys/sysUser/sysUser_view";
     }
 

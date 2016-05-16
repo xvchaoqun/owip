@@ -82,7 +82,6 @@
                             </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">拥有的角色 </div>
-
                                 <div class="profile-info-value">
                                     <span class="editable" >
                                         <c:forEach items="${fn:split(sysUser.roleIds,',')}" var="id" varStatus="vs">
@@ -92,7 +91,33 @@
                                     </span>
                                 </div>
                             </div>
-
+                            <c:if test="${fn:length(adminPartyIdList)>0}">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">管理分党委</div>
+                                    <div class="profile-info-value">
+                                    <span class="editable" >
+                                        <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
+                                            ${partyMap.get(partyId).name}
+                                            <c:if test="${!vs.last}">,</c:if>
+                                        </c:forEach>
+                                    </span>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <c:if test="${fn:length(adminBranchIdList)>0}">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">管理党支部</div>
+                                    <div class="profile-info-value">
+                                    <span class="editable" >
+                                        <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
+                                            <c:set var="branch" value="${branchMap.get(branchId)}"/>
+                                            ${partyMap.get(branch.partyId).name}-${branch.name}
+                                            <c:if test="${!vs.last}">,</c:if>
+                                        </c:forEach>
+                                    </span>
+                                    </div>
+                                </div>
+                            </c:if>
 
                         </div>
 
