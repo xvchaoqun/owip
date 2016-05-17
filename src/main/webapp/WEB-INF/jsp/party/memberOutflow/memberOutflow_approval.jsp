@@ -206,4 +206,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
+    <c:import url="/applyApprovalLogs"/>
 </div>

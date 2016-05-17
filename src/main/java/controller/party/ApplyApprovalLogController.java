@@ -15,6 +15,7 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -140,4 +141,21 @@ public class ApplyApprovalLogController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequestMapping("/applyApprovalLogs")
+    public String applyApprovalLogs(HttpServletRequest request, String idName, Byte type, ModelMap modelMap) {
+
+        idName = StringUtils.defaultIfBlank(idName, "id");
+        String idStr = request.getParameter(idName);
+
+        ApplyApprovalLogExample example = new ApplyApprovalLogExample();
+        ApplyApprovalLogExample.Criteria criteria = example.createCriteria();
+        criteria.andRecordIdEqualTo(Integer.parseInt(idStr));
+        criteria.andTypeEqualTo(type );
+        example.setOrderByClause("create_time desc");
+        List<ApplyApprovalLog> applyApprovalLogs = applyApprovalLogMapper.selectByExample(example);
+        modelMap.put("applyApprovalLogs", applyApprovalLogs);
+        return "party/applyApprovalLog/applyApprovalLogs";
+    }
+
 }

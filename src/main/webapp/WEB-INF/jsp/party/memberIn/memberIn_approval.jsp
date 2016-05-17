@@ -186,4 +186,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
+    <c:import url="/applyApprovalLogs?type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_IN}"/>
 </div>

@@ -87,6 +87,12 @@ body{
     background: none;*/
     cursor: pointer;
 }
+
+.widget-color-blue > .widget-header {
+    background: #033975;
+    border-color: #033975;
+}
+
 /**skin**/
 .skin-1 .navbar{
     background: #222a2d;

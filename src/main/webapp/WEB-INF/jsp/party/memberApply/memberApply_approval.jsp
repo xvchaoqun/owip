@@ -285,4 +285,6 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
+
+<c:import url="/applyApprovalLogs?idName=userId&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"/>
 </div>
