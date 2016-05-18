@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">组织关系转入时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input class="form-control date-picker" name="_transferTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.transferTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">提交书面申请书时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input class="form-control date-picker" name="_applyTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.applyTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">确定为入党积极分子时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input  class="form-control date-picker" name="_activeTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.activeTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -105,7 +105,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">确定为发展对象时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input  class="form-control date-picker" name="_candidateTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.candidateTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -115,7 +115,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">入党时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input  class="form-control date-picker" name="_growTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.growTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -125,7 +125,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">转正时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
+						<div class="input-group" style="width: 150px">
 							<input class="form-control date-picker" name="_positiveTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.positiveTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -185,7 +185,7 @@ pageEncoding="UTF-8"%>
 	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 	$('textarea.limited').inputlimiter();
-	register_date($('.date-picker'));
+	register_date($('.date-picker'), {endDate:'${today}'});
 	$("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {

@@ -22,8 +22,8 @@
     <div class="col-xs-6">
       <div class="form-group">
         <label class="col-sm-4 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
-        <div class="col-sm-6">
-          <input readonly disabled type="text" value="${user.code}" />
+        <div class="col-sm-6 label-text">
+          ${user.code}
         </div>
       </div>
 
@@ -153,7 +153,7 @@
       <script>
         $("#modalForm :checkbox").bootstrapSwitch();
         showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
-        register_date($('.date-picker'));
+        register_date($('.date-picker'), {endDate:'${today}'});
         $('#modalForm [data-rel="select2"]').select2();
         $("form").validate({
           submitHandler: function (form) {

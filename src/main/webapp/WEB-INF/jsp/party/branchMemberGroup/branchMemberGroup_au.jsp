@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">应换届时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_tranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.tranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -58,7 +58,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">实际换届时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_actualTranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任命时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_appointTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.appointTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 
 <script>
     $("#modal :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'));
+    register_date($('.date-picker'), {endDate:'${today}'});
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

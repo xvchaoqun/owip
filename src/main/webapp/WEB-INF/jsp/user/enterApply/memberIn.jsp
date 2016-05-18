@@ -237,7 +237,7 @@
 </style>
       <script>
         $('#modalForm [data-rel="select2"]').select2();
-        register_date($('.date-picker'));
+        register_date($('.date-picker'), {endDate:'${today}'});
 
         $("form").validate({
           submitHandler: function (form) {

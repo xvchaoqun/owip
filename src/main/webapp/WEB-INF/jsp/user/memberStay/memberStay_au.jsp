@@ -121,7 +121,7 @@
 <script>
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    register_date($('.date-picker'), {endDate:'${today}'});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
