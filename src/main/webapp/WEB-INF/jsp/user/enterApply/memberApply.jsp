@@ -68,7 +68,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right"> 备注</label>
         <div class="col-sm-9">
-          <textarea name="remark"  class="col-xs-10 col-sm-5" rows="10">${memberApply.remark}</textarea>
+          <textarea name="remark"  class="col-xs-6 col-sm-3" rows="5">${memberApply.remark}</textarea>
         </div>
       </div>
 
