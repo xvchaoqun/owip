@@ -19,7 +19,7 @@
                     <th>名称</th>
                     <shiro:hasRole name="admin">
                     <th>代码</th>
-                    <th>布尔属性</th>
+                    <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <th>附加属性</th>
                     <th>备注</th>
                     </shiro:hasRole>
