@@ -18,6 +18,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -293,9 +294,23 @@ public class MemberInflowService extends BaseMapper {
         if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
             throw new RuntimeException("参数有误。");
         }
-
         Integer id = memberInflow.getId();
         Integer userId = memberInflow.getUserId();
+
+        if(status==SystemConstants.MEMBER_INFLOW_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
+            // 状态检查
+            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            if (_enterApply == null)
+                throw new DBErrorException("系统错误");
+
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            enterApply.setRemark(reason);
+            enterApply.setBackTime(new Date());
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+        }
+
         updateMapper.memberInflow_back(id, status);
 
         MemberInflow record = new MemberInflow();

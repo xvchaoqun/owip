@@ -1000,6 +1000,33 @@ function register_user_select($select, ts){
         }
     });
 }
+// 选择分党委
+function register_party_select($select, ts){
+    return $select.select2({
+        width:350,
+        templateResult: formatState,
+        templateSelection:ts||templateSelection,
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {results: data.options,  pagination: {
+                    more: (params.page * 10) < data.totalCount
+                }};
+            },
+            cache: true
+        }
+    });
+}
+
 // 日历
 function register_date($date, params){
     $date.datepicker($.extend({

@@ -10,6 +10,7 @@
     <result column="fill_time" property="fillTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="stage" property="stage" jdbcType="TINYINT" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="pass_time" property="passTime" jdbcType="DATE" />
     <result column="active_time" property="activeTime" jdbcType="DATE" />
     <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
@@ -84,9 +85,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, pass_time, 
-    active_time, candidate_time, train_time, candidate_status, plan_time, plan_status, 
-    draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, create_time
+    user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, reason, 
+    pass_time, active_time, candidate_time, train_time, candidate_status, plan_time, 
+    plan_status, draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, 
+    create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberApplyExample" >
     select
@@ -121,20 +123,20 @@
   <insert id="insert" parameterType="domain.MemberApply" >
     insert into ow_member_apply (user_id, party_id, branch_id, 
       type, apply_time, fill_time, 
-      remark, stage, pass_time, 
-      active_time, candidate_time, train_time, 
-      candidate_status, plan_time, plan_status, 
-      draw_time, draw_status, grow_time, 
-      grow_status, positive_time, positive_status, 
-      create_time)
+      remark, stage, reason, 
+      pass_time, active_time, candidate_time, 
+      train_time, candidate_status, plan_time, 
+      plan_status, draw_time, draw_status, 
+      grow_time, grow_status, positive_time, 
+      positive_status, create_time)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{applyTime,jdbcType=DATE}, #{fillTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{stage,jdbcType=TINYINT}, #{passTime,jdbcType=DATE}, 
-      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{trainTime,jdbcType=DATE}, 
-      #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, #{planStatus,jdbcType=TINYINT}, 
-      #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, #{growTime,jdbcType=DATE}, 
-      #{growStatus,jdbcType=TINYINT}, #{positiveTime,jdbcType=DATE}, #{positiveStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{remark,jdbcType=VARCHAR}, #{stage,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{passTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
+      #{trainTime,jdbcType=DATE}, #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, 
+      #{planStatus,jdbcType=TINYINT}, #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, 
+      #{growTime,jdbcType=DATE}, #{growStatus,jdbcType=TINYINT}, #{positiveTime,jdbcType=DATE}, 
+      #{positiveStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberApply" >
     insert into ow_member_apply
@@ -162,6 +164,9 @@
       </if>
       <if test="stage != null" >
         stage,
+      </if>
+      <if test="reason != null" >
+        reason,
       </if>
       <if test="passTime != null" >
         pass_time,
@@ -230,6 +235,9 @@
       </if>
       <if test="stage != null" >
         #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
       </if>
       <if test="passTime != null" >
         #{passTime,jdbcType=DATE},
@@ -308,6 +316,9 @@
       <if test="record.stage != null" >
         stage = #{record.stage,jdbcType=TINYINT},
       </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
       <if test="record.passTime != null" >
         pass_time = #{record.passTime,jdbcType=DATE},
       </if>
@@ -365,6 +376,7 @@
       fill_time = #{record.fillTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       stage = #{record.stage,jdbcType=TINYINT},
+      reason = #{record.reason,jdbcType=VARCHAR},
       pass_time = #{record.passTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
@@ -406,6 +418,9 @@
       </if>
       <if test="stage != null" >
         stage = #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
       </if>
       <if test="passTime != null" >
         pass_time = #{passTime,jdbcType=DATE},
@@ -461,6 +476,7 @@
       fill_time = #{fillTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       stage = #{stage,jdbcType=TINYINT},
+      reason = #{reason,jdbcType=VARCHAR},
       pass_time = #{passTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},

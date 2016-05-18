@@ -139,6 +139,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
+        record.setUserId(memberStay.getUserId());
         //record.setBranchId(memberStay.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -162,6 +163,7 @@ public class MemberStayService extends BaseMapper {
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_BACK);
         record.setReason(reason);
+        record.setUserId(memberStay.getUserId());
         //record.setBranchId(memberStay.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -175,6 +177,7 @@ public class MemberStayService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
+        record.setUserId(memberStay.getUserId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberStay.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -202,6 +205,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+        record.setUserId(memberStay.getUserId());
         //record.setBranchId(memberStay.getBranchId());
         updateByPrimaryKeySelective(record);
     }

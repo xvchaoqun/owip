@@ -8,7 +8,6 @@
     ${branch!=null?branch.name:''}-设定管理员</h3>
 </div>
 <div class="modal-body">
-    <shiro:hasPermission name="partyMember:edit">
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="smaller">
@@ -48,7 +47,6 @@
             </div>
         </div>
         <div class="space-10"></div>
-    </shiro:hasPermission>
     <div class="popTableDiv"
          data-url-page="${ctx}/org_admin?partyId=${party.id}&branchId=${branch.id}"
          data-url-del="${ctx}/orgAdmin_del">

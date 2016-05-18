@@ -9,7 +9,9 @@ import mixin.BranchMemberGroupViewMixin;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -99,6 +101,14 @@ public class BranchMemberGroupController extends BaseController {
 
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
+        }
+
+        //===========权限
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            criteria.andPartyIdIn(partyIdList);
         }
 
         if (branchId!=null) {
@@ -280,7 +290,7 @@ public class BranchMemberGroupController extends BaseController {
 
     @RequestMapping("/branchMemberGroup_selects")
     @ResponseBody
-    public Map branchMemberGroup_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map branchMemberGroup_selects(Integer branchId, Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -293,6 +303,10 @@ public class BranchMemberGroupController extends BaseController {
         BranchMemberGroupExample example = new BranchMemberGroupExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if(branchId!=null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");

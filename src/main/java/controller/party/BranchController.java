@@ -10,6 +10,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -73,10 +75,14 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_page")
-    public String branch_page(ModelMap modelMap) {
+    public String branch_page(Integer partyId, ModelMap modelMap) {
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
 
+        if(partyId!=null) {
+            Party party = partyMapper.selectByPrimaryKey(partyId);
+            modelMap.put("party", party);
+        }
 
         return "party/branch/branch_page";
     }
@@ -119,6 +125,15 @@ public class BranchController extends BaseController {
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
         }
+
+        //===========权限
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            criteria.andPartyIdIn(partyIdList);
+        }
+
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
         }
@@ -218,6 +233,11 @@ public class BranchController extends BaseController {
         if (id != null) {
             Branch branch = branchMapper.selectByPrimaryKey(id);
             modelMap.put("branch", branch);
+
+            if(branch!=null) {
+                Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
+                modelMap.put("party", party);
+            }
         }
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));

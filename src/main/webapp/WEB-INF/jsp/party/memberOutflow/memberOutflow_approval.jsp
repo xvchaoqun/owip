@@ -206,5 +206,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs"/>
+    <c:import url="/applyApprovalLogs?id=${memberOutflow.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"/>
 </div>

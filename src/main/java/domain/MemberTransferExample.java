@@ -1084,11 +1084,27 @@ public class MemberTransferExample {
             if(branchIdList==null) branchIdList = new ArrayList<>();
 
             if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
-                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+                addCriterion("(" +
+                        "party_id in(" + StringUtils.join(partyIdList, ",") + ")" +
+                        " OR " +
+                        "to_party_id in(" + StringUtils.join(partyIdList, ",") + ")" +
+                        " OR " +
+                        "branch_id in(" + StringUtils.join(branchIdList, ",") + ")" +
+                        " OR " +
+                        "to_branch_id in(" + StringUtils.join(branchIdList, ",") + ")" +
+                        ")");
             if(partyIdList.isEmpty() && !branchIdList.isEmpty())
-                andBranchIdIn(branchIdList);
+                addCriterion("(" +
+                        "branch_id in(" + StringUtils.join(branchIdList, ",") + ")" +
+                        " OR " +
+                        "to_branch_id in(" + StringUtils.join(branchIdList, ",") + ")" +
+                        ")");
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
-                andPartyIdIn(partyIdList);
+                addCriterion("(" +
+                        "party_id in(" + StringUtils.join(partyIdList, ",") + ")" +
+                        " OR " +
+                        "to_party_id in(" + StringUtils.join(partyIdList, ",") + ")" +
+                        ")");
             if(branchIdList.isEmpty() && partyIdList.isEmpty())
                 andUserIdIsNull();
             return this;

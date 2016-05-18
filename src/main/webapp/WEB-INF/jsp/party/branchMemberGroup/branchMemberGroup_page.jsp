@@ -50,8 +50,8 @@
                                     <div class="form-group">
                                         <label>分党委</label>
                                         <select class="form-control" data-rel="select2-ajax"
-                                                data-ajax-url="${ctx}/party_selects" data-width="350"
-                                                name="partyId" data-placeholder="请选择分党委">
+                                                data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1" data-width="350"
+                                                name="partyId" data-placeholder="请选择">
                                             <option value="${party.id}">${party.name}</option>
                                         </select>
                                     </div>
@@ -118,14 +118,14 @@
             {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.isPresent)?1:0;
             }}
-        ],
+        ]/*,
         rowattr: function(rowData, currentObj, rowId)
         {
             if(rowData.isPresent) {
                 //console.log(rowData)
                 return {'class':'success'}
             }
-        }
+        }*/
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })

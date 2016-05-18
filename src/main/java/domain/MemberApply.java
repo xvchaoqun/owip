@@ -28,6 +28,8 @@ public class MemberApply implements Serializable {
 
     private Byte stage;
 
+    private String reason;
+
     private Date passTime;
 
     private Date activeTime;
@@ -120,6 +122,14 @@ public class MemberApply implements Serializable {
 
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
     public Date getPassTime() {

@@ -189,5 +189,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN}"/>
+    <c:import url="/applyApprovalLogs?id=${memberReturn.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN}"/>
 </div>

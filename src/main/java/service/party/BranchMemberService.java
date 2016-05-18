@@ -1,15 +1,16 @@
 package service.party;
 
-import domain.BranchMember;
-import domain.BranchMemberExample;
-import domain.BranchMemberGroup;
-import domain.SysUser;
+import domain.*;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -22,6 +23,22 @@ public class BranchMemberService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private BranchMemberAdminService branchMemberAdminService;
+    @Autowired
+    private  PartyMemberService partyMemberService;
+
+    public void checkAuth(int partyId){
+
+        //===========权限
+        Subject subject = SecurityUtils.getSubject();
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        Integer loginUserId = shiroUser.getId();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin) throw new UnauthorizedException();
+        }
+    }
 
     // 查询用户是否是支部管理员
     public boolean isPresentAdmin(Integer userId, Integer branchId){
@@ -42,6 +59,10 @@ public class BranchMemberService extends BaseMapper {
     @Transactional
     public int insertSelective(BranchMember record, boolean autoAdmin){
 
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         record.setIsAdmin(false);
         branchMemberMapper.insertSelective(record);
 
@@ -60,6 +81,11 @@ public class BranchMemberService extends BaseMapper {
     public void del(Integer id){
 
         BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         if(branchMember.getIsAdmin()){
             branchMemberAdminService.toggleAdmin(branchMember);
         }
@@ -72,6 +98,11 @@ public class BranchMemberService extends BaseMapper {
         if(ids==null || ids.length==0) return;
         for (Integer id : ids) {
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+
+            BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
+            Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+            checkAuth(branch.getPartyId());
+
             if(branchMember.getIsAdmin()){
                 branchMemberAdminService.toggleAdmin(branchMember);
             }
@@ -84,6 +115,11 @@ public class BranchMemberService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(BranchMember record, boolean autoAdmin){
         BranchMember old = branchMemberMapper.selectByPrimaryKey(record.getId());
+
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(old.getGroupId());
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         record.setIsAdmin(old.getIsAdmin());
         branchMemberMapper.updateByPrimaryKeySelective(record);
 
@@ -108,6 +144,11 @@ public class BranchMemberService extends BaseMapper {
         if(addNum == 0) return ;
 
         BranchMember entity = branchMemberMapper.selectByPrimaryKey(id);
+
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(entity.getGroupId());
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         Integer baseSortOrder = entity.getSortOrder();
 
         BranchMemberExample example = new BranchMemberExample();

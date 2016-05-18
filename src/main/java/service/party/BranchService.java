@@ -4,12 +4,18 @@ import domain.Branch;
 import domain.BranchExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import shiro.ShiroUser;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -18,6 +24,9 @@ import java.util.Map;
 
 @Service
 public class BranchService extends BaseMapper {
+
+    @Autowired
+    private  PartyMemberService partyMemberService;
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -29,10 +38,25 @@ public class BranchService extends BaseMapper {
 
         return branchMapper.countByExample(example) > 0;
     }
+    public void checkAuth(int partyId){
+
+        //===========权限
+        Subject subject = SecurityUtils.getSubject();
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        Integer loginUserId = shiroUser.getId();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin) throw new UnauthorizedException();
+        }
+    }
 
     @Transactional
     @CacheEvict(value="Branch:ALL", allEntries = true)
     public int insertSelective(Branch record){
+
+        checkAuth(record.getPartyId());
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
         branchMapper.insertSelective(record);
@@ -45,6 +69,8 @@ public class BranchService extends BaseMapper {
     @Transactional
     @CacheEvict(value="Branch:ALL", allEntries = true)
     public void del(Integer id){
+        Branch branch = branchMapper.selectByPrimaryKey(id);
+        checkAuth(branch.getPartyId());
 
         branchMapper.deleteByPrimaryKey(id);
     }
@@ -55,6 +81,11 @@ public class BranchService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
+        for (Integer id : ids) {
+            Branch branch = branchMapper.selectByPrimaryKey(id);
+            checkAuth(branch.getPartyId());
+        }
+
         BranchExample example = new BranchExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         branchMapper.deleteByExample(example);
@@ -63,6 +94,10 @@ public class BranchService extends BaseMapper {
     @Transactional
     @CacheEvict(value="Branch:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(Branch record){
+
+        Branch branch = branchMapper.selectByPrimaryKey(record.getId());
+        checkAuth(branch.getPartyId());
+
         if(StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
         return branchMapper.updateByPrimaryKeySelective(record);
@@ -95,6 +130,9 @@ public class BranchService extends BaseMapper {
         if(addNum == 0) return ;
 
         Branch entity = branchMapper.selectByPrimaryKey(id);
+
+        checkAuth(entity.getPartyId());
+
         Integer baseSortOrder = entity.getSortOrder();
 
         BranchExample example = new BranchExample();

@@ -27,7 +27,7 @@
 
                         <li class="dropdown <c:if test="${cls==3||cls==4}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <i class="fa fa-sign-in"></i> 已审核${cls==3?"(未转出)":(cls==4)?"(已转出)":""}
+                                <i class="fa fa-sign-in"></i> 已完成审批${cls==3?"(未转出)":(cls==4)?"(已转出)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">

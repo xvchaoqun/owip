@@ -117,7 +117,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">转出单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="outflowUnit" value="${memberInflow.outflowUnit}">
+                        <input required class="form-control" type="text" name="outflowUnit" value="${memberInflow.outUnit}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -161,7 +161,7 @@ pageEncoding="UTF-8"%>
 	$("#modal :checkbox").bootstrapSwitch();
 	//alert(JSON.stringify(Location.items[0]))
 	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
-	showLocation("${memberInflow.outflowLocation}",null, null, $("#loc_province_container2"));
+	showLocation("${memberInflow.outLocation}",null, null, $("#loc_province_container2"));
 	$('textarea.limited').inputlimiter();
 	register_date($('.date-picker'));
     $("#modal form").validate({

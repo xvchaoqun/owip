@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -276,7 +277,7 @@ public class PartyController extends BaseController {
 
     @RequestMapping("/party_selects")
     @ResponseBody
-    public Map party_selects(Integer pageSize, Boolean auth, Integer pageNo, Integer classId, String searchStr) throws IOException {
+    public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect, Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -294,6 +295,10 @@ public class PartyController extends BaseController {
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
+        }
+        if(BooleanUtils.isTrue(notDirect)){
+            MetaType mtDirectBranch = CmTag.getMetaTypeByCode("mt_direct_branch");
+            criteria.andClassIdNotEqualTo(mtDirectBranch.getId());
         }
 
         //===========权限

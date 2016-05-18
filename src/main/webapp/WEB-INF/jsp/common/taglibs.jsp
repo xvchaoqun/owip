@@ -52,6 +52,9 @@
 
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>" var="ENTER_APPLY_TYPE_MAP"/>
+<c:set value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>" var="ENTER_APPLY_STATUS_MAP"/>
+
 <c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 

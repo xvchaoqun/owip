@@ -126,10 +126,14 @@ public class EnterApplyService extends BaseMapper{
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");
 
-        if(memberReturnService.get(userId)==null)
+        MemberReturn memberReturn = memberReturnService.get(userId);
+        if(memberReturn==null) {
+            record.setIsBack(false);
             memberReturnMapper.insert(record);
-        else
+        }else {
+            record.setIsBack(false);
             memberReturnMapper.updateByPrimaryKey(record);
+        }
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
@@ -152,10 +156,14 @@ public class EnterApplyService extends BaseMapper{
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");
 
-        if(memberInService.get(userId)==null)
+        MemberIn memberIn = memberInService.get(userId);
+        if(memberIn==null) {
+            record.setIsBack(false);
             memberInMapper.insert(record);
-        else
+        }else {
+            record.setIsBack(false);
             memberInMapper.updateByPrimaryKey(record);
+        }
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
@@ -196,10 +204,15 @@ public class EnterApplyService extends BaseMapper{
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply!=null) throw new DBErrorException("重复申请");
 
-        if(memberInflow==null)
+        if(memberInflow==null) {
+            record.setIsBack(false);
+            record.setOutIsBack(false);
             memberInflowMapper.insert(record);
-        else
+        }else {
+            record.setIsBack(false);
+            record.setOutIsBack(false);
             memberInflowMapper.updateByPrimaryKey(record);
+        }
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());

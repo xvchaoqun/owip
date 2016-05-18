@@ -2,11 +2,15 @@ package service.party;
 
 import domain.*;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -18,7 +22,22 @@ public class BranchMemberGroupService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-    
+    @Autowired
+    private  PartyMemberService partyMemberService;
+
+    public void checkAuth(int partyId){
+
+        //===========权限
+        Subject subject = SecurityUtils.getSubject();
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        Integer loginUserId = shiroUser.getId();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin) throw new UnauthorizedException();
+        }
+    }
     // 查找现任班子
     public  BranchMemberGroup getPresentGroup(int branchId){
 
@@ -82,6 +101,9 @@ public class BranchMemberGroupService extends BaseMapper {
     @Transactional
     public int insertSelective(BranchMemberGroup record){
 
+        Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
+        checkAuth(branch.getPartyId());
+
         if (record.getIsPresent()) {
             clearPresentGroup(record.getBranchId());
         }
@@ -97,6 +119,10 @@ public class BranchMemberGroupService extends BaseMapper {
     public void del(Integer id){
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
+
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         if (branchMemberGroup.getIsPresent()) {
             clearPresentGroup(branchMemberGroup.getBranchId());
         }
@@ -107,8 +133,14 @@ public class BranchMemberGroupService extends BaseMapper {
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
+
+
         for (Integer id : ids) {
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
+
+            Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+            checkAuth(branch.getPartyId());
+
             if (branchMemberGroup.getIsPresent()) {
                 clearPresentGroup(branchMemberGroup.getBranchId());
             }
@@ -121,7 +153,12 @@ public class BranchMemberGroupService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(BranchMemberGroup record){
 
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getId());
+        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+        checkAuth(branch.getPartyId());
+
         BranchMemberGroup presentGroup = getPresentGroup(record.getBranchId());
+
         if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && !record.getIsPresent())){
             clearPresentGroup(record.getBranchId());
         }
@@ -148,6 +185,10 @@ public class BranchMemberGroupService extends BaseMapper {
         if(addNum == 0) return ;
 
         BranchMemberGroup entity = branchMemberGroupMapper.selectByPrimaryKey(id);
+
+        Branch branch = branchMapper.selectByPrimaryKey(entity.getBranchId());
+        checkAuth(branch.getPartyId());
+
         Integer baseSortOrder = entity.getSortOrder();
 
         BranchMemberGroupExample example = new BranchMemberGroupExample();

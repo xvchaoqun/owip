@@ -5,6 +5,7 @@ import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -238,6 +239,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
@@ -251,6 +253,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody

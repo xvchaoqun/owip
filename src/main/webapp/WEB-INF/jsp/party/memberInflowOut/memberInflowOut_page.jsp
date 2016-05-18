@@ -42,7 +42,7 @@
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已审核</a>
+                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                     </ul>
 

@@ -2,6 +2,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:if test="${memberApply.stage==APPLY_STAGE_DENY}">
+  <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">
+      <i class="ace-icon fa fa-times"></i>
+    </button>
+    <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberApply.reason}">: ${memberApply.reason}</c:if>
+    <br>
+  </div>
+</c:if>
     <div class="page-header">
       <h1>
         申请入党

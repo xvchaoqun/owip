@@ -81,14 +81,10 @@ pageEncoding="UTF-8" %>
                                     </div>
                                     <div class="form-group">
                                         <label>分党委</label>
-                                            <select name="partyId" data-rel="select2" data-width="350" data-placeholder="请选择"> 
-                                                <option></option>
-                                                  <c:forEach items="${partyMap}" var="party">  <c:if
-                                                        test="${not cm:typeEqualsCode(party.value.classId,'mt_direct_branch')}"> 
-                                                    <option value="${party.key}">${party.value.name}</option>
-                                                      </c:if>  </c:forEach>  </select> 
-                                            <script>         $("#searchForm select[name=partyId]").val('${param.partyId}');     </script>
-                                             
+                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
+                                                name="partyId" data-placeholder="请选择">
+                                            <option value="${party.id}">${party.name}</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>类别</label>
@@ -186,11 +182,11 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true},
-            <c:if test="${!_query}">
+           /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
-            </c:if>
+            </c:if>*/
             { label:'类别', align:'center', name: 'branchType.name', width: 150},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
@@ -212,4 +208,5 @@ pageEncoding="UTF-8" %>
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    register_party_select($('#searchForm select[name=partyId]'));
 </script>

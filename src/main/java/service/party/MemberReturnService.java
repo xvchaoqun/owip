@@ -1,5 +1,6 @@
 package service.party;
 
+import domain.EnterApply;
 import domain.Member;
 import domain.MemberReturn;
 import domain.MemberReturnExample;
@@ -30,6 +31,8 @@ public class MemberReturnService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    private EnterApplyService enterApplyService;
 
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -297,6 +300,21 @@ public class MemberReturnService extends BaseMapper {
 
         Integer id = memberReturn.getId();
         Integer userId = memberReturn.getUserId();
+
+        if(status==SystemConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台打回申请，需要重置入口提交状态
+            // 状态检查
+            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            if (_enterApply == null)
+                throw new DBErrorException("系统错误");
+
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            enterApply.setRemark(reason);
+            enterApply.setBackTime(new Date());
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+        }
+
         updateMapper.memberReturn_back(id, status);
 
         MemberReturn record = new MemberReturn();

@@ -98,15 +98,15 @@
       </table>-->
       <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
       </table>-->
-      <!--<table tableName="ow_member_apply" domainObjectName="MemberApply">
+      <table tableName="ow_member_apply" domainObjectName="MemberApply">
           <ignoreColumn column="update_time"/>
-      </table>-->
+      </table>
       <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
       </table>-->
-      <table tableName="ow_branch_member_group_view" domainObjectName="BranchMemberGroupView">
-      </table>
+      <!--<table tableName="ow_branch_member_group_view" domainObjectName="BranchMemberGroupView">
+      </table>-->
 
    <!--<table tableName="ow_party" domainObjectName="Party">
        <ignoreColumn column="update_time"/>

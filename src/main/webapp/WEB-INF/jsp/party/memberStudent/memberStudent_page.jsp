@@ -28,9 +28,11 @@
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
+                            <shiro:hasAnyRoles name="admin,odAdmin">
                             <a class="jqDelBtn btn btn-danger btn-sm">
                                 <i class="fa fa-trash"></i> 删除
                             </a>
+                            </shiro:hasAnyRoles>
                             </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

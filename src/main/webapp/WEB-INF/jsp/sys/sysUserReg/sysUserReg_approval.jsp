@@ -167,5 +167,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?type=${APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
+    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=${APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
 </div>
