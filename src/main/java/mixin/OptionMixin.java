@@ -10,4 +10,6 @@ public class OptionMixin {
     public Integer id;
     @JsonProperty
     public String name;
+    @JsonProperty
+    public String description;
 }

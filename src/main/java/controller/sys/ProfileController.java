@@ -18,14 +18,12 @@ import shiro.SaltPassword;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by fafa on 2015/11/18.
@@ -101,7 +99,6 @@ public class ProfileController extends BaseController {
     @RequestMapping("/profile_page")
     public String profile_page(ModelMap modelMap) {
 
-        modelMap.put("roleMap", sysRoleService.findAll());
         return "sys/profile/profile";
     }
 

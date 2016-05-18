@@ -48,7 +48,6 @@ public class SysUserController extends BaseController {
 
         SysUser sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
-        modelMap.put("roleMap", sysRoleService.findAll());
 
         modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
         modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
@@ -66,8 +65,6 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_page")
     public String sysUser_page(ModelMap modelMap) {
-
-        modelMap.put("roleMap", sysRoleService.findAll());
 
         return "sys/sysUser/sysUser_page";
     }

@@ -147,29 +147,39 @@
         //forceFit:true,
         url: '${ctx}/sysUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '账号', align:'center', name: 'username', width: 150 ,frozen:true},
-            { label: '学工号', align:'center', name: 'code', width: 150 ,frozen:true},
-            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 90, formatter:function(cellvalue, options, rowObject){
+            { label: '账号', name: 'username', width: 150 ,frozen:true},
+            { label: '学工号', name: 'code', width: 150 ,frozen:true},
+            { label: '姓名',name: 'realname',resizable:false, width: 90, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true },
-            { label:'头像', align:'center', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
+            { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
                         +'class="avatar" data-id="{2}"'
                         +'data-hasimg="{3}" data-username="{4}">';
                 html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username)
                 return html;
             },frozen:true},
-            { label: '类别', align:'center', name: 'typeName', width: 100 },
-            { label: '性别', align:'center',  name: 'genderName', width: 50 },
-            { label: '身份证号码', align:'center',  name: 'idcard', width: 150 },
-            { label: '联系电话', align:'center',  name: 'mobile', width: 150 },
-            { label: '邮箱', align:'center',  name: 'email', width: 150 },
-            { label: '账号来源', align:'center', name: 'sourceName', width: 100 },
-            { label: '状态', align:'center', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
+            { label: '类别', name: 'typeName', width: 100 },
+            { label: '性别',  name: 'genderName', width: 50 },
+            { label: '系统角色',  name: 'roleIds', width: 150 , formatter:function(cellvalue, options, rowObject){
+                var roles = [];
+                if(cellvalue!=undefined) {
+                    var roleIdArray = cellvalue.split(",");
+                    for (var i = 1; i < roleIdArray.length - 1; i++) {
+                        roles.push(_cMap.roleMap[roleIdArray[i]].description);
+                    }
+                }
+                return roles.join(",")
+            } },
+            { label: '身份证号码',  name: 'idcard', width: 150 },
+            { label: '联系电话',  name: 'mobile', width: 150 },
+            { label: '邮箱',  name: 'email', width: 150 },
+            { label: '账号来源', name: 'sourceName', width: 100 },
+            { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?"禁用":"正常";
             } },
-            { label:'创建时间', align:'center', name: 'createTime', width: 150 },
+            { label:'创建时间', name: 'createTime', width: 150 },
             {  hidden:true, name: 'locked',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?1:0;
             }}

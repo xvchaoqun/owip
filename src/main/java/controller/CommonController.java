@@ -114,6 +114,9 @@ public class CommonController extends BaseController{
         sourceMixins.put(ApproverType.class, OptionMixin.class);
         sourceMixins.put(Location.class, OptionMixin.class);
         //sourceMixins.put(Country.class, OptionMixin.class);
+
+        sourceMixins.put(SysRole.class, OptionMixin.class);
+
         mapper.setMixInAnnotations(sourceMixins);
 
         modelMap.put("cMap", mapper.writeValueAsString(cMap));

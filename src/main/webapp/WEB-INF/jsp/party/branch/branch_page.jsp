@@ -176,12 +176,12 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号',align:'center', name: 'code',resizable:false, width: 75, frozen:true },
-            { label: '所属党总支', name: 'party.name',width: 400, frozen:true },
-            { label: '名称',  name: 'name',align:'center', width: 200,formatter:function(cellvalue, options, rowObject){
+            { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
 
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true},
+            { label: '所属党总支', name: 'party.name',align:'left', width: 400, frozen:true },
            /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})

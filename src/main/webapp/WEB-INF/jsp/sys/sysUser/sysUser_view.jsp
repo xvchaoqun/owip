@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="profile-info-row">
-                                <div class="profile-info-name">拥有的角色 </div>
+                                <div class="profile-info-name">系统角色 </div>
                                 <div class="profile-info-value">
                                     <span class="editable" >
                                         <c:forEach items="${fn:split(sysUser.roleIds,',')}" var="id" varStatus="vs">
@@ -136,3 +136,6 @@
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
 </div>
+<script>
+    jgrid_sid='${sysUser.id}'
+</script>

@@ -104,7 +104,7 @@
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             }, frozen:true},
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 450,
+                label: '所属组织机构', name: 'party', align:'left', resizable: false, width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;

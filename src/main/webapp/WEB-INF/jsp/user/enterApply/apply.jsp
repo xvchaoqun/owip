@@ -11,28 +11,18 @@
       <div class="well">
         <blockquote>
         <h4 class="green bolder bigger-150">申请入党</h4>
-        申请入党申请入党申请入党申请入党。
+        学生或教职工申请入党入口。
         <button data-url="${ctx}/user/memberApply" class="openView btn btn-success" type="button">
           <i class="ace-icon fa fa-forward bigger-110"></i>
           进入
         </button></blockquote>
-      </div>
-      <div class="well">
-        <blockquote><h4 class="orange2 bolder bigger-150">留学归国党员申请</h4>
-        留学归国党员申请留学归国党员申请留学归国党员申请。
-
-        <button data-url="${ctx}/user/memberReturn" class="openView btn btn-warning" type="button">
-          <i class="ace-icon fa fa-forward bigger-110"></i>
-          进入
-        </button>
-          </blockquote>
       </div>
      </c:if>
      <c:if test="${empty member || member.status==MEMBER_STATUS_TRANSFER}">
       <div class="well ">
         <blockquote>
         <h4 class="blue bolder bigger-150">组织关系转入</h4>
-        转入党员申请转入党员申请转入党员申请。
+        学生或教职工组织关系转入入口。
 
 
         <button data-url="${ctx}/user/memberIn" class="openView btn btn-info" type="button">
@@ -42,10 +32,23 @@
           </blockquote>
       </div>
       </c:if>
+            <c:if test="${empty member}">
+
+                <div class="well">
+                    <blockquote><h4 class="orange2 bolder bigger-150">留学归国人员恢复组织生活</h4>
+                        填写恢复组织生活申请入口。
+
+                        <button data-url="${ctx}/user/memberReturn" class="openView btn btn-warning" type="button">
+                            <i class="ace-icon fa fa-forward bigger-110"></i>
+                            进入
+                        </button>
+                    </blockquote>
+                </div>
+            </c:if>
       <div class="well">
         <blockquote>
         <h4 class="red bolder bigger-150">流入党员申请</h4>
-        流入党员申请流入党员申请流入党员申请流入党员申请。
+        流入党员申请入口。
 
         <button data-url="${ctx}/user/memberInflow" class="openView btn btn-danger" type="button">
           <i class="ace-icon fa fa-forward bigger-110"></i>

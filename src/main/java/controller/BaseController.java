@@ -312,6 +312,8 @@ public class BaseController extends BaseMapper {
 
         map.put("locationMap", locationService.codeMap());
         map.put("countryMap", countryService.findAll());
+
+        map.put("roleMap", sysRoleService.findAll());
         return map;
     }
 }

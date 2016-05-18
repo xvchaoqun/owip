@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div  style="padding-top: 50px;"></div>
 <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_DENY}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">
