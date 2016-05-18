@@ -95,7 +95,7 @@ public class UserMemberStayController extends BaseController{
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
-
+        record.setIsBack(false);
         if (memberStay == null) {
             memberStayService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交暂留申请"));

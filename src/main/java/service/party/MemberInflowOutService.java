@@ -155,6 +155,7 @@ public class MemberInflowOutService extends BaseMapper {
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK);
+        record.setIsBack(false);
         memberInflowService.updateByPrimaryKeySelective(record);
 
         // 清空是否打回状态
@@ -193,6 +194,7 @@ public class MemberInflowOutService extends BaseMapper {
             throw new RuntimeException("状态异常");
         }
         record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
+        record.setOutIsBack(false);
         memberInflowMapper.updateByPrimaryKeySelective(record);
 
         // 清空是否打回状态

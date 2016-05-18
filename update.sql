@@ -1,3 +1,8 @@
+--20160518
+ALTER TABLE `ow_member_outflow`
+	ADD COLUMN `remark` VARCHAR(255) NOT NULL COMMENT '打回原因' AFTER `is_back`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_outflow_view` AS SELECT omo.*, om.`status` as member_status from ow_member_outflow omo, ow_member om where omo.user_id=om.user_id  ;
 
 --20160510
 update ow_teacher set is_retire=0 where is_retire is null;

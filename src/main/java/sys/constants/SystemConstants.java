@@ -391,12 +391,14 @@ public class SystemConstants {
 
 
 	// 党员流出状态
-	public final static byte MEMBER_OUTFLOW_STATUS_BACK = -1; // 本人撤回、审核不通过
+	public final static byte MEMBER_OUTFLOW_STATUS_SELF_BACK = -2; // 本人撤回
+	public final static byte MEMBER_OUTFLOW_STATUS_BACK = -1; // 审核不通过
 	public final static byte MEMBER_OUTFLOW_STATUS_APPLY = 0;
 	public final static byte MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY= 1;
 	public final static byte MEMBER_OUTFLOW_STATUS_PARTY_VERIFY= 2;
 	public final static Map<Byte, String> MEMBER_OUTFLOW_STATUS_MAP = new LinkedHashMap<>();
 	static {
+		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_SELF_BACK, "本人撤回");
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_BACK, "不通过");
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_APPLY, "申请");
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY, "党支部审核通过");

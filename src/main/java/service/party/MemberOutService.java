@@ -158,6 +158,7 @@ public class MemberOutService extends BaseMapper {
         record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
         //record.setBranchId(memberOut.getBranchId());
+        record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

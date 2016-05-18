@@ -18,6 +18,7 @@
     <result column="or_status" property="orStatus" jdbcType="TINYINT" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="is_back" property="isBack" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="member_status" property="memberStatus" jdbcType="TINYINT" />
   </resultMap>
@@ -81,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, type, party_name, branch_name, party_id, branch_id, original_job, direction, 
-    flow_time, province, reason, has_papers, or_status, status, is_back, create_time, 
+    flow_time, province, reason, has_papers, or_status, status, is_back, remark, create_time, 
     member_status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberOutflowViewExample" >
@@ -110,15 +111,15 @@
       branch_id, original_job, direction, 
       flow_time, province, reason, 
       has_papers, or_status, status, 
-      is_back, create_time, member_status
-      )
+      is_back, remark, create_time, 
+      member_status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{originalJob,jdbcType=INTEGER}, #{direction,jdbcType=INTEGER}, 
       #{flowTime,jdbcType=DATE}, #{province,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, 
       #{hasPapers,jdbcType=BIT}, #{orStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{isBack,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=TINYINT}
-      )
+      #{isBack,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{memberStatus,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.MemberOutflowView" >
     insert into ow_member_outflow_view
@@ -170,6 +171,9 @@
       </if>
       <if test="isBack != null" >
         is_back,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -226,6 +230,9 @@
       </if>
       <if test="isBack != null" >
         #{isBack,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -292,6 +299,9 @@
       <if test="record.isBack != null" >
         is_back = #{record.isBack,jdbcType=BIT},
       </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -321,6 +331,7 @@
       or_status = #{record.orStatus,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
       is_back = #{record.isBack,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       member_status = #{record.memberStatus,jdbcType=TINYINT}
     <if test="_parameter != null" >

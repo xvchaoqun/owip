@@ -41,6 +41,8 @@ public class MemberOutflow implements Serializable {
 
     private Boolean isBack;
 
+    private String remark;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -171,6 +173,14 @@ public class MemberOutflow implements Serializable {
 
     public void setIsBack(Boolean isBack) {
         this.isBack = isBack;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {

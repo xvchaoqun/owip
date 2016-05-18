@@ -140,6 +140,7 @@ public class MemberTransferService extends BaseMapper {
         record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
         //record.setBranchId(memberTransfer.getBranchId());
+        record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

@@ -164,7 +164,9 @@ public class MemberOutflowService extends BaseMapper {
             throw new DBErrorException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
+        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
+        record.setUserId(userId);
+        record.setIsBack(false);
         //record.setBranchId(memberOutflow.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -188,6 +190,7 @@ public class MemberOutflowService extends BaseMapper {
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
         //record.setBranchId(memberOutflow.getBranchId());
+        record.setUserId(userId);
         updateByPrimaryKeySelective(record);
     }
 
@@ -201,6 +204,7 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+        record.setUserId(userId);
         //record.setBranchId(memberOutflow.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -220,7 +224,7 @@ public class MemberOutflowService extends BaseMapper {
         record.setId(memberOutflow.getId());
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberOutflow.getBranchId());
-
+        record.setUserId(userId);
         updateByPrimaryKeySelective(record);
     }
     @Transactional
@@ -348,7 +352,7 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow record = new MemberOutflow();
         record.setId(id);
         record.setUserId(userId);
-        record.setReason(reason);
+        record.setRemark(reason);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 

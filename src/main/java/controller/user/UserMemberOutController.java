@@ -82,7 +82,7 @@ public class UserMemberOutController extends BaseController{
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-
+        record.setIsBack(false);
         if (memberOut == null) {
             memberOutService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));

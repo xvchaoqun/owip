@@ -66,10 +66,10 @@
 
     <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
-      <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
-      </table>-->
-     <!-- <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
-      </table>-->
+      <table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
+      </table>
+      <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
+      </table>
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
       <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
@@ -98,9 +98,9 @@
       </table>-->
       <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
       </table>-->
-      <table tableName="ow_member_apply" domainObjectName="MemberApply">
+     <!-- <table tableName="ow_member_apply" domainObjectName="MemberApply">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
       </table>
       <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">

@@ -207,6 +207,7 @@ public class MemberOutflowController extends BaseController {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
             statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
             criteria.andStatusIn(statusList);
         }else {

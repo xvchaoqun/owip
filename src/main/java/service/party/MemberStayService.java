@@ -141,6 +141,7 @@ public class MemberStayService extends BaseMapper {
         record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
         record.setUserId(memberStay.getUserId());
         //record.setBranchId(memberStay.getBranchId());
+        record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

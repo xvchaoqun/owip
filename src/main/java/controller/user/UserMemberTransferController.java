@@ -106,7 +106,7 @@ public class UserMemberTransferController extends BaseController{
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
         record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
-
+        record.setIsBack(false);
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "本人提交校内组织关系互转"));

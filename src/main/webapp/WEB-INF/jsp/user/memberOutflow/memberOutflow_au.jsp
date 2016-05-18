@@ -14,7 +14,7 @@
         <button type="button" class="close" data-dismiss="alert">
             <i class="ace-icon fa fa-times"></i>
         </button>
-        <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberOutflow.reason}">: ${memberOutflow.reason}</c:if>
+        <strong><i class="ace-icon fa fa-times"></i>返回修改</strong><c:if test="${not empty memberOutflow.remark}">: ${memberOutflow.remark}</c:if>
         <br>
     </div>
 </c:if>
