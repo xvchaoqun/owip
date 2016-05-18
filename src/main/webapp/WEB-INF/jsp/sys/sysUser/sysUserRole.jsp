@@ -49,9 +49,13 @@
 						data:{rIds:rIds},
 						success:function(data){
 							if(data.success){
-								$("#modal").modal('hide');
+								/*$("#modal").modal('hide');
 								_reload();
-								SysMsg.success('操作成功。', '成功');
+								SysMsg.success('操作成功。', '成功');*/
+								$("#modal").modal('hide');
+								SysMsg.success('操作成功。', '成功',function(){
+									$("#jqGrid").trigger("reloadGrid");
+								});
 							}
 						}
 					});
