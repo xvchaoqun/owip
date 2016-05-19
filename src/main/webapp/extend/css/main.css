@@ -436,6 +436,10 @@ br.xs-100 {
 .modal-header, .modal-footer.draggable{
     cursor: move;
 }
+/**bootbox**/
+.bootbox-confirm .modal-footer button:first-child{
+    display: none!important;
+}
 .modal .modal-footer{
     text-align: center!important;
 }

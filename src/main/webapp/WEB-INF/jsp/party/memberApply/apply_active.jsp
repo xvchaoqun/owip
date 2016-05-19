@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 

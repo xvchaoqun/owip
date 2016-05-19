@@ -143,8 +143,9 @@
         <label class="col-xs-5 control-label">转入办理时间</label>
         <div class="col-xs-6">
           <div class="input-group">
+            <c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>
             <input required class="form-control date-picker" name="_handleTime" type="text"
-                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}" />
+                   data-date-format="yyyy-mm-dd" value="${empty handleTime?today:handleTime}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
         </div>
@@ -154,7 +155,7 @@
         <label class="col-xs-5 control-label">提交书面申请书时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input required class="form-control date-picker" name="_applyTime" type="text"
+            <input class="form-control date-picker" name="_applyTime" type="text"
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.applyTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -164,7 +165,7 @@
         <label class="col-xs-5 control-label">确定为入党积极分子时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input required class="form-control date-picker" name="_activeTime" type="text"
+            <input class="form-control date-picker" name="_activeTime" type="text"
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.activeTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -174,7 +175,7 @@
         <label class="col-xs-5 control-label">确定为发展对象时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input required class="form-control date-picker" name="_candidateTime" type="text"
+            <input class="form-control date-picker" name="_candidateTime" type="text"
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.candidateTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -184,7 +185,7 @@
         <label class="col-xs-5 control-label">入党时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input required class="form-control date-picker" name="_growTime" type="text"
+            <input class="form-control date-picker" name="_growTime" type="text"
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -194,7 +195,7 @@
         <label class="col-xs-5 control-label">转正时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input required class="form-control date-picker" name="_positiveTime" type="text"
+            <input class="form-control date-picker" name="_positiveTime" type="text"
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.positiveTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>

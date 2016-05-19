@@ -317,8 +317,14 @@ public class MemberStayController extends BaseController {
     public Map do_memberStay_au(@CurrentUser SysUser loginUser,MemberStay record,
                                 String _abroadTime, String _returnTime, String _payTime,  HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
+
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
@@ -336,11 +342,6 @@ public class MemberStayController extends BaseController {
         if (memberStayService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
-
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
 
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));

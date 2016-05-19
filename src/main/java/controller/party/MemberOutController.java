@@ -317,9 +317,14 @@ public class MemberOutController extends BaseController {
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUser loginUser,MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
+
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
@@ -343,11 +348,6 @@ public class MemberOutController extends BaseController {
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
-
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
 
         if (id == null) {
             record.setApplyTime(new Date());

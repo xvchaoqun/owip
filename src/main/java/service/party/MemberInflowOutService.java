@@ -170,9 +170,10 @@ public class MemberInflowOutService extends BaseMapper {
                 "撤回流入党员转出申请");
     }
 
+    // reset=true 重置状态，  reset=false，只是更新信息
     @Transactional
-    public MemberInflow out(int userId, String outUnit, Integer outLocation, String _outTime){
-
+    public MemberInflow out(int userId, String outUnit, Integer outLocation, String _outTime, boolean reset){
+        // 1 要求 党员已经流入
         MemberInflow memberInflow = memberInflowService.get(userId);
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
             throw new RuntimeException("状态异常");
@@ -188,17 +189,19 @@ public class MemberInflowOutService extends BaseMapper {
             record.setOutTime(DateUtils.parseDate(_outTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(memberInflow==null ||
-                memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY
-                || !(memberInflow.getOutStatus()==null||memberInflow.getOutStatus()<=SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK)){
+        // 2 要求 提出申请并未完成审批的记录
+        if(memberInflow.getOutStatus()!=null&&memberInflow.getOutStatus()==SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY){
             throw new RuntimeException("状态异常");
         }
-        record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
-        record.setOutIsBack(false);
-        memberInflowMapper.updateByPrimaryKeySelective(record);
 
-        // 清空是否打回状态
-        updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+        if(reset) {
+            // 清空是否打回状态
+            updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+
+            record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
+            record.setOutIsBack(false);
+        }
+        memberInflowMapper.updateByPrimaryKeySelective(record);
 
         return memberInflow;
     }

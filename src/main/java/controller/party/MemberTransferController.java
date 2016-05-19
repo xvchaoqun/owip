@@ -323,6 +323,14 @@ public class MemberTransferController extends BaseController {
     public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,MemberTransfer record,
                                     String _payTime, String _fromHandleTime, HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        if(member.getPartyId().byteValue() == record.getToPartyId()){
+            return failed("转入不能是当前所在分党委");
+        }
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
         //===========权限
@@ -330,11 +338,18 @@ public class MemberTransferController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
             }
-            if(!isAdmin) throw new UnauthorizedException();
+
+            boolean isToAdmin = partyMemberService.isPresentAdmin(loginUserId, record.getToPartyId());
+            if(!isToAdmin && record.getToBranchId()!=null) {
+                isToAdmin = branchMemberService.isPresentAdmin(loginUserId, record.getToBranchId());
+            }
+
+            if(!isAdmin && !isToAdmin) throw new UnauthorizedException();
         }
 
         Integer id = record.getId();
@@ -349,15 +364,6 @@ public class MemberTransferController extends BaseController {
         if(StringUtils.isNotBlank(_fromHandleTime)){
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
-
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        if(member.getPartyId().byteValue() == record.getToPartyId()){
-            return failed("转入不能是当前所在分党委");
-        }
-
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
 
 
         if (id == null) {

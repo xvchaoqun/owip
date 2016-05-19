@@ -354,6 +354,11 @@ public class MemberOutflowController extends BaseController {
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
         //===========权限

@@ -349,7 +349,7 @@ public class MemberInflowOutController extends BaseController {
     public Map do_memberInflowOut(@CurrentUser SysUser loginUser, int userId, String outUnit, Integer outLocation,
                                   String _outTime, HttpServletRequest request) {
 
-        MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime);
+        MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime, false);
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUser.getId(),

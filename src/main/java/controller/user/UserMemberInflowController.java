@@ -88,7 +88,7 @@ public class UserMemberInflowController extends BaseController{
                                String _outTime, HttpServletRequest request) {
 
 
-        MemberInflow memberInflow = memberInflowOutService.out(loginUser.getId(), outUnit, outLocation, _outTime);
+        MemberInflow memberInflow = memberInflowOutService.out(loginUser.getId(), outUnit, outLocation, _outTime, true);
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), loginUser.getId(), loginUser.getId(),

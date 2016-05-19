@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>打回申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberStay_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberTransfer_back" id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
             <label class="col-xs-3 control-label">打回申请记录</label>
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 

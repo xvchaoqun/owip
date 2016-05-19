@@ -1,3 +1,12 @@
+--20160519
+
+ALTER TABLE `ow_member_in`
+	CHANGE COLUMN `apply_time` `apply_time` DATE NULL COMMENT '提交书面申请书时间' AFTER `handle_time`,
+	CHANGE COLUMN `active_time` `active_time` DATE NULL COMMENT '确定为入党积极分子时间' AFTER `apply_time`,
+	CHANGE COLUMN `candidate_time` `candidate_time` DATE NULL COMMENT '确定为发展对象时间' AFTER `active_time`,
+	CHANGE COLUMN `grow_time` `grow_time` DATE NULL COMMENT '入党时间' AFTER `candidate_time`,
+	CHANGE COLUMN `positive_time` `positive_time` DATE NULL COMMENT '转正时间' AFTER `grow_time`;
+
 --20160518
 ALTER TABLE `ow_member_outflow`
 	ADD COLUMN `remark` VARCHAR(255) NOT NULL COMMENT '打回原因' AFTER `is_back`;
