@@ -149,7 +149,7 @@
         colModel: [
             { label: '账号', name: 'username', width: 150 ,frozen:true},
             { label: '学工号', name: 'code', width: 150 ,frozen:true},
-            { label: '姓名',name: 'realname',resizable:false, width: 90, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名',name: 'realname',resizable:false, width: 120, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true },
@@ -167,7 +167,9 @@
                 if(cellvalue!=undefined) {
                     var roleIdArray = cellvalue.split(",");
                     for (var i = 1; i < roleIdArray.length - 1; i++) {
-                        roles.push(_cMap.roleMap[roleIdArray[i]].description);
+                        var role = _cMap.roleMap[roleIdArray[i]];
+                        if(role)
+                            roles.push(role.description);
                     }
                 }
                 return roles.join(",")

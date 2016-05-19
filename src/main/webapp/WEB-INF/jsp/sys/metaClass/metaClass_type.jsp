@@ -17,9 +17,10 @@
                 <thead>
                 <tr>
                     <th>名称</th>
+                    <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <shiro:hasRole name="admin">
                     <th>代码</th>
-                    <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
+
                     <th>附加属性</th>
                     <th>备注</th>
                     </shiro:hasRole>
@@ -35,13 +36,14 @@
                 <c:forEach items="${metaTypes}" var="metaType" varStatus="st">
                     <tr>
                         <td nowrap>${metaType.name}</td>
-                        <shiro:hasRole name="admin">
-                        <td nowrap>${metaType.code}</td>
                         <td nowrap>
                             <c:if test="${not empty metaType.boolAttr}">
                                 ${metaType.boolAttr?"是":"否"}
                             </c:if>
                         </td>
+                        <shiro:hasRole name="admin">
+                        <td nowrap>${metaType.code}</td>
+
                         <td nowrap>${metaType.extraAttr}</td>
                         <td>${metaType.remark}</td>
                         </shiro:hasRole>

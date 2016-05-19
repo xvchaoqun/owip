@@ -14,7 +14,7 @@
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
             <!-- PAGE CONTENT BEGINS -->
                 <div class="jqgrid-vertical-offset  buttons">
-                    <shiro:hasRole name="admin">
+
                         <shiro:hasPermission name="metaClass:edit">
                             <a class="editBtn btn btn-info btn-sm">
                                 <i class="fa fa-plus"></i> 添加
@@ -41,7 +41,7 @@
                                data-url="${ctx}/metaClass_batchDel" data-title="删除"
                                data-msg="确定删除这{0}个元数据分类吗？"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
-                    </shiro:hasRole>
+
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -100,14 +100,17 @@
             { label: '名称', align:'center', name: 'name', width: 250 ,frozen:true},
             { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200 ,frozen:true},
             { label: '所属二级目录', align:'center', name: 'secondLevel', width: 200 ,frozen:true},
+            <shiro:hasRole name="admin">
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
             }, frozen:true },
             </c:if>
+            </shiro:hasRole>
+            { label: '布尔属性名称', align:'center',  name: 'boolAttr', width: 150 },
             <shiro:hasRole name="admin">
             { label: '代码', align:'center', name: 'code', width: 200 },
-            { label: '布尔属性名称', align:'center',  name: 'boolAttr', width: 150 },
+
             { label: '附加属性名称', align:'center',  name: 'extraAttr', width: 150 }
                 </shiro:hasRole>
         ]
