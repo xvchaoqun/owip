@@ -175,22 +175,22 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-4 control-label">返回修改原因</label>
 				<div class="col-xs-6">
 					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberOut.reason}</textarea>
 				</div>
-			</div>
+			</div>--%>
 				</div></div>
     </form>
 
-<c:if test="${memberOut.status!=MEMBER_OUT_STATUS_OW_VERIFY}">
+<c:if test="${memberOut.status==MEMBER_OUT_STATUS_OW_VERIFY}">
 <div class="modal-footer center">
     <a href="#" class="btn btn-default closeView">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberOut!=null}">确定</c:if><c:if test="${memberOut==null}">添加</c:if>"/>
 </div>
 	</c:if>
-<c:if test="${memberOut.status==MEMBER_OUT_STATUS_OW_VERIFY}">
+<c:if test="${memberOut.status!=MEMBER_OUT_STATUS_OW_VERIFY}">
 	<div class="modal-footer center">
 		<a href="#" class="btn btn-default closeView">返回</a>
 	</div>

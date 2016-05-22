@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.MemberOutMapper" >
-  <resultMap id="BaseResultMap" type="domain.MemberOut" >
+<mapper namespace="persistence.MemberOutModifyMapper" >
+  <resultMap id="BaseResultMap" type="domain.MemberOutModify" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="party_id" property="partyId" jdbcType="INTEGER" />
-    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="out_id" property="outId" jdbcType="INTEGER" />
+    <result column="apply_user_id" property="applyUserId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="to_title" property="toTitle" jdbcType="VARCHAR" />
     <result column="to_unit" property="toUnit" jdbcType="VARCHAR" />
@@ -18,11 +17,10 @@
     <result column="valid_days" property="validDays" jdbcType="INTEGER" />
     <result column="handle_time" property="handleTime" jdbcType="DATE" />
     <result column="has_receipt" property="hasReceipt" jdbcType="BIT" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="is_modify" property="isModify" jdbcType="BIT" />
-    <result column="is_back" property="isBack" jdbcType="BIT" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,17 +81,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, type, to_title, to_unit, from_unit, from_address, 
-    from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    status, is_modify, is_back, reason, apply_time
+    id, out_id, apply_user_id, type, to_title, to_unit, from_unit, from_address, from_phone, 
+    from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, apply_time, 
+    user_id, create_time, ip
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberOutExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.MemberOutModifyExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_out
+    from ow_member_out_modify
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -104,51 +102,46 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from ow_member_out
+    from ow_member_out_modify
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from ow_member_out
+    delete from ow_member_out_modify
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.MemberOutExample" >
-    delete from ow_member_out
+  <delete id="deleteByExample" parameterType="domain.MemberOutModifyExample" >
+    delete from ow_member_out_modify
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.MemberOut" >
-    insert into ow_member_out (id, user_id, party_id, 
-      branch_id, type, to_title, 
-      to_unit, from_unit, from_address, 
-      from_phone, from_fax, from_post_code, 
-      pay_time, valid_days, handle_time, 
-      has_receipt, status, is_modify, 
-      is_back, reason, apply_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{toTitle,jdbcType=VARCHAR}, 
-      #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
-      #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isModify,jdbcType=BIT}, 
-      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="domain.MemberOutModify" >
+    insert into ow_member_out_modify (id, out_id, apply_user_id, 
+      type, to_title, to_unit, 
+      from_unit, from_address, from_phone, 
+      from_fax, from_post_code, pay_time, 
+      valid_days, handle_time, has_receipt, 
+      apply_time, user_id, create_time, 
+      ip)
+    values (#{id,jdbcType=INTEGER}, #{outId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, 
+      #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, 
+      #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
+      #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberOut" >
-    insert into ow_member_out
+  <insert id="insertSelective" parameterType="domain.MemberOutModify" >
+    insert into ow_member_out_modify
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="outId != null" >
+        out_id,
       </if>
-      <if test="partyId != null" >
-        party_id,
-      </if>
-      <if test="branchId != null" >
-        branch_id,
+      <if test="applyUserId != null" >
+        apply_user_id,
       </if>
       <if test="type != null" >
         type,
@@ -186,34 +179,28 @@
       <if test="hasReceipt != null" >
         has_receipt,
       </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="isModify != null" >
-        is_modify,
-      </if>
-      <if test="isBack != null" >
-        is_back,
-      </if>
-      <if test="reason != null" >
-        reason,
-      </if>
       <if test="applyTime != null" >
         apply_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="ip != null" >
+        ip,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="outId != null" >
+        #{outId,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null" >
-        #{partyId,jdbcType=INTEGER},
-      </if>
-      <if test="branchId != null" >
-        #{branchId,jdbcType=INTEGER},
+      <if test="applyUserId != null" >
+        #{applyUserId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
@@ -251,43 +238,37 @@
       <if test="hasReceipt != null" >
         #{hasReceipt,jdbcType=BIT},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="isModify != null" >
-        #{isModify,jdbcType=BIT},
-      </if>
-      <if test="isBack != null" >
-        #{isBack,jdbcType=BIT},
-      </if>
-      <if test="reason != null" >
-        #{reason,jdbcType=VARCHAR},
-      </if>
       <if test="applyTime != null" >
         #{applyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.MemberOutExample" resultType="java.lang.Integer" >
-    select count(*) from ow_member_out
+  <select id="countByExample" parameterType="domain.MemberOutModifyExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_out_modify
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update ow_member_out
+    update ow_member_out_modify
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.outId != null" >
+        out_id = #{record.outId,jdbcType=INTEGER},
       </if>
-      <if test="record.partyId != null" >
-        party_id = #{record.partyId,jdbcType=INTEGER},
-      </if>
-      <if test="record.branchId != null" >
-        branch_id = #{record.branchId,jdbcType=INTEGER},
+      <if test="record.applyUserId != null" >
+        apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
@@ -325,20 +306,17 @@
       <if test="record.hasReceipt != null" >
         has_receipt = #{record.hasReceipt,jdbcType=BIT},
       </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.isModify != null" >
-        is_modify = #{record.isModify,jdbcType=BIT},
-      </if>
-      <if test="record.isBack != null" >
-        is_back = #{record.isBack,jdbcType=BIT},
-      </if>
-      <if test="record.reason != null" >
-        reason = #{record.reason,jdbcType=VARCHAR},
-      </if>
       <if test="record.applyTime != null" >
         apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -346,11 +324,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update ow_member_out
+    update ow_member_out_modify
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      party_id = #{record.partyId,jdbcType=INTEGER},
-      branch_id = #{record.branchId,jdbcType=INTEGER},
+      out_id = #{record.outId,jdbcType=INTEGER},
+      apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       to_title = #{record.toTitle,jdbcType=VARCHAR},
       to_unit = #{record.toUnit,jdbcType=VARCHAR},
@@ -363,26 +340,22 @@
       valid_days = #{record.validDays,jdbcType=INTEGER},
       handle_time = #{record.handleTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
-      status = #{record.status,jdbcType=TINYINT},
-      is_modify = #{record.isModify,jdbcType=BIT},
-      is_back = #{record.isBack,jdbcType=BIT},
-      reason = #{record.reason,jdbcType=VARCHAR},
-      apply_time = #{record.applyTime,jdbcType=TIMESTAMP}
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.MemberOut" >
-    update ow_member_out
+  <update id="updateByPrimaryKeySelective" parameterType="domain.MemberOutModify" >
+    update ow_member_out_modify
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="outId != null" >
+        out_id = #{outId,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null" >
-        party_id = #{partyId,jdbcType=INTEGER},
-      </if>
-      <if test="branchId != null" >
-        branch_id = #{branchId,jdbcType=INTEGER},
+      <if test="applyUserId != null" >
+        apply_user_id = #{applyUserId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
@@ -420,29 +393,25 @@
       <if test="hasReceipt != null" >
         has_receipt = #{hasReceipt,jdbcType=BIT},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="isModify != null" >
-        is_modify = #{isModify,jdbcType=BIT},
-      </if>
-      <if test="isBack != null" >
-        is_back = #{isBack,jdbcType=BIT},
-      </if>
-      <if test="reason != null" >
-        reason = #{reason,jdbcType=VARCHAR},
-      </if>
       <if test="applyTime != null" >
         apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.MemberOut" >
-    update ow_member_out
-    set user_id = #{userId,jdbcType=INTEGER},
-      party_id = #{partyId,jdbcType=INTEGER},
-      branch_id = #{branchId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="domain.MemberOutModify" >
+    update ow_member_out_modify
+    set out_id = #{outId,jdbcType=INTEGER},
+      apply_user_id = #{applyUserId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       to_title = #{toTitle,jdbcType=VARCHAR},
       to_unit = #{toUnit,jdbcType=VARCHAR},
@@ -455,20 +424,19 @@
       valid_days = #{validDays,jdbcType=INTEGER},
       handle_time = #{handleTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
-      status = #{status,jdbcType=TINYINT},
-      is_modify = #{isModify,jdbcType=BIT},
-      is_back = #{isBack,jdbcType=BIT},
-      reason = #{reason,jdbcType=VARCHAR},
-      apply_time = #{applyTime,jdbcType=TIMESTAMP}
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.MemberOutExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.MemberOutModifyExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_out
+    from ow_member_out_modify
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

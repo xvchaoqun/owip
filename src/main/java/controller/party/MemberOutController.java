@@ -6,7 +6,9 @@ import domain.MemberOutExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberOutMixin;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -26,13 +28,12 @@ import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
@@ -105,6 +106,7 @@ public class MemberOutController extends BaseController {
                                     Integer userId,
                                     Byte status,
                                     Boolean isBack,
+                                    Boolean isModify,
                                     Byte type,
                                     Integer partyId,
                                     Integer branchId,
@@ -141,6 +143,9 @@ public class MemberOutController extends BaseController {
         }
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
+        }
+        if(isModify!=null){
+            criteria.andIsModifyEqualTo(isModify);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -343,7 +348,7 @@ public class MemberOutController extends BaseController {
             return failed("添加重复");
         }
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
@@ -364,12 +369,56 @@ public class MemberOutController extends BaseController {
 
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转出：%s", record.getId()));
         } else {
+            MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
 
-            memberOutService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
+            if(hasModified(before, record)) {
+                record.setIsModify(true);
+                memberOutService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
+
+                MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
+                if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+                    MemberOutModify _modifyRecord = new MemberOutModify();
+                    try {
+                        BeanUtils.copyProperties(_modifyRecord, _memberOut);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    _modifyRecord.setId(null);
+                    _modifyRecord.setOutId(_memberOut.getId());
+                    _modifyRecord.setApplyUserId(_memberOut.getUserId());
+                    _modifyRecord.setUserId(loginUserId);
+                    _modifyRecord.setCreateTime(new Date());
+                    _modifyRecord.setIp(IpUtils.getRealIp(request));
+                    memberOutModifyMapper.insertSelective(_modifyRecord);
+                }
+            }else{
+                return failed("没有修改项");
+            }
         }
 
         return success(FormUtils.SUCCESS);
+    }
+    private  boolean hasModified(MemberOut before, MemberOut record){
+
+        return (
+                           (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
+                        || (record.getBranchId() != null && !StringUtils.equals(before.getBranchId() + "", record.getBranchId() + ""))
+                        || (record.getType() != null && !StringUtils.equals(before.getType() + "", record.getType() + ""))
+                        || (record.getToTitle() != null && !StringUtils.equals(before.getToTitle(), record.getToTitle()))
+                        || (record.getToUnit() != null && !StringUtils.equals(before.getToUnit(), record.getToUnit()))
+                        || (record.getFromUnit() != null && !StringUtils.equals(before.getFromUnit(), record.getFromUnit()))
+                        || (record.getFromAddress() != null && !StringUtils.equals(before.getFromAddress(), record.getFromAddress()))
+                        || (record.getFromPhone() != null && !StringUtils.equals(before.getFromPhone(), record.getFromPhone()))
+                        || (record.getFromFax() != null && !StringUtils.equals(before.getFromFax(), record.getFromFax()))
+                        || (record.getFromPostCode() != null && !StringUtils.equals(before.getFromPostCode(), record.getFromPostCode()))
+                        || (record.getPayTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getPayTime(), "yyyyMM"), DateUtils.formatDate(record.getPayTime(), "yyyyMM")))
+                        || (record.getValidDays() != null && !StringUtils.equals(before.getValidDays() + "", record.getValidDays() + ""))
+                        || (record.getHandleTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getHandleTime(), "yyyyMMdd"), DateUtils.formatDate(record.getHandleTime(), "yyyyMMdd")))
+                        || (record.getHasReceipt() != null && !StringUtils.equals(before.getHasReceipt() + "", record.getHasReceipt() + ""))
+                );
     }
 
     @RequiresPermissions("memberOut:edit")

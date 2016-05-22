@@ -373,7 +373,7 @@ public class GraduateAbroadController extends BaseController {
             record.setSaveEndTime(DateUtils.parseDate(_saveEndTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_payTime)) {
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
 
         if (id == null) {

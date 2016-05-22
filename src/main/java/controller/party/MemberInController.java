@@ -212,7 +212,7 @@ public class MemberInController extends BaseController {
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_applyTime)){
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));

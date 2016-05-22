@@ -12,7 +12,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
-                || not empty param.status ||not empty param.isBack
+                || not empty param.status ||not empty param.isBack||not empty param.isModify
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -66,7 +66,7 @@
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
-                                    <c:if test="${cls!=3}">
+                                    <c:if test="${cls==3}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
@@ -104,6 +104,14 @@
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
+                                    <c:if test="${cls==3}">
+                                <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                        data-url="${ctx}/memberOutModify_page"
+                                        data-id-name="outId"
+                                        data-open-by="page">
+                                    <i class="fa fa-search"></i> 查看修改记录
+                                </button>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -212,6 +220,21 @@
                                                     </script>
                                                 </div>
                                             </div>
+                                            <c:if test="${cls==3}">
+                                            <div class="form-group">
+                                                <label>是否修改</label>
+                                                <div class="input-group">
+                                                    <select name="isModify" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">否</option>
+                                                        <option value="1">是</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isModify]").val("${param.isModify}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            </c:if>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -311,11 +334,23 @@
                 }
             }, frozen: true},
             </shiro:hasAnyRoles>
-            {label: '转入单位', name: 'toUnit', width: 250},
-            {label: '转入单位抬头', name: 'toTitle', width: 150},
-            {label: '转出单位', name: 'fromUnit', width: 250},
+            {label: '转入单位', name: 'toUnit', width: 150},
+            {label: '转入单位抬头', name: 'toTitle', width: 200},
+            {label: '转出单位', name: 'fromUnit', width: 200},
+            {label: '转出单位地址', name: 'fromAddress', width: 120},
+            {label: '转出单位联系电话', name: 'fromPhone', width: 150},
+            {label: '转出单位传真', name: 'fromFax', width: 120},
+            {label: '转出单位邮编', name: 'fromPostCode', width: 120},
+            {label: '党费缴纳至年月', name: 'payTime', width: 150},
             {label: '介绍信有效期天数', name: 'validDays', width: 150},
             {label: '办理时间', name: 'handleTime'},
+            {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"是":"否"
+            }},
+            {label: '是否修改', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"是":"否"
+            }},
+            {label: '申请时间', name: 'applyTime', width: 150},
              {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {

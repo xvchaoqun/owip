@@ -359,7 +359,7 @@ public class MemberTransferController extends BaseController {
         }
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_fromHandleTime)){
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));

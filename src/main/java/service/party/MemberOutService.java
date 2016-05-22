@@ -246,7 +246,7 @@ public class MemberOutService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(MemberOut record){
+    public void updateByPrimaryKeySelective(MemberOut record) {
 
         Assert.isTrue(record.getUserId()!=null);
 
@@ -261,7 +261,7 @@ public class MemberOutService extends BaseMapper {
             updateMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
         }
 
-        return memberOutMapper.updateByPrimaryKeySelective(record);
+        memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional

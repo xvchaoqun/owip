@@ -96,6 +96,8 @@ public class BaseMapper {
 	@Autowired
 	protected MemberOutMapper memberOutMapper;
 	@Autowired
+	protected MemberOutModifyMapper memberOutModifyMapper;
+	@Autowired
 	protected MemberInMapper memberInMapper;
 
 	@Autowired

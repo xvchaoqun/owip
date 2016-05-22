@@ -61,8 +61,11 @@
       </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
-        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>-->
+        <table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>
+      <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
+      </table>-->
+
 
     <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
@@ -76,8 +79,8 @@
       </table>-->
       <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
       </table>-->
-      <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
-      </table>
+      <!--<table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
+      </table>-->
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 

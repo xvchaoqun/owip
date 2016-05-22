@@ -350,7 +350,7 @@ public class MemberStayController extends BaseController {
             record.setReturnTime(DateUtils.parseDate(_returnTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_payTime)) {
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
 
         if (id == null) {

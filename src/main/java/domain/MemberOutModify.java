@@ -5,17 +5,15 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberOut implements Serializable {
+public class MemberOutModify implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
     private Integer id;
 
-    private Integer userId;
+    private Integer outId;
 
-    private Integer partyId;
-
-    private Integer branchId;
+    private Integer applyUserId;
 
     private Byte type;
 
@@ -41,15 +39,13 @@ public class MemberOut implements Serializable {
 
     private Boolean hasReceipt;
 
-    private Byte status;
-
-    private Boolean isModify;
-
-    private Boolean isBack;
-
-    private String reason;
-
     private Date applyTime;
+
+    private Integer userId;
+
+    private Date createTime;
+
+    private String ip;
 
     private static final long serialVersionUID = 1L;
 
@@ -61,28 +57,20 @@ public class MemberOut implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getOutId() {
+        return outId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOutId(Integer outId) {
+        this.outId = outId;
     }
 
-    public Integer getPartyId() {
-        return partyId;
+    public Integer getApplyUserId() {
+        return applyUserId;
     }
 
-    public void setPartyId(Integer partyId) {
-        this.partyId = partyId;
-    }
-
-    public Integer getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Integer branchId) {
-        this.branchId = branchId;
+    public void setApplyUserId(Integer applyUserId) {
+        this.applyUserId = applyUserId;
     }
 
     public Byte getType() {
@@ -181,43 +169,35 @@ public class MemberOut implements Serializable {
         this.hasReceipt = hasReceipt;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Boolean getIsModify() {
-        return isModify;
-    }
-
-    public void setIsModify(Boolean isModify) {
-        this.isModify = isModify;
-    }
-
-    public Boolean getIsBack() {
-        return isBack;
-    }
-
-    public void setIsBack(Boolean isBack) {
-        this.isBack = isBack;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
-    }
-
     public Date getApplyTime() {
         return applyTime;
     }
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
     }
 }

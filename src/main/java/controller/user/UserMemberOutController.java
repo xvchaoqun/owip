@@ -63,7 +63,7 @@ public class UserMemberOutController extends BaseController{
         //Integer userId = record.getUserId();
         Integer userId = loginUser.getId();
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));

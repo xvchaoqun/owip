@@ -89,7 +89,7 @@ public class UserGraduateAbroadController extends BaseController{
         }
 
         if(StringUtils.isNotBlank(_payTime)) {
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
 
         GraduateAbroad graduateAbroad = graduateAbroadService.get(userId);
