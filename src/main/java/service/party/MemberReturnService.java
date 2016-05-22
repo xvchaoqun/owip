@@ -261,7 +261,9 @@ public class MemberReturnService extends BaseMapper {
 
             int userId = memberReturn.getUserId();
             applyApprovalLogService.add(memberReturn.getId(),
-                    memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                    memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
                             ? "党支部审核" : "分党委审核", (byte) 1, null);
         }
@@ -325,7 +327,8 @@ public class MemberReturnService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, SystemConstants.MEMBER_RETURN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

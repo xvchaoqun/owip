@@ -22,11 +22,9 @@
                         <li class="${cls==11?'active':''}">
                             <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核（${partyApprovalCount}）</a>
                         </li>
-                        <shiro:hasRole name="odAdmin">
                         <li class="${cls==12?'active':''}">
                             <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
                         </li>
-                            </shiro:hasRole>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>

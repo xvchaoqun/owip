@@ -82,6 +82,12 @@ public interface UpdateMapper {
             + SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY)
     void memberStay_back(@Param("id") int id, @Param("status") byte status);
 
+    // 毕业生出国：打回
+    @Update("update ow_graduate_abroad set status= #{status}"
+            +" where id=#{id} and status >= #{status} and status<"
+            + SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY)
+    void graduateAbroad_back(@Param("id") int id, @Param("status") byte status);
+
     // 校内转接：打回
     @Update("update ow_member_transfer set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"

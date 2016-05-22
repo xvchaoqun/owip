@@ -76,6 +76,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MemberAbroadService memberAbroadService;
     @Autowired
+    protected GraduateAbroadService graduateAbroadService;
+    @Autowired
     protected MemberQuitService memberQuitService;
     @Autowired
     protected RetireApplyService retireApplyService;

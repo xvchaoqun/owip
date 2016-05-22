@@ -252,7 +252,9 @@ public class MemberQuitService extends BaseMapper {
 
             int userId = memberQuit.getUserId();
             applyApprovalLogService.add(memberQuit.getUserId(),
-                    memberQuit.getPartyId(), memberQuit.getBranchId(), userId, loginUserId,
+                    memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            (type == 2)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, (type == 1)
                             ? "支部审核" : (type == 2)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
@@ -304,7 +306,8 @@ public class MemberQuitService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(userId,
-                memberQuit.getPartyId(), memberQuit.getBranchId(), userId, loginUserId,
+                memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, SystemConstants.MEMBER_QUIT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

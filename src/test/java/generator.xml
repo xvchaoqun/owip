@@ -66,16 +66,21 @@
 
     <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
       </table>-->
-      <table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
+      <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
       </table>
       <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
-      </table>
+      </table>-->
       <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
       </table>-->
       <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
       </table>-->
+      <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
+      </table>-->
+      <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
+      </table>
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
+
       <!--<table tableName="ow_apply_approval_log" domainObjectName="ApplyApprovalLog">
       </table>-->
 

@@ -146,7 +146,8 @@ public class MemberStayService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), shiroUser.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
+                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -272,7 +273,9 @@ public class MemberStayService extends BaseMapper {
             }
             int userId = memberStay.getUserId();
             applyApprovalLogService.add(memberStay.getId(),
-                    memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                    memberStay.getPartyId(), memberStay.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
@@ -320,7 +323,8 @@ public class MemberStayService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                memberStay.getPartyId(), memberStay.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, SystemConstants.MEMBER_STAY_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

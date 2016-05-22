@@ -258,7 +258,9 @@ public class MemberInflowService extends BaseMapper {
             int userId = memberInflow.getUserId();
 
             applyApprovalLogService.add(memberInflow.getId(),
-                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
@@ -321,7 +323,8 @@ public class MemberInflowService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

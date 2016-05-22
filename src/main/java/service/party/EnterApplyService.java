@@ -233,6 +233,14 @@ public class EnterApplyService extends BaseMapper{
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
+        byte userType=-1;
+        if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT){
+            userType = SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF;
+        }
+        if(status==SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT){
+            userType = SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN;
+        }
+
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply==null)
@@ -267,7 +275,8 @@ public class EnterApplyService extends BaseMapper{
                 Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0);
 
                 applyApprovalLogService.add(_memberApply.getUserId(),
-                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(), shiroUser.getId(),
+                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
+                        shiroUser.getId(), userType,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         "撤回",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -295,7 +304,8 @@ public class EnterApplyService extends BaseMapper{
                 Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0);
 
                 applyApprovalLogService.add(_memberReturn.getId(),
-                        _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(), shiroUser.getId(),
+                        _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(),
+                        shiroUser.getId(), userType,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                         "撤回",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -327,7 +337,8 @@ public class EnterApplyService extends BaseMapper{
                 Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0);
 
                 applyApprovalLogService.add(_memberIn.getId(),
-                        _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(), shiroUser.getId(),
+                        _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(),
+                        shiroUser.getId(), userType,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
                         "撤回",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -355,7 +366,8 @@ public class EnterApplyService extends BaseMapper{
                 Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0);
 
                 applyApprovalLogService.add(_memberInflow.getId(),
-                        _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(), shiroUser.getId(),
+                        _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(),
+                        shiroUser.getId(), userType,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                         "撤回",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

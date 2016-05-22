@@ -28,6 +28,8 @@ public class ApplyApprovalLog implements Serializable {
 
     private Integer userId;
 
+    private Byte userType;
+
     private Byte status;
 
     private String remark;
@@ -100,6 +102,14 @@ public class ApplyApprovalLog implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
     public Byte getStatus() {

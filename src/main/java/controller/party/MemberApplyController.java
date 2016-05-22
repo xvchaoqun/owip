@@ -335,7 +335,8 @@ public class MemberApplyController extends BaseController {
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "");
 

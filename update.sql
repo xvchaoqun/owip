@@ -1,3 +1,17 @@
+
+--20160520
+ALTER TABLE `ow_apply_approval_log`
+	ADD COLUMN  `user_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '操作人类别, 0本人 1党支部 2分党委 3组织部 4系统管理员' AFTER `user_id`,
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '操作结果， 0不通过 1通过 2打回 3直接通过' AFTER `user_type`;
+
+ALTER TABLE `ow_apply_approval_log`
+	CHANGE COLUMN `stage` `stage` VARCHAR(50) NULL DEFAULT NULL COMMENT '阶段备注，比如 初审、党支部审核、分党委审核、终审、本人打回等' AFTER `type`,
+	CHANGE COLUMN `user_type` `user_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '操作人类别, 0本人 1党支部 2分党委 3组织部 4系统管理员' AFTER `user_id`,
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '操作结果， 0审核不通过 1审核通过 2打回 3直接通过' AFTER `user_type`,
+	CHANGE COLUMN `create_time` `create_time` DATETIME NULL DEFAULT NULL COMMENT '操作时间' AFTER `remark`;
+
+	CREATE ALGORITHM = UNDEFINED VIEW `ow_graduate_abroad_view` AS SELECT oga.*,  om.`status` as member_status from ow_graduate_abroad oga, ow_member om where oga.user_id=om.user_id  ;
+
 --20160519
 
 ALTER TABLE `ow_member_in`

@@ -350,7 +350,8 @@ public class MemberQuitController extends BaseController {
                 memberQuitService.insertSelective(record);
             }
             applyApprovalLogService.add(record.getUserId(),
-                    record.getPartyId(), record.getBranchId(), userId, loginUserId,
+                    record.getPartyId(), record.getBranchId(), userId,
+                    loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 

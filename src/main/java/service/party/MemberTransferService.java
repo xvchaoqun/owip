@@ -145,7 +145,8 @@ public class MemberTransferService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberTransfer.getId(),
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(), shiroUser.getId(),
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
+                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -269,7 +270,9 @@ public class MemberTransferService extends BaseMapper {
             }
             int userId = memberTransfer.getUserId();
             applyApprovalLogService.add(memberTransfer.getId(),
-                    memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                    memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
+                    loginUserId,  (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
                             ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
         }
@@ -318,7 +321,8 @@ public class MemberTransferService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

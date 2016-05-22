@@ -148,7 +148,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(loginUser.getId(),
-                memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(), loginUser.getId(),
+                memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                 SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -249,7 +250,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberReturn(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -376,7 +378,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberIn(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -449,7 +452,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberInflow(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

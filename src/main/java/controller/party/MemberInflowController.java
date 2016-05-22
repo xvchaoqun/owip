@@ -256,7 +256,8 @@ public class MemberInflowController extends BaseController {
             enterApplyService.memberInflow(record);
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

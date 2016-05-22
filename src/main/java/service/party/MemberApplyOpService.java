@@ -44,7 +44,8 @@ public class MemberApplyOpService extends BaseController {
             MemberApply memberApply = memberApplyService.get(userId);
             enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
@@ -65,7 +66,8 @@ public class MemberApplyOpService extends BaseController {
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
@@ -88,7 +90,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
@@ -140,7 +143,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -169,7 +174,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
@@ -212,7 +218,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -245,7 +253,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -285,7 +294,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -315,7 +326,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -354,7 +366,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -373,6 +387,8 @@ public class MemberApplyOpService extends BaseController {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
             boolean isParty = verifyAuth.isParty;
+            boolean partyAdmin = verifyAuth.isPartyAdmin;
+            boolean directParty = verifyAuth.isDirectBranch;
 
             MemberApply record = new MemberApply();
             record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
@@ -385,7 +401,8 @@ public class MemberApplyOpService extends BaseController {
             if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
                 memberApplyService.applyGrowCheckByParty(userId, record, example);
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -393,7 +410,9 @@ public class MemberApplyOpService extends BaseController {
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -411,7 +430,8 @@ public class MemberApplyOpService extends BaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -449,7 +469,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -467,7 +489,8 @@ public class MemberApplyOpService extends BaseController {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
             boolean isParty = verifyAuth.isParty;
-
+            boolean partyAdmin = verifyAuth.isPartyAdmin;
+            boolean directParty = verifyAuth.isDirectBranch;
             MemberApply record = new MemberApply();
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
@@ -480,7 +503,8 @@ public class MemberApplyOpService extends BaseController {
                 memberApplyService.applyPositiveCheckByParty(userId, record, example);
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -488,7 +512,9 @@ public class MemberApplyOpService extends BaseController {
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -506,7 +532,8 @@ public class MemberApplyOpService extends BaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -522,7 +549,8 @@ public class MemberApplyOpService extends BaseController {
             memberApplyService.memberApply_back(memberApply, stage);
 
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, SystemConstants.APPLY_STAGE_MAP.get(stage),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }

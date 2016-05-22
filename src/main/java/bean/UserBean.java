@@ -15,6 +15,7 @@ public class UserBean implements Serializable{
     // 平台用户基础信息
     public Integer userId;
     public String code; // 学工号
+    public String username;
     public String realname;
     public Byte type; // 类别：教师、学生
     public Byte gender;
@@ -46,6 +47,14 @@ public class UserBean implements Serializable{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRealname() {

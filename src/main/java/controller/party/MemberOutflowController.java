@@ -377,7 +377,8 @@ public class MemberOutflowController extends BaseController {
             record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
             memberOutflowService.add(record);
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

@@ -38,6 +38,7 @@ public class UserBeanService extends BaseMapper{
 
         UserBean userBean = new UserBean();
         userBean.setUserId(userId);
+        userBean.setUsername(sysUser.getUsername());
         userBean.setCode(sysUser.getCode());
         userBean.setType(sysUser.getType());
         userBean.setMobile(sysUser.getMobile());

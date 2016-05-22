@@ -19,7 +19,7 @@ import java.util.List;
 public class ApplyApprovalLogService extends BaseMapper {
     
     public void add(int recordId, int partyId, Integer branchId, int applyUserId,
-                                int userId, byte type,
+                                int userId, byte userType, byte type,
                                 String stage, byte status, String remark){
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -30,6 +30,7 @@ public class ApplyApprovalLogService extends BaseMapper {
         record.setBranchId(branchId);
         record.setApplyUserId(applyUserId);
         record.setUserId(userId);
+        record.setUserType(userType);
         record.setType(type);
         record.setStage(stage);
         record.setRemark(remark);

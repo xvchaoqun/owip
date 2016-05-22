@@ -95,7 +95,8 @@ public class UserMemberOutflowController extends BaseController{
             logger.info(addLog(SystemConstants.LOG_USER, "提交修改流出党员申请"));
         }
         applyApprovalLogService.add(memberOutflow.getId(),
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(), userId,
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

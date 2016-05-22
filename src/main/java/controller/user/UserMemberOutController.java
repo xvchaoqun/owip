@@ -94,7 +94,8 @@ public class UserMemberOutController extends BaseController{
         }
 
         applyApprovalLogService.add(memberOut.getId(),
-                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(), userId,
+                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

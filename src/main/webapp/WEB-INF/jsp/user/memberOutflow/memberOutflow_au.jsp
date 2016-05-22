@@ -120,7 +120,7 @@
     showLocation("${memberOutflow.province}");
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'), {endDate:'${today}'});
+    register_date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
 

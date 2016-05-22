@@ -405,6 +405,31 @@ public class SystemConstants {
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
 	}
 
+	// 毕业生党员出国（境）保留组织关系申请    留学方式
+	public final static byte GRADUATE_ABROAD_TYPE_PUB = 1; // 公派
+	public final static byte GRADUATE_ABROAD_TYPE_SELF = 2; // 自费
+	public final static Map<Byte, String> GRADUATE_ABROAD_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_PUB, "公派");
+		GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_SELF, "自费");
+	}
+	// 毕业生党员出国（境）保留组织关系申请状态
+	public final static byte GRADUATE_ABROAD_STATUS_SELF_BACK = -2; // 本人撤回
+	public final static byte GRADUATE_ABROAD_STATUS_BACK = -1; // 审核不通过
+	public final static byte GRADUATE_ABROAD_STATUS_APPLY = 0;
+	public final static byte GRADUATE_ABROAD_STATUS_BRANCH_VERIFY= 1;
+	public final static byte GRADUATE_ABROAD_STATUS_PARTY_VERIFY= 2;
+	public final static byte GRADUATE_ABROAD_STATUS_OW_VERIFY= 3;
+	public final static Map<Byte, String> GRADUATE_ABROAD_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_SELF_BACK, "本人撤回");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BACK, "不通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_APPLY, "申请");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BRANCH_VERIFY, "党支部审核通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_PARTY_VERIFY, "分党委审核通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_OW_VERIFY, "组织部审核通过");
+	}
+
 	// 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY = 1;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD = 2;
@@ -418,6 +443,7 @@ public class SystemConstants {
 	public final static byte APPLY_APPROVAL_LOG_TYPE_USER_REG = 10;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT = 11;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT = 12;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD = 13;
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
@@ -432,13 +458,33 @@ public class SystemConstants {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "党员出党");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, "流入党员转出");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD, "毕业生出国（境）申请组织关系暂留");
+	}
+
+	// 党员各类申请的操作人类别
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_SELF = 0; // 本人
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_BRANCH = 1; // 党支部
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_PARTY = 2; // 分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_OW = 3; // 组织部
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY = 4; // 转出分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY = 5; // 转入分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_ADMIN = 10;// 后台操作
+	public final static Map<Byte, String> APPLY_APPROVAL_LOG_USER_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_SELF, "本人");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_BRANCH, "党支部");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_PARTY, "分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_OW, "组织部");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY, "转出分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY, "转入分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
 	}
 
 	// 党员各类申请的审批结果
 	public final static byte APPLY_APPROVAL_LOG_STATUS_DENY = 0;
 	public final static byte APPLY_APPROVAL_LOG_STATUS_PASS = 1;
 	public final static byte APPLY_APPROVAL_LOG_STATUS_BACK = 2;
-	public final static byte APPLY_APPROVAL_LOG_STATUS_NONEED = 3; // 不需要审核
+	public final static byte APPLY_APPROVAL_LOG_STATUS_NONEED = 3; // 直接通过，不需要审核
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_STATUS_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_STATUS_MAP.put(APPLY_APPROVAL_LOG_STATUS_DENY, "不通过");

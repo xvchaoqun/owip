@@ -113,7 +113,7 @@
                         党费缴纳至年月
                     </td>
                     <td class="bg-left" style="min-width: 120px" colspan="3">
-                        ${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}
                     </td>
                 </tr>
                 <tr>

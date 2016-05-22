@@ -106,7 +106,8 @@ public class UserMemberStayController extends BaseController{
             logger.info(addLog(SystemConstants.LOG_USER, "修改暂留申请"));
         }
         applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), userId,
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

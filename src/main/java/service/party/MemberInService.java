@@ -257,7 +257,9 @@ public class MemberInService extends BaseMapper {
 
             int userId = memberIn.getUserId();
             applyApprovalLogService.add(memberIn.getId(),
-                    memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                    memberIn.getPartyId(), memberIn.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
@@ -321,7 +323,8 @@ public class MemberInService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                memberIn.getPartyId(), memberIn.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, SystemConstants.MEMBER_IN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

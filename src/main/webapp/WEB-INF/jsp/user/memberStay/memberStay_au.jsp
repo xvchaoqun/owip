@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div  style="width: 900px">
@@ -72,7 +65,8 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberStay.payTime,'yyyy-MM-dd')}" />
+                                           data-date-format="yyyy-mm"
+                                           data-date-min-view-mode="1" value="${cm:formatDate(memberStay.payTime,'yyyy-MM')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -121,7 +115,7 @@
 <script>
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'), {endDate:'${today}'});
+    register_date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
 

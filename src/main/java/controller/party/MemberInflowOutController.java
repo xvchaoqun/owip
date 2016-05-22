@@ -352,7 +352,8 @@ public class MemberInflowOutController extends BaseController {
         MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime, false);
 
         applyApprovalLogService.add(memberInflow.getId(),
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUser.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

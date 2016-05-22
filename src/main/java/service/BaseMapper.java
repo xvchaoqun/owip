@@ -109,6 +109,10 @@ public class BaseMapper {
 	@Autowired
 	protected MemberAbroadMapper memberAbroadMapper;
 	@Autowired
+	protected GraduateAbroadMapper graduateAbroadMapper;
+	@Autowired
+	protected GraduateAbroadViewMapper graduateAbroadViewMapper;
+	@Autowired
 	protected MemberQuitMapper memberQuitMapper;
 	@Autowired
 	protected RetireApplyMapper retireApplyMapper;

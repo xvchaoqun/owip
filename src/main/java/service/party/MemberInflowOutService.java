@@ -163,7 +163,8 @@ public class MemberInflowOutService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberInflow.getId(),
-                memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(), shiroUser.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(),
+                shiroUser.getId(),  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -269,7 +270,9 @@ public class MemberInflowOutService extends BaseMapper {
             int userId = memberInflow.getUserId();
 
             applyApprovalLogService.add(memberInflow.getId(),
-                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
@@ -318,7 +321,8 @@ public class MemberInflowOutService extends BaseMapper {
         memberInflowService.updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, SystemConstants.MEMBER_INFLOW_OUT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

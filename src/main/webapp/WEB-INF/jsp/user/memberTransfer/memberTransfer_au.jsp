@@ -83,7 +83,9 @@
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}" />
+                                           data-date-format="yyyy-mm"
+                                           data-date-min-view-mode="1"
+                                           value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -99,7 +101,8 @@
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}" />
+                                           data-date-format="yyyy-mm-dd"
+                                           data-date-end-date="${today}" value="${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -120,7 +123,7 @@
 <script>
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'), {endDate:'${today}'});
+    register_date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
 

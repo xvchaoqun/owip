@@ -280,7 +280,8 @@ public class MemberReturnController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
