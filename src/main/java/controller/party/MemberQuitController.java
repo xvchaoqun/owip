@@ -268,7 +268,7 @@ public class MemberQuitController extends BaseController {
 
         memberQuitService.memberQuit_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "党员出党申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "党员出党申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -293,7 +293,7 @@ public class MemberQuitController extends BaseController {
 
         memberQuitService.memberQuit_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回党员出党申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回党员出党申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

@@ -365,7 +365,7 @@ public class MemberReturnController extends BaseController {
 
         memberReturnService.memberReturn_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -390,7 +390,7 @@ public class MemberReturnController extends BaseController {
 
         memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     

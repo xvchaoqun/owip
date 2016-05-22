@@ -170,7 +170,7 @@ public class MemberController extends BaseController {
             throw new UnauthorizedException();
         }
 
-        modelMap.put("ids", ids);
+        modelMap.put("ids", StringUtils.join( ids, ","));
 
         Integer _partyId = null;
         for (Integer userId : ids) {
@@ -217,7 +217,7 @@ public class MemberController extends BaseController {
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
-        //modelMap.put("ids", ids);
+        //modelMap.put("ids", StringUtils.join( ids, ","));
 
         return "party/member/member_changeParty";
     }

@@ -288,7 +288,7 @@ public class MemberTransferController extends BaseController {
 
         memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -313,7 +313,7 @@ public class MemberTransferController extends BaseController {
 
         memberTransferService.memberTransfer_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     

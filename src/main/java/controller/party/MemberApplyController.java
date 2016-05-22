@@ -6,6 +6,7 @@ import domain.MemberApplyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberApplyMixin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -596,7 +597,7 @@ public class MemberApplyController extends BaseController {
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
