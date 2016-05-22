@@ -3,7 +3,9 @@
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `is_modify` TINYINT(1) UNSIGNED NULL COMMENT '是否修改，审批完成后是否修改过' AFTER `status`;
 
-
+update ow_member_out set is_modify = 0 where is_modify is null;
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `is_modify` `is_modify` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否修改，审批完成后是否修改过' AFTER `status`;
 --20160520
 ALTER TABLE `ow_apply_approval_log`
 	ADD COLUMN  `user_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '操作人类别, 0本人 1党支部 2分党委 3组织部 4系统管理员' AFTER `user_id`,

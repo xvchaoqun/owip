@@ -225,6 +225,8 @@ public class MemberOutService extends BaseMapper {
     @Transactional
     public int insertSelective(MemberOut record){
 
+        record.setIsBack(false);
+        record.setIsModify(false);
         memberOpService.checkOpAuth(record.getUserId());
 
         return memberOutMapper.insertSelective(record);
