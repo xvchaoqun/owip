@@ -51,6 +51,8 @@ public class BaseMapper {
 			throw new UnauthorizedException();
 		}
 		verifyAuth.isParty = CmTag.isParty(partyId);
+		verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+		verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
 		return verifyAuth;
 	}
 
