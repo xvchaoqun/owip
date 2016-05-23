@@ -33,8 +33,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void changeRoleGuestToMember(int userId, String username, String code){
@@ -48,8 +48,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void changeRoleMemberToGuest(int userId, String username, String code){
@@ -89,7 +89,7 @@ public class SysUserService extends BaseMapper {
 		sysUserMapper.insertSelective(record);
 	}
 
-	@Cacheable(value="SysUser:ID:", key="#id")
+	@Cacheable(value="SysUser:ID_", key="#id")
 	public SysUser findById(int id) {
 
 		return sysUserMapper.selectByPrimaryKey(id);
@@ -105,7 +105,7 @@ public class SysUserService extends BaseMapper {
 		return (users.size()>0)?users.get(0):null;
 	}
 
-	@Cacheable(value="SysUser:CODE:", key="#code")
+	@Cacheable(value="SysUser:CODE_", key="#code")
 	public SysUser findByCode(String code) {
 
 		SysUserExample example = new SysUserExample();
@@ -132,8 +132,8 @@ public class SysUserService extends BaseMapper {
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="SysUser", key="#oldUsername"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#user.id")
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#user.id")
 	})
 	public int updateByPrimaryKeySelective(SysUser user, String oldUsername, String code){
 
@@ -143,8 +143,8 @@ public class SysUserService extends BaseMapper {
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#id")
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#id")
 	})
 	public int lockUser(int id, String username, String code, boolean locked){
 
@@ -161,8 +161,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#oldUsername"),
 			@CacheEvict(value="Menus", key="#oldUsername"),
 			@CacheEvict(value="SysUser", key="#oldUsername"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#id"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#id"),
 			@CacheEvict(value="UserPermissions", key="#oldUsername")
 	})
 	public int deleteByPrimaryKey(Integer id, String oldUsername, String code){
@@ -190,8 +190,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void delRole(int userId, String role, String username, String code){
@@ -216,8 +216,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void addRole(int userId, String role, String username, String code){
@@ -246,8 +246,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void changeRole(int userId, String role, String toRole, String username, String code){
@@ -359,8 +359,8 @@ public class SysUserService extends BaseMapper {
 			@CacheEvict(value="UserRoles", key="#username"),
 			@CacheEvict(value="Menus", key="#username"),
 			@CacheEvict(value="SysUser", key="#username"),
-			@CacheEvict(value="SysUser:CODE:", key="#code"),
-			@CacheEvict(value="SysUser:ID:", key="#userId"),
+			@CacheEvict(value="SysUser:CODE_", key="#code"),
+			@CacheEvict(value="SysUser:ID_", key="#userId"),
 			@CacheEvict(value="UserPermissions", key="#username")
 	})
 	public void updateUserRoles(int userId, String username, String code, String roleIds){

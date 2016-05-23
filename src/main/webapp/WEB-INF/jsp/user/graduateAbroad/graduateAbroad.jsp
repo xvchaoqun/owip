@@ -29,7 +29,7 @@
                     </td>
                     <td  rowspan="3" style="text-align: center;vertical-align: middle;
 				 background-color: #fff;">
-                        <img src="${ctx}/avatar/${userBean.username}" alt="免冠照片">
+                        <img src="${ctx}/avatar/${userBean.username}" alt="免冠照片"  class="avatar">
                     </td>
                 </tr>
                 <tr>

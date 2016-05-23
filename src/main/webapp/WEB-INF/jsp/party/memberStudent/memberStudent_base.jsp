@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${cm:getUserById(param.userId).code}">
+					<img src="${ctx}/avatar/${cm:getUserById(param.userId).code}"  class="avatar">
 				</td>
 
 				<td class="bg-right">

@@ -112,7 +112,7 @@ public class SysUserRegService extends BaseMapper {
     @Transactional
     @Caching(evict={
             @CacheEvict(value="SysUser", key="#username"),
-            @CacheEvict(value="SysUser:ID:", key="#userId"),
+            @CacheEvict(value="SysUser:ID_", key="#userId"),
             @CacheEvict(value="UserRoles", key="#username"),
             @CacheEvict(value="UserPermissions", key="#username"),
             @CacheEvict(value="Menus", key="#username")
