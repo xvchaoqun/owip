@@ -16,14 +16,19 @@ import java.io.File;
 @Controller
 public class AvatarController extends BaseController{
 
+    int total = 0;
+    int save = 0;
+    int error = 0;
     private Logger logger = LoggerFactory.getLogger(getClass());
     public void listFolder(File folder){
+
         File[] files = folder.listFiles();
         for (File file : files) {
             if(file.isDirectory()){
                 listFolder(file);
             }
             if(file.isFile()){
+                total++;
                 String filename = file.getName();
                 try {
                     if (PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
@@ -36,11 +41,13 @@ public class AvatarController extends BaseController{
 
                             logger.info(code + " save to " + (avatar + code + ".jpg"));
                             FileUtils.copyFile(file, new File(avatar + code + ".jpg"));
+                            save++;
                         }
                     }
                 }catch (Exception ex){
                     ex.printStackTrace();
                     logger.error(filename +" save error.");
+                    error++;
                 }
             }
         }
@@ -52,6 +59,6 @@ public class AvatarController extends BaseController{
         long startTime=System.currentTimeMillis();
         listFolder(new File("/data/avatar"));
         long endTime=System.currentTimeMillis();
-        System.out.println("处理头像运行时间： " + (endTime - startTime) + "ms");
+        System.out.println("total:"+ total + " save:"+save + " error:" + error + "处理头像运行时间： " + (endTime - startTime) + "ms");
     }
 }
