@@ -70,7 +70,7 @@ public class ProfileController extends BaseController {
         record.setSign(savePath);
         record.setMobile(mobile);
 
-        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername(), loginUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }
@@ -135,7 +135,7 @@ public class ProfileController extends BaseController {
         record.setEmail(email);
         record.setMobile(mobile);
 
-        sysUserService.updateByPrimaryKeySelective(record, shiroUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, shiroUser.getUsername(),shiroUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }
@@ -163,7 +163,7 @@ public class ProfileController extends BaseController {
         SysUser record = new SysUser();
         record.setId(userId);
         record.setAvatar(avatar);
-        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
         return success(FormUtils.SUCCESS);
     }
 
@@ -202,7 +202,7 @@ public class ProfileController extends BaseController {
         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
         _sysUser.setSalt(encrypt.getSalt());
         _sysUser.setPasswd(encrypt.getPassword());
-        sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername() );
+        sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername() , sysUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }

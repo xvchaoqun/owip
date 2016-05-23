@@ -80,7 +80,7 @@ public class BranchMemberGroupService extends BaseMapper {
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
             List<Integer> branchIdList = commonMapper.adminBranchIdList(userId);
             if(branchIdList.size()==0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
+                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }
@@ -94,7 +94,7 @@ public class BranchMemberGroupService extends BaseMapper {
             // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
             Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());
             if (!roleStrSet.contains(SystemConstants.ROLE_BRANCHADMIN)) {
-                sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername());
+                sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }

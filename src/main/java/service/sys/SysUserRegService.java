@@ -105,14 +105,14 @@ public class SysUserRegService extends BaseMapper {
             updateByPrimaryKeySelective(record);
         }
         // 删除账号
-        sysUserService.deleteByPrimaryKey(sysUserReg.getUserId(), sysUserReg.getUsername());
+        sysUserService.deleteByPrimaryKey(sysUserReg.getUserId(), sysUserReg.getUsername(), sysUserReg.getCode());
     }
 
     // 通过
     @Transactional
     @Caching(evict={
             @CacheEvict(value="SysUser", key="#username"),
-            @CacheEvict(value="SysUser:ID", key="#userId"),
+            @CacheEvict(value="SysUser:ID:", key="#userId"),
             @CacheEvict(value="UserRoles", key="#username"),
             @CacheEvict(value="UserPermissions", key="#username"),
             @CacheEvict(value="Menus", key="#username")
@@ -138,7 +138,7 @@ public class SysUserRegService extends BaseMapper {
             record.setSource(SystemConstants.USER_SOURCE_REG);
             record.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
 
-            sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername());
+            sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername(), sysUserReg.getCode());
         }
     }
     

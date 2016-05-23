@@ -41,7 +41,7 @@ public class CadreService extends BaseMapper {
 
             Cadre record = new Cadre();
             String userCode = uRow.getUserCode();
-            SysUser sysUser = sysUserService.findByUsername(userCode);
+            SysUser sysUser = sysUserService.findByCode(userCode);
             if(sysUser== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
             record.setUserId(sysUser.getId());
             record.setStatus(status);
@@ -198,7 +198,7 @@ public class CadreService extends BaseMapper {
 
         SysUser sysUser = sysUserService.findById(record.getUserId());
         // 添加干部身份
-        sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername());
+        sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
 
         cadreMapper.insertSelective(record);
         Integer id = record.getId();

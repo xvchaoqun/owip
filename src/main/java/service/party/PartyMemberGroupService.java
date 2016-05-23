@@ -61,7 +61,7 @@ public class PartyMemberGroupService extends BaseMapper {
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
             List<Integer> partyIdList = commonMapper.adminPartyIdList(userId);
             if(partyIdList.size()==0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+                sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }
@@ -75,7 +75,7 @@ public class PartyMemberGroupService extends BaseMapper {
             // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
             Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());
             if (!roleStrSet.contains(SystemConstants.ROLE_PARTYADMIN)) {
-                sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+                sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }

@@ -187,7 +187,7 @@ public class MemberInflowService extends BaseMapper {
 
         // 更新系统角色  访客->流入党员
         sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
     @Transactional

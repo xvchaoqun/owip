@@ -6,6 +6,12 @@ import java.util.Map;
 
 public class SystemConstants {
 
+	public final static Map<String, String> appKeyMap = new HashMap<>();
+	static {
+
+		appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
+	}
+
 	public static Map loginFailedResultMap(String message){
 
 		Map<String, Object> resultMap = new HashMap();

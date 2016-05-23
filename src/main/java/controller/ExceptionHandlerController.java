@@ -1,6 +1,7 @@
 package controller;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import interceptor.SignParamsException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import sys.utils.FormUtils;
 import sys.utils.HttpUtils;
+import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +37,10 @@ public class ExceptionHandlerController {
         resultMap.put("success", false);
         resultMap.put("msg", FormUtils.FILEMAX);
 
-        logger.warn("{}, {}, {}, {}",
+        logger.warn("{}, {}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false)});
+                        JSONUtils.toString(request.getParameterMap(), false), IpUtils.getRealIp(request)});
 
         return resultMap;
     }
@@ -62,10 +64,10 @@ public class ExceptionHandlerController {
             resultMap.put("msg", "系统异常：" + ex.getMessage());
         }
 
-        logger.warn("{}, {}, {}, {}",
+        logger.warn("{}, {}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false)});
+                        JSONUtils.toString(request.getParameterMap(), false), IpUtils.getRealIp(request)});
 
         return resultMap;
     }
@@ -92,10 +94,10 @@ public class ExceptionHandlerController {
         view.setAttributesMap(attributes);
         mav.setView(view);
 
-        logger.warn("{}, {}, {}, {}",
+        logger.warn("{}, {}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false)});
+                        JSONUtils.toString(request.getParameterMap(), false), IpUtils.getRealIp(request)});
 
         return mav;
     }
@@ -115,10 +117,10 @@ public class ExceptionHandlerController {
 
         ModelAndView mav = new ModelAndView();
         ex.printStackTrace();
-        logger.warn("{}, {}, {}, {}",
+        logger.warn("{}, {}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false)});
+                        JSONUtils.toString(request.getParameterMap(), false), IpUtils.getRealIp(request)});
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
@@ -127,6 +129,23 @@ public class ExceptionHandlerController {
         mav.setView(view);
 
         return mav;
+    }
+
+    @ExceptionHandler(SignParamsException.class)
+    @ResponseBody
+    public Map resolveSignParamsException(HttpServletRequest request, Exception ex) {
+
+        String msg = "签名错误";
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("ret", -10);
+        resultMap.put("msg", msg);
+
+        logger.warn(msg + ", {}, {}, {}, {}, {}",
+                new Object[]{ex.getMessage(), request.getRequestURI(),
+                        request.getMethod(),
+                        JSONUtils.toString(request.getParameterMap()), IpUtils.getRealIp(request)});
+
+        return resultMap;
     }
 
 }

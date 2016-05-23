@@ -242,7 +242,7 @@ public class CadreController extends BaseController {
         for (Cadre cadre : cadreMap.values()) {
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
             // 添加干部身份
-            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername());
+            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
         }
 
         return success(FormUtils.SUCCESS);

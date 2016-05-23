@@ -306,7 +306,7 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToLiveSeconds="0"
               memoryStoreEvictionPolicy="LRU" />
 <!--shiro缓存-->
-<cache name="SysUser:ID"
+<cache name="SysUser:ID:"
        maxEntriesLocalHeap="2000"
        eternal="false"
        timeToIdleSeconds="3600"
@@ -314,6 +314,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        overflowToDisk="true"
        statistics="true">
 </cache>
+       <cache name="SysUser:CODE:"
+              maxEntriesLocalHeap="2000"
+              eternal="false"
+              timeToIdleSeconds="3600"
+              timeToLiveSeconds="0"
+              overflowToDisk="true"
+              statistics="true">
+       </cache>
        <cache name="SysUser"
               maxEntriesLocalHeap="2000"
               eternal="false"

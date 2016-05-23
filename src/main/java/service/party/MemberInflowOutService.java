@@ -240,7 +240,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         // 更新系统角色  流入党员->访客
         sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_INFLOWMEMBER,
-                SystemConstants.ROLE_GUEST, sysUser.getUsername());
+                SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
     }
 
 

@@ -54,7 +54,7 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  党员->访客
         SysUser sysUser = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername(), sysUser.getCode());
     }
 
     // 后台数据库中导入党员数据后，需要同步信息、更新状态
@@ -89,7 +89,7 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
     @Transactional
@@ -135,7 +135,7 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
 

@@ -176,7 +176,7 @@ public class SysUserController extends BaseController {
                 sysUser.setPasswd(encrypt.getPassword());
             }
             SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
-            sysUserService.updateByPrimaryKeySelective(sysUser, oldSysUser.getUsername());
+            sysUserService.updateByPrimaryKeySelective(sysUser, oldSysUser.getUsername(), oldSysUser.getCode());
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }
 
@@ -204,7 +204,7 @@ public class SysUserController extends BaseController {
         for (Integer id : ids) {
             SysUser sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
-            sysUserService.lockUser(sysUser.getId(), username, locked);
+            sysUserService.lockUser(sysUser.getId(), username, sysUser.getCode(),  locked);
             logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
 
@@ -225,7 +225,7 @@ public class SysUserController extends BaseController {
         }
 
         SysUser sysSysUser2 = sysUserMapper.selectByPrimaryKey(sysUser.getId());
-        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), "," + StringUtils.join(rIds, ",") + ",");
+        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), sysSysUser2.getCode(),  "," + StringUtils.join(rIds, ",") + ",");
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysSysUser2.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);

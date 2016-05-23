@@ -113,7 +113,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setSource(SystemConstants.USER_SOURCE_JZG);
                 record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByUsername(code);
+                SysUser sysUser = sysUserService.findByCode(code);
                 try {
                     if (sysUser == null) {
                         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -124,7 +124,7 @@ public class SysUserSyncService extends BaseMapper {
                         insertCount++;
                     } else {
                         record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)
@@ -229,7 +229,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setSource(SystemConstants.USER_SOURCE_YJS);
                 record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByUsername(code);
+                SysUser sysUser = sysUserService.findByCode(code);
                 try {
                     if (sysUser == null) {
                         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -240,7 +240,7 @@ public class SysUserSyncService extends BaseMapper {
                         insertCount++;
                     } else {
                         record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)
@@ -349,7 +349,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setSource(SystemConstants.USER_SOURCE_BKS);
                 record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByUsername(code);
+                SysUser sysUser = sysUserService.findByCode(code);
                 try {
                     if (sysUser == null) {
                         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -360,7 +360,7 @@ public class SysUserSyncService extends BaseMapper {
                         insertCount++;
                     } else {
                         record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
 
                         // 同步党员信息
                         //if(memberService.get(sysUser.getId())!=null)

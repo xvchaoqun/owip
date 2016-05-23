@@ -122,6 +122,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = anon
+                /api/** = anon
                 /m/login = anon
                 /m/logout = anon
                 /reg = anon

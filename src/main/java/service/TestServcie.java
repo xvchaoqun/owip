@@ -17,7 +17,7 @@ public class TestServcie {
     public void toMember(int userId){
         SysUser sysUser1 = sysUserService.findById(userId);
         System.out.println("sysUser1=" + JSONUtils.toString(sysUser1));
-        sysUserService.changeRoleGuestToMember(userId, sysUser1.getUsername());
+        sysUserService.changeRoleGuestToMember(userId, sysUser1.getUsername(), sysUser1.getCode());
         SysUser sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
     }
@@ -25,7 +25,7 @@ public class TestServcie {
     public void toGuest(int userId){
         SysUser sysUser1 = sysUserService.findById(userId);
         System.out.println("sysUser1=" + JSONUtils.toString(sysUser1));
-        sysUserService.changeRoleMemberToGuest(userId, sysUser1.getUsername());
+        sysUserService.changeRoleMemberToGuest(userId, sysUser1.getUsername(), sysUser1.getCode());
         SysUser sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
     }

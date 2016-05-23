@@ -12,6 +12,7 @@ public class ShiroUser {
 
     private Integer id;
     private String username;
+    private String code;
     private String realname;
     private Byte type;
 
@@ -22,9 +23,10 @@ public class ShiroUser {
     @JsonIgnore
     private ApproverTypeBean approverTypeBean; // 干部审批权限
 
-    public ShiroUser(Integer id, String username, String realname, Byte type, Set<String> roles, Set<String> permissions, ApproverTypeBean approverTypeBean) {
+    public ShiroUser(Integer id, String username, String code, String realname, Byte type, Set<String> roles, Set<String> permissions, ApproverTypeBean approverTypeBean) {
         this.id = id;
         this.username = username;
+        this.code = code;
         this.realname = realname;
         this.type = type;
         this.roles = roles;
@@ -46,6 +48,14 @@ public class ShiroUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getRealname() {

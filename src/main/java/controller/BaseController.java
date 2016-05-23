@@ -252,6 +252,14 @@ public class BaseController extends BaseMapper {
 		return resultMap;
 	}
 
+    public static Map<String, Object> ret(int ret, String msg){
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("ret", ret);
+        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
+        return resultMap;
+    }
+
     public Map getMetaMap(){
 
         Map map = new HashMap<>();

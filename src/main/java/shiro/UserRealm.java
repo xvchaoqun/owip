@@ -131,7 +131,7 @@ public class UserRealm extends AuthorizingRealm {
         _permissions.addAll(permissions);
         _permissions = filterMenus(approverTypeBean, roles, _permissions);
 
-        ShiroUser shiroUser = new ShiroUser(userId, username, user.getRealname(), user.getType(),
+        ShiroUser shiroUser = new ShiroUser(userId, username, user.getCode(), user.getRealname(), user.getType(),
                 roles, _permissions,approverTypeBean);
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
