@@ -54,7 +54,7 @@ public class FileController extends BaseController{
 
         SysUser sysUser = sysUserService.findByUsername(username);
         String filepath =  springProps.avatarFolder + File.separator + sysUser.getId()%100 + File.separator
-                + username +".jpg";
+                + sysUser.getCode() +".jpg";
         File imgFile = new File(filepath);
         if(!imgFile.exists()) {
             filepath = springProps.avatarFolder + springProps.defaultAvatar;
