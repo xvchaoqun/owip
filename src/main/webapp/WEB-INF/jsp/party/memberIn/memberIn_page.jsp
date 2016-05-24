@@ -57,7 +57,7 @@
                     </button>
                         <shiro:hasRole name="odAdmin">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                            class="jqOpenViewBtn btn btn-danger btn-sm"
                             data-url="${ctx}/memberIn_approval"
                             data-open-by="page"
                             data-querystr="&type=2"

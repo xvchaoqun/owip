@@ -5,7 +5,6 @@ import domain.Member;
 import domain.MemberReturn;
 import domain.MemberReturnExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -272,17 +271,17 @@ public class MemberReturnService extends BaseMapper {
     @Transactional
     public void memberReturn_back(int[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {
 
             MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
             if(status >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
-                if(!odAdmin) throw new UnauthorizedException();
+                if(!presentPartyAdmin) throw new UnauthorizedException();
             }
             if(status >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
-                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
             back(memberReturn, status, loginUserId, reason);

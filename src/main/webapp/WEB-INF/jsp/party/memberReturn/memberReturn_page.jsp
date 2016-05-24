@@ -46,7 +46,7 @@
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberReturn_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1"

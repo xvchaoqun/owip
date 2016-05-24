@@ -63,13 +63,13 @@
 
 
                                 <c:if test="${cls==1||cls==4}">
-                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-success btn-sm"
                                                                                    data-url="${ctx}/memberInflowOut_approval"
                                                                                    data-open-by="page"
                                                                                    data-querystr="&type=1&cls=${cls}"
                                                                                    data-need-id="false"
                                                                                    data-count="${branchApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
+                                        <i class="fa fa-check-circle-o"></i> 党支部审核（${branchApprovalCount}）
                                     </button>
                                 </c:if>
                                 <c:if test="${cls==6}">

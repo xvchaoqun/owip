@@ -112,12 +112,12 @@ public class MemberApplyOpService extends BaseController {
             DateTime dt = new DateTime(memberApply.getActiveTime());
             DateTime afterActiveTimeOneYear = dt.plusYears(1);
             if (afterActiveTimeOneYear.isAfterNow()) {
-                throw new RuntimeException("确定为入党积极分子满1年之后才能被确定为发展对象。");
+                throw new RuntimeException("确定为入党积极分子满一年之后才能被确定为发展对象。");
             }
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             if(candidateTime.before(afterActiveTimeOneYear.toDate())){
-                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满1年之后");
+                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
             }
 
             Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);

@@ -230,9 +230,8 @@ public class MemberQuitService extends BaseMapper {
             if(type==1) {
                 BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(id);
                 memberQuit = verifyAuth.entity;
-                boolean isDirectBranch = verifyAuth.isDirectBranch;
 
-                if (isDirectBranch) {
+                if (verifyAuth.isDirectBranch) {
                     checkByDirectBranch(memberQuit.getUserId());
                 } else {
                     check1(memberQuit.getUserId());

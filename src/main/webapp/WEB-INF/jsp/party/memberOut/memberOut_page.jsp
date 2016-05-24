@@ -89,7 +89,7 @@
                                 </c:if>
                                 <c:if test="${cls==6||cls==7}">
                                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
                                             data-querystr="&type=2"

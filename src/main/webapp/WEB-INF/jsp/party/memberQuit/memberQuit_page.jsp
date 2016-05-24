@@ -52,13 +52,13 @@
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberQuit_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1"
                                             data-need-id="false"
                                             data-count="${branchApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 支部审核（${branchApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 党支部审核（${branchApprovalCount}）
                                     </button>
                                 </c:if>
                                     <c:if test="${cls==11}">
@@ -74,7 +74,7 @@
                                     </c:if>
                                         <c:if test="${cls==12}">
                                         <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                                                class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-url="${ctx}/memberQuit_approval"
                                                 data-open-by="page"
                                                 data-querystr="&type=3"

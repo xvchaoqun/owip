@@ -504,6 +504,7 @@ pageEncoding="UTF-8" %>
     });
     </c:if>
 
+    <shiro:hasRole name="partyAdmin">
     <c:if test="${stage<APPLY_STAGE_GROW && stage>=APPLY_STAGE_INIT}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
@@ -512,6 +513,7 @@ pageEncoding="UTF-8" %>
         props:'data-url="${ctx}/memberApply_back" data-querystr="&stage=${param.stage}"'
     });
     </c:if>
+    </shiro:hasRole>
 
     $(".addBtn").click(function(){
         loadModal("${ctx}/memberApply_au");
