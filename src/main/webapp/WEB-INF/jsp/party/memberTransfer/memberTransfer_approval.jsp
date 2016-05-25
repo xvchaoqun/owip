@@ -28,7 +28,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                公派留学生党员申请组织关系暂留申请信息
+                                校内组织关系转接申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
