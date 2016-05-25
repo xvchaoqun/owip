@@ -56,7 +56,7 @@
                         ${userBean.nation}
                     </td>
                     <td class="bg-right">
-                        政治面貌
+                        党籍状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}

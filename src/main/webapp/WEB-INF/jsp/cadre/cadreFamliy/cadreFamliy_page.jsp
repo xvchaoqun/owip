@@ -29,7 +29,7 @@ pageEncoding="UTF-8" %>
 							<th>姓名</th>
 							<th>出生年月</th>
 							<th>年龄</th>
-							<th>政治面貌</th>
+							<th>党籍状态</th>
 							<th>工作单位及职务</th>
                         <th nowrap></th>
                     </tr>

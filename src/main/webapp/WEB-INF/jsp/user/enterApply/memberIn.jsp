@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="form-group">
-        <label class="col-xs-5 control-label">政治面貌</label>
+        <label class="col-xs-5 control-label">党籍状态</label>
         <div class="col-xs-6">
           <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="260">
             <option></option>

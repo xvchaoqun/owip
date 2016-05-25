@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">政治面貌</label>
+				<label class="col-xs-3 control-label">党籍状态</label>
 				<div class="col-xs-6">
 					<input disabled class="form-control" type="text" name="politicalStatus" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 				</div>

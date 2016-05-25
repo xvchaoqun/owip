@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
 				</td>
 			</tr>
 			<tr>
-				<td>政治面貌</td>
+				<td>党籍状态</td>
 				<td >
 					<%--${extJzg.zzmm}--%>
 						${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}

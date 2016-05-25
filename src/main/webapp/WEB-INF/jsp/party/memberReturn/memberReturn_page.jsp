@@ -182,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>政治面貌</label>
+                                                <label>党籍状态</label>
                                                     <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
                                                         <option></option>
                                                         <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
@@ -307,7 +307,7 @@
             {label: '确定为发展对象时间', name: 'candidateTime', width: 200},
             {label: '入党时间', name: 'growTime', width: 100},
             {label: '转正时间', name: 'positiveTime', width: 100},
-            {label: '政治面貌', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
+            {label: '党籍状态', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
             }},
             {label: '状态', name: 'statusName', width: 150, formatter: function (cellvalue, options, rowObject) {

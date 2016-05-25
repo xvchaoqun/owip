@@ -61,7 +61,7 @@
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}', null,null,null,true)
           </script>
           <div class="form-group">
-            <label class="col-xs-3 control-label">政治面貌</label>
+            <label class="col-xs-3 control-label">党籍状态</label>
             <div class="col-xs-6">
               <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
                 <option></option>
