@@ -153,6 +153,7 @@ public class MemberStudentController extends BaseController {
                                      Integer unitId,
                                      Integer partyId,
                                      Integer branchId,
+                                     Byte politicalStatus,
                                      Byte gender,
                                      Integer age,
                                      String grade,
@@ -192,6 +193,9 @@ public class MemberStudentController extends BaseController {
         }
         if(gender!=null){
             criteria.andGenderEqualTo(gender);
+        }
+        if(politicalStatus!=null){
+            criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
         if (StringUtils.isNotBlank(eduLevel)) {
             criteria.andEduLevelLike("%" + eduLevel + "%");

@@ -14,6 +14,7 @@
             ||not empty param.age ||not empty param.gender
             ||not empty param.type ||not empty param.grade
             ||not empty param.eduLevel ||not empty param.eduType
+            ||not empty param.politicalStatus
                 ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
@@ -131,6 +132,18 @@
                                                     register_party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
+                                        <div class="form-group">
+                                            <label>党籍状态</label>
+                                            <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+                                                <option></option>
+                                                <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                                                    <option value="${_status.key}">${_status.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
+                                            </script>
+                                        </div>
                                         <div class="form-group">
                                             <label>入党时间</label>
                                             <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
