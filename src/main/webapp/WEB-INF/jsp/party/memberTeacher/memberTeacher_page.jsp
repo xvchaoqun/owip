@@ -249,6 +249,11 @@ pageEncoding="UTF-8" %>
             { label: '岗位类别', align:'center', name: 'postClass', width: 100 },
             { label: '专业技术职务', align:'center', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter },
+            { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
+                return "-";
+            }},
             { label:'入党时间', align:'center', name: 'growTime', width: 100 },
             { label:'转正时间',  name: 'positiveTime', width: 100 },
             { label:'联系手机', align:'center', name: 'mobile', width: 100},

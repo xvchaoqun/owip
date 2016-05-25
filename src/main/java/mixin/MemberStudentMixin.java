@@ -12,7 +12,7 @@ import mixin.serializer.PartySerializer;
 import java.util.Date;
 
 @JsonIgnoreProperties(value = {"createTime", "applyTime",
-        "source", "activeTime", "politicalStatus" })
+        "source", "activeTime" })
 public class MemberStudentMixin {
 
     @JsonProperty("gender")
