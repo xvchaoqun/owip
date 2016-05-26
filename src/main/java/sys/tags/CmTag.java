@@ -1,5 +1,6 @@
 package sys.tags;
 
+import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -189,6 +190,19 @@ public class CmTag {
     public static SysUser getUserByUsername(String username) {
 
         return sysUserService.findByUsername(username);
+    }
+
+    public static ApproverTypeBean getApproverTypeBean(Integer userId) {
+
+       return applySelfService.getApproverTypeBean(userId);
+    }
+    public static Set<String> findRoles(String username) {
+
+        return sysUserService.findRoles(username);
+    }
+    public static Set<String> findPermissions(String username) {
+
+        return sysUserService.findPermissions(username);
     }
 
     public static Unit getUnit(Integer unitId) {

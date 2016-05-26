@@ -1,5 +1,6 @@
 package controller.party;
 
+import bean.MemberApplyCount;
 import controller.BaseController;
 import domain.*;
 import domain.MemberApplyExample.Criteria;
@@ -178,6 +179,30 @@ public class MemberApplyController extends BaseController {
                 modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
                 break;
         }
+
+        Map<Byte, Integer> stageCountMap = new HashMap<>();
+        Map<String, Integer> stageTypeCountMap = new HashMap<>();
+        Subject subject = SecurityUtils.getSubject();
+        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        List<MemberApplyCount> memberApplyCounts = commonMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
+        for (MemberApplyCount memberApplyCount : memberApplyCounts) {
+
+            byte _stage = memberApplyCount.getStage();
+            byte _type = memberApplyCount.getType();
+            Integer _count = memberApplyCount.getNum();
+            Integer stageCount = stageCountMap.get(_stage);
+            if(stageCount==null) stageCount = 0;
+            stageCountMap.put(_stage, stageCount+_count);
+
+            Integer stageTypeCount = stageTypeCountMap.get(_stage + "_" + _type);
+            if(stageTypeCount==null) stageTypeCount = 0;
+            stageTypeCountMap.put(_stage + "_" + _type, stageTypeCount+_count);
+        }
+        modelMap.put("stageCountMap",stageCountMap);
+        modelMap.put("stageTypeCountMap",stageTypeCountMap);
 
         return "party/memberApply/memberApply_page";
     }

@@ -8,7 +8,6 @@ import interceptor.SortParam;
 import mixin.MemberOutMixin;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -28,7 +27,10 @@ import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,10 +45,7 @@ public class MemberOutController extends BaseController {
 
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut/printPreview")
-    public String memberOut_printPreview(int userId, ModelMap modelMap) {
-
-        MemberOut memberOut = memberOutService.get(userId);
-        modelMap.put("memberOut", memberOut);
+    public String memberOut_printPreview() {
 
         return "party/memberOut/print_preview";
     }
@@ -328,7 +327,7 @@ public class MemberOutController extends BaseController {
         record.setBranchId(member.getBranchId());
 
         Integer partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
+        //Integer branchId = record.getBranchId();
 
         //===========权限
         Integer loginUserId = loginUser.getId();
@@ -336,11 +335,20 @@ public class MemberOutController extends BaseController {
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
+            /*if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-            }
+            }*/
             if(!isAdmin) throw new UnauthorizedException();
+
+            /*if(record.getId()!=null) {
+                // 分党委只能修改还未提交组织部审核的记录
+                MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+                if (before.getStatus() > SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
+                    if(!isAdmin) throw new UnauthorizedException();
+                }
+            }*/
         }
+
 
         Integer id = record.getId();
 
@@ -377,7 +385,7 @@ public class MemberOutController extends BaseController {
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
 
                 MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
-                if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+                if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) { // 转出之后，如果还有修改，则需要保存记录
                     MemberOutModify _modifyRecord = new MemberOutModify();
                     try {
                         BeanUtils.copyProperties(_modifyRecord, _memberOut);

@@ -192,10 +192,6 @@ public class BranchController extends BaseController {
 
         Integer id = record.getId();
 
-        if (branchService.idDuplicate(id, record.getCode())) {
-            return failed("添加重复");
-        }
-
         if(StringUtils.isNotBlank(_foundTime)){
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
         }
@@ -218,7 +214,7 @@ public class BranchController extends BaseController {
             branchService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "添加党支部：%s", record.getId()));
         } else {
-
+            record.setCode(null); // 不修改编号
             branchService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "更新党支部：%s", record.getId()));
         }

@@ -112,6 +112,20 @@
                                     <i class="fa fa-search"></i> 查看修改记录
                                 </button>
                                 </c:if>
+                                <c:if test="${cls!=2}">
+                                <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                        data-url="${ctx}/memberOut/printPreview"
+                                        data-querystr="&type=${MEMBER_INOUT_TYPE_INSIDE}"
+                                        data-open-by="page">
+                                    <i class="fa fa-print"></i> 批量打印介绍信
+                                </button>
+                                <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/memberOut/printPreview"
+                                        data-querystr="&type=${MEMBER_INOUT_TYPE_OUTSIDE}"
+                                        data-open-by="page">
+                                    <i class="fa fa-print"></i> 批量介绍信套打
+                                </button>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -317,23 +331,25 @@
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
             }, frozen: true}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
+            <c:if test="${cls!=2}">
              <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
                     var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/memberOut/printPreview?userId={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
-                                    .format(rowObject.userId);
+                            +' data-url="${ctx}/memberOut/printPreview?type=${MEMBER_INOUT_TYPE_INSIDE}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
+                                    .format(rowObject.id);
                     return html;
                 }
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_OUTSIDE}"){
-                    var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/memberOut/printPreview?userId={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
-                                    .format(rowObject.userId);
+                    var html = '<button class="openView btn btn-warning btn-xs"'
+                            +' data-url="${ctx}/memberOut/printPreview?type=${MEMBER_INOUT_TYPE_OUTSIDE}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
+                                    .format(rowObject.id);
                     return html;
                 }
             }, frozen: true},
             </shiro:hasAnyRoles>
+                </c:if>
             {label: '转入单位', name: 'toUnit', width: 150},
             {label: '转入单位抬头', name: 'toTitle', width: 200},
             {label: '转出单位', name: 'fromUnit', width: 200},

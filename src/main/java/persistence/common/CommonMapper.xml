@@ -110,6 +110,11 @@
     </if>
   </select>
 
+  <select  id="selectMemberApplyCount" parameterType="map" resultType="bean.MemberApplyCount" >
+    select type, stage , count(*) as num from ow_member_apply m where 1=1
+    <include refid="member_selects_permits" />
+    group by type, stage
+  </select>
 
   <select id="selectCadreList" resultMap="persistence.CadreMapper.BaseResultMap" parameterType="map" >
     select bc.* from base_cadre bc, sys_user user where bc.user_id= user.id

@@ -43,6 +43,11 @@ pageEncoding="UTF-8" %>
                                                     <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
                                                     <span class="badge ${colors[colorKey]}">${colorKey}</span>
                                                         ${applyStage.value}
+                                                    <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
+                                                    <c:if test="${stageCount>0}">
+                                                    <span class="badge badge-success pull-right"
+                                                          data-rel="tooltip" title="${stageCount}条待处理审批">${stageCount}</span>
+                                                    </c:if>
                                                 </a>
                                             </li>
                                         </c:forEach>
@@ -52,11 +57,27 @@ pageEncoding="UTF-8" %>
                                             <div class="tabbable" >
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==1}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生</a>
+                                                        <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
+                                                            <c:set value="${stage}_1" var="_key"/>
+                                                            <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+                                                            <c:if test="${stageTypeCount>0}">
+                                                                <span class="badge badge-success"
+                                                                      data-placement="right"
+                                                                      data-rel="tooltip" title="${stageTypeCount}条待处理审批">${stageTypeCount}</span>
+                                                            </c:if>
+                                                        </a>
                                                     </li>
 
                                                     <li class="<c:if test="${type==2}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工</a>
+                                                        <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                            <c:set value="${stage}_2" var="_key"/>
+                                                            <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+                                                            <c:if test="${stageTypeCount>0}">
+                                                                <span class="badge badge-success"
+                                                                      data-placement="right"
+                                                                      data-rel="tooltip" title="${stageTypeCount}条待处理审批">${stageTypeCount}</span>
+                                                            </c:if>
+                                                        </a>
                                                     </li>
                                                     <shiro:hasAnyRoles name="admin,odAdmin">
                                                         <div class="buttons pull-right">
@@ -696,7 +717,7 @@ pageEncoding="UTF-8" %>
     }*/
 
     $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip({container:'body'});
     register_user_select($('#searchForm select[name=userId]'));
 
 </script>

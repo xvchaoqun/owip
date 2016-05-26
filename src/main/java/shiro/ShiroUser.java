@@ -2,13 +2,18 @@ package shiro;
 
 import bean.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import domain.Cadre;
+import domain.MetaType;
+import sys.tags.CmTag;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by fafa on 2015/8/18.
  */
-public class ShiroUser {
+public class ShiroUser implements Serializable{
 
     private Integer id;
     private String username;
@@ -16,22 +21,19 @@ public class ShiroUser {
     private String realname;
     private Byte type;
 
-    private Set<String> roles;
+    private transient Set<String> roles;
     @JsonIgnore
-    private Set<String> permissions;
+    private transient Set<String> permissions;
 
     @JsonIgnore
-    private ApproverTypeBean approverTypeBean; // 干部审批权限
+    private transient ApproverTypeBean approverTypeBean; // 干部审批权限
 
-    public ShiroUser(Integer id, String username, String code, String realname, Byte type, Set<String> roles, Set<String> permissions, ApproverTypeBean approverTypeBean) {
+    public ShiroUser(Integer id, String username, String code, String realname, Byte type) {
         this.id = id;
         this.username = username;
         this.code = code;
         this.realname = realname;
         this.type = type;
-        this.roles = roles;
-        this.permissions = permissions;
-        this.approverTypeBean = approverTypeBean;
     }
 
     public Integer getId() {
@@ -73,28 +75,58 @@ public class ShiroUser {
     public void setType(Byte type) {
         this.type = type;
     }
+    /**
+     * 特殊的用户权限过滤
+     */
+    public Set<String> filterMenus(ApproverTypeBean approverTypeBean, Set<String> userRoles,  Set<String> userPermissions){
+
+        if(userRoles.contains("cadre") && approverTypeBean!=null) {
+
+            Cadre cadre = approverTypeBean.getCadre();
+            if (cadre != null) {
+                MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
+                if (cadre.getPostId().intValue() == leaderPostType.getId()) {
+                    // 干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
+                    userPermissions.remove("userApplySelf:*");
+                    userPermissions.remove("userPassportDraw:*");
+                }
+
+                // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
+                if (!(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+
+                    userPermissions.remove("applySelf:approvalList");
+                    if (!userRoles.contains("cadreAdmin")) {
+                        // 干部管理员 需要目录，普通干部不需要
+                        userPermissions.remove("abroad:admin");
+                    }
+                }
+            }
+        }
+        return userPermissions;
+    }
 
     public Set<String> getRoles() {
+
+        if(roles==null)  roles = CmTag.findRoles(username);
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
-
     public Set<String> getPermissions() {
+
+        if(permissions==null){
+            Set<String> _p = CmTag.findPermissions(username);
+            Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
+            _permissions.addAll(_p);
+            _permissions = filterMenus(getApproverTypeBean(), getRoles(), _permissions);
+            permissions = _permissions;
+        }
         return permissions;
     }
 
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
-
     public ApproverTypeBean getApproverTypeBean() {
+
+        if(approverTypeBean==null)  approverTypeBean = CmTag.getApproverTypeBean(id);
         return approverTypeBean;
     }
 
-    public void setApproverTypeBean(ApproverTypeBean approverTypeBean) {
-        this.approverTypeBean = approverTypeBean;
-    }
 }

@@ -31,6 +31,7 @@
                 <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>
                 <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4" <c:if test="${!useCaptcha}">value="test"</c:if> />
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
+                <dt></dt><dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd></dt>
                 <dt></dt><dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
                 <dt></dt><dd><a href="" class="to_reg_btn" data-target="#reg">立即注册</a></dd>
             </form>

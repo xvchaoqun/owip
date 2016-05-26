@@ -6,12 +6,14 @@ import controller.BaseController;
 import domain.*;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -32,7 +34,7 @@ public class ReportController extends BaseController {
 
     // 京外套打
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(@CurrentUser SysUser loginUser, int userId, Integer type, Model model) throws IOException, DocumentException {
+    public String member_out_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") int[] ids, Integer type, Model model) throws IOException, DocumentException {
 
         List<String> roles = new ArrayList<>();
         roles.add(SystemConstants.ROLE_ODADMIN);
@@ -45,12 +47,15 @@ public class ReportController extends BaseController {
        }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        Map<String, Object> map = getMemberOutInfoMap(userId);
-        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_out_bj.jpg" );
-        if(type!=null && type==1){
-            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+        for (int id : ids) {
+            Map<String, Object> map = getMemberOutInfoMap(id);
+            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_out_bj.jpg" );
+            if(type!=null && type==1){
+                map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+            }
+            data.add(map);
         }
-        data.add(map);
+
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
@@ -62,7 +67,7 @@ public class ReportController extends BaseController {
     }
     // 京内打印
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(@CurrentUser SysUser loginUser, int userId, Model model) throws IOException, DocumentException {
+    public String member_in_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") int[] ids, Model model) throws IOException, DocumentException {
 
         List<String> roles = new ArrayList<>();
         roles.add(SystemConstants.ROLE_ODADMIN);
@@ -75,9 +80,12 @@ public class ReportController extends BaseController {
         }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        Map<String, Object> map = getMemberOutInfoMap(userId);
-        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_in_bj.jpg" );
-        data.add(map);
+        for (int id : ids) {
+            Map<String, Object> map = getMemberOutInfoMap(id);
+            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_in_bj.jpg" );
+            data.add(map);
+        }
+
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
@@ -89,19 +97,19 @@ public class ReportController extends BaseController {
     }
 
     // 获取组织关系转出相关信息
-    public  Map<String, Object> getMemberOutInfoMap(int userId){
+    public  Map<String, Object> getMemberOutInfoMap(int id){
 
-        MemberOut memberOut = memberOutService.get(userId);
-        UserBean userBean = userBeanService.get(userId);
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        UserBean userBean = userBeanService.get(memberOut.getUserId());
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", userBean.getRealname());
         map.put("from", memberOut.getFromUnit());
         map.put("to", memberOut.getToUnit());
-        map.put("check1", userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW?"√":""); // 预备党员
-        map.put("check2", userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE?"√":""); // 正式党员
-        map.put("male", userBean.getGender()==SystemConstants.GENDER_MALE?"√":"");
-        map.put("female", userBean.getGender()==SystemConstants.GENDER_FEMALE?"√":"");
+        map.put("check1", (userBean.getPoliticalStatus()!=null && userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW)?"√":""); // 预备党员
+        map.put("check2", (userBean.getPoliticalStatus()!=null && userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE)?"√":""); // 正式党员
+        map.put("male", (userBean.getGender()!=null && userBean.getGender()==SystemConstants.GENDER_MALE)?"√":"");
+        map.put("female", (userBean.getGender()!=null && userBean.getGender()==SystemConstants.GENDER_FEMALE)?"√":"");
         map.put("age", DateUtils.intervalYearsUntilNow(userBean.getBirth()));
         map.put("nation", userBean.getNation());
         map.put("payYear", DateUtils.getYear(memberOut.getPayTime()));
@@ -135,11 +143,11 @@ public class ReportController extends BaseController {
         String check1 = "";
         String check2 = "";
         String check3 = "";
-        if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE)
+        if(passport.getCancelType()!=null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE)
             check1 = "√";
-        else  if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS)
+        else  if(passport.getCancelType()!=null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS)
             check2 = "√";
-        else  if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH)
+        else  if(passport.getCancelType()!=null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH)
             check3 = "√";
         map.put("check1", check1);
         map.put("check2", check2);

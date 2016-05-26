@@ -2,6 +2,7 @@ package service.party;
 
 import domain.Branch;
 import domain.BranchExample;
+import domain.Party;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -52,13 +53,30 @@ public class BranchService extends BaseMapper {
         }
     }
 
+    public String genCode(int partyId){
+
+        int num ;
+        BranchExample example = new BranchExample();
+        example.createCriteria().andPartyIdEqualTo(partyId);
+        example.setOrderByClause("code desc");
+        List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(branchs.size()>0){
+            String code = branchs.get(0).getCode();
+            String _code = code.substring(code.length() - 3);
+            num = Integer.parseInt(_code) + 1;
+        }else{
+            num = 1;
+        }
+        Party party = partyMapper.selectByPrimaryKey(partyId);
+        return party.getCode() + String.format("%03d", num);
+    }
     @Transactional
     @CacheEvict(value="Branch:ALL", allEntries = true)
     public int insertSelective(Branch record){
 
         checkAuth(record.getPartyId());
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        record.setCode(genCode(record.getPartyId()));
         branchMapper.insertSelective(record);
         Integer id = record.getId();
         Branch _record = new Branch();

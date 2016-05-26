@@ -177,7 +177,7 @@ public class MemberApplyOpService extends BaseController {
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
                         loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
             }
         }

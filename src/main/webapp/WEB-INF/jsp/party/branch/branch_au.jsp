@@ -11,12 +11,12 @@ pageEncoding="UTF-8"%>
         	<input type="hidden" name="id" value="${branch.id}">
 		<div class="row">
 			<div class="col-xs-6">
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">编号</label>
 				<div class="col-xs-7">
                         <input required class="form-control" type="text" name="code" value="${branch.code}">
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">名称</label>
 				<div class="col-xs-7">
@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">简称</label>
 				<div class="col-xs-7">
-                        <input required class="form-control" type="text" name="shortName" value="${branch.shortName}">
+                        <input class="form-control" type="text" name="shortName" value="${branch.shortName}">
 				</div>
 			</div>
 			<div class="form-group">

@@ -1,4 +1,10 @@
 
+--20160525
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(50) NULL COMMENT '简称' AFTER `name`;
+
+update ow_branch b , ow_party p set b.code=concat(p.code, lpad(b.code, 3, '0')) where b.party_id=p.id
+
 --20160522
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `is_modify` TINYINT(1) UNSIGNED NULL COMMENT '是否修改，审批完成后是否修改过' AFTER `status`;
