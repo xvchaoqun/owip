@@ -53,7 +53,7 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">请选择分党委</label>
         <div class="col-xs-6">
-          <select required class="form-control"  data-rel="select2-ajax" data-width="260"
+          <select required class="form-control"  data-rel="select2-ajax" data-width="350"
                   data-ajax-url="${ctx}/party_selects"
                   name="partyId" data-placeholder="请选择">
             <option value="${party.id}">${party.name}</option>
@@ -107,7 +107,9 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">转出单位邮编</label>
         <div class="col-xs-6">
-          <input required class="form-control left-input" type="text" name="fromPostCode" value="${memberIn.fromPostCode}">
+          <input required class="form-control left-input isZipCode"
+                 maxlength="6"
+                 type="text" name="fromPostCode" value="${memberIn.fromPostCode}">
         </div>
       </div>
     </div>
@@ -240,7 +242,7 @@
 </style>
       <script>
         $('#modalForm [data-rel="select2"]').select2();
-        register_date($('.date-picker'), {endDate:'${today}'});
+        register_date($('.date-picker'));
 
         $("form").validate({
           submitHandler: function (form) {
@@ -264,6 +266,7 @@
             });
           },
           errorPlacement: function (error, element) {
+            //console.log(error)
             if($(element).hasClass("date-picker")){
               $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
               error.insertAfter($(element).closest("div.input-group").parent());
@@ -273,4 +276,12 @@
             }
           }
         });
+
+        $('#modalForm select[name=politicalStatus]').change(function(){
+          if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
+            $("#modalForm  input[name=_positiveTime]").attr("required", "required").valid();
+          }else {
+            $("#modalForm  input[name=_positiveTime]").removeAttr("required").valid()
+          }
+        }).change();
 </script>

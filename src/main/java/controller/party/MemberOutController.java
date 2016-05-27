@@ -340,13 +340,13 @@ public class MemberOutController extends BaseController {
             }*/
             if(!isAdmin) throw new UnauthorizedException();
 
-            /*if(record.getId()!=null) {
+            if(record.getId()!=null) {
                 // 分党委只能修改还未提交组织部审核的记录
                 MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
-                if (before.getStatus() > SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
-                    if(!isAdmin) throw new UnauthorizedException();
+                if (before.getStatus() == SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
+                    if(!isAdmin) return  failed("该申请已经提交组织部审核，不可以进行修改。");
                 }
-            }*/
+            }
         }
 
 
@@ -403,7 +403,7 @@ public class MemberOutController extends BaseController {
                     memberOutModifyMapper.insertSelective(_modifyRecord);
                 }
             }else{
-                return failed("没有修改项");
+                return failed("没有修改项。如不需要修改，请直接返回。");
             }
         }
 

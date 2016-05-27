@@ -312,11 +312,11 @@ public class MemberService extends BaseMapper {
             studentMapper.updateByPrimaryKey(student);
     }
 
-    @Transactional
+    /*@Transactional
     public void del(Integer userId){
 
         memberMapper.deleteByPrimaryKey(userId);
-    }
+    }*/
 
     @Transactional
     public void changeBranch(Integer[] userIds, int partyId, int branchId){
@@ -379,6 +379,13 @@ public class MemberService extends BaseMapper {
         MemberExample example = new MemberExample();
         example.createCriteria().andUserIdIn(Arrays.asList(userIds));
         memberMapper.deleteByExample(example);
+
+        for (Integer userId : userIds) {
+            SysUser sysUser = sysUserService.findById(userId);
+            // 更新系统角色  党员->访客
+            sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER,
+                    SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
+        }
     }
 
     @Transactional

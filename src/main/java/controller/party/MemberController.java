@@ -21,9 +21,11 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -102,14 +104,14 @@ public class MemberController extends BaseController {
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+            logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         } else {
             memberService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+            logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "更新党员信息表：%s %s %s %s, 更新原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
@@ -207,7 +209,7 @@ public class MemberController extends BaseController {
 
         if (null != ids){
             memberService.changeBranch(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量分党委内部转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -234,12 +236,12 @@ public class MemberController extends BaseController {
 
         if (null != ids){
             memberService.changeParty(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量校内组织关系转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    /*@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
@@ -251,7 +253,7 @@ public class MemberController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("member:del")
@@ -260,8 +262,15 @@ public class MemberController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
+
+            List<Member> members = new ArrayList<>();
+            for (Integer id : ids) {
+                members.add(memberService.get(id));
+            }
+
             memberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除党员：%s", new Object[]{ids}));
+
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members)));
         }
         return success(FormUtils.SUCCESS);
     }

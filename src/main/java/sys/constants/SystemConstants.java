@@ -72,6 +72,7 @@ public class SystemConstants {
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";
 	public static final String LOG_USER = "mt_log_user";
+	public static final String LOG_MEMBER = "mt_log_member";
 	public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
 	public static final String LOG_ABROAD = "mt_log_abroad";
 
