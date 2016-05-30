@@ -57,6 +57,9 @@
 
 <c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=SystemConstants.MEMBER_QUIT_TYPE_MAP%>"/>
 
+<c:set var="MEMBER_SOURCE_MAP" value="<%=SystemConstants.MEMBER_SOURCE_MAP%>"/>
+
+<c:set var="MEMBER_STATUS_MAP" value="<%=SystemConstants.MEMBER_STATUS_MAP%>"/>
 <c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>
 <c:set var="MEMBER_STATUS_NORMAL" value="<%=SystemConstants.MEMBER_STATUS_NORMAL%>"/>
 <c:set var="MEMBER_STATUS_TRANSFER" value="<%=SystemConstants.MEMBER_STATUS_TRANSFER%>"/>

@@ -290,14 +290,6 @@ public class MemberStudentController extends BaseController {
         MemberStudent memberStudent = memberStudentService.get(userId);
         modelMap.put("memberStudent", memberStudent);
 
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
         return "party/memberStudent/memberStudent_base";
     }
 
