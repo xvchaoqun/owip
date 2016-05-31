@@ -1,4 +1,15 @@
 
+--2016-5-31
+ALTER TABLE `sys_login_log`
+	CHANGE COLUMN `agent` `agent` VARCHAR(255) NULL DEFAULT NULL COMMENT '客户端类型' AFTER `last_login_ip`;
+
+ALTER TABLE `sys_user_sync`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库' AFTER `id`;
+
+
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_abroad_view` AS select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id from ext_abroad ea , sys_user u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
+
+
 --20160525
 ALTER TABLE `ow_branch`
 	CHANGE COLUMN `short_name` `short_name` VARCHAR(50) NULL COMMENT '简称' AFTER `name`;

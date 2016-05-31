@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 @Service
-public class BnuBksImport extends Source {
+public class ExtBksImport extends Source {
 
     public void excute(){
 

@@ -68,8 +68,3 @@ URL地址： https://weixin.bnu.edu.cn/sms/massms.php?id=2
 参数说明：
 mobile表示手机号（多个手机号用英文;分割，一次不超过400个）
 content表示发送的短信内容，长度不超过350字
-
-人事系统提供了出国境的信息
-172.16.181.13/gbklicdc
-licdc_2ygcf/bnu@1234
-SELECT * FROM LICDC_2YGCF.v_rs_jzg_cgjxx t;--出国境信息

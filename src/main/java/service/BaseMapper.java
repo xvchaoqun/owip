@@ -113,6 +113,8 @@ public class BaseMapper {
 	@Autowired
 	protected MemberAbroadMapper memberAbroadMapper;
 	@Autowired
+	protected MemberAbroadViewMapper memberAbroadViewMapper;
+	@Autowired
 	protected GraduateAbroadMapper graduateAbroadMapper;
 	@Autowired
 	protected GraduateAbroadViewMapper graduateAbroadViewMapper;
@@ -217,6 +219,8 @@ public class BaseMapper {
 	@Autowired
 	protected SysLogMapper sysLogMapper;
 	@Autowired
+	protected SysLoginLogMapper sysLoginLogMapper;
+	@Autowired
 	protected SysUserMapper sysUserMapper;
 	@Autowired
 	protected SysUserRegMapper sysUserRegMapper;
@@ -248,6 +252,8 @@ public class BaseMapper {
 	protected ExtBksMapper extBksMapper;
 	@Autowired
 	protected ExtJzgMapper extJzgMapper;
+	@Autowired
+	protected ExtAbroadMapper extAbroadMapper;
 
 	@Autowired
 	protected LocationMapper locationMapper;

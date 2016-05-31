@@ -9,11 +9,20 @@ import java.util.Date;
  */
 public class LoginUser {
 
+    private String sid; //session id
     private String ip; //登录ip
     private ShiroUser shiroUser;
     private Date lastAccessTime;
     private Date startTimestamp;
     private long timeOut;
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
 
     public String getIp() {
         return ip;

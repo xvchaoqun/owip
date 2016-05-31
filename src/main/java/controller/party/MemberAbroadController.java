@@ -2,10 +2,10 @@ package controller.party;
 
 import controller.BaseController;
 import domain.*;
-import domain.MemberAbroadExample.Criteria;
+import domain.MemberAbroadViewExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberAbroadMixin;
+import mixin.MemberAbroadViewMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -76,8 +76,8 @@ public class MemberAbroadController extends BaseController {
     @RequiresPermissions("memberAbroad:list")
     @RequestMapping("/memberAbroad_data")
     public void memberAbroad_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "abroad_time", tableName = "ow_member_abroad") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+                                 /*@SortParam(required = false, defaultValue = "abroad_time", tableName = "ow_member_abroad") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,*/
                                     Integer userId,
                                     String _abroadTime,
                                     Integer partyId,
@@ -93,12 +93,12 @@ public class MemberAbroadController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberAbroadExample example = new MemberAbroadExample();
+        MemberAbroadViewExample example = new MemberAbroadViewExample();
         Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("lsh desc");
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
@@ -114,10 +114,10 @@ public class MemberAbroadController extends BaseController {
             String abroadTimeStart = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String abroadTimeEnd= _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(abroadTimeStart)) {
-                criteria.andAbroadTimeGreaterThanOrEqualTo(DateUtils.parseDate(abroadTimeStart, DateUtils.YYYY_MM_DD));
+                criteria.andSjcfsjGreaterThanOrEqualTo(DateUtils.parseDate(abroadTimeStart, DateUtils.YYYY_MM_DD));
             }
             if (StringUtils.isNotBlank(abroadTimeEnd)) {
-                criteria.andAbroadTimeLessThanOrEqualTo(DateUtils.parseDate(abroadTimeEnd, DateUtils.YYYY_MM_DD));
+                criteria.andSjcfsjLessThanOrEqualTo(DateUtils.parseDate(abroadTimeEnd, DateUtils.YYYY_MM_DD));
             }
         }
 
@@ -126,12 +126,12 @@ public class MemberAbroadController extends BaseController {
             return;
         }
 
-        int count = memberAbroadMapper.countByExample(example);
+        int count = memberAbroadViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberAbroad> memberAbroads = memberAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberAbroadView> memberAbroads = memberAbroadViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -142,7 +142,7 @@ public class MemberAbroadController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberAbroad.class, MemberAbroadMixin.class);
+        sourceMixins.put(MemberAbroadView.class, MemberAbroadViewMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -233,16 +233,16 @@ public class MemberAbroadController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void memberAbroad_export(MemberAbroadExample example, HttpServletResponse response) {
+    public void memberAbroad_export(MemberAbroadViewExample example, HttpServletResponse response) {
 
-        List<MemberAbroad> memberAbroads = memberAbroadMapper.selectByExample(example);
-        int rownum = memberAbroadMapper.countByExample(example);
+        List<MemberAbroadView> memberAbroads = memberAbroadViewMapper.selectByExample(example);
+        int rownum = memberAbroadViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"党员",/*"分党委名称","党支部名称","入党时间",*/"出国时间","出国缘由","预计归国时间","实际归国时间"};
+        String[] titles = {"教工号","姓名", "所在分党委","所在党支部", "国家","实际出发时间","实归时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -251,16 +251,18 @@ public class MemberAbroadController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            MemberAbroad memberAbroad = memberAbroads.get(i);
+            MemberAbroadView record = memberAbroads.get(i);
+            SysUser sysUser = sysUserService.findById(record.getUserId());
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
             String[] values = {
-                        memberAbroad.getUserId()+"",
-                                           /* memberAbroad.getPartyName(),
-                                            memberAbroad.getBranchName(),
-                                            DateUtils.formatDate(memberAbroad.getGrowTime(), DateUtils.YYYY_MM_DD),*/
-                                            memberAbroad.getAbroadTime()+"",
-                                            memberAbroad.getReason()+"",
-                                            DateUtils.formatDate(memberAbroad.getExpectReturnTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(memberAbroad.getActualReturnTime(), DateUtils.YYYY_MM_DD)
+                    sysUser.getCode(),
+                    sysUser.getRealname(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getGj(),
+                                            DateUtils.formatDate(record.getSjcfsj(), DateUtils.YYYY_MM_DD),
+                                            DateUtils.formatDate(record.getSgsj(), DateUtils.YYYY_MM_DD)
                     };
 
             Row row = sheet.createRow(i + 1);
@@ -272,7 +274,7 @@ public class MemberAbroadController extends BaseController {
             }
         }
         try {
-            String fileName = "党员出国境信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = "教职工党员出国境信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

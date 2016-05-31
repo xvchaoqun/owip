@@ -30,6 +30,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/login/users_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '会话ID', name: 'sid', width: 280, frozen:true },
             { label: '账号', name: 'shiroUser.username', width: 150, frozen:true },
             { label: '姓名', name: 'shiroUser.realname', width: 120, frozen:true },
             { label: '角色', name: 'shiroUser.roles', width: 300, formatter: function (cellvalue, options, rowObject) {
@@ -43,7 +44,7 @@ pageEncoding="UTF-8" %>
             { label:'登录IP', name: 'ip', width: 150},
             { label: '超时（分钟）', name: 'timeOut', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue/(1000*60)
-            } },{hidden:true, key:true, name:'shiroUser.id'}
+            } },{hidden:true, key:true, name:'sid'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

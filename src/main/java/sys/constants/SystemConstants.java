@@ -120,6 +120,19 @@ public class SystemConstants {
 		USER_TYPE_MAP.put(USER_TYPE_YJS, "研究生");
 	}
 
+	// 同步类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库
+	public final static byte SYNC_TYPE_JZG = 1;
+	public final static byte SYNC_TYPE_BKS = 2;
+	public final static byte SYNC_TYPE_YJS = 3;
+	public final static byte SYNC_TYPE_ABROAD = 4;
+	public final static Map<Byte, String> SYNC_TYPE_MAP = new LinkedHashMap();
+	static {
+		SYNC_TYPE_MAP.put(SYNC_TYPE_JZG, "人事库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_BKS, "本科生库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_YJS, "研究生库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_ABROAD, "教职工党员出国境信息库");
+	}
+
 	// 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
 	public final static byte USER_SOURCE_ADMIN = 0;
 	public final static byte USER_SOURCE_JZG = 1;

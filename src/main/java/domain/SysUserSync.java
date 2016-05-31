@@ -1,15 +1,9 @@
 package domain;
 
-import sys.constants.SystemConstants;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class SysUserSync implements Serializable {
-
-    public String getTypeName(){
-        return SystemConstants.USER_SOURCE_MAP.get(type);
-    }
 
     private Integer id;
 

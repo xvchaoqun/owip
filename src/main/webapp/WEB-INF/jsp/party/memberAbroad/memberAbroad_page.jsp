@@ -7,25 +7,13 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-au="${ctx}/memberAbroad_au"
                  data-url-page="${ctx}/memberAbroad_page"
-                 data-url-del="${ctx}/memberAbroad_del"
-                 data-url-bd="${ctx}/memberAbroad_batchDel"
-                 data-url-co="${ctx}/memberAbroad_changeOrder"
                  data-url-export="${ctx}/memberAbroad_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param._abroadTime
                  ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
 
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasPermission name="memberAbroad:edit">
-                        <a href="javascript:;" class="editBtn btn btn-info btn-sm">
-                            <i class="fa fa-plus"></i> 添加</a>
-                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
-                                data-id-name="userId">
-                            <i class="fa fa-edit"></i> 修改信息
-                        </button>
-                    </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                             class="fa fa-download"></i> 导出</a>
@@ -47,7 +35,7 @@
                                         <div class="form-group">
                                             <label>用户</label>
                                                 <div class="input-group">
-                                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_QUIT}"
+                                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}"
                                                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                     </select>
@@ -111,26 +99,43 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', frozen: true},
+            {label: '教工号', name: 'user.code', frozen: true},
             { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
             } ,frozen:true },
-            {label: '性别', name: 'user.genderName', frozen: true},
-            {label: '年龄', name: 'user.age', frozen: true},
+            {label: '性别', name: 'user.genderName',width: 50, frozen: true},
+            {label: '年龄', name: 'user.age', width: 50, frozen: true},
             {
-                label: '所属组织机构', name: 'from', resizable: false, width: 450,
+                label: '所属组织机构', name: 'party', align:'left', resizable: false, width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
-            {label: '出国时间', name: 'abroadTime'},
-            {label: '出国缘由', name: 'reason', width: 150},
-            {label: '预计归国时间', name: 'expectReturnTime', width: 150},
-            {label: '实际归国时间', name: 'actualReturnTime', width: 150},
-            {hidden: true, name: 'status'}
+            {label: '国家', name: 'gj'},
+            {label: '经费来源', name: 'jfly'},
+            {label: '出国境类别', name: 'cgjlb',width: 150},
+            {label: '出国境方式', name: 'cgjfs'},
+            {label: '邀请单位', name: 'yqdw',width: 150},
+            {label: '邀请单位地址', name: 'yqdwdz'},
+            {label: '邀请人', name: 'yqr'},
+            {label: '申请人职称', name: 'sqrzc'},
+            {label: '申请人手机号', name: 'sqrsjh'},
+            {label: '申请人邮箱', name: 'sqryx'},
+            {label: '预计出发时间', name: 'yjcfsj'},
+            {label: '应归时间', name: 'ygsj'},
+            {label: '预计停留天数', name: 'yjtlts'},
+            {label: '实际出发时间', name: 'sjcfsj'},
+            {label: '实归时间', name: 'sgsj'},
+            {label: '实际停留天数', name: 'sjtlts'},
+            {label: '延期1始', name: 'yq1s'},
+            {label: '延期1止', name: 'yq1z'},
+            {label: '延期2始', name: 'yq2s'},
+            {label: '延期2止', name: 'yq2z'},
+            {label: '批准文号', name: 'pzwh'},
+            {label: '出国境状态', name: 'cgjzt'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

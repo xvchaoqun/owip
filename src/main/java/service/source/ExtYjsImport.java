@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 @Service
-public class BnuYjsImport extends Source {
+public class ExtYjsImport extends Source {
 
     @Autowired
     public ExtYjsMapper extYjsMapper;

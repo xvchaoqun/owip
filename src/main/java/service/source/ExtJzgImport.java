@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 @Service
-public class BnuJzgImport extends Source {
+public class ExtJzgImport extends Source {
 
     @Autowired
     public ExtJzgMapper extJzgMapper;

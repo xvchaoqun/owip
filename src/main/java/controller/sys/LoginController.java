@@ -64,6 +64,7 @@ public class LoginController extends BaseController {
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         for(Session session:sessions){
             LoginUser loginUser = new LoginUser();
+            loginUser.setSid(String.valueOf(session.getId()));
             loginUser.setIp(session.getHost());
             loginUser.setStartTimestamp(session.getStartTimestamp());
             loginUser.setLastAccessTime(session.getLastAccessTime());
@@ -75,6 +76,12 @@ public class LoginController extends BaseController {
                 loginUsers.add(loginUser);
             }
         }
+        Collections.sort(loginUsers, new Comparator<LoginUser>() {
+            @Override
+            public int compare(LoginUser o1, LoginUser o2) {
+                return o1.getStartTimestamp().before(o2.getStartTimestamp())?1:-1;
+            }
+        });
 
         int count = loginUsers.size();
         if ((pageNo - 1) * pageSize >= count) {

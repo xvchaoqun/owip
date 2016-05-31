@@ -13,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.party.MemberService;
-import service.source.BnuBksImport;
-import service.source.BnuJzgImport;
-import service.source.BnuYjsImport;
+import service.source.ExtAbroadImport;
+import service.source.ExtBksImport;
+import service.source.ExtJzgImport;
+import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
 import shiro.SaltPassword;
 import shiro.ShiroUser;
@@ -36,11 +37,13 @@ public class SysUserSyncService extends BaseMapper {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private BnuJzgImport bnuJzgImport;
+    private ExtJzgImport extJzgImport;
     @Autowired
-    private BnuBksImport bnuBksImport;
+    private ExtBksImport extBksImport;
     @Autowired
-    private BnuYjsImport bnuYjsImport;
+    private ExtYjsImport extYjsImport;
+    @Autowired
+    private ExtAbroadImport extAbroadImport;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -53,19 +56,63 @@ public class SysUserSyncService extends BaseMapper {
         return sysUserSyncMapper.countByExample(example)> 0;
     }
 
-    // 同步教职工人事库
-    public void syncJZG(boolean autoStart){
+    // 同步教职工党员出国境信息
+    public void syncAbroad(boolean autoStart){
 
-        if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_JZG)){
+        if(lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
         // 先从师大导入数据
         try {
-            bnuJzgImport.excute();
+            extAbroadImport.excute();
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+        }
+
+        int count = extAbroadMapper.countByExample(new ExtAbroadExample());
+        int pageSize = 200;
+        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+
+        SysUserSync sysUserSync = new SysUserSync();
+        if(!autoStart) {
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            sysUserSync.setUserId(shiroUser.getId());
+        }
+        sysUserSync.setAutoStart(autoStart);
+        sysUserSync.setAutoStop(false);
+        sysUserSync.setStartTime(new Date());
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_ABROAD);
+        sysUserSync.setIsStop(false);
+
+        sysUserSync.setCurrentCount(0);
+        sysUserSync.setCurrentPage(0);
+        sysUserSync.setTotalCount(count);
+        sysUserSync.setTotalPage(pageNo);
+        sysUserSync.setInsertCount(0);
+        sysUserSync.setUpdateCount(0);
+
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
+        insertSelective(sysUserSync);
+    }
+
+    // 同步教职工人事库
+    public void syncJZG(boolean autoStart){
+
+        if(lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)){
+            throw new RuntimeException("上一次同步仍在进行中");
+        }
+
+        // 先从师大导入数据
+        try {
+            extJzgImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -76,7 +123,7 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.USER_SOURCE_JZG);
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_JZG);
         sysUserSync.setIsStop(false);
 
         sysUserSync.setCurrentCount(0);
@@ -171,16 +218,16 @@ public class SysUserSyncService extends BaseMapper {
     // 同步研究生库
     public void syncYJS(boolean autoStart){
 
-        if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_YJS)){
+        if(lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
         // 先从师大导入数据
         try {
-            bnuYjsImport.excute();
+            extYjsImport.excute();
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -191,7 +238,7 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.USER_SOURCE_YJS);
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_YJS);
         sysUserSync.setIsStop(false);
 
         sysUserSync.setCurrentCount(0);
@@ -288,16 +335,16 @@ public class SysUserSyncService extends BaseMapper {
     // 同步本科生库
     public void syncBks(boolean autoStart){
 
-        if(lastSyncIsNotStop(SystemConstants.USER_SOURCE_BKS)){
+        if(lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)){
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
         // 先从师大导入数据
         try {
-            bnuBksImport.excute();
+            extBksImport.excute();
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new RuntimeException("学校账号库同步出错：" + ex.getMessage());
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -308,7 +355,7 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.USER_SOURCE_BKS);
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_BKS);
         sysUserSync.setIsStop(false);
 
         sysUserSync.setCurrentCount(0);

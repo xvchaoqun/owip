@@ -10,9 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class BnuBksImportTest{
     @Autowired
-    public BnuBksImport bnuBksImport;
+    public ExtBksImport extBksImport;
     @Test
     public void excute() throws Exception {
-        bnuBksImport.excute();
+        extBksImport.excute();
     }
 }

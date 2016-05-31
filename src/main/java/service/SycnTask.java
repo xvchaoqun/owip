@@ -34,6 +34,21 @@ public class SycnTask {
 		}
 	}
 
+	@Scheduled(cron = "0 0 23 * * ?")  // 每天23:00执行
+	public void syncAbroad() {
+
+		if(BooleanUtils.isFalse(springProps.sycnAbroad)){
+			return;
+		}
+
+		logger.info("同步教职工党员出国境信息...");
+		try {
+			sysUserSyncService.syncAbroad(true);
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
 	//@Scheduled(cron = "0/5 * * * * ?")
 	//@Scheduled(cron = "0 0/5 12-20 * * ?") // 每天18~20点，每隔半小时
 	@Scheduled(cron = "0 30 23 * * ?")  // 每天23:30执行

@@ -11,9 +11,10 @@
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="jqgrid-vertical-offset buttons">
-                <a data-type="${USER_SOURCE_JZG}" class="syncBtn btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
-                <a  data-type="${USER_SOURCE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
-                <a data-type="${USER_SOURCE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
+                <a data-type="${SYNC_TYPE_JZG}" class="syncBtn btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
+                <a  data-type="${SYNC_TYPE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
+                <a data-type="${SYNC_TYPE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
+                <a data-type="${SYNC_TYPE_ABROAD}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 教职工党员出国境信息同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步教职工党员出国境信息</a>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
@@ -27,7 +28,9 @@
         multiselect:false,
         url: '${ctx}/sysUserSync_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '类型',align:'center', name: 'typeName',resizable:false, width: 120,frozen:true},
+            { label: '类型',align:'center', name: 'type',resizable:false, width: 200, formatter:function(cellvalue, options, rowObject){
+                return _cMap.SYNC_TYPE_MAP[cellvalue];
+            },frozen:true},
             { label: '触发方式', align:'center', name: 'autoStart', width: 80 ,frozen:true, formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStart?"系统自动":"功能按钮";
             }},

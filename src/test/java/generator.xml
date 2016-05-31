@@ -61,8 +61,8 @@
       </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
-        <table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>
+        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>-->
       <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
       </table>-->
 
@@ -77,6 +77,9 @@
       </table>-->
       <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
       </table>-->
+      <table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
+      </table>
+
       <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
       </table>-->
       <!--<table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
@@ -234,6 +237,8 @@
       <table tableName="ext_jzg" domainObjectName="ExtJzg">
       </table>
       <table tableName="ext_yjs" domainObjectName="ExtYjs">
+      </table>-->
+      <!--<table tableName="ext_abroad" domainObjectName="ExtAbroad">
       </table>-->
   </context>
 </generatorConfiguration>

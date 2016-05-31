@@ -106,6 +106,13 @@
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
 
+    <bean id="kickoutSessionControlFilter" class="shiro.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+    </bean>
+
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -117,6 +124,7 @@
                 <entry key="currentUserFilter">
                     <bean class="shiro.CurrentUserFilter"/>
                 </entry>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -137,7 +145,7 @@
                 /extend/** = anon
                 /template/** = anon
                 /favicon.ico = anon
-                /** =  user, currentUserFilter
+                /** =  kickout, user, currentUserFilter
             </value>
         </property>
     </bean>
