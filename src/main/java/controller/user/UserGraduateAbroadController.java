@@ -47,11 +47,21 @@ public class UserGraduateAbroadController extends BaseController{
         modelMap.put("graduateAbroad", graduateAbroad);
 
         if(graduateAbroad!=null) {
+
+            Integer partyId = graduateAbroad.getPartyId();
+            Integer branchId = graduateAbroad.getBranchId();
+            Integer toBranchId = graduateAbroad.getToBranchId();
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();
-            modelMap.put("party", partyMap.get(graduateAbroad.getPartyId()));
-            if (graduateAbroad.getBranchId() != null)
-                modelMap.put("branch", branchMap.get(graduateAbroad.getBranchId()));
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+            if (toBranchId != null) {
+                modelMap.put("toBranch", branchMap.get(toBranchId));
+            }
         }
 
         if(graduateAbroad==null || graduateAbroad.getStatus()== SystemConstants.GRADUATE_ABROAD_STATUS_SELF_BACK
@@ -116,12 +126,12 @@ public class UserGraduateAbroadController extends BaseController{
         record.setIsBack(false);
         if (graduateAbroad == null) {
             graduateAbroadService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "提交毕业生党员出国境组织关系暂留申请"));
+            logger.info(addLog(SystemConstants.LOG_USER, "提交党员出国境组织关系暂留申请"));
             graduateAbroad = record;
         } else {
 
             graduateAbroadService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "修改毕业生党员出国境组织关系暂留申请"));
+            logger.info(addLog(SystemConstants.LOG_USER, "修改党员出国境组织关系暂留申请"));
         }
         applyApprovalLogService.add(graduateAbroad.getId(),
                 graduateAbroad.getPartyId(), graduateAbroad.getBranchId(), graduateAbroad.getUserId(),
@@ -129,7 +139,7 @@ public class UserGraduateAbroadController extends BaseController{
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                "提交毕业生党员出国境组织关系暂留申请");
+                "提交党员出国境组织关系暂留申请");
 
         return success(FormUtils.SUCCESS);
     }
@@ -141,7 +151,7 @@ public class UserGraduateAbroadController extends BaseController{
 
         int userId = loginUser.getId();
         graduateAbroadService.back(userId);
-        logger.info(addLog(SystemConstants.LOG_USER, "取消毕业生党员出国境组织关系暂留申请"));
+        logger.info(addLog(SystemConstants.LOG_USER, "取消党员出国境组织关系暂留申请"));
         return success(FormUtils.SUCCESS);
     }
 }

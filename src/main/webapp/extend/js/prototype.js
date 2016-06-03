@@ -94,7 +94,7 @@ SysMsg.confirm = function(msg, title, callback){
     bootbox.confirm({
         message:msg,
         callback:callback,
-        title:title,
-        closeButton:false
+        title:title/*,
+        closeButton:false*/
     });
 }

@@ -27,7 +27,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                毕业生党员出国（境）申请组织关系暂留申请信息
+                                党员出国（境）申请组织关系暂留申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
@@ -82,10 +82,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="bg-right" colspan="2">
+                                <td class="bg-right">
+                                    人员类别
+                                </td>
+                                <td class="bg-left" style="min-width: 80px">
+                                    ${abroadUserTypeMap.get(graduateAbroad.userType).name}
+                                </td>
+                                <td class="bg-right">
                                     身份证号
                                 </td>
-                                <td class="bg-left" style="min-width: 80px" colspan="4">
+                                <td class="bg-left" style="min-width: 80px" colspan="3">
                                     ${userBean.idcard}
                                 </td>
                             </tr>
@@ -256,6 +262,14 @@
                             </tr>
                             <tr>
                                 <td class="bg-right" colspan="2">
+                                    出国原因
+                                </td>
+                                <td class="bg-left" colspan="5">
+                                    ${fn:replace(graduateAbroad.abroadReason, "+++", ",")}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-right" colspan="2">
                                     留学国家
                                 </td>
                                 <td class="bg-left" colspan="2">
@@ -311,10 +325,16 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td class="bg-right" colspan="2">
+                                   暂留所在党支部名称
+                                </td>
+                                <td class="bg-left" colspan="2">
+                                    ${toBranch.name}
+                                </td>
                                 <td class="bg-right">
                                     状态
                                 </td>
-                                <td class="bg-left" style="min-width: 80px" colspan="6">
+                                <td class="bg-left" style="min-width: 80px" colspan="2">
                                     ${GRADUATE_ABROAD_STATUS_MAP.get(graduateAbroad.status)}
                                 </td>
                             </tr>
@@ -336,14 +356,14 @@
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
-                                <li data-step="1"  class="${graduateAbroad.status==GRADUATE_ABROAD_STATUS_BRANCH_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_BRANCH_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">支部审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>
                                 </li>
-                                <li data-step="2"  class="${graduateAbroad.status==GRADUATE_ABROAD_STATUS_PARTY_VERIFY?'complete':''}">
+                                <li data-step="2"  class="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">2</span>
                                     <span class="title">分党委审核</span>
                                     <%--<span class="subtitle">

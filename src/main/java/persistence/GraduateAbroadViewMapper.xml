@@ -6,6 +6,9 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="to_branch_id" property="toBranchId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="abroad_reason" property="abroadReason" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="weixin" property="weixin" jdbcType="VARCHAR" />
@@ -100,10 +103,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, mobile, phone, weixin, email, qq, in_address, out_address, 
-    name1, relate1, unit1, post1, phone1, mobile1, email1, name2, relate2, unit2, post2, 
-    phone2, mobile2, email2, country, school, start_time, end_time, type, save_start_time, 
-    save_end_time, pay_time, status, is_back, reason, create_time, member_status
+    id, user_id, party_id, branch_id, to_branch_id, user_type, abroad_reason, mobile, 
+    phone, weixin, email, qq, in_address, out_address, name1, relate1, unit1, post1, 
+    phone1, mobile1, email1, name2, relate2, unit2, post2, phone2, mobile2, email2, country, 
+    school, start_time, end_time, type, save_start_time, save_end_time, pay_time, status, 
+    is_back, reason, create_time, member_status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.GraduateAbroadViewExample" >
     select
@@ -127,7 +131,8 @@
   </delete>
   <insert id="insert" parameterType="domain.GraduateAbroadView" >
     insert into ow_graduate_abroad_view (id, user_id, party_id, 
-      branch_id, mobile, phone, 
+      branch_id, to_branch_id, user_type, 
+      abroad_reason, mobile, phone, 
       weixin, email, qq, 
       in_address, out_address, name1, 
       relate1, unit1, post1, 
@@ -140,7 +145,8 @@
       status, is_back, reason, 
       create_time, member_status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, 
+      #{abroadReason,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{weixin,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
       #{inAddress,jdbcType=VARCHAR}, #{outAddress,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR}, 
       #{relate1,jdbcType=VARCHAR}, #{unit1,jdbcType=VARCHAR}, #{post1,jdbcType=VARCHAR}, 
@@ -167,6 +173,15 @@
       </if>
       <if test="branchId != null" >
         branch_id,
+      </if>
+      <if test="toBranchId != null" >
+        to_branch_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="abroadReason != null" >
+        abroad_reason,
       </if>
       <if test="mobile != null" >
         mobile,
@@ -283,6 +298,15 @@
       </if>
       <if test="branchId != null" >
         #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="toBranchId != null" >
+        #{toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="abroadReason != null" >
+        #{abroadReason,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null" >
         #{mobile,jdbcType=VARCHAR},
@@ -409,6 +433,15 @@
       <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.toBranchId != null" >
+        to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.abroadReason != null" >
+        abroad_reason = #{record.abroadReason,jdbcType=VARCHAR},
+      </if>
       <if test="record.mobile != null" >
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
@@ -522,6 +555,9 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      abroad_reason = #{record.abroadReason,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       weixin = #{record.weixin,jdbcType=VARCHAR},

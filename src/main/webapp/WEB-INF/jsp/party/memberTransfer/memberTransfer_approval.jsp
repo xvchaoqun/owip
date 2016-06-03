@@ -107,7 +107,7 @@
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberTransfer.status==MEMBER_TRANSFER_STATUS_FROM_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberTransfer.status>=MEMBER_TRANSFER_STATUS_FROM_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">转出分党委审核</span>
                                     <%--<span class="subtitle">

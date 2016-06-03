@@ -284,6 +284,8 @@ public class BaseController extends BaseMapper {
         map.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
         map.put("schoolTypeMap", metaTypeService.metaTypes("mc_school"));
 
+        map.put("abroadUserTypeMap", metaTypeService.metaTypes("mc_abroad_user_type"));
+
         map.put("eduMap", metaTypeService.metaTypes("mc_edu"));
 
         map.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));

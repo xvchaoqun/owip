@@ -17,6 +17,12 @@ public class GraduateAbroad implements Serializable {
 
     private Integer branchId;
 
+    private Integer toBranchId;
+
+    private Integer userType;
+
+    private String abroadReason;
+
     private String mobile;
 
     private String phone;
@@ -115,6 +121,30 @@ public class GraduateAbroad implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public Integer getToBranchId() {
+        return toBranchId;
+    }
+
+    public void setToBranchId(Integer toBranchId) {
+        this.toBranchId = toBranchId;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public String getAbroadReason() {
+        return abroadReason;
+    }
+
+    public void setAbroadReason(String abroadReason) {
+        this.abroadReason = abroadReason == null ? null : abroadReason.trim();
     }
 
     public String getMobile() {

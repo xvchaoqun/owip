@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import domain.DispatchType;
 import org.springframework.context.ApplicationContext;
 import service.dispatch.DispatchTypeService;
-import service.party.ApplicationContextSupport;
+import sys.service.ApplicationContextSupport;
 
 import java.io.IOException;
 import java.util.Map;

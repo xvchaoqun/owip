@@ -1,8 +1,10 @@
 package service.party;
 
 import controller.BaseController;
+import domain.Branch;
 import domain.GraduateAbroad;
 import domain.GraduateAbroadExample;
+import domain.Member;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -19,6 +21,7 @@ import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GraduateAbroadService extends BaseMapper {
@@ -27,6 +30,8 @@ public class GraduateAbroadService extends BaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private BranchService branchService;
     @Autowired
     private MemberOpService memberOpService;
 
@@ -193,7 +198,7 @@ public class GraduateAbroadService extends BaseMapper {
 
     // 分党委审核通过
     @Transactional
-    public void check2(int id){
+    public void check2(int id, int branchId){
 
         GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
         if(graduateAbroad.getStatus()!= SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
@@ -201,9 +206,23 @@ public class GraduateAbroadService extends BaseMapper {
         GraduateAbroad record = new GraduateAbroad();
         record.setId(graduateAbroad.getId());
         record.setUserId(graduateAbroad.getUserId());
+        record.setToBranchId(branchId);
         record.setStatus(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
+
+        // 支部转移
+        if(graduateAbroad.getBranchId()!=branchId){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Branch branch = branchMap.get(branchId);
+            if(branch==null || branch.getPartyId().intValue()!=graduateAbroad.getPartyId()){
+                throw new RuntimeException("转移支部不存在");
+            }
+            Member member = new Member();
+            member.setUserId(graduateAbroad.getUserId());
+            member.setBranchId(branchId);
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
     }
 
     // 组织部审核通过
@@ -260,7 +279,7 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     @Transactional
-    public void graduateAbroad_check(int[] ids, byte type, int loginUserId){
+    public void graduateAbroad_check(int[] ids, byte type, Integer branchId, int loginUserId){
 
         for (int id : ids) {
             GraduateAbroad graduateAbroad = null;
@@ -279,7 +298,7 @@ public class GraduateAbroadService extends BaseMapper {
                 BaseController.VerifyAuth<GraduateAbroad> verifyAuth = checkVerityAuth2(id);
                 graduateAbroad = verifyAuth.entity;
 
-                check2(graduateAbroad.getId());
+                check2(graduateAbroad.getId(), branchId);
             }
             if(type==3) {
                 SecurityUtils.getSubject().checkRole("odAdmin");
@@ -299,12 +318,12 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     @Transactional
-    public void graduateAbroad_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void graduateAbroad_back(int[] ids, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
-        for (int userId : userIds) {
+        for (int id : ids) {
 
-            GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(userId);
+            GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, graduateAbroad.getPartyId());
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, graduateAbroad.getBranchId());
 

@@ -20,6 +20,10 @@ public class GraduateAbroadMixin {
     @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)
     public Integer branchId;
 
+    @JsonProperty("toBranch")
+    @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)
+    public Integer toBranchId;
+
     @JsonFormat(pattern = "yyyy-MM",timezone="GMT+8")
     public Date startTime;
     @JsonFormat(pattern = "yyyy-MM",timezone="GMT+8")

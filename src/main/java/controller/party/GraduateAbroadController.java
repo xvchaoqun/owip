@@ -46,6 +46,21 @@ public class GraduateAbroadController extends BaseController {
         GraduateAbroad graduateAbroad = graduateAbroadService.get(userId);
         modelMap.put("graduateAbroad", graduateAbroad);
 
+        Integer partyId = graduateAbroad.getPartyId();
+        Integer branchId = graduateAbroad.getBranchId();
+        Integer toBranchId = graduateAbroad.getToBranchId();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+        if (toBranchId != null) {
+            modelMap.put("toBranch", branchMap.get(toBranchId));
+        }
+
         modelMap.put("userBean", userBeanService.get(userId));
 
         return "party/graduateAbroad/graduateAbroad_view";
@@ -252,6 +267,21 @@ public class GraduateAbroadController extends BaseController {
         modelMap.put("userBean", userBeanService.get(userId));
         modelMap.put("student", studentService.get(userId));
 
+        Integer partyId = currentGraduateAbroad.getPartyId();
+        Integer branchId = currentGraduateAbroad.getBranchId();
+        Integer toBranchId = currentGraduateAbroad.getToBranchId();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
+        if (toBranchId != null) {
+            modelMap.put("toBranch", branchMap.get(toBranchId));
+        }
+
         // 是否是当前记录的管理员
         if (type == 1) {
             modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentGraduateAbroad.getBranchId()));
@@ -295,7 +325,7 @@ public class GraduateAbroadController extends BaseController {
                                  @RequestParam(value = "ids[]") int[] ids) {
 
 
-        graduateAbroadService.graduateAbroad_check(ids, type, loginUser.getId());
+        graduateAbroadService.graduateAbroad_check(ids, type, null, loginUser.getId());
 
         logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join(ids, ",")));
 
@@ -323,6 +353,39 @@ public class GraduateAbroadController extends BaseController {
         graduateAbroadService.graduateAbroad_back(ids, status, reason, loginUser.getId());
 
         logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", StringUtils.join( ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("graduateAbroad:update")
+    @RequestMapping("/graduateAbroad_transfer")
+    public String graduateAbroad_transfer(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+
+        int id = ids[0]; /// 分党委审核时必须在同一个分党委内部审核
+        GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
+        modelMap.put("graduateAbroad", graduateAbroad);
+
+        Integer partyId = graduateAbroad.getPartyId();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+
+        return "party/graduateAbroad/graduateAbroad_transfer";
+    }
+
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("graduateAbroad:update")
+    @RequestMapping(value = "/graduateAbroad_transfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_graduateAbroad_transfer(@CurrentUser SysUser loginUser,
+                                      @RequestParam(value = "ids[]") int[] ids,
+                                      Integer branchId) {
+
+
+        graduateAbroadService.graduateAbroad_check(ids, (byte)2, branchId, loginUser.getId());
+
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委审核暂留申请：%s，转移至支部%s", StringUtils.join( ids, ","), branchId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -465,7 +528,7 @@ public class GraduateAbroadController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "毕业生出国（境）申请组织关系暂留_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "党员出国（境）申请组织关系暂留_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

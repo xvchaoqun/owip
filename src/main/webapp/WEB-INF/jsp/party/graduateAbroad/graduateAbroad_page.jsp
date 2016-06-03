@@ -152,7 +152,7 @@
                                                 </script>
 
                                             <div class="form-group">
-                                                <label>留学国别</label>
+                                                <label>去往国家</label>
                                                 <input type="text" name="country" value="${param.country}">
                                             </div>
                                             <div class="form-group">
@@ -256,6 +256,8 @@
                 $("#next").click();
             else
                 $("#last").click();
+        }else{
+            page_reload();
         }
     }
     function apply_deny(id, type, goToNext) {
@@ -263,18 +265,22 @@
         loadModal("${ctx}/graduateAbroad_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, type, goToNext) {
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if (result) {
-                $.post("${ctx}/graduateAbroad_check", {ids: [id], type: type}, function (ret) {
-                    if (ret.success) {
-                        SysMsg.success('操作成功。', '成功', function () {
-                            //page_reload();
-                            goto_next(goToNext);
-                        });
-                    }
-                });
-            }
-        });
+        if(type==2){
+            loadModal("${ctx}/graduateAbroad_transfer?ids[]={0}".format(id))
+        }else{
+            bootbox.confirm("确定通过该申请？", function (result) {
+                if (result) {
+                    $.post("${ctx}/graduateAbroad_check", {ids: [id], type: type}, function (ret) {
+                        if (ret.success) {
+                            SysMsg.success('操作成功。', '成功', function () {
+                                //page_reload();
+                                goto_next(goToNext);
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 
     $("#jqGrid").jqGrid({
@@ -295,7 +301,15 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen: true
             },
-
+            <c:if test="${cls==12}">
+            {label: '暂留后所在党支部', name: 'toBranch', width: 250},
+            </c:if>
+            {label: '人员类别', name: 'userType', formatter:function(cellvalue, options, rowObject){
+                return _metaTypeMap[cellvalue];
+            }},
+            {label: '出国原因', name: 'abroadReason', width: 250, formatter:function(cellvalue, options, rowObject){
+                return cellvalue.replace(/\+\+\+/g, ',');
+            }},
             {label: '手机号码', name: 'mobile'},
             {label: '家庭电话', name: 'phone'},
             {label: '微信', name: 'weixin'},
@@ -317,11 +331,9 @@
             {label: '办公电话', name: 'phone2'},
             {label: '手机号', name: 'mobile2'},
             {label: '电子邮箱', name: 'email2', width: 200},
-
-
-            {label: '留学国家', name: 'country', width: 150},
-            {label: '留学学校（院系）', name: 'school', width: 200},
-            {label: '留学起止时间', name: 'abroadTime', width: 200,formatter: function (cellvalue, options, rowObject) {
+            {label: '去往国家', name: 'country', width: 150},
+            {label: '留学学校或工作单位', name: 'school', width: 200},
+            {label: '出国起止时间', name: 'abroadTime', width: 200,formatter: function (cellvalue, options, rowObject) {
                 return rowObject.startTime + "至" + rowObject.endTime;
             }},
             {label: '留学方式', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
@@ -347,7 +359,8 @@
             } else if (ids.length==1) {
                 jgrid_sid = ids[0];
                 var rowData = $(this).getRowData(ids[0]);
-                $("#partyApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_APPLY}");
+                $("#branchApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_BRANCH_VERIFY}");
                 $("#odApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_PARTY_VERIFY}");
             } else {
                 $("*[data-count]").each(function(){
@@ -371,19 +384,37 @@
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
-        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        caption:"支部审核",
+        btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
+    </c:if>
+    <c:if test="${cls==11}">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委审核",
+        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
 
+            loadModal("${ctx}/graduateAbroad_transfer?ids[]={0}".format(ids))
+        }
+    });
+    </c:if>
+    <c:if test="${cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    </c:if>
+    <c:if test="${cls==1||cls==11||cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",

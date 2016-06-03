@@ -1,4 +1,14 @@
 
+--2016-6-2
+ALTER TABLE `ow_graduate_abroad`
+	ADD COLUMN `to_branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '转移至支部' AFTER `branch_id`,
+	ADD COLUMN `user_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '人员类别，关联元数据' AFTER `to_branch_id`,
+	ADD COLUMN `abroad_reason` VARCHAR(255) NULL DEFAULT NULL COMMENT '出国原因' AFTER `user_type`,
+	ADD CONSTRAINT `FK_ow_graduate_abroad_ow_branch_2` FOREIGN KEY (`to_branch_id`) REFERENCES `ow_branch` (`id`),
+	ADD CONSTRAINT `FK_ow_graduate_abroad_base_meta_type` FOREIGN KEY (`user_type`) REFERENCES `base_meta_type` (`id`);
+
+添加mc_abroad_user_type
+
 --2016-5-31
 ALTER TABLE `sys_login_log`
 	CHANGE COLUMN `agent` `agent` VARCHAR(255) NULL DEFAULT NULL COMMENT '客户端类型' AFTER `last_login_ip`;

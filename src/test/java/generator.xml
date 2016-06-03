@@ -77,13 +77,13 @@
       </table>-->
       <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
       </table>-->
-      <table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
-      </table>
+      <!--<table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
+      </table>-->
 
-      <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
-      </table>-->
-      <!--<table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
-      </table>-->
+      <table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
+      </table>
+      <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
+      </table>
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 

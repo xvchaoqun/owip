@@ -126,9 +126,9 @@
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberIn.status==MEMBER_IN_STATUS_PARTY_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberIn.status>=MEMBER_IN_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">分党委党总支直属党支部审核</span>
+                                    <span class="title">分党委审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>

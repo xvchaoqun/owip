@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box" style="width: 800px">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 毕业生党员出国（境）组织关系暂留申请</h4>
+        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 党员出国（境）组织关系暂留申请</h4>
     </div>
     <div class="widget-body">
         <div class="widget-main">
@@ -54,10 +54,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="bg-right" colspan="2">
+                    <td class="bg-right">
+                        人员类别
+                    </td>
+                    <td class="bg-left" style="min-width: 80px">
+                        ${abroadUserTypeMap.get(graduateAbroad.userType).name}
+                    </td>
+                    <td class="bg-right">
                         身份证号
                     </td>
-                    <td class="bg-left" style="min-width: 80px" colspan="4">
+                    <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${userBean.idcard}
                     </td>
                 </tr>
@@ -228,13 +234,21 @@
                 </tr>
                 <tr>
                     <td class="bg-right" colspan="2">
-                        留学国家
+                        出国原因
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${fn:replace(graduateAbroad.abroadReason, "+++", ",")}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-right" colspan="2">
+                        去往国家
                     </td>
                     <td class="bg-left" colspan="2">
                         ${graduateAbroad.country}
                     </td>
                     <td class="bg-right">
-                        留学学校（院系）
+                        留学学校或工作单位
                     </td>
                     <td class="bg-left" colspan="2">
                         ${graduateAbroad.school}
@@ -242,7 +256,7 @@
                 </tr>
                 <tr>
                     <td class="bg-right" colspan="2">
-                        留学起止时间
+                        出国起止时间
                     </td>
                     <td class="bg-left" colspan="2">
                         ${cm:formatDate(graduateAbroad.startTime,'yyyy/MM')} 至 ${cm:formatDate(graduateAbroad.endTime,'yyyy/MM')}
@@ -283,10 +297,16 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="bg-right" colspan="2">
+                        暂留所在党支部名称
+                    </td>
+                    <td class="bg-left" colspan="2">
+                        ${toBranch.name}
+                    </td>
                     <td class="bg-right">
                         状态
                     </td>
-                    <td class="bg-left" style="min-width: 80px" colspan="6">
+                    <td class="bg-left" style="min-width: 80px" colspan="3">
                         ${GRADUATE_ABROAD_STATUS_MAP.get(graduateAbroad.status)}
                             &nbsp;
                             <c:if test="${graduateAbroad.status==GRADUATE_ABROAD_STATUS_APPLY}">

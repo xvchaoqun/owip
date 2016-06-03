@@ -12,7 +12,7 @@
 </c:if>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 毕业生党员出国（境）申请组织关系暂留</h4>
+        <h4 class="widget-title"><i class="fa fa-paw blue"></i> 党员出国（境）申请组织关系暂留</h4>
     </div>
     <div class="widget-body">
         <div class="widget-main">
@@ -20,6 +20,30 @@
                 <input type="hidden" name="id" value="${graduateAbroad.id}">
                 <div class="row">
                     <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-6 control-label">人员类别</label>
+                            <div class="col-xs-6">
+                                <select required data-rel="select2" name="userType" data-placeholder="请选择">
+                                    <option></option>
+                                    <jsp:include page="/metaTypes?__code=mc_abroad_user_type"/>
+                                </select>
+                                <script type="text/javascript">
+                                    $("#modalForm select[name=userType]").val(${graduateAbroad.userType});
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-6 control-label">出国原因</label>
+                            <div class="col-xs-6 choice">
+                                <input name="_reason" type="checkbox" value="留学"> 留学&nbsp;
+                                <input name="_reason" type="checkbox" value="访学"> 访学&nbsp;
+                                <input name="_reason" type="checkbox" value="工作"> 工作&nbsp;
+                                <br/>
+                                <input name="_reason" type="checkbox" value="其他"> 其他
+                                <input name="_reason_other" type="text" size="18">
+                                <input name="abroadReason" type="hidden"/>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">手机</label>
                             <div class="col-xs-6">
@@ -63,7 +87,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">留学国家</label>
+                            <label class="col-xs-6 control-label">去往国家</label>
                             <div class="col-xs-6">
                                 <select required  name="country" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
@@ -77,13 +101,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">留学学校（院系）</label>
+                            <label class="col-xs-6 control-label">留学学校或工作单位</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" type="text" name="school" value="${graduateAbroad.school}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">留学起始时间</label>
+                            <label class="col-xs-6 control-label">出国起始时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_startTime" type="text"
@@ -93,7 +117,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-6 control-label">留学截止时间</label>
+                            <label class="col-xs-6 control-label">出国截止时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_endTime" type="text"
@@ -268,10 +292,42 @@
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
 
+    <c:forEach var="reason" items="${fn:split(graduateAbroad.abroadReason,'+++')}">
+    $("input[name=_reason][value='${reason}']").prop("checked", true);
+    <c:if test="${fn:startsWith(reason, '其他:')}">
+    $("#modalForm input[name=_reason][value='其他']").prop("checked", true);
+        $("input[name=_reason_other]").val('${fn:substringAfter(reason, '其他:')}');
+    </c:if>
+    </c:forEach>
+
     $('textarea.limited').inputlimiter();
     register_date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+            // 出国原因
+            var $_reason = $("#modalForm input[name=_reason][value='其他']");
+            var _reason_other = $("input[name=_reason_other]").val().trim();
+            if($_reason.is(":checked")){
+                if(_reason_other==''){
+                    SysMsg.info("请输入其他出国原因", '', function(){
+                        $("#modalForm input[name=_reason_other]").val('').focus();
+                    });
+                    return;
+                }
+            }
+            var reasons = [];
+            $.each($("#modalForm input[name=_reason]:checked"), function(){
+                if($(this).val()=='其他'){
+                    reasons.push("其他:"+_reason_other);
+                }else
+                    reasons.push($(this).val());
+            });
+            if(reasons.length==0){
+                SysMsg.info("请选择出国原因");
+                return;
+            }
+            $("#modalForm input[name=abroadReason]").val(reasons.join("+++"));
 
             $(form).ajaxSubmit({
                 success:function(ret){

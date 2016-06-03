@@ -31,7 +31,7 @@ zzgz@2015
 
 
 http://219.224.19.170/
-admin  zzbgb6879
+admin  zzbgb6879/ longtor@2016
 
 http://219.224.19.170:9090/
 admin  test123

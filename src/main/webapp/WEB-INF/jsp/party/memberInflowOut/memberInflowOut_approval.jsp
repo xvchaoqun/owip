@@ -139,7 +139,7 @@
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberInflow.outStatus==MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberInflow.outStatus>=MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">支部审核</span>
                                     <%--<span class="subtitle">

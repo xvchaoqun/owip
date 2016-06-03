@@ -377,6 +377,196 @@ public class GraduateAbroadViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andToBranchIdIsNull() {
+            addCriterion("to_branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdIsNotNull() {
+            addCriterion("to_branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdEqualTo(Integer value) {
+            addCriterion("to_branch_id =", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdNotEqualTo(Integer value) {
+            addCriterion("to_branch_id <>", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdGreaterThan(Integer value) {
+            addCriterion("to_branch_id >", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("to_branch_id >=", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdLessThan(Integer value) {
+            addCriterion("to_branch_id <", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("to_branch_id <=", value, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdIn(List<Integer> values) {
+            addCriterion("to_branch_id in", values, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdNotIn(List<Integer> values) {
+            addCriterion("to_branch_id not in", values, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("to_branch_id between", value1, value2, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andToBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("to_branch_id not between", value1, value2, "toBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNull() {
+            addCriterion("user_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNotNull() {
+            addCriterion("user_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeEqualTo(Integer value) {
+            addCriterion("user_type =", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotEqualTo(Integer value) {
+            addCriterion("user_type <>", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThan(Integer value) {
+            addCriterion("user_type >", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_type >=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThan(Integer value) {
+            addCriterion("user_type <", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("user_type <=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIn(List<Integer> values) {
+            addCriterion("user_type in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotIn(List<Integer> values) {
+            addCriterion("user_type not in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeBetween(Integer value1, Integer value2) {
+            addCriterion("user_type between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_type not between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonIsNull() {
+            addCriterion("abroad_reason is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonIsNotNull() {
+            addCriterion("abroad_reason is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonEqualTo(String value) {
+            addCriterion("abroad_reason =", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonNotEqualTo(String value) {
+            addCriterion("abroad_reason <>", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonGreaterThan(String value) {
+            addCriterion("abroad_reason >", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("abroad_reason >=", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonLessThan(String value) {
+            addCriterion("abroad_reason <", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonLessThanOrEqualTo(String value) {
+            addCriterion("abroad_reason <=", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonLike(String value) {
+            addCriterion("abroad_reason like", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonNotLike(String value) {
+            addCriterion("abroad_reason not like", value, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonIn(List<String> values) {
+            addCriterion("abroad_reason in", values, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonNotIn(List<String> values) {
+            addCriterion("abroad_reason not in", values, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonBetween(String value1, String value2) {
+            addCriterion("abroad_reason between", value1, value2, "abroadReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbroadReasonNotBetween(String value1, String value2) {
+            addCriterion("abroad_reason not between", value1, value2, "abroadReason");
+            return (Criteria) this;
+        }
+
         public Criteria andMobileIsNull() {
             addCriterion("mobile is null");
             return (Criteria) this;
@@ -2663,6 +2853,7 @@ public class GraduateAbroadViewExample {
         protected Criteria() {
             super();
         }
+
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             Subject subject = SecurityUtils.getSubject();
