@@ -46,19 +46,21 @@ public class GraduateAbroadController extends BaseController {
         GraduateAbroad graduateAbroad = graduateAbroadService.get(userId);
         modelMap.put("graduateAbroad", graduateAbroad);
 
-        Integer partyId = graduateAbroad.getPartyId();
-        Integer branchId = graduateAbroad.getBranchId();
-        Integer toBranchId = graduateAbroad.getToBranchId();
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        if (partyId != null) {
-            modelMap.put("party", partyMap.get(partyId));
-        }
-        if (branchId != null) {
-            modelMap.put("branch", branchMap.get(branchId));
-        }
-        if (toBranchId != null) {
-            modelMap.put("toBranch", branchMap.get(toBranchId));
+        if(graduateAbroad!=null) {
+            Integer partyId = graduateAbroad.getPartyId();
+            Integer branchId = graduateAbroad.getBranchId();
+            Integer toBranchId = graduateAbroad.getToBranchId();
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            Map<Integer, Party> partyMap = partyService.findAll();
+            if (partyId != null) {
+                modelMap.put("party", partyMap.get(partyId));
+            }
+            if (branchId != null) {
+                modelMap.put("branch", branchMap.get(branchId));
+            }
+            if (toBranchId != null) {
+                modelMap.put("toBranch", branchMap.get(toBranchId));
+            }
         }
 
         modelMap.put("userBean", userBeanService.get(userId));

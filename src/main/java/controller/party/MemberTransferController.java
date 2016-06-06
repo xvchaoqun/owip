@@ -50,8 +50,6 @@ public class MemberTransferController extends BaseController {
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
 
         modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
         modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
