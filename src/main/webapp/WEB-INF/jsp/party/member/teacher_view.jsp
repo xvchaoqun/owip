@@ -26,8 +26,11 @@
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberTransfer_view?userId=${param.userId}">校内组织关系转接</a>
                         </li>
-                        <li>
+                        <%--<li>
                             <a href="javascript:;" data-url="${ctx}/memberStay_view?userId=${param.userId}">公派留学生党员申请</a>
+                        </li>--%>
+                        <li>
+                            <a href="javascript:;" data-url="${ctx}/graduateAbroad_view?userId=${param.userId}">党员出国（境）申请组织关系暂留</a>
                         </li>
                     </ul>
                 </div>
