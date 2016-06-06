@@ -320,7 +320,8 @@ public class PartyController extends BaseController {
                     && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
-                if(BooleanUtils.isFalse(notBranchAdmin)) { // 读取管理党支部所属的分党委，供查询
+                if(BooleanUtils.isNotTrue(notBranchAdmin)) { // 读取管理党支部所属的分党委，供查询；
+                                                             // 如果账号只是支部管理员，无需读取分党委，则设置notBranchAdmin=1；
                     List<Integer> branchIdList = loginUserService.adminBranchIdList();
                     Map<Integer, Branch> branchMap = branchService.findAll();
                     for (Integer branchId : branchIdList) {
