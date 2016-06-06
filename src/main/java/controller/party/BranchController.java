@@ -127,8 +127,14 @@ public class BranchController extends BaseController {
             criteria.andPartyIdEqualTo(partyId);
         }
 
-        //===========权限
-        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        //===========权限（只有分党委管理员，才可以管理党支部）
+        //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            criteria.andPartyIdIn(partyIdList);
+        }
 
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
