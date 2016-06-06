@@ -27,19 +27,20 @@ import java.util.Map;
 public class BranchService extends BaseMapper {
 
     @Autowired
-    private  PartyMemberService partyMemberService;
+    private PartyMemberService partyMemberService;
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer id, String code) {
 
         Assert.isTrue(StringUtils.isNotBlank(code));
 
         BranchExample example = new BranchExample();
         BranchExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return branchMapper.countByExample(example) > 0;
     }
-    public void checkAuth(int partyId){
+
+    public void checkAuth(int partyId) {
 
         //===========权限
         Subject subject = SecurityUtils.getSubject();
@@ -49,30 +50,31 @@ public class BranchService extends BaseMapper {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
         }
     }
 
-    public String genCode(int partyId){
+    public String genCode(int partyId) {
 
-        int num ;
+        int num;
         BranchExample example = new BranchExample();
         example.createCriteria().andPartyIdEqualTo(partyId);
         example.setOrderByClause("code desc");
         List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(branchs.size()>0){
+        if (branchs.size() > 0) {
             String code = branchs.get(0).getCode();
             String _code = code.substring(code.length() - 3);
             num = Integer.parseInt(_code) + 1;
-        }else{
+        } else {
             num = 1;
         }
         Party party = partyMapper.selectByPrimaryKey(partyId);
         return party.getCode() + String.format("%03d", num);
     }
+
     @Transactional
-    @CacheEvict(value="Branch:ALL", allEntries = true)
-    public int insertSelective(Branch record){
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public int insertSelective(Branch record) {
 
         checkAuth(record.getPartyId());
 
@@ -84,9 +86,10 @@ public class BranchService extends BaseMapper {
         _record.setSortOrder(id);
         return branchMapper.updateByPrimaryKeySelective(_record);
     }
+
     @Transactional
-    @CacheEvict(value="Branch:ALL", allEntries = true)
-    public void del(Integer id){
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public void del(Integer id) {
         Branch branch = branchMapper.selectByPrimaryKey(id);
         checkAuth(branch.getPartyId());
 
@@ -94,12 +97,25 @@ public class BranchService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="Branch:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
-
+        if (ids == null || ids.length == 0) return;
+        Subject subject = SecurityUtils.getSubject();
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
         for (Integer id : ids) {
+            // 权限控制
+            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+                // 要求是分党委管理员
+                Branch branch = findAll().get(id);
+                int partyId = branch.getPartyId();
+
+                if (!partyMemberService.isPresentAdmin(shiroUser.getId(), partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+
             Branch branch = branchMapper.selectByPrimaryKey(id);
             checkAuth(branch.getPartyId());
         }
@@ -110,18 +126,18 @@ public class BranchService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="Branch:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(Branch record){
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(Branch record) {
 
         Branch branch = branchMapper.selectByPrimaryKey(record.getId());
         checkAuth(branch.getPartyId());
 
-        if(StringUtils.isNotBlank(record.getCode()))
+        if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
         return branchMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="Branch:ALL")
+    @Cacheable(value = "Branch:ALL")
     public Map<Integer, Branch> findAll() {
 
         BranchExample example = new BranchExample();
@@ -138,6 +154,7 @@ public class BranchService extends BaseMapper {
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,
+     *
      * @param id
      * @param addNum
      */
@@ -145,7 +162,7 @@ public class BranchService extends BaseMapper {
     @CacheEvict(value = "Branch:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         Branch entity = branchMapper.selectByPrimaryKey(id);
 
@@ -158,16 +175,16 @@ public class BranchService extends BaseMapper {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<Branch> overEntities = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            Branch targetEntity = overEntities.get(overEntities.size()-1);
+            Branch targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
                 commonMapper.downOrder("ow_branch", baseSortOrder, targetEntity.getSortOrder());

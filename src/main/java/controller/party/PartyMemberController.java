@@ -15,7 +15,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -130,6 +132,7 @@ public class PartyMemberController extends BaseController {
         return "party/partyMember/partyMember_page";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -160,6 +163,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping("/partyMember_au")
     public String partyMember_au(Integer id, ModelMap modelMap) {
@@ -172,6 +176,7 @@ public class PartyMemberController extends BaseController {
         return "party/partyMember/partyMember_au";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_admin", method = RequestMethod.POST)
     @ResponseBody
@@ -192,6 +197,18 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("partyMember:edit")
+    @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map partyAdmin_del(Integer userId, Integer partyId) {
+
+        partyMemberService.delAdmin(userId, partyId);
+        logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织管理员权限，userId=%s, partyId=%s", userId, partyId));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -205,6 +222,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -219,6 +237,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:changeOrder")
     @RequestMapping(value = "/partyMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody

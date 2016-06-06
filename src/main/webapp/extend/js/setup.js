@@ -481,6 +481,25 @@ $(document).on("click", ".jqOpenViewBatchBtn", function(){
     }
 });
 
+$(document).on("click", ".confirm", function(){
+
+    var url = $(this).data("url");
+    var msg = $(this).data("msg");
+    var callback = $.trim($(this).data("callback"));
+
+    bootbox.confirm(msg, function (result) {
+        if (result) {
+            $.post(url, {}, function (ret) {
+                if (ret.success) {
+                     if(callback){
+                        window[callback](this);
+                     }
+                }
+            });
+        }
+    });
+});
+
 // 删除
 $(document).on("click", ".myTableDiv .delBtn", function(){
 

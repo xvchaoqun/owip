@@ -26,6 +26,22 @@ public interface CommonMapper {
             "union all select count(*) as tmpcount from ow_org_admin where user_id=#{userId} and party_id=#{partyId}) tmp")
     int isPartyAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
+    // 查询现任分党委的所有管理员(委员)
+    @ResultMap("persistence.PartyMemberMapper.BaseResultMap")
+    @Select("select pm.* from ow_party_member_group pmg, ow_party_member pm " +
+            "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id")
+    List<PartyMember> findPartyAdminOfPartyMember(@Param("userId") int userId, @Param("partyId") int partyId);
+    // 查询现任分党委的所有管理员(全局用户)
+    @ResultMap("persistence.OrgAdminMapper.BaseResultMap")
+    @Select("select * from ow_org_admin where user_id=#{userId} and party_id=#{partyId}")
+    List<OrgAdmin> findPartyAdminOfOrgAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
+
+    // 查询现任分党委的所有管理员
+    @Select("select pm.user_id from ow_party_member_group pmg, ow_party_member pm " +
+            "where pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id " +
+            "union all select user_id from ow_org_admin where party_id=#{partyId}")
+    List<Integer> findPartyAdmin(@Param("partyId") int partyId);
+
     // 查询用户管理的支部ID（现任支部管理员）
     @Select("select bmg.branch_id from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bm.group_id=bmg.id " +
@@ -36,6 +52,22 @@ public interface CommonMapper {
             "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id " +
             "union all select count(*) as tmpcount from ow_org_admin where user_id=#{userId} and branch_id=#{branchId}) tmp")
     int isBranchAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
+
+    // 查询现任支部委员会的所有管理员(委员)
+    @ResultMap("persistence.BranchMemberMapper.BaseResultMap")
+    @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
+            "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id")
+    List<BranchMember> findBranchAdminOfBranchMember(@Param("userId") int userId, @Param("branchId") int branchId);
+    // 查询现任支部委员会的所有管理员(全局用户)
+    @ResultMap("persistence.OrgAdminMapper.BaseResultMap")
+    @Select("select * from ow_org_admin where user_id=#{userId} and branch_id=#{branchId}")
+    List<OrgAdmin> findBranchAdminOfOrgAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
+
+    // 查询现任支部委员会的所有管理员
+    @Select("select bm.user_id from ow_branch_member_group bmg, ow_branch_member bm " +
+            "where bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id " +
+            "union all select user_id from ow_org_admin where branch_id=#{branchId}")
+    List<Integer> findBranchAdmin(@Param("branchId") int branchId);
 
     @Update("update ${tableName} set sort_order = sort_order - 1 where sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder(@Param("tableName") String tableName, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);

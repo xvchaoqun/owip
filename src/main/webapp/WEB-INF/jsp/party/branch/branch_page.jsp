@@ -18,9 +18,11 @@ pageEncoding="UTF-8" %>
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.typeId ||not empty param.unitTypeId}"/>
             <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
                 <shiro:hasPermission name="branch:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
+                </shiro:hasAnyRoles>
                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 <shiro:hasPermission name="member:edit">
@@ -181,7 +183,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             } ,frozen:true},
-            { label: '所属党总支', name: 'party.name',align:'left', width: 400, frozen:true },
+            { label: '所属分党委', name: 'party.name',align:'left', width: 400, frozen:true },
            /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})

@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
 
         	<input type="hidden" name="id" value="${branch.id}">
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-8">
 			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">编号</label>
 				<div class="col-xs-7">
@@ -18,29 +18,29 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>--%>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">名称</label>
-				<div class="col-xs-7">
+				<label class="col-xs-4 control-label">名称</label>
+				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${branch.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">简称</label>
-				<div class="col-xs-7">
+				<label class="col-xs-4 control-label">简称</label>
+				<div class="col-xs-8">
                         <input class="form-control" type="text" name="shortName" value="${branch.shortName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">所属分党委</label>
-				<div class="col-xs-6">
-					<select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
+				<label class="col-xs-4 control-label">所属分党委</label>
+				<div class="col-xs-8">
+					<select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"
 							name="partyId" data-placeholder="请选择">
 						<option value="${party.id}">${party.name}</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">类别</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label">类别</label>
+				<div class="col-xs-8">
 					<select required class="form-control" name="typeId" data-rel="select2" data-placeholder="请选择类别">
 						<option></option>
 						<c:forEach items="${typeMap}" var="type">
@@ -53,8 +53,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">是否是教工党支部</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label">是否是教工党支部</label>
+				<div class="col-xs-8">
 					<label>
 						<input name="isStaff" ${branch.isStaff?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
@@ -62,8 +62,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">是否是专业教师党支部</label>
-					<div class="col-xs-6">
+					<label class="col-xs-4 control-label">是否是专业教师党支部</label>
+					<div class="col-xs-8">
 						<label>
 							<input name="isPrefessional" ${branch.isPrefessional?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
@@ -71,8 +71,8 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">是否建立在团队</label>
-					<div class="col-xs-6">
+					<label class="col-xs-4 control-label">是否建立在团队</label>
+					<div class="col-xs-8">
 						<label>
 							<input name="isBaseTeam" ${branch.isBaseTeam?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
@@ -80,8 +80,8 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">单位属性</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label">单位属性</label>
+				<div class="col-xs-8">
 					<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择单位属性">
 						<option></option>
 						<c:forEach items="${branchUnitTypeMap}" var="unitType">
@@ -94,7 +94,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 				</div>
-			<div class="col-xs-6">
+			<div class="col-xs-4">
 				<div class="form-group">
 					<label class="col-xs-5 control-label">联系电话</label>
 					<div class="col-xs-6">

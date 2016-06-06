@@ -9,18 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.SysUserService;
+import service.OrgAdminService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class BranchMemberService extends BaseMapper {
     @Autowired
-    private SysUserService sysUserService;
+    private OrgAdminService orgAdminService;
     @Autowired
     private BranchMemberAdminService branchMemberAdminService;
     @Autowired
@@ -44,6 +43,23 @@ public class BranchMemberService extends BaseMapper {
     public boolean isPresentAdmin(Integer userId, Integer branchId){
         if(userId==null || branchId == null) return false;
         return commonMapper.isBranchAdmin(userId, branchId)>0;
+    }
+
+    // 删除支部管理员
+    @Transactional
+    public void delAdmin(int userId, int branchId){
+
+        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+        checkAuth(branch.getPartyId());
+
+        List<BranchMember> branchMembers = commonMapper.findBranchAdminOfBranchMember(userId, branchId);
+        for (BranchMember branchMember : branchMembers) { // 理论上只有一个
+            branchMemberAdminService.toggleAdmin(branchMember);
+        }
+        List<OrgAdmin> orgAdmins = commonMapper.findBranchAdminOfOrgAdmin(userId, branchId);
+        for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
+            orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
+        }
     }
 
     public boolean idDuplicate(Integer id, int groupId, int userId){

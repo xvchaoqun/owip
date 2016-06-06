@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 
 <script>
     $("#modal :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'), {endDate:'${today}'});
+    register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

@@ -104,12 +104,7 @@ public class BranchMemberGroupController extends BaseController {
         }
 
         //===========权限
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
-            List<Integer> partyIdList = loginUserService.adminPartyIdList();
-            criteria.andPartyIdIn(partyIdList);
-        }
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);

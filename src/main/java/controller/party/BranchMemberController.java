@@ -1,11 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.BranchMember;
-import domain.BranchMemberExample;
+import domain.*;
 import domain.BranchMemberExample.Criteria;
-import domain.MetaType;
-import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +12,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -51,6 +54,7 @@ public class BranchMemberController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branchMember_page")
     public String branchMember_page(HttpServletResponse response,
@@ -128,6 +132,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_page";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -147,16 +152,17 @@ public class BranchMemberController extends BaseController {
         }
         if (id == null) {
             branchMemberService.insertSelective(record, autoAdmin);
-            logger.info(addLog(SystemConstants.LOG_OW, "添加基层党组织成员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "添加支部成员：%s", record.getId()));
         } else {
 
             branchMemberService.updateByPrimaryKeySelective(record, autoAdmin);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新基层党组织成员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_OW, "更新支部成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
     public String branchMember_au(Integer id, ModelMap modelMap) {
@@ -168,19 +174,47 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_au";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("branchMember:edit")
+    @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map branchAdmin_del(@CurrentUser SysUser loginUser, Integer userId, Integer branchId) {
+
+        // 权限控制
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            // 要求是分党委管理员
+            Branch branch = branchService.findAll().get(branchId);
+            int partyId = branch.getPartyId();
+            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+
+            if (userId.intValue() == loginUser.getId()) {
+                return failed("不能删除自己");
+            }
+        }
+
+        branchMemberService.delAdmin(userId, branchId);
+        logger.info(addLog(SystemConstants.LOG_OW, "删除支部管理员权限，userId=%s, branchId=%s", userId, branchId));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branchMember_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
-
             branchMemberService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织成员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_OW, "删除支部成员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -189,30 +223,41 @@ public class BranchMemberController extends BaseController {
 
         if (null != ids && ids.length>0){
             branchMemberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除支部成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:changeOrder")
     @RequestMapping(value = "/branchMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branchMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         branchMemberService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织成员调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_OW, "支部成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMember_admin(HttpServletRequest request, Integer id) {
+    public Map branchMember_admin(@CurrentUser SysUser loginUser,  HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+
+            Subject subject = SecurityUtils.getSubject();
+            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+                if (branchMember.getUserId().intValue() == loginUser.getId()) {
+                    return failed("不能删除自己");
+                }
+            }
+
             branchMemberAdminService.toggleAdmin(branchMember);
 
             String op = branchMember.getIsAdmin()?"删除":"添加";
@@ -256,7 +301,7 @@ public class BranchMemberController extends BaseController {
             }
         }
         try {
-            String fileName = "基层党组织成员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = "支部成员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
