@@ -314,6 +314,7 @@
                         状态
                     </td>
                     <td class="bg-left" style="min-width: 80px" colspan="2">
+                        <c:if test="${empty graduateAbroad.status}"><span style="color:red">未提交</span></c:if>
                         ${GRADUATE_ABROAD_STATUS_MAP.get(graduateAbroad.status)}
                     </td>
                 </tr>

@@ -137,6 +137,7 @@
                         状态
                     </td>
                     <td class="bg-left" style="min-width: 80px" colspan="3">
+                        <c:if test="${empty memberTransfer.status}"><span style="color:red">未提交</span></c:if>
                         ${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}
                     </td>
                 </tr>
