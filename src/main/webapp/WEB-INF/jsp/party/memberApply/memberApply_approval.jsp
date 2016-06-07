@@ -230,7 +230,7 @@
                                         </button>
                                     </c:if>
                                     <c:if test="${memberApply.planStatus==0}">
-                                        <button onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
+                                        <button ${isAdmin?'':'disabled'} onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
                                     </c:if>
