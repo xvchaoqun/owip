@@ -247,7 +247,7 @@ public class MemberReturnController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId,  branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -323,12 +323,14 @@ public class MemberReturnController extends BaseController {
 
         modelMap.put("memberReturn", currentMemberReturn);
 
+        Integer branchId = currentMemberReturn.getBranchId();
+        Integer partyId = currentMemberReturn.getPartyId();
         // 是否是当前记录的管理员
         if(type==1){
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberReturn.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if(type==2){
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberReturn.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -418,7 +420,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_au";
     }
 
-    @RequiresPermissions("memberReturn:del")
+    /*@RequiresPermissions("memberReturn:del")
     @RequestMapping(value = "/memberReturn_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn_del(HttpServletRequest request, Integer id) {
@@ -443,7 +445,7 @@ public class MemberReturnController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberReturn_export(MemberReturnExample example, HttpServletResponse response) {
 
         List<MemberReturn> records = memberReturnMapper.selectByExample(example);

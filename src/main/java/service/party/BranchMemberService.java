@@ -24,6 +24,8 @@ public class BranchMemberService extends BaseMapper {
     private BranchMemberAdminService branchMemberAdminService;
     @Autowired
     private  PartyMemberService partyMemberService;
+    @Autowired
+    private  PartyService partyService;
 
     public void checkAuth(int partyId){
 
@@ -39,10 +41,18 @@ public class BranchMemberService extends BaseMapper {
         }
     }
 
-    // 查询用户是否是支部管理员
-    public boolean isPresentAdmin(Integer userId, Integer branchId){
-        if(userId==null || branchId == null) return false;
-        return commonMapper.isBranchAdmin(userId, branchId)>0;
+    // 查询用户是否是支部管理员或直属党支部管理员
+    public boolean isPresentAdmin(Integer userId,Integer partyId, Integer branchId){
+        if(userId==null) return false;
+        if(partyId==null && branchId==null) return false;
+
+        if(branchId==null) { // 直属党支部管理员
+            boolean directBranch = partyService.isDirectBranch(partyId);
+            boolean isAdmin = partyMemberService.isPresentAdmin(userId, partyId);
+            return directBranch && isAdmin;
+        }else { // 支部管理员
+            return commonMapper.isBranchAdmin(userId, branchId) > 0;
+        }
     }
 
     // 删除支部管理员

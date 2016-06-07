@@ -250,12 +250,14 @@ public class MemberInflowOutController extends BaseController {
 
         modelMap.put("memberInflow", currentMemberInflow);
 
+        Integer branchId = currentMemberInflow.getBranchId();
+        Integer partyId = currentMemberInflow.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数

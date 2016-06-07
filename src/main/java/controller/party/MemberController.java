@@ -49,7 +49,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:edit")
+    //@RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_au(@CurrentUser SysUser loginUser, Member record,  String _applyTime, String _activeTime, String _candidateTime,
@@ -70,8 +70,8 @@ public class MemberController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            if(!isAdmin && branchId!=null) { // 只有支部管理员或分党委管理员可以添加党员
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -99,6 +99,8 @@ public class MemberController extends BaseController {
         SysUser sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);
         if (member == null) {
+            SecurityUtils.getSubject().checkPermission("member:add");
+
             record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
@@ -109,6 +111,9 @@ public class MemberController extends BaseController {
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         } else {
+
+            SecurityUtils.getSubject().checkPermission("member:edit");
+
             memberService.updateByPrimaryKeySelective(record);
 
             logger.info(addLog(SystemConstants.LOG_MEMBER,
@@ -120,12 +125,14 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:edit")
+    //@RequiresPermissions("member:edit")
     @RequestMapping("/member_au")
     public String member_au(Integer userId, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         Member member = null;
         if (userId != null) {
+            SecurityUtils.getSubject().checkPermission("member:edit");
+
             member = memberMapper.selectByPrimaryKey(userId);
             modelMap.put("op", "编辑");
 
@@ -133,6 +140,8 @@ public class MemberController extends BaseController {
             branchId = member.getBranchId();
             modelMap.put("sysUser", sysUserService.findById(userId));
         }else{
+            SecurityUtils.getSubject().checkPermission("member:add");
+
             modelMap.put("op", "添加");
         }
 
@@ -162,7 +171,6 @@ public class MemberController extends BaseController {
     }
 
     @RequiresRoles("partyAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping("/member_changeBranch")
     public String member_changeBranch(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
@@ -193,7 +201,6 @@ public class MemberController extends BaseController {
     }
     // 批量分党委内部转移
     @RequiresRoles("partyAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUser loginUser, HttpServletRequest request,
@@ -215,7 +222,6 @@ public class MemberController extends BaseController {
     }
 
     @RequiresRoles("odAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
@@ -225,7 +231,6 @@ public class MemberController extends BaseController {
     }
     // 批量校内组织关系转移
     @RequiresRoles("odAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -256,7 +261,6 @@ public class MemberController extends BaseController {
     }*/
 
     @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
-    @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -276,7 +280,6 @@ public class MemberController extends BaseController {
     }
 
     // 同步信息
-    @RequiresPermissions("member:sync")
     @RequestMapping(value = "/member_sync", method = RequestMethod.POST)
     @ResponseBody
     public Map sync(Integer userId){
@@ -292,13 +295,11 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:list")
     @RequestMapping("/member")
     public String member() {
 
         return "index";
     }
-    @RequiresPermissions("member:list")
     @RequestMapping("/member_page")
     public String member_page(HttpServletResponse response,@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
 
@@ -322,7 +323,6 @@ public class MemberController extends BaseController {
         return "index";
     }*/
 
-    @RequiresPermissions("member:view")
     @RequestMapping("/member_view")
     public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
 

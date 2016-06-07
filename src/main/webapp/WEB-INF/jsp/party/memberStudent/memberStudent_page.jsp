@@ -21,11 +21,15 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <shiro:hasPermission name="member:add">
                             <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
                                 <i class="fa fa-plus"></i> 添加党员</a>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="member:edit">
                             <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
                                data-open-by="page" data-id-name="userId">
                                 <i class="fa fa-edit"></i> 修改信息</a>
+                            </shiro:hasPermission>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>

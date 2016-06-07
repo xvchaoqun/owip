@@ -1,6 +1,7 @@
 <%@ page import="sys.constants.SystemConstants" %>
 <%@ page import="shiro.Constants" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="sys.utils.DateUtils" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>  
@@ -13,7 +14,9 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <c:set value="<%=new Date()%>" var="now"/>
+<c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="today"/>
+<c:set value="${cm:formatDate(yearAgo,'yyyy-MM-dd')}" var="yearAgo"/>
 
 <fmt:setBundle basename="spring" var="spring"/>
 

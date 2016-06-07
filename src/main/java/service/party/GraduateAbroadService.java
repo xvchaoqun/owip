@@ -325,7 +325,7 @@ public class GraduateAbroadService extends BaseMapper {
 
             GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, graduateAbroad.getPartyId());
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, graduateAbroad.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, graduateAbroad.getPartyId(), graduateAbroad.getBranchId());
 
             if(status >= SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();

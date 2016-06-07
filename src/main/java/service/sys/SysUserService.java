@@ -82,6 +82,13 @@ public class SysUserService extends BaseMapper {
 	}
 
 	@Transactional
+	@Caching(evict={ // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
+			@CacheEvict(value="UserRoles", key="#record.username"),
+			@CacheEvict(value="Menus", key="#record.username"),
+			@CacheEvict(value="SysUser", key="#record.username"),
+			@CacheEvict(value="SysUser:CODE_", key="#record.code"),
+			@CacheEvict(value="UserPermissions", key="#record.username")
+	})
 	public void insertSelective(SysUser record){
 
 		if(StringUtils.isBlank(record.getRoleIds()))

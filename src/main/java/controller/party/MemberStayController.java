@@ -332,7 +332,7 @@ public class MemberStayController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }

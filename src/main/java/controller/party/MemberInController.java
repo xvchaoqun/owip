@@ -198,7 +198,7 @@ public class MemberInController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -383,7 +383,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_au";
     }
 
-    @RequiresPermissions("memberIn:del")
+    /*@RequiresPermissions("memberIn:del")
     @RequestMapping(value = "/memberIn_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_del(HttpServletRequest request, Integer id) {
@@ -408,7 +408,7 @@ public class MemberInController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberIn_export(MemberInExample example, HttpServletResponse response) {
 
         List<MemberIn> records = memberInMapper.selectByExample(example);

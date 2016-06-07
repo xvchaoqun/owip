@@ -29,7 +29,7 @@ public class BaseMapper {
 		int loginUserId = shiroUser.getId();
 		verifyAuth.entity = entity;
 
-		verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, branchId);
+		verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
 		verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
 		verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
 		if(!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)){ // 不是党支部管理员， 也不是直属党支部管理员

@@ -323,7 +323,7 @@ public class MemberOutflowService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberOutflow.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
 
             if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限

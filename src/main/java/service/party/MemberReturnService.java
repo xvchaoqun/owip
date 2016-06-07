@@ -274,7 +274,7 @@ public class MemberReturnService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
             if(status >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){

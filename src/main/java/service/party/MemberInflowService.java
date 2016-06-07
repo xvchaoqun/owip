@@ -272,7 +272,7 @@ public class MemberInflowService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
             if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){

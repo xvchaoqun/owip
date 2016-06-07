@@ -106,7 +106,7 @@ public class ApplyApprovalLogController extends BaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause("create_time asc");
+        example.setOrderByClause("create_time desc");
 
         if(id!=null)
             criteria.andRecordIdEqualTo(id);

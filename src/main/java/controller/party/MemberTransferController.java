@@ -339,12 +339,12 @@ public class MemberTransferController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
 
             boolean isToAdmin = partyMemberService.isPresentAdmin(loginUserId, record.getToPartyId());
             if(!isToAdmin && record.getToBranchId()!=null) {
-                isToAdmin = branchMemberService.isPresentAdmin(loginUserId, record.getToBranchId());
+                isToAdmin = branchMemberService.isPresentAdmin(loginUserId, record.getToPartyId(), record.getToBranchId());
             }
 
             if(!isAdmin && !isToAdmin) throw new UnauthorizedException();
@@ -421,7 +421,7 @@ public class MemberTransferController extends BaseController {
         return "party/memberTransfer/memberTransfer_au";
     }
 
-    @RequiresPermissions("memberTransfer:del")
+    /*@RequiresPermissions("memberTransfer:del")
     @RequestMapping(value = "/memberTransfer_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_del(HttpServletRequest request, Integer id) {
@@ -446,7 +446,7 @@ public class MemberTransferController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberTransfer_export(MemberTransferExample example, HttpServletResponse response) {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);

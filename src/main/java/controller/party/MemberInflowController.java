@@ -247,7 +247,7 @@ public class MemberInflowController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -298,12 +298,14 @@ public class MemberInflowController extends BaseController {
 
         modelMap.put("memberInflow", currentMemberInflow);
 
+        Integer branchId = currentMemberInflow.getBranchId();
+        Integer partyId = currentMemberInflow.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -391,7 +393,7 @@ public class MemberInflowController extends BaseController {
         return "party/memberInflow/memberInflow_au";
     }
 
-    @RequiresPermissions("memberInflow:del")
+    /*@RequiresPermissions("memberInflow:del")
     @RequestMapping(value = "/memberInflow_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_del(HttpServletRequest request, Integer id) {
@@ -416,7 +418,7 @@ public class MemberInflowController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void memberInflow_export(MemberInflowExample example, HttpServletResponse response) {
 

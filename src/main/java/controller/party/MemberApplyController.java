@@ -89,26 +89,28 @@ public class MemberApplyController extends BaseController {
         }
         modelMap.put("memberApply", currentMemberApply);
 
+        Integer branchId = currentMemberApply.getBranchId();
+        Integer partyId = currentMemberApply.getPartyId();
         // 是否是当前记录的管理员
         switch (stage){
             case SystemConstants.APPLY_STAGE_INIT:
             case SystemConstants.APPLY_STAGE_PASS:
-                modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
             case SystemConstants.APPLY_STAGE_CANDIDATE:
             case SystemConstants.APPLY_STAGE_PLAN:
                 if(status==-1)
-                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else
-                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
             case SystemConstants.APPLY_STAGE_GROW:
                 if(status==-1)
-                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else if(status==0)
-                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 else
                     modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
                 break;
@@ -325,7 +327,7 @@ public class MemberApplyController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }

@@ -166,7 +166,7 @@ public class MemberAbroadController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -206,7 +206,7 @@ public class MemberAbroadController extends BaseController {
         return "party/memberAbroad/memberAbroad_au";
     }
 
-    @RequiresPermissions("memberAbroad:del")
+    /*@RequiresPermissions("memberAbroad:del")
     @RequestMapping(value = "/memberAbroad_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberAbroad_del(HttpServletRequest request, Integer userId) {
@@ -231,7 +231,7 @@ public class MemberAbroadController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void memberAbroad_export(MemberAbroadViewExample example, HttpServletResponse response) {
 

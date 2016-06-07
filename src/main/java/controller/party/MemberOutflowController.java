@@ -270,12 +270,14 @@ public class MemberOutflowController extends BaseController {
 
         modelMap.put("memberOutflow", currentMemberOutflow);
 
+        Integer branchId = currentMemberOutflow.getBranchId();
+        Integer partyId = currentMemberOutflow.getPartyId();
         // 是否是当前记录的管理员
         if(type==1){
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberOutflow.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if(type==2){
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberOutflow.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -368,7 +370,7 @@ public class MemberOutflowController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -417,7 +419,7 @@ public class MemberOutflowController extends BaseController {
         return "party/memberOutflow/memberOutflow_au";
     }
 
-    @RequiresPermissions("memberOutflow:del")
+   /* @RequiresPermissions("memberOutflow:del")
     @RequestMapping(value = "/memberOutflow_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOutflow_del(HttpServletRequest request, Integer id) {
@@ -442,7 +444,7 @@ public class MemberOutflowController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberOutflow_export(MemberOutflowViewExample example, HttpServletResponse response) {
 
         List<MemberOutflowView> records = memberOutflowViewMapper.selectByExample(example);

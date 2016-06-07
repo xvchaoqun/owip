@@ -216,8 +216,8 @@ public class CmTag {
         return partyService.findAll().get(partyId);
     }
 
-    public static Boolean isPresentBranchAdmin(Integer userId, Integer branchId){
-        return branchMemberService.isPresentAdmin(userId, branchId);
+    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId){
+        return branchMemberService.isPresentAdmin(userId, partyId, branchId);
     }
     public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId){
         return partyMemberService.isPresentAdmin(userId, partyId);

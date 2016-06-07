@@ -268,7 +268,7 @@ public class MemberQuitService extends BaseMapper {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberQuit.getPartyId());
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId());
 
             if(status >= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
