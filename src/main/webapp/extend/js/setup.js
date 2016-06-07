@@ -1231,8 +1231,9 @@ function detectIE() {
 }
 
 function printWindow(url){
-
-    if(detectIE()) {
+    var isFirefox=navigator.userAgent.toUpperCase().indexOf("FIREFOX")?true:false;
+    //alert(isFirefox)
+    if(detectIE() || isFirefox) {
         var win=window.open(url);
         win.focus();
         win.print();

@@ -123,8 +123,9 @@
                                     <span class="title">成为发展对象</span>
                                     <c:if test="${memberApply.stage>=APPLY_STAGE_ACTIVE}"> <span class="subtitle">
                                             ${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}
-
+                                        <c:if test="${not empty memberApply.trainTime}">
                                          <br/>（参加培训时间 ${cm:formatDate(memberApply.trainTime,'yyyy-MM-dd')}）
+                                        </c:if>
                                     </span>
 
                                     </c:if>
