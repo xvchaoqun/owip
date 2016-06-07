@@ -47,9 +47,11 @@
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/></a>
       </li>
-      <%--<li class="<c:if test="${_path=='/setting'}">active</c:if>">
-        <a href="${ctx}/setting"><i class="ace-icon fa fa-cog"></i> 个人设置</a>
-      </li>--%>
+      <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
+      <li class="<c:if test="${_path=='/help'}">active</c:if>">
+        <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+      </li>
+      </shiro:hasAnyRoles>
       <li>
         <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
       </li>

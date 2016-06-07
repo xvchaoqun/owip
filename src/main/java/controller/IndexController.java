@@ -2,7 +2,9 @@ package controller;
 
 import domain.SysUser;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class IndexController extends BaseController {
+
+	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+	@RequestMapping("/help")
+	public String help() {
+
+		return "index";
+	}
+
+	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+	@RequestMapping("/help_page")
+	public String help_page() {
+
+		return "help";
+	}
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index")
