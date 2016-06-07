@@ -15,6 +15,7 @@
 
   <div class="navbar-container" id="navbar-container">
     <!-- #section:basics/sidebar.mobile.toggle -->
+<shiro:lacksRole name="reg">
     <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
       <span class="sr-only">Toggle sidebar</span>
 
@@ -24,15 +25,15 @@
 
       <span class="icon-bar"></span>
     </button>
-
+</shiro:lacksRole>
     <div class="navbar-header pull-left hidden-xs hidden-sm">
-      <div class="logo"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
-      <div class="txt">组织工作管理与服务一体化平台</div>
+      <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
+      <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">组织工作管理与服务一体化平台</div>
     </div>
 
     <div class="navbar-header pull-left hidden-md hidden-lg ">
       <a href="index" class="navbar-brand">
-        <small>
+        <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
           组工系统
         </small>
       </a>

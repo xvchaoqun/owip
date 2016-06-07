@@ -19,12 +19,16 @@
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
                         </li>
+                        <shiro:hasPermission name="memberOut:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOut_view?userId=${param.userId}">组织关系转出</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="memberTransfer:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberTransfer_view?userId=${param.userId}">校内组织关系转接</a>
                         </li>
+                        </shiro:hasPermission>
                         <%--<li>
                             <a href="javascript:;" data-url="${ctx}/memberStay_view?userId=${param.userId}">公派留学生党员申请组织关系暂留</a>
                         </li>--%>

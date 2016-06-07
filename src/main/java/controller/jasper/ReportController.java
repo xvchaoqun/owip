@@ -6,6 +6,7 @@ import controller.BaseController;
 import domain.*;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -110,8 +111,8 @@ public class ReportController extends BaseController {
         map.put("check2", (userBean.getPoliticalStatus()!=null && userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE)?"√":""); // 正式党员
         map.put("male", (userBean.getGender()!=null && userBean.getGender()==SystemConstants.GENDER_MALE)?"√":"");
         map.put("female", (userBean.getGender()!=null && userBean.getGender()==SystemConstants.GENDER_FEMALE)?"√":"");
-        map.put("age", DateUtils.intervalYearsUntilNow(userBean.getBirth()));
-        map.put("nation", userBean.getNation());
+        map.put("age", (userBean.getBirth()!=null)?DateUtils.intervalYearsUntilNow(userBean.getBirth()):"");
+        map.put("nation", StringUtils.trimToEmpty(userBean.getNation()));
         map.put("payYear", DateUtils.getYear(memberOut.getPayTime()));
         map.put("payMonth", DateUtils.getMonth(memberOut.getPayTime()));
         map.put("validDays", memberOut.getValidDays());

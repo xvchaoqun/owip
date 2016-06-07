@@ -66,7 +66,7 @@
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
-                                    <c:if test="${cls!=2}">
+                                    <c:if test="${cls!=2 &&cls!=5}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
@@ -92,7 +92,7 @@
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=2"
+                                            data-querystr="&type=2&cls=${cls}"
                                             data-need-id="false"
                                             data-count="${odApprovalCount}">
                                         <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）

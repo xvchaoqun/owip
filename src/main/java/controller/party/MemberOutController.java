@@ -344,7 +344,7 @@ public class MemberOutController extends BaseController {
                 // 分党委只能修改还未提交组织部审核的记录
                 MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (before.getStatus() == SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
-                    if(!isAdmin) return  failed("该申请已经提交组织部审核，不可以进行修改。");
+                    return  failed("该申请已经提交组织部审核，不可以进行修改。");
                 }
             }
         }
