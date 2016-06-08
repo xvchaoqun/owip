@@ -37,6 +37,14 @@ public class PartyService extends BaseMapper {
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party");
     }
+    // 是否党总支
+    public boolean isPartyGeneralBranch(int partyId){
+
+        Party party = findAll().get(partyId);
+        MetaType metaType = metaTypeService.findAll().get(party.getClassId());
+        return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_general_branch");
+    }
+
 
     public boolean idDuplicate(Integer id, String code){
 

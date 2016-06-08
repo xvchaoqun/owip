@@ -159,7 +159,7 @@ pageEncoding="UTF-8" %>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_PLAN}">
                                                                     <button id="drawBtn" ${drawCount>0?'':'disabled'}
-                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
                                                                             data-querystr="&type=${type}&stage=${APPLY_STAGE_PLAN}&status=-1"
@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
                                                                             data-count="${drawCount}">
                                                                         <i class="fa fa-sign-in"></i> 领取志愿书（${drawCount}）
                                                                     </button>
-                                                                    <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
+                                                                   <%-- <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
@@ -177,7 +177,7 @@ pageEncoding="UTF-8" %>
                                                                             data-id-name="userId"
                                                                             data-count="${drawCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 分党委审核（${drawCheckCount}）
-                                                                    </button>
+                                                                    </button>--%>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_DRAW}">
                                                                     <button id="growBtn" ${growCount>0?'':'disabled'}
@@ -471,16 +471,16 @@ pageEncoding="UTF-8" %>
     <c:if test="${stage==APPLY_STAGE_PLAN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"领取志愿书",
-        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_draw"'
     });
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
+    /*$("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_draw_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
-    });
+    });*/
     </c:if>
 
     <c:if test="${stage==APPLY_STAGE_DRAW}">
@@ -632,7 +632,7 @@ pageEncoding="UTF-8" %>
             url += "&type="+ type;
         loadModal(url);
     }
-    function apply_draw_check(userId, type){
+    /*function apply_draw_check(userId, type){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_draw_check",{ids:[userId]},function(ret){
@@ -644,7 +644,7 @@ pageEncoding="UTF-8" %>
                 });
             }
         });
-    }
+    }*/
 
     function apply_grow(userId, type){
         var url = "${ctx}/apply_grow?ids[]="+userId;

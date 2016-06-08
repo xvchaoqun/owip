@@ -241,8 +241,9 @@ public class MemberInService extends BaseMapper {
                 VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
                 memberIn = verifyAuth.entity;
                 boolean isParty = verifyAuth.isParty;
+                Boolean isPartyGeneralBranch = CmTag.isPartyGeneralBranch(memberIn.getPartyId());
 
-                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
+                if (isParty || isPartyGeneralBranch) { // 分党委、党总支审核，需要跳过下一步的组织部审核
                     checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus());
                 } else {
                     checkMember(memberIn.getUserId());

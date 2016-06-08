@@ -1,4 +1,8 @@
 
+
+--2016-6-8
+党总支 mt_party_general_branch
+
 --2016-6-2
 ALTER TABLE `ow_graduate_abroad`
 	ADD COLUMN `to_branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '转移至支部' AFTER `branch_id`,

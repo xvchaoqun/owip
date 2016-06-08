@@ -16,6 +16,7 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,13 +77,13 @@ public class MobileLoginController extends BaseController {
 	}
 
 	@RequestMapping("/logout")
-	@ResponseBody
-	public Map logout(@CurrentUser SysUser loginUser,  HttpSession session) {
+	public String logout(@CurrentUser SysUser loginUser,  HttpSession session) {
 
 		SecurityUtils.getSubject().logout();
 
 		logger.debug("logout success. {}", (loginUser != null) ? loginUser.getUsername() : "");
-		return success();
+
+		return "redirect:"+ PropertiesUtils.getString("site.logout.redirectTo");
 	}
 
 }

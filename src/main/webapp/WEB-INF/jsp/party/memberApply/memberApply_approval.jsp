@@ -241,11 +241,11 @@
                                             <i class="fa fa-check"></i> 领取志愿书
                                         </button>
                                     </c:if>
-                                    <c:if test="${memberApply.drawStatus==0}">
+                                    <%--<c:if test="${memberApply.drawStatus==0}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_draw_check(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
-                                    </c:if>
+                                    </c:if>--%>
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
                                     <c:if test="${empty memberApply.growStatus}">

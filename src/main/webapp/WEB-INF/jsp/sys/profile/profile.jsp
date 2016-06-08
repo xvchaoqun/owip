@@ -21,7 +21,7 @@
             <div class="row">
               <div class="col-xs-12 col-sm-4" style="width:170px">
                 <%--<input type="file" name="_avatar"/>--%>
-                <img src="${ctx}/avatar/${_user.username}">
+                <img src="${ctx}/avatar/${_user.username}" style="width: 120px">
               </div>
               <div class="vspace-12-sm"></div>
 

@@ -116,7 +116,7 @@ public class ExceptionHandlerController {
         }
 
         ModelAndView mav = new ModelAndView();
-        ex.printStackTrace();
+        //ex.printStackTrace();
         logger.warn("{}, {}, {}, {}, {}",
                 new Object[]{ex.getMessage(), request.getRequestURI(),
                         request.getMethod(),

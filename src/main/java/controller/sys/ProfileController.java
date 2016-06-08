@@ -97,7 +97,11 @@ public class ProfileController extends BaseController {
 
     @RequiresPermissions("profile:view")
     @RequestMapping("/profile_page")
-    public String profile_page(ModelMap modelMap) {
+    public String profile_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+        Integer userId = loginUser.getId();
+        modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
+        modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
 
         return "sys/profile/profile";
     }

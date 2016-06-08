@@ -230,6 +230,10 @@ public class CmTag {
     public static Boolean isParty(Integer partyId){
         return partyService.isParty(partyId);
     }
+    // 是否党总支
+    public static Boolean isPartyGeneralBranch(Integer partyId){
+        return partyService.isPartyGeneralBranch(partyId);
+    }
 
     public static Unit findUnitByCode(String code) {
 

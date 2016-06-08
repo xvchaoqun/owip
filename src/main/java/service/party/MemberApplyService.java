@@ -60,8 +60,9 @@ public class MemberApplyService extends BaseMapper {
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case SystemConstants.APPLY_STAGE_PLAN:
-                        if(status==-1) criteria.andDrawStatusIsNull();
-                        else criteria.andDrawStatusEqualTo(status);
+                        /*if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);*/
+                        criteria.andDrawStatusIsNull();
                         break;
                     case SystemConstants.APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
@@ -104,8 +105,9 @@ public class MemberApplyService extends BaseMapper {
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case SystemConstants.APPLY_STAGE_PLAN:
-                        if(status==-1) criteria.andDrawStatusIsNull();
-                        else criteria.andDrawStatusEqualTo(status);
+                        /*if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);*/
+                        criteria.andDrawStatusIsNull();
                         break;
                     case SystemConstants.APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();

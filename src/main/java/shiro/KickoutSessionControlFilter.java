@@ -87,7 +87,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
                 String userAgent = RequestUtils.getUserAgent((HttpServletRequest) request);
                 logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
-                        "remeberMe 登录成功"), userAgent});
+                        "登录成功 by remeberMe"), userAgent});
             }
         }
 

@@ -99,11 +99,13 @@ public class MemberApplyController extends BaseController {
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
             case SystemConstants.APPLY_STAGE_CANDIDATE:
-            case SystemConstants.APPLY_STAGE_PLAN:
                 if(status==-1)
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+                break;
+            case SystemConstants.APPLY_STAGE_PLAN:
+                modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
             case SystemConstants.APPLY_STAGE_GROW:
@@ -168,7 +170,7 @@ public class MemberApplyController extends BaseController {
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:
                 modelMap.put("drawCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte)-1));
-                modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
+                //modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
                 modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)-1));
@@ -504,7 +506,7 @@ public class MemberApplyController extends BaseController {
         return success();
     }
     //审核 领取志愿书
-    @RequiresPermissions("memberApply:draw_check")
+   /* @RequiresPermissions("memberApply:draw_check")
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_draw_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -512,7 +514,7 @@ public class MemberApplyController extends BaseController {
         memberApplyOpService.apply_draw_check(ids, loginUser.getId());
 
         return success();
-    }
+    }*/
 
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow")

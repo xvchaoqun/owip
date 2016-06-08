@@ -90,7 +90,7 @@ public class LoginController extends BaseController {
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
-        resultMap.put("rows", loginUsers.subList((pageNo - 1) * pageSize, pageSize>count?count:pageSize));
+        resultMap.put("rows", loginUsers.subList((pageNo - 1) * pageSize, (pageNo*pageSize)>count?count:(pageNo*pageSize)));
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);

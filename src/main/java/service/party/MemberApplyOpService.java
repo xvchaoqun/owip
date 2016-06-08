@@ -264,7 +264,7 @@ public class MemberApplyOpService extends BaseController {
     }
 
     // 列入发展计划：提交 领取志愿书
-    @Transactional
+    /*@Transactional
     public void apply_draw(int[] userIds, String _drawTime, int loginUserId){
 
         for (int userId : userIds) {
@@ -303,10 +303,10 @@ public class MemberApplyOpService extends BaseController {
                         (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
             }
         }
-    }
+    }*/
 
     // 列入发展计划：审核 领取志愿书
-    @Transactional
+    /*@Transactional
     public void apply_draw_check(int[] userIds, int loginUserId){
 
         for (int userId : userIds) {
@@ -332,6 +332,44 @@ public class MemberApplyOpService extends BaseController {
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                         "领取志愿书，已审核");
+            }
+        }
+    }*/
+
+    // 分党委直接提交，不需要审核 -- 20160608 修改by 邹老师
+    // 列入发展计划：提交 领取志愿书
+    @Transactional
+    public void apply_draw(int[] userIds, String _drawTime, int loginUserId){
+
+        for (int userId : userIds) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+            MemberApply memberApply = verifyAuth.entity;
+
+            Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
+            if(drawTime.before(memberApply.getPlanTime())){
+                throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
+            }
+
+            MemberApply record = new MemberApply();
+
+            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
+            record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
+
+            record.setDrawTime(drawTime);
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        "领取志愿书，分党委提交");
             }
         }
     }
