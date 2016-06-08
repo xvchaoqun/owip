@@ -20,7 +20,8 @@
 
             <div class="row">
               <div class="col-xs-12 col-sm-4" style="width:170px">
-                <input type="file" name="_avatar"/>
+                <%--<input type="file" name="_avatar"/>--%>
+                <img src="${ctx}/avatar/${_user.username}">
               </div>
               <div class="vspace-12-sm"></div>
 
@@ -51,38 +52,76 @@
                       </div>
                     </div>
                   </div>
+                  <c:if test="${fn:length(adminPartyIdList)>0}">
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label no-padding-right" >管理分党委</label>
+                      <div class="col-sm-8">
+                        <div class="label-text">
+                          <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
+                            ${partyMap.get(partyId).name}
+                            <c:if test="${!vs.last}">,</c:if>
+                          </c:forEach>
+                        </div>
+                      </div>
+                    </div>
+                  </c:if>
+                  <c:if test="${fn:length(adminBranchIdList)>0}">
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label no-padding-right" >管理党支部</label>
+                      <div class="col-sm-8">
+                        <div class="label-text">
+                          <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
+                            <c:set var="branch" value="${branchMap.get(branchId)}"/>
+                            ${partyMap.get(branch.partyId).name}-${branch.name}
+                            <c:if test="${!vs.last}">,</c:if>
+                          </c:forEach>
+                        </div>
+                      </div>
+                    </div>
+                  </c:if>
+
                   <div class="space-4"></div>
 
+
+                </div>
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label class="col-sm-4 control-label no-padding-right" >姓名</label>
 
                     <div class="col-sm-8">
-                      <input type="text" name="realname"  value="<shiro:principal property="realname"/>"/>
+                      <div class="label-text">
+                        <shiro:principal property="realname"/>
+                      </div>
+                      <%-- <input type="text" name="realname"  value="<shiro:principal property="realname"/>"/>--%>
                     </div>
                   </div>
-                </div>
-                <div class="col-sm-6">
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right">出生年月</label>
                         <div class="col-sm-3">
                           <div class="input-medium">
-                            <div class="input-group">
+                            <div class="label-text">
+                              ${cm:formatDate(_user.birth,'yyyy-MM-dd')}
+                            </div>
+                            <%--<div class="input-group">
                               <input name="_birth" class="input-medium date-picker" id="form-field-date"
                                      type="text" data-date-format="yyyy-mm-dd"
                                      placeholder="yyyy-mm-dd" value="${cm:formatDate(_user.birth,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon">
                             <i class="ace-icon fa fa-calendar"></i>
                         </span>
-                            </div>
+                            </div>--%>
                           </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right">性别</label>
                         <div class="label-text">
+                          ${GENDER_MAP.get(_user.gender)}
+                        </div>
+                       <%-- <div class="label-text">
                           <div class="col-sm-8">
                             <label class="inline">
-                              <input name="gender" ${_user.gender==GENDER_MALE?"checked":""} type="radio" class="ace" value="${GENDER_MALE}"/>
+                              <input name="gender" ${_user.gender==GENDER_MALE?"checked":""} dis type="radio" class="ace" value="${GENDER_MALE}"/>
                               <span class="lbl middle"> 男</span>
                             </label>
                             <label class="inline">
@@ -90,7 +129,7 @@
                               <span class="lbl middle"> 女</span>
                             </label>
                           </div>
-                        </div>
+                        </div>--%>
                       </div>
                   </div>
               </div>
@@ -103,10 +142,11 @@
               <label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
 
               <div class="col-sm-9">
-                        <span class="input-icon input-icon-right">
+                        <%--<span class="input-icon input-icon-right">
                             <input name="email" type="email" id="form-field-email" value="${_user.email}"/>
                             <i class="ace-icon fa fa-envelope"></i>
-                        </span>
+                        </span>--%>
+                          <div class="label-text">${_user.email}</div>
               </div>
             </div>
 
@@ -116,11 +156,12 @@
               <label class="col-sm-3 control-label no-padding-right" for="form-field-phone">手机</label>
 
               <div class="col-sm-9">
-                        <span class="input-icon input-icon-right">
+                        <%--<span class="input-icon input-icon-right">
                             <input name="mobile" class="input-mask-phone"
                                    type="text" id="form-field-phone" value="${_user.mobile}"/>
                             <i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
-                        </span>
+                        </span>--%>
+                          <div class="label-text">${_user.mobile}</div>
               </div>
             </div>
 
@@ -179,7 +220,7 @@
         </div>
       </div>
 
-      <div class="clearfix form-actions">
+     <%-- <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
           <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
@@ -192,7 +233,7 @@
             重置
           </button>
         </div>
-      </div>
+      </div>--%>
     </form>
   </div>
 </div>
