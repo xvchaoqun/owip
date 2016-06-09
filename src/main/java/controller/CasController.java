@@ -2,6 +2,7 @@ package controller;
 
 import domain.SysUser;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -20,6 +21,7 @@ import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 /**
  * Created by fafa on 2016/6/9.
@@ -37,26 +39,29 @@ public class CasController {
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
-        AttributePrincipal principal = (AttributePrincipal)request.getUserPrincipal();
-        if(principal!=null) {
-            String userID = principal.getName();
-            if (StringUtils.isNotBlank(userID)) {
-                SysUser sysUser = sysUserService.findByUsername(userID);
-                if(sysUser != null) {  // 系统中存在这个用户才处理
+        Principal userPrincipal = request.getUserPrincipal();
+        if(userPrincipal instanceof AttributePrincipal) {
+            AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
+            if (principal != null) {
+                String userID = principal.getName();
+                if (StringUtils.isNotBlank(userID)) {
+                    SysUser sysUser = sysUserService.findByUsername(userID);
+                    if (sysUser != null) {  // 系统中存在这个用户才处理
 
-                    ShiroUser shiroUser = new ShiroUser(sysUser.getId(), sysUser.getUsername(), sysUser.getCode(),
-                            sysUser.getRealname(), sysUser.getType());
-                    PrincipalCollection principals = new SimplePrincipalCollection(
-                            shiroUser, "casRealm");
-                    WebSubject.Builder builder = new WebSubject.Builder(request, response);
-                    builder.principals(principals);
-                    builder.authenticated(true);
-                    WebSubject subject = builder.buildWebSubject();
-                    ThreadContext.bind(subject);
-                    String userAgent = RequestUtils.getUserAgent(request);
-                    logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
-                            "登录成功 by CAS"), userAgent});
-                    return "redirect:/login";
+                        ShiroUser shiroUser = new ShiroUser(sysUser.getId(), sysUser.getUsername(), sysUser.getCode(),
+                                sysUser.getRealname(), sysUser.getType());
+                        PrincipalCollection principals = new SimplePrincipalCollection(
+                                shiroUser, "casRealm");
+                        WebSubject.Builder builder = new WebSubject.Builder(request, response);
+                        builder.principals(principals);
+                        builder.authenticated(true);
+                        WebSubject subject = builder.buildWebSubject();
+                        ThreadContext.bind(subject);
+                        String userAgent = RequestUtils.getUserAgent(request);
+                        logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
+                                "登录成功 by CAS"), userAgent});
+                        return "redirect:/";
+                    }
                 }
             }
         }
