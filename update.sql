@@ -1,5 +1,8 @@
 
 
+ALTER TABLE `sys_log`
+	CHANGE COLUMN `api` `api` VARCHAR(255) NULL DEFAULT NULL COMMENT 'api地址' AFTER `type_id`;
+
 --2016-6-8
 党总支 mt_party_general_branch
 

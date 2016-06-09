@@ -48,6 +48,8 @@ public class CASFilter extends AccessControlFilter {
                 String userID = principal.getName();
                 if (StringUtils.isNotBlank(userID)) {
                     SysUser sysUser = sysUserService.findByUsername(userID);
+                    if(sysUser == null)  // 系统中不存在这个用户
+                        return true;
                     ShiroUser shiroUser = new ShiroUser(sysUser.getId(), sysUser.getUsername(), sysUser.getCode(),
                             sysUser.getRealname(), sysUser.getType());
                     PrincipalCollection principals = new SimplePrincipalCollection(
