@@ -30,9 +30,11 @@ zzgz@2015
 219.143.237.234 root  zzgz@2015
 
 
+http://cas.bnu.edu.cn/cas/login?service=http%3A%2F%2Fzzbgz.bnu.edu.cn%2F
 http://219.224.19.170/
 admin  zzbgb6879/ longtor@2016
 
+http://cas.bnu.edu.cn/cas/login?service=http%3A%2F%2Fzzbgz.bnu.edu.cn%3A9090%2F
 http://219.224.19.170:9090/
 admin  test123
 

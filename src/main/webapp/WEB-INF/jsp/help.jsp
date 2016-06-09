@@ -10,11 +10,11 @@
     <br/>
     <br/>
     <br/>
-    <a  style="font-size: 30px; text-decoration: underline" href="${ctx}/upload/北京师范大学组织工作管理与服务平台用户手册-党建分册.docx">北京师范大学组织工作管理与服务平台用户手册-党建分册</a>
+    <a  style="font-size: 30px; text-decoration: underline" href="${ctx}/upload/北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf">北京师范大学组织工作管理与服务平台用户手册-党建分册</a>
   <br/>
   <br/>
   <br/>
-    <a style="font-size: 30px; text-decoration: underline" href="${ctx}/upload/组织工作管理与服务一体化平台（党建部分使用说明）.pptx">组织工作管理与服务一体化平台（党建部分使用说明）</a>
+    <a style="font-size: 30px; text-decoration: underline" href="${ctx}/upload/组织工作管理与服务一体化平台（党建部分使用说明）.pdf">组织工作管理与服务一体化平台（党建部分使用说明）</a>
   </div><!-- /.span -->
 </div>
   </div>

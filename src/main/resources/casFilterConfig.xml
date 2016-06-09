@@ -7,30 +7,15 @@
 	<serverName>http://localhost:8080</serverName>
 	<!-- 不受CAS保护的资源 -->
 	<notForceAuthUrls>
-		<url-pattern><![CDATA[.*]]></url-pattern>
-		<!--<url-pattern>\.js$</url-pattern>
+		<url-pattern>\.js$</url-pattern>
 		<url-pattern>\.xsl$</url-pattern>
 		<url-pattern>\.xml$</url-pattern>
 		<url-pattern>\.gif$</url-pattern>
 		<url-pattern>\.jpg$</url-pattern>
 		<url-pattern>\.bmp$</url-pattern>
-		<url-pattern>\.png$</url-pattern>
 		<url-pattern>\.css$</url-pattern>
 		<url-pattern>\.swf$</url-pattern>
-		<url-pattern>\.html.*</url-pattern>
-		<url-pattern><![CDATA[.*/api/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/test/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/m/login.*]]></url-pattern>
-		<url-pattern><![CDATA[.*/m/logout.*]]></url-pattern>
-		<url-pattern><![CDATA[.*/reg.*]]></url-pattern>
-		<url-pattern><![CDATA[.*/login.*]]></url-pattern>
-		<url-pattern><![CDATA[.*/logout.*]]></url-pattern>
-		<url-pattern><![CDATA[.*/img/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/js/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/css/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/assets/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/extend/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/template/*]]></url-pattern>
-		<url-pattern><![CDATA[.*/favicon.ico.*]]></url-pattern>-->
+		<url-pattern>\.htm$</url-pattern>
+		<url-pattern>\.html$</url-pattern>
 	</notForceAuthUrls>
 </config>
