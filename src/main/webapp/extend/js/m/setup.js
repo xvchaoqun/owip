@@ -57,14 +57,15 @@ $.ajaxSetup({
     }
 });
 
-
+/**
+ * Created by fafa on 2016/3/31.
+ */
 function _logout(){
-    location.href = ctx+"/m/logout";
-    /*$.post(ctx+"/m/logout", {},function(data){
+    $.post(ctx+"/m/logout", {},function(data){
         if(data.success){
             location.href=ctx+'/m/index';
         }
-    })*/
+    })
 }
 
 var _width;
