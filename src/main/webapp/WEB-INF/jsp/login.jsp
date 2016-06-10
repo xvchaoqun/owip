@@ -12,6 +12,11 @@
 <meta charset="utf-8"/>
 <title>组织工作管理与服务一体化平台</title>
 <link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript">
+        location.href="${ctx}/extend/unsupport.html"
+    </script>
+    <![endif]-->
 </head>
 <body>
 <div class="top">

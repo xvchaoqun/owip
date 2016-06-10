@@ -4,7 +4,7 @@
 <script>
 	var ctx="${ctx}";
 </script>
-<!--[if lt IE 8]>
+<!--[if lt IE 9]>
 <script type="text/javascript">
 location.href="${ctx}/extend/unsupport.html"
 </script>

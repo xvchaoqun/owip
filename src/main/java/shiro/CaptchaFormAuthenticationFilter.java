@@ -235,7 +235,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
         }
     }
 
-    @Override
+ /*   @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         Subject subject = getSubject(request, response);
 
@@ -252,5 +252,5 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
             }
         }
         return super.isAccessAllowed(request, response, mappedValue);
-    }
+    }*/
 }

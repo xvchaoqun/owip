@@ -50,7 +50,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                 String sign = request.getParameter("sign");
                 if (StringUtils.isBlank(app) || StringUtils.isBlank(sign)) {
 
-                    throw new SignParamsException("签名错误,app或sign参数为空");
+                    throw new SignParamsException(String.format("签名错误,app或sign参数为空, app=%s, sign=%s", app, sign));
                 }
                 Signature signature = new Signature();
                 for (MethodParameter methodParameter : methodParameters) {
@@ -69,7 +69,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
 
                 if (!signature.verify(app, sign)) {
 
-                    throw new SignParamsException("签名错误");
+                    throw new SignParamsException(String.format("签名错误, app=%s, sign=%s", app, sign));
                 }
             }
         }
