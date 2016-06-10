@@ -1,4 +1,38 @@
 
+
+--2016-6-10
+ALTER TABLE `sys_login_log`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '登录类型：1 网站 2 CAS 3 手机' AFTER `agent`,
+	ADD COLUMN `success` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否成功' AFTER `type`,
+	ADD COLUMN `remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '备注' AFTER `success`;
+
+	ALTER TABLE `sys_login_log`
+	COMMENT='登录日志',
+	CHANGE COLUMN `user_id` `user_id` INT(10) UNSIGNED NULL COMMENT '账号ID, 登录成功才有值' AFTER `id`,
+	ADD COLUMN `username` VARCHAR(100) NULL COMMENT '账号' AFTER `user_id`,
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '登录类型：1 网站 2 网站下次自动登录 3CAS 4移动设备' AFTER `agent`;
+
+	ALTER TABLE `sys_login_log`
+	ADD INDEX `username` (`username`);
+
+	删除mt_log_login
+
+CREATE TABLE `sys_online_static` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`count` INT(10) UNSIGNED NULL DEFAULT '0',
+	`bks` INT(10) UNSIGNED NULL DEFAULT '0',
+	`yjs` INT(10) UNSIGNED NULL DEFAULT '0',
+	`jzg` INT(10) UNSIGNED NULL DEFAULT '0',
+	`create_time` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+COMMENT='在线人数统计, 隔断时间统计一次'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=7
+;
+
+
 --2016-6-10
 ALTER TABLE `sys_role`
 	ADD COLUMN `is_sys_hold` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否系统自动维护, 如果是，则不可以手动给某个账号指定该角色' AFTER `available`,
