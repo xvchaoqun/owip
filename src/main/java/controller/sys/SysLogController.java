@@ -41,7 +41,11 @@ public class SysLogController extends BaseController {
 		return "index";
 	}
 	@RequestMapping("/sysLog_page")
-	public String sysLog_page( ModelMap modelMap) {
+	public String sysLog_page( Integer userId, ModelMap modelMap) {
+
+		if (userId != null) {
+			modelMap.put("sysUser", sysUserService.findById(userId));
+		}
 
 		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
 		return "sys/sysLog/sysLog_page";
@@ -49,7 +53,7 @@ public class SysLogController extends BaseController {
 	@RequestMapping("/sysLog_data")
 	@ResponseBody
 	public void sysLog_data(HttpServletRequest request, Integer pageSize, Integer pageNo,
-							  Integer typeId, String content) throws IOException {
+							Integer userId, Integer typeId, String content, String ip) throws IOException {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -66,9 +70,17 @@ public class SysLogController extends BaseController {
 		if(typeId!=null) criteria.andTypeIdEqualTo(typeId);
 		example.setOrderByClause(" id desc");
 
-		if(StringUtils.isNotBlank(content)){
-			criteria.andContentLike("%"+content+"%");
+		if (userId != null) {
+			criteria.andUserIdEqualTo(userId);
 		}
+
+		if(StringUtils.isNotBlank(content)){
+			criteria.andContentLike("%" + content+"%");
+		}
+		if(StringUtils.isNotBlank(ip)){
+			criteria.andIpLike("%"+ip+"%");
+		}
+
 		int count = sysLogMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
 			

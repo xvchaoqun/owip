@@ -244,7 +244,7 @@ public class SysUserController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        TreeNode tree = sysRoleService.getTree(selectIdSet);
+        TreeNode tree = sysRoleService.getTree(selectIdSet, true);
         modelMap.put("tree", JSONUtils.toString(tree));
 
         return "sys/sysUser/sysUserRole";

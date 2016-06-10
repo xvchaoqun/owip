@@ -210,7 +210,7 @@ public class MetaClassController extends BaseController {
             modelMap.put("metaClass", metaClass);
         }
 
-        TreeNode tree = sysRoleService.getTree(selectIdSet);
+        TreeNode tree = sysRoleService.getTree(selectIdSet, false);
         modelMap.put("tree", JSONUtils.toString(tree));
 
         return "sys/metaClass/metaClassRole";

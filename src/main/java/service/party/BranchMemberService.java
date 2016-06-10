@@ -176,15 +176,16 @@ public class BranchMemberService extends BaseMapper {
         checkAuth(branch.getPartyId());
 
         Integer baseSortOrder = entity.getSortOrder();
+        Integer groupId = entity.getGroupId();
 
         BranchMemberExample example = new BranchMemberExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -194,9 +195,9 @@ public class BranchMemberService extends BaseMapper {
             BranchMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_branch_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_branch_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
 
             BranchMember record = new BranchMember();
             record.setId(id);

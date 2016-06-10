@@ -2,6 +2,7 @@ package service.sys;
 
 import domain.SysRole;
 import domain.SysRoleExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -85,7 +86,7 @@ public class SysRoleService {
 		return sysRoleMap;
 	}
 	
-	public TreeNode getTree(Set<Integer> selectIdSet){
+	public TreeNode getTree(Set<Integer> selectIdSet, boolean checkIsSysHold){
 		
 		if(null == selectIdSet) selectIdSet = new HashSet<Integer>();
 		
@@ -107,6 +108,10 @@ public class SysRoleService {
 			node2.expand = false;
 			node2.isFolder = false;
 			node2.hideCheckbox = false;
+			if(BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+				node2.unselectable = true;
+				node2.addClass = "unselectable";
+			}
 			node2.children = new ArrayList<TreeNode>();
 			
 			if(selectIdSet.contains(sysRole.getId().intValue())){

@@ -433,6 +433,196 @@ public class SysRoleExample {
             addCriterion("available not between", value1, value2, "available");
             return (Criteria) this;
         }
+
+        public Criteria andIsSysHoldIsNull() {
+            addCriterion("is_sys_hold is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldIsNotNull() {
+            addCriterion("is_sys_hold is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldEqualTo(Boolean value) {
+            addCriterion("is_sys_hold =", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldNotEqualTo(Boolean value) {
+            addCriterion("is_sys_hold <>", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldGreaterThan(Boolean value) {
+            addCriterion("is_sys_hold >", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_sys_hold >=", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldLessThan(Boolean value) {
+            addCriterion("is_sys_hold <", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_sys_hold <=", value, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldIn(List<Boolean> values) {
+            addCriterion("is_sys_hold in", values, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldNotIn(List<Boolean> values) {
+            addCriterion("is_sys_hold not in", values, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_sys_hold between", value1, value2, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSysHoldNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_sys_hold not between", value1, value2, "isSysHold");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

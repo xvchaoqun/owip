@@ -7,6 +7,9 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="resource_ids" property="resourceIds" jdbcType="VARCHAR" />
     <result column="available" property="available" jdbcType="TINYINT" />
+    <result column="is_sys_hold" property="isSysHold" jdbcType="BIT" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, role, description, resource_ids, available
+    id, role, description, resource_ids, available, is_sys_hold, sort_order, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysRoleExample" >
     select
@@ -99,13 +102,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.SysRole" >
+  <insert keyProperty="id" id="insert" parameterType="domain.SysRole" >
     insert into sys_role (id, role, description, 
-      resource_ids, available)
+      resource_ids, available, is_sys_hold, 
+      sort_order, remark)
     values (#{id,jdbcType=INTEGER}, #{role,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{resourceIds,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT})
+      #{resourceIds,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT}, #{isSysHold,jdbcType=BIT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.SysRole" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.SysRole" >
     insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -123,6 +128,15 @@
       <if test="available != null" >
         available,
       </if>
+      <if test="isSysHold != null" >
+        is_sys_hold,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -139,6 +153,15 @@
       </if>
       <if test="available != null" >
         #{available,jdbcType=TINYINT},
+      </if>
+      <if test="isSysHold != null" >
+        #{isSysHold,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +189,15 @@
       <if test="record.available != null" >
         available = #{record.available,jdbcType=TINYINT},
       </if>
+      <if test="record.isSysHold != null" >
+        is_sys_hold = #{record.isSysHold,jdbcType=BIT},
+      </if>
+      <if test="record.sortOrder != null" >
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +209,10 @@
       role = #{record.role,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
-      available = #{record.available,jdbcType=TINYINT}
+      available = #{record.available,jdbcType=TINYINT},
+      is_sys_hold = #{record.isSysHold,jdbcType=BIT},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +232,15 @@
       <if test="available != null" >
         available = #{available,jdbcType=TINYINT},
       </if>
+      <if test="isSysHold != null" >
+        is_sys_hold = #{isSysHold,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +249,10 @@
     set role = #{role,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       resource_ids = #{resourceIds,jdbcType=VARCHAR},
-      available = #{available,jdbcType=TINYINT}
+      available = #{available,jdbcType=TINYINT},
+      is_sys_hold = #{isSysHold,jdbcType=BIT},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.SysRoleExample" id="selectByExampleWithRowbounds" >

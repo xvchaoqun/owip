@@ -80,10 +80,10 @@
       <!--<table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
       </table>-->
 
-      <table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
+      <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
       </table>
       <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
-      </table>
+      </table>-->
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 
@@ -217,9 +217,10 @@
       </table>-->
       <!--
     <table tableName="sys_login_log" domainObjectName="SysLoginLog">
-    </table>
-    <table tableName="sys_role" domainObjectName="SysRole">
     </table>-->
+    <table tableName="sys_role" domainObjectName="SysRole">
+        <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
+    </table>
     <!--<table tableName="sys_resource" domainObjectName="SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->

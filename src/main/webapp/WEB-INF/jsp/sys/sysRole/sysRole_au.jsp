@@ -12,6 +12,7 @@
 		<label class="col-xs-4 control-label">名称</label>
 		<div class="col-xs-4">
 			<input class="form-control" <c:if test="${sysRole.role eq 'admin'}"> disabled </c:if> type="text" name="role" value="${sysRole.role}">
+			<span class="help-block">* 不可修改；如需修改，请联系系统开发人员</span>
 		</div>
 	</div>
   	<div class="form-group">

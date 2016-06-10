@@ -1,5 +1,21 @@
 
+--2016-6-10
+ALTER TABLE `sys_role`
+	ADD COLUMN `is_sys_hold` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否系统自动维护, 如果是，则不可以手动给某个账号指定该角色' AFTER `available`,
+	ADD COLUMN `remark` VARCHAR(255) NULL COMMENT '说明' AFTER `is_sys_hold`;
 
+ALTER TABLE `sys_role`
+	ADD COLUMN `sort_order` INT UNSIGNED NULL DEFAULT '0' COMMENT '排序' AFTER `is_sys_hold`;
+	ALTER TABLE `sys_role`
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL COMMENT '排序' AFTER `is_sys_hold`;
+
+	ALTER TABLE `sys_role`
+	CHANGE COLUMN `available` `available` TINYINT(3) NULL DEFAULT '0' COMMENT '状态，0禁用 1启用，当前未用' AFTER `resource_ids`;
+	ALTER TABLE `sys_role`
+	CHANGE COLUMN `role` `role` VARCHAR(100) NOT NULL COMMENT '角色代码' AFTER `id`,
+	CHANGE COLUMN `description` `description` VARCHAR(100) NULL DEFAULT NULL COMMENT '角色名称' AFTER `role`;
+
+--2016-6-9
 ALTER TABLE `sys_log`
 	CHANGE COLUMN `api` `api` VARCHAR(255) NULL DEFAULT NULL COMMENT 'api地址' AFTER `type_id`;
 

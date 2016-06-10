@@ -13,6 +13,12 @@ public class SysRole implements Serializable {
 
     private Byte available;
 
+    private Boolean isSysHold;
+
+    private Integer sortOrder;
+
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -53,5 +59,29 @@ public class SysRole implements Serializable {
 
     public void setAvailable(Byte available) {
         this.available = available;
+    }
+
+    public Boolean getIsSysHold() {
+        return isSysHold;
+    }
+
+    public void setIsSysHold(Boolean isSysHold) {
+        this.isSysHold = isSysHold;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

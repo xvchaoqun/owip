@@ -10,7 +10,7 @@
              data-url-export="${ctx}/sysLog_data"
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.typeId || not empty param.content}"/>
+            <c:set var="_query" value="${not empty param.typeId || not empty param.content || not empty param.ip || not empty param.userId}"/>
             <!-- PAGE CONTENT BEGINS -->
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -25,6 +25,13 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
+                                <div class="form-group">
+                                    <label>账号</label>
+                                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            <option value="${sysUser.id}">${sysUser.username}</option>
+                                        </select>
+                                </div>
                                         <div class="form-group">
                                             <label>类别</label>
                                                 <select name="typeId" data-placeholder="请选择类别">
@@ -44,6 +51,11 @@
                                                     <input class="form-control search-query search-input"
                                                            name="content" type="text" value="${param.content}" placeholder="请输入日志内容">
                                             </div>
+                                        <div class="form-group">
+                                            <label>IP</label>
+                                            <input class="form-control search-query search-input"
+                                                   name="ip" type="text" value="${param.ip}" placeholder="请输入IP地址">
+                                        </div>
                                     </shiro:hasRole>
 
                                 <div class="clearfix form-actions center">
@@ -83,5 +95,5 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    register_user_select($('#searchForm select[name=receiverId]'));
+    register_user_select($('#searchForm select[name=userId]'));
 </script>

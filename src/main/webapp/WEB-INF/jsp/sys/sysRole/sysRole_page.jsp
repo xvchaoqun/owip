@@ -11,8 +11,9 @@
             <table class="table table-actived table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>名称</th>
-                    <th>描述</th>
+                    <th width="200">系统代码</th>
+                    <th width="200">角色名称</th>
+                    <th  width="150">设定级别</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -23,9 +24,15 @@
                         <td>${sysRole.role }</td>
                         <td>${sysRole.description }</td>
                         <td>
+                                ${sysRole.isSysHold?"仅允许系统自动设定":"可手动设定"}
+                        </td>
+                        <td>
                             <div class="buttons">
                                 <button class="btn btn-warning btn-mini btn-xs" onclick="au(${sysRole.id})">
                                     <i class="fa fa-edit"></i>  更新权限
+                                </button>
+                                <button class="btn ${sysRole.isSysHold?'btn-success':'btn-primary'} btn-mini btn-xs" onclick="updateIsSysHold(${sysRole.id})">
+                                    <i class="fa fa-key"></i>  ${sysRole.isSysHold?"修改为可手动设定":"仅允许系统自动设定"}
                                 </button>
                                 <a href="javascript:;" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
                                     <i class="fa fa-trash"></i> 删除</a>
@@ -48,13 +55,26 @@
 <script>
 
     function au(id) {
-
         url = "${ctx}/sysRole_au";
         if (id > 0)
             url += "?id=" + id;
-
         loadModal(url);
     }
+
+    function updateIsSysHold(id) {
+
+        bootbox.confirm("确定修改该角色的系统控制权限吗？（如果系统自动维护，则不可以手动给某个账号指定该角色）", function (result) {
+            if (result) {
+                $.post("${ctx}/sysRole_updateIsSysHold", {id: id}, function (ret) {
+                    if(ret.success) {
+                        _reload();
+                        SysMsg.success('操作成功。', '成功');
+                    }
+                });
+            }
+        });
+    }
+
 
     function del(id, type) {
         bootbox.confirm("确定删除该角色吗？", function (result) {

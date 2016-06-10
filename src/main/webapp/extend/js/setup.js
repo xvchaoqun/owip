@@ -150,11 +150,11 @@ $(document).on('shown.ace.widget hidden.ace.widget', function(ev) {
 toastr.options = {
     "closeButton": true,
     "debug": false,
-    "positionClass": "toast-bottom-full-width",
+    "positionClass": "toast-top-full-width",
     "onclick": null,
     "showDuration": "300",
     "hideDuration": "1000",
-    "timeOut": "0",
+    "timeOut": "3000",
     "extendedTimeOut": "0",
     "showEasing": "swing",
     "hideEasing": "linear",

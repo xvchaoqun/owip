@@ -134,15 +134,16 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMember entity = partyMemberMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Integer groupId = entity.getGroupId();
 
         PartyMemberExample example = new PartyMemberExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -152,9 +153,9 @@ public class PartyMemberService extends BaseMapper {
             PartyMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_party_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_party_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
 
             PartyMember record = new PartyMember();
             record.setId(id);
