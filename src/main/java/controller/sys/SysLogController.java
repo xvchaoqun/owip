@@ -8,7 +8,7 @@ import domain.SysUser;
 import mixin.SysLogMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -34,12 +34,13 @@ import java.util.Map;
 public class SysLogController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+	@RequiresPermissions("sysLog:list")
 	@RequestMapping("/sysLog")
 	public String sysLog() {
 
 		return "index";
 	}
+	@RequiresPermissions("sysLog:list")
 	@RequestMapping("/sysLog_page")
 	public String sysLog_page( Integer userId, ModelMap modelMap) {
 
@@ -50,6 +51,7 @@ public class SysLogController extends BaseController {
 		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
 		return "sys/sysLog/sysLog_page";
 	}
+	@RequiresPermissions("sysLog:list")
 	@RequestMapping("/sysLog_data")
 	@ResponseBody
 	public void sysLog_data(HttpServletRequest request, Integer pageSize, Integer pageNo,
@@ -102,7 +104,7 @@ public class SysLogController extends BaseController {
 		return;
 	}
 
-	@RequiresRoles("admin")
+	@RequiresPermissions("sysLog:del")
 	@RequestMapping(value="/sysLog_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysLog_del(@CurrentUser SysUser user, Integer id, Integer type, HttpServletRequest request) {

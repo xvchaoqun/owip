@@ -68,7 +68,20 @@ public class SystemConstants {
 		ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
 	}
 
-	public static final String LOG_LOGIN = "mt_log_login";
+	// 登录类型：1 网站 2 下次自动登录 2 CAS 3 移动设备
+	public static final byte LOGIN_TYPE_NET = 1;
+	public static final byte LOGIN_TYPE_NET_REMEBERME = 2;
+	public static final byte LOGIN_TYPE_CAS = 3;
+	public static final byte LOGIN_TYPE_MOBILE =4;
+	public final static Map<Byte, String> LOGIN_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET, "网站");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET_REMEBERME, "下次自动登录");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
+	}
+
+	//public static final String LOG_LOGIN = "mt_log_login"; 登录单独记录
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";
 	public static final String LOG_USER = "mt_log_user";

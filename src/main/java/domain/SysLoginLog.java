@@ -8,6 +8,8 @@ public class SysLoginLog implements Serializable {
 
     private Integer userId;
 
+    private String username;
+
     private Date loginTime;
 
     private String loginIp;
@@ -17,6 +19,12 @@ public class SysLoginLog implements Serializable {
     private String lastLoginIp;
 
     private String agent;
+
+    private Byte type;
+
+    private Boolean success;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +42,14 @@ public class SysLoginLog implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
     public Date getLoginTime() {
@@ -74,5 +90,29 @@ public class SysLoginLog implements Serializable {
 
     public void setAgent(String agent) {
         this.agent = agent == null ? null : agent.trim();
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import service.abroad.PassportService;
+import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
 import sys.utils.PropertiesUtils;
 
@@ -18,12 +19,22 @@ public class SycnTask {
 	@Autowired
 	private SysUserSyncService sysUserSyncService;
 	@Autowired
+	private SysOnlineStaticService sysOnlineStaticService;
+	@Autowired
 	private PassportService passportService;
 	@Autowired
 	private SpringProps springProps;
 
-	//@Scheduled(cron = "0/5 * * * * ?")
-	@Scheduled(cron = "0 30 1 * * ?")
+	@Scheduled(cron = "${cron.online.static}")
+	public void onlineStatic(){
+
+		if(springProps.onlineStatic) {
+			logger.debug("在线用户数量统计...");
+			sysOnlineStaticService.stat();
+		}
+	}
+
+	@Scheduled(cron = "${cron.passport.expire}")
 	public void passportExpire(){
 
 		logger.info("证件过期扫描...");
@@ -34,7 +45,7 @@ public class SycnTask {
 		}
 	}
 
-	@Scheduled(cron = "0 0 23 * * ?")  // 每天23:00执行
+	@Scheduled(cron = "${cron.sync.abroad}")
 	public void syncAbroad() {
 
 		if(BooleanUtils.isFalse(springProps.sycnAbroad)){
@@ -51,7 +62,7 @@ public class SycnTask {
 
 	//@Scheduled(cron = "0/5 * * * * ?")
 	//@Scheduled(cron = "0 0/5 12-20 * * ?") // 每天18~20点，每隔半小时
-	@Scheduled(cron = "0 30 23 * * ?")  // 每天23:30执行
+	@Scheduled(cron = "${cron.sync.JZG}")
 	public void syncJZG() {
 
 		if(BooleanUtils.isFalse(springProps.sycnJZG)){
@@ -66,7 +77,7 @@ public class SycnTask {
 		}
 	}
 
-	@Scheduled(cron = "0 0 1 * * ?")
+	@Scheduled(cron = "${cron.sync.YJS}")
 	public void syncYJS() {
 
 		if(BooleanUtils.isFalse(springProps.sycnYJS)){
@@ -81,7 +92,7 @@ public class SycnTask {
 		}
 	}
 
-	@Scheduled(cron = "0 0 3 * * ?")
+	@Scheduled(cron = "${cron.sync.BKS}")
 	public void syncBks() {
 
 		if(BooleanUtils.isFalse(springProps.sycnBKS)){

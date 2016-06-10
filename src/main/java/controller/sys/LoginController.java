@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ShiroSecurityHelper;
+import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -30,8 +31,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
-    @Autowired
-    private SessionDAO sessionDAO;
 
     @RequiresPermissions("login:list")
     @RequestMapping("/users")
@@ -60,22 +59,8 @@ public class LoginController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        List<LoginUser> loginUsers = new ArrayList<>();
-        Collection<Session> sessions = sessionDAO.getActiveSessions();
-        for(Session session:sessions){
-            LoginUser loginUser = new LoginUser();
-            loginUser.setSid(String.valueOf(session.getId()));
-            loginUser.setIp(session.getHost());
-            loginUser.setStartTimestamp(session.getStartTimestamp());
-            loginUser.setLastAccessTime(session.getLastAccessTime());
-            loginUser.setTimeOut(session.getTimeout());
-            PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-            if(principals!=null) {
-                ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-                loginUser.setShiroUser(shiroUser);
-                loginUsers.add(loginUser);
-            }
-        }
+        List<LoginUser> loginUsers = sysLoginLogService.getLoginUsers();
+
         Collections.sort(loginUsers, new Comparator<LoginUser>() {
             @Override
             public int compare(LoginUser o1, LoginUser o2) {

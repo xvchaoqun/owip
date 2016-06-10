@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.AuthToken;
 import shiro.CurrentUser;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,8 +42,17 @@ public class MobileLoginController extends BaseController {
 										HttpServletRequest request,
 										HttpServletResponse response) throws IOException {
 
+		if(sysUserService.findByUsername(username)==null){
+			logger.info(sysLoginLogService.log(null, username,
+					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，用户不存在"));
+			return failed("账号或密码错误");
+		}
+
 		Set<String> roles = sysUserService.findRoles(username);
 		if(!roles.contains("cadre") && !roles.contains("cadreAdmin")){
+
+			logger.info(sysLoginLogService.log(null, username,
+					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，权限错误"));
 
 			return failed("权限错误");
 		}
@@ -56,8 +63,18 @@ public class MobileLoginController extends BaseController {
 			SecurityUtils.getSubject().login(token);
 		}catch (Exception e){
 			String message = e.getClass().getSimpleName();
-			String userAgent = RequestUtils.getUserAgent(request);
+			/*String userAgent = RequestUtils.getUserAgent(request);
 			logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
+
+			String msg;
+			SysUser sysUser = sysUserService.findByUsername(username);
+			if(sysUser==null){
+				msg = "登录失败，用户名不存在";
+			}else{
+				msg = "登录失败，密码错误";
+			}
+			logger.info(sysLoginLogService.log(null, username,
+					SystemConstants.LOGIN_TYPE_MOBILE, false, msg));*/
 
 			return SystemConstants.loginFailedResultMap(message);
 		}
@@ -68,7 +85,9 @@ public class MobileLoginController extends BaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
-		logger.info(addLog(SystemConstants.LOG_LOGIN, "移动端登录成功"));
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		logger.info(sysLoginLogService.log(shiroUser.getId(), username,
+				SystemConstants.LOGIN_TYPE_MOBILE, true, "登录成功"));
 
 		Map<String, Object> resultMap = success("登入成功");
 		resultMap.put("url", successUrl);

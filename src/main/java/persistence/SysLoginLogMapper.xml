@@ -4,11 +4,15 @@
   <resultMap id="BaseResultMap" type="domain.SysLoginLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
     <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
     <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
     <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="success" property="success" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, login_time, login_ip, last_login_time, last_login_ip, agent
+    id, user_id, username, login_time, login_ip, last_login_time, last_login_ip, agent, 
+    type, success, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysLoginLogExample" >
     select
@@ -101,15 +106,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.SysLoginLog" >
-    insert into sys_login_log (id, user_id, login_time, 
-      login_ip, last_login_time, last_login_ip, 
-      agent)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{loginTime,jdbcType=TIMESTAMP}, 
-      #{loginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, 
-      #{agent,jdbcType=VARCHAR})
+  <insert keyProperty="id" id="insert" parameterType="domain.SysLoginLog" >
+    insert into sys_login_log (id, user_id, username, 
+      login_time, login_ip, last_login_time, 
+      last_login_ip, agent, type, 
+      success, remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{loginTime,jdbcType=TIMESTAMP}, #{loginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginIp,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{success,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.SysLoginLog" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.SysLoginLog" >
     insert into sys_login_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -117,6 +124,9 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="username != null" >
+        username,
       </if>
       <if test="loginTime != null" >
         login_time,
@@ -133,6 +143,15 @@
       <if test="agent != null" >
         agent,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="success != null" >
+        success,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +159,9 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="loginTime != null" >
         #{loginTime,jdbcType=TIMESTAMP},
@@ -155,6 +177,15 @@
       </if>
       <if test="agent != null" >
         #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="success != null" >
+        #{success,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -173,6 +204,9 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
       <if test="record.loginTime != null" >
         login_time = #{record.loginTime,jdbcType=TIMESTAMP},
       </if>
@@ -188,6 +222,15 @@
       <if test="record.agent != null" >
         agent = #{record.agent,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.success != null" >
+        success = #{record.success,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -197,11 +240,15 @@
     update sys_login_log
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
       login_time = #{record.loginTime,jdbcType=TIMESTAMP},
       login_ip = #{record.loginIp,jdbcType=VARCHAR},
       last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
       last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
-      agent = #{record.agent,jdbcType=VARCHAR}
+      agent = #{record.agent,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      success = #{record.success,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +258,9 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="loginTime != null" >
         login_time = #{loginTime,jdbcType=TIMESTAMP},
@@ -227,17 +277,30 @@
       <if test="agent != null" >
         agent = #{agent,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="success != null" >
+        success = #{success,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.SysLoginLog" >
     update sys_login_log
     set user_id = #{userId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
       login_ip = #{loginIp,jdbcType=VARCHAR},
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      agent = #{agent,jdbcType=VARCHAR}
+      agent = #{agent,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      success = #{success,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.SysLoginLogExample" id="selectByExampleWithRowbounds" >

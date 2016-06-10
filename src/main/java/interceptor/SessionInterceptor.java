@@ -84,6 +84,10 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
             //if(!PatternUtils.match(_commonUrls, servletPath)) {
             //if (HttpUtils.isMoblie(request)) {
             if (HttpRequestDeviceUtils.isMobileDevice(request)) {
+                if(servletPath.startsWith("/login")){
+                    WebUtils.issueRedirect(request, response, "/m/login");
+                    return false;
+                }
                 if (!servletPath.startsWith("/m/")) { // 移动端
                     WebUtils.issueRedirect(request, response, "/m/index");
                     return false;

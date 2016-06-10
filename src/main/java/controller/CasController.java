@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.sys.LogService;
+import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -33,7 +33,7 @@ public class CasController {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private LogService logService;
+    private SysLoginLogService sysLoginLogService;
 
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
@@ -44,6 +44,8 @@ public class CasController {
             if (principal != null) {
                 String userID = principal.getName();
                 if (StringUtils.isNotBlank(userID)) {
+
+                    String userAgent = RequestUtils.getUserAgent(request);
                     SysUser sysUser = sysUserService.findByUsername(userID);
                     if (sysUser != null) {  // 系统中存在这个用户才处理
 
@@ -56,10 +58,13 @@ public class CasController {
                         builder.authenticated(true);
                         WebSubject subject = builder.buildWebSubject();
                         ThreadContext.bind(subject);
-                        String userAgent = RequestUtils.getUserAgent(request);
-                        logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
-                                "登录成功 by CAS"), userAgent});
+
+                        logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
+                                SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
                         return "redirect:/";
+                    }else {
+                        logger.info(sysLoginLogService.log(null, userID,
+                                SystemConstants.LOGIN_TYPE_CAS, false, "登录失败"));
                     }
                 }
             }

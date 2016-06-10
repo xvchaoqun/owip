@@ -209,6 +209,9 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected SysConfigService sysConfigService;
     @Autowired
+    protected SysLoginLogService sysLoginLogService;
+
+    @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired
     protected SpringProps springProps;

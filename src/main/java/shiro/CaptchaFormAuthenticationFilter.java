@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -14,11 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
-import service.sys.LogService;
+import service.sys.SysLoginLogService;
 import sys.constants.SystemConstants;
 import sys.utils.HttpUtils;
 import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -33,7 +33,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
     private static final Logger logger = LoggerFactory.getLogger(CaptchaFormAuthenticationFilter.class);
 
     @Autowired
-    private LogService logService;
+    private SysLoginLogService sysLoginLogService;
     @Autowired
     private SpringProps springProps;
 
@@ -127,11 +127,9 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
             JSONUtils.write((HttpServletResponse) response, resultMap);
         }
 
-        String userAgent = RequestUtils.getUserAgent(httpServletRequest);
-
-        logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
-                "登录成功" + (isRememberMe(request) ? "(下次自动登录)" : "")), userAgent});
-
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
+                SystemConstants.LOGIN_TYPE_NET, true,  "登录成功" + (isRememberMe(request) ? "(下次自动登录)" : "")));
         return false;
     }
 
@@ -149,11 +147,17 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
         }
 
         try {
-            String message = e.getClass().getSimpleName();
-            String userAgent = RequestUtils.getUserAgent(httpServletRequest);
-            logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
+            String ex = e.getClass().getSimpleName();
 
-            Map<String, Object> resultMap = SystemConstants.loginFailedResultMap(message);
+            if(e instanceof UnknownAccountException) {
+                logger.info(sysLoginLogService.log(null, token.getPrincipal().toString(),
+                        SystemConstants.LOGIN_TYPE_NET, false, "登录失败，用户名不存在") + ", " + ex);
+            }
+            /*  String message = e.getClass().getSimpleName();
+            String userAgent = RequestUtils.getUserAgent(httpServletRequest);
+            logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});*/
+
+            Map<String, Object> resultMap = SystemConstants.loginFailedResultMap(ex);
             JSONUtils.write((HttpServletResponse) response, resultMap);
         } catch (IOException e1) {
             // TODO Auto-generated catch block

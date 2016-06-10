@@ -11,14 +11,12 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.sys.LogService;
+import service.sys.SysLoginLogService;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.Deque;
@@ -35,7 +33,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     private Cache<String, Deque<Serializable>> cache;
 
     @Autowired
-    private LogService logService;
+    private SysLoginLogService sysLoginLogService;
 
     public void setKickoutAfter(boolean kickoutAfter) {
         this.kickoutAfter = kickoutAfter;
@@ -85,9 +83,8 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
             if (!subject.isAuthenticated() && subject.isRemembered()) { // 如果是remeberMe 登录
 
-                String userAgent = RequestUtils.getUserAgent((HttpServletRequest) request);
-                logger.info("login {}, {}", new Object[]{logService.log(SystemConstants.LOG_LOGIN,
-                        "登录成功 by remeberMe"), userAgent});
+                logger.info(sysLoginLogService.log(shiroUser.getId(), username,
+                        SystemConstants.LOGIN_TYPE_NET_REMEBERME, true, "登录成功"));
             }
         }
 

@@ -235,6 +235,8 @@ public class BaseMapper {
 
 	@Autowired
 	protected SysConfigMapper sysConfigMapper;
+	@Autowired
+	protected SysOnlineStaticMapper sysOnlineStaticMapper;
 
 	@Autowired
 	protected CommonUnitMapper commonUnitMapper;
