@@ -28,13 +28,13 @@
               <div class="row col-xs-12 col-sm-8">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label class="col-sm-4 control-label no-padding-right" >账号</label>
+                    <label class="col-sm-4 control-label no-padding-right" >账号：</label>
                     <div class="col-sm-8">
                         <div class="label-text"><shiro:principal property="username"/></div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-4 control-label no-padding-right" >身份</label>
+                    <label class="col-sm-4 control-label no-padding-right" >身份：</label>
                     <div class="col-sm-8">
                       <div class="label-text">
                         <c:forEach items="${fn:split(_user.roleIds,',')}" var="id" varStatus="vs">
@@ -45,7 +45,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-4 control-label no-padding-right" >类别</label>
+                    <label class="col-sm-4 control-label no-padding-right" >类别：</label>
                     <div class="col-sm-8">
                       <div class="label-text">
                         ${USER_TYPE_MAP.get(_user.type)}
@@ -54,7 +54,7 @@
                   </div>
                   <c:if test="${fn:length(adminPartyIdList)>0}">
                     <div class="form-group">
-                      <label class="col-sm-4 control-label no-padding-right" >管理分党委</label>
+                      <label class="col-sm-4 control-label no-padding-right" >管理分党委：</label>
                       <div class="col-sm-8">
                         <div class="label-text">
                           <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
@@ -67,7 +67,7 @@
                   </c:if>
                   <c:if test="${fn:length(adminBranchIdList)>0}">
                     <div class="form-group">
-                      <label class="col-sm-4 control-label no-padding-right" >管理党支部</label>
+                      <label class="col-sm-4 control-label no-padding-right" >管理党支部：</label>
                       <div class="col-sm-8">
                         <div class="label-text">
                           <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label class="col-sm-4 control-label no-padding-right" >姓名</label>
+                    <label class="col-sm-4 control-label no-padding-right" >姓名：</label>
 
                     <div class="col-sm-8">
                       <div class="label-text">
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                       <div class="form-group">
-                        <label class="col-sm-4 control-label no-padding-right">出生年月</label>
+                        <label class="col-sm-4 control-label no-padding-right">出生年月：</label>
                         <div class="col-sm-3">
                           <div class="input-medium">
                             <div class="label-text">
@@ -114,10 +114,13 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-4 control-label no-padding-right">性别</label>
+                        <label class="col-sm-4 control-label no-padding-right">性别：</label>
+                        <div class="col-sm-3">
+                          <div class="input-medium">
                         <div class="label-text">
                           ${GENDER_MAP.get(_user.gender)}
                         </div>
+                            </div></div>
                        <%-- <div class="label-text">
                           <div class="col-sm-8">
                             <label class="inline">
@@ -139,7 +142,7 @@
             <h4 class="header blue bolder smaller">联系方式</h4>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
+              <label class="col-sm-3 control-label no-padding-right" >邮箱：</label>
 
               <div class="col-sm-9">
                         <%--<span class="input-icon input-icon-right">
@@ -153,7 +156,7 @@
             <div class="space-4"></div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" for="form-field-phone">手机</label>
+              <label class="col-sm-3 control-label no-padding-right">手机：</label>
 
               <div class="col-sm-9">
                         <%--<span class="input-icon input-icon-right">
