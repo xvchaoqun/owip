@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
+import sys.CasUtils;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
@@ -29,8 +30,8 @@ public class IndexController extends BaseController {
 		String ip = IpUtils.getRealIp(request);
 
 		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
-		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s", type,
-				userAgent, ip, (shiroUser!=null)?shiroUser.getUsername():null));
+		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s, cas=%s", type,
+				userAgent, ip, (shiroUser!=null)?shiroUser.getUsername():null, CasUtils.getUsername(request)));
 		return "monitor";
 	}
 
