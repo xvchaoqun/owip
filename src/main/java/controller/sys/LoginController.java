@@ -2,6 +2,7 @@ package controller.sys;
 
 import bean.LoginUser;
 import controller.BaseController;
+import domain.SysOnlineStatic;
 import domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ShiroSecurityHelper;
 import service.sys.SysLoginLogService;
+import service.sys.SysOnlineStaticService;
 import shiro.ShiroUser;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -32,6 +34,9 @@ import java.util.*;
 @RequestMapping("/login")
 public class LoginController extends BaseController {
 
+    @Autowired
+    private  SysOnlineStaticService sysOnlineStaticService;
+
     @RequiresPermissions("login:list")
     @RequestMapping("/users")
     public String party() {
@@ -42,6 +47,9 @@ public class LoginController extends BaseController {
     @RequiresPermissions("login:list")
     @RequestMapping("/users_page")
     public String party_page(ModelMap modelMap) {
+
+        modelMap.put("_onlineCount", sysLoginLogService.getLoginUsers().size());
+        modelMap.put("_most", sysOnlineStaticService.getMost());
 
         return "sys/login/users_page";
     }

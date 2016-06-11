@@ -33,7 +33,7 @@ public class SysOnlineStaticService extends BaseMapper {
         SysOnlineStatic latest = getLatest();
         List<LoginUser> loginUsers = sysLoginLogService.getLoginUsers();
         int count = loginUsers.size();
-        if(latest==null || count != latest.getCount()){
+        if(latest==null || count != latest.getOnlineCount()){
 
             int bks = 0;
             int yjs = 0;
@@ -51,7 +51,7 @@ public class SysOnlineStaticService extends BaseMapper {
             }
 
             SysOnlineStatic record = new SysOnlineStatic();
-            record.setCount(count);
+            record.setOnlineCount(count);
             record.setYjs(yjs);
             record.setBks(bks);
             record.setJzg(jzg);
@@ -59,12 +59,22 @@ public class SysOnlineStaticService extends BaseMapper {
             sysOnlineStaticMapper.insertSelective(record);
         }
     }
-
+    // 获取最近一次统计结果
     public SysOnlineStatic getLatest(){
 
         SysOnlineStaticExample example = new SysOnlineStaticExample();
         example.setOrderByClause("create_time desc");
 
+        List<SysOnlineStatic> sysOnlineStatics = sysOnlineStaticMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(sysOnlineStatics.size()==1) return sysOnlineStatics.get(0);
+        return null;
+    }
+
+    // 获取在线人数最多的时间点
+    public SysOnlineStatic getMost(){
+
+        SysOnlineStaticExample example = new SysOnlineStaticExample();
+        example.setOrderByClause("online_count desc");
         List<SysOnlineStatic> sysOnlineStatics = sysOnlineStaticMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(sysOnlineStatics.size()==1) return sysOnlineStatics.get(0);
         return null;

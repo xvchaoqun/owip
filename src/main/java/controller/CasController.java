@@ -16,7 +16,6 @@ import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
-import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ public class CasController {
                 String userID = principal.getName();
                 if (StringUtils.isNotBlank(userID)) {
 
-                    String userAgent = RequestUtils.getUserAgent(request);
+                    //String userAgent = RequestUtils.getUserAgent(request);
                     SysUser sysUser = sysUserService.findByUsername(userID);
                     if (sysUser != null) {  // 系统中存在这个用户才处理
 

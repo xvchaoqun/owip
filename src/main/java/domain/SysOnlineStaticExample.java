@@ -165,63 +165,63 @@ public class SysOnlineStaticExample {
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNull() {
-            addCriterion("count is null");
+        public Criteria andOnlineCountIsNull() {
+            addCriterion("online_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNotNull() {
-            addCriterion("count is not null");
+        public Criteria andOnlineCountIsNotNull() {
+            addCriterion("online_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCountEqualTo(Integer value) {
-            addCriterion("count =", value, "count");
+        public Criteria andOnlineCountEqualTo(Integer value) {
+            addCriterion("online_count =", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotEqualTo(Integer value) {
-            addCriterion("count <>", value, "count");
+        public Criteria andOnlineCountNotEqualTo(Integer value) {
+            addCriterion("online_count <>", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThan(Integer value) {
-            addCriterion("count >", value, "count");
+        public Criteria andOnlineCountGreaterThan(Integer value) {
+            addCriterion("online_count >", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("count >=", value, "count");
+        public Criteria andOnlineCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("online_count >=", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThan(Integer value) {
-            addCriterion("count <", value, "count");
+        public Criteria andOnlineCountLessThan(Integer value) {
+            addCriterion("online_count <", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThanOrEqualTo(Integer value) {
-            addCriterion("count <=", value, "count");
+        public Criteria andOnlineCountLessThanOrEqualTo(Integer value) {
+            addCriterion("online_count <=", value, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountIn(List<Integer> values) {
-            addCriterion("count in", values, "count");
+        public Criteria andOnlineCountIn(List<Integer> values) {
+            addCriterion("online_count in", values, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotIn(List<Integer> values) {
-            addCriterion("count not in", values, "count");
+        public Criteria andOnlineCountNotIn(List<Integer> values) {
+            addCriterion("online_count not in", values, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountBetween(Integer value1, Integer value2) {
-            addCriterion("count between", value1, value2, "count");
+        public Criteria andOnlineCountBetween(Integer value1, Integer value2) {
+            addCriterion("online_count between", value1, value2, "onlineCount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("count not between", value1, value2, "count");
+        public Criteria andOnlineCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("online_count not between", value1, value2, "onlineCount");
             return (Criteria) this;
         }
 

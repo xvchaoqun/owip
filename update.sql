@@ -1,4 +1,6 @@
-
+--2016-6-11
+ALTER TABLE `sys_online_static`
+	CHANGE COLUMN `count` `online_count` INT(10) UNSIGNED NULL DEFAULT '0' AFTER `id`;
 
 --2016-6-10
 ALTER TABLE `sys_login_log`

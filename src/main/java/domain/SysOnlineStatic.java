@@ -6,7 +6,7 @@ import java.util.Date;
 public class SysOnlineStatic implements Serializable {
     private Integer id;
 
-    private Integer count;
+    private Integer onlineCount;
 
     private Integer bks;
 
@@ -26,12 +26,12 @@ public class SysOnlineStatic implements Serializable {
         this.id = id;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getOnlineCount() {
+        return onlineCount;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setOnlineCount(Integer onlineCount) {
+        this.onlineCount = onlineCount;
     }
 
     public Integer getBks() {

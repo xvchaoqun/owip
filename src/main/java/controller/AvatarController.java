@@ -20,6 +20,8 @@ public class AvatarController extends BaseController{
     int save = 0;
     int error = 0;
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    // 把某个文件夹下的头像文件（学工号命名的），存储到系统的指定头像地址
     public void listFolder(File folder){
 
         File[] files = folder.listFiles();

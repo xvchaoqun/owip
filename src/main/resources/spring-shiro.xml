@@ -130,6 +130,7 @@
             <value>
                 /test/** = anon
                 /api/** = anon
+                /monitor = anon
                 /cas = anon
                 /m/login = anon
                 /m/logout = anon

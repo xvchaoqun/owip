@@ -16,6 +16,7 @@ pageEncoding="UTF-8" %>
                        data-title="踢用户下线"
                        data-msg="确定踢出这{0}个用户吗？"><i class="fa fa-power-off"></i> 踢下线</a>
                 </shiro:hasPermission>
+                当前在线${_onlineCount}人；最高在线<span style="font-size: 20pt;font-weight: bolder">${_most.onlineCount}</span>人，发生在${cm:formatDate(_most.createTime, "yyyy-MM-dd HH:mm:ss")}。
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
