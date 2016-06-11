@@ -44,7 +44,8 @@ $(function(){
              $captcha.focus();
              return;
          }
-        $form.ajaxSubmit({
+        $form.submit();
+        /*$form.ajaxSubmit({
             success:function(data){
                 //alert(data)
                 try {
@@ -60,7 +61,7 @@ $(function(){
                     $('img.captcha', $form).click()
                 }
             }
-        });
+        });*/
     });
 
     $("#reg_btn").click(function(){

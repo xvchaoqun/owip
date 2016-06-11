@@ -27,6 +27,8 @@ public class SystemConstants {
 			resultMap.put("msg", "验证码错误");
 		} else if ("LockedAccountException".equals(message)) {
 			resultMap.put("msg", "账号被锁定");
+		} else if ("ExcessiveAttemptsException".equals(message)) {
+			resultMap.put("msg", "登录过于频繁，请稍后再试");
 		}else if ("InspectorFinishException".equals(message)) {
 			resultMap.put("msg", "该账号已经测评完成");
 		}else if("SSOException".equals(message)){

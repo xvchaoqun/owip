@@ -18,13 +18,13 @@ import java.util.Set;
 
 public class ShiroSecurityHelper {
 
-	private final static Logger log = LoggerFactory.getLogger(ShiroSecurityHelper.class);
+	private final static Logger logger = LoggerFactory.getLogger(ShiroSecurityHelper.class);
 
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
 
 
-	public static SysUser getCurrentUser() {
+/*	public static SysUser getCurrentUser() {
 		if (!hasAuthenticated()) {
 			return null;
 		}
@@ -37,11 +37,11 @@ public class ShiroSecurityHelper {
 		}
 	}
 
-	/**
+	*//**
 	 * 获得当前用户名
 	 * 
 	 * @return
-	 */
+	 *//*
 	public static String getCurrentUsername() {
 		Subject subject = getSubject();
 		PrincipalCollection collection = subject.getPrincipals();
@@ -49,7 +49,7 @@ public class ShiroSecurityHelper {
 			return (String) collection.iterator().next();
 		}
 		return null;
-	}
+	}*/
 
 	/**
 	 * 
@@ -87,6 +87,27 @@ public class ShiroSecurityHelper {
 		}
 		return null;
 	}
+
+	public static Session getSessionBySessionId(String sessionId){
+
+		Collection<Session> sessions = sessionDAO.getActiveSessions();
+		for(Session session : sessions){
+			if(null != session && StringUtils.equals(sessionId, session.getId().toString())){
+				return session;
+			}
+		}
+		return null;
+	}
+
+	public static String getUsername(String sessionId){
+
+		Session session = getSessionBySessionId(sessionId);
+		PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+		if(principals==null || principals.isEmpty()) return null;
+		ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
+
+		return (shiroUser!=null)?shiroUser.getUsername():null;
+	}
 	
 	/**踢除用户
 	 * @param username
@@ -95,7 +116,7 @@ public class ShiroSecurityHelper {
 		Session session = getSessionByUsername(username);
 		if(null != session && !StringUtils.equals(String.valueOf(session.getId()), ShiroSecurityHelper.getSessionId())){
 			session.setTimeout(0);//设置session立即失效，即将其踢出系统
-			log.info("############## success kick out user 【{}】 ------ #################", username);
+			logger.info("############## success kick out user 【{}】 ------ #################", username);
 			sessionDAO.delete(session);
 		}
 	}
@@ -111,7 +132,7 @@ public class ShiroSecurityHelper {
 			ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
 			if(null != session && usernames.contains(shiroUser.getUsername())){
 				session.setTimeout(0);//设置session立即失效，即将其踢出系统
-				log.info("############## success kick out user 【{}】 ------ #################", shiroUser.getUsername());
+				logger.info("############## success kick out user 【{}】 ------ #################", shiroUser.getUsername());
 				sessionDAO.delete(session);
 			}
 		}

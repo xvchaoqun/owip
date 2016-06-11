@@ -12,6 +12,7 @@
 <meta charset="utf-8"/>
 <title>组织工作管理与服务一体化平台</title>
 <link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
     <script type="text/javascript">
         location.href="${ctx}/extend/unsupport.html"
@@ -30,7 +31,17 @@
         <img src="${ctx}/extend/img/login_bg.jpg" />
     </div>
     <div class="w1000 login_con">
+
         <div id="login" class="visible login-layout" >
+            <c:if test="${not empty error}">
+            <div style="font-size: 12pt;
+            color:#c7254e; background-color: #f9f2f4;border-radius:6px;
+            height: 35px;
+            line-height: 35px;
+            padding-left: 20px;
+            margin: -15px 45px 0 50px; ">
+            <i class="fa fa-times"></i> ${error}</div>
+            </c:if>
             <form id="login-form" method="POST" action="${ctx}/login">
                 <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>

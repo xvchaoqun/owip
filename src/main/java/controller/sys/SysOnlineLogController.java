@@ -4,7 +4,9 @@ import bean.LoginUser;
 import controller.BaseController;
 import domain.SysOnlineStatic;
 import domain.SysUser;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ShiroSecurityHelper;
 import service.sys.SysLoginLogService;
 import service.sys.SysOnlineStaticService;
+import shiro.CurrentUser;
 import shiro.ShiroUser;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -31,33 +35,32 @@ import java.util.*;
  * Created by fafa on 2016/5/2.
  */
 @Controller
-@RequestMapping("/login")
-public class LoginController extends BaseController {
+public class SysOnlineLogController extends BaseController {
 
     @Autowired
     private  SysOnlineStaticService sysOnlineStaticService;
 
-    @RequiresPermissions("login:list")
-    @RequestMapping("/users")
+    @RequiresPermissions("sysOnlineLog:list")
+    @RequestMapping("/sysOnlineLog")
     public String party() {
 
         return "index";
     }
 
-    @RequiresPermissions("login:list")
-    @RequestMapping("/users_page")
-    public String party_page(ModelMap modelMap) {
+    @RequiresPermissions("sysOnlineLog:list")
+    @RequestMapping("/sysOnlineLog_page")
+    public String sysOnlineLog_page(ModelMap modelMap) {
 
         modelMap.put("_onlineCount", sysLoginLogService.getLoginUsers().size());
         modelMap.put("_most", sysOnlineStaticService.getMost());
 
-        return "sys/login/users_page";
+        return "sys/sysOnlineLog/sysOnlineLog_page";
     }
 
-    @RequiresPermissions("login:list")
-    @RequestMapping("/users_data")
+    @RequiresPermissions("sysOnlineLog:list")
+    @RequestMapping("/sysOnlineLog_data")
     @ResponseBody
-    public void users_data(Integer pageSize, Integer pageNo) throws IOException {
+    public void sysOnlineLog_data(Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -92,17 +95,26 @@ public class LoginController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
-    @RequiresPermissions("login:kickout")
-    @RequestMapping(value = "/kickout", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_kickout(@RequestParam(value = "ids[]")int[] ids) {
 
+    @RequiresRoles("admin")
+    @RequiresPermissions("sysOnlineLog:kickout")
+    @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysOnlineLog_kickout(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]")String[] ids) {
+
+        String currentUsername = loginUser.getUsername();
         Set<String> usernames = new HashSet<>();
-        for (int id : ids) {
-            SysUser sysUser = sysUserService.findById(id);
-            usernames.add(sysUser.getUsername());
+        for (String id : ids) {
+            String username = ShiroSecurityHelper.getUsername(id);
+            if(username!=null && !StringUtils.equals(username, currentUsername))  // 不能踢自己
+                usernames.add(username);
         }
-        ShiroSecurityHelper.kickOutUser(usernames);
+
+        if(usernames.size()>0) {
+            ShiroSecurityHelper.kickOutUser(usernames);
+            logService.log(SystemConstants.LOG_USER, "踢下线：" + StringUtils.join(usernames, ","));
+        }
+
         return success();
     }
 
