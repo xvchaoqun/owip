@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
@@ -80,8 +81,8 @@ public class ExceptionHandlerController {
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         //ex.printStackTrace();
-
-        if (!HttpUtils.isAjaxRequest(request)) {
+        // request.getMethod().equals(RequestMethod.GET)  防止sslvpn.xxx.edu.cn 访问地址报错
+        if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equals(RequestMethod.GET)) {
 
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
@@ -113,7 +114,7 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveUnauthorizedException(HttpServletRequest request, Exception ex) {
 
-        if (!HttpUtils.isAjaxRequest(request)) {
+        if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equals(RequestMethod.GET)) {
 
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);

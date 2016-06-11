@@ -160,16 +160,16 @@ public class SysUserRegService extends BaseMapper {
                        Integer party, String ip){
 
         if(usernameDuplicate(null, null, username))
-            throw new RuntimeException("该用户名已被注册。");
+            throw new RegException("该用户名已被注册。");
         if(idcardDuplicate(null, null, idcard))
-            throw new RuntimeException("该身份证已被注册。");
+            throw new RegException("该身份证已被注册。");
 
         if(!FormUtils.usernameFormatRight(username)){
-            throw new RuntimeException("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+            throw new RegException("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
         }
 
         if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)){
-            throw new RuntimeException("密码由6-16位的字母、下划线和数字组成");
+            throw new RegException("密码由6-16位的字母、下划线和数字组成");
         }
         String code = genCode();
 
