@@ -17,14 +17,20 @@ public class PassportApplyService extends BaseMapper {
 
         Integer cadreId = record.getCadreId();
         Integer classId = record.getClassId();
+
+        // （2）	以下情况不能再次申请护照：未审批、审批通过但未办理完交回；
         PassportApplyExample example = new PassportApplyExample();
-        // 【审批通过且没作废 或 没开始审批 ，则不可以申请同类型证件】
-        example.or(example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT).andClassIdEqualTo(classId));
-        example.or(example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(false).andClassIdEqualTo(classId));
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT).andClassIdEqualTo(classId);
         if(passportApplyMapper.countByExample(example)>0){
-            throw new RuntimeException("您已经申请办理了"+record.getPassportClass().getName() +",请不要重复申请");
+            throw new RuntimeException("您已经申请办理了"+record.getPassportClass().getName() +"，请不要重复申请");
+        }
+        PassportApplyExample example2 = new PassportApplyExample();
+        example2.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                .andAbolishEqualTo(false).andClassIdEqualTo(classId).andHandleDateIsNull();
+        if(passportApplyMapper.countByExample(example2)>0){
+            throw new RuntimeException("您已经申请办理了"+record.getPassportClass().getName() +"，申请已通过，请办理证件交回");
         }
 
         return passportApplyMapper.insertSelective(record);

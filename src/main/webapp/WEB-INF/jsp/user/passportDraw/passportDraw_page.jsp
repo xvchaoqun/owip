@@ -61,7 +61,9 @@ pageEncoding="UTF-8" %>
                             <th>使用天数</th>
                             <th>事由</th>
                         </c:if>
+                <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
                         <th>是否签注</th>
+                    </c:if>
                         <th>审批状态</th>
                         <th>应交组织部日期</th>
                         <th>实交组织部日期</th>
@@ -97,8 +99,21 @@ pageEncoding="UTF-8" %>
                                     <c:set var="reason" value="${fn:replace(passportDraw.reason, '+++', ',')}"/>
 								<td title="${reason}">${cm:substr(reason, 0, 5, "...")}</td>
                                 </c:if>
+                            <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
                             <td>${passportDraw.needSign?"是":"否"}</td>
-                                <td>${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}</td>
+                            </c:if>
+                                <td>
+
+                                ${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}
+                                <c:if test="${not empty passportDraw.approveRemark}">
+                                    <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_NOT_PASS}">
+                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_NOT_PASS}"  href="javascript:;">原因</a>）
+                                    </c:if>
+                                    <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
+                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_PASS}" href="javascript:;">备注</a>）
+                                    </c:if>
+                                </c:if>
+                                </td>
                             <td>${cm:formatDate(passportDraw.returnDate,'yyyy-MM-dd')}</td>
                             <td>${cm:formatDate(passportDraw.realReturnDate,'yyyy-MM-dd')}</td>
 
@@ -151,6 +166,15 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    $(".remark").click(function(e){
+        var remark = $(this).data("remark");
+        var status = $(this).data("status");
+        var title = "未通过原因";
+        if(status=='${PASSPORT_DRAW_STATUS_PASS}')
+            title = "备注";
+        SysMsg.info(remark, title);
+        e.stopPropagation();
+    });
     function _delCallback(target){
         SysMsg.success('撤销成功。', '成功',function(){
             page_reload();

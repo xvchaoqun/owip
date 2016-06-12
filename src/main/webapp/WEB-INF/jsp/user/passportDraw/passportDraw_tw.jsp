@@ -69,21 +69,21 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">台湾通行证大陆居民往来台湾通行证</label>
-    <div class="col-xs-6 label-text">
-      <div id="signBtn">
-      <button type="button" data-url="${ctx}/user/passportDraw_self_sign?type=tw"
-              class="openView btn btn-primary btn-mini btn-xs">申请台湾签注</button>
+    <label class="col-xs-3 control-label">申请使用证件名称</label>
+    <div class="col-xs-6">
+      <div style="padding-top: 12px">
+      大陆居民往来台湾通行证（<span id="signBtn"><span style="color: darkred">未申请办理签注</span></span>）
       </div>
       <input type="hidden" name="needSign" value="0">
     </div>
   </div>
-
 </form>
 
 <div class="modal-footer center">
-  <input id="submit" class="btn btn-success" value="提交申请"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input id="next" data-url="${ctx}/user/passportDraw_self_sign?type=tw"
+         class="btn btn-primary" value="下一步"/>
+  <input id="submit"style="display: none" class="btn btn-success" value="提交申请"/>
+
   <input class="btn btn-default" value="取消" onclick="location.href='${ctx}/user/passportDraw'"/>
 </div>
         </div></div></div>
@@ -91,7 +91,6 @@
 <div id="item-content">
 </div>
 <style>
-
   input[type=radio], input[type=checkbox]{
     width: 20px;
     height: 20px;
@@ -117,8 +116,6 @@
     padding-bottom: 5px;
     padding-top:0px!important;
   }
-
-
 </style>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
@@ -145,19 +142,33 @@
     return false;
   }
 
-  $("#submit").click(function(){$("#applyForm").submit();return false;});
-  $("#applyForm").validate({
-    submitHandler: function (form) {
 
+  $("#next").click(function(){
+    if($("#applyForm").valid() && formValid()) {
+      var $container = $("#body-content");
+      $container.showLoading({'afterShow':
+              function() {
+                setTimeout( function(){
+                  $container.hideLoading();
+                }, 2000 );
+              }});
+        $.get($(this).data("url"), {}, function (html) {
+          $container.hideLoading().hide();
+          $("#item-content").hide().html(html).fadeIn("slow");
+        })
+      }
+  })
+
+  function formValid(){
       // 出国（境）事由
       var $_reason = $("input[name=_reason][value='其他']");
       var _reason_other = $("input[name=_reason_other]").val().trim();
       if($_reason.is(":checked")){
         if(_reason_other==''){
-          SysMsg.info("请输入其他出国（境）事由", '', function(){
+          SysMsg.info("请输入其他出访事由", '', function(){
             $("input[name=_reason_other]").val('').focus();
           });
-          return;
+          return false;
         }
       }
       var reasons = [];
@@ -168,8 +179,8 @@
           reasons.push($(this).val());
       });
       if(reasons.length==0){
-        SysMsg.info("请选择出国（境）事由");
-        return;
+        SysMsg.info("请选择出访事由");
+        return false;
       }
       $("input[name=reason]").val(reasons.join("+++"));
 
@@ -181,7 +192,7 @@
           SysMsg.info("请输入其他费用来源", '', function(){
             $("input[name=_costSource_other]").val('').focus();
           });
-          return;
+          return false;
         }
       }
       var costSources = [];
@@ -193,7 +204,7 @@
       });
       if(costSources.length==0){
         SysMsg.info("请选择费用来源");
-        return;
+        return false;
       }
       $("input[name=costSource]").val(costSources.join("+++"));
 
@@ -204,8 +215,15 @@
       });
       if(fileCount==0){
         SysMsg.info("请上传国台办批件");
-        return;
+        return false;
       }
+      return true;
+  }
+  $("#submit").click(function(){$("#applyForm").submit();return false;});
+  $("#applyForm").validate({
+    submitHandler: function (form) {
+
+     if(!formValid()) return false;
 
       $(form).ajaxSubmit({
         success:function(ret){

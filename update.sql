@@ -2,21 +2,19 @@
 
 
 --2016-6-12
+ALTER TABLE `abroad_passport_apply`
+	ADD COLUMN `handle_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '证件接收人' AFTER `handle_date`,
+	ADD CONSTRAINT `FK_abroad_passport_apply_sys_user_2` FOREIGN KEY (`handle_user_id`) REFERENCES `sys_user` (`id`);
+
+
+CREATE ALGORITHM = UNDEFINED VIEW `abroad_passport_apply_view` AS select apa.`*` , ap.id as passport_id, ap.code from abroad_passport_apply apa  left join abroad_passport ap on ap.apply_id=apa.id ;
+
+--2016-6-12
 ALTER TABLE `abroad_passport_draw`
 	ADD COLUMN `use_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '领取证件用途，1 仅签证 2 已签证，本次出境 3 同时签证和出境' AFTER `remark`;
 ALTER TABLE `abroad_passport_draw`
 	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '申请备注' AFTER `need_sign`,
 	CHANGE COLUMN `approve_remark` `approve_remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '审批备注' AFTER `user_id`;
-
-
-
-
-
-
-
-
-
-
 
 
 --2016-6-11

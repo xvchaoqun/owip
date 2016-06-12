@@ -23,33 +23,32 @@ public class ShiroSecurityHelper {
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
 
+	public static SysUser getCurrentUser() {
 
-/*	public static SysUser getCurrentUser() {
 		if (!hasAuthenticated()) {
 			return null;
 		}
-		try {
-			SysUser user = userService.findByUsername(getCurrentUsername());
-			return user;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return userService.findByUsername(getCurrentUsername());
 	}
 
-	*//**
+	/*
 	 * 获得当前用户名
 	 * 
 	 * @return
-	 *//*
+	 */
 	public static String getCurrentUsername() {
+
 		Subject subject = getSubject();
-		PrincipalCollection collection = subject.getPrincipals();
-		if (null != collection && !collection.isEmpty()) {
-			return (String) collection.iterator().next();
-		}
-		return null;
-	}*/
+		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		return (shiroUser!=null)?shiroUser.getUsername():null;
+	}
+
+	public static Integer getCurrentUserId() {
+
+		Subject subject = getSubject();
+		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		return (shiroUser!=null)?shiroUser.getId():null;
+	}
 
 	/**
 	 * 

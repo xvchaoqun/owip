@@ -82,6 +82,8 @@ public class BaseMapper {
 	protected SafeBoxMapper safeBoxMapper;
 	@Autowired
 	protected PassportApplyMapper passportApplyMapper;
+	@Autowired
+	protected PassportApplyViewMapper passportApplyViewMapper;
 
 	@Autowired
 	protected EnterApplyMapper enterApplyMapper;

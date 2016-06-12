@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadre.CadreService;
+import service.helper.ShiroSecurityHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -62,7 +63,7 @@ public class PassportService extends BaseMapper {
             record.setIsLent(false);
             record.setCancelConfirm(false);
 
-            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
+            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())>0) {
                 MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
                 throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode() + "["+ mcPassportType.getName() + "]重复");
             }
@@ -80,13 +81,15 @@ public class PassportService extends BaseMapper {
                SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
     }
 
-    public boolean idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
+    // 0 不重复  1证件号码重复 2证件类别重复
+    public int idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
 
         Assert.isTrue(StringUtils.isNotBlank(code));
 
         // 证件号码不允许重复
         PassportExample example = new PassportExample();
         PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        if(passportMapper.countByExample(example) > 0) return 1;
         if(id!=null){
             criteria.andIdNotEqualTo(id);
             Passport passport = passportMapper.selectByPrimaryKey(id);
@@ -105,16 +108,16 @@ public class PassportService extends BaseMapper {
                             .andClassIdEqualTo(classId);
             if (id != null) criteria2.andIdNotEqualTo(id);
 
-            return passportMapper.countByExample(example) > 0 || passportMapper.countByExample(example2) > 0;
+            if(passportMapper.countByExample(example2) > 0) return 2;
         }
 
-        return passportMapper.countByExample(example) > 0;
+        return 0;
     }
 
     @Transactional
     public int add(Passport record, Integer applyId){
 
-        Assert.isTrue(!idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+        Assert.isTrue(0==idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
 
         if(applyId!=null){ // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
@@ -124,8 +127,10 @@ public class PassportService extends BaseMapper {
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);
             passportApply.setHandleDate(new Date());
+            passportApply.setHandleUserId(ShiroSecurityHelper.getCurrentUserId());
             passportApplyMapper.updateByPrimaryKeySelective(passportApply);
 
+            record.setKeepDate(new Date()); // 集中保管日期为交证件日期
             record.setCadreId(_passportApply.getCadreId()); // 确认
             record.setApplyId(applyId);
         }
@@ -189,7 +194,7 @@ public class PassportService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(Passport record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+            Assert.isTrue(0==idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 

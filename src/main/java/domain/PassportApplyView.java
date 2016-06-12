@@ -7,8 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class PassportApply implements Serializable {
-
+public class PassportApplyView implements Serializable {
     public Cadre getCadre(){
         return CmTag.getCadreById(cadreId);
     }
@@ -29,6 +28,9 @@ public class PassportApply implements Serializable {
     public String getStatusName(){
 
         return SystemConstants.PASSPORT_APPLY_STATUS_MAP.get(status);
+    }
+    public SysUser getHandleUser(){
+        return CmTag.getUserById(handleUserId);
     }
 
     private Integer id;
@@ -58,6 +60,10 @@ public class PassportApply implements Serializable {
     private Date createTime;
 
     private String ip;
+
+    private Integer passportId;
+
+    private String code;
 
     private static final long serialVersionUID = 1L;
 
@@ -171,5 +177,21 @@ public class PassportApply implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Integer getPassportId() {
+        return passportId;
+    }
+
+    public void setPassportId(Integer passportId) {
+        this.passportId = passportId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 }
