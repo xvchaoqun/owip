@@ -230,10 +230,10 @@ pageEncoding="UTF-8"%>
 
 			$("#modalForm input[name=code]").val(code);
 			$("#modalForm input[name=realname]").val(realname);
-			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
-			$("#modalForm input[name=politicalStatus]").val(politicalStatus == 1 ? '正式党员' : (politicalStatus == 2 ? '预备党员' : ''));
+			$("#modalForm input[name=politicalStatus]").val(_cMap.MEMBER_POLITICAL_STATUS_MAP[politicalStatus]);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
 			$("#modalForm input[name=code]").val('');

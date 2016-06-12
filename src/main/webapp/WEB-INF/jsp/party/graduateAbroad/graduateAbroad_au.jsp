@@ -38,8 +38,8 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">出国原因</label>
-					<div class="col-xs-9 choice">
+					<label class="col-xs-6 control-label">出国原因</label>
+					<div class="col-xs-6 choice">
 						<input name="_reason" type="checkbox" value="留学"> 留学&nbsp;
 						<input name="_reason" type="checkbox" value="访学"> 访学&nbsp;
 						<input name="_reason" type="checkbox" value="工作"> 工作&nbsp;

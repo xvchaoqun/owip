@@ -310,7 +310,7 @@ pageEncoding="UTF-8"%>
 			var nation = entity.user.nation || '';
 			var idcard = entity.user.idcard || '';
 
-			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
 			$("#modalForm input[name=idcard]").val(idcard);
