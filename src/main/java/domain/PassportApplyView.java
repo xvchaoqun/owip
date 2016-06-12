@@ -30,7 +30,8 @@ public class PassportApplyView implements Serializable {
         return SystemConstants.PASSPORT_APPLY_STATUS_MAP.get(status);
     }
     public SysUser getHandleUser(){
-        return CmTag.getUserById(handleUserId);
+
+        return (handleUserId!=null)?CmTag.getUserById(handleUserId):null;
     }
 
     private Integer id;
