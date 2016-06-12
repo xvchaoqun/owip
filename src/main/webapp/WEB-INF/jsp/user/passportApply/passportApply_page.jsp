@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                         </div>
         <div class="myTableDiv"
              data-url-page="${ctx}/user/passportApply_page"
-             data-url-del="${ctx}/user/passportApply_del">
+                data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
@@ -68,9 +68,12 @@ pageEncoding="UTF-8" %>
                                         </c:if>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportApply.id}">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
+                                         <button class="confirm btn btn-danger btn-xs"
+                                                 data-url="${ctx}/user/passportApply_del?id=${passportApply.id}"
+                                                 data-callback="_delCallback"
+                                                 data-msg="确定撤销该申请吗？">
+                                             <i class="fa fa-trash"></i> 撤销申请
+                                         </button>
                                      </c:if>
                                 </div>
                             </td>
@@ -95,6 +98,12 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function _delCallback(target){
+        SysMsg.success('撤销成功。', '成功',function(){
+            page_reload();
+        });
+    }
+
     $(".printBtn").click(function(){
         printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"))
     });

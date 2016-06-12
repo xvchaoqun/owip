@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class PassportDrawService extends BaseMapper {
@@ -42,6 +41,35 @@ public class PassportDrawService extends BaseMapper {
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         passportDrawMapper.deleteByExample(example);
+    }
+    // 领取证件
+    @Transactional
+    public void drawPassport(PassportDraw record){
+
+        updateByPrimaryKeySelective(record);
+
+        // 将证件标记为已借出
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
+        Passport _record = new Passport();
+        _record.setId(passport.getId());
+        _record.setIsLent(true);
+        passportMapper.updateByPrimaryKeySelective(_record);
+    }
+
+    // 归还证件
+    @Transactional
+    public void returnPassport(PassportDraw record){
+
+        updateByPrimaryKeySelective(record);
+
+        // 将证件标记为已借出
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
+        Passport _record = new Passport();
+        _record.setId(passport.getId());
+        _record.setIsLent(false);
+        passportMapper.updateByPrimaryKeySelective(_record);
     }
 
     @Transactional

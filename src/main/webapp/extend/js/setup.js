@@ -675,8 +675,9 @@ $(document).on("click", ".myTableDiv .jqItemBtn", function(){
 
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
-    if(!id){
-        SysMsg.warning("请选择行", "提示");
+    var ids  = grid.getGridParam("selarrrow")
+    if(!id || ids.length>1){
+        SysMsg.warning("请选择一行", "提示");
         return ;
     }
 

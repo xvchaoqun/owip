@@ -1,3 +1,24 @@
+
+
+
+--2016-6-12
+ALTER TABLE `abroad_passport_draw`
+	ADD COLUMN `use_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '领取证件用途，1 仅签证 2 已签证，本次出境 3 同时签证和出境' AFTER `remark`;
+ALTER TABLE `abroad_passport_draw`
+	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '申请备注' AFTER `need_sign`,
+	CHANGE COLUMN `approve_remark` `approve_remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '审批备注' AFTER `user_id`;
+
+
+
+
+
+
+
+
+
+
+
+
 --2016-6-11
 ALTER TABLE `sys_online_static`
 	CHANGE COLUMN `count` `online_count` INT(10) UNSIGNED NULL DEFAULT '0' AFTER `id`;

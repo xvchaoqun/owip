@@ -7,7 +7,6 @@
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/user/applySelf_au"
              data-url-page="${ctx}/user/applySelf_page"
-             data-url-del="${ctx}/user/applySelf_del"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate
             ||not empty param.type }"/>
@@ -19,7 +18,7 @@
                             data-open-by="page">
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
-                        <button class="jqEditBtn btn btn-primary btn-sm tooltip-info"
+                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm tooltip-info"
                                 data-url="${ctx}/user/applySelf_au"
                                 data-open-by="page"
                                 data-querystr="&edit=1"
@@ -27,8 +26,10 @@
                                 title="当因私出国（境）申请未通过审批时，修改相关信息重新申请。">
                             <i class="fa fa-edit"></i> 重新申请
                         </button>
-                            <button class="jqItemDelBtn btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i> 删除
+                            <button id="abolishBtn" class="jqItemBtn btn btn-danger btn-sm"
+                                    data-url="${ctx}/user/applySelf_del" data-title="撤销申请"
+                                    data-msg="确定撤销该申请吗？">
+                            <i class="fa fa-trash"></i> 撤销申请
                             </button>
                 </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -148,7 +149,7 @@
         onSelectRow: function(id,status){
             jgrid_sid=id;
             var firstType = $(this).getRowData(id).firstType;
-            $(".jqEditBtn, .jqItemDelBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            $("#editBtn, #abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4)
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -188,7 +188,14 @@ public class UserApplySelfController extends BaseController {
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
-                throw new RuntimeException("不允许删除");
+                return failed("只有新提交的申请可以撤销");
+            }
+            {
+                PassportDrawExample example = new PassportDrawExample();
+                example.createCriteria().andApplyIdEqualTo(id);
+                if(passportDrawMapper.countByExample(example)>0){
+                    return failed("该行程已经申请使用证件，不允许撤销");
+                }
             }
 
             ApplySelfFileExample example = new ApplySelfFileExample();

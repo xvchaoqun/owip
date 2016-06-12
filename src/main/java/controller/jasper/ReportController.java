@@ -107,6 +107,7 @@ public class ReportController extends BaseController {
         map.put("name", userBean.getRealname());
         map.put("from", memberOut.getFromUnit());
         map.put("to", memberOut.getToUnit());
+        map.put("toTitle", memberOut.getToTitle());
         map.put("check1", (userBean.getPoliticalStatus()!=null && userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW)?"√":""); // 预备党员
         map.put("check2", (userBean.getPoliticalStatus()!=null && userBean.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE)?"√":""); // 正式党员
         map.put("male", (userBean.getGender()!=null && userBean.getGender()==SystemConstants.GENDER_MALE)?"√":"");

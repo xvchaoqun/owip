@@ -100,8 +100,8 @@
     <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
-           class="btn btn-success" value="确认领取"/>
-    <input  class="closeView btn btn-default" value="返回"/>
+           class="btn btn-success" value="提交" style="width: 150px"/>
+    <input type="button" class="closeView btn btn-default" value="返回" style="width: 150px"/>
 </div>
 <script>
     $('input[type=file]').ace_file_input({
@@ -144,7 +144,7 @@
                 },
                 cancel: {
                     label: '取消',
-                    className: 'btn-default'
+                    className: 'btn-default btn-show'
                 }
             },
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' + msg + '</p>',

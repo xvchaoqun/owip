@@ -282,6 +282,7 @@ public class UserPassportDrawController extends BaseController {
                                   int applyId,
                                   int passportId,
                                   @RequestParam(required = false, defaultValue = "0")boolean needSign,
+                                  byte useType,
                                   String remark,
                                   HttpServletRequest request) {
 
@@ -300,6 +301,7 @@ public class UserPassportDrawController extends BaseController {
         record.setPassportId(passportId);
         record.setApplyDate(new Date());
         record.setNeedSign(needSign);
+        record.setUseType(useType);
         record.setRemark(remark);
 
         record.setCreateTime(new Date());

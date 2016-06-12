@@ -652,6 +652,17 @@ public class SystemConstants {
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_OTHER, "其他事务");
 	}
 
+	//领取证件用途 1 仅签证 2 已签证，本次出境 3 同时签证和出境
+	public final static byte PASSPORT_DRAW_USE_TYPE_SIGN = 1;
+	public final static byte PASSPORT_DRAW_USE_TYPE_ABROAD = 2;
+	public final static byte PASSPORT_DRAW_USE_TYPE_BOTH = 3;
+	public final static Map<Byte, String>PASSPORT_DRAW_USE_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_SIGN, "仅签证");
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_ABROAD, "已签证，本次出境");
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_BOTH, "同时签证和出境");
+	}
+
 	//申办证件审批状态
 	public final static byte PASSPORT_APPLY_STATUS_INIT = 0;
 	public final static byte PASSPORT_APPLY_STATUS_PASS = 1;

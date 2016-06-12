@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class PassportDraw implements Serializable {
+
     public SysUser getUser(){
 
         Cadre cadre = getCadre();
@@ -69,6 +70,8 @@ public class PassportDraw implements Serializable {
     private Boolean needSign;
 
     private String remark;
+
+    private Byte useType;
 
     private Date createTime;
 
@@ -204,6 +207,14 @@ public class PassportDraw implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getUseType() {
+        return useType;
+    }
+
+    public void setUseType(Byte useType) {
+        this.useType = useType;
     }
 
     public Date getCreateTime() {

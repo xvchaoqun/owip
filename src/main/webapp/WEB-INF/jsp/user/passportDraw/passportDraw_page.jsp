@@ -30,7 +30,6 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/user/passportDraw_au"
              data-url-page="${ctx}/user/passportDraw_page"
-             data-url-del="${ctx}/user/passportDraw_del"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <div class="space-4"></div>
@@ -46,6 +45,7 @@ pageEncoding="UTF-8" %>
                     </c:if>
                             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
 							<th>因私出国（境）行程</th>
+							<th>领取证件用途</th>
                             </c:if>
 
                             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
@@ -85,6 +85,9 @@ pageEncoding="UTF-8" %>
                                     <a class="openView" href="javascript:;"
                                        data-url="${ctx}/user/applySelf_view?id=${passportDraw.applyId}"> S${passportDraw.applyId}</a>
                                    </td>
+                                <td>
+                                    ${PASSPORT_DRAW_USE_TYPE_MAP.get(passportDraw.useType)}
+                                </td>
                             </c:if>
 
                                 <c:if test="${type!=PASSPORT_DRAW_TYPE_SELF}">
@@ -119,8 +122,11 @@ pageEncoding="UTF-8" %>
                                         </c:if>
                                     </c:if>
                                     <c:if test="${passportDraw.status==0}">
-                                        <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${passportDraw.id}">
-                                            <i class="fa fa-trash"></i> 删除
+                                        <button class="confirm btn btn-danger btn-xs"
+                                                data-url="${ctx}/user/passportDraw_del?id=${passportDraw.id}"
+                                                data-callback="_delCallback"
+                                                data-msg="确定撤销该申请吗？">
+                                            <i class="fa fa-trash"></i> 撤销申请
                                         </button>
                                     </c:if>
                                 </div>
@@ -145,6 +151,11 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function _delCallback(target){
+        SysMsg.success('撤销成功。', '成功',function(){
+            page_reload();
+        });
+    }
     $(".printBtn").click(function(){
         printWindow("${ctx}/report/passportSign?id="+ $(this).data("id"));
     });

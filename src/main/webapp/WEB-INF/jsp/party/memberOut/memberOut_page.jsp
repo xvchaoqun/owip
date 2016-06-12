@@ -112,7 +112,7 @@
                                     <i class="fa fa-search"></i> 查看修改记录
                                 </button>
                                 </c:if>
-                                <c:if test="${cls!=2}">
+                                <c:if test="${cls==3}">
                                 <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/memberOut/printPreview"
                                         data-querystr="&type=${MEMBER_INOUT_TYPE_INSIDE}"
@@ -331,7 +331,7 @@
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
             }, frozen: true}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
-            <c:if test="${cls!=2}">
+            <c:if test="${cls==3}">
              <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 

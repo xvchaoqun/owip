@@ -14,6 +14,7 @@
     <result column="cost_source" property="costSource" jdbcType="VARCHAR" />
     <result column="need_sign" property="needSign" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="use_type" property="useType" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
@@ -94,7 +95,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, type, apply_id, passport_id, apply_date, start_date, end_date, reason, 
-    cost_source, need_sign, remark, create_time, ip, status, user_id, approve_remark, 
+    cost_source, need_sign, remark, use_type, create_time, ip, status, user_id, approve_remark, 
     approve_time, approve_ip, real_start_date, real_end_date, real_to_country, return_date, 
     draw_user_id, draw_time, draw_record, real_return_date, draw_status, return_remark, 
     use_record, job_certify
@@ -134,24 +135,24 @@
       apply_id, passport_id, apply_date, 
       start_date, end_date, reason, 
       cost_source, need_sign, remark, 
-      create_time, ip, status, 
-      user_id, approve_remark, approve_time, 
-      approve_ip, real_start_date, real_end_date, 
-      real_to_country, return_date, draw_user_id, 
-      draw_time, draw_record, real_return_date, 
-      draw_status, return_remark, use_record, 
-      job_certify)
+      use_type, create_time, ip, 
+      status, user_id, approve_remark, 
+      approve_time, approve_ip, real_start_date, 
+      real_end_date, real_to_country, return_date, 
+      draw_user_id, draw_time, draw_record, 
+      real_return_date, draw_status, return_remark, 
+      use_record, job_certify)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{applyId,jdbcType=INTEGER}, #{passportId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
       #{costSource,jdbcType=VARCHAR}, #{needSign,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{userId,jdbcType=INTEGER}, #{approveRemark,jdbcType=VARCHAR}, #{approveTime,jdbcType=TIMESTAMP}, 
-      #{approveIp,jdbcType=VARCHAR}, #{realStartDate,jdbcType=DATE}, #{realEndDate,jdbcType=DATE}, 
-      #{realToCountry,jdbcType=VARCHAR}, #{returnDate,jdbcType=DATE}, #{drawUserId,jdbcType=INTEGER}, 
-      #{drawTime,jdbcType=TIMESTAMP}, #{drawRecord,jdbcType=VARCHAR}, #{realReturnDate,jdbcType=DATE}, 
-      #{drawStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, #{useRecord,jdbcType=VARCHAR}, 
-      #{jobCertify,jdbcType=BIT})
+      #{useType,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{approveRemark,jdbcType=VARCHAR}, 
+      #{approveTime,jdbcType=TIMESTAMP}, #{approveIp,jdbcType=VARCHAR}, #{realStartDate,jdbcType=DATE}, 
+      #{realEndDate,jdbcType=DATE}, #{realToCountry,jdbcType=VARCHAR}, #{returnDate,jdbcType=DATE}, 
+      #{drawUserId,jdbcType=INTEGER}, #{drawTime,jdbcType=TIMESTAMP}, #{drawRecord,jdbcType=VARCHAR}, 
+      #{realReturnDate,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, 
+      #{useRecord,jdbcType=VARCHAR}, #{jobCertify,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.PassportDraw" >
     insert into abroad_passport_draw
@@ -191,6 +192,9 @@
       </if>
       <if test="remark != null" >
         remark,
+      </if>
+      <if test="useType != null" >
+        use_type,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -286,6 +290,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="useType != null" >
+        #{useType,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -391,6 +398,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.useType != null" >
+        use_type = #{record.useType,jdbcType=TINYINT},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -467,6 +477,7 @@
       cost_source = #{record.costSource,jdbcType=VARCHAR},
       need_sign = #{record.needSign,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
+      use_type = #{record.useType,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -525,6 +536,9 @@
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="useType != null" >
+        use_type = #{useType,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -599,6 +613,7 @@
       cost_source = #{costSource,jdbcType=VARCHAR},
       need_sign = #{needSign,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
+      use_type = #{useType,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},

@@ -63,11 +63,11 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportDraw_agree(@CurrentUser SysUser loginUser, int id, /*String _expectDate,*/ HttpServletRequest request) {
+    public Map passportDraw_agree(@CurrentUser SysUser loginUser, int id, String remark, HttpServletRequest request) {
 
         PassportDraw record = new PassportDraw();
         record.setId(id);
-        //record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA));
+        record.setApproveRemark(StringUtils.trimToNull(remark));
 
         record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_PASS);
         record.setUserId(loginUser.getId());
@@ -75,7 +75,7 @@ public class PassportDrawController extends BaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件（通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -87,15 +87,17 @@ public class PassportDrawController extends BaseController {
 
         PassportDraw record = new PassportDraw();
         record.setId(id);
-        record.setApproveRemark(remark);
-
+        record.setApproveRemark(StringUtils.trimToNull(remark));
+        if(record.getApproveRemark()==null){
+            return failed("请输入原因");
+        }
         record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS);
         record.setUserId(loginUser.getId());
         record.setApproveTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件（未通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -282,7 +284,7 @@ public class PassportDrawController extends BaseController {
         record.setDrawTime(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW);
 
-        passportDrawService.updateByPrimaryKeySelective(record);
+        passportDrawService.drawPassport(record);
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "领取证件：%s", id));
         return success(FormUtils.SUCCESS);
@@ -343,7 +345,7 @@ public class PassportDrawController extends BaseController {
         record.setRealReturnDate(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
-        passportDrawService.updateByPrimaryKeySelective(record);
+        passportDrawService.returnPassport(record);
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "归还证件：%s", id));
         return success(FormUtils.SUCCESS);

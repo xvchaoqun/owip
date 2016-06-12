@@ -882,6 +882,66 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
+        public Criteria andUseTypeIsNull() {
+            addCriterion("use_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeIsNotNull() {
+            addCriterion("use_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeEqualTo(Byte value) {
+            addCriterion("use_type =", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeNotEqualTo(Byte value) {
+            addCriterion("use_type <>", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeGreaterThan(Byte value) {
+            addCriterion("use_type >", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("use_type >=", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeLessThan(Byte value) {
+            addCriterion("use_type <", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("use_type <=", value, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeIn(List<Byte> values) {
+            addCriterion("use_type in", values, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeNotIn(List<Byte> values) {
+            addCriterion("use_type not in", values, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeBetween(Byte value1, Byte value2) {
+            addCriterion("use_type between", value1, value2, "useType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("use_type not between", value1, value2, "useType");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

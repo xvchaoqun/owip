@@ -61,7 +61,8 @@
     </div>
     <form class="form-horizontal">
     <div class="well center" style="margin-top: 20px; font-size: 20px">
-        <div class="row" style="padding-left: 100px">
+        <div class="row" style="padding-left: 50px">
+            <div style="float: left; font-weight: bolder">申请使用证件名称：</div>
             <c:forEach items="${passports}" var="passport">
                 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
                 <div style="float: left; margin-right: 40px;">
@@ -81,7 +82,18 @@
 
     </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">备注</label>
+            <label class="col-xs-3 control-label">领取证件用途：</label>
+            <div class="col-xs-3 label-text"  id="useTypeDiv">
+                <c:forEach var="useType" items="${PASSPORT_DRAW_USE_TYPE_MAP}">
+                    <label>
+                        <input name="useType" type="radio" class="ace" value="${useType.key}"/>
+                        <span class="lbl"> ${useType.value}</span>
+                    </label>
+                </c:forEach>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">备注：</label>
             <div class="col-xs-3">
                 <textarea class="form-control limited" type="text" id="remark" rows="3"></textarea>
             </div>
@@ -101,6 +113,18 @@
 <script>
     $('textarea.limited').inputlimiter();
     $("#submit").click(function(){
+
+        var useType = $("input[name=useType]:checked").val();
+        if(useType==undefined || useType==''){
+            //SysMsg.warning('请选择领取证件用途');
+            $('#useTypeDiv').qtip({content:'请选择领取证件用途。',
+                position: {
+                    my: 'center left',
+                    at: 'center right'
+                },show: true, hide: 'unfocus'});
+            return false;
+        }
+
         if($("#agree").is(":checked") == false){
             $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
             return false;
@@ -109,7 +133,9 @@
         $.post("${ctx}/user/passportDraw_self_au",
                 {applyId:"${applySelf.id}",
                     passportId:"${param.passportId}",
-                    needSign:"${param.sign}", remark:$("#remark").val()},function(ret){
+                    needSign:"${param.sign}",
+                    useType:useType,
+                    remark:$("#remark").val()},function(ret){
             if(ret.success){
                 SysMsg.success('您的申请已提交，谢谢！', '提示', function(){
                     location.href = "${ctx}/user/passportDraw?type=1";
