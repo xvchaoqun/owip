@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                     <div class="profile-info-row">
-                                        <div class="profile-info-name"> 联系电话 </div>
+                                        <div class="profile-info-name"> 党员本人联系电话 </div>
 
                                         <div class="profile-info-value">
                                             <span class="editable" >${memberOut.phone}</span>

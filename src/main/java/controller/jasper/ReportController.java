@@ -123,6 +123,11 @@ public class ReportController extends BaseController {
         map.put("postCode", memberOut.getFromPostCode());
         map.put("idcard", userBean.getIdcard());
         map.put("code", userBean.getCode());
+        Date handleTime = memberOut.getHandleTime();
+
+        map.put("handleYear", handleTime!=null?DateUtils.getYear(handleTime):"");
+        map.put("handleMonth", handleTime!=null?DateUtils.getMonth(handleTime):"");
+        map.put("handleDay", handleTime!=null?DateUtils.getDay(handleTime):"");
 
         return map;
     }
