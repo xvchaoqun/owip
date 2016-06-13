@@ -150,10 +150,10 @@
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             }, frozen:true },
             { label:'任免方式', name: 'wayId', formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return cellvalue==undefined?'':_metaTypeMap[cellvalue];
             }},
             { label:'任免程序', name: 'procedureId', formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return cellvalue==undefined?'':_metaTypeMap[cellvalue];
             }},
             { label:'干部类型', name: 'cadreTypeId', formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
