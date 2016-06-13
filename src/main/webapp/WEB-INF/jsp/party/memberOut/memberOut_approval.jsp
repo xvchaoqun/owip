@@ -53,7 +53,13 @@
                                         <span class="editable">${user.realname}</span>
                                     </div>
                                 </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 联系电话 </div>
 
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${user.mobile}</span>
+                                        </div>
+                                    </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 所属组织机构 </div>
 
@@ -74,7 +80,27 @@
                                         <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}</span>
                                     </div>
                                 </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 党费缴纳至年月 </div>
 
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${cm:formatDate(memberOut.payTime,'yyyy-MM')}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 介绍信有效期天数 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberOut.validDays}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 是否有回执 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberOut.hasReceipt?"是":"否"}</span>
+                                        </div>
+                                    </div>
 
                             </div></div>
                             <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
@@ -100,12 +126,34 @@
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 介绍信有效期天数 </div>
+                                    <div class="profile-info-name"> 转出单位地址 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberOut.validDays}</span>
+                                        <span class="editable" >${memberOut.fromAddress}</span>
                                     </div>
                                 </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位联系电话 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromPhone}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位传真 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromFax}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位邮编 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromPostCode}</span>
+                                    </div>
+                                </div>
+
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 办理时间 </div>
 
