@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
+                    <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
                         <option></option>
                         <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                     </select>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                    <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                         <option></option>
                         <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">所属单位</label>
                 <div class="col-xs-8">
-                    <select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                    <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                         <option></option>
                         <c:forEach items="${unitMap}" var="unit">
                             <option value="${unit.key}">${unit.value.name}</option>
@@ -70,13 +70,13 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">职务</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="post" value="${cadre.post}">
+                    <input  class="form-control" type="text" name="post" value="${cadre.post}">
                 </div>
             </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所在单位及职务</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="title" value="${cadre.title}">
+                        <input  class="form-control" type="text" name="title" value="${cadre.title}">
 				</div>
 			</div>
 			<div class="form-group">
