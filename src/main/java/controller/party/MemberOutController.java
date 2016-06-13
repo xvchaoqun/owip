@@ -474,7 +474,7 @@ public class MemberOutController extends BaseController {
 
         List<MemberOut> records = memberOutMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名","类别", "所在分党委","所在党支部", "转入单位抬头",
+        String[] titles = {"学工号","姓名","联系电话","类别", "所在分党委","所在党支部", "转入单位抬头",
                 "转入单位","转出单位","介绍信有效期天数","办理时间","状态"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -485,6 +485,7 @@ public class MemberOutController extends BaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
+                    record.getPhone(),
                     record.getType()==null?"":SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),

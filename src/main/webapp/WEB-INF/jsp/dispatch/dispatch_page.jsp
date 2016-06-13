@@ -167,7 +167,8 @@ pageEncoding="UTF-8" %>
             { label: '免职人数',  name: 'dismissCount'},
             { label: '录入免职人数', width: 110 ,  name: 'realDismissCount'},
             { label: '是否全部录入', width: 110 , formatter:function(cellvalue, options, rowObject){
-                return (rowObject.appointCount==rowObject.realAppointCount&&rowObject.dismissCount==rowObject.realDismissCount)?"是":"否";
+                //console.log((rowObject.realAppointCount+rowObject.realDismissCount)>0)
+                return ((rowObject.realAppointCount+rowObject.realDismissCount)>0&&rowObject.appointCount==rowObject.realAppointCount&&rowObject.dismissCount==rowObject.realDismissCount)?"是":"否";
             }},
             { label: '任免文件', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
