@@ -36,7 +36,7 @@
 
 					<div class="col-xs-6">
 						<div class="form-group">
-							<label class="col-xs-4 control-label">联系电话</label>
+							<label class="col-xs-4 control-label"> 党员本人联系电话</label>
 							<div class="col-xs-6">
 								<input required class="form-control" maxlength="20" type="text" name="phone" value="${memberOut.phone}">
 							</div>
