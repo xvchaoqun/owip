@@ -1,5 +1,10 @@
 
 
+--2016-6-13
+ALTER TABLE `base_dispatch_cadre`
+	CHANGE COLUMN `way_id` `way_id` INT(10) UNSIGNED NULL COMMENT '任免方式，关联元数据（1 提任 2连任 3平级调动 4免职）' AFTER `cadre_type_id`,
+	CHANGE COLUMN `procedure_id` `procedure_id` INT(10) UNSIGNED NULL COMMENT '任免程序，关联元数据（1 民主推荐 2公开招聘 3引进人才 4其他 5免职）' AFTER `way_id`;
+
 
 --2016-6-12
 ALTER TABLE `abroad_passport_apply`
