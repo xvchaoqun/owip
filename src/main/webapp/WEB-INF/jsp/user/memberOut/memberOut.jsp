@@ -68,7 +68,7 @@
                         ${userBean.idcard}
                     </td>
                     <td class="bg-right">
-                        联系方式
+                        党员本人联系电话
                     </td>
                     <td class="bg-left" style="min-width: 120px">
                         ${memberOut.phone}
