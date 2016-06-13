@@ -70,7 +70,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">工作证号</label>
           <div class="col-xs-8">
-            <select data-ajax-url="${ctx}/cadre_selects"
+            <select required data-ajax-url="${ctx}/cadre_selects"
                     name="cadreId" data-placeholder="请选择干部">
               <option></option>
             </select>
@@ -95,7 +95,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">职务属性</label>
           <div class="col-xs-6">
-            <select name="postId" data-rel="select2" data-placeholder="请选择职务属性">
+            <select required name="postId" data-rel="select2" data-placeholder="请选择职务属性">
               <option></option>
               <c:forEach items="${postMap}" var="post">
                 <option value="${post.key}">${post.value.name}</option>
@@ -123,7 +123,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">单位类别</label>
           <div class="col-xs-6">
-            <select class="form-control" name="_unitStatus" data-rel="select2" data-placeholder="请选择单位类别">
+            <select required class="form-control" name="_unitStatus" data-rel="select2" data-placeholder="请选择单位类别">
               <option></option>
               <option value="1">正在运转单位</option>
               <option value="2">历史单位</option>
