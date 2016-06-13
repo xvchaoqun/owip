@@ -19,7 +19,8 @@ ALTER TABLE `ow_member_out`
 
 
 
-
+ALTER TABLE `sys_login_log`
+	CHANGE COLUMN `agent` `agent` TEXT NULL DEFAULT NULL COMMENT '客户端类型' AFTER `last_login_ip`;
 
 
 
