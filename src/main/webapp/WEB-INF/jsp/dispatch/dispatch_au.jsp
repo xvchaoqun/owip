@@ -64,6 +64,18 @@ pageEncoding="UTF-8"%>
                     </div>
 				</div>
 			</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">任命人数</label>
+            <div class="col-xs-6">
+                <input required class="form-control digits" type="text" name="appointCount" value="${dispatch.appointCount}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">免职人数</label>
+            <div class="col-xs-6">
+                <input required class="form-control digits" type="text" name="dismissCount" value="${dispatch.dismissCount}">
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免文件</label>
 				<div class="col-xs-6">

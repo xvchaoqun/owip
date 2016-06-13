@@ -9,6 +9,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
+import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.dispatch.DispatchUnitService;
@@ -35,6 +36,7 @@ public class CmTag {
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
     static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
     static DispatchService dispatchService = (DispatchService) context.getBean("dispatchService");
+    static DispatchCadreService dispatchCadreService = (DispatchCadreService) context.getBean("dispatchCadreService");
     static DispatchUnitService dispatchUnitService = (DispatchUnitService) context.getBean("dispatchUnitService");
     static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
     static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
@@ -272,6 +274,11 @@ public class CmTag {
 
         return dispatchService.findAll().get(dispatchId);
     }
+
+    public static Integer getDispatchCadreCount(Integer dispatchId, Byte type){
+        return dispatchCadreService.count(dispatchId, type);
+    }
+
     public static DispatchUnit getDispatchUnit(Integer dispatchUnitId){
         return dispatchUnitService.findAll().get(dispatchUnitId);
     }

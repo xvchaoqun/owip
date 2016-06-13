@@ -26,6 +26,13 @@ public class DispatchService extends BaseMapper {
     // String numStr = NumberUtils.frontCompWithZore(num, 2);
     // String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
 
+    @Transactional
+    @CacheEvict(value="Dispatch:ALL", allEntries = true)
+    public void update_dispatch_real_count(){
+
+        updateMapper.update_dispatch_real_count();
+    }
+
     public boolean idDuplicate(Integer id, int dispatchTypeId, int year, int code){
 
         DispatchExample example = new DispatchExample();

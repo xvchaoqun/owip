@@ -6,14 +6,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberOutModify implements Serializable {
+
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+
+
     private Integer id;
 
     private Integer outId;
 
     private Integer applyUserId;
+
+    private String phone;
 
     private Byte type;
 
@@ -71,6 +76,14 @@ public class MemberOutModify implements Serializable {
 
     public void setApplyUserId(Integer applyUserId) {
         this.applyUserId = applyUserId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Byte getType() {

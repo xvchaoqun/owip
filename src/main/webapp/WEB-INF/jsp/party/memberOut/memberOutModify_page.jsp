@@ -40,6 +40,7 @@
       {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
         return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
       }, frozen: true},
+      {label: '联系电话', name: 'phone', width: 180},
       {label: '转入单位', name: 'toUnit', width: 150},
       {label: '转入单位抬头', name: 'toTitle', width: 200},
       {label: '转出单位', name: 'fromUnit', width: 200},

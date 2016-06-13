@@ -117,7 +117,7 @@ public class ReportController extends BaseController {
         map.put("payYear", DateUtils.getYear(memberOut.getPayTime()));
         map.put("payMonth", DateUtils.getMonth(memberOut.getPayTime()));
         map.put("validDays", memberOut.getValidDays());
-        map.put("mobile", userBean.getMobile()); // 联系方式
+        map.put("mobile", memberOut.getPhone()); // 联系方式
         map.put("phone", memberOut.getFromPhone()); // 原组织关系联系方式
         map.put("fax", memberOut.getFromFax()); //
         map.put("postCode", memberOut.getFromPostCode());

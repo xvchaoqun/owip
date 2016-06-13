@@ -260,14 +260,14 @@ public class SystemConstants {
 	}
 
 	// 党员来源
-	public final static byte MEMBER_SOURCE_IMPORT = 1; // 建系统时统一导入
+	public final static byte MEMBER_SOURCE_IMPORT = 1; // 2015年底统一导入
 	public final static byte MEMBER_SOURCE_GROW = 2; // 本校发展
 	public final static byte MEMBER_SOURCE_TRANSFER = 3; // 外校转入
 	public final static byte MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
 	public final static byte MEMBER_SOURCE_ADMIN = 5; // 后台添加
 	public final static Map<Byte, String>MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 	static {
-		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "2015年底统一导入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_RETURNED, "归国人员恢复入党");
@@ -543,12 +543,12 @@ public class SystemConstants {
 	}
 
 	// 干部任免类别
-	public static final byte DISPATCH_CADRE_TYPE_ASSIGN = 1;
-	public static final byte DISPATCH_CADRE_TYPE_DEPOSE = 2;
+	public static final byte DISPATCH_CADRE_TYPE_APPOINT = 1;
+	public static final byte DISPATCH_CADRE_TYPE_DISMISS = 2;
 	public final static Map<Byte, String> DISPATCH_CADRE_TYPE_MAP = new HashMap();
 	static {
-		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_ASSIGN, "任命");
-		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_DEPOSE, "免职");
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_APPOINT, "任命");
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_DISMISS, "免职");
 	}
 
 	// 干部学习经历 学校类型 1本校 2境内 3境外

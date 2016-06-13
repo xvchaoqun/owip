@@ -28,6 +28,14 @@ public class Dispatch implements Serializable {
 
     private Date workTime;
 
+    private Integer appointCount;
+
+    private Integer realAppointCount;
+
+    private Integer dismissCount;
+
+    private Integer realDismissCount;
+
     private String file;
 
     private String fileName;
@@ -96,6 +104,38 @@ public class Dispatch implements Serializable {
 
     public void setWorkTime(Date workTime) {
         this.workTime = workTime;
+    }
+
+    public Integer getAppointCount() {
+        return appointCount;
+    }
+
+    public void setAppointCount(Integer appointCount) {
+        this.appointCount = appointCount;
+    }
+
+    public Integer getRealAppointCount() {
+        return realAppointCount;
+    }
+
+    public void setRealAppointCount(Integer realAppointCount) {
+        this.realAppointCount = realAppointCount;
+    }
+
+    public Integer getDismissCount() {
+        return dismissCount;
+    }
+
+    public void setDismissCount(Integer dismissCount) {
+        this.dismissCount = dismissCount;
+    }
+
+    public Integer getRealDismissCount() {
+        return realDismissCount;
+    }
+
+    public void setRealDismissCount(Integer realDismissCount) {
+        this.realDismissCount = realDismissCount;
     }
 
     public String getFile() {

@@ -63,8 +63,8 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>所在单位</label>
-                                                    <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                                <label>分党委所在单位</label>
+                                                    <select name="unitId" data-rel="select2" data-placeholder="请选择分党委所在单位">
                                                         <option></option>
                                                         <c:forEach items="${unitMap}" var="unit">
                                                             <option value="${unit.key}">${unit.value.name}</option>

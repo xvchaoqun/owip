@@ -552,6 +552,246 @@ public class DispatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andAppointCountIsNull() {
+            addCriterion("appoint_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountIsNotNull() {
+            addCriterion("appoint_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountEqualTo(Integer value) {
+            addCriterion("appoint_count =", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountNotEqualTo(Integer value) {
+            addCriterion("appoint_count <>", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountGreaterThan(Integer value) {
+            addCriterion("appoint_count >", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("appoint_count >=", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountLessThan(Integer value) {
+            addCriterion("appoint_count <", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountLessThanOrEqualTo(Integer value) {
+            addCriterion("appoint_count <=", value, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountIn(List<Integer> values) {
+            addCriterion("appoint_count in", values, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountNotIn(List<Integer> values) {
+            addCriterion("appoint_count not in", values, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountBetween(Integer value1, Integer value2) {
+            addCriterion("appoint_count between", value1, value2, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("appoint_count not between", value1, value2, "appointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountIsNull() {
+            addCriterion("real_appoint_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountIsNotNull() {
+            addCriterion("real_appoint_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountEqualTo(Integer value) {
+            addCriterion("real_appoint_count =", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountNotEqualTo(Integer value) {
+            addCriterion("real_appoint_count <>", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountGreaterThan(Integer value) {
+            addCriterion("real_appoint_count >", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("real_appoint_count >=", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountLessThan(Integer value) {
+            addCriterion("real_appoint_count <", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountLessThanOrEqualTo(Integer value) {
+            addCriterion("real_appoint_count <=", value, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountIn(List<Integer> values) {
+            addCriterion("real_appoint_count in", values, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountNotIn(List<Integer> values) {
+            addCriterion("real_appoint_count not in", values, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountBetween(Integer value1, Integer value2) {
+            addCriterion("real_appoint_count between", value1, value2, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealAppointCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("real_appoint_count not between", value1, value2, "realAppointCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountIsNull() {
+            addCriterion("dismiss_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountIsNotNull() {
+            addCriterion("dismiss_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountEqualTo(Integer value) {
+            addCriterion("dismiss_count =", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountNotEqualTo(Integer value) {
+            addCriterion("dismiss_count <>", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountGreaterThan(Integer value) {
+            addCriterion("dismiss_count >", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dismiss_count >=", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountLessThan(Integer value) {
+            addCriterion("dismiss_count <", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountLessThanOrEqualTo(Integer value) {
+            addCriterion("dismiss_count <=", value, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountIn(List<Integer> values) {
+            addCriterion("dismiss_count in", values, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountNotIn(List<Integer> values) {
+            addCriterion("dismiss_count not in", values, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountBetween(Integer value1, Integer value2) {
+            addCriterion("dismiss_count between", value1, value2, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("dismiss_count not between", value1, value2, "dismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountIsNull() {
+            addCriterion("real_dismiss_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountIsNotNull() {
+            addCriterion("real_dismiss_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountEqualTo(Integer value) {
+            addCriterion("real_dismiss_count =", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountNotEqualTo(Integer value) {
+            addCriterion("real_dismiss_count <>", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountGreaterThan(Integer value) {
+            addCriterion("real_dismiss_count >", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("real_dismiss_count >=", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountLessThan(Integer value) {
+            addCriterion("real_dismiss_count <", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountLessThanOrEqualTo(Integer value) {
+            addCriterion("real_dismiss_count <=", value, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountIn(List<Integer> values) {
+            addCriterion("real_dismiss_count in", values, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountNotIn(List<Integer> values) {
+            addCriterion("real_dismiss_count not in", values, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountBetween(Integer value1, Integer value2) {
+            addCriterion("real_dismiss_count between", value1, value2, "realDismissCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealDismissCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("real_dismiss_count not between", value1, value2, "realDismissCount");
+            return (Criteria) this;
+        }
+
         public Criteria andFileIsNull() {
             addCriterion("file is null");
             return (Criteria) this;

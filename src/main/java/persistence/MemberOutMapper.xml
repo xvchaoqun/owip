@@ -6,6 +6,7 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="to_title" property="toTitle" jdbcType="VARCHAR" />
     <result column="to_unit" property="toUnit" jdbcType="VARCHAR" />
@@ -83,7 +84,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, type, to_title, to_unit, from_unit, from_address, 
+    id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
     status, is_modify, is_back, reason, apply_time
   </sql>
@@ -119,20 +120,20 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.MemberOut" >
     insert into ow_member_out (id, user_id, party_id, 
-      branch_id, type, to_title, 
-      to_unit, from_unit, from_address, 
-      from_phone, from_fax, from_post_code, 
-      pay_time, valid_days, handle_time, 
-      has_receipt, status, is_modify, 
-      is_back, reason, apply_time
+      branch_id, phone, type, 
+      to_title, to_unit, from_unit, 
+      from_address, from_phone, from_fax, 
+      from_post_code, pay_time, valid_days, 
+      handle_time, has_receipt, status, 
+      is_modify, is_back, reason, apply_time
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{toTitle,jdbcType=VARCHAR}, 
-      #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
-      #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isModify,jdbcType=BIT}, 
-      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
+      #{branchId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
+      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
+      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
+      #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.MemberOut" >
@@ -149,6 +150,9 @@
       </if>
       <if test="branchId != null" >
         branch_id,
+      </if>
+      <if test="phone != null" >
+        phone,
       </if>
       <if test="type != null" >
         type,
@@ -214,6 +218,9 @@
       </if>
       <if test="branchId != null" >
         #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
@@ -289,6 +296,9 @@
       <if test="record.branchId != null" >
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=TINYINT},
       </if>
@@ -351,6 +361,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
       to_title = #{record.toTitle,jdbcType=VARCHAR},
       to_unit = #{record.toUnit,jdbcType=VARCHAR},
@@ -383,6 +394,9 @@
       </if>
       <if test="branchId != null" >
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
@@ -443,6 +457,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       to_title = #{toTitle,jdbcType=VARCHAR},
       to_unit = #{toUnit,jdbcType=VARCHAR},

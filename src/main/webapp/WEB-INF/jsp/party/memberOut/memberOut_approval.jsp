@@ -57,7 +57,7 @@
                                         <div class="profile-info-name"> 联系电话 </div>
 
                                         <div class="profile-info-value">
-                                            <span class="editable" >${user.mobile}</span>
+                                            <span class="editable" >${memberOut.phone}</span>
                                         </div>
                                     </div>
                                 <div class="profile-info-row">

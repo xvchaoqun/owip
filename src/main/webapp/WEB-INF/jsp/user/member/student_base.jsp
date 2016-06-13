@@ -55,15 +55,15 @@ pageEncoding="UTF-8"%>
 					${memberStudent.nativePlace}
 				</td>
 				<td  class="bg-right">
-					来源
+					学籍状态
 				</td>
 				<td class="bg-left">
-					${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+					${memberStudent.xjStatus}
 				</td>
 				<td class="bg-right">
 					同步来源
 				</td>
-				<td class="bg-left">
+				<td class="bg-left" colspan="3">
 					${memberStudent.syncSource==1?"本科生库":"研究生库"}
 				</td>
 			</tr>
@@ -101,7 +101,8 @@ pageEncoding="UTF-8"%>
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${memberStudent.isFullTime?"是":"否"}
+					<c:if test="${empty memberStudent.isFullTime}">-</c:if>
+					<c:if test="${not empty memberStudent.isFullTime}">${memberStudent.isFullTime?"是":"否"}</c:if>
 				</td>
 				<td  class="bg-right">
 					学生类别

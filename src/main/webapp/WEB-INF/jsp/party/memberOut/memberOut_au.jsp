@@ -89,6 +89,12 @@ pageEncoding="UTF-8"%>
 						</script>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">联系电话</label>
+					<div class="col-xs-6">
+						<input required class="form-control" maxlength="20" type="text" name="phone" value="${memberOut.phone}">
+					</div>
+				</div>
 				</div>
 				<div class="col-xs-4">
 			

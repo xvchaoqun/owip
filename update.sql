@@ -1,10 +1,37 @@
 
 
 --2016-6-13
+ALTER TABLE `base_dispatch`
+	ADD COLUMN `appoint_count` INT UNSIGNED NULL COMMENT '任命人数' AFTER `work_time`,
+	ADD COLUMN `dismiss_count` INT UNSIGNED NULL COMMENT '免职人数' AFTER `appoint_count`;
+
+ALTER TABLE `base_dispatch`
+	CHANGE COLUMN `code` `code` INT(10) UNSIGNED NOT NULL COMMENT '发文号，自动生成，比如师党干[2015]年01号' AFTER `dispatch_type_id`,
+	ADD COLUMN `real_appoint_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '录入任命人数，后台统计得到' AFTER `appoint_count`,
+	ADD COLUMN `real_dismiss_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '录入免职人数，后台统计得到' AFTER `dismiss_count`;
+
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系电话' AFTER `branch_id`;
+
+	ALTER TABLE `ow_member_out_modify`
+	ADD COLUMN `phone` VARCHAR(100) NOT NULL COMMENT '联系电话' AFTER `apply_user_id`;
+
+
+
+
+
+
+
+
+
+--2016-6-13
 ALTER TABLE `base_dispatch_cadre`
 	CHANGE COLUMN `way_id` `way_id` INT(10) UNSIGNED NULL COMMENT '任免方式，关联元数据（1 提任 2连任 3平级调动 4免职）' AFTER `cadre_type_id`,
 	CHANGE COLUMN `procedure_id` `procedure_id` INT(10) UNSIGNED NULL COMMENT '任免程序，关联元数据（1 民主推荐 2公开招聘 3引进人才 4其他 5免职）' AFTER `way_id`;
-
+ALTER TABLE `base_cadre`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NULL COMMENT '行政级别，关联元数据' AFTER `user_id`,
+	CHANGE COLUMN `post_id` `post_id` INT(10) UNSIGNED NULL COMMENT '职务属性，关联元数据' AFTER `type_id`;
 
 --2016-6-12
 ALTER TABLE `abroad_passport_apply`

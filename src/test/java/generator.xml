@@ -47,8 +47,8 @@
       </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
-      <table tableName="abroad_passport_apply" domainObjectName="PassportApply">
-      </table>
+      <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
+      </table>-->
       <!--<table tableName="abroad_passport_apply_view" domainObjectName="PassportApplyView">
       </table>-->
 
@@ -63,10 +63,10 @@
       </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
-        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
+       <!-- <table tableName="ow_member_out" domainObjectName="MemberOut">
        </table>-->
-      <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
-      </table>-->
+      <table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
+      </table>
 
 
     <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
@@ -176,7 +176,7 @@
     </table>-->
       <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
       </table>-->
-      <!--<table tableName="base_dispatch" domainObjectName="Dispatch">
+     <!-- <table tableName="base_dispatch" domainObjectName="Dispatch">
       </table>-->
      <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
       </table>-->

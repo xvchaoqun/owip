@@ -10,6 +10,11 @@ import sys.constants.SystemConstants;
  */
 public interface UpdateMapper {
 
+    // 更新发文提交的干部任免数量
+    @Update("update base_dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from base_dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
+            "bd.real_dismiss_count=bdc.real_dismiss_count where bd.id=bdc.dispatch_id")
+    void update_dispatch_real_count();
+
     @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
     void globalApplyOpenTime(@Param("id") int id);
 

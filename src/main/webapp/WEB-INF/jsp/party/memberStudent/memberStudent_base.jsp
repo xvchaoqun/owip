@@ -60,10 +60,10 @@ pageEncoding="UTF-8"%>
 					${memberStudent.nativePlace}
 				</td>
 				<td  class="bg-right">
-					来源
+					学籍状态
 				</td>
 				<td class="bg-left">
-					${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+					${memberStudent.xjStatus}
 				</td>
 				<td class="bg-right">
 					同步来源
@@ -102,16 +102,17 @@ pageEncoding="UTF-8"%>
 				<td  class="bg-left">
 					${memberStudent.enrolYear}
 				</td>
-				<td class="bg-right">
+				<%--<td class="bg-right">
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${memberStudent.isFullTime}
-				</td>
+					<c:if test="${empty memberStudent.isFullTime}">-</c:if>
+					<c:if test="${not empty memberStudent.isFullTime}">${memberStudent.isFullTime?"是":"否"}</c:if>
+				</td>--%>
 				<td  class="bg-right">
 					学生类别
 				</td>
-				<td class="bg-left">
+				<td class="bg-left" colspan="3">
 					${memberStudent.type}
 				</td>
 				<td class="bg-right">教育类别</td>
@@ -141,11 +142,7 @@ pageEncoding="UTF-8"%>
 					${memberStudent.delayYear}
 				</td>
 			</tr>
-			<tr>
-				<td class="bg-right" colspan="2">学籍状态</td>
-				<td  class="bg-left" colspan="7">${memberStudent.xjStatus}
-				</td>
-			</tr>
+
 			</tbody>
 		</table>
 			</div></div></div>

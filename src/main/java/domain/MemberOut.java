@@ -6,9 +6,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberOut implements Serializable {
+
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+
     private Integer id;
 
     private Integer userId;
@@ -16,6 +18,8 @@ public class MemberOut implements Serializable {
     private Integer partyId;
 
     private Integer branchId;
+
+    private String phone;
 
     private Byte type;
 
@@ -83,6 +87,14 @@ public class MemberOut implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Byte getType() {

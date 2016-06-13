@@ -412,7 +412,8 @@ public class MemberOutController extends BaseController {
     private  boolean hasModified(MemberOut before, MemberOut record){
 
         return (
-                           (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
+                           (record.getPhone() != null && !StringUtils.equals(before.getPhone() + "", record.getPhone() + ""))
+                         ||  (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
                         || (record.getBranchId() != null && !StringUtils.equals(before.getBranchId() + "", record.getBranchId() + ""))
                         || (record.getType() != null && !StringUtils.equals(before.getType() + "", record.getType() + ""))
                         || (record.getToTitle() != null && !StringUtils.equals(before.getToTitle(), record.getToTitle()))

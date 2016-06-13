@@ -99,12 +99,13 @@ pageEncoding="UTF-8"%>
 				<td  class="bg-left">
 					${student.enrolYear}
 				</td>
-				<td class="bg-right">
+				<%--<td class="bg-right">
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${student.isFullTime?"是":"否"}
-				</td>
+					<c:if test="${empty student.isFullTime}">-</c:if>
+					<c:if test="${not empty student.isFullTime}">${student.isFullTime?"是":"否"}</c:if>
+				</td>--%>
 				<td class="bg-right" >
 					学生类别
 				</td>
@@ -112,7 +113,7 @@ pageEncoding="UTF-8"%>
 					${student.type}
 				</td>
 				<td class="bg-right">教育类别</td>
-				<td  class="bg-left">
+				<td  class="bg-left" colspan="3">
 					${student.eduCategory}
 				</td>
 			</tr>
