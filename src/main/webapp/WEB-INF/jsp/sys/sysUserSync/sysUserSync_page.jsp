@@ -28,7 +28,7 @@
         multiselect:false,
         url: '${ctx}/sysUserSync_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '类型',align:'center', name: 'type',resizable:false, width: 200, formatter:function(cellvalue, options, rowObject){
+            { label: '类型',align:'center', name: 'type', width: 200, formatter:function(cellvalue, options, rowObject){
                 return _cMap.SYNC_TYPE_MAP[cellvalue];
             },frozen:true},
             { label: '触发方式', align:'center', name: 'autoStart', width: 80 ,frozen:true, formatter:function(cellvalue, options, rowObject){

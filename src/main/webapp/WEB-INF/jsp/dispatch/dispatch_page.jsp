@@ -145,7 +145,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份', name: 'year',resizable:false, width: 75, frozen:true },
+            { label: '年份', name: 'year', width: 75, frozen:true },
             { label:'发文类型', name: 'dispatchType' , formatter:function(cellvalue, options, rowObject){
                 return cellvalue.name;
             },frozen:true},

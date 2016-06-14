@@ -221,7 +221,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名', name: 'realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名', name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
             } ,frozen:true },

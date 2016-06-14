@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
             { label: '工作证号', align:'center', name: 'user.code', width: 80 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             } ,frozen:true },

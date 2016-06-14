@@ -342,7 +342,7 @@ pageEncoding="UTF-8" %>
             {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen: true},
             {label: '姓名', name: 'user.realname', width: 100, frozen: true},
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 550,
+                label: '所属组织机构', name: 'party',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;

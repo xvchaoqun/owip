@@ -34,7 +34,7 @@
     pager:"jqGridPager2",
     url: "${ctx}/memberOutModify_data?callback=?&outId=${param.outId}",
     colModel: [
-      { label: '操作人', name: 'user.realname',resizable:false, width: 150 },
+      { label: '操作人', name: 'user.realname', width: 150 },
       { label: '操作时间',  name: 'createTime', width: 150 },
       { label:'IP',  name: 'ip', width: 150 },
       {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {

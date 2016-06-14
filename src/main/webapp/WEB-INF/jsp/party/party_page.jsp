@@ -187,7 +187,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',name: 'code',resizable:false, width: 75, frozen:true },
+            { label: '编号',name: 'code', width: 75, frozen:true },
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/party_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);

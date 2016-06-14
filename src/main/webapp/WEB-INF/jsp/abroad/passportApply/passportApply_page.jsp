@@ -134,7 +134,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '申请日期', name: 'applyDate',frozen:true},
             { label: '工作证号', name: 'applyUser.code',frozen:true},
-            { label: '姓名',name: 'applyUser.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             } ,frozen:true },

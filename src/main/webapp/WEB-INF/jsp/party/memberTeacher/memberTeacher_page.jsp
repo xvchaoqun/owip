@@ -246,7 +246,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 75, formatter:nameFormatter ,frozen:true },
+            { label: '姓名',align:'center', name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
             <c:if test="${cls==4}">
             { label: ' ', align:'center',  width: 200 ,frozen:true, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.retireApply.status!=0)
