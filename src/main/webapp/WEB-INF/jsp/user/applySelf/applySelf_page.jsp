@@ -104,10 +104,10 @@
         //forceFit:true,
         url: '${ctx}/user/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号', align:'center', name: 'id', width: 80 ,frozen:true,formatter:function(cellvalue, options, rowObject){
+            { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             }},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
             { label: '出行时间', align:'center', name: 'typeName', width: 100 },
             { label: '出发时间', align:'center', name: 'startDate', width: 100 },
             { label: '返回时间', align:'center', name: 'endDate', width: 100 },

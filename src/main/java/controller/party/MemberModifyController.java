@@ -3,13 +3,11 @@ package controller.party;
 import controller.BaseController;
 import domain.MemberModify;
 import domain.MemberModifyExample;
-import domain.MemberOutModify;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberOutModifyMixin;
+import mixin.MemberMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +38,6 @@ public class MemberModifyController extends BaseController {
     @RequestMapping("/memberModify_data")
     @ResponseBody
     public void memberModify_data(
-                                 @SortParam(required = false, defaultValue = "op_time", tableName = "ow_member_modify") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  int userId,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -56,7 +52,7 @@ public class MemberModifyController extends BaseController {
         MemberModifyExample example = new MemberModifyExample();
         MemberModifyExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("id desc");
 
         int count = memberModifyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -73,7 +69,7 @@ public class MemberModifyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberOutModify.class, MemberOutModifyMixin.class);
+        sourceMixins.put(MemberModify.class, MemberMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

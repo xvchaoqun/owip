@@ -95,15 +95,15 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号', align:'center', name: 'id', width: 50 ,frozen:true, formatter:function(cellvalue, options, rowObject){
+            { label: '编号', align:'center', name: 'id', width: 50 , formatter:function(cellvalue, options, rowObject){
                 return 'A{0}'.format(cellvalue);
             }},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
-            { label: '工作证号', align:'center', name: 'user.code', width: 80 ,frozen:true},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
+            { label: '工作证号', align:'center', name: 'user.code', width: 80 },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            } ,frozen:true },
+            }  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申请领取证件名称', align:'center', name: 'passportClass.name', width: 180 },
             <c:if test="${type==1}">

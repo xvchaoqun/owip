@@ -31,6 +31,12 @@ pageEncoding="UTF-8" %>
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
                         </shiro:hasPermission>
+                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/memberModify_page"
+                                data-id-name="userId"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 查看修改记录
+                        </button>
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                             <i class="fa fa-download"></i> 导出</a>
@@ -246,9 +252,9 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名',align:'center', name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
+            { label: '姓名',align:'center', name: 'realname', width: 75, formatter:nameFormatter  },
             <c:if test="${cls==4}">
-            { label: ' ', align:'center',  width: 200 ,frozen:true, formatter:function(cellvalue, options, rowObject){
+            { label: ' ', align:'center',  width: 200 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.retireApply.status!=0)
                     return '<button onclick="_retireApply({0})" class="btn btn-primary btn-mini btn-xs">'.format(rowObject.retireApply.userId)
                             +'<i class="fa fa-edit"></i> 提交党员退休'
@@ -259,7 +265,7 @@ pageEncoding="UTF-8" %>
                             +'</button>';
             }},
             </c:if>
-            { label: '工作证号', align:'center', name: 'code', width: 100 ,frozen:true},
+            { label: '工作证号', align:'center', name: 'code', width: 100 },
             { label: '性别', align:'center', name: 'gender', width: 55 },
             { label: '年龄', align:'center', name: 'age', width: 55 },
             { label: '最高学历', align:'center', name: 'education', width: 100 },

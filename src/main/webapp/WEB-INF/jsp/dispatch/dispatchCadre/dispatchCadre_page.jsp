@@ -139,16 +139,16 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchCadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份', name: 'dispatch.year', width: 75, frozen:true },
+            { label: '年份', name: 'dispatch.year', width: 75 },
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.dispatch.id, cellvalue);
                 else return cellvalue;
-            }, frozen:true },
-            { label: '任免日期',  name: 'dispatch.workTime', width: 100 , frozen:true },
+            } },
+            { label: '任免日期',  name: 'dispatch.workTime', width: 100  },
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
-            }, frozen:true },
+            } },
             { label:'任免方式', name: 'wayId', formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?'':_metaTypeMap[cellvalue];
             }},

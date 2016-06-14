@@ -99,20 +99,20 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '教工号', name: 'user.code', frozen: true},
+            {label: '教工号', name: 'user.code'},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
-            {label: '性别', name: 'user.genderName',width: 50, frozen: true},
-            {label: '年龄', name: 'user.age', width: 50, frozen: true},
+            }  },
+            {label: '性别', name: 'user.genderName',width: 50},
+            {label: '年龄', name: 'user.age', width: 50},
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }
             },
             {label: '国家', name: 'gj'},
             {label: '经费来源', name: 'jfly'},

@@ -62,6 +62,8 @@ public class ApplySelf implements Serializable {
 
     private String flowUsers;
 
+    private Boolean isAgreed;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -206,5 +208,13 @@ public class ApplySelf implements Serializable {
 
     public void setFlowUsers(String flowUsers) {
         this.flowUsers = flowUsers == null ? null : flowUsers.trim();
+    }
+
+    public Boolean getIsAgreed() {
+        return isAgreed;
+    }
+
+    public void setIsAgreed(Boolean isAgreed) {
+        this.isAgreed = isAgreed;
     }
 }

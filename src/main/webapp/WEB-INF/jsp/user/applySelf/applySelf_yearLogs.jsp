@@ -39,10 +39,10 @@
         pager:"jqGridPager2",
         url: "${ctx}/applySelf_yearLogs_data?callback=?&cadreId=${applySelf.cadreId}&year=${currentYear}",
         colModel: [
-            { label: '序号', align:'center', name: 'id', width: 80 ,frozen:true,formatter:function(cellvalue, options, rowObject){
+            { label: '序号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             }},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
             { label: '出发时间', align:'center', name: 'startDate', width: 100 },
             { label: '回国时间', align:'center', name: 'endDate', width: 100 },
             { label: '出行天数', align:'center', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){

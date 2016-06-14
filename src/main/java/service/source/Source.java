@@ -65,6 +65,7 @@ public abstract class Source {
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
             for (int i = 0; i <= pageNo; i++) {
+                logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
                 stat = conn.createStatement();
                 rs = stat.executeQuery(sql);
@@ -138,7 +139,7 @@ public abstract class Source {
         String sql = " select * from all_tab_columns  where Table_Name="
                 + " upper('" + tablename + "')";
         stat = conn.createStatement();
-        System.out.println("sql=" + sql);
+        logger.info("sql=" + sql);
         rs = stat.executeQuery(sql);
         while (rs != null && rs.next()) {
             String columnName = rs.getString("column_name");

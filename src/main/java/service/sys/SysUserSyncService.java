@@ -107,14 +107,6 @@ public class SysUserSyncService extends BaseMapper {
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
-        // 先从师大导入数据
-        try {
-            extJzgImport.excute();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
-        }
-
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -134,6 +126,14 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        // 先从师大导入数据
+        try {
+            extJzgImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+        }
 
         int insertCount = 0;
         int updateCount = 0;
@@ -222,14 +222,6 @@ public class SysUserSyncService extends BaseMapper {
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
-        // 先从师大导入数据
-        try {
-            extYjsImport.excute();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
-        }
-
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -248,6 +240,14 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        // 先从师大导入数据
+        try {
+            extYjsImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+        }
 
         int insertCount = 0;
         int updateCount = 0;
@@ -339,14 +339,6 @@ public class SysUserSyncService extends BaseMapper {
             throw new RuntimeException("上一次同步仍在进行中");
         }
 
-        // 先从师大导入数据
-        try {
-            extBksImport.excute();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
-        }
-
         SysUserSync sysUserSync = new SysUserSync();
         if(!autoStart) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -365,6 +357,14 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setUpdateCount(0);
 
         insertSelective(sysUserSync);
+
+        // 先从师大导入数据
+        try {
+            extBksImport.excute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+        }
 
         int insertCount = 0;
         int updateCount = 0;

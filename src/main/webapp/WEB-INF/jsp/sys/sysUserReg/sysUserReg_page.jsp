@@ -150,14 +150,14 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/sysUserReg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '账号', name: 'username', width: 100, frozen: true},
-            {label: '真实姓名', name: 'realname', width: 100, frozen: true},
+            {label: '账号', name: 'username', width: 100},
+            {label: '真实姓名', name: 'realname', width: 100},
             {label: '类别', name: 'typeName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.USER_TYPE_MAP[rowObject.type];
             }},
-            {label: '学工号', name: 'code', width: 100, frozen: true},
-            {label: '身份证号码', name: 'idcard', width: 100, frozen: true},
-            {label: '手机号码', name: 'phone', width: 100, frozen: true},
+            {label: '学工号', name: 'code', width: 100},
+            {label: '身份证号码', name: 'idcard', width: 100},
+            {label: '手机号码', name: 'phone', width: 100},
             {label: '所属组织机构', name: 'party', width: 250},
             {label: '注册时间', name: 'createTime', width: 150},
             {label: 'IP', name: 'ip', width: 150}, {hidden: true, name: 'status'}

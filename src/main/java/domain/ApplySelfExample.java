@@ -1291,6 +1291,66 @@ public class ApplySelfExample {
             addCriterion("flow_users not between", value1, value2, "flowUsers");
             return (Criteria) this;
         }
+
+        public Criteria andIsAgreedIsNull() {
+            addCriterion("is_agreed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedIsNotNull() {
+            addCriterion("is_agreed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedEqualTo(Boolean value) {
+            addCriterion("is_agreed =", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedNotEqualTo(Boolean value) {
+            addCriterion("is_agreed <>", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedGreaterThan(Boolean value) {
+            addCriterion("is_agreed >", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_agreed >=", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedLessThan(Boolean value) {
+            addCriterion("is_agreed <", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_agreed <=", value, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedIn(List<Boolean> values) {
+            addCriterion("is_agreed in", values, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedNotIn(List<Boolean> values) {
+            addCriterion("is_agreed not in", values, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_agreed between", value1, value2, "isAgreed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAgreedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_agreed not between", value1, value2, "isAgreed");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

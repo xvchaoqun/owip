@@ -112,6 +112,7 @@ public class ApprovalLogService extends BaseMapper {
 
         if(record.getTypeId()==null && record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
             applySelf.setIsFinish(true); // 终审完成
+            applySelf.setIsAgreed(record.getStatus());
         }
 
         // 立刻更新申请记录的相关审批结果字段（供查询使用）

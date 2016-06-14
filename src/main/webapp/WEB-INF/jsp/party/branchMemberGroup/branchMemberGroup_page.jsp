@@ -102,14 +102,14 @@
             { label: '名称',  name: 'name',align:'left',width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任委员会</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
-            }, frozen:true},
+            }},
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }
             },
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },

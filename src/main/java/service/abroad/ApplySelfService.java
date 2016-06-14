@@ -105,7 +105,8 @@ public class ApplySelfService extends BaseMapper {
         if(sort!=null && order!=null)
             example.setOrderByClause(String.format("%s %s", sort, order));
 
-        criteria.andIsFinishEqualTo(status == 1);
+        criteria.andIsFinishEqualTo(status != 0);
+        criteria.andIsAgreedEqualTo(status == 1);
 
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -612,7 +613,8 @@ public class ApplySelfService extends BaseMapper {
     }
     @Transactional
     public int insertSelective(ApplySelf record) {
-
+        record.setIsFinish(false);
+        record.setIsAgreed(false);
         return applySelfMapper.insertSelective(record);
     }
 
@@ -641,12 +643,13 @@ public class ApplySelfService extends BaseMapper {
 
         List<ApplySelf> records = applySelfMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工号","干部", "申请日期", "出行时间范围", "出发时间", "返回时间",
-                "前往国家或地区", "出国事由", "同行人员", "费用来源", "所需证件", "创建时间"};
+        String[] titles = {"编号", "申请日期", "工作证号","姓名", "所在单位及职务",  "出行时间", "回国时间", /*"出行时间范围",*/
+                "出行天数", "前往国家或地区", "因私出国（境）事由", "同行人员", "费用来源", "所需证件", "申请时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApplySelf record = records.get(i);
             SysUser sysUser = record.getUser();
+            Cadre cadre = record.getCadre();
 
             List<String> passportList = new ArrayList<>();
             String needPassports = record.getNeedPassports();
@@ -660,12 +663,15 @@ public class ApplySelfService extends BaseMapper {
             }
 
             String[] values = {
+                    "S"+record.getId(),
+                    DateUtils.formatDate(record.getApplyDate(), DateUtils.YYYY_MM_DD),
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                    DateUtils.formatDate(record.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(record.getType()),
+                    cadre.getTitle(),
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.getDayCountBetweenDate(record.getStartDate(), record.getEndDate())+"",
+                    /*SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(record.getType()),*/
                     record.getToCountry(),
                     record.getReason()==null?"":record.getReason().replaceAll("\\+\\+\\+", ","),
                     record.getPeerStaff()==null?"":record.getPeerStaff().replaceAll("\\+\\+\\+", ","),

@@ -283,7 +283,7 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(Integer cadreId,
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
                                @RequestParam(required = false, defaultValue = "0") int status,
                                ModelMap modelMap) {
 
@@ -307,7 +307,7 @@ public class ApplySelfController extends BaseController {
                                Integer cadreId,
                                String _applyDate,
                                Byte type, // 出行时间范围
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
                                @RequestParam(required = false, defaultValue = "0") int status,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
@@ -412,7 +412,6 @@ public class ApplySelfController extends BaseController {
 
             record.setStatus(true);// 提交
             record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
-            record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));

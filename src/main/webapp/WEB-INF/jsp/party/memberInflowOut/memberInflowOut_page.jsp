@@ -312,14 +312,14 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberInflowOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '学工号',  name: 'user.code', width: 120 ,frozen:true},
-            { label: '姓名',  name: 'user.realname', width: 100 ,frozen:true},
+            { label: '学工号',  name: 'user.code', width: 120 },
+            { label: '姓名',  name: 'user.realname', width: 100 },
             { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
                 var party = rowObject.party;
                 var branch = rowObject.branch;
                 return party + (($.trim(branch)=='')?'':'-'+branch);
-            } ,frozen:true },
+            }  },
             { label: '状态',   name: 'outStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_OUT_STATUS_MAP[rowObject.outStatus];
             }}<c:if test="${cls==4}">

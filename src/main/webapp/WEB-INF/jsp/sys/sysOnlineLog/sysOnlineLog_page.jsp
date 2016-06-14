@@ -33,15 +33,15 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/sysOnlineLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '会话ID', name: 'sid', width: 280, frozen:true },
-            { label: '账号', name: 'shiroUser.username', width: 150, frozen:true },
-            { label: '姓名', name: 'shiroUser.realname', width: 120, frozen:true },
+            { label: '会话ID', name: 'sid', width: 280 },
+            { label: '账号', name: 'shiroUser.username', width: 150 },
+            { label: '姓名', name: 'shiroUser.realname', width: 120 },
             { label: '角色', name: 'shiroUser.roles', width: 300, formatter: function (cellvalue, options, rowObject) {
                 //console.log(_cMap.ROLE_MAP)
                 return $.map(cellvalue, function(item){
                     return _cMap.ROLE_MAP[item];
                 });
-            }, frozen:true},
+            }},
             { label: '最新操作时间', name: 'lastAccessTime', width: 200 },
             { label: '登录时间', name: 'startTimestamp', width: 200 },
             { label:'登录IP', name: 'ip', width: 150},

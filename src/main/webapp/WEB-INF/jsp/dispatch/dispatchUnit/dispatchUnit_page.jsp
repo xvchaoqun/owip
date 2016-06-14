@@ -98,7 +98,7 @@
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.dispatch.id, cellvalue);
                 else return cellvalue;
-            }, frozen:true },
+            } },
 
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'类型', name: 'typeId', width: 120  , formatter:function(cellvalue, options, rowObject){

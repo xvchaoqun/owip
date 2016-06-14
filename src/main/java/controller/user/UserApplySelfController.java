@@ -252,7 +252,6 @@ public class UserApplySelfController extends BaseController {
 
             record.setStatus(true);// 提交
             record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
-            record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));

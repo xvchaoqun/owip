@@ -239,15 +239,15 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberIn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
+            {label: '学工号', name: 'user.code', width: 120},
                 <c:if test="${cls==3}">
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            }  },
             </c:if>
 <c:if test="${cls!=3}">
-            {label: '姓名', name: 'user.realname', width: 75, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 75},
     </c:if>
             {
                 label: '所属组织机构', name: 'party',  width: 450,
@@ -255,11 +255,11 @@
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }, frozen: true},
+            }},
             {label: '转出单位', name: 'fromUnit', width: 150},
             {label: '转出单位抬头', name: 'fromTitle', width: 150},
             {label: '介绍信有效期天数', name: 'validDays', width: 150},

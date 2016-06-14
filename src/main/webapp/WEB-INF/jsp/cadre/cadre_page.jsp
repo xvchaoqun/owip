@@ -148,19 +148,23 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号', name: 'user.code', width: 100 },
+            { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            } ,frozen:true },
-            { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
+            }  },
+            { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
-            { label: '行政级别',align:'center',   name: 'adminLevelType.name', width: 150 },
-            { label: '职务属性',align:'center',   name: 'postType.name', width: 150 },
-            { label: '职务',align:'center',   name: 'post', width: 350 },
-            { label: '所在单位及职务',align:'center',   name: 'title', width: 350 },
-            { label: '备注',align:'center',  align:'center', name: 'remark', width: 150 }
+            } },
+            { label: '行政级别', name: 'adminLevelType.name', width: 150 },
+            { label: '职务属性', name: 'postType.name', width: 150 },
+            { label: '职务', name: 'post', width: 350 },
+            { label: '所在单位及职务', name: 'title', width: 350 },
+            { label: '手机号', name: 'mobile' },
+            { label: '办公电话', name: 'officePhone' },
+            { label: '家庭电话', name: 'homePhone' },
+            { label: '电子邮箱', name: 'email', width: 150 },
+            { label: '备注', name: 'remark', width: 150 }
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 

@@ -4,7 +4,6 @@ import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.*;
-import domain.CadreExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.CadreMixin;
@@ -88,8 +87,8 @@ public class CadreController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreExample example = new CadreExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        CadreViewExample example = new CadreViewExample();
+        CadreViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -110,12 +109,12 @@ public class CadreController extends BaseController {
             return;
         }
 
-        int count = cadreMapper.countByExample(example);
+        int count = cadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> Cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreView> Cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
@@ -125,7 +124,7 @@ public class CadreController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Cadre.class, CadreMixin.class);
+        sourceMixins.put(CadreView.class, CadreMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -320,14 +319,14 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadre_export(CadreExample example, HttpServletResponse response) {
+    public void cadre_export(CadreViewExample example, HttpServletResponse response) {
 
-        List<Cadre> records = cadreMapper.selectByExample(example);
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","备注"};
+        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","手机号","办公电话","家庭电话","电子邮箱","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            Cadre record = records.get(i);
+            CadreView record = records.get(i);
             SysUser sysUser =  record.getUser();
             String[] values = {
                     sysUser.getCode(),
@@ -336,6 +335,10 @@ public class CadreController extends BaseController {
                     metaTypeService.getName(record.getPostId()),
                     record.getPost(),
                     record.getTitle(),
+                    record.getMobile(),
+                    record.getOfficePhone(),
+                    record.getHomePhone(),
+                    record.getEmail(),
                     record.getRemark()
             };
             valuesList.add(values);

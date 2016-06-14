@@ -312,20 +312,20 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOutflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '学工号',  name: 'user.code', width: 120 ,frozen:true},
+            { label: '学工号',  name: 'user.code', width: 120 },
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            }  },
             { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch)=='')?'':'-'+branch);
-                } ,frozen:true },
+                }  },
             { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
-            },frozen:true }<c:if test="${cls==4}">
+            } }<c:if test="${cls==4}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             { label:'原职业',  name:'originalJob',width: 200 , formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];

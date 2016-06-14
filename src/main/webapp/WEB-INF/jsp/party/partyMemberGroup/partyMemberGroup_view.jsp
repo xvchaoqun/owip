@@ -28,7 +28,7 @@ pageEncoding="UTF-8" %>
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
-            }, frozen:true},
+            }},
             { label:'所属分党委', align:'center', name: 'party', width: 280},
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },

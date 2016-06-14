@@ -21,10 +21,12 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.abroad.ApplySelfService;
 import service.abroad.PassportService;
-import service.sys.SysUserService;
+import service.cadre.CadreInfoService;
 import sys.ShortMsgPropertyUtils;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -37,6 +39,8 @@ public class ShortMsgService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private PassportService passportService;
+    @Autowired
+    private CadreInfoService cadreInfoService;
     @Autowired
     private ApplySelfService applySelfService;
     @Autowired
@@ -62,6 +66,8 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passport.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
+
         }else if(StringUtils.equals(type, "applySelf")){
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
@@ -78,6 +84,7 @@ public class ShortMsgService extends BaseMapper {
             bean.setReceiver(user.getId()); // 覆盖
             String msg = MessageFormat.format(msgTpl, user.getRealname());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportApplyPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
@@ -89,6 +96,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportApplyUnPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
@@ -100,6 +108,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportApplyDraw")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.SHORT_MSG_KEY_PASSPORTAPPLY_DRAW;
@@ -110,6 +119,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportDraw")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -122,6 +132,7 @@ public class ShortMsgService extends BaseMapper {
             String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName(), returnDate);
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportDrawReturn")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -135,6 +146,7 @@ public class ShortMsgService extends BaseMapper {
             String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
             String msg = MessageFormat.format(msgTpl, user.getRealname(), drawTime, returnDate);
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportDrawApply")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -153,6 +165,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportDraw.getPassportClass();
             String msg = MessageFormat.format(msgTpl, user.getRealname(), passportClass.getName(), passportDraw.getId());
             bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }
 
         return bean;
@@ -169,9 +182,9 @@ public class ShortMsgService extends BaseMapper {
         if(sysUser==null){
             throw new RuntimeException("用户不存在。");
         }
-        String mobile = sysUser.getMobile();
-        if(StringUtils.length(StringUtils.trimToNull(mobile)) != 11){
-            throw new RuntimeException("用户的手机号码有误。");
+        String mobile = shortMsgBean.getMobile();
+        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            throw new RuntimeException("手机号码有误："+ mobile);
         }
         if(StringUtils.isBlank(content)){
             throw new RuntimeException("发送内容为空。");

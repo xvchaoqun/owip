@@ -1,9 +1,21 @@
 package domain;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberModify implements Serializable {
+
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
+    public SysUser getOpUser(){
+        return CmTag.getUserById(opUserId);
+    }
+
+    private Integer id;
+
     private Integer userId;
 
     private Integer partyId;
@@ -45,6 +57,14 @@ public class MemberModify implements Serializable {
     private String ip;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getUserId() {
         return userId;

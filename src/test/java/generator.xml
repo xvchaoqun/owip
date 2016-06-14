@@ -196,6 +196,8 @@
     -->
    <!-- <table tableName="base_cadre" domainObjectName="Cadre">
     </table>-->
+      <!--<table tableName="base_cadre_view" domainObjectName="CadreView">
+      </table>-->
     <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
     </table>-->
       <!--

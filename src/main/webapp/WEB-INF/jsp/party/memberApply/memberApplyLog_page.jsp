@@ -132,8 +132,8 @@ pageEncoding="UTF-8" %>
         multiselect:false,
         url: "${ctx}/applyApprovalLog_data?callback=?&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
-            {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen: true},
-            {label: '姓名', name: 'applyUser.realname', width: 100, frozen: true},
+            {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150},
+            {label: '姓名', name: 'applyUser.realname', width: 100},
             { label: '阶段',  name: 'stage', width: 200 },
             { label: '审核时间',  name: 'createTime', width: 200 },
             { label: '审核人', name: 'user.realname', width: 150 },

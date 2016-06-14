@@ -215,6 +215,8 @@ public class BaseMapper {
 	@Autowired
 	protected CadreMapper cadreMapper;
 	@Autowired
+	protected CadreViewMapper cadreViewMapper;
+	@Autowired
 	protected HistoryUnitMapper historyUnitMapper;
 	@Autowired
 	protected UnitMapper unitMapper;

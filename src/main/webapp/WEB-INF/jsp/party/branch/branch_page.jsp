@@ -178,17 +178,17 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',align:'center', name: 'code', frozen:true },
+            { label: '编号',align:'center', name: 'code' },
             { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
 
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            } ,frozen:true},
-            { label: '所属分党委', name: 'party.name',align:'left', width: 400, frozen:true },
+            } },
+            { label: '所属分党委', name: 'party.name',align:'left', width: 400 },
            /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+            } },
             </c:if>*/
             { label:'类别', align:'center', name: 'branchType.name', width: 150},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){

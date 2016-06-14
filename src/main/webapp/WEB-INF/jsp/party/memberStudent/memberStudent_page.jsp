@@ -30,6 +30,12 @@
                                data-open-by="page" data-id-name="userId">
                                 <i class="fa fa-edit"></i> 修改信息</a>
                             </shiro:hasPermission>
+                            <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                    data-url="${ctx}/memberModify_page"
+                                    data-id-name="userId"
+                                    data-open-by="page">
+                                <i class="fa fa-search"></i> 查看修改记录
+                            </button>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
@@ -224,8 +230,8 @@
             { label: '姓名', name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
-            { label: '学生证号',  name: 'code', width: 120 ,frozen:true},
+            }  },
+            { label: '学生证号',  name: 'code', width: 120 },
             { label: '性别',  name: 'gender', width: 55 },
             { label: '年龄',  name: 'age', width: 55 },
             { label: '学生类别',  name: 'type', width: 150 },

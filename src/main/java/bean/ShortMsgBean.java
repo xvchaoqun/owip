@@ -7,6 +7,7 @@ public class ShortMsgBean {
 
     private Integer sender;
     private Integer receiver;
+    private String mobile;
     private String content;
     private String type;
 
@@ -24,6 +25,14 @@ public class ShortMsgBean {
 
     public void setReceiver(Integer receiver) {
         this.receiver = receiver;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getContent() {

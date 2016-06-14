@@ -1,5 +1,18 @@
 
 
+--2016-6-14
+CREATE ALGORITHM = UNDEFINED VIEW `base_cadre_view` AS select bc.*, bci.mobile, bci.office_phone, bci.home_phone, bci.email from base_cadre bc left join base_cadre_info bci on bci.cadre_id = bc.id ;
+
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `is_agreed` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否最终同意申请，供查询使用' AFTER `flow_users`;
+update abroad_apply_self aas, (select apply_id from abroad_approval_log where od_type=1 and status=1) aal set aas.is_agreed=1 where aal.apply_id=aas.id;
+
+ALTER TABLE `ow_member_modify`
+	ADD COLUMN `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
+	ADD PRIMARY KEY (`id`);
+
+
+
 --2016-6-13
 ALTER TABLE `base_dispatch`
 	ADD COLUMN `appoint_count` INT UNSIGNED NULL COMMENT '任命人数' AFTER `work_time`,

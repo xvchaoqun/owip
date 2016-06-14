@@ -27,6 +27,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -71,12 +72,18 @@ public class CadreInfoController extends BaseController {
     public Map do_cadreInfo_au(CadreInfo record, HttpServletRequest request) {
 
         Integer cadreId = record.getCadreId();
+
+        if(record.getMobile()!=null) {
+            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())) {
+                throw new RuntimeException("手机号码有误");
+            }
+        }
+
         CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
         if (cadreInfo == null) {
             cadreInfoService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部联系方式：%s", record.getCadreId()));
         } else {
-
             cadreInfoService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部联系方式：%s", record.getCadreId()));
         }
