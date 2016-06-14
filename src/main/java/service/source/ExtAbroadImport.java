@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import domain.ExtAbroad;
 import domain.ExtAbroadExample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.ExtAbroadMapper;
@@ -16,18 +18,18 @@ import java.util.Map;
 
 @Service
 public class ExtAbroadImport extends Source {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtAbroadMapper extAbroadMapper;
     public String schema = "licdc_zg";
     public String tableName = "v_rs_jzg_cgjxx";
 
     public void excute(){
-        System.out.println("更新教职工党员出国信息库");
+        logger.info("更新教职工党员出国信息库");
         long startTime=System.currentTimeMillis();
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
-        System.out.println("更新教职工党员出国信息库程序运行时间： " + (endTime - startTime) + "ms");
+        logger.info("更新教职工党员出国信息库程序运行时间： " + (endTime - startTime) + "ms");
     }
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {

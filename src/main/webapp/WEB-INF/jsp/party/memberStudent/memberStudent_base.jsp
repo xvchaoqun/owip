@@ -249,11 +249,12 @@ pageEncoding="UTF-8"%>
 </table></div></div></div>
 
 <div class="clearfix form-actions center">
+<c:if test="${sysUser.source==USER_SOURCE_YJS || sysUser.source==USER_SOURCE_BKS}">
 		<button class="btn btn-info  btn-pink" onclick="member_sync(${param.userId})" type="button">
 			<i class="ace-icon fa fa-refresh "></i>
-			同步数据
+			同步基本信息
 		</button>
-
+</c:if>
 		&nbsp; &nbsp; &nbsp;
 		<button class="closeView btn" type="button">
 			<i class="ace-icon fa fa-undo"></i>

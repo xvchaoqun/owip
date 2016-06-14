@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import domain.ExtBks;
 import domain.ExtBksExample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.ExtBksMapper;
@@ -16,14 +18,21 @@ import java.util.List;
 import java.util.Map;
 @Service
 public class ExtBksImport extends Source {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public void excute(String code) {
+
+        logger.info("更新本科生账号库基本信息:" + code);
+        excute(schema, tableName, String.format("where xh='%s'", code));
+    }
 
     public void excute(){
 
-        System.out.println("更新本科生账号库");
+        logger.info("更新本科生账号库基本信息");
         long startTime=System.currentTimeMillis();
         excute(schema, tableName);
         long endTime=System.currentTimeMillis();
-        System.out.println("更新本科生账号库运行时间： " + (endTime - startTime) + "ms");
+        logger.info("更新本科生账号库基本信息运行时间： " + (endTime - startTime) + "ms");
     }
 
     @Autowired

@@ -1,5 +1,6 @@
 package service.source;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +27,7 @@ public abstract class Source {
 
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 new String[]{"/bnu-source.xml"});
-        DataSource dataSource = (DataSource)ac.getBean("bnuDS");
+        DataSource dataSource = (DataSource) ac.getBean("bnuDS");
         if (null == conn) {
             try {
                 conn = dataSource.getConnection();
@@ -41,13 +42,13 @@ public abstract class Source {
     public abstract void update(Map<String, Object> map, ResultSet rs) throws SQLException;
 
     // 从oracle导入数据到mysql
-    public void excute(String schema, String tableName){
+    public void excute(String schema, String tableName) {
 
         initConn();
 
         Statement stat = null;
         ResultSet rs = null;
-        Map<String, Object> map = new HashMap<>() ;
+        Map<String, Object> map = new HashMap<>();
 
         try {
             List<ColumnBean> columnBeans = getTableColumns(tableName);
@@ -63,7 +64,7 @@ public abstract class Source {
             int pageSize = 1000;
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
-            for (int i=0; i <= pageNo; i++) {
+            for (int i = 0; i <= pageNo; i++) {
                 String sql = getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
                 stat = conn.createStatement();
                 rs = stat.executeQuery(sql);
@@ -78,17 +79,55 @@ public abstract class Source {
                     update(map, rs);
                 }
             }
-        }catch (Exception ex){
-            logger.error("出错：{}", JSONUtils.toString(map),  ex);
-        }finally {
+        } catch (Exception ex) {
+            logger.error("出错：{}", JSONUtils.toString(map), ex);
+        } finally {
             try {
                 rs.close();
                 stat.close();
-            }catch (Exception ex){
-                logger.error("关闭失败, {}", JSONUtils.toString(map),  ex);
+            } catch (Exception ex) {
+                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
             }
         }
     }
+
+    // 按条件从oracle导入数据到mysql
+    public void excute(String schema, String tableName, String searchStr) {
+
+        initConn();
+
+        Statement stat = null;
+        ResultSet rs = null;
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            List<ColumnBean> columnBeans = getTableColumns(tableName);
+            String tbl = String.format("%s.%s", schema, tableName);
+            String sql = "select * from " + tbl +(StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sql);
+            while (rs != null && rs.next()) {
+
+                map = new HashMap<>();
+                for (ColumnBean columnBean : columnBeans) {
+                    String name = columnBean.getName();
+                    map.put(name, rs.getString(name));
+                }
+
+                update(map, rs);
+            }
+        } catch (Exception ex) {
+            logger.error("出错：{}", JSONUtils.toString(map), ex);
+        } finally {
+            try {
+                rs.close();
+                stat.close();
+            } catch (Exception ex) {
+                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
+            }
+        }
+    }
+
     // 读取oracle表的字段信息
     public List<ColumnBean> getTableColumns(String tablename) throws Exception {
 

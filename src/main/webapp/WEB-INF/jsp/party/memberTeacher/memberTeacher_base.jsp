@@ -17,9 +17,10 @@
 			<table class="table table-bordered table-striped">
 				<tbody>
 				<tr>
+					<c:set var="sysUser" value="${cm:getUserById(param.userId)}"/>
 					<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-						<img src="${ctx}/avatar/${cm:getUserById(param.userId).username}"  class="avatar">
+						<img src="${ctx}/avatar/${sysUser.username}"  class="avatar">
 					</td>
 					<td class="bg-right">
 						姓名
@@ -349,10 +350,13 @@
 </table>
 			</div></div></div>
 <div class="clearfix form-actions center">
+
+	<c:if test="${sysUser.source==USER_SOURCE_JZG}">
 	<button class="btn btn-info  btn-pink" onclick="member_sync(${param.userId})" type="button">
 		<i class="ace-icon fa fa-refresh "></i>
-		同步数据
+		同步基本信息
 	</button>
+	</c:if>
 
 	&nbsp; &nbsp; &nbsp;
 	<button class="closeView btn" type="button">
