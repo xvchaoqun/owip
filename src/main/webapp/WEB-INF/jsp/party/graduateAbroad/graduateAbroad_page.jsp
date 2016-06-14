@@ -384,7 +384,7 @@
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"支部审核",
+        caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
@@ -392,7 +392,7 @@
     </c:if>
     <c:if test="${cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         onClickButton: function(){
@@ -408,7 +408,7 @@
     </c:if>
     <c:if test="${cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"组织部审核",
+        caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
@@ -416,7 +416,7 @@
     </c:if>
     <c:if test="${cls==1||cls==11||cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

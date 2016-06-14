@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div style="width: 800px">
+    <div class="well" style="font-size: 14pt;font-weight: bolder">注：本校读取研究生或博士生或留校，<span style="color: #ff0000; ">需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。</span></div>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">

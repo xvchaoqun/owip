@@ -380,7 +380,7 @@
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
     <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"支部审核",
+        caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
@@ -388,7 +388,7 @@
     </c:if>
     <c:if test="${cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
@@ -396,7 +396,7 @@
     </c:if>
     <c:if test="${cls==1||cls==4||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
