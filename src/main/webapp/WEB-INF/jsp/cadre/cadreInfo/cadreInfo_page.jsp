@@ -17,6 +17,7 @@ pageEncoding="UTF-8" %>
                     <tr>
 							<th>手机号</th>
 							<th>办公电话</th>
+							<th>家庭电话</th>
 							<th>电子邮箱</th>
 
                         <th nowrap></th>
@@ -28,6 +29,7 @@ pageEncoding="UTF-8" %>
 
 								<td>${cadreInfo.mobile}</td>
 								<td>${cadreInfo.officePhone}</td>
+								<td>${cadreInfo.homePhone}</td>
 								<td>${cadreInfo.email}</td>
 
                             <td>
