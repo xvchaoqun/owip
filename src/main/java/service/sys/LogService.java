@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
+import service.helper.ContextHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
@@ -27,7 +28,7 @@ public class LogService extends BaseMapper {
 
     public String log(String logType, String content){
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
         SysLog record = new SysLog();

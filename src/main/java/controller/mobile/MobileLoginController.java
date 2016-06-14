@@ -52,9 +52,9 @@ public class MobileLoginController extends BaseController {
 		if(!roles.contains("cadre") && !roles.contains("cadreAdmin")){
 
 			logger.info(sysLoginLogService.log(null, username,
-					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，权限错误"));
+					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，请使用PC端登录网站"));
 
-			return failed("权限错误");
+			return failed("登录失败，请使用PC端登录网站");
 		}
 
 		AuthToken token = new AuthToken(username,

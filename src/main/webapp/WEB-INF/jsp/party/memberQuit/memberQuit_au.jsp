@@ -44,19 +44,19 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出党时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 200px">
                         <input required class="form-control date-picker" name="_quitTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberQuit.quitTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
 			</div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="col-xs-3 control-label">返回修改原因</label>
                 <div class="col-xs-6">
                     <textarea class="form-control limited" name="remark" rows="5">${memberQuit.remark}</textarea>
                 </div>
-            </div>
+            </div>--%>
     </form>
 </div>
 <div class="modal-footer">

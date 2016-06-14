@@ -13,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import service.helper.ContextHelper;
 
 public class CallbackMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
@@ -22,7 +23,7 @@ public class CallbackMappingJackson2HttpMessageConverter extends MappingJackson2
     @Override
     protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 // 从threadLocal中获取当前的Request对象
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
         String callbackParam = request.getParameter(callbackName);
         if (StringUtils.isEmpty(callbackParam)) {
 // 没有找到callback参数，直接返回json数据

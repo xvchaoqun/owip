@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
+import service.helper.ContextHelper;
 import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class ApplyApprovalLogService extends BaseMapper {
                                 int userId, byte userType, byte type,
                                 String stage, byte status, String remark){
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
 
         ApplyApprovalLog record = new ApplyApprovalLog();
         record.setRecordId(recordId);

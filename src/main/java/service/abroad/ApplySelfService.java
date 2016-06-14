@@ -11,11 +11,10 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.SpringProps;
 import service.cadre.CadreService;
+import service.helper.ContextHelper;
 import service.helper.ExportHelper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
@@ -235,7 +234,7 @@ public class ApplySelfService extends BaseMapper {
      */
     public Map getApprovalTdBeanMap(int applySelfId){
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
         Boolean isView = (Boolean) request.getAttribute("isView");
         if(isView == null) return null; // 如果不需要查看列表审批权限，则不处理
 

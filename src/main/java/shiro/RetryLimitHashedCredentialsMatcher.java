@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import service.helper.ContextHelper;
 import service.sys.SysLoginLogService;
 import sys.constants.SystemConstants;
 
@@ -47,7 +48,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             passwordRetryCache.remove(username);
         }else{
             byte logType = SystemConstants.LOGIN_TYPE_NET;
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+            HttpServletRequest request = ContextHelper.getRequest();
             String servletPath = request.getServletPath();
             if(servletPath.startsWith("/m/login")){
                 logType = SystemConstants.LOGIN_TYPE_MOBILE;

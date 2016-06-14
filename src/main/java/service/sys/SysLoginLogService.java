@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
+import service.helper.ContextHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.ContentUtils;
@@ -37,7 +38,7 @@ public class SysLoginLogService extends BaseMapper {
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
     public String log(Integer userId, String username, byte type, boolean isSuccess, String remark){
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
         /*  ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();*/
 
         String userAgent = RequestUtils.getUserAgent(request);

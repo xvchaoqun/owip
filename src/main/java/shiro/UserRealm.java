@@ -32,7 +32,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
-        /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        /*HttpServletRequest request = ContextHelper.getRequest();
         System.out.println(request.getRequestURI()+" +++++++++++++++++++++++++++++++++++++++++++++");*/
 
         ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();

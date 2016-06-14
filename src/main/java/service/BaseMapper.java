@@ -1,5 +1,6 @@
 package service;
 
+import domain.MemberModify;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +135,8 @@ public class BaseMapper {
 	protected MemberTeacherMapper memberTeacherMapper;
 	@Autowired
 	protected MemberMapper memberMapper;
+	@Autowired
+	protected MemberModifyMapper memberModifyMapper;
 	@Autowired
 	protected ApplyLogMapper applyLogMapper;
 	@Autowired

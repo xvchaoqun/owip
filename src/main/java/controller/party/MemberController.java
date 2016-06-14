@@ -124,12 +124,13 @@ public class MemberController extends BaseController {
 
             SecurityUtils.getSubject().checkPermission("member:edit");
 
-            memberService.updateByPrimaryKeySelective(record);
+            memberService.updateByPrimaryKeySelective(record, reason);
 
             logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "更新党员信息表：%s %s %s %s, 更新原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
-                    branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
+                    reason));
         }
 
         return success(FormUtils.SUCCESS);

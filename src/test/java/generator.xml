@@ -65,8 +65,8 @@
       </table>-->
        <!-- <table tableName="ow_member_out" domainObjectName="MemberOut">
        </table>-->
-      <table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
-      </table>
+      <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
+      </table>-->
 
 
     <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
@@ -98,9 +98,11 @@
       </table>-->
      <!-- <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
       </table>-->
-      <!--<table tableName="ow_member" domainObjectName="Member">
+     <!-- <table tableName="ow_member" domainObjectName="Member">
           <ignoreColumn column="update_time"/>
       </table>-->
+      <table tableName="ow_member_modify" domainObjectName="MemberModify">
+      </table>
       <!--<table tableName="ow_student" domainObjectName="Student">
           <ignoreColumn column="update_time"/>
       </table>-->

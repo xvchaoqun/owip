@@ -1,8 +1,10 @@
 package service.party;
 
 import domain.*;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +12,14 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.ext.ExtService;
+import service.helper.ContextHelper;
+import service.helper.ShiroSecurityHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.IpUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
@@ -45,7 +51,7 @@ public class MemberService extends BaseMapper {
     @Transactional
     public void quit(int userId, byte status){
 
-        Member member = memberMapper.selectByPrimaryKey(userId);
+        //Member member = memberMapper.selectByPrimaryKey(userId);
         Member record = new Member();
         record.setUserId(userId);
         record.setStatus(status);
@@ -387,16 +393,54 @@ public class MemberService extends BaseMapper {
                     SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
         }
     }
-
+    // 系统内部使用，更新党员状态、党籍状态等
     @Transactional
     public int updateByPrimaryKeySelective(Member record){
 
+        Integer userId = record.getUserId();
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
-            updateMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
+            updateMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
+        }
+        return memberMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 修改党籍信息时使用，保留修改记录
+    @Transactional
+    public int updateByPrimaryKeySelective(Member record, String reason){
+
+        Integer userId = record.getUserId();
+        {
+            MemberModifyExample example = new MemberModifyExample();
+            example.createCriteria().andUserIdEqualTo(record.getUserId());
+            if(memberModifyMapper.countByExample(example)==0){ // 第一次修改，需要保留原纪录
+                addModify(userId, "init");
+            }
         }
 
-        return memberMapper.updateByPrimaryKeySelective(record);
+        int count = updateByPrimaryKeySelective(record);
+
+        addModify(userId, reason);
+
+        return count;
+    }
+
+    private void addModify(int userId, String reason){
+
+        MemberModify modify = new MemberModify();
+        try {
+            ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+            BeanUtils.copyProperties(modify, memberMapper.selectByPrimaryKey(userId));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        modify.setReason(reason);
+        modify.setOpUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setOpTime(new Date());
+        modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
+        memberModifyMapper.insertSelective(modify);
     }
 }
