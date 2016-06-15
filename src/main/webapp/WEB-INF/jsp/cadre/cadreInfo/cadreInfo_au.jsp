@@ -23,19 +23,19 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">办公电话</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="officePhone" value="${cadreInfo.officePhone}">
+                        <input class="form-control" type="text" name="officePhone" value="${cadreInfo.officePhone}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">家庭电话</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="homePhone" value="${cadreInfo.homePhone}">
+                        <input class="form-control" type="text" name="homePhone" value="${cadreInfo.homePhone}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">电子邮箱</label>
 				<div class="col-xs-6">
-                        <input required class="form-control email" type="text" name="email" value="${cadreInfo.email}">
+                        <input class="form-control email" type="text" name="email" value="${cadreInfo.email}">
 				</div>
 			</div>
     </form>
