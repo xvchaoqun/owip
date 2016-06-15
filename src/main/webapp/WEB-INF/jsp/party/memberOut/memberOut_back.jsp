@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
                     <div class="input-group">
                         <select name="status" data-rel="select2">
                             <c:forEach var="_status" items="${cm:inverseMap(MEMBER_OUT_STATUS_MAP)}">
-                                <c:if test="${_status.key>=MEMBER_OUT_STATUS_BACK && _status.key<=param.status}">
+                                <c:if test="${_status.key>=MEMBER_OUT_STATUS_BACK && _status.key<param.status}">
                                 <option value="${_status.key}">${_status.value}</option>
                                 </c:if>
                             </c:forEach>

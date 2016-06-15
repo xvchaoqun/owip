@@ -409,6 +409,7 @@
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </c:if>
+<c:if test="${cls==6||cls==7}">
     <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
@@ -417,6 +418,7 @@
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </shiro:hasRole>
+    </c:if>
     <c:if test="${cls==1||cls==4||cls==5||cls==6||cls==7}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
