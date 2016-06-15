@@ -419,7 +419,7 @@
     });
     </shiro:hasRole>
     </c:if>
-    <c:if test="${cls==1||cls==4||cls==5||cls==6||cls==7}">
+    <c:if test="${cls==1||cls==4||cls==6||cls==7}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
