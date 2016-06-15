@@ -310,13 +310,14 @@
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberIn_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
-
+    <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberIn_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
+    </shiro:hasRole>
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
