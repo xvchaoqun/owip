@@ -68,18 +68,19 @@ public class MemberOutController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_page")
-    public String memberOut_page(@RequestParam(defaultValue = "1")byte cls, // 1 待审核 2未通过 3 已审核
-                                Integer userId,
-                                Integer partyId,
-                                Integer branchId,ModelMap modelMap) {
+    public String memberOut_page(@RequestParam(defaultValue = "1") byte cls, // 1 待审核 2未通过 3 已审核
+                                 Integer userId,
+                                 Integer partyId,
+                                 Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         if (partyId != null) {
@@ -90,31 +91,32 @@ public class MemberOutController extends BaseController {
         }
 
         // 分党委党总支直属党支部待审核总数
-        modelMap.put("partyApprovalCount", memberOutService.count(null, null, (byte)1, cls));
+        modelMap.put("partyApprovalCount", memberOutService.count(null, null, (byte) 1, cls));
         // 组织部待审核数目
-        modelMap.put("odApprovalCount", memberOutService.count(null, null, (byte)2, cls));
+        modelMap.put("odApprovalCount", memberOutService.count(null, null, (byte) 2, cls));
 
         return "party/memberOut/memberOut_page";
     }
 
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_data")
-    public void memberOut_data(@RequestParam(defaultValue = "1")byte cls, HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer userId,
-                                    Byte status,
-                                    Boolean isBack,
-                                    Boolean isModify,
-                                    Byte type,
-                                    Integer partyId,
-                                    Integer branchId,
-                                    String toUnit,
-                                    String toTitle,
-                                    String fromUnit,
-                                    String _handleTime,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+    public void memberOut_data(@RequestParam(defaultValue = "1") byte cls, HttpServletResponse response,
+                               @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,
+                               Integer userId,
+                               Byte status,
+                               Boolean isBack,
+                               Boolean isModify,
+                               Boolean isPrint,
+                               Byte type,
+                               Integer partyId,
+                               Integer branchId,
+                               String toUnit,
+                               String toTitle,
+                               String fromUnit,
+                               String _handleTime,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -131,25 +133,31 @@ public class MemberOutController extends BaseController {
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if(status!=null){
+        if (status != null) {
             criteria.andStatusEqualTo(status);
         }
-        if(type!=null){
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(isBack!=null){
+        if (isBack != null) {
             criteria.andIsBackEqualTo(isBack);
         }
-        if(isModify!=null){
+        if (isModify != null) {
             criteria.andIsModifyEqualTo(isModify);
         }
-        if (partyId!=null) {
+        if (isPrint != null) {
+            if (isPrint)
+                criteria.andPrintCountGreaterThan(0);
+            else
+                criteria.andPrintCountEqualTo(0);
+        }
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        if (branchId!=null) {
+        if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
         if (StringUtils.isNotBlank(toUnit)) {
@@ -172,32 +180,33 @@ public class MemberOutController extends BaseController {
             }
         }
 
-        if(cls==1){ // 分党委审核（新申请）
+        if (cls == 1) { // 分党委审核（新申请）
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
-            .andIsBackNotEqualTo(true);
-        }else if(cls==4){ // 分党委审核(返回修改)
+                    .andIsBackNotEqualTo(true);
+        } else if (cls == 4) { // 分党委审核(返回修改)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
-                    .andIsBackEqualTo(true);;
-        }else if(cls==5){ // 分党委已审核
+                    .andIsBackEqualTo(true);
+            ;
+        } else if (cls == 5) { // 分党委已审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        }else if(cls==6){ // 组织部审核(新申请)
+        } else if (cls == 6) { // 组织部审核(新申请)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
                     .andIsBackNotEqualTo(true);
-        }else if(cls==7){ // 组织部审核(返回修改)
+        } else if (cls == 7) { // 组织部审核(返回修改)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
                     .andIsBackEqualTo(true);
-        }else if(cls==2){
+        } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_BACK);
             criteria.andStatusIn(statusList);
-        }else {
+        } else {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
         }
 
         if (export == 1) {
             memberOut_export(example, response);
-            return ;
+            return;
         }
 
         int count = memberOutMapper.countByExample(example);
@@ -224,9 +233,9 @@ public class MemberOutController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
-    public String memberOut_approval(@RequestParam(defaultValue = "1")byte cls, @CurrentUser SysUser loginUser, Integer id,
-                                    byte type, // 1:分党委审核 2：组织部审核
-                                    ModelMap modelMap) {
+    public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUser loginUser, Integer id,
+                                     byte type, // 1:分党委审核 2：组织部审核
+                                     ModelMap modelMap) {
 
         MemberOut currentMemberOut = null;
         if (id != null) {
@@ -264,6 +273,7 @@ public class MemberOutController extends BaseController {
 
         return "party/memberOut/memberOut_approval";
     }
+
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_deny")
@@ -282,13 +292,13 @@ public class MemberOutController extends BaseController {
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                 byte type, // 1:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                  byte type, // 1:分党委审核 3：组织部审核
+                                  @RequestParam(value = "ids[]") int[] ids) {
 
 
         memberOutService.memberOut_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转出申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转出申请-审核：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -306,20 +316,21 @@ public class MemberOutController extends BaseController {
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
-                                byte status,
-                                String reason) {
+                                 @RequestParam(value = "ids[]") int[] ids,
+                                 byte status,
+                                 String reason) {
 
 
         memberOutService.memberOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转出申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转出申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_au(@CurrentUser SysUser loginUser,MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
+    public Map do_memberOut_au(@CurrentUser SysUser loginUser, MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
@@ -338,13 +349,13 @@ public class MemberOutController extends BaseController {
             /*if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
             }*/
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
 
-            if(record.getId()!=null) {
+            if (record.getId() != null) {
                 // 分党委只能修改还未提交组织部审核的记录
                 MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (before.getStatus() == SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
-                    return  failed("该申请已经提交组织部审核，不可以进行修改。");
+                    return failed("该申请已经提交组织部审核，不可以进行修改。");
                 }
             }
         }
@@ -355,10 +366,10 @@ public class MemberOutController extends BaseController {
         if (memberOutService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
-        if(StringUtils.isNotBlank(_payTime)){
+        if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
-        if(StringUtils.isNotBlank(_handleTime)){
+        if (StringUtils.isNotBlank(_handleTime)) {
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
@@ -379,7 +390,7 @@ public class MemberOutController extends BaseController {
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
 
-            if(hasModified(before, record)) {
+            if (hasModified(before, record)) {
                 record.setIsModify(true);
                 memberOutService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
@@ -402,18 +413,19 @@ public class MemberOutController extends BaseController {
                     _modifyRecord.setIp(IpUtils.getRealIp(request));
                     memberOutModifyMapper.insertSelective(_modifyRecord);
                 }
-            }else{
+            } else {
                 return failed("没有修改项。如不需要修改，请直接返回。");
             }
         }
 
         return success(FormUtils.SUCCESS);
     }
-    private  boolean hasModified(MemberOut before, MemberOut record){
+
+    private boolean hasModified(MemberOut before, MemberOut record) {
 
         return (
-                           (record.getPhone() != null && !StringUtils.equals(before.getPhone() + "", record.getPhone() + ""))
-                         ||  (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
+                (record.getPhone() != null && !StringUtils.equals(before.getPhone() + "", record.getPhone() + ""))
+                        || (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
                         || (record.getBranchId() != null && !StringUtils.equals(before.getBranchId() + "", record.getBranchId() + ""))
                         || (record.getType() != null && !StringUtils.equals(before.getType() + "", record.getType() + ""))
                         || (record.getToTitle() != null && !StringUtils.equals(before.getToTitle(), record.getToTitle()))
@@ -427,7 +439,7 @@ public class MemberOutController extends BaseController {
                         || (record.getValidDays() != null && !StringUtils.equals(before.getValidDays() + "", record.getValidDays() + ""))
                         || (record.getHandleTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getHandleTime(), "yyyyMMdd"), DateUtils.formatDate(record.getHandleTime(), "yyyyMMdd")))
                         || (record.getHasReceipt() != null && !StringUtils.equals(before.getHasReceipt() + "", record.getHasReceipt() + ""))
-                );
+        );
     }
 
     @RequiresPermissions("memberOut:edit")
@@ -462,7 +474,7 @@ public class MemberOutController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             memberOutService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除组织关系转出：%s", StringUtils.join(ids, ",")));
         }
@@ -474,8 +486,8 @@ public class MemberOutController extends BaseController {
 
         List<MemberOut> records = memberOutMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名","联系电话","类别", "所在分党委","所在党支部", "转入单位抬头",
-                "转入单位","转出单位","介绍信有效期天数","办理时间","状态"};
+        String[] titles = {"学工号", "姓名", "联系电话", "类别", "所在分党委", "所在党支部", "转入单位抬头",
+                "转入单位", "转出单位", "介绍信有效期天数", "办理时间", "状态"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOut record = records.get(i);
@@ -486,15 +498,15 @@ public class MemberOutController extends BaseController {
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     record.getPhone(),
-                    record.getType()==null?"":SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getType() == null ? "" : SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getToTitle(),
                     record.getToUnit(),
                     record.getFromUnit(),
-                    record.getValidDays()+"",
+                    record.getValidDays() + "",
                     DateUtils.formatDate(record.getHandleTime(), DateUtils.YYYY_MM_DD),
-                    record.getStatus()==null?"":SystemConstants.MEMBER_OUT_STATUS_MAP.get(record.getStatus())
+                    record.getStatus() == null ? "" : SystemConstants.MEMBER_OUT_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
         }

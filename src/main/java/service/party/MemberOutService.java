@@ -12,11 +12,13 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ShiroSecurityHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +35,12 @@ public class MemberOutService extends BaseMapper {
     protected ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     private LoginUserService loginUserService;
+
+    // 增加已打印次数
+    public void incrPrintCount(Integer[] ids){
+
+        updateMapper.increaseMemberOutPrintCount(Arrays.asList(ids), new Date(), ShiroSecurityHelper.getCurrentUserId());
+    }
 
     private VerifyAuth<MemberOut> checkVerityAuth(int id){
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
@@ -227,6 +235,7 @@ public class MemberOutService extends BaseMapper {
 
         record.setIsBack(false);
         record.setIsModify(false);
+        record.setPrintCount(0);
         memberOpService.checkOpAuth(record.getUserId());
 
         return memberOutMapper.insertSelective(record);

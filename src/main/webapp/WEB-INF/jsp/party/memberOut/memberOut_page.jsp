@@ -12,7 +12,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
-                || not empty param.status ||not empty param.isBack||not empty param.isModify
+                || not empty param.status ||not empty param.isBack||not empty param.isModify || not empty param.isPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -249,6 +249,21 @@
                                                 </div>
                                             </div>
                                             </c:if>
+                                            <c:if test="${cls==3}">
+                                                <div class="form-group">
+                                                    <label>是否已打印</label>
+                                                    <div class="input-group">
+                                                        <select name="isPrint" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=isPrint]").val("${param.isPrint}");
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </c:if>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -348,8 +363,11 @@
                     return html;
                 }
             }},
+            {label: '打印次数', name: 'printCount'},
+            {label: '最近打印时间', width: 130, name: 'lastPrintTime', formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '最近打印人', name: 'lastPrintUser.realname'},
             </shiro:hasAnyRoles>
-                </c:if>
+            </c:if>
             {label: '党员本人联系电话', name: 'phone', width: 180},
             {label: '转入单位', name: 'toUnit', width: 150},
             {label: '转入单位抬头', name: 'toTitle', width: 200},

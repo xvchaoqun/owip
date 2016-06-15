@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import sys.constants.SystemConstants;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by fafa on 2016/1/5.
  */
@@ -32,6 +35,9 @@ public interface UpdateMapper {
     int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
                           @Param("example") MemberExample example);
 
+    int increaseMemberOutPrintCount(@Param("idList") List<Integer> idList,
+                                    @Param("lastPrintTime") Date lastPrintTime,
+                                    @Param("lastPrintUserId") Integer lastPrintUserId);
     // 入党申请打回至状态
     //====================start
     @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_PLAN

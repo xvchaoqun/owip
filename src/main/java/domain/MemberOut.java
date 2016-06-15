@@ -10,7 +10,10 @@ public class MemberOut implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+    public SysUser getLastPrintUser(){
 
+        return CmTag.getUserById(lastPrintUserId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -54,6 +57,12 @@ public class MemberOut implements Serializable {
     private String reason;
 
     private Date applyTime;
+
+    private Integer printCount;
+
+    private Date lastPrintTime;
+
+    private Integer lastPrintUserId;
 
     private static final long serialVersionUID = 1L;
 
@@ -231,5 +240,29 @@ public class MemberOut implements Serializable {
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Integer getPrintCount() {
+        return printCount;
+    }
+
+    public void setPrintCount(Integer printCount) {
+        this.printCount = printCount;
+    }
+
+    public Date getLastPrintTime() {
+        return lastPrintTime;
+    }
+
+    public void setLastPrintTime(Date lastPrintTime) {
+        this.lastPrintTime = lastPrintTime;
+    }
+
+    public Integer getLastPrintUserId() {
+        return lastPrintUserId;
+    }
+
+    public void setLastPrintUserId(Integer lastPrintUserId) {
+        this.lastPrintUserId = lastPrintUserId;
     }
 }

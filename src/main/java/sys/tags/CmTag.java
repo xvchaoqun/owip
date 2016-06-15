@@ -187,6 +187,8 @@ public class CmTag {
 
     public static SysUser getUserById(Integer id) {
 
+        if(id==null) return null;
+
         return sysUserService.findById(id);
     }
 

@@ -1,4 +1,15 @@
 
+--2016-6-15
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `is_print` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打印' AFTER `apply_time`,
+	ADD COLUMN `print_time` DATETIME NULL DEFAULT NULL COMMENT '打印时间' AFTER `is_print`,
+	ADD COLUMN `print_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '打印人' AFTER `print_time`;
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `is_print` `print_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '打印次数' AFTER `apply_time`,
+	CHANGE COLUMN `print_time` `last_print_time` DATETIME NULL DEFAULT NULL COMMENT '最后一次打印时间' AFTER `print_count`,
+	CHANGE COLUMN `print_user_id` `last_print_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '最后一次打印人' AFTER `last_print_time`;
+
 
 --2016-6-14
 CREATE ALGORITHM = UNDEFINED VIEW `base_cadre_view` AS select bc.*, bci.mobile, bci.office_phone, bci.home_phone, bci.email from base_cadre bc left join base_cadre_info bci on bci.cadre_id = bc.id ;

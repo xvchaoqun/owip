@@ -377,6 +377,76 @@ public class MemberOutExample {
             return (Criteria) this;
         }
 
+        public Criteria andPhoneIsNull() {
+            addCriterion("phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIsNotNull() {
+            addCriterion("phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneEqualTo(String value) {
+            addCriterion("phone =", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotEqualTo(String value) {
+            addCriterion("phone <>", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThan(String value) {
+            addCriterion("phone >", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("phone >=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThan(String value) {
+            addCriterion("phone <", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThanOrEqualTo(String value) {
+            addCriterion("phone <=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLike(String value) {
+            addCriterion("phone like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotLike(String value) {
+            addCriterion("phone not like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIn(List<String> values) {
+            addCriterion("phone in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotIn(List<String> values) {
+            addCriterion("phone not in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneBetween(String value1, String value2) {
+            addCriterion("phone between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotBetween(String value1, String value2) {
+            addCriterion("phone not between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -1476,6 +1546,186 @@ public class MemberOutExample {
             addCriterion("apply_time not between", value1, value2, "applyTime");
             return (Criteria) this;
         }
+
+        public Criteria andPrintCountIsNull() {
+            addCriterion("print_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountIsNotNull() {
+            addCriterion("print_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountEqualTo(Integer value) {
+            addCriterion("print_count =", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountNotEqualTo(Integer value) {
+            addCriterion("print_count <>", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountGreaterThan(Integer value) {
+            addCriterion("print_count >", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("print_count >=", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountLessThan(Integer value) {
+            addCriterion("print_count <", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountLessThanOrEqualTo(Integer value) {
+            addCriterion("print_count <=", value, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountIn(List<Integer> values) {
+            addCriterion("print_count in", values, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountNotIn(List<Integer> values) {
+            addCriterion("print_count not in", values, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountBetween(Integer value1, Integer value2) {
+            addCriterion("print_count between", value1, value2, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrintCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("print_count not between", value1, value2, "printCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeIsNull() {
+            addCriterion("last_print_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeIsNotNull() {
+            addCriterion("last_print_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeEqualTo(Date value) {
+            addCriterion("last_print_time =", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeNotEqualTo(Date value) {
+            addCriterion("last_print_time <>", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeGreaterThan(Date value) {
+            addCriterion("last_print_time >", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_print_time >=", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeLessThan(Date value) {
+            addCriterion("last_print_time <", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeLessThanOrEqualTo(Date value) {
+            addCriterion("last_print_time <=", value, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeIn(List<Date> values) {
+            addCriterion("last_print_time in", values, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeNotIn(List<Date> values) {
+            addCriterion("last_print_time not in", values, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeBetween(Date value1, Date value2) {
+            addCriterion("last_print_time between", value1, value2, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintTimeNotBetween(Date value1, Date value2) {
+            addCriterion("last_print_time not between", value1, value2, "lastPrintTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdIsNull() {
+            addCriterion("last_print_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdIsNotNull() {
+            addCriterion("last_print_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdEqualTo(Integer value) {
+            addCriterion("last_print_user_id =", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdNotEqualTo(Integer value) {
+            addCriterion("last_print_user_id <>", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdGreaterThan(Integer value) {
+            addCriterion("last_print_user_id >", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("last_print_user_id >=", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdLessThan(Integer value) {
+            addCriterion("last_print_user_id <", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("last_print_user_id <=", value, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdIn(List<Integer> values) {
+            addCriterion("last_print_user_id in", values, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdNotIn(List<Integer> values) {
+            addCriterion("last_print_user_id not in", values, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("last_print_user_id between", value1, value2, "lastPrintUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPrintUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("last_print_user_id not between", value1, value2, "lastPrintUserId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -1483,6 +1733,7 @@ public class MemberOutExample {
         protected Criteria() {
             super();
         }
+
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             Subject subject = SecurityUtils.getSubject();

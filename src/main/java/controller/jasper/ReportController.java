@@ -32,10 +32,11 @@ import java.util.*;
 @RequestMapping("/report")
 public class ReportController extends BaseController {
 
-
     // 京外套打
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") int[] ids, Integer type, Model model) throws IOException, DocumentException {
+    public String member_out_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+                                @RequestParam(required = false , defaultValue = "0")Boolean print,
+                                Integer type, Model model) throws IOException, DocumentException {
 
         List<String> roles = new ArrayList<>();
         roles.add(SystemConstants.ROLE_ODADMIN);
@@ -48,7 +49,7 @@ public class ReportController extends BaseController {
        }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (int id : ids) {
+        for (Integer id : ids) {
             Map<String, Object> map = getMemberOutInfoMap(id);
             map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_out_bj.jpg" );
             if(type!=null && type==1){
@@ -64,11 +65,17 @@ public class ReportController extends BaseController {
         model.addAttribute("format", "pdf"); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
+        if(print){
+            memberOutService.incrPrintCount(ids);
+        }
+
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
     // 京内打印
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") int[] ids, Model model) throws IOException, DocumentException {
+    public String member_in_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+                               @RequestParam(required = false , defaultValue = "0")Boolean print,
+                               Model model) throws IOException, DocumentException {
 
         List<String> roles = new ArrayList<>();
         roles.add(SystemConstants.ROLE_ODADMIN);
@@ -81,7 +88,7 @@ public class ReportController extends BaseController {
         }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (int id : ids) {
+        for (Integer id : ids) {
             Map<String, Object> map = getMemberOutInfoMap(id);
             map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"member_in_bj.jpg" );
             data.add(map);
@@ -93,6 +100,10 @@ public class ReportController extends BaseController {
         model.addAttribute("url", "/WEB-INF/jasper/member_in_bj.jasper");
         model.addAttribute("format", "pdf"); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
+
+        if(print){
+            memberOutService.incrPrintCount(ids);
+        }
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
