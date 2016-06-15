@@ -265,21 +265,23 @@ public class PassportDrawController extends BaseController {
 
         PassportDraw record = new PassportDraw();
 
-        if (_drawRecord == null || _drawRecord.isEmpty()) {
+       /* if (_drawRecord == null || _drawRecord.isEmpty()) {
             throw new RuntimeException("请选择证件拍照");
-        }
+        }*/
         record.setId(id);
         record.setReturnDate(DateUtils.parseDate(_retrunDate, DateUtils.YYYY_MM_DD));
 
-        String originalFilename = _drawRecord.getOriginalFilename();
-        String fileName = UUID.randomUUID().toString();
-        String realPath = File.separator
-                + "draw" + File.separator + "draw" + File.separator
-                + fileName;
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(_drawRecord, new File(springProps.uploadPath + savePath));
+        if (_drawRecord != null && !_drawRecord.isEmpty()) {
+            String originalFilename = _drawRecord.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "draw" + File.separator + "draw" + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_drawRecord, new File(springProps.uploadPath + savePath));
 
-        record.setDrawRecord(savePath);
+            record.setDrawRecord(savePath);
+        }
         record.setDrawUserId(loginUser.getId());
         record.setDrawTime(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW);

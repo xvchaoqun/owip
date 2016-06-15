@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">领取证件拍照</label>
                     <div class="col-xs-2 file" style="width:300px;">
-                        <input required type="file" name="_drawRecord" />
+                        <input type="file" name="_drawRecord" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -121,10 +121,10 @@
 
     var msg;
     $("input[type=submit]").click(function(){
-        if($('input[type=file]').val()==''){
+        /*if($('input[type=file]').val()==''){
             SysMsg.info('请选择证件拍照');
             return;
-        }
+        }*/
         if($('input[name=_retrunDate]').val()==''){
             SysMsg.info('请选择归还时间','',function(){
                 $('input[name=_retrunDate]').focus();
