@@ -97,14 +97,14 @@
         //forceFit:true,
         url: '${ctx}/metaClass_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称', align:'center', name: 'name', width: 250 },
-            { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200 },
-            { label: '所属二级目录', align:'center', name: 'secondLevel', width: 200 },
+            { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
+            { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200,frozen:true },
+            { label: '所属二级目录', align:'center', name: 'secondLevel', width: 200,frozen:true },
             <shiro:hasRole name="admin">
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            } },
+            },frozen:true },
             </c:if>
             </shiro:hasRole>
             { label: '布尔属性名称', align:'center',  name: 'boolAttr', width: 150 },

@@ -138,14 +138,14 @@
         colModel: [
             { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
-            }},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 },
+            },frozen:true},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
+            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            }  },
-            { label: '所在单位及职务',  name: 'cadre.title', width: 250  },
+            },frozen:true  },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 250,frozen:true  },
             { label: '出行时间', align:'center', name: 'startDate', width: 100 },
             { label: '回国时间', align:'center', name: 'endDate', width: 100 },
             { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){

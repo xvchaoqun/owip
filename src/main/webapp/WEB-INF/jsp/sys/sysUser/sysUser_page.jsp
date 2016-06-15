@@ -147,19 +147,19 @@
         //forceFit:true,
         url: '${ctx}/sysUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '账号', name: 'username', width: 150 },
-            { label: '学工号', name: 'code', width: 150 },
+            { label: '账号', name: 'username', width: 150,frozen:true },
+            { label: '学工号', name: 'code', width: 150,frozen:true },
             { label: '姓名',name: 'realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            }  },
+            },frozen:true  },
             { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
                         +'class="avatar" data-id="{2}"'
                         +'data-hasimg="{3}" data-username="{4}">';
                 html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username)
                 return html;
-            }},
+            },frozen:true},
             { label: '类别', name: 'typeName', width: 100 },
             { label: '性别',  name: 'genderName', width: 50 },
             { label: '系统角色',  name: 'roleIds', width: 150 , formatter:function(cellvalue, options, rowObject){

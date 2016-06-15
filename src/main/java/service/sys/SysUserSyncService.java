@@ -100,6 +100,48 @@ public class SysUserSyncService extends BaseMapper {
         insertSelective(sysUserSync);
     }
 
+    public int syncExtJzg(ExtJzg extJzg){
+
+        String code = StringUtils.trim(extJzg.getZgh());
+        SysUser record = new SysUser();
+        record.setUsername(code);
+        record.setCode(code);
+        record.setType(SystemConstants.USER_TYPE_JZG);
+        record.setRealname(StringUtils.trim(extJzg.getXm()));
+        record.setGender(NumberUtils.toByte(extJzg.getXbm()));
+        record.setBirth(extJzg.getCsrq());
+        record.setIdcard(StringUtils.trim(extJzg.getSfzh()));
+        record.setMobile(StringUtils.trim(extJzg.getYddh()));
+        record.setEmail(StringUtils.trim(extJzg.getDzxx()));
+        record.setSource(SystemConstants.USER_SOURCE_JZG);
+        record.setLocked(false);
+
+        SysUser sysUser = sysUserService.findByCode(code);
+        try {
+            if (sysUser == null) {
+                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
+                record.setSalt(encrypt.getSalt());
+                record.setPasswd(encrypt.getPassword());
+                record.setCreateTime(new Date());
+                sysUserService.insertSelective(record);
+
+                return 1;
+            } else {
+                record.setId(sysUser.getId());
+                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+
+                // 同步党员信息
+                //if(memberService.get(sysUser.getId())!=null)
+                memberService.snycTeacher(sysUser.getId(), sysUser);
+
+                return 0;
+            }
+        }catch (Exception ex){
+            logger.error("同步出错", ex);
+        }
+        return -1;
+    }
+
     // 同步教职工人事库
     public void syncJZG(boolean autoStart){
 
@@ -146,42 +188,10 @@ public class SysUserSyncService extends BaseMapper {
             logger.debug(String.format("总数：%s， 每页%s条， 当前%s页", count, pageSize, pageNo));
             List<ExtJzg> extJzgs = extJzgMapper.selectByExampleWithRowbounds(new ExtJzgExample(), new RowBounds(i * pageSize, pageSize));
             for (ExtJzg extJzg : extJzgs) {
-                String code = StringUtils.trim(extJzg.getZgh());
-                SysUser record = new SysUser();
-                record.setUsername(code);
-                record.setCode(code);
-                record.setType(SystemConstants.USER_TYPE_JZG);
-                record.setRealname(StringUtils.trim(extJzg.getXm()));
-                record.setGender(NumberUtils.toByte(extJzg.getXbm()));
-                record.setBirth(extJzg.getCsrq());
-                record.setIdcard(StringUtils.trim(extJzg.getSfzh()));
-                record.setMobile(StringUtils.trim(extJzg.getYddh()));
-                record.setEmail(StringUtils.trim(extJzg.getDzxx()));
-                record.setSource(SystemConstants.USER_SOURCE_JZG);
-                record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByCode(code);
-                try {
-                    if (sysUser == null) {
-                        SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
-                        record.setSalt(encrypt.getSalt());
-                        record.setPasswd(encrypt.getPassword());
-                        record.setCreateTime(new Date());
-                        sysUserService.insertSelective(record);
-                        insertCount++;
-                    } else {
-                        record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
-
-                        // 同步党员信息
-                        //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycTeacher(sysUser.getId(), sysUser);
-
-                        updateCount++;
-                    }
-                }catch (Exception ex){
-                    logger.error("同步出错", ex);
-                }
+                int ret = syncExtJzg(extJzg);
+                if(ret==1) insertCount++;
+                if(ret==0) updateCount++;
             }
 
             SysUserSync record = new SysUserSync();
@@ -215,6 +225,47 @@ public class SysUserSyncService extends BaseMapper {
         }
     }
 
+    public int sysExtYjs(ExtYjs extYjs){
+        String code = StringUtils.trim(extYjs.getXh());
+        SysUser record = new SysUser();
+        record.setUsername(code);
+        record.setCode(code);
+        record.setType(SystemConstants.USER_TYPE_YJS);
+        record.setRealname(StringUtils.trim(extYjs.getXm()));
+        record.setGender(NumberUtils.toByte(extYjs.getXbm()));
+        if(StringUtils.isNotBlank(extYjs.getCsrq()))
+            record.setBirth(DateUtils.parseDate(extYjs.getCsrq(), "yyyyMMdd"));
+        record.setIdcard(StringUtils.trim(extYjs.getSfzh()));
+        //record.setMobile(StringUtils.trim(extYjs.getYddh()));
+        //record.setEmail(StringUtils.trim(extYjs.getDzxx()));
+        record.setSource(SystemConstants.USER_SOURCE_YJS);
+        record.setLocked(false);
+
+        SysUser sysUser = sysUserService.findByCode(code);
+        try {
+            if (sysUser == null) {
+                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
+                record.setSalt(encrypt.getSalt());
+                record.setPasswd(encrypt.getPassword());
+                record.setCreateTime(new Date());
+                sysUserService.insertSelective(record);
+
+                return 1;
+            } else {
+                record.setId(sysUser.getId());
+                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+
+                // 同步党员信息
+                //if(memberService.get(sysUser.getId())!=null)
+                memberService.snycStudent(sysUser.getId(), sysUser);
+
+                return 0;
+            }
+        }catch (Exception ex){
+            logger.error("同步出错", ex);
+        }
+        return -1;
+    }
     // 同步研究生库
     public void syncYJS(boolean autoStart){
 
@@ -261,43 +312,10 @@ public class SysUserSyncService extends BaseMapper {
 
             List<ExtYjs> extYjss = extYjsMapper.selectByExampleWithRowbounds(new ExtYjsExample(), new RowBounds(i * pageSize, pageSize));
             for (ExtYjs extYjs : extYjss) {
-                String code = StringUtils.trim(extYjs.getXh());
-                SysUser record = new SysUser();
-                record.setUsername(code);
-                record.setCode(code);
-                record.setType(SystemConstants.USER_TYPE_YJS);
-                record.setRealname(StringUtils.trim(extYjs.getXm()));
-                record.setGender(NumberUtils.toByte(extYjs.getXbm()));
-                if(StringUtils.isNotBlank(extYjs.getCsrq()))
-                    record.setBirth(DateUtils.parseDate(extYjs.getCsrq(), "yyyyMMdd"));
-                record.setIdcard(StringUtils.trim(extYjs.getSfzh()));
-                //record.setMobile(StringUtils.trim(extYjs.getYddh()));
-                //record.setEmail(StringUtils.trim(extYjs.getDzxx()));
-                record.setSource(SystemConstants.USER_SOURCE_YJS);
-                record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByCode(code);
-                try {
-                    if (sysUser == null) {
-                        SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
-                        record.setSalt(encrypt.getSalt());
-                        record.setPasswd(encrypt.getPassword());
-                        record.setCreateTime(new Date());
-                        sysUserService.insertSelective(record);
-                        insertCount++;
-                    } else {
-                        record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
-
-                        // 同步党员信息
-                        //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycStudent(sysUser.getId(), sysUser);
-
-                        updateCount++;
-                    }
-                }catch (Exception ex){
-                    logger.error("同步出错", ex);
-                }
+                int ret = sysExtYjs(extYjs);
+                if(ret==1) insertCount++;
+                if(ret==0) updateCount++;
             }
 
             SysUserSync record = new SysUserSync();
@@ -331,6 +349,50 @@ public class SysUserSyncService extends BaseMapper {
         }
     }
 
+    // 返回1：插入 0：更新
+    public int syncExtBks(ExtBks extBks){
+        String code = StringUtils.trim(extBks.getXh());
+        SysUser record = new SysUser();
+        record.setUsername(code);
+        record.setCode(code);
+        record.setType(SystemConstants.USER_TYPE_BKS);
+        record.setRealname(StringUtils.trim(extBks.getXm()));
+        if(StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
+            record.setGender(SystemConstants.GENDER_MALE);
+        else if(StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
+            record.setGender(SystemConstants.GENDER_FEMALE);
+        if(StringUtils.isNotBlank(extBks.getCsrq()))
+            record.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
+        record.setIdcard(StringUtils.trim(extBks.getSfzh()));
+        //record.setMobile(StringUtils.trim(extBks.getYddh()));
+        //record.setEmail(StringUtils.trim(extBks.getDzxx()));
+        record.setSource(SystemConstants.USER_SOURCE_BKS);
+        record.setLocked(false);
+
+        SysUser sysUser = sysUserService.findByCode(code);
+        try {
+            if (sysUser == null) {
+                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
+                record.setSalt(encrypt.getSalt());
+                record.setPasswd(encrypt.getPassword());
+                record.setCreateTime(new Date());
+                sysUserService.insertSelective(record);
+                return 1;
+            } else {
+                record.setId(sysUser.getId());
+                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+
+                // 同步党员信息
+                //if(memberService.get(sysUser.getId())!=null)
+                memberService.snycStudent(sysUser.getId(), sysUser);
+
+                return 0;
+            }
+        }catch (Exception ex){
+            logger.error("同步出错", ex);
+        }
+        return -1; // 出错
+    }
 
     // 同步本科生库
     public void syncBks(boolean autoStart){
@@ -378,46 +440,10 @@ public class SysUserSyncService extends BaseMapper {
 
             List<ExtBks> extBkss = extBksMapper.selectByExampleWithRowbounds(new ExtBksExample(), new RowBounds(i * pageSize, pageSize));
             for (ExtBks extBks : extBkss) {
-                String code = StringUtils.trim(extBks.getXh());
-                SysUser record = new SysUser();
-                record.setUsername(code);
-                record.setCode(code);
-                record.setType(SystemConstants.USER_TYPE_BKS);
-                record.setRealname(StringUtils.trim(extBks.getXm()));
-                if(StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
-                    record.setGender(SystemConstants.GENDER_MALE);
-                else if(StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
-                    record.setGender(SystemConstants.GENDER_FEMALE);
-                if(StringUtils.isNotBlank(extBks.getCsrq()))
-                    record.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyyMMdd"));
-                record.setIdcard(StringUtils.trim(extBks.getSfzh()));
-                //record.setMobile(StringUtils.trim(extBks.getYddh()));
-                //record.setEmail(StringUtils.trim(extBks.getDzxx()));
-                record.setSource(SystemConstants.USER_SOURCE_BKS);
-                record.setLocked(false);
 
-                SysUser sysUser = sysUserService.findByCode(code);
-                try {
-                    if (sysUser == null) {
-                        SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
-                        record.setSalt(encrypt.getSalt());
-                        record.setPasswd(encrypt.getPassword());
-                        record.setCreateTime(new Date());
-                        sysUserService.insertSelective(record);
-                        insertCount++;
-                    } else {
-                        record.setId(sysUser.getId());
-                        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
-
-                        // 同步党员信息
-                        //if(memberService.get(sysUser.getId())!=null)
-                            memberService.snycStudent(sysUser.getId(), sysUser);
-
-                        updateCount++;
-                    }
-                }catch (Exception ex){
-                    logger.error("同步出错", ex);
-                }
+                int ret = syncExtBks(extBks);
+                if(ret==1) insertCount++;
+                if(ret==0) updateCount++;
             }
 
             SysUserSync record = new SysUserSync();

@@ -9,7 +9,21 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadreTutor_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreTutor.id}">
         <input type="hidden" name="cadreId" value="${param.cadreId}">
-			<div class="form-group">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">类型</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2" name="type" data-placeholder="请选择">
+                    <option></option>
+                    <c:forEach items="${CADRE_TUTOR_TYPE_MAP}" var="_type">
+                        <option value="${_type.key}">${_type.value}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("#modalForm select[name=type]").val(${cadreTutor.type});
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
 				<label class="col-xs-4 control-label">导师姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cadreTutor.name}">
@@ -21,20 +35,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="title" value="${cadreTutor.title}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">类型</label>
-				<div class="col-xs-6">
-                    <select required data-rel="select2" name="type" data-placeholder="请选择">
-                        <option></option>
-                        <c:forEach items="${CADRE_TUTOR_TYPE_MAP}" var="_type">
-                            <option value="${_type.key}">${_type.value}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=type]").val(${cadreTutor.type});
-                    </script>
-				</div>
-			</div>
+
     </form>
 </div>
 <div class="modal-footer">

@@ -115,9 +115,9 @@
         //forceFit:true,
         url: '${ctx}/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 },
-            { label: '姓名',align:'center', name: 'user.realname', width: 75  },
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
+            { label: '工作证号', align:'center', name: 'user.code', width: 100,frozen:true },
+            { label: '姓名',align:'center', name: 'user.realname', width: 75 ,frozen:true },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '出行时间', align:'center', name: 'startDate', width: 100 },
             { label: '回国时间', align:'center', name: 'endDate', width: 100 },

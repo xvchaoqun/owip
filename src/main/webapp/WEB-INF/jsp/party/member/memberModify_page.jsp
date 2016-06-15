@@ -34,12 +34,12 @@
     pager:"jqGridPager2",
     url: "${ctx}/memberModify_data?callback=?&userId=${param.userId}",
     colModel: [
-      { label: '操作人', name: 'opUser.realname', width: 150 },
-      { label: '操作时间',  name: 'opTime', width: 150 },
-      { label:'IP',  name: 'ip', width: 150 },
-      { label:'修改原因',  name: 'reason', width: 200 },
-      { label: '学工号',  name: 'user.code',width: 120},
-      { label: '姓名',  name: 'user.realname'},
+      { label: '操作人', name: 'opUser.realname', width: 150, frozen:true },
+      { label: '操作时间',  name: 'opTime', width: 150 , frozen:true},
+      { label:'IP',  name: 'ip', width: 150 , frozen:true},
+      { label:'修改原因',  name: 'reason', width: 200, frozen:true },
+      { label: '学工号',  name: 'user.code',width: 120, frozen:true},
+      { label: '姓名',  name: 'user.realname', frozen:true},
       { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
         var party = rowObject.party;
         var branch = rowObject.branch;

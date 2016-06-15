@@ -288,18 +288,18 @@
         ondblClickRow:function(){},
         url: '${ctx}/graduateAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120},
+            {label: '学工号', name: 'user.code', width: 120, frozen:true},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            }  },
+            }, frozen:true  },
             {
                 label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }
+                }, frozen:true
             },
             <c:if test="${cls==12}">
             {label: '暂留后所在党支部', name: 'toBranch', width: 250},

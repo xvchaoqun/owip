@@ -252,9 +252,9 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名',align:'center', name: 'realname', width: 75, formatter:nameFormatter  },
+            { label: '姓名',name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
             <c:if test="${cls==4}">
-            { label: ' ', align:'center',  width: 200 , formatter:function(cellvalue, options, rowObject){
+            { label: ' ',  width: 200 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.retireApply.status!=0)
                     return '<button onclick="_retireApply({0})" class="btn btn-primary btn-mini btn-xs">'.format(rowObject.retireApply.userId)
                             +'<i class="fa fa-edit"></i> 提交党员退休'
@@ -263,26 +263,26 @@ pageEncoding="UTF-8" %>
                     return '<button onclick="_retireApply({0})" class="btn btn-success btn-mini btn-xs">'.format(rowObject.retireApply.userId)
                             +'<i class="fa fa-check"></i> 审核党员退休'
                             +'</button>';
-            }},
+            },frozen:true},
             </c:if>
-            { label: '工作证号', align:'center', name: 'code', width: 100 },
-            { label: '性别', align:'center', name: 'gender', width: 55 },
-            { label: '年龄', align:'center', name: 'age', width: 55 },
-            { label: '最高学历', align:'center', name: 'education', width: 100 },
-            { label: '岗位类别', align:'center', name: 'postClass', width: 100 },
-            { label: '专业技术职务', align:'center', name: 'proPost', width: 150 },
+            { label: '工作证号', name: 'code', width: 100,frozen:true },
+            { label: '性别', name: 'gender', width: 55 },
+            { label: '年龄', name: 'age', width: 55 },
+            { label: '最高学历', name: 'education', width: 100 },
+            { label: '岗位类别', name: 'postClass', width: 100 },
+            { label: '专业技术职务', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间', align:'center', name: 'growTime', width: 100 },
+            { label:'入党时间', name: 'growTime', width: 100 },
             { label:'转正时间',  name: 'positiveTime', width: 100 },
-            { label:'联系手机', align:'center', name: 'mobile', width: 100},
+            { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
-            { label:'退休时间', align:'center', name: 'retireTime', width: 100 },
-            { label:'是否离休', align:'center', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'退休时间', name: 'retireTime', width: 100 },
+            { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             } },
             </c:if>

@@ -148,16 +148,17 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号', name: 'user.code', width: 100 },
+            { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            }  },
+            },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            } },
-            { label: '行政级别', name: 'adminLevelType.name', width: 150 },
+            },frozen:true },
+            { label: '行政级别', name: 'adminLevelType.name' },
             { label: '职务属性', name: 'postType.name', width: 150 },
+            { label: '所在单位', name: 'unit.name', width: 200 },
             { label: '职务', name: 'post', width: 350 },
             { label: '所在单位及职务', name: 'title', width: 350 },
             { label: '手机号', name: 'mobile' },

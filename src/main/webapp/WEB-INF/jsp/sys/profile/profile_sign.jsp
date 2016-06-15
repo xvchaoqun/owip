@@ -18,11 +18,11 @@
 <div class="modal-body">
     <div class="form-group">
       <label class="col-xs-3 control-label" style="line-height: 200px">手写签名</label>
-      <div class="col-xs-2 file" style="width:300px;">
+      <div class="col-xs-2 file" style="width:360px;">
         <input required type="file" name="sign" />
 
       </div>
-      <div style="float: left">* 为了使显示效果最佳，推荐使用300*200大小的图片</div>
+      <div style="float: left;line-height: 240px"> * 为了使显示效果最佳，推荐使用300*200大小的图片</div>
     </div>
     <div class="form-group" style="padding-top: 20px">
       <label class="col-xs-3 control-label">联系电话</label>

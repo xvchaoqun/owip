@@ -145,19 +145,19 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份', name: 'year', width: 75 },
+            { label: '年份', name: 'year', width: 75,frozen:true },
             { label:'发文类型', name: 'dispatchType' , formatter:function(cellvalue, options, rowObject){
                 return cellvalue.name;
-            }},
+            },frozen:true},
             { label:'发文号',  name: 'dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, cellvalue);
                 else return cellvalue;
-            } },
+            },frozen:true },
                 <c:if test="${!_query}">
             { label:'排序', index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            } },
+            },frozen:true },
             </c:if>
             { label: '党委常委会日期',  name: 'meetingTime', width: 130 },
             { label: '发文日期',  name: 'pubTime'},

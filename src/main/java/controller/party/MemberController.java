@@ -303,13 +303,27 @@ public class MemberController extends BaseController {
         if (member != null) {
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
                 extJzgImport.excute(code);
-                memberService.snycTeacher(sysUser.getId(), sysUser);
+
+                ExtJzgExample example = new ExtJzgExample();
+                example.createCriteria().andZghEqualTo(code);
+                List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+                if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
             }else {
-                if (sysUser.getType() == SystemConstants.USER_TYPE_YJS)
+                if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
                     extYjsImport.excute(code);
-                else
+
+                    ExtYjsExample example = new ExtYjsExample();
+                    example.createCriteria().andXhEqualTo(code);
+                    List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
+                    if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
+                }else {
+
                     extBksImport.excute(code);
-                memberService.snycStudent(sysUser.getId(), sysUser);
+                    ExtBksExample example = new ExtBksExample();
+                    example.createCriteria().andXhEqualTo(code);
+                    List<ExtBks> extBkses = extBksMapper.selectByExample(example);
+                    if(extBkses.size()==1) sysUserSyncService.syncExtBks(extBkses.get(0));
+                }
             }
         }
         return success(FormUtils.SUCCESS);

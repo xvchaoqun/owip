@@ -30,13 +30,13 @@
         colModel: [
             { label: '类型',align:'center', name: 'type', width: 200, formatter:function(cellvalue, options, rowObject){
                 return _cMap.SYNC_TYPE_MAP[cellvalue];
-            }},
+            },frozen:true},
             { label: '触发方式', align:'center', name: 'autoStart', width: 80 , formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStart?"系统自动":"功能按钮";
-            }},
+            },frozen:true},
             { label: '是否结束', align:'center', name: 'isStop', width: 80 , formatter:function(cellvalue, options, rowObject){
                 return rowObject.isStop?"是":"否";
-            }},
+            },frozen:true},
             { label: '是否自动结束', align:'center', name: 'autoStop', width: 120, formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStop?"是":"否";
             }},

@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 					同步来源
 				</td>
 				<td class="bg-left" colspan="3">
-					${memberStudent.syncSource==1?"本科生库":"研究生库"}
+					${USER_SOURCE_MAP.get(_user.source)}
 				</td>
 			</tr>
 			<tr>

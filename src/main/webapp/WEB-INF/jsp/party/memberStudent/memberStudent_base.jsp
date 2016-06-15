@@ -70,7 +70,7 @@ pageEncoding="UTF-8"%>
 					同步来源
 				</td>
 				<td class="bg-left">
-					${USER_SOURCE_MAP.get(memberStudent.syncSource)}
+					${USER_SOURCE_MAP.get(sysUser.source)}
 				</td>
 			</tr>
 			<tr>

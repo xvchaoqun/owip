@@ -53,23 +53,23 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/safeBox_data?callback=?',
         colModel: [
-            { label: '保险柜编号', align:'center', name: 'code', width: 100 },
+            { label: '保险柜编号', align:'center', name: 'code', width: 100,frozen:true },
             { label: '证件总数量', align:'center', name: 'totalCount', width: 100 , formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}">{1}</a>'
                         .format(rowObject.id, rowObject.totalCount)
-            }},
+            },frozen:true},
             { label: '有效证件数量',align:'center',  name: 'keepCount', width: 120 , formatter:function(cellvalue, options, rowObject){
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=1">{1}</a>'
                         .format(rowObject.id, rowObject.keepCount)
-            }},
+            },frozen:true},
             { label: '取消集中管理证件数量（未确认）', align:'center', name: 'cancelCount', width: 250 ,
                 formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=2&cancelConfirm=0">{1}</a>'
                         .format(rowObject.id, rowObject.totalCount - rowObject.keepCount)
-            }},
+            },frozen:true},
             { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            } },
+            },frozen:true },
             { label: '证件所属单位', name: 'units', width: 500 },
             { label: '备注', align:'center', name: 'remark', width: 250 }
         ]}).jqGrid("setFrozenColumns");

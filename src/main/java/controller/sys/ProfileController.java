@@ -59,7 +59,7 @@ public class ProfileController extends BaseController {
             savePath += loginUser.getId() + ".jpg";
 
             Thumbnails.of(sign.getInputStream())
-                    .size(75, 50)
+                    .size(750, 500)
                     .outputFormat("jpg")
                     .outputQuality(1.0f)
                     .toFile(springProps.uploadPath + savePath);

@@ -132,12 +132,12 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '申请日期', name: 'applyDate'},
-            { label: '工作证号', name: 'applyUser.code'},
+            { label: '申请日期', name: 'applyDate',frozen:true},
+            { label: '工作证号', name: 'applyUser.code',frozen:true},
             { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            }  },
+            },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申办证件名称', name: 'passportClass.name', width: 250 },
             <c:if test="${status==0}">

@@ -339,15 +339,15 @@ pageEncoding="UTF-8" %>
         ondblClickRow:function(){},
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 120},
-            {label: '姓名', name: 'user.realname', width: 100},
+            {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
+            {label: '姓名', name: 'user.realname', width: 100, frozen:true},
             {
                 label: '所属组织机构', name: 'party',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }
+                }, frozen:true
             },
             <c:if test="${stage<=APPLY_STAGE_PASS}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180},
