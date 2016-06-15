@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">电子邮箱</label>
 				<div class="col-xs-6">
-                        <input class="form-control email" type="text" name="email" value="${cadreInfo.email}">
+                        <input required class="form-control email" type="text" name="email" value="${cadreInfo.email}">
 				</div>
 			</div>
     </form>
