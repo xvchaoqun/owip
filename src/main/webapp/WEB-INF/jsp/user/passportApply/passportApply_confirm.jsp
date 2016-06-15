@@ -43,8 +43,7 @@ pageEncoding="UTF-8"%>
 
         $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}"},function(ret){
             if(ret.success){
-                loadModal("${ctx}/alert?title=温馨提示&content=${_user.realname}老师，您好！您的申请已提交，组织部备案之后会短信提醒您，" +
-                "然后请再次登录系统下载审批表，先到党委组织部盖章确认后再到党委/校长办公室（A402A）盖章。谢谢！", 800);
+                loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
                 page_reload();
             }
         });

@@ -23,7 +23,7 @@
                                 data-open-by="page"
                                 data-querystr="&edit=1"
                                 data-rel="tooltip" data-placement="bottom"
-                                title="当因私出国（境）申请未通过审批时，修改相关信息重新申请。">
+                                title="当因私出国（境）申请未审批或者初审未通过时，修改相关信息重新申请。">
                             <i class="fa fa-edit"></i> 重新申请
                         </button>
                             <button id="abolishBtn" class="jqItemBtn btn btn-danger btn-sm"
@@ -144,12 +144,24 @@
             {hidden:true, name:'firstType',formatter:function(cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return tdBean.tdType
+            }},
+            {hidden:true, name:'isFinish',formatter:function(cellvalue, options, rowObject) {
+                return cellvalue?1:0;
+            }},
+            {hidden:true, name:'isAgreed',formatter:function(cellvalue, options, rowObject) {
+                return cellvalue?1:0;
             }}
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
-            var firstType = $(this).getRowData(id).firstType;
-            $("#editBtn, #abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            var data = $(this).getRowData(id);
+            //console.log(status + "  " +  data.isFinish + "  " +  data.isAgreed + "  " + (data.isAgreed==0))
+
+            //$("#editBtn").prop("disabled",status &&data.isFinish==1&&data.isAgreed!=0)
+            var firstType = data.firstType;
+            //console.log(firstType)
+            $("#abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            $("#editBtn").prop("disabled",status && firstType!=3&&firstType!=4&&firstType!=5)
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

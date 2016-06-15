@@ -64,9 +64,10 @@
                                     <div class="profile-info-name"> 所属组织机构 </div>
 
                                     <div class="profile-info-value">
-                                    <span class="editable">
+                                    <span class="editable" style="height: 55px">
                                         ${partyMap.get(memberOut.partyId).name}
                                             <c:if test="${memberOut.branchId>0}">
+                                                <br/>
                                                 -${branchMap.get(memberOut.branchId).name}
                                             </c:if>
                                     </span>
@@ -206,7 +207,7 @@
                                 </c:if>
                                 <c:if test="${not empty last}">
                                     <button id="last" class="openView btn"
-                                            data-url="${ctx}/memberOut_approval?id=${last.id}&type=${param.type}"
+                                            data-url="${ctx}/memberOut_approval?id=${last.id}&type=${param.type}&cls=${param.cls}"
                                             type="button">
                                         <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
                                     </button>
@@ -220,13 +221,13 @@
                                 </c:if>
                                 <c:if test="${not empty next}">
                                 <button id="next" class="openView btn"
-                                        data-url="${ctx}/memberOut_approval?id=${next.id}&type=${param.type}"
+                                        data-url="${ctx}/memberOut_approval?id=${next.id}&type=${param.type}&cls=${param.cls}"
                                         type="button">
                                     下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                                 </button>
                                     </c:if>
                             </div>
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${memberOut.id}, ${param.type}, true)" class="btn btn-success">
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(this,${memberOut.id}, ${param.type}, true)" class="btn btn-success">
                                 <i class="fa fa-check"></i> 通过
                             </button>
                             &nbsp;&nbsp;

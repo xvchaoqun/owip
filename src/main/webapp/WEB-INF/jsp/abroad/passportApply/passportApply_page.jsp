@@ -5,7 +5,6 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/passportApply_au?type=1"
              data-url-page="${ctx}/passportApply_page"
              data-url-co="${ctx}/passportApply_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">

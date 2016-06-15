@@ -36,7 +36,6 @@ public class ShortMsgController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("shortMsg:view")
     @RequestMapping("/shortMsg_view")
     public String shortMsg_view(@CurrentUser SysUser loginUser,
                                 String type, // passport
@@ -48,7 +47,7 @@ public class ShortMsgController extends BaseController {
         return "sys/shortMsg/short_msg_view";
     }
 
-    @RequiresPermissions("ShortMsg:*")
+    @RequiresPermissions("ShortMsg:send")
     @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
     @ResponseBody
     public Map do_shortMsg(@CurrentUser SysUser loginUser, String type, Integer id, HttpServletRequest request) {
@@ -129,7 +128,7 @@ public class ShortMsgController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("shortMsg:edit")
+   /* @RequiresPermissions("shortMsg:edit")
     @RequestMapping(value = "/shortMsg_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_shortMsg_au(ShortMsg record, HttpServletRequest request) {
@@ -158,7 +157,7 @@ public class ShortMsgController extends BaseController {
             modelMap.put("shortMsg", shortMsg);
         }
         return "sys/shortMsg/shortMsg_au";
-    }
+    }*/
 /*
     @RequiresPermissions("shortMsg:del")
     @RequestMapping(value = "/shortMsg_del", method = RequestMethod.POST)

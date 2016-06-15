@@ -205,7 +205,7 @@ public class PassportApplyController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("passportApply:edit")
+   /* @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_au(PassportApply record,String _applyDate, String _expectDate, String _handleDate, HttpServletRequest request) {
@@ -226,8 +226,8 @@ public class PassportApplyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
         } else {
 
-           /* passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*/
+           *//* passportApplyService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*//*
         }
 
         return success(FormUtils.SUCCESS);
@@ -274,7 +274,7 @@ public class PassportApplyController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("passportApply:abolish")
     @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)

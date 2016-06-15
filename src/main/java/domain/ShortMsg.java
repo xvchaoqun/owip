@@ -10,7 +10,9 @@ public class ShortMsg implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(receiverId);
     }
-
+    public SysUser getSender(){
+        return CmTag.getUserById(senderId);
+    }
     private Integer id;
 
     private Integer senderId;

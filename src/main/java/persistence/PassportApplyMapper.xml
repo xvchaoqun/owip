@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.PassportApply" >
+  <insert keyProperty="id" id="insert" parameterType="domain.PassportApply" >
     insert into abroad_passport_apply (id, cadre_id, class_id, 
       apply_date, status, abolish, 
       user_id, approve_time, expect_date, 
@@ -121,7 +121,7 @@
       #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.PassportApply" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.PassportApply" >
     insert into abroad_passport_apply
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

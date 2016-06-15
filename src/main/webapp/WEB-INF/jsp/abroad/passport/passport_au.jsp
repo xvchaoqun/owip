@@ -22,13 +22,13 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="type" value="${type}">
         <input type="hidden" name="op" value="${param.op}">
-<c:if test="${empty param.applyId}">
+        <c:if test="${not empty param.applyId}">
+            <input type="hidden" name="cadreId" value="${cadre.id}">
+        </c:if>
+    <c:if test="${empty param.applyId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
 				<div class="col-xs-6">
-                    <c:if test="${not empty param.applyId}">
-                        <input type="hidden" name="cadreId" value="${cadre.id}">
-                    </c:if>
                     <select required ${not empty param.applyId?"disabled":""} data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请选择干部">
                         <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>

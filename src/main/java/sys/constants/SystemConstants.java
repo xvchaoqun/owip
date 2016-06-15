@@ -725,6 +725,7 @@ public class SystemConstants {
 	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_PASS = "passportApply.pass";
 	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS = "passportApply.unpass";
 	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_DRAW = "passportApply.draw";
+	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_SUBMIT = "passportApply.submit";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW = "passportDraw";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW_RETURN = "passportDraw.return";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS = "passportDraw.pass";
@@ -740,6 +741,7 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_PASS, "申办证件-通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS, "申办证件-不通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_DRAW, "申办证件-催交证件");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_SUBMIT, "申办证件-提交申请");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW, "因私出国申请-领取证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_RETURN, "申请使用证件-催交证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS, "申请使用证件-通过");

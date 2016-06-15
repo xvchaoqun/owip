@@ -306,8 +306,15 @@
 
         loadModal("${ctx}/memberOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
-    function apply_pass(id, type, goToNext) {
-        bootbox.confirm("确定通过该申请？", function (result) {
+    function apply_pass(btn, id, type, goToNext) {
+        $(btn).attr("disabled", "disabled");
+        $.post("${ctx}/memberOut_check", {ids: [id], type: type}, function (ret) {
+            if (ret.success) {
+                goto_next(goToNext);
+                $(btn).removeAttr("disabled");
+            }
+        });
+        /*bootbox.confirm("确定通过该申请？", function (result) {
             if (result) {
                 $.post("${ctx}/memberOut_check", {ids: [id], type: type}, function (ret) {
                     if (ret.success) {
@@ -318,7 +325,7 @@
                     }
                 });
             }
-        });
+        });*/
     }
 
     $("#jqGrid").jqGrid({
@@ -342,7 +349,7 @@
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
             }, frozen:true},
-            {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
+            {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
             }, frozen:true}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,

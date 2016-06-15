@@ -80,6 +80,7 @@
             { label: '返回结果',  name: 'ret', width: 200, formatter:function(cellvalue, options, rowObject){
                 return $.trim(cellvalue).NoSpace();
             }},
+            { label: '操作人', name: 'sender.realname'},
             { label: '备注',  name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns");
