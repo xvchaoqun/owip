@@ -230,6 +230,8 @@ public class SysUserRegService extends BaseMapper {
 
     public boolean idcardDuplicate(Integer id, Integer userId, String idcard){
 
+        // 每个身份证号都有1次机会通过注册账号的方式进行登陆
+
         Assert.isTrue(StringUtils.isNotBlank(idcard));
         {
             SysUserRegExample example = new SysUserRegExample();
@@ -240,23 +242,24 @@ public class SysUserRegService extends BaseMapper {
             if (sysUserRegMapper.countByExample(example) > 0) return true;
         }
 
-        {
+        /*{
             SysUserExample example = new SysUserExample();
             SysUserExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard);
             if(userId!=null) criteria.andIdNotEqualTo(userId);
+
             if (sysUserMapper.countByExample(example) > 0) return true;
-        }
+        }*/
 
         return false;
     }
 
-    @Transactional
+   /* @Transactional
     public int insertSelective(SysUserReg record){
 
         Assert.isTrue(!usernameDuplicate(record.getId(), record.getUserId(), record.getUsername()));
         Assert.isTrue(!idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard()));
         return sysUserRegMapper.insertSelective(record);
-    }
+    }*/
     @Transactional
     public void del(Integer id){
 
