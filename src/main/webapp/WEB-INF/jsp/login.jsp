@@ -49,7 +49,7 @@
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
                 <dt></dt><dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd></dt>
                 <dt></dt><dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
-                <dt></dt><dd><a href="" class="to_reg_btn" data-target="#reg">立即注册</a></dd>
+                <dt></dt><dd><a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器下载</a><a href="" class="to_reg_btn" data-target="#reg">立即注册</a></dd>
             </form>
         </div>
         <div class="login-layout" id="reg">
