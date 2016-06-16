@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
                             <a href="?type=1"><i class="fa fa-credit-card"></i> 因私出国（境）</a>
                         </li>
                         <li  class="<c:if test="${type==2}">active</c:if>">
-                            <a href="?type=2"><i class="fa fa-credit-card"></i> 因公出访台湾</a>
+                            <a href="?type=2"><i class="fa fa-credit-card"></i> 因公赴台</a>
                         </li>
                         <li  class="<c:if test="${type==3}">active</c:if>">
                             <a href="?type=3"><i class="fa fa-credit-card"></i> 处理其他事务</a>
