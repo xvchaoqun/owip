@@ -412,6 +412,7 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        statistics="true">
 </cache>
 
+       <!--持久化，保证重启服务器不踢出用户-->
        <cache name="ActiveSessionCache"
               maxElementsInMemory="1000"
               overflowToDisk="true"
