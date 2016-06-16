@@ -38,7 +38,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 申请：拒绝申请
     @Transactional
-    public void apply_deny(int[] userIds, String remark, int loginUserId){
+    public void apply_deny(Integer[] userIds, String remark, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -53,7 +53,7 @@ public class MemberApplyOpService extends BaseController {
     }
     // 申请：通过申请
     @Transactional
-    public void apply_pass(int[] userIds, int loginUserId){
+    public void apply_pass(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -76,7 +76,7 @@ public class MemberApplyOpService extends BaseController {
     }
     // 申请：确定为入党积极分子
     @Transactional
-    public void apply_active(int[] userIds, Date activeTime, int loginUserId){
+    public void apply_active(Integer[] userIds, Date activeTime, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -101,7 +101,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 积极分子：提交 确定为发展对象
     @Transactional
-    public void apply_candidate(int[] userIds, String _candidateTime, String _trainTime, int loginUserId){
+    public void apply_candidate(Integer[] userIds, String _candidateTime, String _trainTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -156,7 +156,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 积极分子：审核 确定为发展对象
     @Transactional
-    public void apply_candidate_check(int[] userIds, int loginUserId){
+    public void apply_candidate_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -185,7 +185,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 发展对象：提交 列入发展计划
     @Transactional
-    public void apply_plan(int[] userIds, String _planTime, int loginUserId){
+    public void apply_plan(Integer[] userIds, String _planTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -231,7 +231,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 发展对象：审核 列入发展计划
     @Transactional
-    public void apply_plan_check(int[] userIds, int loginUserId){
+    public void apply_plan_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -339,7 +339,7 @@ public class MemberApplyOpService extends BaseController {
     // 分党委直接提交，不需要审核 -- 20160608 修改by 邹老师
     // 列入发展计划：提交 领取志愿书
     @Transactional
-    public void apply_draw(int[] userIds, String _drawTime, int loginUserId){
+    public void apply_draw(Integer[] userIds, String _drawTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -376,7 +376,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 领取志愿书：提交 预备党员
     @Transactional
-    public void apply_grow(int[] userIds, String _growTime, int loginUserId){
+    public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -418,7 +418,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 领取志愿书：审核 预备党员
     @Transactional
-    public void apply_grow_check(int[] userIds, int loginUserId){
+    public void apply_grow_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
 
@@ -461,7 +461,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 领取志愿书：组织部管理员审核 预备党员
     @Transactional
-    public void apply_grow_check2(int[] userIds, int loginUserId){
+    public void apply_grow_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             memberApplyService.memberGrow(userId);
@@ -479,7 +479,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：提交 正式党员
     @Transactional
-    public void apply_positive(int[] userIds, String _positiveTime, int loginUserId){
+    public void apply_positive(Integer[] userIds, String _positiveTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -521,7 +521,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：审核 正式党员
     @Transactional
-    public void apply_positive_check(int[] userIds, int loginUserId){
+    public void apply_positive_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -563,7 +563,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：组织部管理员审核 正式党员
     @Transactional
-    public void apply_positive_check2(int[] userIds, int loginUserId){
+    public void apply_positive_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             memberApplyService.memberPositive(userId);
@@ -580,7 +580,7 @@ public class MemberApplyOpService extends BaseController {
     }
 
     @Transactional
-    public void memberApply_back(int[] userIds, byte stage, String reason, int loginUserId){
+    public void memberApply_back(Integer[] userIds, byte stage, String reason, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);

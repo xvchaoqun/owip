@@ -233,7 +233,7 @@ public class MemberInService extends BaseMapper {
     }
 
     @Transactional
-    public void memberIn_check(int[] ids, byte type, int loginUserId){
+    public void memberIn_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberIn memberIn = null;
@@ -267,7 +267,7 @@ public class MemberInService extends BaseMapper {
     }
 
     @Transactional
-    public void memberIn_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberIn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {

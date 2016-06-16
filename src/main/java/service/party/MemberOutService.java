@@ -276,7 +276,7 @@ public class MemberOutService extends BaseMapper {
     }
 
     @Transactional
-    public void memberOut_check(int[] ids, byte type, int loginUserId){
+    public void memberOut_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberOut memberOut = null;
@@ -304,7 +304,7 @@ public class MemberOutService extends BaseMapper {
     }
 
     @Transactional
-    public void memberOut_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberOut_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {

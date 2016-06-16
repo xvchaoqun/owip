@@ -325,7 +325,7 @@ public class MemberInController extends BaseController {
     @ResponseBody
     public Map do_memberIn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                    byte type, // 1:分党委审核 3：组织部审核
-                                   @RequestParam(value = "ids[]") int[] ids) {
+                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberInService.memberIn_check(ids, type, loginUser.getId());
@@ -348,7 +348,7 @@ public class MemberInController extends BaseController {
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_back(@CurrentUser SysUser loginUser,
-                                  @RequestParam(value = "ids[]") int[] ids,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
 

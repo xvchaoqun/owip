@@ -233,7 +233,7 @@ public class MemberInflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberInflow_check(int[] ids, byte type, int loginUserId){
+    public void memberInflow_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberInflow memberInflow = null;
@@ -267,7 +267,7 @@ public class MemberInflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberInflow_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberInflow_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 

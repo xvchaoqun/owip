@@ -281,7 +281,7 @@ public class MemberTransferController extends BaseController {
     @ResponseBody
     public Map do_memberTransfer_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                    byte type, // 1:转出分党委审核 2：转入分党委审核
-                                   @RequestParam(value = "ids[]") int[] ids) {
+                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
@@ -304,7 +304,7 @@ public class MemberTransferController extends BaseController {
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_back(@CurrentUser SysUser loginUser,
-                                  @RequestParam(value = "ids[]") int[] ids,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
 

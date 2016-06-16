@@ -245,7 +245,7 @@ public class MemberInflowOutService extends BaseMapper {
 
 
     @Transactional
-    public void memberInflowOut_check(int[] ids, byte type, int loginUserId){
+    public void memberInflowOut_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberInflow memberInflow = null;
@@ -279,7 +279,7 @@ public class MemberInflowOutService extends BaseMapper {
     }
 
     @Transactional
-    public void memberInflowOut_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberInflowOut_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 

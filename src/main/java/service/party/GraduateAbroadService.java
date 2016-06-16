@@ -279,7 +279,7 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     @Transactional
-    public void graduateAbroad_check(int[] ids, byte type, Integer branchId, int loginUserId){
+    public void graduateAbroad_check(Integer[] ids, byte type, Integer branchId, int loginUserId){
 
         for (int id : ids) {
             GraduateAbroad graduateAbroad = null;
@@ -318,7 +318,7 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     @Transactional
-    public void graduateAbroad_back(int[] ids, byte status, String reason, int loginUserId){
+    public void graduateAbroad_back(Integer[] ids, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int id : ids) {

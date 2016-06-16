@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ConfigUtil;
-import sys.utils.DateUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -33,9 +34,11 @@ import java.util.*;
 @RequestMapping("/report")
 public class ReportController extends BaseController {
 
+    public Logger logger = LoggerFactory.getLogger(getClass());
     // 京外套打
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+    public String member_out_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 @RequestParam(required = false , defaultValue = "0")Boolean print,
                                 Integer type, Model model) throws IOException, DocumentException {
 
@@ -68,13 +71,19 @@ public class ReportController extends BaseController {
 
         if(print){
             memberOutService.incrPrintCount(ids);
+            logger.info("京外套打 {}, {}, {}, {}, {}, {}",
+                    new Object[]{loginUser.getUsername(), request.getRequestURI(),
+                            request.getMethod(),
+                            JSONUtils.toString(request.getParameterMap(), false),
+                            RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
         }
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
     // 京内打印
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+    public String member_in_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                               @RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false , defaultValue = "0")Boolean print,
                                Model model) throws IOException, DocumentException {
 
@@ -104,6 +113,11 @@ public class ReportController extends BaseController {
 
         if(print){
             memberOutService.incrPrintCount(ids);
+            logger.info("京内打印 {}, {}, {}, {}, {}, {}",
+                    new Object[]{loginUser.getUsername(), request.getRequestURI(),
+                            request.getMethod(),
+                            JSONUtils.toString(request.getParameterMap(), false),
+                            RequestUtils.getUserAgent(request),IpUtils.getRealIp(request)});
         }
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id

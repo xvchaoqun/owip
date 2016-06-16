@@ -289,7 +289,7 @@ public class MemberOutflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberOutflow_check(int[] ids, byte type, int loginUserId){
+    public void memberOutflow_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
@@ -318,7 +318,7 @@ public class MemberOutflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberOutflow_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberOutflow_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 

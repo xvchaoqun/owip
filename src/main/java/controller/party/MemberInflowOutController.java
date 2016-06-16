@@ -289,7 +289,7 @@ public class MemberInflowOutController extends BaseController {
     @ResponseBody
     public Map do_memberInflowOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
-                                      @RequestParam(value = "ids[]") int[] ids) {
+                                      @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberInflowOutService.memberInflowOut_check(ids, type, loginUser.getId());
@@ -312,7 +312,7 @@ public class MemberInflowOutController extends BaseController {
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflowOut_back(@CurrentUser SysUser loginUser,
-                                     @RequestParam(value = "ids[]") int[] ids,
+                                     @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
 

@@ -309,7 +309,7 @@ public class MemberOutflowController extends BaseController {
     @ResponseBody
     public Map do_memberOutflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                  byte type, // 1:支部审核 2：分党委审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberOutflowService.memberOutflow_check(ids, type, loginUser.getId());
@@ -332,7 +332,7 @@ public class MemberOutflowController extends BaseController {
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOutflow_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
 

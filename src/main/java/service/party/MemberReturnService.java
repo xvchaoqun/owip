@@ -234,7 +234,7 @@ public class MemberReturnService extends BaseMapper {
     }
 
     @Transactional
-    public void memberReturn_check(int[] ids, byte type, int loginUserId){
+    public void memberReturn_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberReturn memberReturn = null;
@@ -269,7 +269,7 @@ public class MemberReturnService extends BaseMapper {
     }
 
     @Transactional
-    public void memberReturn_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberReturn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 

@@ -249,7 +249,7 @@ public class MemberStayService extends BaseMapper {
     }
 
     @Transactional
-    public void memberStay_check(int[] ids, byte type, int loginUserId){
+    public void memberStay_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberStay memberStay = null;
@@ -282,7 +282,7 @@ public class MemberStayService extends BaseMapper {
     }
 
     @Transactional
-    public void memberStay_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberStay_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {

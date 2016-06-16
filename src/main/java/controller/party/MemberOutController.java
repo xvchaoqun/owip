@@ -293,7 +293,7 @@ public class MemberOutController extends BaseController {
     @ResponseBody
     public Map do_memberOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                   byte type, // 1:分党委审核 3：组织部审核
-                                  @RequestParam(value = "ids[]") int[] ids) {
+                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberOutService.memberOut_check(ids, type, loginUser.getId());
@@ -316,7 +316,7 @@ public class MemberOutController extends BaseController {
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_back(@CurrentUser SysUser loginUser,
-                                 @RequestParam(value = "ids[]") int[] ids,
+                                 @RequestParam(value = "ids[]") Integer[] ids,
                                  byte status,
                                  String reason) {
 

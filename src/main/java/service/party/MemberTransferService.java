@@ -252,7 +252,7 @@ public class MemberTransferService extends BaseMapper {
     }
 
     @Transactional
-    public void memberTransfer_check(int[] ids, byte type, int loginUserId){
+    public void memberTransfer_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberTransfer memberTransfer = null;
@@ -279,7 +279,7 @@ public class MemberTransferService extends BaseMapper {
     }
 
     @Transactional
-    public void memberTransfer_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 

@@ -337,7 +337,7 @@ public class MemberInflowController extends BaseController {
     @ResponseBody
     public Map do_memberInflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
-                                      @RequestParam(value = "ids[]") int[] ids) {
+                                      @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberInflowService.memberInflow_check(ids, type, loginUser.getId());
@@ -360,7 +360,7 @@ public class MemberInflowController extends BaseController {
     @RequestMapping(value = "/memberInflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_back(@CurrentUser SysUser loginUser,
-                                     @RequestParam(value = "ids[]") int[] ids,
+                                     @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
 

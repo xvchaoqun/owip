@@ -265,7 +265,7 @@ public class MemberQuitController extends BaseController {
     @ResponseBody
     public Map do_memberQuit_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                   byte type, // 1:支部审核 2:分党委审核 3：组织部审核
-                                  @RequestParam(value = "ids[]") int[] ids) {
+                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberQuitService.memberQuit_check(ids, type, loginUser.getId());
@@ -288,7 +288,7 @@ public class MemberQuitController extends BaseController {
     @RequestMapping(value = "/memberQuit_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberQuit_back(@CurrentUser SysUser loginUser,
-                                   @RequestParam(value = "ids[]") int[] ids,
+                                   @RequestParam(value = "ids[]") Integer[] ids,
                                    byte status,
                                    String reason) {
 

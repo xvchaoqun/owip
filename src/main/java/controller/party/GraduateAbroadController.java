@@ -324,7 +324,7 @@ public class GraduateAbroadController extends BaseController {
     @ResponseBody
     public Map do_graduateAbroad_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                  byte type, // 1:支部审核 2:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         graduateAbroadService.graduateAbroad_check(ids, type, null, loginUser.getId());
@@ -347,7 +347,7 @@ public class GraduateAbroadController extends BaseController {
     @RequestMapping(value = "/graduateAbroad_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_graduateAbroad_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
 
@@ -361,7 +361,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresRoles("partyAdmin")
     @RequiresPermissions("graduateAbroad:update")
     @RequestMapping("/graduateAbroad_transfer")
-    public String graduateAbroad_transfer(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+    public String graduateAbroad_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         int id = ids[0]; /// 分党委审核时必须在同一个分党委内部审核
         GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
@@ -381,7 +381,7 @@ public class GraduateAbroadController extends BaseController {
     @RequestMapping(value = "/graduateAbroad_transfer", method = RequestMethod.POST)
     @ResponseBody
     public Map do_graduateAbroad_transfer(@CurrentUser SysUser loginUser,
-                                      @RequestParam(value = "ids[]") int[] ids,
+                                      @RequestParam(value = "ids[]") Integer[] ids,
                                       Integer branchId) {
 
 

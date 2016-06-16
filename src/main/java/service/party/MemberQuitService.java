@@ -223,7 +223,7 @@ public class MemberQuitService extends BaseMapper {
 
 
     @Transactional
-    public void memberQuit_check(int[] ids, byte type, int loginUserId){
+    public void memberQuit_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberQuit memberQuit = null;
@@ -261,7 +261,7 @@ public class MemberQuitService extends BaseMapper {
     }
 
     @Transactional
-    public void memberQuit_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {

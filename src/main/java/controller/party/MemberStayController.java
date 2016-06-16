@@ -277,7 +277,7 @@ public class MemberStayController extends BaseController {
     @ResponseBody
     public Map do_memberStay_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberStayService.memberStay_check(ids, type, loginUser.getId());
@@ -300,7 +300,7 @@ public class MemberStayController extends BaseController {
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
 
