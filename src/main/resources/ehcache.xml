@@ -411,14 +411,24 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        overflowToDisk="false"
        statistics="true">
 </cache>
-<cache name="ActiveSessionCache"
+
+       <cache name="ActiveSessionCache"
+              maxElementsInMemory="1000"
+              overflowToDisk="true"
+              eternal="true"
+              timeToLiveSeconds="0"
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600"/>
+
+<!--<cache name="ActiveSessionCache"
        maxEntriesLocalHeap="2000"
        eternal="false"
        timeToIdleSeconds="3600"
        timeToLiveSeconds="0"
        overflowToDisk="false"
        statistics="true">
-</cache>
+</cache>-->
 
        <cache name="shiro-kickout-session"
               maxEntriesLocalHeap="2000"

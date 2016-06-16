@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -164,7 +165,7 @@ public class ShortMsgService extends BaseMapper {
             String key = "";
             if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_PASS){
 
-                if(passportDraw.getNeedSign()){
+                if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
                     key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN;
                 }else{
                     key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS;
@@ -172,7 +173,7 @@ public class ShortMsgService extends BaseMapper {
             }
             if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS){
 
-                if(passportDraw.getNeedSign()){
+                if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
                     key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN;
                 }else{
                     key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS;

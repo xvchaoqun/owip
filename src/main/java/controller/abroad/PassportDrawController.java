@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,7 @@ public class PassportDrawController extends BaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
+    @RequiresRoles("odAdmin")
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
