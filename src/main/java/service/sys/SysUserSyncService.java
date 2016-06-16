@@ -111,7 +111,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setGender(NumberUtils.toByte(extJzg.getXbm()));
         record.setBirth(extJzg.getCsrq());
         record.setIdcard(StringUtils.trim(extJzg.getSfzh()));
-        record.setMobile(StringUtils.trim(extJzg.getYddh()));
+        //record.setMobile(StringUtils.trim(extJzg.getYddh())); 手机号不同步人事库 20160616修改
         record.setEmail(StringUtils.trim(extJzg.getDzxx()));
         record.setSource(SystemConstants.USER_SOURCE_JZG);
         record.setLocked(false);

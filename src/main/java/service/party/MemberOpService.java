@@ -41,10 +41,10 @@ public class MemberOpService extends BaseMapper{
 
         int opAuth = findOpAuth(userId);
         if(opAuth==1){
-            throw new RuntimeException("已经申请了组织关系转出");
+            throw new RuntimeException("已经申请了组织关系转出，请撤销后再进行当前申请");
         }
         if(opAuth==2){
-            throw new RuntimeException("已经申请了校内组织关系转接");
+            throw new RuntimeException("已经申请了校内组织关系转接，请撤销后再进行当前申请");
         }
     }
 

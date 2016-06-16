@@ -20,6 +20,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
+import sys.utils.PropertiesUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -185,6 +186,7 @@ public class ReportController extends BaseController {
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
+    // 领取证件？
     @RequestMapping(value = "/passportSign", method = RequestMethod.GET)
     public String passportSign(Integer classId, Integer userId, Integer id, Model model) throws IOException, DocumentException {
 
@@ -214,7 +216,7 @@ public class ReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", unit);
+        map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + to + ".jpg" );
 
@@ -269,7 +271,7 @@ public class ReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", unit);
+        map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + to + ".jpg" );
 

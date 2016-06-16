@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录拍照</label>
                     <div class="col-xs-2 file" style="width:300px;">
-                        <input required type="file" name="_useRecord" />
+                        <input type="file" name="_useRecord" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -112,7 +112,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label">备注</label>
                     <div class="col-xs-6">
-                        <textarea required class="form-control limited" type="text" name="remark" rows="5"></textarea>
+                        <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
             </form>

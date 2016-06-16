@@ -729,7 +729,9 @@ public class SystemConstants {
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW = "passportDraw";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW_RETURN = "passportDraw.return";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS = "passportDraw.pass";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN = "passportDraw.pass.needsign";
 	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS = "passportDraw.unpass";
+	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN = "passportDraw.unpass.needsign";
 
 
 	public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
@@ -745,6 +747,8 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW, "因私出国申请-领取证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_RETURN, "申请使用证件-催交证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS, "申请使用证件-通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN, "申请使用证件（需要签注）-通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN, "申请使用证件（需要签注）-不通过");
 	}
 }

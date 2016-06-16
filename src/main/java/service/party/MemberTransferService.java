@@ -134,7 +134,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new DBErrorException("审批已经开始，不可以撤回");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -153,7 +153,7 @@ public class MemberTransferService extends BaseMapper {
                 "撤回校内组织关系互转申请");
     }
 
-    // 不通过
+   /* // 不通过
     @Transactional
     public void deny(int userId, String reason){
 
@@ -167,7 +167,7 @@ public class MemberTransferService extends BaseMapper {
         record.setUserId(userId);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
-    }
+    }*/
 
     // 当前所在分党委审核通过
     @Transactional
@@ -175,7 +175,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new DBErrorException("状态异常，该记录不是申请状态");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -186,14 +186,14 @@ public class MemberTransferService extends BaseMapper {
 
     // 转入分党委审核通过
     @Transactional
-    public void check2(int userId, boolean isDirect){
+    public void check2(int userId){
 
         MemberTransfer memberTransfer = get(userId);
 
-        if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
-        if(!isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
-            throw new DBErrorException("状态异常");
+        /*if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+            throw new DBErrorException("状态异常");*/
+        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
+            throw new DBErrorException("只有转出分党委审核通过的记录才可以进行转入分党委审核");
 
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
@@ -266,7 +266,7 @@ public class MemberTransferService extends BaseMapper {
                 VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
                 memberTransfer = verifyAuth.entity;
 
-                check2(memberTransfer.getUserId(), false);
+                check2(memberTransfer.getUserId());
             }
             int userId = memberTransfer.getUserId();
             applyApprovalLogService.add(memberTransfer.getId(),

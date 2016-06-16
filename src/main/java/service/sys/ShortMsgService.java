@@ -163,10 +163,20 @@ public class ShortMsgService extends BaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = "";
             if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_PASS){
-                key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS;
+
+                if(passportDraw.getNeedSign()){
+                    key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN;
+                }else{
+                    key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_PASS;
+                }
             }
             if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS){
-                key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS;
+
+                if(passportDraw.getNeedSign()){
+                    key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN;
+                }else{
+                    key = SystemConstants.SHORT_MSG_KEY_PASSPORTDRAW_UNPASS;
+                }
             }
 
             bean.setType(SystemConstants.SHORT_MSG_KEY_MAP.get(key));

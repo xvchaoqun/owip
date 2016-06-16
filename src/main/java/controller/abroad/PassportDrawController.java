@@ -326,23 +326,25 @@ public class PassportDrawController extends BaseController {
 
         PassportDraw record = new PassportDraw();
 
-        if (_useRecord == null || _useRecord.isEmpty()) {
+        /*if (_useRecord == null || _useRecord.isEmpty()) {
             throw new RuntimeException("请选择证件使用记录拍照");
-        }
+        }*/
         record.setId(id);
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));
         record.setRealToCountry(realToCountry);
 
-        String originalFilename = _useRecord.getOriginalFilename();
-        String fileName = UUID.randomUUID().toString();
-        String realPath = File.separator
-                + "draw" + File.separator + "use" + File.separator
-                + fileName;
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
+        if (_useRecord != null && !_useRecord.isEmpty()) {
+            String originalFilename = _useRecord.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "draw" + File.separator + "use" + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
 
-        record.setUseRecord(savePath);
+            record.setUseRecord(savePath);
+        }
         record.setReturnRemark(remark);
         record.setRealReturnDate(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
