@@ -31,7 +31,10 @@ public class MemberOpService extends BaseMapper{
             return 1; // 已经申请了组织关系转出
         }
         MemberTransfer memberTransfer = memberTransferService.get(userId);
-        if(memberTransfer!=null && memberTransfer.getStatus()>=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY){
+        if(memberTransfer!=null
+                && memberTransfer.getStatus()>=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY
+                && memberTransfer.getStatus()< SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY // 完成了校内转接，可以其他申请
+                ){
             return 2; // 已经申请了校内组织关系转接
         }
         return 0; // 可以

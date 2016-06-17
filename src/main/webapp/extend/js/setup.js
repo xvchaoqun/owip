@@ -130,6 +130,14 @@ $(window).on('resize.jqGrid3', function () {
     //alert(height)
     $(".jqGrid3").setGridHeight($(window).height()-400-height);
 })
+// 不改变高度
+$(window).on('resize.jqGrid4', function () {
+    var gridWidth = $(window).width()-70;
+    if($("#menu-toggler").is(":hidden")){ // 手机屏幕
+        gridWidth -= $(".nav-list").width()
+    }
+    $(".jqGrid4").jqGrid( 'setGridWidth', gridWidth );
+})
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
     if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
@@ -633,8 +641,10 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
 // 导出 for jqgrid
 $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 
+    var grid = $("#jqGrid");
+    var ids  = grid.getGridParam("selarrrow")
     var $div = $(this).closest(".myTableDiv");
-    location.href = $div.data("url-export") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
+    location.href = $div.data("url-export") +"?export=1&ids[]="+ids +"&" + $("div.myTableDiv #searchForm").serialize();
 });
 
 // 批量操作 for jqgrid
@@ -835,7 +845,7 @@ $(document).on("click", "#body-content .openView", function(){
     })
 });
 $(document).on("click", "#item-content .openView", function(){
-    var $container = $("#item-content");
+    /*var $container = $("#item-content");
     $container.showLoading({'afterShow':
         function() {
             setTimeout( function(){
@@ -844,7 +854,12 @@ $(document).on("click", "#item-content .openView", function(){
         }})
     $.get($(this).data("url"),{},function(html){
         $container.hideLoading().hide();
-        $("#item-content").hide().html(html).fadeIn("slow");
+        $("#item-content").hide().html(html).show();
+    })*/
+    $(this).attr("disabled", "disabled")
+    $.get($(this).data("url"),{},function(html){
+        $("#item-content").html(html);
+        $(this).removeAttr("disabled");
     })
 });
 $(document).on("click", "#item-content .closeView", function(){

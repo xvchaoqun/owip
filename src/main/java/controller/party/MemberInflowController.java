@@ -94,6 +94,7 @@ public class MemberInflowController extends BaseController {
                                   String _flowTime,
                                   String _growTime,
                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -185,6 +186,8 @@ public class MemberInflowController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberInflow_export(example, response);
             return;
         }

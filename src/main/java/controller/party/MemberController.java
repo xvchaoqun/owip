@@ -340,16 +340,21 @@ public class MemberController extends BaseController {
             modelMap) {
 
         modelMap.put("cls", cls);
-        if (cls == 1) { // => member.type=3 member.status=1
+        /**
+         * cls=1 学生党员 member.type=3 member.status=1
+         * cls=6 已转出的学生党员
+         */
+        if (cls == 1 || cls==6) {
             return "forward:/memberStudent_page";
         }
         /*
             cls=2教职工   =>  member.type=1 member.status=1
                 3离退休   =>  member.type=2 member.status=1
-                4应退休   =>  member.type=2 member.status=1
-                5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+                （弃用）4应退休   =>  member.type=2 member.status=1
+                （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+                cls=7 已转出的教工党员
          */
-        return "forward:/memberTeacher_page";
+         return "forward:/memberTeacher_page";
     }
 
  /*   @RequiresPermissions("member:view")

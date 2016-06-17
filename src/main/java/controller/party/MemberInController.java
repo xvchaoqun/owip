@@ -89,6 +89,7 @@ public class MemberInController extends BaseController {
                                     String fromTitle,
                                     String _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -155,6 +156,8 @@ public class MemberInController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberIn_export(example, response);
             return;
         }

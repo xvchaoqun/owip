@@ -163,6 +163,7 @@ public class MemberStudentController extends BaseController {
                                      String eduLevel,
                                      String eduType,
                                      @RequestParam(required = false, defaultValue = "0") int export,
+                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -174,7 +175,12 @@ public class MemberStudentController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         MemberStudentExample example = new MemberStudentExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+        Criteria criteria = example.createCriteria();
+        if(cls==6)
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+        else
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
@@ -257,7 +263,9 @@ public class MemberStudentController extends BaseController {
 
 
         if (export == 1) {
-            memberStudent_export(example, response);
+            if(ids!=null && ids.length>0)
+                criteria.andUserIdIn(Arrays.asList(ids));
+            memberStudent_export(cls, example, response);
             return;
         }
 
@@ -293,7 +301,7 @@ public class MemberStudentController extends BaseController {
         return "party/memberStudent/memberStudent_base";
     }
 
-    public void memberStudent_export(MemberStudentExample example, HttpServletResponse response) {
+    public void memberStudent_export(int cls, MemberStudentExample example, HttpServletResponse response) {
 
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
@@ -317,7 +325,7 @@ public class MemberStudentController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "学生党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = (cls==6?"已转出":"")+"学生党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

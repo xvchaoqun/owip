@@ -17,4 +17,18 @@
   <li class="${cls==5?'active':''}">
     <a ${cls!=5?'href="?cls=5"':''}><i class="fa fa-th${cls==5?'-large':''}"></i> 已退休党员</a>
   </li>--%>
+  <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+      <i class="fa fa-circle-o"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
+      <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+      <li>
+        <a href="?cls=6">学生</a>
+      </li>
+      <li>
+        <a href="?cls=7">教职工</a>
+      </li>
+    </ul>
+  </li>
 </ul>

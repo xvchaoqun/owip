@@ -34,14 +34,11 @@ import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
+import java.util.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class PartyMemberController extends BaseController {
@@ -64,6 +61,7 @@ public class PartyMemberController extends BaseController {
                                     Integer typeId,
                                     Boolean isAdmin,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
@@ -92,6 +90,8 @@ public class PartyMemberController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             partyMember_export(example, response);
             return null;
         }

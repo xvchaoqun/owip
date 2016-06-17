@@ -94,6 +94,7 @@ public class MemberReturnController extends BaseController {
                                     String _positiveTime,
                                     Byte politicalStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -205,6 +206,8 @@ public class MemberReturnController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberReturn_export(example, response);
             return;
         }

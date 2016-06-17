@@ -123,6 +123,7 @@ public class GraduateAbroadController extends BaseController {
                                     String _payTime,
                                     String mobile,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
@@ -211,6 +212,8 @@ public class GraduateAbroadController extends BaseController {
         }
         
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             graduateAbroad_export(example, response);
             return;
         }

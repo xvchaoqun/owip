@@ -101,8 +101,8 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_data")
     public void memberOut_data(@RequestParam(defaultValue = "1") byte cls, HttpServletResponse response,
-                               @SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
-                               @OrderParam(required = false, defaultValue = "desc") String order,
+                               /*@SortParam(required = false, defaultValue = "id", tableName = "ow_member_out") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,*/
                                Integer userId,
                                Byte status,
                                Boolean isBack,
@@ -116,6 +116,7 @@ public class MemberOutController extends BaseController {
                                String fromUnit,
                                String _handleTime,
                                @RequestParam(required = false, defaultValue = "0") int export,
+                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -131,7 +132,7 @@ public class MemberOutController extends BaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("print_count asc, id desc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -205,6 +206,8 @@ public class MemberOutController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberOut_export(example, response);
             return;
         }

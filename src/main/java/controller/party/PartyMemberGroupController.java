@@ -74,6 +74,7 @@ public class PartyMemberGroupController extends BaseController {
                                     String name,
                                     Integer partyId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -96,6 +97,8 @@ public class PartyMemberGroupController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             partyMemberGroup_export(example, response);
             return;
         }

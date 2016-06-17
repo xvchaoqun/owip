@@ -86,6 +86,7 @@ public class MemberTeacherController extends BaseController {
                                     String _growTime,
                                     String _positiveTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -201,6 +202,9 @@ public class MemberTeacherController extends BaseController {
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
+            case 7:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                break;
            /* case 4:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
@@ -212,7 +216,9 @@ public class MemberTeacherController extends BaseController {
         }
 
         if (export == 1) {
-            memberTeacher_export(example, response);
+            if(ids!=null && ids.length>0)
+                criteria.andUserIdIn(Arrays.asList(ids));
+            memberTeacher_export(cls, example, response);
             return;
         }
 
@@ -248,7 +254,7 @@ public class MemberTeacherController extends BaseController {
         return "party/memberTeacher/memberTeacher_base";
     }
 
-    public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {
+    public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
         int rownum = records.size();
@@ -277,7 +283,7 @@ public class MemberTeacherController extends BaseController {
 
             valuesList.add(values);
         }
-        String fileName = "教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = (cls==7?"已转出":"")+"教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }

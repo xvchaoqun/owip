@@ -121,7 +121,7 @@ public class MemberTransferService extends BaseMapper {
     public MemberTransfer get(int userId) {
 
         MemberTransferExample example = new MemberTransferExample();
-        example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
         if(memberTransfers.size()>0) return memberTransfers.get(0);
 
