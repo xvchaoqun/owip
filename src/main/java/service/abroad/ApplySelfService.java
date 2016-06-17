@@ -44,13 +44,11 @@ public class ApplySelfService extends BaseMapper {
     @Autowired
     protected SpringProps springProps;
 
-    // 查找下一步的审批人员
-    public List<Cadre> findNextApprovers(int applySelfId){
+    // 查找审批人
+    public List<Cadre> findApprovers(int cadreId, int approvalTypeId){
 
-        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-        // 下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
-        Integer flowNode = applySelf.getFlowNode();
-        if(flowNode<=0){ // 查找干部管理员
+        // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
+        if(approvalTypeId<=0){ // 查找干部管理员
             List<Cadre> cadres = new ArrayList<>();
             List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin");
             for (SysUser sysUser : cadreAdmin) {
@@ -59,10 +57,9 @@ public class ApplySelfService extends BaseMapper {
             }
             return cadres;
         }else {
-
-            Cadre cadre = applySelf.getCadre();
             Map<Integer, Cadre> cadreMap = cadreService.findAll();
-            ApproverType approverType = approverTypeService.findAll().get(flowNode);
+            Cadre cadre = cadreMap.get(cadreId);
+            ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
             if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
                 return cadreService.findMainPost(cadre.getUnitId());
             } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
@@ -77,7 +74,7 @@ public class ApplySelfService extends BaseMapper {
                 return cadres;
             }else{ // 查找其他身份下的审批人
                 List<Cadre> cadres = new ArrayList<>();
-                List<Approver> approvers = approverService.findByType(flowNode);
+                List<Approver> approvers = approverService.findByType(approvalTypeId);
                 for (Approver approver : approvers) {
                     Cadre _cadre = cadreMap.get(approver.getCadreId());
                     if (_cadre != null) cadres.add(_cadre);
@@ -85,6 +82,16 @@ public class ApplySelfService extends BaseMapper {
                 return cadres;
             }
         }
+    }
+
+    // 查找下一步的审批人员
+    public List<Cadre> findNextApprovers(int applySelfId){
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        // 下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
+        Integer flowNode = applySelf.getFlowNode();
+
+        return findApprovers(applySelf.getCadreId(), flowNode);
     }
 
     // 干部管理员 审批列表
@@ -295,6 +302,10 @@ public class ApplySelfService extends BaseMapper {
                             boolean canApproval = canApproval(shiroUser.getId(), applySelfId, keys[i]);
                             bean.setCanApproval(canApproval);
                             bean.setTdType(4);
+                            // 读取所有审批人
+                            ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+                            List<Cadre> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
+                            bean.setApprovalCadreList(approvers);
                         }
                         goToNext = false;
                     } else if (val.getValue() == 0) {

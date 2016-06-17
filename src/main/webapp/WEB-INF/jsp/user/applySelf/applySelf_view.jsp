@@ -27,7 +27,7 @@
         <button class="openView btn btn-info btn-sm"
                 data-url="${ctx}/applySelf_yearLogs?id=${applySelf.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 150px">
-          <i class="fa fa-history"></i>  本年度申请记录</button>
+          <i class="fa fa-history"></i>  本年度因私出国境记录</button>
 
       </div>
   </ul>

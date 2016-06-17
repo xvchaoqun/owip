@@ -26,10 +26,10 @@
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
                                 <div class="form-group">
-                                    <label>账号</label>
+                                    <label>操作人</label>
                                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                            <option value="${sysUser.id}">${sysUser.username}</option>
+                                            <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                         </select>
                                 </div>
                                         <div class="form-group">
@@ -83,14 +83,14 @@
         multiselect:false,
         url: '${ctx}/sysLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '模块',align:'center', name: 'logType.name', width: 120,frozen:true},
-            { label: '账号ID', align:'center', name: 'userId', width: 100,frozen:true },
-            { label: '账号', align:'center', name: 'operator', width: 100,frozen:true },
-            { label: '请求', align:'center', name: 'api', width: 250},
-            { label: '客户端', align:'center', name: 'agent', width: 350},
-            { label: '内容', align:'center', name: 'content', width: 300},
-            { label: '时间', align:'center', name: 'createTime', width: 150},
-            { label: 'IP', align:'center', name: 'ip', width: 150}
+            { label: '模块', name: 'logType.name', width: 120,frozen:true},
+            { label: '操作人',  name: 'operator', width: 100,frozen:true },
+            { label: '操作人学工号',  name: 'user.code', width: 120,frozen:true },
+            { label: '请求',  name: 'api', width: 250},
+            { label: '客户端',  name: 'agent', width: 350},
+            { label: '内容',  name: 'content', width: 300},
+            { label: '时间',  name: 'createTime', width: 150},
+            { label: 'IP',  name: 'ip', width: 150}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

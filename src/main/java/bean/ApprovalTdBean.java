@@ -1,5 +1,9 @@
 package bean;
 
+import domain.Cadre;
+
+import java.util.List;
+
 /**
  * Created by fafa on 2016/3/26.
  */
@@ -12,6 +16,7 @@ public class ApprovalTdBean {
      */
     private int tdType;
     private boolean canApproval;
+    private List<Cadre> approvalCadreList;
 
     public Integer getApplySelfId() {
         return applySelfId;
@@ -43,5 +48,13 @@ public class ApprovalTdBean {
 
     public void setCanApproval(boolean canApproval) {
         this.canApproval = canApproval;
+    }
+
+    public List<Cadre> getApprovalCadreList() {
+        return approvalCadreList;
+    }
+
+    public void setApprovalCadreList(List<Cadre> approvalCadreList) {
+        this.approvalCadreList = approvalCadreList;
     }
 }

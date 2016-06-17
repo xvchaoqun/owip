@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class SysLog implements Serializable {
 
+    public SysUser getUser(){
+        return CmTag.getUserById(userId);
+    }
     public MetaType getLogType(){
         Map<Integer, MetaType> logTypeMap = CmTag.getMetaTypes("mc_sys_log");
         return logTypeMap.get(typeId);

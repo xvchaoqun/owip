@@ -7,6 +7,8 @@ public class SysConfig implements Serializable {
 
     private String applySelfNote;
 
+    private String applySelfApprovalNote;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -23,5 +25,13 @@ public class SysConfig implements Serializable {
 
     public void setApplySelfNote(String applySelfNote) {
         this.applySelfNote = applySelfNote == null ? null : applySelfNote.trim();
+    }
+
+    public String getApplySelfApprovalNote() {
+        return applySelfApprovalNote;
+    }
+
+    public void setApplySelfApprovalNote(String applySelfApprovalNote) {
+        this.applySelfApprovalNote = applySelfApprovalNote == null ? null : applySelfApprovalNote.trim();
     }
 }

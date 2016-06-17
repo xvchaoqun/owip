@@ -13,7 +13,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${currentYear}年度所有的因私出国（境）申请记录</a>
+                    <a href="javascript:;">${currentYear}年度因私出国境记录</a>
                 </li>
             </ul>
         </div>
@@ -54,28 +54,26 @@
             }},
             { label: '审批情况', align:'center', name: 'status', width: 100 , formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                return processTdBean(tdBean)
+                return (function(tdBean){
+                    var type = tdBean.tdType;
+                    console.log(type)
+                    var html = "";
+                    switch (type){
+                        //not_approval
+                        case 2:
+                        case 3:
+                        case 4: html = "待审批"; break;
+                        case 5: html = "未通过审批"; break;
+                        case 6: html = "通过审批"; break;
+                    }
+
+                    return html;
+                })(tdBean);
             }}
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid2');
         }
     });
-    function processTdBean(tdBean){
-
-        var type = tdBean.tdType;
-        console.log(type)
-        var html = "";
-        switch (type){
-            //not_approval
-            case 2:
-            case 3:
-            case 4: html = "待审批"; break;
-            case 5: html = "未通过审批"; break;
-            case 6: html = "通过审批"; break;
-        }
-
-        return html;
-    }
 
 </script>

@@ -21,7 +21,7 @@ public class MyXssFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-        if(StringUtils.equals(requestURI, "/applySelf_note")){
+        if(StringUtils.equals(requestURI, "/sysConfig_note")){
             filterChain.doFilter(request, response);
             return;
         }

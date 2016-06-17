@@ -42,6 +42,10 @@
 
 <c:set var="LOGIN_TYPE_MAP" value="<%=SystemConstants.LOGIN_TYPE_MAP%>"/>
 
+<c:set var="SYS_CONFIG_APPLY_SELF_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_NOTE%>"/>
+<c:set var="SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE%>"/>
+<c:set var="SYS_CONFIG_MAP" value="<%=SystemConstants.SYS_CONFIG_MAP%>"/>
+
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>

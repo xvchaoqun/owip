@@ -70,6 +70,15 @@ public class SystemConstants {
 		ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
 	}
 
+	// 系统配置字段：1 因私出国（境）申请说明 2 因私出国（境）审批说明
+	public static final byte SYS_CONFIG_APPLY_SELF_NOTE = 1;
+	public static final byte SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = 2;
+	public final static Map<Byte, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
+	static {
+		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_NOTE, "因私出国境申请说明");
+		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE, "因私出国境审批说明");
+	}
+
 	// 登录类型：1 网站 2 下次自动登录 2 CAS 3 移动设备
 	public static final byte LOGIN_TYPE_NET = 1;
 	public static final byte LOGIN_TYPE_NET_REMEBERME = 2;

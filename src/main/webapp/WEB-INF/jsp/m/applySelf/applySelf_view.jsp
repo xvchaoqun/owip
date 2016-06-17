@@ -185,8 +185,6 @@
                 </div>
               </div>
 
-
-
               <div class="profile-info-row">
                 <div class="profile-info-name"> 费用来源 </div>
 
@@ -220,13 +218,6 @@
                 </div>
               </div>
 
-              <div class="profile-info-row">
-                <div class="profile-info-name"> 费用来源 </div>
-
-                <div class="profile-info-value">
-                  <span class="editable">${applySelf.costSource}</span>
-                </div>
-              </div>
             </div>
           </div>
 

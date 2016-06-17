@@ -63,8 +63,8 @@
       </table>-->
       <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
       </table>-->
-        <table tableName="ow_member_out" domainObjectName="MemberOut">
-       </table>
+        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
+       </table>-->
       <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
       </table>-->
 
@@ -233,9 +233,10 @@
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-      <!--<table tableName="sys_config" domainObjectName="SysConfig">
+      <table tableName="sys_config" domainObjectName="SysConfig">
           <columnOverride column="apply_self_note" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
+          <columnOverride column="apply_self_approval_note" jdbcType="VARCHAR"></columnOverride>
+      </table>
 
       <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
       </table>-->

@@ -99,8 +99,19 @@ public class UserApplySelfController extends BaseController {
 
         SysConfig SysConfig = sysConfigService.get();
         modelMap.put("notice", SysConfig.getApplySelfNote());
+        modelMap.put("type", SystemConstants.SYS_CONFIG_APPLY_SELF_NOTE);
 
-        return "user/applySelf/applySelf_note";
+        return "sys/sysConfig/sysConfig_note";
+    }
+    @RequiresRoles("cadre")
+    @RequestMapping("/applySelf_approvalNote")
+    public String applySelf_approvalNote(ModelMap modelMap) {
+
+        SysConfig SysConfig = sysConfigService.get();
+        modelMap.put("notice", SysConfig.getApplySelfApprovalNote());
+        modelMap.put("type", SystemConstants.SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE);
+
+        return "sys/sysConfig/sysConfig_note";
     }
 
     @RequiresRoles("cadre")

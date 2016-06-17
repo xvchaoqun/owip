@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.SysConfig" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="apply_self_note" property="applySelfNote" jdbcType="VARCHAR" />
+    <result column="apply_self_approval_note" property="applySelfApprovalNote" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, apply_self_note
+    id, apply_self_note, apply_self_approval_note
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysConfigExample" >
     select
@@ -97,8 +98,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.SysConfig" >
-    insert into sys_config (id, apply_self_note)
-    values (#{id,jdbcType=INTEGER}, #{applySelfNote,jdbcType=VARCHAR})
+    insert into sys_config (id, apply_self_note, apply_self_approval_note
+      )
+    values (#{id,jdbcType=INTEGER}, #{applySelfNote,jdbcType=VARCHAR}, #{applySelfApprovalNote,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.SysConfig" >
     insert into sys_config
@@ -109,6 +112,9 @@
       <if test="applySelfNote != null" >
         apply_self_note,
       </if>
+      <if test="applySelfApprovalNote != null" >
+        apply_self_approval_note,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -116,6 +122,9 @@
       </if>
       <if test="applySelfNote != null" >
         #{applySelfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="applySelfApprovalNote != null" >
+        #{applySelfApprovalNote,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +143,9 @@
       <if test="record.applySelfNote != null" >
         apply_self_note = #{record.applySelfNote,jdbcType=VARCHAR},
       </if>
+      <if test="record.applySelfApprovalNote != null" >
+        apply_self_approval_note = #{record.applySelfApprovalNote,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +154,8 @@
   <update id="updateByExample" parameterType="map" >
     update sys_config
     set id = #{record.id,jdbcType=INTEGER},
-      apply_self_note = #{record.applySelfNote,jdbcType=VARCHAR}
+      apply_self_note = #{record.applySelfNote,jdbcType=VARCHAR},
+      apply_self_approval_note = #{record.applySelfApprovalNote,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +166,16 @@
       <if test="applySelfNote != null" >
         apply_self_note = #{applySelfNote,jdbcType=VARCHAR},
       </if>
+      <if test="applySelfApprovalNote != null" >
+        apply_self_approval_note = #{applySelfApprovalNote,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.SysConfig" >
     update sys_config
-    set apply_self_note = #{applySelfNote,jdbcType=VARCHAR}
+    set apply_self_note = #{applySelfNote,jdbcType=VARCHAR},
+      apply_self_approval_note = #{applySelfApprovalNote,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.SysConfigExample" id="selectByExampleWithRowbounds" >

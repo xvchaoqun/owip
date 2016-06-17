@@ -27,9 +27,8 @@
                     </li>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                        <shiro:hasPermission name="safeBox:edit">
-                            <a class="btn btn-success btn-sm" onclick="_note()"><i class="fa fa-plus"></i> 申请说明</a>
-                        </shiro:hasPermission>
+                            <a class="btn btn-success btn-sm" onclick="_note(${SYS_CONFIG_APPLY_SELF_NOTE})"><i class="fa fa-plus"></i> 申请说明</a>
+                            <a class="btn btn-primary btn-sm" onclick="_note(${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE})"><i class="fa fa-plus"></i> 审批说明</a>
                     </div>
                 </ul>
 
@@ -130,6 +129,16 @@
         </div>
     </div>
 </div>
+<style>
+    .tooltip-inner {
+        background-color: #D13127;
+        color: #fff;
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #D13127;
+    }
+</style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
@@ -165,6 +174,14 @@
                         var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
                         if(tdBean.tdType==2)
                             return "class='not_approval'"
+                        if(tdBean.tdType==4) {
+                            var apprvalRealnames = [];
+                            for (var i in tdBean.approvalCadreList) {
+                                var cadre = tdBean.approvalCadreList[i];
+                                apprvalRealnames.push(cadre.user.realname);
+                            }
+                            return "data-tooltip=\"tooltip\" title=\"{0}\"".format(apprvalRealnames.join("，"))
+                        }
                     }, formatter:function(cellvalue, options, rowObject){
                     var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
                     return processTdBean(tdBean)
@@ -178,7 +195,10 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
             }}
-        ]}).jqGrid("setFrozenColumns");
+        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+
+         $('[data-tooltip="tooltip"]').tooltip({container:'body'});
+    });
     $(window).triggerHandler('resize.jqGrid');
 
     //初审未通过，或者终审完成，需要短信提醒
@@ -213,7 +233,9 @@
                     "        data-url=\"${ctx}/applySelf_view?type=aproval&id={2}&approvalTypeId={3}\">" +
                     "        <i class=\"fa fa-edit\"></i> 审批" +
                     "        </button>";
-                    html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);
+                    html = html.format(canApproval ? "" : "disabled",
+                            canApproval ? "btn-success" : "btn-default",
+                            applySelfId, approvalTypeId);
             } break;
             case 5: html = "未通过"; break;
             case 6: html = "通过"; break;
@@ -222,12 +244,10 @@
         return html;
     }
 
-    function  _note(){
-        loadModal("${ctx}/applySelf_note", 650);
+    function  _note(type){
+        loadModal("${ctx}/sysConfig_note?type="+type, 650);
     }
-
-
-    $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    $('#searchForm [data-rel="select2"]').select2();
     register_user_select($('[data-rel="select2-ajax"]'));
 </script>

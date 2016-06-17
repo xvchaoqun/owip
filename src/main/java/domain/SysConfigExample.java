@@ -233,6 +233,76 @@ public class SysConfigExample {
             addCriterion("apply_self_note not between", value1, value2, "applySelfNote");
             return (Criteria) this;
         }
+
+        public Criteria andApplySelfApprovalNoteIsNull() {
+            addCriterion("apply_self_approval_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteIsNotNull() {
+            addCriterion("apply_self_approval_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteEqualTo(String value) {
+            addCriterion("apply_self_approval_note =", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteNotEqualTo(String value) {
+            addCriterion("apply_self_approval_note <>", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteGreaterThan(String value) {
+            addCriterion("apply_self_approval_note >", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteGreaterThanOrEqualTo(String value) {
+            addCriterion("apply_self_approval_note >=", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteLessThan(String value) {
+            addCriterion("apply_self_approval_note <", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteLessThanOrEqualTo(String value) {
+            addCriterion("apply_self_approval_note <=", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteLike(String value) {
+            addCriterion("apply_self_approval_note like", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteNotLike(String value) {
+            addCriterion("apply_self_approval_note not like", value, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteIn(List<String> values) {
+            addCriterion("apply_self_approval_note in", values, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteNotIn(List<String> values) {
+            addCriterion("apply_self_approval_note not in", values, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteBetween(String value1, String value2) {
+            addCriterion("apply_self_approval_note between", value1, value2, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySelfApprovalNoteNotBetween(String value1, String value2) {
+            addCriterion("apply_self_approval_note not between", value1, value2, "applySelfApprovalNote");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

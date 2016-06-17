@@ -28,13 +28,24 @@ public class SysConfigService extends BaseMapper {
 	}
 
 	@CacheEvict(value="sysConfigCache", allEntries = true)
-	public void updateApplySelfNote(String applySelfNote){
+	public void updateApplySelfNote(String note){
 
 		SysConfig sysConfig = get();
 
 		SysConfig record = new SysConfig();
 		record.setId(sysConfig.getId());
-		record.setApplySelfNote(applySelfNote);
+		record.setApplySelfNote(note);
+		sysConfigMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@CacheEvict(value="sysConfigCache", allEntries = true)
+	public void updateApplySelfApprovalNote(String note){
+
+		SysConfig sysConfig = get();
+
+		SysConfig record = new SysConfig();
+		record.setId(sysConfig.getId());
+		record.setApplySelfApprovalNote(note);
 		sysConfigMapper.updateByPrimaryKeySelective(record);
 	}
 }

@@ -1,4 +1,9 @@
 
+--2016-6-17
+ALTER TABLE `sys_config`
+	ADD COLUMN `apply_self_approval_note` LONGTEXT NULL COMMENT '因私出国审批说明' AFTER `apply_self_note`;
+ALTER TABLE `sys_config`
+	CHANGE COLUMN `id` `id` INT UNSIGNED NOT NULL AUTO_INCREMENT FIRST;
 --2016-6-15
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `is_print` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打印' AFTER `apply_time`,

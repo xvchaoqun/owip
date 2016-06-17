@@ -6,6 +6,7 @@ import controller.BaseController;
 import domain.*;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRStyledText;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
@@ -159,7 +160,7 @@ public class ReportController extends BaseController {
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
-    public String big(Integer id, Model model) throws IOException, DocumentException {
+    public String cancel(Integer id, Model model) throws IOException, DocumentException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
@@ -318,6 +319,85 @@ public class ReportController extends BaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
+    }
+
+    @RequestMapping(value = "/abroad_draw_proof", method = RequestMethod.GET)
+    public String abroad_draw_proof(@CurrentUser SysUser loginUser,
+                                    @RequestParam(value = "ids[]") Integer[] ids,
+                                    Integer type,
+                                    Model model) throws IOException, DocumentException {
+
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
+        // 分党委、组织部管理员或管理员才可以操作
+        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
+            throw new UnauthorizedException();
+        }
+
+        List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
+        for (Integer id : ids) {
+            Map<String, Object> map = getDrawProofMap(id);
+            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator +"abroad_draw_proof.jpg" );
+            if(type!=null && type==1){
+                map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+            }
+            data.add(map);
+        }
+
+        // 报表数据源
+        JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
+
+        model.addAttribute("url", "/WEB-INF/jasper/abroad_draw_proof.jasper");
+        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("jrMainDataSource", jrDataSource);
+
+        return "iReportView"; // 对应jasper-defs.xml中的bean id
+    }
+
+    // 获取因私证件领取相关信息
+    public Map getDrawProofMap(int id){
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+
+        Integer cadreId = passportDraw.getCadreId();
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        SysUser sysUser = cadre.getUser();
+        String realname = sysUser.getRealname();
+        String code = sysUser.getCode();
+        String unit = cadre.getUnit().getName();
+
+        String passportName = passportDraw.getPassportClass().getName();
+        ApplySelf applySelf = passportDraw.getApplySelf();
+        String toCountry = applySelf.getToCountry();
+        Date startDate = applySelf.getStartDate();
+        Date endDate = applySelf.getEndDate();
+        String travelTime = DateUtils.formatDate(startDate, DateUtils.YYYY_MM_DD_CHINA);
+        if(DateUtils.getYear(startDate) == DateUtils.getYear(endDate)){
+            travelTime += "-" + DateUtils.formatDate(endDate, "MM月dd日");
+        }else{
+            travelTime += "-" + DateUtils.formatDate(endDate, DateUtils.YYYY_MM_DD_CHINA);
+        }
+        String reason = applySelf.getReason();
+
+        /*if(passportDraw.getDrawTime()==null){
+            new RuntimeException("证件还未领取");
+        }*/
+
+        String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD_CHINA);
+        String printTime = DateUtils.getCurrentDateTime(DateUtils.YYYY_MM_DD_CHINA);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("realname", realname);
+        map.put("code", code);
+        map.put("unit", unit);
+        map.put("drawTime", drawTime);
+        map.put("passportName", passportName);
+        map.put("travelTime", travelTime);
+        map.put("toCountry", toCountry);
+        map.put("reason", reason);
+        map.put("printTime", printTime);
+
+
+        return map;
     }
 
     /**

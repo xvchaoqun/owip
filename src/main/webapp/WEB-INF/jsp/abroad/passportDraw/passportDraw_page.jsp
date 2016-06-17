@@ -27,6 +27,13 @@ pageEncoding="UTF-8" %>
 
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
+                            <div class="jqgrid-vertical-offset buttons">
+                               <c:if test="${type==1}">
+                                <button class="printProofBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-info-circle"></i> 打印在职证明
+                                </button>
+                               </c:if>
+                            </div>
         <div class="myTableDiv"
              data-url-au="${ctx}/passportDraw_au"
              data-url-page="${ctx}/passportDraw_page"
@@ -92,6 +99,18 @@ pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 
 <script>
+
+    $(".printProofBtn").click(function(){
+        var grid = $("#jqGrid");
+        var ids  = grid.getGridParam("selarrrow");
+
+        if(ids.length==0){
+            SysMsg.warning("请选择行", "提示");
+            return ;
+        }
+        printWindow("${ctx}/report/abroad_draw_proof?ids[]="+ ids)
+    });
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

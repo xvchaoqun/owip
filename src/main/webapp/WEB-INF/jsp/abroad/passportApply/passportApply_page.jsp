@@ -156,7 +156,11 @@ pageEncoding="UTF-8" %>
             { label:'审批日期', align:'center',name: 'approveTime', width: 180},
                 </c:if>
             <c:if test="${status==1 ||status==3}">
-            { label:'应交日期', name: 'expectDate'},
+            { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
+                var expectDate = rowObject.expectDate;
+                if(expectDate<=new Date().format('yyyy-MM-dd'))
+                    return "class='danger'"
+            }},
             </c:if>
             <c:if test="${status==3}">
             { label:'实交日期', name: 'handleDate'},

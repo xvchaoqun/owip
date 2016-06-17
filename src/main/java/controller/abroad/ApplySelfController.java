@@ -39,26 +39,6 @@ public class ApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("applySelf:note")
-    @RequestMapping("/applySelf_note")
-    public String applySelf_note(ModelMap modelMap) {
-
-        SysConfig SysConfig = sysConfigService.get();
-        modelMap.put("sysConfig", SysConfig);
-
-        return "abroad/applySelf/applySelf_note";
-    }
-
-    @RequiresPermissions("applySelf:note")
-    @RequestMapping(value = "/applySelf_note", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_applySelf_note(String notice, ModelMap modelMap) {
-
-        sysConfigService.updateApplySelfNote(notice);
-
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("applySelf:approval")
     @RequestMapping("/applySelf_approval")
     public String applySelf_approval() {
@@ -244,9 +224,10 @@ public class ApplySelfController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        // 本年度的申请记录
+        // 本年度的申请记录（通过审批的）
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
+        criteria.andIsAgreedEqualTo(true);
         criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
                 DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
         example.setOrderByClause("create_time desc");

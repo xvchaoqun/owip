@@ -27,6 +27,8 @@
                                     class="jqOpenViewBtn btn btn-warning btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
+
+                            <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 审批说明</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -114,6 +116,15 @@
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+            ondblClickRow : function(rowid,iRow,iCol,e){
+                var approvalBtn = $("[role='row'][id="+rowid+"]", "#jqGrid").find(".openView.btn-success");
+                if(approvalBtn && approvalBtn.length==1){
+                    //alert(0)
+                    approvalBtn.click();
+                }else{
+                    $(".jqOpenViewBtn").click();
+                }
+            },
         colModel: [
             { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
             { label: '工作证号', align:'center', name: 'user.code', width: 100,frozen:true },
@@ -185,10 +196,9 @@
         return html;
     }
 
-    function  _note(){
-        loadModal("${ctx}/applySelf_note", 650);
-    }
-
+    $("#note").click(function(){
+        loadModal("${ctx}/user/applySelf_approvalNote", 650);
+    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
