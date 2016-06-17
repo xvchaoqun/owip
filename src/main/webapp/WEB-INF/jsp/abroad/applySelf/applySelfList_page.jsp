@@ -22,11 +22,18 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <button data-url="${ctx}/applySelf_view"
-                                    data-open-by="page"
-                                    class="jqOpenViewBtn btn btn-warning btn-sm">
-                                <i class="fa fa-info-circle"></i> 详情
-                            </button>
+                            <c:if test="${status==1}">
+                                <button id="detailBtn" data-url="${ctx}/applySelf_view"
+                                        data-open-by="page"
+                                        class="jqOpenViewBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-info-circle"></i> 详情
+                                </button>
+                            </c:if>
+                            <c:if test="${status==0}">
+                                <button id="detailBtn" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-info-circle"></i> 详情
+                                </button>
+                            </c:if>
 
                             <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 审批说明</a>
                         </div>
@@ -113,17 +120,27 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $("#detailBtn").click(function(){
+        var grid = $("#jqGrid");
+        var id  = grid.getGridParam("selrow");
+        var ids  = grid.getGridParam("selarrrow")
+        if(!id || ids.length>1){
+            SysMsg.warning("请选择一行", "提示");
+            return ;
+        }
+        jgrid_sid = id;
+
+        var approvalBtn = $("[role='row'][id="+id+"]", "#jqGrid").find(".openView.btn-success");
+        if(approvalBtn && approvalBtn.length==1){
+            //alert(0)
+            approvalBtn.click();
+        }
+    });
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
             ondblClickRow : function(rowid,iRow,iCol,e){
-                var approvalBtn = $("[role='row'][id="+rowid+"]", "#jqGrid").find(".openView.btn-success");
-                if(approvalBtn && approvalBtn.length==1){
-                    //alert(0)
-                    approvalBtn.click();
-                }else{
-                    $(".jqOpenViewBtn").click();
-                }
+                $("#detailBtn").click();
             },
         colModel: [
             { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },

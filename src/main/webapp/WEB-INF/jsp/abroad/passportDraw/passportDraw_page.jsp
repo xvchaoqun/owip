@@ -30,7 +30,7 @@ pageEncoding="UTF-8" %>
                             <div class="jqgrid-vertical-offset buttons">
                                <c:if test="${type==1}">
                                 <button class="printProofBtn btn btn-warning btn-sm">
-                                    <i class="fa fa-info-circle"></i> 打印在职证明
+                                    <i class="fa fa-print"></i> 打印在职证明
                                 </button>
                                </c:if>
                             </div>
