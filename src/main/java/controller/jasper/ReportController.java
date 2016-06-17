@@ -371,7 +371,7 @@ public class ReportController extends BaseController {
         Date startDate = applySelf.getStartDate();
         Date endDate = applySelf.getEndDate();
         String travelTime = DateUtils.formatDate(startDate, DateUtils.YYYY_MM_DD_CHINA);
-        if(DateUtils.getYear(startDate) == DateUtils.getYear(endDate)){
+        if(DateUtils.getYear(startDate).intValue() == DateUtils.getYear(endDate)){
             travelTime += "-" + DateUtils.formatDate(endDate, "MM月dd日");
         }else{
             travelTime += "-" + DateUtils.formatDate(endDate, DateUtils.YYYY_MM_DD_CHINA);
