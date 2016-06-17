@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
                         </shiro:hasPermission>
-                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                        <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/memberModify_page"
                                 data-id-name="userId"
                                 data-open-by="page">

@@ -51,6 +51,16 @@ iframe{background: transparent;}
 .login_box .login-layout#reg dd input.yz{height: 33px;line-height: 33px}
 .login_box .login-layout#reg dd img{height: 33px}
 
+.login_box .login-error{
+	font-size: 12pt;
+	color:#c7254e;
+	background-color: #f9f2f4;
+	border-radius:6px;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 20px;
+	margin: -15px 45px 0 50px;
+}
 
 input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0px 1000px white inset;

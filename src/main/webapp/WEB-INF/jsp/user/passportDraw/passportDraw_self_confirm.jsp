@@ -62,10 +62,10 @@
     <form class="form-horizontal">
     <div class="well center" style="margin-top: 20px; font-size: 20px">
         <div class="row" style="padding-left: 50px">
-            <div style="float: left; font-weight: bolder">申请使用证件名称：</div>
+            <div style="float: left; font-weight: bolder;width: 200px;text-align: right">申请使用证件名称：</div>
             <c:forEach items="${passports}" var="passport">
                 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
-                <div style="float: left; margin-right: 40px;">
+                <div style="float: left; margin-right: 40px; padding-left: 10px">
                     <input type="checkbox" class="big" ${passport.id==param.passportId?"checked":""} disabled
                            data-sign="${passportType.code != 'mt_passport_normal'}" class="bigger"> ${passportType.name}
                     <c:if test="${passportType.code != 'mt_passport_normal'}">
@@ -80,18 +80,17 @@
             </c:forEach>
         </div>
 
-    </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">领取证件用途：</label>
-            <div class="col-xs-3 label-text"  id="useTypeDiv">
-                <c:forEach var="useType" items="${PASSPORT_DRAW_USE_TYPE_MAP}">
-                    <label>
-                        <input name="useType" type="radio" class="ace" value="${useType.key}"/>
-                        <span class="lbl"> ${useType.value}</span>
-                    </label>
-                </c:forEach>
-            </div>
+        <div class="row" style="padding-left: 50px; padding-top: 15px">
+            <div style="float: left; font-weight: bolder;width: 200px;text-align: right" id="useTypeDiv">领取证件用途：</div>
+            <div style="float: left; margin-right: 40px; padding-left: 10px;">
+            <c:forEach var="useType" items="${PASSPORT_DRAW_USE_TYPE_MAP}">
+             <input name="useType" type="radio" class="bigger" value="${useType.key}"/>  ${useType.value}
+                &nbsp;
+            </c:forEach>
+                </div>
         </div>
+    </div>
+
         <div class="form-group">
             <label class="col-xs-3 control-label">备注：</label>
             <div class="col-xs-3">
@@ -119,8 +118,8 @@
             //SysMsg.warning('请选择领取证件用途');
             $('#useTypeDiv').qtip({content:'请选择领取证件用途。',
                 position: {
-                    my: 'center left',
-                    at: 'center right'
+                    my: 'top left',
+                    at: 'bottom right'
                 },show: true, hide: 'unfocus'});
             return false;
         }

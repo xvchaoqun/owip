@@ -65,7 +65,7 @@
 							<label class="col-xs-5 control-label">转入单位抬头</label>
 							<div class="col-xs-7">
 								<textarea required class="form-control" rows="4" type="text" name="toTitle">${memberOut.toTitle}</textarea>
-								<span class="red">注：京外抬头必须是区县级以上组织部门</span>
+								<span class="green">注：如果类别是京外，则抬头必须是区县级以上组织部门</span>
 							</div>
 						</div>
 						<div class="form-group">

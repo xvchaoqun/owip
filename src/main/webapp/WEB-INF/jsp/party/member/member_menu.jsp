@@ -19,7 +19,7 @@
   </li>--%>
   <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-      <i class="fa fa-circle-o"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
+      <i class="fa fa-sign-out"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
       <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px">

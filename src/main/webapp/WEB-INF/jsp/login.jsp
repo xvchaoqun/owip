@@ -34,12 +34,7 @@
 
         <div id="login" class="visible login-layout" >
             <c:if test="${not empty error}">
-            <div style="font-size: 12pt;
-            color:#c7254e; background-color: #f9f2f4;border-radius:6px;
-            height: 35px;
-            line-height: 35px;
-            padding-left: 20px;
-            margin: -15px 45px 0 50px; ">
+            <div class="login-error">
             <i class="fa fa-times"></i> ${error}</div>
             </c:if>
             <form id="login-form" method="POST" action="${ctx}/login">

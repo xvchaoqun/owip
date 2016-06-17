@@ -370,9 +370,35 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        SysMsg.success('申请成功。', '成功', function(){
-							page_reload();
-						});
+
+						bootbox.dialog({
+							message:'<p style="padding:30px;font-size:20pt;text-indent: 2em; ">您可以继续申请使用因私出国境证件，' +
+							'也可以在因私出国境申请通过审批之后，再次登陆系统申请。</p>',
+							callback:function(){alert(1)},
+							title:'<h3 class="label label-success" style="font-size: 30px; height: 50px;border-radius:6px;">申请成功</h3>',
+							buttons: {
+								Cancel: {
+									label: "暂时不申请",
+									className: "btn-primary",
+									callback: function () {
+										page_reload();
+									}
+								}
+								, OK: {
+									label: "继续申请",
+									className: "btn-success",
+									callback: function () {
+										$("#sidebar a[href='/user/applySelf']").closest("li").removeClass("active");
+										$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
+										$("#body-content").hide();
+										$.get("${ctx}/user/passportDraw_self",{},function(html){
+											$("#item-content").hide().html(html).fadeIn("slow");
+										})
+									}
+								}
+							}
+						}).draggable({handle :".modal-header"});
+
                     }
                 }
             });

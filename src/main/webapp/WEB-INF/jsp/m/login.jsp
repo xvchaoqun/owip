@@ -32,7 +32,7 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i>
-												请输入用户名和密码
+												请使用信息门户账号密码登录
 											</h4>
 
 											<div class="space-6"></div>
@@ -41,7 +41,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" name="username" class="form-control" placeholder="用户名" />
+															<input type="text" name="username" class="form-control" placeholder="账号" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
