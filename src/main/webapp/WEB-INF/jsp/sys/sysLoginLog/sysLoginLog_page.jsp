@@ -72,6 +72,12 @@
         url: '${ctx}/sysLoginLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '账号', name: 'username', width: 100,frozen:true },
+            { label: '姓名', name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.user==undefined)
+                    return "";
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
+                        .format(rowObject.user.id, rowObject.user.realname);
+            },frozen:true },
             { label: '登录时间', name: 'loginTime', width: 150},
             { label: '登录IP', name: 'loginIp'},
             { label: '上次登录时间', name: 'lastLoginTime', width: 150},

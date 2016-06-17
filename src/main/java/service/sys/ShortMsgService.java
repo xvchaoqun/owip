@@ -255,6 +255,7 @@ public class ShortMsgService extends BaseMapper {
                 record.setType(type);
                 record.setRemark("test");
                 record.setStatus(false);
+                record.setIp(ip);
                 shortMsgMapper.insertSelective(record);
 
                 return true;

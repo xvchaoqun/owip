@@ -35,7 +35,10 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '会话ID', name: 'sid', width: 280,frozen:true },
             { label: '账号', name: 'shiroUser.username', width: 150,frozen:true },
-            { label: '姓名', name: 'shiroUser.realname', width: 120,frozen:true },
+            { label: '姓名', name: 'shiroUser.realname', width: 120, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
+                        .format(rowObject.shiroUser.id, rowObject.shiroUser.realname);
+            },frozen:true },
             { label: '角色', name: 'shiroUser.roles', width: 300, formatter: function (cellvalue, options, rowObject) {
                 //console.log(_cMap.ROLE_MAP)
                 return $.map(cellvalue, function(item){
