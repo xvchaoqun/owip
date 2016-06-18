@@ -4,6 +4,7 @@ import bean.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.Cadre;
 import domain.MetaType;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -92,7 +93,8 @@ public class ShiroUser implements Serializable{
                 }
 
                 // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
-                if (!(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+                if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW ||
+                        !(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
 
                     userPermissions.remove("applySelf:approvalList");
                     if (!userRoles.contains("cadreAdmin")) {

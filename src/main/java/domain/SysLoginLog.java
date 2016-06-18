@@ -1,5 +1,6 @@
 package domain;
 
+import org.apache.commons.lang.StringUtils;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,6 +9,9 @@ import java.util.Date;
 public class SysLoginLog implements Serializable {
 
     public SysUser getUser(){
+
+        if(StringUtils.isBlank(username)) return null;
+
         return CmTag.getUserByUsername(username);
     }
 
