@@ -165,7 +165,7 @@
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
             { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, cellattr:function(rowId, val, rowObject, cm, rdata) {
-                var tdBean = rowObject.approvalTdBeanMap[0];
+                var tdBean = rowObject.approvalTdBeanMap[-1];
                 return approverTdAttrs(tdBean);
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
@@ -196,7 +196,8 @@
 
     function approverTdAttrs(tdBean){
         var attrs = "";
-        if(tdBean.tdType==2)
+        //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
+        if(tdBean.approvalTypeId != -1 && tdBean.tdType==2)
             attrs = "class='not_approval' "
         if(tdBean.tdType!=1) {
             var apprvalRealnames = [];
