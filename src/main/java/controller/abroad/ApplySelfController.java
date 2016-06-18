@@ -306,6 +306,7 @@ public class ApplySelfController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
+        request.setAttribute("needApproverList", true);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);

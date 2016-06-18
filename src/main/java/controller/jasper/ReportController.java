@@ -393,7 +393,7 @@ public class ReportController extends BaseController {
         map.put("passportName", passportName);
         map.put("travelTime", travelTime);
         map.put("toCountry", toCountry);
-        map.put("reason", reason);
+        map.put("reason", StringUtils.replace(reason, "+++", "，"));
         map.put("printTime", printTime);
 
 

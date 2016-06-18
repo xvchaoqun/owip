@@ -164,7 +164,10 @@
             { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
-            { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, cellattr:function(rowId, val, rowObject, cm, rdata) {
+                var tdBean = rowObject.approvalTdBeanMap[0];
+                return approverTdAttrs(tdBean);
+            }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return processTdBean(tdBean)
             }},
@@ -172,16 +175,7 @@
                 { label:'${type.value.name}审批', align:'center', name: 'approver${type.key}', width: 150,
                     cellattr:function(rowId, val, rowObject, cm, rdata) {
                         var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
-                        if(tdBean.tdType==2)
-                            return "class='not_approval'"
-                        if(tdBean.tdType==4) {
-                            var apprvalRealnames = [];
-                            for (var i in tdBean.approvalCadreList) {
-                                var cadre = tdBean.approvalCadreList[i];
-                                apprvalRealnames.push(cadre.user.realname);
-                            }
-                            return "data-tooltip=\"tooltip\" title=\"{0}\"".format(apprvalRealnames.join("，"))
-                        }
+                        return approverTdAttrs(tdBean);
                     }, formatter:function(cellvalue, options, rowObject){
                     var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
                     return processTdBean(tdBean)
@@ -189,8 +183,7 @@
             </c:forEach>
             { label:'组织部终审', align:'center', name: 'expiryDate', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                if(tdBean.tdType==2)
-                    return "class='not_approval'"
+                return approverTdAttrs(tdBean);
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
@@ -201,6 +194,20 @@
     });
     $(window).triggerHandler('resize.jqGrid');
 
+    function approverTdAttrs(tdBean){
+        var attrs = "";
+        if(tdBean.tdType==2)
+            attrs = "class='not_approval' "
+        if(tdBean.tdType!=1) {
+            var apprvalRealnames = [];
+            for (var i in tdBean.approverList) {
+                var sysUser = tdBean.approverList[i];
+                apprvalRealnames.push(sysUser.realname);
+            }
+            attrs += "data-tooltip=\"tooltip\" title=\"S{0}：{1}\"".format(tdBean.applySelfId, apprvalRealnames.join("，"))
+        }
+        return attrs;
+    }
     //初审未通过，或者终审完成，需要短信提醒
 /*    function processMsgTdBean(rowObject){
         var html = "";
