@@ -47,7 +47,7 @@ public class FileController extends BaseController {
         PassportDrawFile passportDrawFile = passportDrawFileMapper.selectByPrimaryKey(id);
         if (passportDrawFile != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
-            if(passportDraw.getUserId().intValue() != loginUser.getId()) {
+            if(passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN));
                 // 本人、干部管理员或管理员才可以下载
                 if (!hasRoles[0] && !hasRoles[1]) {
