@@ -8,14 +8,14 @@
 <form class="form-horizontal" action="${ctx}/profile_sign" id="signForm" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label class="col-xs-3 control-label" style="line-height: 200px">手写签名</label>
-    <div class="col-xs-2 file" style="width:300px;height: 200px">
+    <div class="col-xs-2 file" style="width:360px;height: 200px">
         <input required type="file" name="sign" />
 
     </div>
     <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的图片</span>
   </div>
   <div class="form-group" style="padding-top: 20px">
-    <label class="col-xs-3 control-label">联系电话</label>
+    <label class="col-xs-3 control-label">手机号码</label>
     <div class="col-xs-2">
       <input required class="form-control" type="text" name="mobile" value="${_user.mobile}">
     </div>
@@ -55,6 +55,12 @@
       SysMsg.info("请选择手写签名图片");
       return;
     }
+  if($.trim($('input[name=mobile]').val())==''){
+      SysMsg.info("请填写联系电话","",function(){
+          $('input[name=mobile]').val('').focus()
+      });
+      return;
+  }
     $("#signForm").ajaxSubmit({
       success:function(ret){
         if(ret.success){

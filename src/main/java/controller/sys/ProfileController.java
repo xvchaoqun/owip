@@ -19,6 +19,7 @@ import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -63,6 +64,10 @@ public class ProfileController extends BaseController {
                     .outputFormat("jpg")
                     .outputQuality(1.0f)
                     .toFile(springProps.uploadPath + savePath);
+        }
+        if(StringUtils.isNotBlank(mobile) &&
+                !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误");
         }
 
         SysUser record = new SysUser();
