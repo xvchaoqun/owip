@@ -44,7 +44,8 @@
 
 <c:set var="SYS_CONFIG_APPLY_SELF_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_NOTE%>"/>
 <c:set var="SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE%>"/>
-<c:set var="SYS_CONFIG_MAP" value="<%=SystemConstants.SYS_CONFIG_MAP%>"/>
+<c:set var="SYS_CONFIG_PASSPORT_DRAW_NOTE" value="<%=SystemConstants.SYS_CONFIG_PASSPORT_DRAW_NOTE%>"/>
+
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
@@ -215,6 +216,7 @@
 <c:set var="PASSPORT_DRAW_TYPE_SELF" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_SELF%>"/>
 <c:set var="PASSPORT_DRAW_TYPE_TW" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_TW%>"/>
 <c:set var="PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_OTHER%>"/>
+<c:set var="PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
 
 <c:set var="PASSPORT_DRAW_STATUS_INIT" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_INIT%>"/>
 <c:set var="PASSPORT_DRAW_STATUS_PASS" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_PASS%>"/>

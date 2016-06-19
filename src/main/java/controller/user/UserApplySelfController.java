@@ -94,27 +94,6 @@ public class UserApplySelfController extends BaseController {
     }
 
     @RequiresRoles("cadre")
-    @RequestMapping("/applySelf_note")
-    public String applySelf_note(ModelMap modelMap) {
-
-        SysConfig SysConfig = sysConfigService.get();
-        modelMap.put("notice", SysConfig.getApplySelfNote());
-        modelMap.put("type", SystemConstants.SYS_CONFIG_APPLY_SELF_NOTE);
-
-        return "sys/sysConfig/sysConfig_note";
-    }
-    @RequiresRoles("cadre")
-    @RequestMapping("/applySelf_approvalNote")
-    public String applySelf_approvalNote(ModelMap modelMap) {
-
-        SysConfig SysConfig = sysConfigService.get();
-        modelMap.put("notice", SysConfig.getApplySelfApprovalNote());
-        modelMap.put("type", SystemConstants.SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE);
-
-        return "sys/sysConfig/sysConfig_note";
-    }
-
-    @RequiresRoles("cadre")
     @RequestMapping("/applySelf")
     public String applySelf() {
 
@@ -254,6 +233,9 @@ public class UserApplySelfController extends BaseController {
         }
         if(StringUtils.isNotBlank(_endDate)){
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
+        }
+        if(record.getStartDate().after(record.getEndDate())){
+            throw new RuntimeException("出发日期不能晚于回国日期");
         }
         if(record.getId()==null) {
             Cadre cadre = cadreService.findByUserId(userId);

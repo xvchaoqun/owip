@@ -8,27 +8,25 @@ pageEncoding="UTF-8" %>
         <div id="body-content">
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li  class="<c:if test="${type==1}">active</c:if>">
-                            <a href="?type=1"><i class="fa fa-credit-card"></i> 因私出国（境）</a>
+                        <li  class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
+                            <a href="?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）</a>
                         </li>
-                        <li  class="<c:if test="${type==2}">active</c:if>">
-                            <a href="?type=2"><i class="fa fa-credit-card"></i> 因公赴台</a>
+                        <li  class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
+                            <a href="?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国</a>
                         </li>
-                        <li  class="<c:if test="${type==3}">active</c:if>">
-                            <a href="?type=3"><i class="fa fa-credit-card"></i> 处理其他事务</a>
+                        <li  class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
+                            <a href="?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务</a>
                         </li>
-                        <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                            <button data-url="${ctx}/passportDraw_view" data-open-by="page"
-                                    class="jqOpenViewBtn btn btn-success btn-sm">
-                                <i class="fa fa-info-circle"></i> 详情
-                            </button>
-                        </div>
                     </ul>
 
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
-                               <c:if test="${type==1}">
+                                <button data-url="${ctx}/passportDraw_view" data-open-by="page"
+                                        class="jqOpenViewBtn btn btn-success btn-sm">
+                                    <i class="fa fa-info-circle"></i> 详情
+                                </button>
+                               <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
                                 <button class="printProofBtn btn btn-warning btn-sm">
                                     <i class="fa fa-print"></i> 打印在职证明
                                 </button>
@@ -125,13 +123,45 @@ pageEncoding="UTF-8" %>
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申请领取证件名称', align:'center', name: 'passportClass.name', width: 180 },
-            <c:if test="${type==1}">
+            <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
             { label: '因私出国（境）行程', align:'center', name: 'applyId', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return '<a class="openView" href="javascript:;" ' +
                         'data-url="${ctx}/applySelf_view?id={0}">S{1}</a>'.format(cellvalue,cellvalue);
             } },
-                </c:if>
-            <c:if test="${type!=3}">
+            </c:if>
+            <c:if test="${type==PASSPORT_DRAW_TYPE_TW || type==PASSPORT_DRAW_TYPE_OTHER}">
+            {label: '${type==PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100},
+            {label: '${type==PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100},
+            {
+                label: '${type==PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
+                name: 'day',
+                width: 80,
+                formatter: function (cellvalue, options, rowObject) {
+                    return DateDiff(rowObject.startDate, rowObject.endDate);
+                }
+            },
+            {
+                label: '${type==PASSPORT_DRAW_TYPE_TW?"因公事由":"事由"}',
+                name: 'reason',
+                width: 200,
+                formatter: function (cellvalue, options, rowObject) {
+                    return cellvalue.replace(/\+\+\+/g, ',');
+                }
+            },
+            <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
+            {label: '费用来源', name: 'costSource', width: 100},
+            </c:if>
+            {label: '${type==PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}', name: 'files', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                var filesArray = []
+                for(var i in rowObject.files){
+                    var file = rowObject.files[i];
+                    filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, i));
+                }
+                return filesArray.join("，");
+            }},
+            </c:if>
+            <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
             { label: '是否签注', align:'center', name: 'needSign', width: 80,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.passportClass.code=='mt_passport_normal'){
                     return '-';

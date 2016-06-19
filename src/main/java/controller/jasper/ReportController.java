@@ -43,15 +43,12 @@ public class ReportController extends BaseController {
                                 @RequestParam(required = false , defaultValue = "0")Boolean print,
                                 Integer type, Model model) throws IOException, DocumentException {
 
-        List<String> roles = new ArrayList<>();
-        roles.add(SystemConstants.ROLE_ODADMIN);
-        roles.add(SystemConstants.ROLE_ADMIN);
-        roles.add(SystemConstants.ROLE_PARTYADMIN);
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(roles);
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-       if(!hasRoles[0]&&!hasRoles[1]&&!hasRoles[2]){
-           throw new UnauthorizedException();
-       }
+        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
+            throw new UnauthorizedException();
+        }
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
@@ -88,13 +85,10 @@ public class ReportController extends BaseController {
                                @RequestParam(required = false , defaultValue = "0")Boolean print,
                                Model model) throws IOException, DocumentException {
 
-        List<String> roles = new ArrayList<>();
-        roles.add(SystemConstants.ROLE_ODADMIN);
-        roles.add(SystemConstants.ROLE_ADMIN);
-        roles.add(SystemConstants.ROLE_PARTYADMIN);
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(roles);
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-        if(!hasRoles[0]&&!hasRoles[1]&&!hasRoles[2]){
+        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
             throw new UnauthorizedException();
         }
 

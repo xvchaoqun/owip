@@ -27,8 +27,8 @@
                     </li>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                            <a class="btn btn-success btn-sm" onclick="_note(${SYS_CONFIG_APPLY_SELF_NOTE})"><i class="fa fa-plus"></i> 申请说明</a>
-                            <a class="btn btn-primary btn-sm" onclick="_note(${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE})"><i class="fa fa-plus"></i> 审批说明</a>
+                            <a class="btn btn-success btn-sm" onclick="_note('${SYS_CONFIG_APPLY_SELF_NOTE}')"><i class="fa fa-plus"></i> 申请说明</a>
+                            <a class="btn btn-primary btn-sm" onclick="_note('${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE}')"><i class="fa fa-plus"></i> 审批说明</a>
                     </div>
                 </ul>
 
@@ -252,8 +252,8 @@
         return html;
     }
 
-    function  _note(type){
-        loadModal("${ctx}/sysConfig_note?type="+type, 650);
+    function  _note(code){
+        loadModal("${ctx}/sysConfig_au?editContent=true&code="+code, 700);
     }
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2"]').select2();

@@ -5,9 +5,19 @@ import java.io.Serializable;
 public class SysConfig implements Serializable {
     private Integer id;
 
-    private String applySelfNote;
+    private Integer roleId;
 
-    private String applySelfApprovalNote;
+    private String name;
+
+    private String code;
+
+    private Byte type;
+
+    private String content;
+
+    private String attr;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -19,19 +29,59 @@ public class SysConfig implements Serializable {
         this.id = id;
     }
 
-    public String getApplySelfNote() {
-        return applySelfNote;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setApplySelfNote(String applySelfNote) {
-        this.applySelfNote = applySelfNote == null ? null : applySelfNote.trim();
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public String getApplySelfApprovalNote() {
-        return applySelfApprovalNote;
+    public String getName() {
+        return name;
     }
 
-    public void setApplySelfApprovalNote(String applySelfApprovalNote) {
-        this.applySelfApprovalNote = applySelfApprovalNote == null ? null : applySelfApprovalNote.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    public String getAttr() {
+        return attr;
+    }
+
+    public void setAttr(String attr) {
+        this.attr = attr == null ? null : attr.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

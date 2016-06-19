@@ -130,7 +130,7 @@
   </tr>
   <tr>
     <td class="bg-right">工作单位及现任职务</td>
-    <td colspan="3" class="bg-left">${unitMap.get(cadre.unitId).name}&nbsp;&nbsp;${cadre.title}</td>
+    <td colspan="3" class="bg-left">${cadre.title}</td>
     <td class="bg-right">行政级别</td>
     <td class="bg-left">${adminLevelMap.get(cadre.typeId).name} </td>
   </tr>
@@ -142,7 +142,7 @@
     </td>
   </tr>
   <tr>
-    <td>是否签注</td>
+    <td  class="bg-right">是否签注</td>
     <td colspan="5" class="bg-left">
       ${passportDraw.needSign?"是":"否"}
     </td>
@@ -156,13 +156,13 @@
     </td>
   </tr>
   <tr>
-    <td>审批时间</td>
+    <td  class="bg-right">审批时间</td>
     <td colspan="5" class="bg-left">
       ${cm:formatDate(passportDraw.approveTime,'yyyy-MM-dd HH:mm:ss')}
     </td>
   </tr>
   <tr>
-    <td>审批人</td>
+    <td  class="bg-right">审批人</td>
     <td colspan="5" class="bg-left">
       <c:if test="${not empty passportDraw.userId}">
       ${cm:getUserById(passportDraw.userId).realname}
@@ -170,7 +170,7 @@
     </td>
   </tr>
   <tr>
-    <td>备注</td>
+    <td  class="bg-right">备注</td>
     <td colspan="5" class="bg-left">
       ${passportDraw.approveRemark}
     </td>
@@ -184,13 +184,13 @@
     </td>
   </tr>
   <tr>
-    <td>预计归还时间</td>
+    <td  class="bg-right">预计归还时间</td>
     <td colspan="5" class="bg-left">
         ${cm:formatDate(passportDraw.returnDate,'yyyy-MM-dd')}
     </td>
   </tr>
   <tr>
-    <td>办理人</td>
+    <td  class="bg-right">办理人</td>
     <td colspan="5" class="bg-left">
 <c:if test="${not empty passportDraw.drawUserId}">
     ${cm:getUserById(passportDraw.drawUserId).realname}
@@ -198,13 +198,13 @@
     </td>
   </tr>
   <tr>
-    <td>领取时间</td>
+    <td  class="bg-right">领取时间</td>
     <td colspan="5" class="bg-left">
       ${cm:formatDate(passportDraw.drawTime,'yyyy-MM-dd HH:mm:ss')}
     </td>
   </tr>
   <tr>
-    <td>证件拍照</td>
+    <td  class="bg-right">证件拍照</td>
     <td colspan="5" class="bg-left">
       <c:if test="${not empty passportDraw.drawRecord}">
       <a href="${ctx}/img?path=${passportDraw.drawRecord}" target="_blank">
@@ -221,25 +221,25 @@
     </td>
   </tr>
   <tr>
-    <td>实际出发时间</td>
+    <td  class="bg-right">实际出发时间</td>
     <td colspan="5" class="bg-left">
       ${cm:formatDate(passportDraw.realStartDate,'yyyy-MM-dd')}
     </td>
   </tr>
   <tr>
-    <td>实际返回时间</td>
+    <td  class="bg-right">实际返回时间</td>
     <td colspan="5" class="bg-left">
       ${cm:formatDate(passportDraw.realEndDate,'yyyy-MM-dd')}
     </td>
   </tr>
   <tr>
-    <td>实际出行国家或地区</td>
+    <td class="bg-right">实际出行国家或地区</td>
     <td colspan="5" class="bg-left">
       ${passportDraw.realToCountry}
     </td>
   </tr>
   <tr>
-    <td>使用记录拍照</td>
+    <td class="bg-right">使用记录拍照</td>
     <td colspan="5" class="bg-left">
     <c:if test="${not empty passportDraw.useRecord}">
       <a href="${ctx}/img?path=${passportDraw.useRecord}" target="_blank">
@@ -249,7 +249,7 @@
     </td>
   </tr>
   <tr>
-    <td>备注</td>
+    <td class="bg-right">备注</td>
     <td colspan="5" class="bg-left">
       ${passportDraw.returnRemark}
     </td>

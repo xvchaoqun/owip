@@ -1,4 +1,9 @@
 
+--2016-6-19
+ALTER TABLE `abroad_passport_draw`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型，1因私 2因公赴台 3其他事务 4 长期因公出国' AFTER `cadre_id`;
+
+
 --2016-6-17
 ALTER TABLE `sys_config`
 	ADD COLUMN `apply_self_approval_note` LONGTEXT NULL COMMENT '因私出国审批说明' AFTER `apply_self_note`;

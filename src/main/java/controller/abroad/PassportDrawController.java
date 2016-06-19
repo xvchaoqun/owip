@@ -149,7 +149,13 @@ public class PassportDrawController extends BaseController {
         if(passportId!=null){ // 查询特定证件的使用记录
             criteria.andPassportIdEqualTo(passportId);
         }else {
-            criteria.andTypeEqualTo(type);
+            if(type==SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
+                    type==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+                criteria.andTypeEqualTo(type);
+            }else{ // 因公赴台、长期因公出国
+                criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
+                        SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+            }
         }
         if(year!=null){
             criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));

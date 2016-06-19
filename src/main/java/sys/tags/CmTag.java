@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
+import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.CadreService;
 import service.dispatch.DispatchCadreService;
@@ -48,6 +49,7 @@ public class CmTag {
     static BranchService branchService = (BranchService) context.getBean("branchService");
     static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
+    static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -327,6 +329,11 @@ public class CmTag {
     public static Passport getPassport(Integer id) {
 
         return passportMapper.selectByPrimaryKey(id);
+    }
+
+    public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {
+
+        return passportDrawService.getPassportDrawFiles(id);
     }
 
     public static String encodeQueryString(String queryString) {

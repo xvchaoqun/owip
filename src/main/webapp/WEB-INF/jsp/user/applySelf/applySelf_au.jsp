@@ -21,8 +21,8 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出行时间</label>
 					<div class="col-xs-6">
-						<select name="type" data-rel="select2" data-width="255"
-								data-placeholder="请选择出行时间" style="width:400px">
+						<select name="type" data-rel="select2" data-width="130"
+								data-placeholder="请选择">
 							<option></option>
 							<c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
 								<option value="${type.key}">${type.value}</option>
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出发日期</label>
 					<div class="col-xs-9">
-						<div class="input-group" style="width: 255px">
+						<div class="input-group"  style="width: 130px">
 							<input  class="form-control date-picker" name="_startDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">回国日期</label>
 					<div class="col-xs-9">
-						<div class="input-group" style="width: 255px">
+						<div class="input-group"  style="width: 130px">
 							<input class="form-control date-picker" name="_endDate" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

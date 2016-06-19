@@ -19,10 +19,17 @@
       <div id="home4" class="tab-pane in active">
 <form class="form-horizontal" action="${ctx}/user/passportDraw_tw_au" id="applyForm" method="post" enctype="multipart/form-data">
   <div class="form-group">
+    <label class="col-xs-3 control-label">申请类型</label>
+    <div class="col-xs-6 choice label-text">
+      <input  name="type"type="radio" value="${PASSPORT_DRAW_TYPE_TW}"> 因公赴台&nbsp;&nbsp;
+      <input name="type" type="radio" value="${PASSPORT_DRAW_TYPE_LONG_SELF}"> 长期因公出国
+    </div>
+  </div>
+  <div class="form-group">
     <label class="col-xs-3 control-label">出行时间</label>
     <div class="col-xs-2">
-      <div class="input-group">
-        <input required class="form-control date-picker" name="_startDate" type="text"
+      <div class="input-group" style="width: 130px">
+        <input class="form-control date-picker" name="_startDate" type="text"
                data-date-format="yyyy-mm-dd" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
       </div>
@@ -31,16 +38,16 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">回国时间</label>
     <div class="col-xs-2">
-      <div class="input-group">
-        <input required class="form-control date-picker" name="_endDate" type="text"
-               data-date-format="yyyy-mm-dd" />
+      <div class="input-group" style="width: 130px">
+        <input class="form-control date-picker" name="_endDate" type="text"
+               data-date-format="yyyy-mm-dd"/>
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
       </div>
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">出访事由</label>
-    <div class="col-xs-9 choice">
+    <label class="col-xs-3 control-label">因公事由</label>
+    <div class="col-xs-9 choice label-text">
       <input name="_reason" type="checkbox" value="学术会议"> 学术会议&nbsp;&nbsp;
       <input name="_reason" type="checkbox" value="考察访问"> 考察访问&nbsp;&nbsp;
       <input name="_reason" type="checkbox" value="合作研究"> 合作研究&nbsp;&nbsp;
@@ -52,7 +59,7 @@
   </div>
   <div class="form-group">
     <label class="col-xs-3 control-label">费用来源</label>
-    <div class="col-xs-6 choice">
+    <div class="col-xs-6 choice  label-text">
       <input  name="_costSource"type="radio" value="自费"> 自费&nbsp;&nbsp;
       <input name="_costSource" type="radio" value="其他来源"> 其他来源
       <input name="_costSource_other" type="text">
@@ -60,7 +67,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">国台办批件</label>
+    <label class="col-xs-3 control-label">批件</label>
     <div class="col-xs-2 file">
       <div class="files">
       <input class="form-control" type="file" name="_files[]" />
@@ -68,13 +75,35 @@
       <button type="button" onclick="addFile()" class="btn btn-default btn-mini btn-xs"><i class="fa fa-plus"></i></button>
     </div>
   </div>
-  <div class="form-group">
+  <%--<div class="form-group">
     <label class="col-xs-3 control-label">申请使用证件名称</label>
     <div class="col-xs-6">
       <div style="padding-top: 12px">
       大陆居民往来台湾通行证（<span id="signBtn"><span style="color: darkred">未申请办理签注</span></span>）
       </div>
       <input type="hidden" name="needSign" value="0">
+    </div>
+  </div>--%>
+
+  <div class="well center" style="margin-top: 20px; font-size: 20px">
+    <div class="row" style="padding-left: 50px">
+      <input type="hidden" name="needSign" value="0">
+      <c:if test="${fn:length(passports)==0}">
+        您没有因私出国（境）证件
+      </c:if>
+      <c:if test="${fn:length(passports)>0}">
+        <div style="float: left; font-weight: bolder">申请使用证件名称：</div>
+      </c:if>
+      <c:forEach items="${passports}" var="passport">
+        <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+        <div style="float: left; margin-right: 40px;">
+          <input type="checkbox" class="big" name="passportId" value="${passport.id}"
+                 data-sign="${passportType.code != 'mt_passport_normal'}"> ${passportType.name}
+          <c:if test="${passportType.code != 'mt_passport_normal'}">
+           <span class="signBtn"><span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span></span>
+          </c:if>
+        </div>
+      </c:forEach>
     </div>
   </div>
 </form>
@@ -120,6 +149,16 @@
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+
+  $("input[type=checkbox][name=passportId]").click(function(){
+    $(".signBtn").html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
+    $("input[name=needSign]").val(0);
+    $("#next").val('下一步');
+    if($(this).prop("checked")){
+      $("input[type=checkbox][name=passportId]").not(this).prop("checked", false);
+    }
+  });
+
   ace_file_input($('input[type=file]'))
   function ace_file_input($file){
     $file.ace_file_input({
@@ -160,6 +199,22 @@
   })
 
   function formValid(){
+    if($("input[name=type]:checked").length==0){
+      SysMsg.info("请选择申请类型");
+      return false;
+    }
+    if($.trim($("input[name=_startDate]").val())==''){
+      SysMsg.info("请选择出行时间", '', function(){
+        $("input[name=_startDate]").val('').focus();
+      });
+      return false;
+    }
+    if($.trim($("input[name=_endDate]").val())==''){
+      SysMsg.info("请选择回国时间", '', function(){
+        $("input[name=_endDate]").val('').focus();
+      });
+      return false;
+    }
       // 出国（境）事由
       var $_reason = $("input[name=_reason][value='其他']");
       var _reason_other = $("input[name=_reason_other]").val().trim();
@@ -208,15 +263,23 @@
       }
       $("input[name=costSource]").val(costSources.join("+++"));
 
-      // 所需国台办批件
+      // 所需批件
       var fileCount = 0;
       $.each($("input[type=file]"), function(){
         if($(this).val()!='') fileCount++;
       });
       if(fileCount==0){
-        SysMsg.info("请上传国台办批件");
+        SysMsg.info("请上传批件");
         return false;
       }
+      // 所需证件
+      var $passportId = $('input[name=passportId]:checked');
+      var passportId = $passportId.val();
+      if(passportId==undefined || passportId==''){
+        SysMsg.info("请选择需要的证件");
+        return;
+      }
+
       return true;
   }
   $("#submit").click(function(){$("#applyForm").submit();return false;});

@@ -10,9 +10,13 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate
             ||not empty param.type }"/>
-                <div class="buttons">
+                <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
-                    <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 申请说明</a>
+                    <a class="jqOpenViewBtn btn btn-info btn-sm"
+                       data-need-id="false"
+                       data-width="650"
+                       data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_NOTE}">
+                        <i class="fa fa-info-circle"></i> 申请说明</a>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/user/applySelf_view"
                             data-open-by="page">
@@ -191,7 +195,4 @@
         return html;
     }
 
-    $("#note").click(function(){
-        loadModal("${ctx}/user/applySelf_note", 650);
-    });
 </script>

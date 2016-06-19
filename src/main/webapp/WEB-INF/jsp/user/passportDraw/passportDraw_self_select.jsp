@@ -64,7 +64,7 @@
 <div class="well center" style="margin-top: 20px; font-size: 20px">
   <div class="row" style="padding-left: 50px">
     <c:if test="${fn:length(passports)==0}">
-      您还没有提交证件
+      您没有因私出国（境）证件
     </c:if>
     <c:if test="${fn:length(passports)>0}">
     <div style="float: left; font-weight: bolder">申请使用证件名称：</div>

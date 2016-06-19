@@ -6,6 +6,7 @@ import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class PassportDraw implements Serializable {
@@ -21,6 +22,11 @@ public class PassportDraw implements Serializable {
     }
     public Passport getPassport(){
         return CmTag.getPassport(passportId);
+    }
+
+    public List<PassportDrawFile> getFiles(){
+
+        return CmTag.getPassportDrawFiles(id);
     }
 
     public MetaType getPassportClass(){

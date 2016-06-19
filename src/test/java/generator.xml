@@ -234,8 +234,7 @@
     </table>-->
 
       <table tableName="sys_config" domainObjectName="SysConfig">
-          <columnOverride column="apply_self_note" jdbcType="VARCHAR"></columnOverride>
-          <columnOverride column="apply_self_approval_note" jdbcType="VARCHAR"></columnOverride>
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>
 
       <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">

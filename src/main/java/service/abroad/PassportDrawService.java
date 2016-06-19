@@ -22,6 +22,13 @@ import java.util.List;
 @Service
 public class PassportDrawService extends BaseMapper {
 
+    public List<PassportDrawFile> getPassportDrawFiles(int drawId){
+
+        PassportDrawFileExample example = new PassportDrawFileExample();
+        example.createCriteria().andDrawIdEqualTo(drawId);
+        return passportDrawFileMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(PassportDraw record){
 

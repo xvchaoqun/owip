@@ -40,14 +40,16 @@
         </c:if>
         <c:if test="${param.type=='view'}">
             <div class="center" style="margin-top: 40px">
-                <button class="closeView btn btn-default btn-block" style="font-size: 30px">返回</button>
+                <button class="printBtn btn btn-info btn-block" style="font-size: 30px">打印</button>
+                <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
             </div>
         </c:if>
     </div>
   </div>
 </div>
-<c:if test="${param.type!='view'}">
+
 <script>
+<c:if test="${param.type!='view'}">
     $("#notSign").click(function(){
         if($("#agree").is(":checked") == false){
             $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
@@ -64,6 +66,10 @@
 
         $("#item-content").load("${ctx}/user/passportDraw_self_confirm?applyId=${param.applyId}&passportId=${passport.id}&sign=1");
     });
+</c:if>
+<c:if test="${param.type=='view'}">
+    $(".printBtn").click(function () {
+        printWindow("${ctx}/report/passportSign?id=${param.id}");
+    });
+</c:if>
 </script>
-    </c:if>
-

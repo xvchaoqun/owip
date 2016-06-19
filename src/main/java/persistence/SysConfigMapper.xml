@@ -3,8 +3,13 @@
 <mapper namespace="persistence.SysConfigMapper" >
   <resultMap id="BaseResultMap" type="domain.SysConfig" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="apply_self_note" property="applySelfNote" jdbcType="VARCHAR" />
-    <result column="apply_self_approval_note" property="applySelfApprovalNote" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="attr" property="attr" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, apply_self_note, apply_self_approval_note
+    id, role_id, name, code, type, content, attr, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.SysConfigExample" >
     select
@@ -98,10 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.SysConfig" >
-    insert into sys_config (id, apply_self_note, apply_self_approval_note
-      )
-    values (#{id,jdbcType=INTEGER}, #{applySelfNote,jdbcType=VARCHAR}, #{applySelfApprovalNote,jdbcType=VARCHAR}
-      )
+    insert into sys_config (id, role_id, name, 
+      code, type, content, 
+      attr, remark)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, 
+      #{attr,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.SysConfig" >
     insert into sys_config
@@ -109,22 +116,52 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="applySelfNote != null" >
-        apply_self_note,
+      <if test="roleId != null" >
+        role_id,
       </if>
-      <if test="applySelfApprovalNote != null" >
-        apply_self_approval_note,
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="attr != null" >
+        attr,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="applySelfNote != null" >
-        #{applySelfNote,jdbcType=VARCHAR},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="applySelfApprovalNote != null" >
-        #{applySelfApprovalNote,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attr != null" >
+        #{attr,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -140,11 +177,26 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.applySelfNote != null" >
-        apply_self_note = #{record.applySelfNote,jdbcType=VARCHAR},
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
-      <if test="record.applySelfApprovalNote != null" >
-        apply_self_approval_note = #{record.applySelfApprovalNote,jdbcType=VARCHAR},
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attr != null" >
+        attr = #{record.attr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -154,8 +206,13 @@
   <update id="updateByExample" parameterType="map" >
     update sys_config
     set id = #{record.id,jdbcType=INTEGER},
-      apply_self_note = #{record.applySelfNote,jdbcType=VARCHAR},
-      apply_self_approval_note = #{record.applySelfApprovalNote,jdbcType=VARCHAR}
+      role_id = #{record.roleId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      content = #{record.content,jdbcType=VARCHAR},
+      attr = #{record.attr,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -163,19 +220,39 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.SysConfig" >
     update sys_config
     <set >
-      <if test="applySelfNote != null" >
-        apply_self_note = #{applySelfNote,jdbcType=VARCHAR},
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="applySelfApprovalNote != null" >
-        apply_self_approval_note = #{applySelfApprovalNote,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attr != null" >
+        attr = #{attr,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.SysConfig" >
     update sys_config
-    set apply_self_note = #{applySelfNote,jdbcType=VARCHAR},
-      apply_self_approval_note = #{applySelfApprovalNote,jdbcType=VARCHAR}
+    set role_id = #{roleId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      content = #{content,jdbcType=VARCHAR},
+      attr = #{attr,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.SysConfigExample" id="selectByExampleWithRowbounds" >

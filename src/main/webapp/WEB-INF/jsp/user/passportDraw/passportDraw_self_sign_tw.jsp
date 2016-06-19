@@ -47,8 +47,9 @@
                 $('#_agree').qtip({content: '请确认信息准确无误。', show: true, hide: 'unfocus'});
                 return false;
             }
-
-            $("#signBtn").html('<span style="color: green">已申请办理签注</span>');
+            $(".signBtn").html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
+            $(".signBtn", $("input[name=passportId]:checked").closest("div")).
+                    html('<span class="label label-success" style="vertical-align: 4px; margin-left: 10px">已申请办理签注</span>');
             $("input[name=needSign]").val(1);
             $("#next").val('上一步');
             $("#submit").show();
@@ -63,7 +64,8 @@
                 $('#_agree').qtip({content: '请确认信息准确无误。', show: true, hide: 'unfocus'});
                 return false;
             }
-            $("#signBtn").html('<span style="color: darkred">未申请办理签注</span>');
+            $(".signBtn", $("input[name=passportId]:checked").closest("div"))
+                    .html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
             $("input[name=needSign]").val(0);
             $("#next").val('上一步');
             $("#submit").show();

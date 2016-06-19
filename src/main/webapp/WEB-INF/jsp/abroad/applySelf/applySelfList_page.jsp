@@ -10,7 +10,7 @@
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
             ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==0}">active</c:if>">
                         <a href="?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
                     </li>
@@ -34,8 +34,11 @@
                                     <i class="fa fa-info-circle"></i> 详情
                                 </button>
                             </c:if>
-
-                            <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 审批说明</a>
+                            <a class="jqOpenViewBtn btn btn-info btn-sm"
+                               data-need-id="false"
+                               data-width="650"
+                               data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE}">
+                                <i class="fa fa-info-circle"></i> 审批说明</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -212,10 +215,6 @@
 
         return html;
     }
-
-    $("#note").click(function(){
-        loadModal("${ctx}/user/applySelf_approvalNote", 650);
-    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

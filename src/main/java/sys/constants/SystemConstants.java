@@ -70,14 +70,18 @@ public class SystemConstants {
 		ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
 	}
 
-	// 系统配置字段：1 因私出国（境）申请说明 2 因私出国（境）审批说明
-	public static final byte SYS_CONFIG_APPLY_SELF_NOTE = 1;
-	public static final byte SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = 2;
-	public final static Map<Byte, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
+	// 系统配置字段：
+	// 因私出国（境）申请说明
+	public static final String SYS_CONFIG_APPLY_SELF_NOTE = "sc_apply_self_note";
+	// 因私出国（境）审批说明
+	public static final String SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = "sc_apply_self_approval_note ";
+	// 申请使用因私出国（境）证件说明
+	public static final String SYS_CONFIG_PASSPORT_DRAW_NOTE = "sc_passport_draw_note ";
+/*	public final static Map<String, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
 	static {
 		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_NOTE, "因私出国境申请说明");
 		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE, "因私出国境审批说明");
-	}
+	}*/
 
 	// 登录类型：1 网站 2 下次自动登录 2 CAS 3 移动设备
 	public static final byte LOGIN_TYPE_NET = 1;
@@ -654,11 +658,13 @@ public class SystemConstants {
 	public final static byte PASSPORT_DRAW_TYPE_SELF = 1;
 	public final static byte PASSPORT_DRAW_TYPE_TW = 2;
 	public final static byte PASSPORT_DRAW_TYPE_OTHER = 3;
+	public final static byte PASSPORT_DRAW_TYPE_LONG_SELF = 4;
 	public final static Map<Byte, String>PASSPORT_DRAW_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
-		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公出访台湾");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公赴台");
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_OTHER, "其他事务");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国");
 	}
 
 	//领取证件用途 1 仅签证 2 已签证，本次出境 3 同时签证和出境
