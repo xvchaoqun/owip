@@ -192,7 +192,8 @@
             //console.dir(e.target)
             var applySelfId = $(e.target).data("apply-self-id");
             var approvalTypeId = $(e.target).data("approval-type-id");
-            if(applySelfId>0){
+            var tdType = $(e.target).data("td-type");
+            if(tdType!=1  && applySelfId>0){
                 $.getJSON("${ctx}/applySelf_approvers", {applySelfId:applySelfId,
                     approvalTypeId:approvalTypeId},function(ret){
                     if(ret.success) {
@@ -220,7 +221,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     function approverTdAttrs(tdBean){
-        var attrs = "data-apply-self-id={0} data-approval-type-id={1} ".format(tdBean.applySelfId, tdBean.approvalTypeId);
+        var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if(tdBean.approvalTypeId != -1 && tdBean.tdType==2)
             attrs += "class='not_approval' "
