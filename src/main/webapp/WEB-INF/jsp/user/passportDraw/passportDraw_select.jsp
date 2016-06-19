@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
         <div class="well">
             <blockquote>
                 <h4 class="orange2 bolder bigger-150">因公赴台、长期因公出国</h4>
-                因公赴台：已完成因公赴台审批手续，并持有国台办批件。长期因公出国：30天及以上因公出国（境），已完成审批手续并持有批件。
+                因公赴台：已完成因公赴台审批手续，并持有国台办批件。<br/>长期因公出国：30天及以上因公出国（境），已完成审批手续并持有批件。
                 <button ${passportTw==null?"disabled":""} onclick="location.href='${ctx}/user/passportDraw_tw'" class="btn ${passportTw==null?"btn-default":"btn-warning"}" type="button">
                     <i class="ace-icon fa fa-forward bigger-110"></i>
                     进入

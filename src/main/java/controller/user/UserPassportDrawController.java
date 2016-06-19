@@ -140,8 +140,12 @@ public class UserPassportDrawController extends BaseController {
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
 
+        Passport passport = passportMapper.selectByPrimaryKey(passportId);
+        if(passport==null || passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
+        modelMap.put("passport", passport);
+
         if(StringUtils.equals(type, "tw")) {
-            Passport passportTw = null;
+            /*Passport passportTw = null;
             List<Passport> passports = passportService.findByCadreId(cadre.getId());
             for (Passport passport : passports) {
                 if(CmTag.typeEqualsCode(passport.getClassId(), "mt_passport_tw")){
@@ -149,13 +153,11 @@ public class UserPassportDrawController extends BaseController {
                 }
             }
             if(passportTw == null)throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
-            modelMap.put("passport", passportTw);
+            modelMap.put("passport", passportTw);*/
 
             return "user/passportDraw/passportDraw_self_sign_tw";
         }
-        Passport passport = passportMapper.selectByPrimaryKey(passportId);
-        if(passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
-        modelMap.put("passport", passport);
+
 
         if(StringUtils.equals(type, "add"))
             return "user/passportDraw/passportDraw_self_sign_add";

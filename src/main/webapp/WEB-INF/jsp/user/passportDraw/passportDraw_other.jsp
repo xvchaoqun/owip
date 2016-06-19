@@ -38,7 +38,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">开始日期</label>
     <div class="col-xs-2">
-      <div class="input-group"  style="width: 130px">
+      <div class="input-group">
         <input required class="form-control date-picker" name="_startDate" type="text"
                data-date-format="yyyy-mm-dd" value="${cm:formatDate(passportDraw.startDate,'yyyy-MM-dd')}" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -48,7 +48,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">结束日期</label>
     <div class="col-xs-2">
-      <div class="input-group"  style="width: 130px">
+      <div class="input-group">
         <input required class="form-control date-picker" name="_endDate" type="text"
                data-date-format="yyyy-mm-dd" value="${cm:formatDate(passportDraw.endDate,'yyyy-MM-dd')}" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

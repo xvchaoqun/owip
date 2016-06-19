@@ -280,6 +280,24 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf_approvers")
+    @ResponseBody
+    public void getApprovers(int applySelfId, int approvalTypeId, HttpServletResponse response) throws IOException {
+
+        // 读取所有审批人
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        List<SysUser> approvers = applySelfService.findApprovers(applySelf.getCadreId(), approvalTypeId);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("approvers", approvers);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.write(response, resultMap, sourceMixins);
+        return;
+    }
+
+    @RequiresPermissions("applySelf:list")
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
@@ -306,7 +324,7 @@ public class ApplySelfController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
-        request.setAttribute("needApproverList", true);
+        //request.setAttribute("needApproverList", true);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);

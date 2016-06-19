@@ -28,7 +28,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">出行时间</label>
     <div class="col-xs-2">
-      <div class="input-group" style="width: 130px">
+      <div class="input-group">
         <input class="form-control date-picker" name="_startDate" type="text"
                data-date-format="yyyy-mm-dd" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -38,7 +38,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">回国时间</label>
     <div class="col-xs-2">
-      <div class="input-group" style="width: 130px">
+      <div class="input-group">
         <input class="form-control date-picker" name="_endDate" type="text"
                data-date-format="yyyy-mm-dd"/>
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -98,7 +98,7 @@
         <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
         <div style="float: left; margin-right: 40px;">
           <input type="checkbox" class="big" name="passportId" value="${passport.id}"
-                 data-sign="${passportType.code != 'mt_passport_normal'}"> ${passportType.name}
+                 data-passport-type="${passportType.code}"> ${passportType.name}
           <c:if test="${passportType.code != 'mt_passport_normal'}">
            <span class="signBtn"><span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span></span>
           </c:if>
@@ -150,12 +150,29 @@
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
 
+  $("input[type=radio][name=type]").click(function(){
+    $(".signBtn").html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
+    $("input[name=needSign]").val(0);
+      if($(this).val()=='${PASSPORT_DRAW_TYPE_TW}'){
+        $("[data-passport-type=mt_passport_tw]").prop("checked", true);
+        $("[data-passport-type=mt_passport_normal], [data-passport-type=mt_passport_hk]").attr("disabled", "disabled");
+      }else{
+        $("input[type=checkbox][name=passportId]").prop("checked", false).prop("disabled", false);
+      }
+  });
   $("input[type=checkbox][name=passportId]").click(function(){
     $(".signBtn").html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
     $("input[name=needSign]").val(0);
     $("#next").val('下一步');
     if($(this).prop("checked")){
       $("input[type=checkbox][name=passportId]").not(this).prop("checked", false);
+    }
+    if($(this).data("passport-type")=='mt_passport_normal'){
+        $("#next").hide();
+        $("#submit").show();
+    }else{
+        $("#next").show();
+        $("#submit").hide();
     }
   });
 
@@ -191,7 +208,7 @@
                   $container.hideLoading();
                 }, 2000 );
               }});
-        $.get($(this).data("url"), {}, function (html) {
+        $.get($(this).data("url"), {passportId:$('input[name=passportId]:checked').val()}, function (html) {
           $container.hideLoading().hide();
           $("#item-content").hide().html(html).fadeIn("slow");
         })

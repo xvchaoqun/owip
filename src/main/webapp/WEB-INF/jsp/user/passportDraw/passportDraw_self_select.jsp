@@ -84,7 +84,7 @@
 </div>
 <div class="modal-footer center">
 <c:if test="${fn:length(passports)>0}">
-  <input id="next" class="btn btn-success" value="确认"/>
+  <input id="next" class="btn btn-success" value="下一步"/>
   <input data-url="${ctx}/user/passportDraw_self" class="openView btn btn-info" value="返回选择行程"/>
   </c:if>
   <input  class="closeView btn btn-default" value="取消申请"/>

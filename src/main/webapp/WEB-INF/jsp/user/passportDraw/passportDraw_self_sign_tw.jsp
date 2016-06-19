@@ -51,7 +51,7 @@
             $(".signBtn", $("input[name=passportId]:checked").closest("div")).
                     html('<span class="label label-success" style="vertical-align: 4px; margin-left: 10px">已申请办理签注</span>');
             $("input[name=needSign]").val(1);
-            $("#next").val('上一步');
+            $("#next").val('上一步').hide();
             $("#submit").show();
 
             $("#item-content").fadeOut("fast", function () {

@@ -36,8 +36,7 @@
                         <th>出行天数</th>
                         <th>前往国家或地区</th>
                         <th>事由</th>
-                        <th>组织部初审</th>
-                        <th>组织部终审</th>
+                        <th>审批情况</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,8 +49,9 @@
                         <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
                         <td>${applySelf.toCountry}</td>
                         <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            ${applySelf.isFinish?(cm:getMapValue(0, applySelf.approvalTdBeanMap).tdType==6?"通过":"未通过"):"未完成审批"}
+                        </td>
 
                     </tr>
                     </tbody>

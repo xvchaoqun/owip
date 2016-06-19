@@ -116,6 +116,13 @@ pageEncoding="UTF-8" %>
                 return 'A{0}'.format(cellvalue);
             },frozen:true},
             { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
+            <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
+            {
+                label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+                return _cMap.PASSPORT_DRAW_TYPE_MAP[cellvalue];
+            }, width: 100, frozen: true
+            },
+            </c:if>
             { label: '工作证号', align:'center', name: 'user.code', width: 80,frozen:true },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'

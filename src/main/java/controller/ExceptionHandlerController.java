@@ -83,6 +83,8 @@ public class ExceptionHandlerController {
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
+            ex.printStackTrace();
+
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("500");

@@ -69,6 +69,10 @@
     <i class="fa fa-trash"></i> 撤销申请
 </button>
 </script>
+<script type="text/template" id="applyId_tpl">
+<a class="openView" href="javascript:;"
+   data-url="${ctx}/user/applySelf_view?id={{=id}}"> S{{=id}}</a>
+</script>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/user/userPassportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -87,42 +91,11 @@
             },
             </c:if>
             {label: '申请领取证件名称', name: 'passportClass.name', width: 180, frozen: true},
-            <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
-            {
-                label: '签注申请表', name: 'op', width: 120, frozen: true, formatter: function (cellvalue, options, rowObject) {
-                var str = "";
-                <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
-                if (rowObject.passportClass.code != 'mt_passport_normal') {
-                    console.log(rowObject.needSign)
-                    if (rowObject.needSign)
-                        str += _.template($("#needSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
-                            id: rowObject.id,
-                            passportId: rowObject.passportId
-                        });
-                    else
-                        str += _.template($("#notNeedSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
-                            id: rowObject.id,
-                            passportId: rowObject.passportId
-                        });
-                }
-                </c:if>
-                return str;
-            }
-            },
-                </c:if>
-            {
-                label: '操作', name: 'op', width: 100, frozen: true, formatter: function (cellvalue, options, rowObject) {
-                var str = "";
-                if(rowObject.status==0){
-                    str += _.template($("#abolish_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id});
-                }
-                return str;
-            }
-            },
             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
             {
                 label: '因私出国（境）行程', name: 'applyId', width: 160, formatter: function (cellvalue, options, rowObject) {
-                return "S{0}".format(cellvalue);
+
+                return _.template($("#applyId_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: cellvalue});
             }
             },
             {
@@ -169,6 +142,27 @@
                 return cellvalue ? "是" : "否";
             }
             },
+            {
+                label: '签注申请表', name: 'op', width: 120, frozen: true, formatter: function (cellvalue, options, rowObject) {
+                var str = "";
+                <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
+                if (rowObject.passportClass.code != 'mt_passport_normal') {
+                    console.log(rowObject.needSign)
+                    if (rowObject.needSign)
+                        str += _.template($("#needSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
+                            id: rowObject.id,
+                            passportId: rowObject.passportId
+                        });
+                    else
+                        str += _.template($("#notNeedSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
+                            id: rowObject.id,
+                            passportId: rowObject.passportId
+                        });
+                }
+                </c:if>
+                return str;
+            }
+            },
             </c:if>
             {
                 label: '审批状态', name: 'status', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -185,7 +179,16 @@
             }
             },
             {label: '应交组织部日期', name: 'returnDate', width: 150},
-            {label: '实交组织部日期', name: 'realReturnDate', width: 150}
+            {label: '实交组织部日期', name: 'realReturnDate', width: 150},
+            {
+                label: '操作', name: 'op', width: 100, frozen: true, formatter: function (cellvalue, options, rowObject) {
+                var str = "";
+                if(rowObject.status==0){
+                    str += _.template($("#abolish_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id});
+                }
+                return str;
+            }
+            }
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(".remark").click(function (e) {

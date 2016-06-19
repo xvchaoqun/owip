@@ -188,25 +188,50 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
             }}
-        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+        ],onCellSelect:function(rowid, iCol, cellcontent, e){
+            //console.dir(e.target)
+            var applySelfId = $(e.target).data("apply-self-id");
+            var approvalTypeId = $(e.target).data("approval-type-id");
+            if(applySelfId>0){
+                $.getJSON("${ctx}/applySelf_approvers", {applySelfId:applySelfId,
+                    approvalTypeId:approvalTypeId},function(ret){
+                    if(ret.success) {
+                        var realnames = $.map(ret.approvers, function (item, idx) {
+                            return item.realname;
+                        });
+                        $(e.target).qtip({content: {text:realnames.join("，"),title: {
+                            text: '审批人',
+                            button: true
+                        }}, position: {
+                            my: 'bottom center',
+                            at: 'top center'
+                        },show: true, hide: {
+                            event: 'click',
+                            inactive: 1500
+                        }, button: 'Close' });
+                    }
+                });
+            }
+        }
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
 
          $('[data-tooltip="tooltip"]').tooltip({container:'body'});
     });
     $(window).triggerHandler('resize.jqGrid');
 
     function approverTdAttrs(tdBean){
-        var attrs = "";
+        var attrs = "data-apply-self-id={0} data-approval-type-id={1} ".format(tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if(tdBean.approvalTypeId != -1 && tdBean.tdType==2)
-            attrs = "class='not_approval' "
-        if(tdBean.tdType!=1) {
+            attrs += "class='not_approval' "
+    /*    if(tdBean.tdType!=1) {
             var apprvalRealnames = [];
             for (var i in tdBean.approverList) {
                 var sysUser = tdBean.approverList[i];
                 apprvalRealnames.push(sysUser.realname);
             }
             attrs += "data-tooltip=\"tooltip\" title=\"S{0}：{1}\"".format(tdBean.applySelfId, apprvalRealnames.join("，"))
-        }
+        }*/
         return attrs;
     }
     //初审未通过，或者终审完成，需要短信提醒
