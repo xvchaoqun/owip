@@ -59,7 +59,7 @@
                         </li>
                         <c:if test="${(cls==1 || cls==4||cls==6||cls==7) && (approvalCountNew+approvalCountBack)>0}">
                         <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
-                            有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条记录）
+                            有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
                         </div>
                         </c:if>
                     </ul>
