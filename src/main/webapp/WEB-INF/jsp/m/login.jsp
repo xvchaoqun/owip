@@ -22,6 +22,7 @@
 								</div>
 								<h1 class="white">
 									组织工作一体化平台
+									<div style="font-size:smaller">（因私出国境审批）</div>
 								</h1>
 							</div>
 

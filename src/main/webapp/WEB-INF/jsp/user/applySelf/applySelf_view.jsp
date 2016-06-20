@@ -50,7 +50,7 @@
           <td class="bg-right">身份证号</td>
           <td colspan="3" class="bg-left">${sysUser.idcard}</td>
           <td class="bg-right">联系电话</td>
-          <td class="bg-left">${sysUser.mobile}</td>
+          <td class="bg-left">${cadreMobile}</td>
         </tr>
         <tr>
           <td class="bg-right" nowrap>工作单位及职务</td>

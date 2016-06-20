@@ -13,6 +13,7 @@
                 <tr>
                     <th width="200">系统代码</th>
                     <th width="200">角色名称</th>
+                    <th width="200">备注</th>
                     <th  width="150">设定级别</th>
                     <th></th>
                 </tr>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>${sysRole.role }</td>
                         <td>${sysRole.description }</td>
+                        <td>${sysRole.remark }</td>
                         <td>
                                 ${sysRole.isSysHold?"仅允许系统自动设定":"可手动设定"}
                         </td>

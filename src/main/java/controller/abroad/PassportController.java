@@ -388,8 +388,8 @@ public class PassportController extends BaseController {
     }
 
     @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
-    @RequestMapping("/updateLostProof")
-    public String updateLostProof(int id, ModelMap modelMap) {
+     @RequestMapping("/updateLostProof")
+     public String updateLostProof(int id, ModelMap modelMap) {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
@@ -414,7 +414,7 @@ public class PassportController extends BaseController {
         if (_lostProof != null && !_lostProof.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
             String realPath = File.separator
-                    + "passport_cancel" + File.separator
+                    + "passport_lost" + File.separator  // passport_cancel -> passport_lost 20160620
                     + fileName;
             String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
             String savePath = realPath + ext;
@@ -424,6 +424,57 @@ public class PassportController extends BaseController {
         if(record.getLostTime()!=null || record.getLostProof()!=null)
             passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passport:view")
+    @RequestMapping("/passport_cancel_view")
+    public String passport_cancel_view(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/passport_cancel_view";
+    }
+
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping("/updateCancelPic")
+    public String updateCancelProof(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/updateCancelPic";
+    }
+
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_updateCancelProof(
+            int id,
+            String _cancelTime,
+            MultipartFile _cancelPic,
+            HttpServletRequest request) {
+
+        Passport record = new Passport();
+        record.setId(id);
+        if (StringUtils.isNotBlank(_cancelTime)) {
+            record.setCancelTime(DateUtils.parseDate(_cancelTime, DateUtils.YYYY_MM_DD));
+        }
+        if (_cancelPic != null && !_cancelPic.isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
+            record.setCancelPic(savePath);
+        }
+        record.setCancelConfirm(true);
+        if(record.getCancelTime()!=null || record.getCancelPic()!=null)
+            passportService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新取消集中管理证明：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -514,6 +565,26 @@ public class PassportController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 下载取消集中管理证明
+    @RequiresPermissions("passport:download")
+    @RequestMapping("/passport_cancelPic_download")
+    public void passport_cancelPic_download(Integer id, HttpServletRequest request,
+                                            HttpServletResponse response) throws IOException {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        String cancelPic = passport.getCancelPic();
+        String filePath = springProps.uploadPath + cancelPic;
+
+        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+
+        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
+                + "（取消集中管理证明）" + FileUtils.getExtention(cancelPic), "UTF-8");
+
+        DownloadUtils.download(request, response, filePath, fileName);
     }
 
     @RequiresPermissions("passport:download")

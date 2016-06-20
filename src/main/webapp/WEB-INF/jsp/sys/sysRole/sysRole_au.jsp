@@ -9,20 +9,26 @@
   <form class="form-horizontal"  action="${ctx}/sysRole_au" method="post">
   <input type="hidden" name="id" value="${sysRole.id}">
   	<div class="form-group">
-		<label class="col-xs-4 control-label">名称</label>
+		<label class="col-xs-3 control-label">代码</label>
 		<div class="col-xs-4">
 			<input class="form-control" <c:if test="${sysRole.role eq 'admin'}"> disabled </c:if> type="text" name="role" value="${sysRole.role}">
 			<span class="help-block">* 不可修改；如需修改，请联系系统开发人员</span>
 		</div>
 	</div>
   	<div class="form-group">
-		<label class="col-xs-4 control-label">描述</label>
+		<label class="col-xs-3 control-label">名称</label>
 		<div class="col-xs-4">
 			<input class="form-control" type="text" name="description" value="${sysRole.description}">
 		</div>
 	</div>
+	  <div class="form-group">
+		  <label class="col-xs-3 control-label">备注</label>
+		  <div class="col-xs-8">
+			  <textarea class="form-control" name="remark">${sysRole.remark}</textarea>
+		  </div>
+	  </div>
 	<div class="form-group">
-		<label class="col-xs-4 control-label">拥有的资源</label>
+		<label class="col-xs-3 control-label">拥有的资源</label>
 		<div class="col-xs-8">
 			<div id="tree3"></div>
 		</div>

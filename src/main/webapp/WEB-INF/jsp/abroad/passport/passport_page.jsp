@@ -69,7 +69,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
-                                   data-open-by="page" data-url="${ctx}/passport_cancel">
+                                   data-open-by="page" data-url="${ctx}/passport_cancel_view">
                                     <i class="fa fa-check-circle-o"></i> 取消集中管理证明
                                 </a>
                             </c:if>

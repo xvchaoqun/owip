@@ -249,7 +249,7 @@ public class MemberService extends BaseMapper {
                     student.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 // 出生年月
-                student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyyMMdd"));
+                student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
 
                 //+++++++++++++ 同步后面一系列属性
                 student.setNation(extBks.getMz());

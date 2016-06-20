@@ -117,6 +117,8 @@ public class ExceptionHandlerController {
 
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
+            ex.printStackTrace();
+
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("unauthorized");

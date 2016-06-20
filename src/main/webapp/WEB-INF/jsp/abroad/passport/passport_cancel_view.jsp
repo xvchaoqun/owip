@@ -12,7 +12,7 @@
                     返回
                 </a>
                 <button id="print_proof" class="btn btn-info btn-sm" style="margin-left: 50px"><i class="fa fa-print"></i>  打印证明</button>
-                <a href="${ctx}/${param.type=='user'?'user/':''}passport_lostProof_download?id=${passport.id}" target="_blank"
+                <a href="${ctx}/${param.type=='user'?'user/':''}passport_cancelPic_download?id=${passport.id}" target="_blank"
                    class="btn btn-primary btn-sm"><i class="fa fa-download"></i> 下载</a>
                 <shiro:hasAnyRoles name="admin,cadreAdmin">
                     <button id="updateProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
@@ -24,7 +24,7 @@
     <div class="tab-content">
         <div id="home4" class="tab-pane in active">
             <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 595px">
-                <img src="${ctx}/img?path=${passport.lostProof}" style="max-width: 595px"/>
+                <img src="${ctx}/img?path=${passport.cancelPic}" style="max-width: 595px"/>
                 </div>
             </div>
         </div>
@@ -32,9 +32,9 @@
 
 <script>
     $("#print_proof").click(function () {
-        printWindow('${ctx}/img?path=${fn:replace(passport.lostProof, "\\","\\/"  )}');
+        printWindow('${ctx}/img?path=${fn:replace(passport.cancelPic, "\\","\\/"  )}');
     });
     $("#updateProof").click(function(){
-        loadModal("${ctx}/updateLostProof?id=${passport.id}")
+        loadModal("${ctx}/updateCancelPic?id=${passport.id}")
     });
 </script>
