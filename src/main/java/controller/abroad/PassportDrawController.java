@@ -61,7 +61,7 @@ public class PassportDrawController extends BaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
-    @RequiresRoles("odAdmin")
+    @RequiresRoles("cadreAdmin")
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody

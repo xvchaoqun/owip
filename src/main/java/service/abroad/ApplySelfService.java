@@ -8,6 +8,8 @@ import domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,7 @@ import java.util.*;
 
 @Service
 public class ApplySelfService extends BaseMapper {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -258,7 +260,7 @@ public class ApplySelfService extends BaseMapper {
         if (isView == null) return null; // 如果不需要查看列表审批权限，则不处理
 
         Boolean needApproverList = (Boolean) request.getAttribute("needApproverList");
-        if (needApproverList == null) needApproverList = false; // 默认不需要读取审批人列表
+        if (needApproverList == null) needApproverList = false; // 默认不需要读取审批人列表 (读取的话效率太低，访问速度严重下降)
 
         // <审批人身份id，审批td类型>
         Map<Integer, ApprovalTdBean> resultMap = new LinkedHashMap<>();
@@ -529,10 +531,15 @@ public class ApplySelfService extends BaseMapper {
     public Integer getMainPostUnitId(int userId) {
 
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null) {
+        if (cadre != null && cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW ) { // 必须是现任干部
             MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
-            if (postType.getBoolAttr()) {
+            if (postType!=null && postType.getBoolAttr()) {
                 return cadre.getUnitId();
+            }
+            if(postType==null){
+                SysUser sysUser = cadre.getUser();
+                logger.error(String.format("读取职务属性出错：%s %s postId=%s",
+                        sysUser.getUsername(), sysUser.getRealname(), cadre.getPostId()));
             }
         }
         return null;
@@ -543,7 +550,7 @@ public class ApplySelfService extends BaseMapper {
 
         List<Integer> unitIds = new ArrayList<>();
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null) {
+        if (cadre != null && cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW ) { // 必须是现任干部
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
             unitIds = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
         }

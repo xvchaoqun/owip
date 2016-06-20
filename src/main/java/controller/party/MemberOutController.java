@@ -90,10 +90,22 @@ public class MemberOutController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        // 分党委党总支直属党支部待审核总数
-        modelMap.put("partyApprovalCount", memberOutService.count(null, null, (byte) 1, cls));
-        // 组织部待审核数目
-        modelMap.put("odApprovalCount", memberOutService.count(null, null, (byte) 2, cls));
+        if(cls==1 || cls==4) {
+            // 分党委待审核总数（新申请 cls=1）
+            modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 1, (byte) 1));
+            // 分党委待审核总数（返回修改 cls=4）
+            modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 1, (byte) 4));
+            // 分党委待审核总数
+            modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 1, cls));
+        }
+        if(cls==6 || cls==7){
+            // 分党委待审核总数（新申请 cls=1）
+            modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 2, (byte) 6));
+            // 分党委待审核总数（返回修改 cls=4）
+            modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 2, (byte) 7));
+
+            modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));
+        }
 
         return "party/memberOut/memberOut_page";
     }
@@ -187,7 +199,6 @@ public class MemberOutController extends BaseController {
         } else if (cls == 4) { // 分党委审核(返回修改)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
                     .andIsBackEqualTo(true);
-            ;
         } else if (cls == 5) { // 分党委已审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else if (cls == 6) { // 组织部审核(新申请)

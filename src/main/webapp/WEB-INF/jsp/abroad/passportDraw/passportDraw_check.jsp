@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                     <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                         ${sysUser.realname}
                     </a></td>
-                    <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                    <td>${cadre.title}</td>
                     <td>${postMap.get(cadre.postId).name}</td>
                     <td>${passportTypeMap.get(passport.classId).name}</td>
                     <td>${passport.code}</td>

@@ -57,6 +57,11 @@
                         <li class="${cls==3?'active':''}">
                             <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
+                        <c:if test="${(cls==1 || cls==4||cls==6||cls==7) && (approvalCountNew+approvalCountBack)>0}">
+                        <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
+                            有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条记录）
+                        </div>
+                        </c:if>
                     </ul>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
@@ -77,25 +82,25 @@
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1||cls==4}">
-                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
+                                    <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${approvalCount}）
                                     </button>
                                 </c:if>
                                 <c:if test="${cls==6||cls==7}">
-                                    <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
+                                    <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
                                             data-querystr="&type=2&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${odApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 组织部审核（${approvalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
