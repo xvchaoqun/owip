@@ -79,7 +79,7 @@
         colModel: [
             { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
             { label: '申请编码',align:'center', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
-                return 'A{0}'.format(cellvalue);
+                return 'D{0}'.format(cellvalue);
             } },
             { label: '用途', align:'center', width: 150 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')

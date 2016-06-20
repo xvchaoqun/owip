@@ -270,4 +270,6 @@ public class BaseMapper {
 	protected CountryMapper countryMapper;
 	@Autowired
 	protected ShortMsgMapper shortMsgMapper;
+	@Autowired
+	protected ContentTplMapper contentTplMapper;
 }

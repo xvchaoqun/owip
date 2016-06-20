@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号', align:'center', name: 'id', width: 50 , formatter:function(cellvalue, options, rowObject){
-                return 'A{0}'.format(cellvalue);
+                return 'D{0}'.format(cellvalue);
             },frozen:true},
             { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">

@@ -19,6 +19,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,17 @@ import java.util.Map;
 public class ExceptionHandlerController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public String getMsg(HttpServletRequest request, Exception ex){
+
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        String username = (shiroUser!=null)?shiroUser.getUsername():null;
+        return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                username, ex.getMessage(), request.getRequestURI(),
+                        request.getMethod(),
+                        JSONUtils.toString(request.getParameterMap(), false),
+                        RequestUtils.getUserAgent(request), IpUtils.getRealIp(request));
+    }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseBody
@@ -35,13 +47,7 @@ public class ExceptionHandlerController {
         resultMap.put("success", false);
         resultMap.put("msg", FormUtils.FILEMAX);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser!=null)?shiroUser.getUsername():null;
-        logger.warn("{}, {}, {}, {}, {}, {}, {}",
-                new Object[]{username, ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request),IpUtils.getRealIp(request)});
+        logger.warn(getMsg(request, ex));
         return resultMap;
     }
 
@@ -64,13 +70,7 @@ public class ExceptionHandlerController {
             resultMap.put("msg", "系统异常：" + ex.getMessage());
         }
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser!=null)?shiroUser.getUsername():null;
-        logger.warn("{}, {}, {}, {}, {}, {}, {}",
-                new Object[]{username, ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request),IpUtils.getRealIp(request)});
+        logger.error(getMsg(request, ex));
 
         return resultMap;
     }
@@ -84,7 +84,7 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             ex.printStackTrace();
-
+            logger.error(getMsg(request, ex));
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("500");
@@ -99,13 +99,7 @@ public class ExceptionHandlerController {
         view.setAttributesMap(attributes);
         mav.setView(view);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser!=null)?shiroUser.getUsername():null;
-        logger.warn("{}, {}, {}, {}, {}, {}, {}",
-                new Object[]{username, ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request),IpUtils.getRealIp(request)});
+        logger.warn(getMsg(request, ex));
 
         return mav;
     }
@@ -118,7 +112,7 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             ex.printStackTrace();
-
+            logger.error(getMsg(request, ex));
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("unauthorized");
@@ -128,13 +122,7 @@ public class ExceptionHandlerController {
         ModelAndView mav = new ModelAndView();
         //ex.printStackTrace();
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser!=null)?shiroUser.getUsername():null;
-        logger.warn("{}, {}, {}, {}, {}, {}, {}",
-                new Object[]{username, ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request),IpUtils.getRealIp(request)});
+        logger.warn(getMsg(request, ex));
 
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
@@ -155,11 +143,7 @@ public class ExceptionHandlerController {
         resultMap.put("ret", -10);
         resultMap.put("msg", msg);
 
-        logger.warn(msg + ", {}, {}, {}, {}, {}",
-                new Object[]{ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap()), IpUtils.getRealIp(request)});
-
+        logger.warn(getMsg(request, ex));
         return resultMap;
     }
 

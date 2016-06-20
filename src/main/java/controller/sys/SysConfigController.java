@@ -155,7 +155,7 @@ public class SysConfigController extends BaseController {
             roleId = -1;
         }
         sysConfigService.updateRoles(id, roleId);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新元数据所属角色 %s, %s", id, roleId));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新系统配置所属角色 %s, %s", id, roleId));
         return success(FormUtils.SUCCESS);
     }
 

@@ -45,7 +45,7 @@
 
       <li class="<c:if test="${_path=='/profile'}">active</c:if>">
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
-          <shiro:principal property="realname"/></a>
+          <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
       <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
       <li class="<c:if test="${_path=='/help'}">active</c:if>">

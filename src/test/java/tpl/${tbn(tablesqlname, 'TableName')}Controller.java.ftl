@@ -205,7 +205,7 @@ public class ${TableName}Controller extends BaseController {
         String[] titles = {<#list tableColumns as column>"${column.comments}"<#if column_has_next>,</#if></#list>};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            ${TableName} record = ${tableName}s.get(i);
+            ${TableName} record = records.get(i);
             String[] values = {
             <#list tableColumns as column>
                 <#if column.type=="datetime">

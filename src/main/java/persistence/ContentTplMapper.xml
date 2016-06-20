@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.ContentTplMapper" >
+  <resultMap id="BaseResultMap" type="domain.ContentTpl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="TINYINT" />
+    <result column="engine" property="engine" jdbcType="TINYINT" />
+    <result column="param_count" property="paramCount" jdbcType="INTEGER" />
+    <result column="param_names" property="paramNames" jdbcType="VARCHAR" />
+    <result column="param_def_values" property="paramDefValues" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, remark, role_id, type, code, content, content_type, engine, param_count, 
+    param_names, param_def_values, user_id, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ContentTplExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_content_tpl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_content_tpl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from base_content_tpl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.ContentTplExample" >
+    delete from base_content_tpl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.ContentTpl" >
+    insert into base_content_tpl (id, name, remark, 
+      role_id, type, code, 
+      content, content_type, engine, 
+      param_count, param_names, param_def_values, 
+      user_id, create_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{contentType,jdbcType=TINYINT}, #{engine,jdbcType=TINYINT}, 
+      #{paramCount,jdbcType=INTEGER}, #{paramNames,jdbcType=VARCHAR}, #{paramDefValues,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.ContentTpl" >
+    insert into base_content_tpl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="contentType != null" >
+        content_type,
+      </if>
+      <if test="engine != null" >
+        engine,
+      </if>
+      <if test="paramCount != null" >
+        param_count,
+      </if>
+      <if test="paramNames != null" >
+        param_names,
+      </if>
+      <if test="paramDefValues != null" >
+        param_def_values,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=TINYINT},
+      </if>
+      <if test="engine != null" >
+        #{engine,jdbcType=TINYINT},
+      </if>
+      <if test="paramCount != null" >
+        #{paramCount,jdbcType=INTEGER},
+      </if>
+      <if test="paramNames != null" >
+        #{paramNames,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDefValues != null" >
+        #{paramDefValues,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.ContentTplExample" resultType="java.lang.Integer" >
+    select count(*) from base_content_tpl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update base_content_tpl
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contentType != null" >
+        content_type = #{record.contentType,jdbcType=TINYINT},
+      </if>
+      <if test="record.engine != null" >
+        engine = #{record.engine,jdbcType=TINYINT},
+      </if>
+      <if test="record.paramCount != null" >
+        param_count = #{record.paramCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.paramNames != null" >
+        param_names = #{record.paramNames,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paramDefValues != null" >
+        param_def_values = #{record.paramDefValues,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update base_content_tpl
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      role_id = #{record.roleId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      content_type = #{record.contentType,jdbcType=TINYINT},
+      engine = #{record.engine,jdbcType=TINYINT},
+      param_count = #{record.paramCount,jdbcType=INTEGER},
+      param_names = #{record.paramNames,jdbcType=VARCHAR},
+      param_def_values = #{record.paramDefValues,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ContentTpl" >
+    update base_content_tpl
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=TINYINT},
+      </if>
+      <if test="engine != null" >
+        engine = #{engine,jdbcType=TINYINT},
+      </if>
+      <if test="paramCount != null" >
+        param_count = #{paramCount,jdbcType=INTEGER},
+      </if>
+      <if test="paramNames != null" >
+        param_names = #{paramNames,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDefValues != null" >
+        param_def_values = #{paramDefValues,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.ContentTpl" >
+    update base_content_tpl
+    set name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=TINYINT},
+      engine = #{engine,jdbcType=TINYINT},
+      param_count = #{paramCount,jdbcType=INTEGER},
+      param_names = #{paramNames,jdbcType=VARCHAR},
+      param_def_values = #{paramDefValues,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.ContentTplExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_content_tpl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

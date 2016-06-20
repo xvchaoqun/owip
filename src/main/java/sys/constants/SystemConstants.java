@@ -731,25 +731,43 @@ public class SystemConstants {
 	public final static byte APPROVER_LOG_OD_TYPE_FIRST = 0;
 	public final static byte APPROVER_LOG_OD_TYPE_LAST = 1;
 
+	// 内容模板类别  1 短信
+	public final static byte CONTENT_TPL_TYPE_SHORTMSG = 1;
+	public final static Map<Byte, String> CONTENT_TPL_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_SHORTMSG, "短信");
+	}
+	// 内容模板内容类型  1 普通文本
+	public final static byte CONTENT_TPL_CONTENT_TYPE_STRING = 1;
+	public final static Map<Byte, String> CONTENT_TPL_CONTENT_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_STRING, "普通文本");
+	}
+	// 内容模板引擎  1 MessageFormat
+	public final static byte CONTENT_TPL_ENGINE_MESSAGEFORMAT = 1;
+	public final static Map<Byte, String> CONTENT_TPL_ENGINE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_ENGINE_MAP.put(CONTENT_TPL_ENGINE_MESSAGEFORMAT, "MessageFormat");
+	}
 
-	// 短信提醒类别
-	public final static String SHORT_MSG_KEY_PASSPORT_EXPIRE = "passport.expire";
-	public final static String SHORT_MSG_KEY_PASSPORT_DISMISS = "passport.dismiss";
-	public final static String SHORT_MSG_KEY_APPLYSELF_PASS = "applySelf.pass";
-	public final static String SHORT_MSG_KEY_APPLYSELF_UNPASS = "applySelf.unpass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_PASS = "passportApply.pass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS = "passportApply.unpass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_DRAW = "passportApply.draw";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_SUBMIT = "passportApply.submit";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW = "passportDraw";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_RETURN = "passportDraw.return";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS = "passportDraw.pass";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN = "passportDraw.pass.needsign";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS = "passportDraw.unpass";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN = "passportDraw.unpass.needsign";
+	// 内容模板（与数据库中代码对应）
+	public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
+	public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
+	public final static String CONTENT_TPL_APPLYSELF_PASS = "ct_applySelf_pass";
+	public final static String CONTENT_TPL_APPLYSELF_UNPASS = "ct_applySelf_unpass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_PASS = "ct_passportApply_pass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_UNPASS = "ct_passportApply_unpass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_DRAW = "ct_passportApply_draw";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT = "ct_passportApply_submit";
+	public final static String CONTENT_TPL_PASSPORTDRAW = "ct_passportDraw";
+	public final static String CONTENT_TPL_PASSPORTDRAW_RETURN = "ct_passportDraw_return";
+	public final static String CONTENT_TPL_PASSPORTDRAW_PASS = "ct_passportDraw_pass";
+	public final static String CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN = "ct_passportDraw_pass_needsign";
+	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS = "ct_passportDraw_unpass";
+	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN = "ct_passportDraw_unpass_needsign";
 
 
-	public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
+	/*public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
 	static {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_EXPIRE, "取消集中管理-证件到期");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_DISMISS, "取消集中管理-不再担任职务");
@@ -765,5 +783,5 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN, "申请使用证件（需要签注）-通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN, "申请使用证件（需要签注）-不通过");
-	}
+	}*/
 }

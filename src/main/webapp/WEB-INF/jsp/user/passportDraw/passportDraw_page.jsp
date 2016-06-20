@@ -79,7 +79,7 @@
         colModel: [
             {
                 label: '编号', name: 'id', width: 75, formatter: function (cellvalue, options, rowObject) {
-                return "A{0}".format(cellvalue);
+                return "D{0}".format(cellvalue);
             }, frozen: true
             },
             {label: '申请日期', name: 'applyDate', frozen: true},

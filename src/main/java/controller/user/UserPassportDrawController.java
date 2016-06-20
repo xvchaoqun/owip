@@ -167,10 +167,12 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_confirm")
-    public String passportDraw_self_confirm(@CurrentUser SysUser loginUser, int applyId, int passportId, ModelMap modelMap) {
+    public String passportDraw_self_confirm(@CurrentUser SysUser loginUser, int applyId, int passportId,
+                                            HttpServletRequest request, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         modelMap.put("applySelf", applySelf);
+        request.setAttribute("isView", false);
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);

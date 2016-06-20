@@ -257,7 +257,8 @@ public class ApplySelfService extends BaseMapper {
 
         HttpServletRequest request = ContextHelper.getRequest();
         Boolean isView = (Boolean) request.getAttribute("isView");
-        if (isView == null) return null; // 如果不需要查看列表审批权限，则不处理
+        if (isView == null) return null; // 如果不需要查看列表审批权限，则不处理;
+        // isView= false 只是查看状态； isView=true 返回状态及判断是否有审批权限，用于生成按钮
 
         Boolean needApproverList = (Boolean) request.getAttribute("needApproverList");
         if (needApproverList == null) needApproverList = false; // 默认不需要读取审批人列表 (读取的话效率太低，访问速度严重下降)

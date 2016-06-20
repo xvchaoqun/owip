@@ -311,6 +311,14 @@
       "showColumns": "receiver_id,type,mobile,content,create_time,ip,status,ret",
       "excludeEditColumns": "id,create_time,ip,status,ret",
       "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "content_tpl",
+      "key": "id",
+      "searchColumns": "type,content",
+      "excludeEditColumns": "id,role_id,create_time,update_time",
+      "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

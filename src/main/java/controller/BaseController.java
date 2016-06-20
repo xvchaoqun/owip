@@ -10,6 +10,7 @@ import service.LoginUserService;
 import service.OrgAdminService;
 import service.SpringProps;
 import service.abroad.*;
+import service.base.ContentTplService;
 import service.cadre.*;
 import service.dispatch.*;
 import service.ext.ExtBksService;
@@ -204,6 +205,8 @@ public class BaseController extends BaseMapper {
     protected SysResourceService sysResourceService;
     @Autowired
     protected ShortMsgService shortMsgService;
+    @Autowired
+    protected ContentTplService contentTplService;
     @Autowired
     protected LogService logService;
     @Autowired

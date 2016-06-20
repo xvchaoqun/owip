@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
         <div class="well">
             <blockquote>
                 <h4 class="green bolder bigger-150">因私出国（境）</h4>
-                因私出国（境）申请已提交，现申请领取证件用了办理签证/签注或者出行。
+                因私出国（境）申请已提交，现申请领取证件用来办理签证/签注或者出行。
                 <button ${fn:length(passports)==0?"disabled":""} data-url="${ctx}/user/passportDraw_self" class="openView btn ${fn:length(passports)==0?"btn-default":"btn-success"}" type="button">
                     <i class="ace-icon fa fa-forward bigger-110"></i>
                     进入

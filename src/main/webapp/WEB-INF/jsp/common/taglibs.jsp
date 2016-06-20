@@ -23,6 +23,11 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
+<c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_MAP%>"/>
+<c:set var="CONTENT_TPL_ENGINE_MAP" value="<%=SystemConstants.CONTENT_TPL_ENGINE_MAP%>"/>
+
+
 <c:set var="USER_REG_STATUS_MAP" value="<%=SystemConstants.USER_REG_STATUS_MAP%>"/>
 <c:set var="USER_REG_STATUS_APPLY" value="<%=SystemConstants.USER_REG_STATUS_APPLY%>"/>
 <c:set var="USER_REG_STATUS_DENY" value="<%=SystemConstants.USER_REG_STATUS_DENY%>"/>
@@ -52,7 +57,6 @@
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <c:set var="GENDER_MALE" value="<%=SystemConstants.GENDER_MALE%>"/>
 <c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
-
 
 
 <c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>

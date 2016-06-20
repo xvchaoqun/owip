@@ -211,6 +211,11 @@
     </table>-->
       <!--<table tableName="base_short_msg" domainObjectName="ShortMsg">
       </table>-->
+      <table tableName="base_content_tpl" domainObjectName="ContentTpl">
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+          <ignoreColumn column="update_time"/>
+      </table>
+
 
     <!--<table tableName="sys_log" domainObjectName="SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -233,9 +238,9 @@
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-      <table tableName="sys_config" domainObjectName="SysConfig">
+     <!-- <table tableName="sys_config" domainObjectName="SysConfig">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
 
       <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
       </table>-->
