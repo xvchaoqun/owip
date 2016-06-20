@@ -62,10 +62,15 @@ pageEncoding="UTF-8" %>
                                             <div class="form-group">
                                                 <label>用户</label>
                                                     <div class="input-group">
-                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
+                                                        <c:if test="${cls==6 || cls==7}">
+                                                            <c:set var="_status" value="${MEMBER_STATUS_TRANSFER}"/>
+                                                        </c:if>
+                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${_status}"
                                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                         </select>
+
                                                     </div>
                                             </div>
                                             <div class="form-group">
