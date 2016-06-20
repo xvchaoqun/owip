@@ -14,6 +14,12 @@
     </div>
     <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的图片</span>
   </div>
+    <div class="form-group" style="padding-top: 20px">
+        <label class="col-xs-3 control-label">办公电话</label>
+        <div class="col-xs-2">
+            <input required class="form-control" type="text" name="phone" value="${_user.phone}">
+        </div>
+    </div>
   <div class="form-group" style="padding-top: 20px">
     <label class="col-xs-3 control-label">手机号码</label>
     <div class="col-xs-2">
@@ -55,8 +61,14 @@
       SysMsg.info("请选择手写签名图片");
       return;
     }
+      if($.trim($('input[name=phone]').val())==''){
+          SysMsg.info("请填写办公电话","",function(){
+              $('input[name=phone]').val('').focus()
+          });
+          return;
+      }
   if($.trim($('input[name=mobile]').val())==''){
-      SysMsg.info("请填写联系电话","",function(){
+      SysMsg.info("请填写手机号","",function(){
           $('input[name=mobile]').val('').focus()
       });
       return;

@@ -31,10 +31,16 @@
                             <h1>
                                 <i class="fa fa-user"></i>
                                 ${sysUser.realname}
-
                             </h1>
                         </div>
                         <div class="profile-user-info profile-user-info-striped">
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 所在单位 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" >${unit}</span>
+                                </div>
+                            </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">  ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 

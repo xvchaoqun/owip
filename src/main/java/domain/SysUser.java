@@ -1,23 +1,9 @@
 package domain;
 
-import sys.constants.SystemConstants;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class SysUser implements Serializable {
-
-    public String getTypeName(){
-        return SystemConstants.USER_TYPE_MAP.get(type);
-    }
-    public String getSourceName(){
-        return SystemConstants.USER_SOURCE_MAP.get(source);
-    }
-    public String getGenderName(){
-        return SystemConstants.GENDER_MAP.get(gender);
-    }
-
     private Integer id;
 
     private String username;
@@ -43,6 +29,8 @@ public class SysUser implements Serializable {
     private String idcard;
 
     private String sign;
+
+    private String phone;
 
     private String mobile;
 
@@ -158,6 +146,14 @@ public class SysUser implements Serializable {
 
     public void setSign(String sign) {
         this.sign = sign == null ? null : sign.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getMobile() {

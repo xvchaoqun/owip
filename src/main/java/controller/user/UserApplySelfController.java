@@ -248,6 +248,10 @@ public class UserApplySelfController extends BaseController {
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+
+            // 给干部管理员发短信提醒
+            shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+
         }else{
             Cadre cadre = cadreService.findByUserId(userId);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());

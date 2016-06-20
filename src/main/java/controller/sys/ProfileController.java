@@ -49,7 +49,7 @@ public class ProfileController extends BaseController {
     @RequiresPermissions("passportApply:*")
     @RequestMapping(value = "/profile_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile,
+    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile, String phone,
                                      MultipartFile sign) throws IOException {
 
         String savePath =null;
@@ -65,7 +65,12 @@ public class ProfileController extends BaseController {
                     .outputQuality(1.0f)
                     .toFile(springProps.uploadPath + savePath);
         }
-        if(StringUtils.isNotBlank(mobile) &&
+
+        if(StringUtils.isBlank(phone)){
+            return failed("请填写办公电话");
+        }
+
+        if(StringUtils.isBlank(mobile) ||
                 !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             return failed("手机号码有误");
         }
@@ -74,6 +79,7 @@ public class ProfileController extends BaseController {
         record.setId(loginUser.getId());
         record.setSign(savePath);
         record.setMobile(mobile);
+        record.setPhone(phone);
 
         sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername(), loginUser.getCode());
 

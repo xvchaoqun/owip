@@ -1,8 +1,8 @@
 package controller.sys;
 
+import bean.UserBean;
 import controller.BaseController;
-import domain.SysUser;
-import domain.SysUserExample;
+import domain.*;
 import domain.SysUserExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -48,6 +48,32 @@ public class SysUserController extends BaseController {
 
         SysUser sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
+
+        String code = sysUser.getCode();
+        Byte type = sysUser.getType();
+        String unit=null;
+        if(type == SystemConstants.USER_TYPE_JZG){
+            ExtJzg extJzg = extJzgService.getByCode(code);
+            if(extJzg!=null) {
+                unit = extJzg.getDwmc();
+                if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
+            }
+
+        }else if(type == SystemConstants.USER_TYPE_YJS){
+            ExtYjs extYjs = extYjsService.getByCode(code);
+            if(extYjs!=null) {
+                unit = extYjs.getYxsmc();
+                if(StringUtils.isNotBlank(extYjs.getYjfxmc())) unit += "-" + extYjs.getYjfxmc();
+            }
+        }else if(type == SystemConstants.USER_TYPE_BKS){
+            ExtBks extBks = extBksService.getByCode(code);
+            if(extBks!=null){
+                unit = extBks.getYxmc();
+                if(StringUtils.isNotBlank(extBks.getZymc())) unit += "-" + extBks.getZymc();
+            }
+        }
+        modelMap.put("unit", unit); // 学校人事库或学生库中的单位名称
+
 
         modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
         modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));

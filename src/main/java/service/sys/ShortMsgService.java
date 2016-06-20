@@ -15,7 +15,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -24,7 +27,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.PassportService;
 import service.base.ContentTplService;
 import service.cadre.CadreInfoService;
-import sys.ShortMsgPropertyUtils;
+import service.cadre.CadreService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -37,8 +40,12 @@ import java.util.*;
 @Service
 public class ShortMsgService extends BaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private CadreService cadreService;
     @Autowired
     private PassportService passportService;
     @Autowired
@@ -49,6 +56,87 @@ public class ShortMsgService extends BaseMapper {
     private SpringProps springProps;
     @Autowired
     private ContentTplService contentTplService;
+
+    // 干部提交因私出国，给干部管理员发短信提醒
+    @Async
+    public void sendApplySelfSubmitMsgToCadreAdmin(int applySelfId, String ip){
+
+        /*try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("发送短信开始。。。");*/
+
+        ApplySelf applySelf = applySelfService.get(applySelfId);
+        SysUser applyUser = applySelf.getUser();
+
+        List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin");
+        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+
+
+        for (SysUser sysUser : cadreAdmin) {
+            try {
+                int userId = sysUser.getId();
+                String mobile = sysUser.getMobile();
+
+                Cadre cadre = cadreService.findByUserId(applyUser.getId());
+                String msg = MessageFormat.format(tpl.getContent(), sysUser.getRealname(),
+                        cadre.getUnit().getName(),applyUser.getRealname());
+
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setType(tpl.getName());
+
+                send(bean, ip);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                logger.error("干部提交因私出国，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
+                    applyUser.getRealname(), sysUser.getRealname(), sysUser.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
+
+    // 因私申请如果通过全部领导的审批（下一个审批身份是管理员），则短信通知管理员
+    @Async
+    public void sendApplySelfPassMsgToCadreAdmin(int applySelfId, String ip){
+
+        ApplySelf applySelf = applySelfService.get(applySelfId);
+        SysUser applyUser = applySelf.getUser();
+
+        List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin-menu1");
+        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+
+        for (SysUser sysUser : cadreAdmin) {
+            try {
+                int userId = sysUser.getId();
+                String mobile = sysUser.getMobile();
+
+                Cadre cadre = cadreService.findByUserId(applyUser.getId());
+                String msg = MessageFormat.format(tpl.getContent(), sysUser.getRealname(),
+                        cadre.getUnit().getName(),applyUser.getRealname());
+
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setType(tpl.getName());
+
+                send(bean, ip);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                logger.error("干部提交因私出国，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {}, {}", new Object[]{
+                        applyUser.getRealname(), sysUser.getRealname(), sysUser.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
+
 
     private ContentTpl getShortMsgTpl(String key){
 
@@ -216,7 +304,7 @@ public class ShortMsgService extends BaseMapper {
 
     public boolean send(ShortMsgBean shortMsgBean, String ip){
 
-        int sender = shortMsgBean.getSender();
+        Integer sender = shortMsgBean.getSender();
         int receiver = shortMsgBean.getReceiver();
         String content = shortMsgBean.getContent();
         String type = shortMsgBean.getType();

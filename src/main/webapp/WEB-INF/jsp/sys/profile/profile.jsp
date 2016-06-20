@@ -156,18 +156,17 @@
             <div class="space-4"></div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">手机：</label>
-
+              <label class="col-sm-3 control-label no-padding-right">手机号：</label>
               <div class="col-sm-9">
-                        <%--<span class="input-icon input-icon-right">
-                            <input name="mobile" class="input-mask-phone"
-                                   type="text" id="form-field-phone" value="${_user.mobile}"/>
-                            <i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
-                        </span>--%>
                           <div class="label-text">${_user.mobile}</div>
               </div>
             </div>
-
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right">办公电话：</label>
+              <div class="col-sm-9">
+                <div class="label-text">${_user.phone}</div>
+              </div>
+            </div>
           </div>
 
           <div id="edit-settings" class="tab-pane">

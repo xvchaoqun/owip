@@ -160,8 +160,14 @@
                 html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username)
                 return html;
             },frozen:true},
-            { label: '类别', name: 'typeName', width: 100 },
-            { label: '性别',  name: 'genderName', width: 50 },
+            { label: '类别', name: 'type', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.USER_TYPE_MAP[cellvalue];
+            }},
+            { label: '性别',  name: 'gender', width: 50, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.GENDER_MAP[cellvalue];
+            } },
             { label: '系统角色',  name: 'roleIds', width: 150 , formatter:function(cellvalue, options, rowObject){
                 var roles = [];
                 if(cellvalue!=undefined) {
@@ -175,9 +181,13 @@
                 return roles.join(",")
             } },
             { label: '身份证号码',  name: 'idcard', width: 150 },
-            { label: '联系电话',  name: 'mobile', width: 150 },
+            { label: '办公电话',  name: 'phone', width: 150 },
+            { label: '手机号',  name: 'mobile', width: 150 },
             { label: '邮箱',  name: 'email', width: 150 },
-            { label: '账号来源', name: 'sourceName', width: 100 },
+            { label: '账号来源', name: 'source', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.GENDER_MAP[cellvalue];
+            } },
             { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?"禁用":"正常";
             } },

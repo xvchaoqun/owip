@@ -32,13 +32,13 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">代码</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="code" value="${contentTpl.code}">
+                        <input class="form-control" type="text" name="code" value="${contentTpl.code}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">模板内容</label>
 				<div class="col-xs-8">
-                        <textarea class="form-control" name="content" rows="8">${contentTpl.content}</textarea>
+                        <textarea required class="form-control" name="content" rows="8">${contentTpl.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">

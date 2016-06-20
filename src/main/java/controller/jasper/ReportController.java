@@ -235,7 +235,7 @@ public class ReportController extends BaseController {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_PASS) {
                 SysUser _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
                 sign = springProps.uploadPath + _user.getSign();
-                mobile = _user.getMobile();
+                mobile = _user.getPhone(); // 办公电话
             }
         }
         map.put("sign", sign);
@@ -290,7 +290,7 @@ public class ReportController extends BaseController {
             if (passportApply.getStatus() != null && passportApply.getStatus() == SystemConstants.PASSPORT_APPLY_STATUS_PASS) {
                 SysUser _user = sysUserService.findById(passportApply.getUserId()); // 审核人
                 sign = springProps.uploadPath + _user.getSign();
-                mobile = _user.getMobile();
+                mobile = _user.getPhone(); // 办公电话
             }
 
             Date approveTime = passportApply.getApproveTime();
@@ -389,7 +389,6 @@ public class ReportController extends BaseController {
         map.put("toCountry", toCountry);
         map.put("reason", StringUtils.replace(reason, "+++", "，"));
         map.put("printTime", printTime);
-
 
         return map;
     }

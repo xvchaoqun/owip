@@ -1,4 +1,10 @@
 
+--2016-6-20
+ALTER TABLE `sys_user`
+	ADD COLUMN `phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '办公电话，系统字段，不同步其他地方' AFTER `sign`,
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机号，系统字段，不同步其他地方' AFTER `phone`;
+
+
 --2016-6-19
 ALTER TABLE `abroad_passport_draw`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型，1因私 2因公赴台 3其他事务 4 长期因公出国' AFTER `cadre_id`;

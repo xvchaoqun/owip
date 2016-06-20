@@ -55,7 +55,9 @@ public class ContentTplController extends BaseController {
     @RequestMapping("/contentTpl_data")
     public void contentTpl_data(HttpServletResponse response,
                                     Byte type,
+                                    String name,
                                     String content,
+                                    String code,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -73,8 +75,14 @@ public class ContentTplController extends BaseController {
         if (type!=null) {
             criteria.andTypeEqualTo(type);
         }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameLike("%" + name + "%");
+        }
         if (StringUtils.isNotBlank(content)) {
             criteria.andContentLike("%" + content + "%");
+        }
+        if (StringUtils.isNotBlank(code)) {
+            criteria.andCodeLike("%" + code + "%");
         }
 
         if (export == 1) {

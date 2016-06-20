@@ -751,6 +751,8 @@ public class SystemConstants {
 	}
 
 	// 内容模板（与数据库中代码对应）
+	public final static String CONTENT_TPL_APPLYSELF_SUBMIT_INFO = "ct_applyself_submit_info"; // 干部提交因私申请，通知管理员
+	public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员
 	public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
 	public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
 	public final static String CONTENT_TPL_APPLYSELF_PASS = "ct_applySelf_pass";
