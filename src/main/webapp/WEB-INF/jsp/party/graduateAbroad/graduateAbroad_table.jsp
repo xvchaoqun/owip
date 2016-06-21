@@ -21,8 +21,8 @@
   <td class="bg-left"  style="width: 50px">
     ${userBean.nation}
   </td>
-  <td  rowspan="3" style="text-align: center;vertical-align: middle;
-				 background-color: #fff;">
+  <td  rowspan="4" style="text-align: center;vertical-align: middle;
+				 background-color: #fff;width: 143px;" class="avatar">
     <img src="${ctx}/avatar/${userBean.username}" alt="免冠照片"  class="avatar">
   </td>
 </tr>
@@ -30,13 +30,13 @@
   <td class="bg-right">
     出生年月
   </td>
-  <td class="bg-left" style="min-width: 80px">
+  <td class="bg-left" style="min-width: 80px;white-space: nowrap">
     ${cm:formatDate(userBean.birth,'yyyy-MM-dd')}
   </td>
-  <td class="bg-right">
+  <td class="bg-right"  style="white-space: nowrap">
     入党时间
   </td>
-  <td class="bg-left" style="min-width: 80px">
+  <td class="bg-left" style="min-width: 80px;white-space: nowrap">
     ${cm:formatDate(userBean.growTime,'yyyy-MM-dd')}
   </td>
 
@@ -77,7 +77,7 @@
   <td class="bg-right">
     党籍状况
   </td>
-  <td class="bg-left" style="min-width: 120px" colspan="3">
+  <td class="bg-left" style="min-width: 120px" >
     ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
   </td>
 </tr>
@@ -137,10 +137,10 @@
   </td>
 </tr>
 <tr>
-  <td class="bg-right" rowspan="3">
+  <td class="bg-right" rowspan="3"  style="white-space: nowrap">
     国（境）内第一联系人
   </td>
-  <td class="bg-right">
+  <td class="bg-right"  style="white-space: nowrap">
     姓名（与本人关系）
   </td>
   <td class="bg-left" colspan="2">
@@ -185,7 +185,7 @@
   <td class="bg-right" rowspan="3">
     国（境）内第二联系人
   </td>
-  <td class="bg-right">
+  <td class="bg-right" style="white-space: nowrap">
     姓名（与本人关系）
   </td>
   <td class="bg-left" colspan="2">
@@ -241,7 +241,7 @@
   <td class="bg-left" colspan="2">
     ${graduateAbroad.country}
   </td>
-  <td class="bg-right">
+  <td class="bg-right" style="white-space: nowrap">
     留学学校（院系）
   </td>
   <td class="bg-left" colspan="2">
