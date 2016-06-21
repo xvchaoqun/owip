@@ -8,11 +8,11 @@
   	<tlib-version>1.0</tlib-version>
  	<short-name>cm</short-name>
  	<uri>http://java.sun.com/jsp/jstl/custom</uri>
-	<!--获得日期字符串-->
+	<!--获得MAP KEY VALUE-->
 	<function>
 		<name>getMapValue</name>
 		<function-class>sys.utils.MapUtils</function-class>
-		<function-signature>java.lang.Object getMapValue(int,java.util.Map)</function-signature>
+		<function-signature>java.lang.Object getMapValue(java.lang.Integer,java.util.Map)</function-signature>
 	</function>
      <!--获得日期字符串-->
      <function>
