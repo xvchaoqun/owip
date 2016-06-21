@@ -140,7 +140,7 @@
             </c:if>
             { label: '单位类型', align:'center', name: 'unitType.name', width: 250,frozen:true  },
             { label: '成立时间', align:'center', name: 'workTime', width: 100 },
-            { label: '备注', align:'center', name: 'remark', width: 100 }
+            { label: '备注', align:'center', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid');
