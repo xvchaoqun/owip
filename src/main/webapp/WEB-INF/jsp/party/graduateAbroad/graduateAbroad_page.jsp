@@ -363,7 +363,7 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen:true
             },
-            <c:if test="${cls==3||cls==31||cls==5||cls==6}">
+            <c:if test="${cls==22||cls==3||cls==31||cls==5||cls==6}">
             {label: '暂留后所在党支部', name: 'toBranch', width: 250},
             {label: '原党支部负责人', name: 'orgBranchAdmin.realname', width: 250},
             {label: '原党支部负责人联系电话', name: 'orgBranchAdminPhone', width: 180},
