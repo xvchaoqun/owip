@@ -34,7 +34,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <shiro:hasRole name="odAdmin">
+                        <shiro:hasAnyRoles name="odAdmin,admin">
                             <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
@@ -50,7 +50,7 @@
                                 </ul>
                             </li>
 
-                        </shiro:hasRole>
+                        </shiro:hasAnyRoles>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>

@@ -8,7 +8,7 @@
              data-url-page="${ctx}/sysLoginLog_page"
              data-url-export="${ctx}/sysLoginLog_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.type || not empty param.username || not empty param.ip }"/>
+            <c:set var="_query" value="${not empty param.type || not empty param.username || not empty param.userId|| not empty param.ip }"/>
             <!-- PAGE CONTENT BEGINS -->
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -24,7 +24,7 @@
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
                                 <div class="form-group">
-                                    <label>账号</label>
+                                    <label>登录账号</label>
                                     <input class="form-control search-query" name="username" type="text" value="${param.username}"
                                            placeholder="请输入账号">
                                 </div>
@@ -78,8 +78,8 @@
         multiselect:false,
         url: '${ctx}/sysLoginLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '账号', name: 'username', width: 100,frozen:true },
-            { label: '姓名', name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '登录账号', name: 'username', width: 100,frozen:true },
+            { label: '系统用户', name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined)
                     return "";
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
@@ -109,4 +109,5 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $('[data-rel="select2"]').select2();
+    register_user_select($('#searchForm select[name=userId]'));
 </script>
