@@ -34,8 +34,7 @@
                                     <i class="fa fa-info-circle"></i> 详情
                                 </button>
                             </c:if>
-                            <a class="jqOpenViewBtn btn btn-info btn-sm"
-                               data-need-id="false"
+                            <a class="popupBtn btn btn-info btn-sm"
                                data-width="650"
                                data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE}">
                                 <i class="fa fa-info-circle"></i> 审批说明</a>

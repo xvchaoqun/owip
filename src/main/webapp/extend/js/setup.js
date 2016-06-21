@@ -362,6 +362,12 @@ $(document).on("click", ".myTableDiv .editBtn", function(){
     loadModal(url, $(this).data("width"));
 });
 
+// 打开弹出框modal
+$(document).on("click", ".popupBtn", function(){
+
+    loadModal($(this).data("url"), $(this).data("width"));
+});
+
 // 编辑 for jqgrid
 $(document).on("click", ".myTableDiv .jqEditBtn", function(){
 

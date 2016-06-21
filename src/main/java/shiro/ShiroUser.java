@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by fafa on 2015/8/18.
  */
-public class ShiroUser implements Serializable{
+public class ShiroUser implements Serializable {
 
     private Integer id;
     private String username;
@@ -76,31 +76,41 @@ public class ShiroUser implements Serializable{
     public void setType(Byte type) {
         this.type = type;
     }
+
     /**
      * 特殊的用户权限过滤
      */
-    public Set<String> filterMenus(ApproverTypeBean approverTypeBean, Set<String> userRoles,  Set<String> userPermissions){
+    public Set<String> filterMenus(ApproverTypeBean approverTypeBean, Set<String> userRoles, Set<String> userPermissions) {
 
-        if(userRoles.contains("cadre") && approverTypeBean!=null) {
+        if (userRoles.contains("cadre")) {
+            Cadre cadre = CmTag.getCadreByUserId(id);
 
-            Cadre cadre = approverTypeBean.getCadre();
-            if (cadre != null) {
+            //临时和离任处级干部不可以看到因私出国申请，现任干部和离任校领导可以
+            if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
+                userPermissions.remove("abroad:user");
+                userPermissions.remove("userApplySelf:*");
+                userPermissions.remove("userPassportDraw:*");
+                userPermissions.remove("userPassportApply:*");
+            }
+
+            if (approverTypeBean != null && cadre!= null) {
                 MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
-                if (cadre.getPostId()==null || cadre.getPostId().intValue() == leaderPostType.getId()) {
+                if (cadre.getPostId() != null && cadre.getPostId().intValue() == leaderPostType.getId()) {
                     // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
                     userPermissions.remove("userApplySelf:*");
                     userPermissions.remove("userPassportDraw:*");
                 }
+            }
 
-                // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
-                if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW ||
-                        !(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+            // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
+            if (cadre==null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW || approverTypeBean == null ||
+                    !(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
 
-                    userPermissions.remove("applySelf:approvalList");
-                    if (!userRoles.contains("cadreAdmin")) {
-                        // 干部管理员 需要目录，普通干部不需要
-                        userPermissions.remove("abroad:admin");
-                    }
+                userPermissions.remove("applySelf:approvalList");
+                if (!userRoles.contains("cadreAdmin")) {
+                    // 干部管理员 需要目录，普通干部不需要
+                    userPermissions.remove("abroad:admin");
                 }
             }
         }
@@ -109,13 +119,13 @@ public class ShiroUser implements Serializable{
 
     public Set<String> getRoles() {
 
-        if(roles==null)  roles = CmTag.findRoles(username);
+        if (roles == null) roles = CmTag.findRoles(username);
         return roles;
     }
 
     public Set<String> getPermissions() {
 
-        if(permissions==null){
+        if (permissions == null) {
             Set<String> _p = CmTag.findPermissions(username);
             Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
             _permissions.addAll(_p);
@@ -127,7 +137,7 @@ public class ShiroUser implements Serializable{
 
     public ApproverTypeBean getApproverTypeBean() {
 
-        if(approverTypeBean==null)  approverTypeBean = CmTag.getApproverTypeBean(id);
+        if (approverTypeBean == null) approverTypeBean = CmTag.getApproverTypeBean(id);
         return approverTypeBean;
     }
 

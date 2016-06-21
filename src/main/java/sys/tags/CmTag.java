@@ -186,6 +186,10 @@ public class CmTag {
         Map<Integer, Cadre> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
     }
+    public static Cadre getCadreByUserId(Integer userId) {
+
+        return cadreService.findByUserId(userId);
+    }
 
     public static SysUser getUserById(Integer id) {
 

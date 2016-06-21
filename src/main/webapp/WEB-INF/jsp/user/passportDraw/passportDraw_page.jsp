@@ -10,8 +10,7 @@
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportDraw_select"><i
                             class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
-                    <a class="jqOpenViewBtn btn btn-info btn-sm"
-                       data-need-id="false"
+                    <a class="popupBtn btn btn-info btn-sm"
                        data-url="${ctx}/sc_content?code=${SYS_CONFIG_PASSPORT_DRAW_NOTE}">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                 </div>
