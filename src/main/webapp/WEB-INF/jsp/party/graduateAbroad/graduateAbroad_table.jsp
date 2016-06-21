@@ -21,7 +21,7 @@
   <td class="bg-left"  style="width: 50px">
     ${userBean.nation}
   </td>
-  <td  rowspan="4" style="text-align: center;vertical-align: middle;
+  <td  rowspan="5" style="text-align: center;vertical-align: middle;
 				 background-color: #fff;width: 143px;" class="avatar">
     <img src="${ctx}/avatar/${userBean.username}" alt="免冠照片"  class="avatar">
   </td>
@@ -98,7 +98,7 @@
   <td class="bg-right">
     微信号
   </td>
-  <td class="bg-left" colspan="2">
+  <td class="bg-left">
     ${graduateAbroad.weixin}
   </td>
 </tr>
