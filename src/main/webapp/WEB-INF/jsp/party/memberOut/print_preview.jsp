@@ -16,8 +16,8 @@ pageEncoding="UTF-8"%>
             <button id="print" class="btn btn-info btn-block" style="font-size: 30px">打印</button>
             <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
-        <div class="well" style="font-size: 20pt">
-            请使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">谷歌浏览器</a>（点击下载）进行打印
+        <div class="well" style="font-size: 18pt">
+            <i class="fa fa-info-circle"></i> 推荐使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">谷歌浏览器</a>（点击下载）进行打印
         </div>
     </div>
 </div>
