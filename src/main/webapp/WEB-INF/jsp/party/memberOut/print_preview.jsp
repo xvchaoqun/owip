@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
     </div>
     <div class="info">
         <div class="center" style="margin-top: 40px; margin-bottom: 40px">
-            <button id="print" class="btn btn-info btn-block" style="font-size: 30px">打印</button>
+            <button id="print" class="btn btn-info btn-block" style="font-size: 30px">请点击这里打印</button>
             <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
         <div class="well" style="font-size: 18pt">

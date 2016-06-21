@@ -376,7 +376,7 @@
                 }
             }},
             {label: '打印次数', name: 'printCount'},
-            {label: '最近打印时间', width: 130, name: 'lastPrintTime', formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
             {label: '最近打印人', name: 'lastPrintUser.realname'},
             </shiro:hasAnyRoles>
             </c:if>

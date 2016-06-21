@@ -200,7 +200,7 @@ public class MemberOutController extends BaseController {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_APPLY)
                     .andIsBackEqualTo(true);
         } else if (cls == 5) { // 分党委已审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+            criteria.andStatusGreaterThanOrEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else if (cls == 6) { // 组织部审核(新申请)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
                     .andIsBackNotEqualTo(true);
