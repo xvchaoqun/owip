@@ -45,11 +45,16 @@
                                 </button>
                             </shiro:hasPermission>
                             </c:if>--%>
-                            <button data-url="${ctx}/applySelf_view"
+
+                                   <button id="detailBtn" class="btn btn-warning btn-sm">
+                                       <i class="fa fa-info-circle"></i> 详情
+                                   </button>
+
+                            <%--<button data-url="${ctx}/applySelf_view"
                                     data-open-by="page"
                                     class="jqOpenViewBtn btn btn-warning btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
-                            </button>
+                            </button>--%>
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
@@ -141,8 +146,48 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $("#detailBtn").click(function(){
+        var grid = $("#jqGrid");
+        var id  = grid.getGridParam("selrow");
+        var ids  = grid.getGridParam("selarrrow")
+
+        if (!id || ids.length > 1) {
+            SysMsg.warning("请选择一行", "提示");
+            return;
+        }
+
+        jgrid_sid = id;
+
+        var url = "${ctx}/applySelf_view?id="+id;
+
+        var $tr = $("[role='row'][id="+id+"]", "#jqGrid");
+        var flowNote = $tr.data("flow-node");
+        if(flowNote==-1 || flowNote==0){
+            var finish = $tr.data("finish");
+            if(!finish) {
+                url += "&type=approval&approvalTypeId=" + $tr.data("approval-type-id");
+            }
+        }
+
+        var $container = $("#body-content");
+        $container.showLoading({'afterShow':
+                function() {
+                    setTimeout( function(){
+                        $container.hideLoading();
+                    }, 2000 );
+                }})
+        $.get(url,{},function(html){
+            $container.hideLoading().hide();
+            $("#item-content").hide().html(html).fadeIn("slow");
+        })
+
+    });
+
     $("#jqGrid").jqGrid({
         //forceFit:true,
+        ondblClickRow : function(rowid,iRow,iCol,e){
+            $("#detailBtn").click();
+        },
         url: '${ctx}/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
@@ -188,7 +233,19 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
             }}
-        ],onCellSelect:function(rowid, iCol, cellcontent, e){
+        ],
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            var tdType, approvalTypeId, isFinish
+            if(currentObj.flowNode==-1 || currentObj.flowNode==0){
+                var tdBean = currentObj.approvalTdBeanMap[currentObj.flowNode];
+                isFinish = currentObj.isFinish
+                approvalTypeId = tdBean.approvalTypeId
+            }
+
+            return {'data-flow-node':currentObj.flowNode, 'data-finish': isFinish, 'data-approval-type-id': approvalTypeId}
+
+        },onCellSelect:function(rowid, iCol, cellcontent, e){
             //console.dir(e.target)
             var applySelfId = $(e.target).data("apply-self-id");
             var approvalTypeId = $(e.target).data("approval-type-id");
@@ -264,7 +321,7 @@
             case 3: html = "未审批"; break;
             case 4:{
                     html = "<button {0} class=\"openView btn {1} btn-mini  btn-xs\"" +
-                    "        data-url=\"${ctx}/applySelf_view?type=aproval&id={2}&approvalTypeId={3}\">" +
+                    "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                     "        <i class=\"fa fa-edit\"></i> 审批" +
                     "        </button>";
                     html = html.format(canApproval ? "" : "disabled",

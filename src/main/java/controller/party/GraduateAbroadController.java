@@ -74,10 +74,23 @@ public class GraduateAbroadController extends BaseController {
 
         return "index";
     }
+    /*
+    cls==1||cls==11||cls==12
+        支部审核
+    cls==2||cls==21||cls==22
+        分党委审核
+    cls==3||cls==31
+        组织部审核
+    cls==4
+        未通过
+    cls==5||cls==6
+        已完成审批 未转出  已转出
 
+   */
     @RequiresPermissions("graduateAbroad:list")
     @RequestMapping("/graduateAbroad_page")
-    public String graduateAbroad_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核(未转出) 4已审核（已转出）
+    public String graduateAbroad_page(@RequestParam(defaultValue = "1")Byte cls,
+
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {
@@ -96,19 +109,44 @@ public class GraduateAbroadController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
+        if(cls==1||cls==11) {
+            // 支部待审核总数（新申请 cls=1）
+            modelMap.put("approvalCountNew", graduateAbroadService.count(null, null, (byte) 1, (byte) 1));
+            // 支部待审核总数（返回修改 cls=4）
+            modelMap.put("approvalCountBack", graduateAbroadService.count(null, null, (byte) 1, (byte) 11));
+            // 支部待审核总数
+            modelMap.put("approvalCount", graduateAbroadService.count(null, null, (byte) 1, cls));
+        }
+        if(cls==2||cls==21) {
+            // 分党委待审核总数（新申请 cls=1）
+            modelMap.put("approvalCountNew", graduateAbroadService.count(null, null, (byte) 2, (byte) 2));
+            // 分党委待审核总数（返回修改 cls=4）
+            modelMap.put("approvalCountBack", graduateAbroadService.count(null, null, (byte) 2, (byte) 21));
+            // 分党委待审核总数
+            modelMap.put("approvalCount", graduateAbroadService.count(null, null, (byte) 2, cls));
+        }
+        if(cls==3||cls==31){
+            // 组织部待审核总数（新申请 cls=1）
+            modelMap.put("approvalCountNew", graduateAbroadService.count(null, null, (byte) 3, (byte) 3));
+            // 组织部待审核总数（返回修改 cls=4）
+            modelMap.put("approvalCountBack", graduateAbroadService.count(null, null, (byte) 3, (byte) 31));
+
+            modelMap.put("approvalCount", graduateAbroadService.count(null, null, (byte) 3, cls));
+        }
+       /*
         // 支部待审核总数
         modelMap.put("branchApprovalCount", graduateAbroadService.count(null, null, (byte)1));
         // 分党委党总支直属党支部待审核总数
         modelMap.put("partyApprovalCount", graduateAbroadService.count(null, null, (byte)2));
         // 组织部待审核数目
-        modelMap.put("odApprovalCount", graduateAbroadService.count(null, null, (byte)3));
+        modelMap.put("odApprovalCount", graduateAbroadService.count(null, null, (byte)3));*/
 
         return "party/graduateAbroad/graduateAbroad_page";
     }
     
     @RequiresPermissions("graduateAbroad:list")
     @RequestMapping("/graduateAbroad_data")
-    public void graduateAbroad_data(@RequestParam(defaultValue = "1")Integer cls,
+    public void graduateAbroad_data(@RequestParam(defaultValue = "1")Byte cls,
                                  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_stay") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
@@ -193,21 +231,33 @@ public class GraduateAbroadController extends BaseController {
             criteria.andMobileLike("%" + mobile + "%");
         }
         if(cls==1){// 支部审核
-            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_APPLY);
-        }else if(cls==11){ // 分党委审核
-            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY);
-        }else if(cls==12){// 组织部审核
-            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
-        }else if(cls==2){
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_APPLY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==11){// 支部审核
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_APPLY)
+                    .andIsBackEqualTo(true);
+        }else if(cls==2){ // 分党委审核
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==21){ // 分党委审核
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
+                    .andIsBackEqualTo(true);
+        }else if(cls==3){// 组织部审核
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY)
+                    .andIsBackNotEqualTo(true);
+        }else if(cls==31){// 组织部审核
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY)
+                    .andIsBackEqualTo(true);
+        }else if(cls==4){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.GRADUATE_ABROAD_STATUS_SELF_BACK);
             statusList.add(SystemConstants.GRADUATE_ABROAD_STATUS_BACK);
             criteria.andStatusIn(statusList);
         }else {
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY);
-            if(cls==3)
+            if(cls==5)
                 criteria.andMemberStatusNotEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
-            if(cls==4)
+            if(cls==6)
                 criteria.andMemberStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
         }
         
@@ -241,7 +291,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("graduateAbroad:list")
     @RequestMapping("/graduateAbroad_approval")
-    public String graduateAbroad_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String graduateAbroad_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUser loginUser, Integer id,
                                     byte type, // 1:支部审核 2:分党委审核 3：组织部审核
                                     ModelMap modelMap) {
 
@@ -261,7 +311,7 @@ public class GraduateAbroadController extends BaseController {
                     currentGraduateAbroad = null;
             }
         } else {
-            currentGraduateAbroad = graduateAbroadService.next(type, null);
+            currentGraduateAbroad = graduateAbroadService.next(type, null, cls);
         }
         if (currentGraduateAbroad == null)
             throw new RuntimeException("当前没有需要审批的记录");
@@ -300,11 +350,11 @@ public class GraduateAbroadController extends BaseController {
 
 
         // 读取总数
-        modelMap.put("count", graduateAbroadService.count(null, null, type));
+        modelMap.put("count", graduateAbroadService.count(null, null, type, cls));
         // 下一条记录
-        modelMap.put("next", graduateAbroadService.next(type, currentGraduateAbroad));
+        modelMap.put("next", graduateAbroadService.next(type, currentGraduateAbroad, cls));
         // 上一条记录
-        modelMap.put("last", graduateAbroadService.last(type, currentGraduateAbroad));
+        modelMap.put("last", graduateAbroadService.last(type, currentGraduateAbroad, cls));
 
         return "party/graduateAbroad/graduateAbroad_approval";
     }
@@ -330,7 +380,7 @@ public class GraduateAbroadController extends BaseController {
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
 
-        graduateAbroadService.graduateAbroad_check(ids, type, null, loginUser.getId());
+        graduateAbroadService.graduateAbroad_check(ids, type, null, null, null, loginUser.getId());
 
         logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join(ids, ",")));
 
@@ -385,10 +435,10 @@ public class GraduateAbroadController extends BaseController {
     @ResponseBody
     public Map do_graduateAbroad_transfer(@CurrentUser SysUser loginUser,
                                       @RequestParam(value = "ids[]") Integer[] ids,
-                                      Integer branchId) {
+                                      Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
 
 
-        graduateAbroadService.graduateAbroad_check(ids, (byte)2, branchId, loginUser.getId());
+        graduateAbroadService.graduateAbroad_check(ids, (byte)2, branchId, orgBranchAdminId, orgBranchAdminPhone, loginUser.getId());
 
         logger.info(addLog(SystemConstants.LOG_OW, "分党委审核暂留申请：%s，转移至支部%s", StringUtils.join( ids, ","), branchId));
         return success(FormUtils.SUCCESS);

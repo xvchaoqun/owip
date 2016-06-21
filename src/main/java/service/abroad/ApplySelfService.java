@@ -178,7 +178,7 @@ public class ApplySelfService extends BaseMapper {
 
             //==============================================
             Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-            //Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
+            Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
 
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
@@ -186,19 +186,20 @@ public class ApplySelfService extends BaseMapper {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
             ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
 
-            if (approverTypeBean.getMainPostUnitId() != null) {
-                List unitIds = new ArrayList();
-                unitIds.add(approverTypeBean.getMainPostUnitId());
-                approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
-            }
-            if (approverTypeBean.getLeaderUnitIds().size() > 0) {
-                approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
-            }
+            if(approverTypeBean!=null) {
+                if (approverTypeBean.getMainPostUnitId() != null) {
+                    List unitIds = new ArrayList();
+                    unitIds.add(approverTypeBean.getMainPostUnitId());
+                    approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
+                }
+                if (approverTypeBean.getLeaderUnitIds().size() > 0) {
+                    approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
+                }
 
-            Map<Integer, List<Integer>> approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
-
-            if (approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
-            if (approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
+                approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
+            }
+            if (approverTypeUnitIdListMap!=null && approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
+            if (approverTypePostIdListMap!=null && approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
             //==============================================
 
             String applyDateStart = null;
@@ -414,7 +415,7 @@ public class ApplySelfService extends BaseMapper {
     public ApproverTypeBean getApproverTypeBean(int userId) {
 
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre == null) return null;
+        if (cadre == null || cadre.getStatus()!= SystemConstants.CADRE_STATUS_NOW) return null;
 
         // 本单位正职
         Integer mainPostUnitId = getMainPostUnitId(userId);

@@ -47,7 +47,7 @@ public class GraduateAbroadService extends BaseMapper {
         return super.checkVerityAuth2(graduateAbroad, graduateAbroad.getPartyId());
     }
     
-    public int count(Integer partyId, Integer branchId, byte type){
+    public int count(Integer partyId, Integer branchId, byte type, byte cls){
 
         GraduateAbroadExample example = new GraduateAbroadExample();
         GraduateAbroadExample.Criteria criteria = example.createCriteria();
@@ -63,6 +63,13 @@ public class GraduateAbroadService extends BaseMapper {
         }else{
             throw new RuntimeException("审核类型错误");
         }
+
+        if(cls==1 || cls==2 || cls==3){// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==11 || cls==21 || cls==31){// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
+        }
+
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
@@ -70,7 +77,7 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public GraduateAbroad next(byte type, GraduateAbroad graduateAbroad){
+    public GraduateAbroad next(byte type, GraduateAbroad graduateAbroad, byte cls){
 
         GraduateAbroadExample example = new GraduateAbroadExample();
         GraduateAbroadExample.Criteria criteria = example.createCriteria();
@@ -85,6 +92,12 @@ public class GraduateAbroadService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+
+        if(cls==1 || cls==2 || cls==3){// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==11 || cls==21 || cls==31){// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(graduateAbroad!=null)
@@ -96,7 +109,7 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public GraduateAbroad last(byte type, GraduateAbroad graduateAbroad){
+    public GraduateAbroad last(byte type, GraduateAbroad graduateAbroad, byte cls){
 
         GraduateAbroadExample example = new GraduateAbroadExample();
         GraduateAbroadExample.Criteria criteria = example.createCriteria();
@@ -111,6 +124,12 @@ public class GraduateAbroadService extends BaseMapper {
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
         }else{
             throw new RuntimeException("审核类型错误");
+        }
+
+        if(cls==1 || cls==2 || cls==3){// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
+            criteria.andIsBackNotEqualTo(true);
+        }else if(cls==11 || cls==21 || cls==31){// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
+            criteria.andIsBackEqualTo(true);
         }
 
         if(graduateAbroad!=null)
@@ -198,7 +217,7 @@ public class GraduateAbroadService extends BaseMapper {
 
     // 分党委审核通过
     @Transactional
-    public void check2(int id, int branchId){
+    public void check2(int id, int branchId, Integer orgBranchAdminId, String orgBranchAdminPhone){
 
         GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
         if(graduateAbroad.getStatus()!= SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
@@ -207,6 +226,8 @@ public class GraduateAbroadService extends BaseMapper {
         record.setId(graduateAbroad.getId());
         record.setUserId(graduateAbroad.getUserId());
         record.setToBranchId(branchId);
+        record.setOrgBranchAdminId(orgBranchAdminId);
+        record.setOrgBranchAdminPhone(orgBranchAdminPhone);
         record.setStatus(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
@@ -244,6 +265,8 @@ public class GraduateAbroadService extends BaseMapper {
     @Transactional
     public int insertSelective(GraduateAbroad record){
 
+        record.setIsBack(false);
+
         memberOpService.checkOpAuth(record.getUserId());
 
         return graduateAbroadMapper.insertSelective(record);
@@ -279,7 +302,9 @@ public class GraduateAbroadService extends BaseMapper {
     }
 
     @Transactional
-    public void graduateAbroad_check(Integer[] ids, byte type, Integer branchId, int loginUserId){
+    public void graduateAbroad_check(Integer[] ids, byte type,
+                                     Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone,
+                                     int loginUserId){
 
         for (int id : ids) {
             GraduateAbroad graduateAbroad = null;
@@ -298,7 +323,7 @@ public class GraduateAbroadService extends BaseMapper {
                 BaseController.VerifyAuth<GraduateAbroad> verifyAuth = checkVerityAuth2(id);
                 graduateAbroad = verifyAuth.entity;
 
-                check2(graduateAbroad.getId(), branchId);
+                check2(graduateAbroad.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
             }
             if(type==3) {
                 SecurityUtils.getSubject().checkRole("odAdmin");

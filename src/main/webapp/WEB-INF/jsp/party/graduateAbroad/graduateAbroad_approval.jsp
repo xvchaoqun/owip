@@ -307,7 +307,8 @@
                                     原组织关系所在党支部负责人姓名、电话
                                 </td>
                                 <td class="bg-left" colspan="2">
-                                    ${not empty branch?branch.phone:party.phone}
+                                    ${cm:getUserById(graduateAbroad.orgBranchAdminId).realname} <br/>
+                                    ${graduateAbroad.orgBranchAdminPhone}
                                 </td>
                             </tr>
                             <tr>
@@ -388,7 +389,7 @@
                                 </c:if>
                                 <c:if test="${not empty last}">
                                     <button id="last" class="openView btn"
-                                            data-url="${ctx}/graduateAbroad_approval?id=${last.id}&type=${param.type}"
+                                            data-url="${ctx}/graduateAbroad_approval?id=${last.id}&type=${param.type}&cls=${param.cls}"
                                             type="button">
                                         <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
                                     </button>
@@ -402,7 +403,7 @@
                                 </c:if>
                                 <c:if test="${not empty next}">
                                 <button id="next" class="openView btn"
-                                        data-url="${ctx}/graduateAbroad_approval?id=${next.id}&type=${param.type}"
+                                        data-url="${ctx}/graduateAbroad_approval?id=${next.id}&type=${param.type}&cls=${param.cls}"
                                         type="button">
                                     下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                                 </button>

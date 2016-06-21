@@ -1,4 +1,13 @@
 
+--2016-6-21
+ALTER TABLE `ow_graduate_abroad`
+	CHANGE COLUMN `to_branch_id` `to_branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '转移至支部，暂留所在党支部' AFTER `branch_id`,
+	ADD COLUMN `org_branch_admin_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '原支部负责人' AFTER `to_branch_id`,
+	ADD COLUMN `org_branch_admin_phone` VARCHAR(50) NULL DEFAULT NULL COMMENT '原支部负责人联系电话' AFTER `org_branch_admin_id`,
+	ADD CONSTRAINT `FK_ow_graduate_abroad_sys_user` FOREIGN KEY (`org_branch_admin_id`) REFERENCES `sys_user` (`id`);
+
+ALTER ALGORITHM = UNDEFINED VIEW `ow_graduate_abroad_view` AS SELECT oga.*,  om.`status` as member_status from ow_graduate_abroad oga, ow_member om where oga.user_id=om.user_id  ;
+
 --2016-6-20
 ALTER TABLE `sys_user`
 	ADD COLUMN `phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '办公电话，系统字段，不同步其他地方' AFTER `sign`,

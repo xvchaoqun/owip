@@ -41,6 +41,21 @@ pageEncoding="UTF-8"%>
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">原支部负责人</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                        name="orgBranchAdminId" data-placeholder="请输入账号或姓名或学工号">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">原支部负责人联系电话</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="orgBranchAdminPhone">
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">

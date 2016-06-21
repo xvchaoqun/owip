@@ -12,9 +12,12 @@ pageEncoding="UTF-8"%>
         <iframe id="myframe" src="${url}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
     <div class="info">
-        <div class="center" style="margin-top: 40px">
+        <div class="center" style="margin-top: 40px; margin-bottom: 40px">
             <button id="print" class="btn btn-info btn-block" style="font-size: 30px">打印</button>
             <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
+        </div>
+        <div class="well" style="font-size: 20pt">
+            请使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">谷歌浏览器</a>（点击下载）进行打印
         </div>
     </div>
 </div>

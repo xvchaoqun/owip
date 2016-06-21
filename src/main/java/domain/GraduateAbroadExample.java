@@ -437,6 +437,136 @@ public class GraduateAbroadExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrgBranchAdminIdIsNull() {
+            addCriterion("org_branch_admin_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdIsNotNull() {
+            addCriterion("org_branch_admin_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdEqualTo(Integer value) {
+            addCriterion("org_branch_admin_id =", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdNotEqualTo(Integer value) {
+            addCriterion("org_branch_admin_id <>", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdGreaterThan(Integer value) {
+            addCriterion("org_branch_admin_id >", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("org_branch_admin_id >=", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdLessThan(Integer value) {
+            addCriterion("org_branch_admin_id <", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdLessThanOrEqualTo(Integer value) {
+            addCriterion("org_branch_admin_id <=", value, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdIn(List<Integer> values) {
+            addCriterion("org_branch_admin_id in", values, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdNotIn(List<Integer> values) {
+            addCriterion("org_branch_admin_id not in", values, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdBetween(Integer value1, Integer value2) {
+            addCriterion("org_branch_admin_id between", value1, value2, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("org_branch_admin_id not between", value1, value2, "orgBranchAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneIsNull() {
+            addCriterion("org_branch_admin_phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneIsNotNull() {
+            addCriterion("org_branch_admin_phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneEqualTo(String value) {
+            addCriterion("org_branch_admin_phone =", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneNotEqualTo(String value) {
+            addCriterion("org_branch_admin_phone <>", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneGreaterThan(String value) {
+            addCriterion("org_branch_admin_phone >", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("org_branch_admin_phone >=", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneLessThan(String value) {
+            addCriterion("org_branch_admin_phone <", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneLessThanOrEqualTo(String value) {
+            addCriterion("org_branch_admin_phone <=", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneLike(String value) {
+            addCriterion("org_branch_admin_phone like", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneNotLike(String value) {
+            addCriterion("org_branch_admin_phone not like", value, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneIn(List<String> values) {
+            addCriterion("org_branch_admin_phone in", values, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneNotIn(List<String> values) {
+            addCriterion("org_branch_admin_phone not in", values, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneBetween(String value1, String value2) {
+            addCriterion("org_branch_admin_phone between", value1, value2, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgBranchAdminPhoneNotBetween(String value1, String value2) {
+            addCriterion("org_branch_admin_phone not between", value1, value2, "orgBranchAdminPhone");
+            return (Criteria) this;
+        }
+
         public Criteria andUserTypeIsNull() {
             addCriterion("user_type is null");
             return (Criteria) this;
@@ -2793,7 +2923,6 @@ public class GraduateAbroadExample {
         protected Criteria() {
             super();
         }
-
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             Subject subject = SecurityUtils.getSubject();

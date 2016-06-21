@@ -9,6 +9,9 @@ public class GraduateAbroad implements Serializable {
     public SysUser getUser(){
         return CmTag.getUserById(userId);
     }
+    public SysUser getOrgBranchAdmin(){
+        return CmTag.getUserById(orgBranchAdminId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -18,6 +21,10 @@ public class GraduateAbroad implements Serializable {
     private Integer branchId;
 
     private Integer toBranchId;
+
+    private Integer orgBranchAdminId;
+
+    private String orgBranchAdminPhone;
 
     private Integer userType;
 
@@ -129,6 +136,22 @@ public class GraduateAbroad implements Serializable {
 
     public void setToBranchId(Integer toBranchId) {
         this.toBranchId = toBranchId;
+    }
+
+    public Integer getOrgBranchAdminId() {
+        return orgBranchAdminId;
+    }
+
+    public void setOrgBranchAdminId(Integer orgBranchAdminId) {
+        this.orgBranchAdminId = orgBranchAdminId;
+    }
+
+    public String getOrgBranchAdminPhone() {
+        return orgBranchAdminPhone;
+    }
+
+    public void setOrgBranchAdminPhone(String orgBranchAdminPhone) {
+        this.orgBranchAdminPhone = orgBranchAdminPhone == null ? null : orgBranchAdminPhone.trim();
     }
 
     public Integer getUserType() {

@@ -7,6 +7,8 @@
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="to_branch_id" property="toBranchId" jdbcType="INTEGER" />
+    <result column="org_branch_admin_id" property="orgBranchAdminId" jdbcType="INTEGER" />
+    <result column="org_branch_admin_phone" property="orgBranchAdminPhone" jdbcType="VARCHAR" />
     <result column="user_type" property="userType" jdbcType="INTEGER" />
     <result column="abroad_reason" property="abroadReason" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
@@ -102,11 +104,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, party_id, branch_id, to_branch_id, user_type, abroad_reason, mobile, 
-    phone, weixin, email, qq, in_address, out_address, name1, relate1, unit1, post1, 
-    phone1, mobile1, email1, name2, relate2, unit2, post2, phone2, mobile2, email2, country, 
-    school, start_time, end_time, type, save_start_time, save_end_time, pay_time, status, 
-    is_back, reason, create_time
+    id, user_id, party_id, branch_id, to_branch_id, org_branch_admin_id, org_branch_admin_phone, 
+    user_type, abroad_reason, mobile, phone, weixin, email, qq, in_address, out_address, 
+    name1, relate1, unit1, post1, phone1, mobile1, email1, name2, relate2, unit2, post2, 
+    phone2, mobile2, email2, country, school, start_time, end_time, type, save_start_time, 
+    save_end_time, pay_time, status, is_back, reason, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.GraduateAbroadExample" >
     select
@@ -138,37 +140,39 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.GraduateAbroad" >
+  <insert id="insert" parameterType="domain.GraduateAbroad" >
     insert into ow_graduate_abroad (id, user_id, party_id, 
-      branch_id, to_branch_id, user_type, 
-      abroad_reason, mobile, phone, 
-      weixin, email, qq, 
-      in_address, out_address, name1, 
-      relate1, unit1, post1, 
-      phone1, mobile1, email1, 
-      name2, relate2, unit2, 
-      post2, phone2, mobile2, 
-      email2, country, school, 
-      start_time, end_time, type, 
-      save_start_time, save_end_time, pay_time, 
-      status, is_back, reason, 
-      create_time)
+      branch_id, to_branch_id, org_branch_admin_id, 
+      org_branch_admin_phone, user_type, abroad_reason, 
+      mobile, phone, weixin, 
+      email, qq, in_address, 
+      out_address, name1, relate1, 
+      unit1, post1, phone1, 
+      mobile1, email1, name2, 
+      relate2, unit2, post2, 
+      phone2, mobile2, email2, 
+      country, school, start_time, 
+      end_time, type, save_start_time, 
+      save_end_time, pay_time, status, 
+      is_back, reason, create_time
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, 
-      #{abroadReason,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{weixin,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
-      #{inAddress,jdbcType=VARCHAR}, #{outAddress,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR}, 
-      #{relate1,jdbcType=VARCHAR}, #{unit1,jdbcType=VARCHAR}, #{post1,jdbcType=VARCHAR}, 
-      #{phone1,jdbcType=VARCHAR}, #{mobile1,jdbcType=VARCHAR}, #{email1,jdbcType=VARCHAR}, 
-      #{name2,jdbcType=VARCHAR}, #{relate2,jdbcType=VARCHAR}, #{unit2,jdbcType=VARCHAR}, 
-      #{post2,jdbcType=VARCHAR}, #{phone2,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, 
-      #{email2,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
-      #{saveStartTime,jdbcType=DATE}, #{saveEndTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, 
-      #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, #{orgBranchAdminId,jdbcType=INTEGER}, 
+      #{orgBranchAdminPhone,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{abroadReason,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{inAddress,jdbcType=VARCHAR}, 
+      #{outAddress,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR}, #{relate1,jdbcType=VARCHAR}, 
+      #{unit1,jdbcType=VARCHAR}, #{post1,jdbcType=VARCHAR}, #{phone1,jdbcType=VARCHAR}, 
+      #{mobile1,jdbcType=VARCHAR}, #{email1,jdbcType=VARCHAR}, #{name2,jdbcType=VARCHAR}, 
+      #{relate2,jdbcType=VARCHAR}, #{unit2,jdbcType=VARCHAR}, #{post2,jdbcType=VARCHAR}, 
+      #{phone2,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{email2,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, 
+      #{endTime,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{saveStartTime,jdbcType=DATE}, 
+      #{saveEndTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.GraduateAbroad" >
+  <insert id="insertSelective" parameterType="domain.GraduateAbroad" >
     insert into ow_graduate_abroad
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +189,12 @@
       </if>
       <if test="toBranchId != null" >
         to_branch_id,
+      </if>
+      <if test="orgBranchAdminId != null" >
+        org_branch_admin_id,
+      </if>
+      <if test="orgBranchAdminPhone != null" >
+        org_branch_admin_phone,
       </if>
       <if test="userType != null" >
         user_type,
@@ -307,6 +317,12 @@
       </if>
       <if test="toBranchId != null" >
         #{toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="orgBranchAdminId != null" >
+        #{orgBranchAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="orgBranchAdminPhone != null" >
+        #{orgBranchAdminPhone,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
         #{userType,jdbcType=INTEGER},
@@ -439,6 +455,12 @@
       <if test="record.toBranchId != null" >
         to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
       </if>
+      <if test="record.orgBranchAdminId != null" >
+        org_branch_admin_id = #{record.orgBranchAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgBranchAdminPhone != null" >
+        org_branch_admin_phone = #{record.orgBranchAdminPhone,jdbcType=VARCHAR},
+      </if>
       <if test="record.userType != null" >
         user_type = #{record.userType,jdbcType=INTEGER},
       </if>
@@ -556,6 +578,8 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      org_branch_admin_id = #{record.orgBranchAdminId,jdbcType=INTEGER},
+      org_branch_admin_phone = #{record.orgBranchAdminPhone,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=INTEGER},
       abroad_reason = #{record.abroadReason,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -609,6 +633,12 @@
       </if>
       <if test="toBranchId != null" >
         to_branch_id = #{toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="orgBranchAdminId != null" >
+        org_branch_admin_id = #{orgBranchAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="orgBranchAdminPhone != null" >
+        org_branch_admin_phone = #{orgBranchAdminPhone,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
         user_type = #{userType,jdbcType=INTEGER},
@@ -724,6 +754,8 @@
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       to_branch_id = #{toBranchId,jdbcType=INTEGER},
+      org_branch_admin_id = #{orgBranchAdminId,jdbcType=INTEGER},
+      org_branch_admin_phone = #{orgBranchAdminPhone,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=INTEGER},
       abroad_reason = #{abroadReason,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

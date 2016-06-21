@@ -99,9 +99,9 @@ public class MemberOutController extends BaseController {
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 1, cls));
         }
         if(cls==6 || cls==7){
-            // 分党委待审核总数（新申请 cls=1）
+            // 组织部待审核总数（新申请 cls=1）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 2, (byte) 6));
-            // 分党委待审核总数（返回修改 cls=4）
+            // 组织部待审核总数（返回修改 cls=4）
             modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 2, (byte) 7));
 
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));

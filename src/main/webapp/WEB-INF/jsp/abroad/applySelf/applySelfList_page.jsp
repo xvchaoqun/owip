@@ -127,9 +127,11 @@
         var grid = $("#jqGrid");
         var id  = grid.getGridParam("selrow");
         var ids  = grid.getGridParam("selarrrow")
-        if(!id || ids.length>1){
-            SysMsg.warning("请选择一行", "提示");
-            return ;
+        if(!$(this).hasClass("jqOpenViewBtn")) {
+            if (!id || ids.length > 1) {
+                SysMsg.warning("请选择一行", "提示");
+                return;
+            }
         }
         jgrid_sid = id;
 
@@ -204,7 +206,7 @@
             case 3: html = "未审批"; break;
             case 4:{
                     html = "<button {0} class=\"openView btn {1} btn-mini  btn-xs\"" +
-                    "        data-url=\"${ctx}/applySelf_view?type=aproval&id={2}&approvalTypeId={3}\">" +
+                    "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                     "        <i class=\"fa fa-edit\"></i> 审批" +
                     "        </button>";
                     html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);

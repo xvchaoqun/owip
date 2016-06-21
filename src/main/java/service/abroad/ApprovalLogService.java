@@ -124,7 +124,7 @@ public class ApprovalLogService extends BaseMapper {
         applySelfService.updateByPrimaryKeySelective(applySelf);
 
         // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
-        if(record.getStatus() && nextFlowNode==SystemConstants.APPROVER_TYPE_ID_OD_LAST){
+        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
             shortMsgService.sendApplySelfPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
         }
     }

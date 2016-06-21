@@ -17,7 +17,58 @@
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="${cls==1?'active':''}">
+                        <li class="dropdown <c:if test="${cls==1||cls==11||cls==12}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==11)?"(返回修改)":(cls==12)?"(已审核)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=1">新申请</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=11">返回修改</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=12">已审核</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-circle-o"></i> 分党委审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=2">新申请</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=21">返回修改</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=22">已审核</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown <c:if test="${cls==3||cls==31}">active</c:if>" >
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-circle-o"></i> 组织部审核${cls==3?"(新申请)":(cls==31)?"(返回修改)":""}
+                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+                                <li>
+                                    <a href="?cls=3">新申请</a>
+                                </li>
+                                <li>
+                                    <a href="?cls=31">返回修改</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <%--<li class="${cls==1?'active':''}">
                             <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
                         </li>
                         <li class="${cls==11?'active':''}">
@@ -25,25 +76,31 @@
                         </li>
                             <li class="${cls==12?'active':''}">
                                 <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
-                            </li>
-                        <li class="${cls==2?'active':''}">
-                            <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
+                            </li>--%>
+                        <li class="${cls==4?'active':''}">
+                            <a ${cls!=4?'href="?cls=4"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
 
-                        <li class="dropdown <c:if test="${cls==3||cls==4}">active</c:if>" >
+                        <li class="dropdown <c:if test="${cls==5||cls==6}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <i class="fa fa-sign-in"></i> 已完成审批${cls==3?"(未转出)":(cls==4)?"(已转出)":""}
+                                <i class="fa fa-sign-in"></i> 已完成审批${cls==5?"(未转出)":(cls==6)?"(已转出)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=3">现有暂留的党员</a>
+                                    <a href="?cls=5">现有暂留的党员</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=4">已转出的暂留党员</a>
+                                    <a href="?cls=6">已转出的暂留党员</a>
                                 </li>
                             </ul>
                         </li>
+
+                        <c:if test="${(cls==1||cls==11||cls==2||cls==21||cls==3||cls==31) && (approvalCountNew+approvalCountBack)>0}">
+                            <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
+                                有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
+                            </div>
+                        </c:if>
                     </ul>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
@@ -53,7 +110,7 @@
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/graduateAbroad_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
-                                    <c:if test="${cls==1||cls==2}">
+                                    <c:if test="${cls==1||cls==4}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
@@ -64,37 +121,37 @@
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
 
-                                <c:if test="${cls==1}">
-                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
+                                <c:if test="${cls==1||cls==11}">
+                                    <button id="branchApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/graduateAbroad_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=1"
+                                            data-querystr="&type=1&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${branchApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 党支部审核（${branchApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 党支部审核（${approvalCount}）
                                     </button>
                                 </c:if>
-                                <c:if test="${cls==11}">
-                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
+                                <c:if test="${cls==2||cls==21}">
+                                    <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/graduateAbroad_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=2"
+                                            data-querystr="&type=2&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${approvalCount}）
                                     </button>
                                 </c:if>
-                                <c:if test="${cls==12}">
-                                    <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
+                                <c:if test="${cls==3||cls==31}">
+                                    <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/graduateAbroad_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=3"
+                                            data-querystr="&type=3&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${odApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 组织部审核（${approvalCount}）
                                     </button>
                                 </c:if>
                                 
@@ -301,13 +358,17 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }, frozen:true
             },
-            <c:if test="${cls==12}">
+            <c:if test="${cls==3||cls==31||cls==5||cls==6}">
             {label: '暂留后所在党支部', name: 'toBranch', width: 250},
+            {label: '原党支部负责人', name: 'orgBranchAdmin.realname', width: 250},
+            {label: '原党支部负责人联系电话', name: 'orgBranchAdminPhone', width: 180},
             </c:if>
             {label: '人员类别', name: 'userType', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
                 return _metaTypeMap[cellvalue];
             }},
             {label: '出国原因', name: 'abroadReason', width: 250, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
             {label: '手机号码', name: 'mobile'},
@@ -337,6 +398,7 @@
                 return rowObject.startTime + "至" + rowObject.endTime;
             }},
             {label: '留学方式', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
                 return _cMap.GRADUATE_ABROAD_TYPE_MAP[cellvalue];
             }},
             {label: '申请保留组织关系起止时间', name: 'mobile', width: 200,formatter: function (cellvalue, options, rowObject) {
@@ -382,7 +444,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
-    <c:if test="${cls==1}">
+    <c:if test="${cls==1||cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
@@ -390,7 +452,7 @@
         props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </c:if>
-    <c:if test="${cls==11}">
+    <c:if test="${cls==2||cls==21}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
@@ -406,7 +468,7 @@
         }
     });
     </c:if>
-    <c:if test="${cls==12}">
+    <c:if test="${cls==3||cls==31}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
@@ -414,7 +476,7 @@
         props:'data-url="${ctx}/graduateAbroad_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
     });
     </c:if>
-    <c:if test="${cls==1||cls==11||cls==12}">
+    <c:if test="${cls==1||cls==11||cls==2||cls==21||cls==3||cls==31}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",

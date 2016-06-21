@@ -86,8 +86,8 @@ public class ShiroUser implements Serializable{
             Cadre cadre = approverTypeBean.getCadre();
             if (cadre != null) {
                 MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
-                if (cadre.getPostId().intValue() == leaderPostType.getId()) {
-                    // 干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
+                if (cadre.getPostId()==null || cadre.getPostId().intValue() == leaderPostType.getId()) {
+                    // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
                     userPermissions.remove("userApplySelf:*");
                     userPermissions.remove("userPassportDraw:*");
                 }

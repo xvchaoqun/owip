@@ -142,7 +142,7 @@ public class MobileApplySelfController extends BaseController {
 			if(cadre.getId().intValue()!=cadreId) {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-				if (!approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
+				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
 					throw new RuntimeException("您没有权限");
 			}
 		}

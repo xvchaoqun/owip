@@ -64,6 +64,8 @@ public class MobileLoginController extends BaseController {
 		// 是干部，但不是干部管理员
 		if(roles.contains("cadre") && !roles.contains("cadreAdmin")){
 			ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(sysUser.getId());
+			if(approverTypeBean==null)
+				return failed(sysUser.getRealname()+"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
 			Cadre cadre = approverTypeBean.getCadre();
 			// 没有审批权限的干部 不能登录
 			if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW ||

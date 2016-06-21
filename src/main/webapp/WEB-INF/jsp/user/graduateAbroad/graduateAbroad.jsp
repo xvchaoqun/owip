@@ -279,7 +279,8 @@
                         原组织关系所在党支部负责人姓名、电话
                     </td>
                     <td class="bg-left" colspan="2">
-                        ${not empty branch?branch.phone:party.phone}
+                        ${cm:getUserById(graduateAbroad.orgBranchAdminId).realname} <br/>
+                        ${graduateAbroad.orgBranchAdminPhone}
                     </td>
                 </tr>
                 <tr>
