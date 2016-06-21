@@ -236,12 +236,16 @@ public class GraduateAbroadController extends BaseController {
         }else if(cls==11){// 支部审核
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_APPLY)
                     .andIsBackEqualTo(true);
+        }else if(cls==12){// 支部审核（已审核）
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY);
         }else if(cls==2){ // 分党委审核
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
                     .andIsBackNotEqualTo(true);
         }else if(cls==21){ // 分党委审核
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY)
                     .andIsBackEqualTo(true);
+        }else if(cls==22){// 分党委审核（已审核）
+            criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY);
         }else if(cls==3){// 组织部审核
             criteria.andStatusEqualTo(SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY)
                     .andIsBackNotEqualTo(true);

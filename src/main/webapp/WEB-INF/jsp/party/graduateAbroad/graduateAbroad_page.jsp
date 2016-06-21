@@ -17,6 +17,7 @@
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <shiro:hasAnyRoles name="branchAdmin,partyAdmin,odAdmin,admin">
                         <li class="dropdown <c:if test="${cls==1||cls==11||cls==12}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==11)?"(返回修改)":(cls==12)?"(已审核)":""}
@@ -34,7 +35,8 @@
                                 </li>
                             </ul>
                         </li>
-
+                        </shiro:hasAnyRoles>
+                        <shiro:hasAnyRoles name="partyAdmin,odAdmin,admin">
                         <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 分党委审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
@@ -52,7 +54,8 @@
                                 </li>
                             </ul>
                         </li>
-
+                        </shiro:hasAnyRoles>
+                        <shiro:hasAnyRoles name="odAdmin,admin">
                         <li class="dropdown <c:if test="${cls==3||cls==31}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 组织部审核${cls==3?"(新申请)":(cls==31)?"(返回修改)":""}
@@ -67,7 +70,7 @@
                                 </li>
                             </ul>
                         </li>
-
+                        </shiro:hasAnyRoles>
                         <%--<li class="${cls==1?'active':''}">
                             <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
                         </li>
@@ -132,6 +135,7 @@
                                         <i class="fa fa-sign-in"></i> 党支部审核（${approvalCount}）
                                     </button>
                                 </c:if>
+
                                 <c:if test="${cls==2||cls==21}">
                                     <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -143,6 +147,7 @@
                                         <i class="fa fa-sign-in"></i> 分党委审核（${approvalCount}）
                                     </button>
                                 </c:if>
+
                                 <c:if test="${cls==3||cls==31}">
                                     <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -154,7 +159,7 @@
                                         <i class="fa fa-sign-in"></i> 组织部审核（${approvalCount}）
                                     </button>
                                 </c:if>
-                                
+
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog_page"
                                         data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD}"
