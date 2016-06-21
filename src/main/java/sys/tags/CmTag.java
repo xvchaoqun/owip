@@ -234,6 +234,7 @@ public class CmTag {
     }
     // 是否直属党支部
     public static Boolean isDirectBranch(Integer partyId){
+        if(partyId==null) return false;
         return partyService.isDirectBranch(partyId);
     }
     // 是否分党委

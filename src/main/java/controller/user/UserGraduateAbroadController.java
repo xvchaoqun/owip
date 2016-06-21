@@ -91,11 +91,17 @@ public class UserGraduateAbroadController extends BaseController{
         if(StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
         }
+        if(record.getStartTime()==null || record.getEndTime()==null || record.getStartTime().after(record.getEndTime())){
+            throw new RuntimeException("出国起止时间有误");
+        }
         if(StringUtils.isNotBlank(_saveStartTime)) {
             record.setSaveStartTime(DateUtils.parseDate(_saveStartTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_saveEndTime)) {
             record.setSaveEndTime(DateUtils.parseDate(_saveEndTime, DateUtils.YYYY_MM_DD));
+        }
+        if(record.getSaveStartTime()==null || record.getSaveEndTime()==null || record.getSaveStartTime().after(record.getSaveEndTime())){
+            throw new RuntimeException("申请保留组织关系起止时间有误");
         }
 
         if(StringUtils.isNotBlank(_payTime)) {

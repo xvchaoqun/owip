@@ -266,10 +266,11 @@
   <td class="bg-right" colspan="2">
     原组织关系所在党支部名称
   </td>
-  <td class="bg-left" colspan="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY?2:5}">
+  <c:set var="isDirectBranch" value="${cm:isDirectBranch(party.id)}"/>
+  <td class="bg-left" colspan="${(!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY)?2:5}">
     ${party.name}<c:if test="${not empty branch}">-${branch.name}</c:if>
   </td>
-  <c:if test="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY}">
+  <c:if test="${!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY}">
     <td class="bg-right">
       原组织关系所在党支部负责人姓名、电话
     </td>
@@ -294,7 +295,7 @@
   </td>
 </tr>
 <tr>
-  <c:if test="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY}">
+  <c:if test="${!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY}">
     <td class="bg-right" colspan="2">
       暂留所在党支部名称
     </td>
@@ -302,10 +303,10 @@
       ${toBranch.name}
     </td>
   </c:if>
-  <td class="bg-right" colspan="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY?'':2}">
+  <td class="bg-right" colspan="${(!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY)?'':2}">
     状态
   </td>
-  <td class="bg-left" style="min-width: 80px" colspan="${graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY?2:5}">
+  <td class="bg-left" style="min-width: 80px" colspan="${(!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY)?2:5}">
     <c:if test="${empty graduateAbroad.status}"><span style="color:red">未提交</span></c:if>
     ${GRADUATE_ABROAD_STATUS_MAP.get(graduateAbroad.status)}
     <c:if test="${_user.id==graduateAbroad.userId}">
