@@ -62,7 +62,7 @@ public class GraduateAbroadController extends BaseController {
                 modelMap.put("toBranch", branchMap.get(toBranchId));
             }
         }
-
+        modelMap.put("student", studentService.get(userId));
         modelMap.put("userBean", userBeanService.get(userId));
 
         return "party/graduateAbroad/graduateAbroad_view";
