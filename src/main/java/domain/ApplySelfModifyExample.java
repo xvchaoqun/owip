@@ -192,6 +192,66 @@ public class ApplySelfModifyExample {
             return (Criteria) this;
         }
 
+        public Criteria andModifyTypeIsNull() {
+            addCriterion("modify_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeIsNotNull() {
+            addCriterion("modify_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeEqualTo(Byte value) {
+            addCriterion("modify_type =", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeNotEqualTo(Byte value) {
+            addCriterion("modify_type <>", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeGreaterThan(Byte value) {
+            addCriterion("modify_type >", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("modify_type >=", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeLessThan(Byte value) {
+            addCriterion("modify_type <", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("modify_type <=", value, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeIn(List<Byte> values) {
+            addCriterion("modify_type in", values, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeNotIn(List<Byte> values) {
+            addCriterion("modify_type not in", values, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeBetween(Byte value1, Byte value2) {
+            addCriterion("modify_type between", value1, value2, "modifyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("modify_type not between", value1, value2, "modifyType");
+            return (Criteria) this;
+        }
+
         public Criteria andApplyIdIsNull() {
             addCriterion("apply_id is null");
             return (Criteria) this;

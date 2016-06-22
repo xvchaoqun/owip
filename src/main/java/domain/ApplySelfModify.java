@@ -4,7 +4,6 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 public class ApplySelfModify implements Serializable {
 
@@ -20,6 +19,8 @@ public class ApplySelfModify implements Serializable {
     }
 
     private Integer id;
+
+    private Byte modifyType;
 
     private Integer applyId;
 
@@ -75,6 +76,14 @@ public class ApplySelfModify implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Byte getModifyType() {
+        return modifyType;
+    }
+
+    public void setModifyType(Byte modifyType) {
+        this.modifyType = modifyType;
     }
 
     public Integer getApplyId() {

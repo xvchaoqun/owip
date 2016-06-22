@@ -625,6 +625,15 @@ public class SystemConstants {
 		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_OTHER, "其他");
 	}
 
+	//行程修改类别
+	public final static byte APPLYSELF_MODIFY_TYPE_ORIGINAL = 0;
+	public final static byte APPLYSELF_MODIFY_TYPE_MODIFY = 1;
+	public final static Map<Byte, String> APPLYSELF_MODIFY_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLYSELF_MODIFY_TYPE_MAP.put(APPLYSELF_MODIFY_TYPE_ORIGINAL, "首次提交申请");
+		APPLYSELF_MODIFY_TYPE_MAP.put(APPLYSELF_MODIFY_TYPE_MODIFY, "行程修改");
+	}
+
 	//证件类别 1:集中管理证件 2:取消集中保管证件 3:丢失证件
 	public final static byte PASSPORT_TYPE_KEEP = 1;
 	public final static byte PASSPORT_TYPE_CANCEL = 2;
@@ -755,6 +764,7 @@ public class SystemConstants {
 	public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员
 	public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
 	public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
+	public final static String CONTENT_TPL_PASSPORT_ABOLISH = "ct_passport_abolish";
 	public final static String CONTENT_TPL_APPLYSELF_PASS = "ct_applySelf_pass";
 	public final static String CONTENT_TPL_APPLYSELF_UNPASS = "ct_applySelf_unpass";
 	public final static String CONTENT_TPL_PASSPORTAPPLY_PASS = "ct_passportApply_pass";

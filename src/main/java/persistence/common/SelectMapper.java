@@ -4,8 +4,10 @@ import bean.*;
 import domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
+import sys.constants.SystemConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,11 @@ public interface SelectMapper {
     @Select("select bl.* from base_leader_unit blu, base_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
     List<Leader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
+
+    @ResultType(bean.ApplySelfModifyBean.class)
+    @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
+            "where apply_id=#{applyId} and modify_type=" + SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY)
+    List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);
 
     // 其他审批人身份的干部，查找他需要审批的干部
     @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, base_cadre bc where aat.id in(" +

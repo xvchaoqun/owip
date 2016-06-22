@@ -1,10 +1,12 @@
 package domain;
 
+import bean.ApplySelfModifyBean;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class ApplySelf implements Serializable {

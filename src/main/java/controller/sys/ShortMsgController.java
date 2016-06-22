@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -72,11 +73,10 @@ public class ShortMsgController extends BaseController {
 
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg_page")
-    public String shortMsg_page(Integer receiverId, ModelMap modelMap) {
+    public String shortMsg_page(Integer receiverId, Integer senderId, ModelMap modelMap) {
         if (receiverId!=null) {
-
-            SysUser sysUser = sysUserService.findById(receiverId);
-            modelMap.put("sysUser", sysUser);
+            modelMap.put("receiver", sysUserService.findById(receiverId));
+            modelMap.put("sender", sysUserService.findById(senderId));
         }
         return "sys/shortMsg/shortMsg_page";
     }
@@ -85,7 +85,10 @@ public class ShortMsgController extends BaseController {
     @ResponseBody
     public void shortMsg_data(HttpServletResponse response,
                                     Integer receiverId,
+                                    Integer senderId,
                                     String mobile,
+                                    String content,
+                                    String _sendTime,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -103,8 +106,24 @@ public class ShortMsgController extends BaseController {
         if (receiverId!=null) {
             criteria.andReceiverIdEqualTo(receiverId);
         }
+        if (senderId!=null) {
+            criteria.andSenderIdEqualTo(senderId);
+        }
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");
+        }
+        if (StringUtils.isNotBlank(content)) {
+            criteria.andContentLike("%" + content + "%");
+        }
+        if (StringUtils.isNotBlank(_sendTime)) {
+            String start = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andCreateTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andCreateTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         int count = shortMsgMapper.countByExample(example);

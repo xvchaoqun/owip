@@ -11,7 +11,9 @@
              data-url-export="${ctx}/shortMsg_data"
              data-url-co="${ctx}/shortMsg_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile
+            || not empty param.senderId|| not empty param.content || not empty param._sendTime
+            || not empty param.code || not empty param.sort}"/>
             <!-- PAGE CONTENT BEGINS -->
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -27,12 +29,19 @@
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label>账号</label>
+                                            <label>接收方</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                         name="receiverId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                    <option value="${receiver.id}">${receiver.realname}-${receiver.code}</option>
                                                 </select>
                                         </div>
+                                <div class="form-group">
+                                    <label>发起方</label>
+                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                            name="senderId" data-placeholder="请输入账号或姓名或学工号">
+                                        <option value="${sender.id}">${sender.realname}-${sender.code}</option>
+                                    </select>
+                                </div>
                                     <shiro:hasRole name="admin">
                                             <div class="form-group">
                                                 <label>手机</label>
@@ -40,6 +49,21 @@
                                                            placeholder="请输入手机号码">
                                             </div>
                                     </shiro:hasRole>
+                                <div class="form-group">
+                                    <label>短信内容</label>
+                                    <input class="form-control search-query" name="content" type="text" value="${param.content}"
+                                           placeholder="请输入">
+                                </div>
+                                <div class="form-group">
+                                    <label>发送时间</label>
+                                    <div class="input-group tooltip-success" data-rel="tooltip" title="发送时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                        <input placeholder="请选择发送时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                               type="text" name="_sendTime" value="${param._sendTime}"/>
+                                    </div>
+                                </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
@@ -59,7 +83,7 @@
         </div><div id="item-content"></div>
     </div>
 </div>
-
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
@@ -80,11 +104,11 @@
             { label: '返回结果',  name: 'ret', width: 200, formatter:function(cellvalue, options, rowObject){
                 return $.trim(cellvalue).NoSpace();
             }},
-            { label: '操作人', name: 'sender.realname'},
+            { label: '发起方', name: 'sender.realname'},
             { label: '备注',  name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    register_user_select($('#searchForm select[name=receiverId]'));
+    register_user_select($('#searchForm select[name=receiverId], #searchForm select[name=senderId]'));
 </script>

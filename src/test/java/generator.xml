@@ -26,10 +26,10 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
       </table>-->
-      <table tableName="abroad_apply_self" domainObjectName="ApplySelf">
-      </table>
-      <!--<table tableName="abroad_apply_self_modify" domainObjectName="ApplySelfModify">
+      <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
       </table>-->
+      <table tableName="abroad_apply_self_modify" domainObjectName="ApplySelfModify">
+      </table>
      <!-- <table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
       </table>-->
      <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">

@@ -4,7 +4,7 @@
 <%@ page import="sys.utils.DateUtils" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>  
+<%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
@@ -191,6 +191,9 @@
 <c:set var="APPLY_APPROVAL_LOG_STATUS_BACK" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_NONEED" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP%>"/>
+
+<c:set var="APPLYSELF_MODIFY_TYPE_ORIGINAL" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL%>"/>
+<c:set var="APPLYSELF_MODIFY_TYPE_MODIFY" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY%>"/>
 
 <c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>
 <c:set var="APPLY_STAGE_DENY" value="<%=SystemConstants.APPLY_STAGE_DENY%>"/>

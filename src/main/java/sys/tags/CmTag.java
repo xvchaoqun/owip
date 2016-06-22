@@ -1,10 +1,12 @@
 package sys.tags;
 
+import bean.ApplySelfModifyBean;
 import bean.ApproverTypeBean;
 import domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
+import persistence.common.SelectMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.PassportDrawService;
@@ -50,6 +52,7 @@ public class CmTag {
     static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
     static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
+    static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -311,6 +314,11 @@ public class CmTag {
     public static ApplySelf getApplySelf(Integer applyId){
         return applySelfService.get(applyId);
     }
+
+    public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId){
+        return selectMapper.getApplySelfModifyList(applyId);
+    }
+
     // 获取因私出国申请记录 初审 结果
     public static Integer getAdminFirstTrialStatus(Integer applyId) {
         return approvalLogService.getAdminFirstTrialStatus(applyId);

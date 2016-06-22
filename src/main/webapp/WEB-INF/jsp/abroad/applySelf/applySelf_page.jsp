@@ -160,6 +160,11 @@
         border-top-color: #D13127;
     }
 </style>
+<script type="text/template" id="remark_tpl">
+<button class="popupBtn btn btn-xs btn-primary"
+        data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
+</script>
+
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#detailBtn").click(function(){
@@ -206,26 +211,26 @@
         },
         url: '${ctx}/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
+            { label: '编号',  name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '申请日期',  name: 'applyDate', width: 100,frozen:true },
+            { label: '工作证号',  name: 'user.code', width: 100 ,frozen:true},
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250,frozen:true  },
-            { label: '出行时间', align:'center', name: 'startDate', width: 100 },
-            { label: '回国时间', align:'center', name: 'endDate', width: 100 },
-            { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
+            { label: '出行时间',  name: 'startDate', width: 100 },
+            { label: '回国时间',  name: 'endDate', width: 100 },
+            { label: '出行天数',  name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
                 return DateDiff(rowObject.startDate, rowObject.endDate);
             }},
-            { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
-            { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+            { label:'前往国家或地区', name: 'toCountry', width: 180},
+            { label:'因私出国（境）事由',  name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
-            { label:'组织部初审', align:'center', name: 'expiryDate', width: 100, cellattr:function(rowId, val, rowObject, cm, rdata) {
+            { label:'组织部初审',  name: 'expiryDate', width: 100, cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return approverTdAttrs(tdBean);
             }, formatter:function(cellvalue, options, rowObject){
@@ -233,7 +238,7 @@
                 return processTdBean(tdBean)
             }},
             <c:forEach items="${approverTypeMap}" var="type">
-                { label:'${type.value.name}审批', align:'center', name: 'approver${type.key}', width: 150,
+                { label:'${type.value.name}审批',  name: 'approver${type.key}', width: 150,
                     cellattr:function(rowId, val, rowObject, cm, rdata) {
                         var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
                         return approverTdAttrs(tdBean);
@@ -242,13 +247,18 @@
                     return processTdBean(tdBean)
                 } },
             </c:forEach>
-            { label:'组织部终审', align:'center', name: 'expiryDate', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
+            { label:'组织部终审',  name: 'expiryDate', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return approverTdAttrs(tdBean);
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
-            }}
+            }},
+            { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _.template($("#remark_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                else return ''
+            } }
         ],
         rowattr: function(rowData, currentObj, rowId)
         {
@@ -336,7 +346,7 @@
             case 2: html = ""; break;
             case 3: html = "未审批"; break;
             case 4:{
-                    html = "<button {0} class=\"openView btn {1} btn-mini  btn-xs\"" +
+                    html = "<button {0} class=\"openView btn {1} btn-xs\"" +
                     "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                     "        <i class=\"fa fa-edit\"></i> 审批" +
                     "        </button>";

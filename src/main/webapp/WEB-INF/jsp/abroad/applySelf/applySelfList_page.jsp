@@ -120,6 +120,10 @@
         </div>
     </div>
 </div>
+<script type="text/template" id="remark_tpl">
+<button class="popupBtn btn btn-xs btn-primary"
+            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
+</script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#detailBtn").click(function(){
@@ -182,7 +186,12 @@
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return processTdBean(tdBean)
-            }}
+            }},
+            { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _.template($("#remark_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                else return ''
+            } }
         ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
 
         $(".approvalBtn").click(function(){

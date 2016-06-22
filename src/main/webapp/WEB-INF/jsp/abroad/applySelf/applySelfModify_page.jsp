@@ -34,21 +34,13 @@
     pager:"jqGridPager2",
     url: "${ctx}/applySelfModify_data?callback=?&applyId=${param.applyId}",
     colModel: [
-      { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true },
+      { label: '操作', name: 'modifyType', width: 150,formatter:function(cellvalue, options, rowObject){
+        if(cellvalue==undefined) return ''
+        return _cMap.APPLYSELF_MODIFY_TYPE_MAP[cellvalue];
+      }, frozen:true },
+      { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true},
+      { label:'IP',  name: 'ip', width: 120, frozen:true },
       { label: '操作时间',  name: 'createTime', width: 150, frozen:true },
-      { label:'IP',  name: 'ip', width: 150, frozen:true },
-      {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
-        if($.trim(cellvalue)=='') return ''
-        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(cellvalue, rowObject.modifyProofFileName);
-      }},
-      {label: '备注', name: 'remark', width: 180},
-      { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
-        return "S{0}".format(rowObject.id);
-      },frozen:true},
-      { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
-      { label: '工作证号', align:'center', name: 'user.code', width: 100 },
-      { label: '姓名',align:'center', name: 'user.realname', width: 75 },
-      { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
       { label: '出行时间', align:'center', name: 'startDate', width: 100 },
       { label: '回国时间', align:'center', name: 'endDate', width: 100 },
       { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
@@ -57,11 +49,16 @@
       { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
       { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
         return cellvalue.replace(/\+\+\+/g, ',');
-      }}
+      }},
+      {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
+        if($.trim(cellvalue)=='') return ''
+        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(cellvalue, rowObject.modifyProofFileName);
+      }},
+      {label: '备注', name: 'remark', width: 500}
     ],
     rowattr: function(rowData, currentObj, rowId)
     {
-      if(rowData.status=='${APPLY_APPROVAL_LOG_STATUS_BACK}') {
+      if(rowData.modifyType=='${APPLYSELF_MODIFY_TYPE_MODIFY}') {
         //console.log(rowData)
         return {'class':'danger'}
       }

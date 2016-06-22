@@ -21,6 +21,12 @@
                             data-open-by="page">
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
+                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                            data-url="${ctx}/applySelfModify_page"
+                            data-id-name="applyId"
+                            data-open-by="page">
+                        <i class="fa fa-search"></i> 变更记录
+                    </button>
                         <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm tooltip-info"
                                 data-url="${ctx}/user/applySelf_au"
                                 data-open-by="page"
@@ -101,6 +107,10 @@
         </div>
     </div>
 </div>
+<script type="text/template" id="remark_tpl">
+<button class="popupBtn btn btn-xs btn-primary"
+            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
+</script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
@@ -156,7 +166,12 @@
             }},
             {hidden:true, name:'isAgreed',formatter:function(cellvalue, options, rowObject) {
                 return cellvalue?1:0;
-            }}
+            }},
+            { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _.template($("#remark_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                else return ''
+            } }
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;

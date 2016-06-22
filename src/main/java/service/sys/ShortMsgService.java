@@ -160,6 +160,9 @@ public class ShortMsgService extends BaseMapper {
             if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS){
                 key = SystemConstants.CONTENT_TPL_PASSPORT_DISMISS;
             }
+            if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH){
+                key = SystemConstants.CONTENT_TPL_PASSPORT_ABOLISH;
+            }
 
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setType(tpl.getName());

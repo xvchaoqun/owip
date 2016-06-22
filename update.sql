@@ -1,3 +1,10 @@
+
+
+--2016-6-22
+ALTER TABLE `abroad_apply_self_modify`
+	ADD COLUMN `modify_type` TINYINT(3) UNSIGNED NULL COMMENT '修改类型，1首次提交申请 2行程修改' AFTER `id`;
+
+
 --2016-6-22
 ALTER TABLE `abroad_apply_self_modify`
 	ADD COLUMN `modify_proof_file_name` VARCHAR(255) NULL DEFAULT NULL COMMENT '变更证明文件名' AFTER `modify_proof`;

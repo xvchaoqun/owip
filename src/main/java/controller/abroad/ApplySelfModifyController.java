@@ -1,18 +1,19 @@
 package controller.abroad;
 
+import bean.ApplySelfModifyBean;
 import controller.BaseController;
 import domain.ApplySelfModify;
 import domain.ApplySelfModifyExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.ApplySelfMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -26,19 +27,33 @@ public class ApplySelfModifyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("applySelf:list")
+    @RequiresPermissions("applySelf:modifyLog")
+    @RequestMapping("/applySelfModifyList")
+    public String applySelfModifyList(int applyId, ModelMap modelMap) {
+
+        /*List<ApplySelfModifyBean> applySelfModifyList = selectMapper.getApplySelfModifyList(applyId);
+        modelMap.put("modifyList", applySelfModifyList);*/
+        ApplySelfModifyExample example = new ApplySelfModifyExample();
+        example.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY);
+        List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExample(example);
+        modelMap.put("modifyList", applySelfModifies);
+        return "abroad/applySelf/applySelfModifyList";
+    }
+
+
+    @RequiresPermissions("applySelf:modifyLog")
     @RequestMapping("/applySelfModify_page")
     public String applySelfModify_page() {
 
         return "abroad/applySelf/applySelfModify_page";
     }
 
-    @RequiresPermissions("applySelf:list")
+    @RequiresPermissions("applySelf:modifyLog")
     @RequestMapping("/applySelfModify_data")
     @ResponseBody
     public void applySelfModify_data(
-                                 int applyId,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+            int applyId,
+            Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

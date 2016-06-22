@@ -711,16 +711,16 @@ public class ApplySelfService extends BaseMapper {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
             if(applySelfModifyMapper.countByExample(example)==0){
-                addModify(record.getId(), null, null, null, "提交的记录");
+                addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, null, "提交的记录");
             }
         }
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(record.getId(), ShiroSecurityHelper.getCurrentUserId(), modifyProof, modifyProofFileName, remark);
+        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), ShiroSecurityHelper.getCurrentUserId(), modifyProof, modifyProofFileName, remark);
     }
 
-    private void addModify(int applyId, Integer modifyUserId, String modifyProof, String modifyProofFileName, String remark){
+    private void addModify(byte modifyType, int applyId, Integer modifyUserId, String modifyProof, String modifyProofFileName, String remark){
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -733,6 +733,7 @@ public class ApplySelfService extends BaseMapper {
         }
         if(modifyUserId==null) modifyUserId = applySelf.getUser().getId();// 第一条记录标记为本人提交
         modify.setId(null);
+        modify.setModifyType(modifyType);
         modify.setApplyId(applyId);
         modify.setModifyProof(modifyProof);
         modify.setModifyProofFileName(modifyProofFileName);

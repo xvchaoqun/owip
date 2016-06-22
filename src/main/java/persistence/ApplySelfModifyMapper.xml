@@ -3,6 +3,7 @@
 <mapper namespace="persistence.ApplySelfModifyMapper" >
   <resultMap id="BaseResultMap" type="domain.ApplySelfModify" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="modify_type" property="modifyType" jdbcType="TINYINT" />
     <result column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="apply_date" property="applyDate" jdbcType="DATE" />
@@ -86,10 +87,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, apply_id, cadre_id, apply_date, type, start_date, end_date, to_country, reason, 
-    peer_staff, cost_source, need_passports, modify_proof, modify_proof_file_name, remark, 
-    modify_user_id, create_time, ip, status, is_finish, flow_node, flow_nodes, flow_users, 
-    is_agreed
+    id, modify_type, apply_id, cadre_id, apply_date, type, start_date, end_date, to_country, 
+    reason, peer_staff, cost_source, need_passports, modify_proof, modify_proof_file_name, 
+    remark, modify_user_id, create_time, ip, status, is_finish, flow_node, flow_nodes, 
+    flow_users, is_agreed
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ApplySelfModifyExample" >
     select
@@ -122,22 +123,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ApplySelfModify" >
-    insert into abroad_apply_self_modify (id, apply_id, cadre_id, 
-      apply_date, type, start_date, 
-      end_date, to_country, reason, 
-      peer_staff, cost_source, need_passports, 
-      modify_proof, modify_proof_file_name, remark, 
-      modify_user_id, create_time, ip, 
-      status, is_finish, flow_node, 
+    insert into abroad_apply_self_modify (id, modify_type, apply_id, 
+      cadre_id, apply_date, type, 
+      start_date, end_date, to_country, 
+      reason, peer_staff, cost_source, 
+      need_passports, modify_proof, modify_proof_file_name, 
+      remark, modify_user_id, create_time, 
+      ip, status, is_finish, flow_node, 
       flow_nodes, flow_users, is_agreed
       )
-    values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{applyDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{toCountry,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{peerStaff,jdbcType=VARCHAR}, #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, 
-      #{modifyProof,jdbcType=VARCHAR}, #{modifyProofFileName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{modifyUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{modifyType,jdbcType=TINYINT}, #{applyId,jdbcType=INTEGER}, 
+      #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{toCountry,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, #{costSource,jdbcType=VARCHAR}, 
+      #{needPassports,jdbcType=VARCHAR}, #{modifyProof,jdbcType=VARCHAR}, #{modifyProofFileName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{modifyUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
       #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}
       )
   </insert>
@@ -146,6 +147,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="modifyType != null" >
+        modify_type,
       </if>
       <if test="applyId != null" >
         apply_id,
@@ -220,6 +224,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modifyType != null" >
+        #{modifyType,jdbcType=TINYINT},
       </if>
       <if test="applyId != null" >
         #{applyId,jdbcType=INTEGER},
@@ -304,6 +311,9 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.modifyType != null" >
+        modify_type = #{record.modifyType,jdbcType=TINYINT},
+      </if>
       <if test="record.applyId != null" >
         apply_id = #{record.applyId,jdbcType=INTEGER},
       </if>
@@ -381,6 +391,7 @@
   <update id="updateByExample" parameterType="map" >
     update abroad_apply_self_modify
     set id = #{record.id,jdbcType=INTEGER},
+      modify_type = #{record.modifyType,jdbcType=TINYINT},
       apply_id = #{record.applyId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       apply_date = #{record.applyDate,jdbcType=DATE},
@@ -411,6 +422,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ApplySelfModify" >
     update abroad_apply_self_modify
     <set >
+      <if test="modifyType != null" >
+        modify_type = #{modifyType,jdbcType=TINYINT},
+      </if>
       <if test="applyId != null" >
         apply_id = #{applyId,jdbcType=INTEGER},
       </if>
@@ -485,7 +499,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ApplySelfModify" >
     update abroad_apply_self_modify
-    set apply_id = #{applyId,jdbcType=INTEGER},
+    set modify_type = #{modifyType,jdbcType=TINYINT},
+      apply_id = #{applyId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       apply_date = #{applyDate,jdbcType=DATE},
       type = #{type,jdbcType=TINYINT},
