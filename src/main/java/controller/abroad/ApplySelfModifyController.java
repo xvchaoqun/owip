@@ -51,7 +51,7 @@ public class ApplySelfModifyController extends BaseController {
         ApplySelfModifyExample example = new ApplySelfModifyExample();
         ApplySelfModifyExample.Criteria criteria = example.createCriteria();
         criteria.andApplyIdEqualTo(applyId);
-        example.setOrderByClause("id desc");
+        //example.setOrderByClause("id asc");
 
         int count = applySelfModifyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

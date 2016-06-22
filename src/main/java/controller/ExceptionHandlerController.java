@@ -30,6 +30,8 @@ public class ExceptionHandlerController {
 
     public String getMsg(HttpServletRequest request, Exception ex){
 
+        ex.printStackTrace();
+
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         String username = (shiroUser!=null)?shiroUser.getUsername():null;
         return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
@@ -83,7 +85,7 @@ public class ExceptionHandlerController {
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
-            ex.printStackTrace();
+            //ex.printStackTrace();
             logger.error(getMsg(request, ex));
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
@@ -111,7 +113,7 @@ public class ExceptionHandlerController {
 
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
-            ex.printStackTrace();
+            //ex.printStackTrace();
             logger.error(getMsg(request, ex));
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);

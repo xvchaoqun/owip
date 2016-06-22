@@ -201,7 +201,7 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map password(@CurrentUser SysUser sysUser, String oldPassword, String password, HttpServletRequest request) {
 
-        if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN){
+        if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN && sysUser.getSource()!= SystemConstants.USER_SOURCE_REG){
             return failed("当前账号不允许修改密码");
         }
         oldPassword = new String(Base64.decodeBase64(oldPassword.getBytes()));

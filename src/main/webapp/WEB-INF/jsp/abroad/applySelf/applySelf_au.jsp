@@ -116,13 +116,13 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">更改证明</label>
+			<label class="col-xs-3 control-label">本人说明材料</label>
 			<div class="col-xs-2">
 			<input  class="form-control" type="file" name="_modifyProof" />
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">更改原因</label>
+			<label class="col-xs-3 control-label">备注</label>
 			<div class="col-xs-2">
 				<textarea  class="form-control" name="remark"></textarea>
 			</div>

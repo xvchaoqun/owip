@@ -37,11 +37,11 @@
       { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true },
       { label: '操作时间',  name: 'createTime', width: 150, frozen:true },
       { label:'IP',  name: 'ip', width: 150, frozen:true },
-      {label: '更改原因', name: 'remark', width: 180},
-      {label: '更改证明', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
+      {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
         if($.trim(cellvalue)=='') return ''
         return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(cellvalue, rowObject.modifyProofFileName);
       }},
+      {label: '备注', name: 'remark', width: 180},
       { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
         return "S{0}".format(rowObject.id);
       },frozen:true},

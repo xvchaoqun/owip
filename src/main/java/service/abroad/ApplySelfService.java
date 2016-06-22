@@ -711,16 +711,16 @@ public class ApplySelfService extends BaseMapper {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
             if(applySelfModifyMapper.countByExample(example)==0){
-                addModify(record.getId(), null, null, "提交的记录");
+                addModify(record.getId(), null, null, null, "提交的记录");
             }
         }
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(record.getId(), modifyProof, modifyProofFileName, remark);
+        addModify(record.getId(), ShiroSecurityHelper.getCurrentUserId(), modifyProof, modifyProofFileName, remark);
     }
 
-    private void addModify(int applyId, String modifyProof, String modifyProofFileName, String remark){
+    private void addModify(int applyId, Integer modifyUserId, String modifyProof, String modifyProofFileName, String remark){
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -731,13 +731,14 @@ public class ApplySelfService extends BaseMapper {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+        if(modifyUserId==null) modifyUserId = applySelf.getUser().getId();// 第一条记录标记为本人提交
         modify.setId(null);
         modify.setApplyId(applyId);
         modify.setModifyProof(modifyProof);
         modify.setModifyProofFileName(modifyProofFileName);
         modify.setRemark(remark);
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
-        modify.setModifyUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setModifyUserId(modifyUserId);
         modify.setCreateTime(new Date());
 
         applySelfModifyMapper.insertSelective(modify);

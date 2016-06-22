@@ -13,7 +13,7 @@
       个人设置
     </a>
   </li>--%>
-  <c:if test="${_user.source==USER_SOURCE_ADMIN}">
+  <c:if test="${_user.source==USER_SOURCE_ADMIN||_user.source==USER_SOURCE_REG}">
     <shiro:hasPermission name="password:modify">
       <li class="${param.type==3?"active":""}">
         <a href="${ctx}/password">
