@@ -32,15 +32,17 @@
   var record =${not empty record?record:'null'};
   //console.dir(record)
   function cellattr(rowId, val, rowObject, cm, rdata) {
-      if(cm.name=='day'){
-        record.day=DateDiff(record.startDate, record.endDate)
-      }
-      if(cm.name=='reason'){
-        record.reason=record.reason.replace(/\+\+\+/g, ',');
-      }
-      if(record!=null &&rowId!=record.id && $.trim(val)!=$.trim(record[cm.name])){
+      if(record!=null) {
+        if (cm.name == 'day') {
+          record.day = DateDiff(record.startDate, record.endDate)
+        }
+        if (cm.name == 'reason') {
+          record.reason = record.reason.replace(/\+\+\+/g, ',');
+        }
+        if (rowId != record.id && $.trim(val) != $.trim(record[cm.name])) {
 
-        return 'class="danger"'
+          return 'class="danger"'
+        }
       }
   }
   $("#jqGrid2").jqGrid({
