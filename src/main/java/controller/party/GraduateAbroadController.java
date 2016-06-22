@@ -534,6 +534,64 @@ public class GraduateAbroadController extends BaseController {
         return "party/graduateAbroad/graduateAbroad_au";
     }
 
+
+    @RequiresPermissions("graduateAbroad:edit")
+    @RequestMapping(value = "/graduateAbroad_transfer_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map graduateAbroad_transfer_au(@CurrentUser SysUser loginUser,
+                                          int id,  int branchId, int orgBranchAdminId, String orgBranchAdminPhone, HttpServletRequest request) {
+
+        GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Branch branch = branchMap.get(branchId);
+        if(branch==null || branch.getPartyId().intValue()!=graduateAbroad.getPartyId()){
+            throw new RuntimeException("转移支部不存在");
+        }
+
+        GraduateAbroad record = new GraduateAbroad();
+        record.setId(id);
+        record.setToBranchId(branchId);
+        record.setOrgBranchAdminId(orgBranchAdminId);
+        record.setOrgBranchAdminPhone(orgBranchAdminPhone);
+        graduateAbroadService.trasferAu(record);
+        logger.info(addLog(SystemConstants.LOG_OW, "更新暂留党支部等信息：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 修改暂留支部
+    @RequiresPermissions("graduateAbroad:edit")
+    @RequestMapping("/graduateAbroad_transfer_au")
+    public String graduateAbroad_transfer_au(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
+            modelMap.put("graduateAbroad", graduateAbroad);
+
+            if(partyService.isDirectBranch(graduateAbroad.getPartyId())){
+                throw new RuntimeException("直属党支部不需要添加暂留党支部");
+            }
+
+            Map<Integer, Party> partyMap = partyService.findAll();
+            modelMap.put("party", partyMap.get(graduateAbroad.getPartyId()));
+
+            // 暂留党支部
+            if(graduateAbroad.getToBranchId()!=null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Branch branch = branchMap.get(graduateAbroad.getToBranchId());
+                modelMap.put("branch", branch);
+            }
+
+            // 原支部负责人
+            if(graduateAbroad.getOrgBranchAdminId()!=null) {
+                SysUser sysUser = sysUserService.findById(graduateAbroad.getOrgBranchAdminId());
+                modelMap.put("sysUser", sysUser);
+            }
+
+        }
+        return "party/graduateAbroad/graduateAbroad_transfer_au";
+    }
+
   /*  @RequiresPermissions("graduateAbroad:del")
     @RequestMapping(value = "/graduateAbroad_del", method = RequestMethod.POST)
     @ResponseBody

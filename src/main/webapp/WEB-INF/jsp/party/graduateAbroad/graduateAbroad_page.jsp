@@ -120,6 +120,14 @@
                                     </button>
                                     </c:if>
                                 </shiro:hasPermission>
+                                <shiro:hasAnyRoles name="partyAdmin, odAdmin, admin">
+                                <c:if test="${cls==5||cls==6}">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/graduateAbroad_transfer_au">
+                                        <i class="fa fa-edit"></i> 修改暂留党支部
+                                    </button>
+                                </c:if>
+                                </shiro:hasAnyRoles>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
@@ -330,18 +338,18 @@
         if(type==2){
             loadModal("${ctx}/graduateAbroad_transfer?ids[]={0}".format(id))
         }else{
-            bootbox.confirm("确定通过该申请？", function (result) {
-                if (result) {
+           // bootbox.confirm("确定通过该申请？", function (result) {
+             //   if (result) {
                     $.post("${ctx}/graduateAbroad_check", {ids: [id], type: type}, function (ret) {
                         if (ret.success) {
-                            SysMsg.success('操作成功。', '成功', function () {
+                            //SysMsg.success('操作成功。', '成功', function () {
                                 //page_reload();
                                 goto_next(goToNext);
-                            });
+                           // });
                         }
                     });
-                }
-            });
+                //}
+            //});
         }
     }
 

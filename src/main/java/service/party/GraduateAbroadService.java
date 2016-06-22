@@ -301,6 +301,15 @@ public class GraduateAbroadService extends BaseMapper {
         return graduateAbroadMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 修改暂留党支部信息
+    @Transactional
+    public void trasferAu(GraduateAbroad record){
+
+        checkVerityAuth2(record.getId());
+
+        graduateAbroadMapper.updateByPrimaryKeySelective(record);
+    }
+
     @Transactional
     public void graduateAbroad_check(Integer[] ids, byte type,
                                      Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone,
