@@ -61,6 +61,15 @@ iframe{background: transparent;}
 	padding-left: 20px;
 	margin: -15px 45px 0 50px;
 }
+.login_box .reg-tip{
+	font-size: 12pt;
+	color:#c7254e;
+	background-color: #f9f2f4;
+	border-radius:6px;
+	padding-left: 20px;
+	margin-top: -20px;
+	margin-bottom: 5px;
+}
 
 input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0px 1000px white inset;

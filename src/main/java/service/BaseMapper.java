@@ -74,6 +74,8 @@ public class BaseMapper {
 	@Autowired
 	protected ApplySelfMapper applySelfMapper;
 	@Autowired
+	protected ApplySelfModifyMapper applySelfModifyMapper;
+	@Autowired
 	protected ApplySelfFileMapper applySelfFileMapper;
 	@Autowired
 	protected ApprovalLogMapper approvalLogMapper;

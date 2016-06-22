@@ -40,50 +40,50 @@
                                 <input name="_reason" type="checkbox" value="工作"> 工作&nbsp;
                                 <br/>
                                 <input name="_reason" type="checkbox" value="其他"> 其他
-                                <input name="_reason_other" type="text" size="18">
+                                <input name="_reason_other" type="text" maxlength="50" size="18">
                                 <input name="abroadReason" type="hidden"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">手机</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="mobile" value="${graduateAbroad.mobile}">
+                                <input required class="form-control" maxlength="20" type="text" name="mobile" value="${graduateAbroad.mobile}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">家庭电话</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="phone" value="${graduateAbroad.phone}">
+                                <input required class="form-control" maxlength="20" type="text" name="phone" value="${graduateAbroad.phone}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">微信</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="weixin" value="${graduateAbroad.weixin}">
+                                <input required class="form-control" type="text" maxlength="20"  name="weixin" value="${graduateAbroad.weixin}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">电子邮箱</label>
                             <div class="col-xs-6">
-                                <input required class="form-control email" type="text" name="email" value="${graduateAbroad.email}">
+                                <input required class="form-control email"  maxlength="50"  type="text" name="email" value="${graduateAbroad.email}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">QQ号</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="qq" value="${graduateAbroad.qq}">
+                                <input required class="form-control"  maxlength="20"  type="text" name="qq" value="${graduateAbroad.qq}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">国内通讯地址</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="inAddress" value="${graduateAbroad.inAddress}">
+                                <input required class="form-control" maxlength="100"  type="text" name="inAddress" value="${graduateAbroad.inAddress}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-6 control-label">国外通讯地址</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="outAddress" value="${graduateAbroad.outAddress}">
+                                <input required class="form-control" maxlength="100"  type="text" name="outAddress" value="${graduateAbroad.outAddress}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -103,7 +103,7 @@
                         <div class="form-group">
                             <label class="col-xs-6 control-label">留学学校或工作单位</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="school" value="${graduateAbroad.school}">
+                                <input required class="form-control" maxlength="50" type="text" name="school" value="${graduateAbroad.school}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -179,43 +179,43 @@
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">姓名</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="name1" value="${graduateAbroad.name1}">
+                                    <input required class="form-control"  maxlength="20" type="text" name="name1" value="${graduateAbroad.name1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">与本人关系</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="relate1" value="${graduateAbroad.relate1}">
+                                    <input required class="form-control"  maxlength="20" type="text" name="relate1" value="${graduateAbroad.relate1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">单位</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="unit1" value="${graduateAbroad.unit1}">
+                                    <input required class="form-control" maxlength="100" type="text" name="unit1" value="${graduateAbroad.unit1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">职务</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="post1" value="${graduateAbroad.post1}">
+                                    <input required class="form-control" maxlength="50" type="text" name="post1" value="${graduateAbroad.post1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">办公电话</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="phone1" value="${graduateAbroad.phone1}">
+                                    <input required class="form-control" maxlength="20" type="text" name="phone1" value="${graduateAbroad.phone1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">手机号</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control" type="text" name="mobile1" value="${graduateAbroad.mobile1}">
+                                    <input required class="form-control" maxlength="20" type="text" name="mobile1" value="${graduateAbroad.mobile1}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">电子邮箱</label>
                                 <div class="col-xs-6">
-                                    <input required class="form-control email" type="text" name="email1" value="${graduateAbroad.email1}">
+                                    <input required class="form-control email"  maxlength="150" type="text" name="email1" value="${graduateAbroad.email1}">
                                 </div>
                             </div>
                         </fieldset>
@@ -224,43 +224,43 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">姓名</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="name2" value="${graduateAbroad.name2}">
+                                <input required class="form-control" maxlength="20" type="text" name="name2" value="${graduateAbroad.name2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">与本人关系</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="relate2" value="${graduateAbroad.relate2}">
+                                <input required class="form-control"  maxlength="20"type="text" name="relate2" value="${graduateAbroad.relate2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">单位</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="unit2" value="${graduateAbroad.unit2}">
+                                <input required class="form-control" maxlength="100" type="text" name="unit2" value="${graduateAbroad.unit2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">职务</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="post2" value="${graduateAbroad.post2}">
+                                <input required class="form-control" maxlength="50" type="text" name="post2" value="${graduateAbroad.post2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">办公电话</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="phone2" value="${graduateAbroad.phone2}">
+                                <input required class="form-control" maxlength="20" type="text" name="phone2" value="${graduateAbroad.phone2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">手机号</label>
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="mobile2" value="${graduateAbroad.mobile2}">
+                                <input required class="form-control"  maxlength="20" type="text" name="mobile2" value="${graduateAbroad.mobile2}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">电子邮箱</label>
                             <div class="col-xs-6">
-                                <input required class="form-control email" type="text" name="email2" value="${graduateAbroad.email2}">
+                                <input required class="form-control email" maxlength="50" type="text" name="email2" value="${graduateAbroad.email2}">
                             </div>
                         </div>
                             </fieldset>

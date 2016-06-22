@@ -140,7 +140,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.GraduateAbroad" >
+  <insert keyProperty="id" id="insert" parameterType="domain.GraduateAbroad" >
     insert into ow_graduate_abroad (id, user_id, party_id, 
       branch_id, to_branch_id, org_branch_admin_id, 
       org_branch_admin_phone, user_type, abroad_reason, 
@@ -172,7 +172,7 @@
       #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="domain.GraduateAbroad" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.GraduateAbroad" >
     insert into ow_graduate_abroad
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

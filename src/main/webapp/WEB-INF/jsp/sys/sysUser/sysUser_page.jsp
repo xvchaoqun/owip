@@ -186,7 +186,7 @@
             { label: '邮箱',  name: 'email', width: 150 },
             { label: '账号来源', name: 'source', width: 100, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                return _cMap.GENDER_MAP[cellvalue];
+                return _cMap.USER_SOURCE_MAP[cellvalue];
             } },
             { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?"禁用":"正常";

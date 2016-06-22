@@ -48,6 +48,8 @@
             </form>
         </div>
         <div class="login-layout" id="reg">
+            <div class="reg-tip" >
+                <i class="fa fa-info-circle"></i> 如果您已经有信息门户的账号，请不要在此注册。</div>
             <form id="reg-form" method="POST" action="${ctx}/reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>

@@ -28,6 +28,8 @@
       </table>-->
       <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
       </table>-->
+      <table tableName="abroad_apply_self_modify" domainObjectName="ApplySelfModify">
+      </table>
      <!-- <table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
       </table>-->
      <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
@@ -82,10 +84,10 @@
       <!--<table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
       </table>-->
 
-      <table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
+      <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
       </table>
       <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
-      </table>
+      </table>-->
       <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
       </table>-->
 

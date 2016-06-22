@@ -394,7 +394,11 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:edit")
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(ApplySelf record, String _applyDate, String _startDate, String _endDate, HttpServletRequest request) {
+    public Map do_applySelf_au(ApplySelf record,
+                               String _applyDate, String _startDate,
+                               String _endDate,
+                               String modifyProof, String remark,
+                               HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -408,7 +412,7 @@ public class ApplySelfController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
 
-        if (id == null) {
+        /*if (id == null) {
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
 
@@ -417,11 +421,11 @@ public class ApplySelfController extends BaseController {
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-        } else {
+        } else {*/
             //record.setStatus(true);
-            applySelfService.updateByPrimaryKeySelective(record);
+            applySelfService.modify(record, modifyProof, remark);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
-        }
+        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

@@ -58,13 +58,14 @@
 						<div class="form-group">
 							<label class="col-xs-5 control-label">转入单位</label>
 							<div class="col-xs-7">
-								<textarea required class="form-control" rows="4" type="text" name="toUnit">${memberOut.toUnit}</textarea>
+								<textarea required class="form-control limited" rows="4" type="text" name="toUnit">${memberOut.toUnit}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-5 control-label">转入单位抬头</label>
 							<div class="col-xs-7">
-								<textarea required class="form-control" rows="4" type="text" name="toTitle">${memberOut.toTitle}</textarea>
+								<textarea required class="form-control limited"
+										  rows="4" type="text" name="toTitle">${memberOut.toTitle}</textarea>
 								<span class="green">注：如果类别是京外，则抬头必须是区县级以上组织部门</span>
 							</div>
 						</div>
@@ -72,15 +73,14 @@
 							<label class="col-xs-5 control-label">转出单位</label>
 							<div class="col-xs-7">
 								<c:set var="defaultAddress" value="${userBean.party.name}"/>
-								<textarea required class="form-control" rows="4"
+								<textarea required class="form-control limited" rows="4"
 									   type="text" name="fromUnit">${empty memberOut?defaultAddress:memberOut.fromUnit}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-5 control-label">转出单位地址</label>
 							<div class="col-xs-7">
-
-								<textarea required class="form-control"  rows="4" name="fromAddress">${empty memberOut?defaultAddress:memberOut.fromAddress}</textarea>
+								<textarea required class="form-control limited"  rows="4" name="fromAddress">${empty memberOut?defaultAddress:memberOut.fromAddress}</textarea>
 							</div>
 						</div>
 
@@ -149,7 +149,7 @@
 </div>
 </div>
 <script>
-	$('textarea.limited').inputlimiter();
+	$('textarea.limited').inputlimiter({limit:50});
 	register_date($('.date-picker'));
 	$("#modalForm").validate({
 		submitHandler: function (form) {

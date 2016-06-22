@@ -5,6 +5,7 @@ import bean.ApprovalResult;
 import bean.ApprovalTdBean;
 import bean.ApproverTypeBean;
 import domain.*;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +19,7 @@ import service.SpringProps;
 import service.cadre.CadreService;
 import service.helper.ContextHelper;
 import service.helper.ExportHelper;
+import service.helper.ShiroSecurityHelper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
@@ -25,9 +27,11 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -692,6 +696,44 @@ public class ApplySelfService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(ApplySelf record) {
         return applySelfMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 变更行程
+    @Transactional
+    public void modify(ApplySelf record, String modifyProof, String remark) {
+
+        // 第一次修改，需要保留原纪录
+        {
+            ApplySelfModifyExample example = new ApplySelfModifyExample();
+            example.createCriteria().andIdEqualTo(record.getId());
+            if(applySelfModifyMapper.countByExample(example)==0){
+                addModify(record.getId(), null, "init");
+            }
+        }
+
+        applySelfMapper.updateByPrimaryKeySelective(record);
+
+        addModify(record.getId(), modifyProof, remark);
+    }
+
+    private void addModify(int applyId, String modifyProof, String remark){
+        // 获取修改后的信息
+        ApplySelf applySelf = get(applyId);
+        ApplySelfModify modify = new ApplySelfModify();
+        try {
+            BeanUtils.copyProperties(modify, applySelf);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        modify.setModifyProof(modifyProof);
+        modify.setRemark(remark);
+        modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
+        modify.setModifyUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setCreateTime(new Date());
+
+        applySelfModifyMapper.insertSelective(modify);
     }
 
     public void applySelf_export(ApplySelfExample example, HttpServletResponse response) {
