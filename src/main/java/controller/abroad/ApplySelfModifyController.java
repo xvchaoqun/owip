@@ -43,7 +43,15 @@ public class ApplySelfModifyController extends BaseController {
 
     @RequiresPermissions("applySelf:modifyLog")
     @RequestMapping("/applySelfModify_page")
-    public String applySelfModify_page() {
+    public String applySelfModify_page(int applyId, ModelMap modelMap) {
+
+        // 获取第一条原始记录
+        ApplySelfModifyExample example2 = new ApplySelfModifyExample();
+        example2.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL);
+        List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
+        if(applySelfModifies.size()>0){
+            modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0)));
+        }
 
         return "abroad/applySelf/applySelfModify_page";
     }

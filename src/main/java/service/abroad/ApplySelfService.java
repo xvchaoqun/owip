@@ -711,16 +711,16 @@ public class ApplySelfService extends BaseMapper {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
             if(applySelfModifyMapper.countByExample(example)==0){
-                addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, null, "提交的记录");
+                addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, "提交的记录");
             }
         }
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), ShiroSecurityHelper.getCurrentUserId(), modifyProof, modifyProofFileName, remark);
+        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(),modifyProof, modifyProofFileName, remark);
     }
 
-    private void addModify(byte modifyType, int applyId, Integer modifyUserId, String modifyProof, String modifyProofFileName, String remark){
+    private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String remark){
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -731,7 +731,7 @@ public class ApplySelfService extends BaseMapper {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        if(modifyUserId==null) modifyUserId = applySelf.getUser().getId();// 第一条记录标记为本人提交
+
         modify.setId(null);
         modify.setModifyType(modifyType);
         modify.setApplyId(applyId);
@@ -739,8 +739,15 @@ public class ApplySelfService extends BaseMapper {
         modify.setModifyProofFileName(modifyProofFileName);
         modify.setRemark(remark);
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
-        modify.setModifyUserId(modifyUserId);
+        modify.setModifyUserId(ShiroSecurityHelper.getCurrentUserId());
         modify.setCreateTime(new Date());
+
+        // 第一条记录标记为本人提交
+        if(modifyType==SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL) {
+            modify.setModifyUserId(applySelf.getUser().getId());
+            modify.setIp(applySelf.getIp());
+            modify.setCreateTime(applySelf.getCreateTime());
+        }
 
         applySelfModifyMapper.insertSelective(modify);
     }

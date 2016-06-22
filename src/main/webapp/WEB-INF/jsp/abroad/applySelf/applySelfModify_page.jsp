@@ -29,6 +29,13 @@
   </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
 <script>
+  var record =${not empty record?record:null};
+  console.dir(record)
+  function cellattr(rowId, val, rowObject, cm, rdata) {
+      if(record!=null &&rowId!=record.id && val!=record[cm.name]){
+        return 'class="danger"'
+      }
+  }
   $("#jqGrid2").jqGrid({
     multiselect:false,
     pager:"jqGridPager2",
@@ -41,13 +48,13 @@
       { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true},
       { label:'IP',  name: 'ip', width: 120, frozen:true },
       { label: '操作时间',  name: 'createTime', width: 150, frozen:true },
-      { label: '出行时间', align:'center', name: 'startDate', width: 100 },
-      { label: '回国时间', align:'center', name: 'endDate', width: 100 },
-      { label: '出行天数', align:'center', name: 'code', width: 80,formatter:function(cellvalue, options, rowObject){
+      { label: '出行时间',  name: 'startDate', width: 100,cellattr:cellattr },
+      { label: '回国时间',  name: 'endDate', width: 100 ,cellattr:cellattr},
+      { label: '出行天数',  name: 'code', width: 80,cellattr:cellattr,formatter:function(cellvalue, options, rowObject){
         return DateDiff(rowObject.startDate, rowObject.endDate);
       }},
-      { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
-      { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+      { label:'前往国家或地区', name: 'toCountry', width: 180,cellattr:cellattr},
+      { label:'因私出国（境）事由',  name: 'reason', width: 200,cellattr:cellattr, formatter:function(cellvalue, options, rowObject){
         return cellvalue.replace(/\+\+\+/g, ',');
       }},
       {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -56,15 +63,10 @@
       }},
       {label: '备注', name: 'remark', width: 500}
     ],
-    rowattr: function(rowData, currentObj, rowId)
-    {
-      if(rowData.modifyType=='${APPLYSELF_MODIFY_TYPE_MODIFY}') {
-        //console.log(rowData)
-        return {'class':'danger'}
-      }
-    },
     gridComplete:function(){
       $(window).triggerHandler('resize.jqGrid2');
+
+
     }
   });
 </script>
