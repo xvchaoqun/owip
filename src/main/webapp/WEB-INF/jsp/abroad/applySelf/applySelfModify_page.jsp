@@ -29,10 +29,17 @@
   </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
 <script>
-  var record =${not empty record?record:null};
-  console.dir(record)
+  var record =${not empty record?record:'null'};
+  //console.dir(record)
   function cellattr(rowId, val, rowObject, cm, rdata) {
-      if(record!=null &&rowId!=record.id && val!=record[cm.name]){
+      if(cm.name=='day'){
+        record.day=DateDiff(record.startDate, record.endDate)
+      }
+      if(cm.name=='reason'){
+        record.reason=record.reason.replace(/\+\+\+/g, ',');
+      }
+      if(record!=null &&rowId!=record.id && $.trim(val)!=$.trim(record[cm.name])){
+
         return 'class="danger"'
       }
   }
@@ -50,7 +57,7 @@
       { label: '操作时间',  name: 'createTime', width: 150, frozen:true },
       { label: '出行时间',  name: 'startDate', width: 100,cellattr:cellattr },
       { label: '回国时间',  name: 'endDate', width: 100 ,cellattr:cellattr},
-      { label: '出行天数',  name: 'code', width: 80,cellattr:cellattr,formatter:function(cellvalue, options, rowObject){
+      { label: '出行天数',  name: 'day', width: 80,cellattr:cellattr,formatter:function(cellvalue, options, rowObject){
         return DateDiff(rowObject.startDate, rowObject.endDate);
       }},
       { label:'前往国家或地区', name: 'toCountry', width: 180,cellattr:cellattr},

@@ -50,7 +50,9 @@ public class ApplySelfModifyController extends BaseController {
         example2.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL);
         List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
         if(applySelfModifies.size()>0){
-            modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0)));
+            Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+            sourceMixins.put(ApplySelfModify.class, ApplySelfMixin.class);
+            modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0), sourceMixins));
         }
 
         return "abroad/applySelf/applySelfModify_page";
