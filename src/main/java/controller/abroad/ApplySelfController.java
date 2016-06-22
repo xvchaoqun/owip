@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -31,6 +32,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -308,6 +310,7 @@ public class ApplySelfController extends BaseController {
                                Integer cadreId,
                                String _applyDate,
                                Byte type, // 出行时间范围
+                               Boolean isModify,
                                // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
                                @RequestParam(required = false, defaultValue = "0") int status,
                                @RequestParam(required = false, defaultValue = "0") int export,
@@ -315,7 +318,7 @@ public class ApplySelfController extends BaseController {
 
 
         Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-                type, status, sort, order, pageNo, springProps.pageSize, export);
+                type, isModify, status, sort, order, pageNo, springProps.pageSize, export);
         if(map == null) return; // 导出
         CommonList commonList = (CommonList) map.get("commonList");
 
@@ -397,7 +400,7 @@ public class ApplySelfController extends BaseController {
     public Map do_applySelf_au(ApplySelf record,
                                String _applyDate, String _startDate,
                                String _endDate,
-                               String modifyProof, String remark,
+                               MultipartFile _modifyProof, String remark,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -412,6 +415,20 @@ public class ApplySelfController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
 
+        String modifyProof = null;
+        String modifyProofFileName = null;
+        if (_modifyProof != null && !_modifyProof.isEmpty()) {
+
+            modifyProofFileName = _modifyProof.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "apply_self_modify" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(modifyProofFileName);
+            modifyProof = realPath + ext;
+            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
+        }
+
         /*if (id == null) {
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
@@ -423,7 +440,7 @@ public class ApplySelfController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {*/
             //record.setStatus(true);
-            applySelfService.modify(record, modifyProof, remark);
+            applySelfService.modify(record, modifyProof, modifyProofFileName, remark);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         /*}*/
 

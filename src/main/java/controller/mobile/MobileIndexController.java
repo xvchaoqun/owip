@@ -57,13 +57,13 @@ public class MobileIndexController extends BaseController {
 		}else{ // 干部管理员 登录
 			{
 				Map map = applySelfService.findApplySelfList(response, null, null,
-						null, 0, null, null, null, null, 0);
+						null, null, 0, null, null, null, null, 0);
 				CommonList commonList = (CommonList) map.get("commonList");
 				notApprovalCount = commonList.recNum;
 			}
 			{
 				Map map = applySelfService.findApplySelfList(response, null, null,
-						null, 1, null, null, null, null, 0);
+						null, null, 1, null, null, null, null, 0);
 				CommonList commonList = (CommonList) map.get("commonList");
 				hasApprovalCount = commonList.recNum;
 			}

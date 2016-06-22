@@ -68,7 +68,7 @@ public class MobileApplySelfController extends BaseController {
 		modelMap.put("status", status);
 
 		Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-				type, status, sort, order, pageNo, springProps.mPageSize, export);
+				type, null, status, sort, order, pageNo, springProps.mPageSize, export);
 		if(map == null) return null; // 导出
 
 		//request.setAttribute("isView", false);

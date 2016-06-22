@@ -415,7 +415,7 @@ public class MemberService extends BaseMapper {
             MemberModifyExample example = new MemberModifyExample();
             example.createCriteria().andUserIdEqualTo(record.getUserId());
             if(memberModifyMapper.countByExample(example)==0){ // 第一次修改，需要保留原纪录
-                addModify(userId, "init");
+                addModify(userId, "初始记录");
             }
         }
 

@@ -1,32 +1,27 @@
 package domain;
 
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class ApplySelf implements Serializable {
+public class ApplySelfModify implements Serializable {
 
-    public String getTypeName(){
-        return SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(type);
+    public SysUser getModifyUser() {
+        return CmTag.getUserById(modifyUserId);
     }
-
     public SysUser getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
+    public Cadre getCadre() {
         return CmTag.getCadreById(cadreId);
     }
 
-    public Map getApprovalTdBeanMap(){
-
-        return CmTag.getApprovalTdBeanMap(id);
-    }
-
     private Integer id;
+
+    private Integer applyId;
 
     private Integer cadreId;
 
@@ -48,6 +43,14 @@ public class ApplySelf implements Serializable {
 
     private String needPassports;
 
+    private String modifyProof;
+
+    private String modifyProofFileName;
+
+    private String remark;
+
+    private Integer modifyUserId;
+
     private Date createTime;
 
     private String ip;
@@ -64,8 +67,6 @@ public class ApplySelf implements Serializable {
 
     private Boolean isAgreed;
 
-    private Boolean isModify;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -74,6 +75,14 @@ public class ApplySelf implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(Integer applyId) {
+        this.applyId = applyId;
     }
 
     public Integer getCadreId() {
@@ -156,6 +165,38 @@ public class ApplySelf implements Serializable {
         this.needPassports = needPassports == null ? null : needPassports.trim();
     }
 
+    public String getModifyProof() {
+        return modifyProof;
+    }
+
+    public void setModifyProof(String modifyProof) {
+        this.modifyProof = modifyProof == null ? null : modifyProof.trim();
+    }
+
+    public String getModifyProofFileName() {
+        return modifyProofFileName;
+    }
+
+    public void setModifyProofFileName(String modifyProofFileName) {
+        this.modifyProofFileName = modifyProofFileName == null ? null : modifyProofFileName.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getModifyUserId() {
+        return modifyUserId;
+    }
+
+    public void setModifyUserId(Integer modifyUserId) {
+        this.modifyUserId = modifyUserId;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -218,13 +259,5 @@ public class ApplySelf implements Serializable {
 
     public void setIsAgreed(Boolean isAgreed) {
         this.isAgreed = isAgreed;
-    }
-
-    public Boolean getIsModify() {
-        return isModify;
-    }
-
-    public void setIsModify(Boolean isModify) {
-        this.isModify = isModify;
     }
 }

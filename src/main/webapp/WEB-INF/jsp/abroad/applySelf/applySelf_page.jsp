@@ -5,15 +5,11 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/applySelf_au"
              data-url-page="${ctx}/applySelf_page"
              data-url-export="${ctx}/applySelf_data"
-             data-url-del="${ctx}/applySelf_del"
-             data-url-bd="${ctx}/applySelf_batchDel"
-             data-url-co="${ctx}/applySelf_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
-            ||not empty param.type || not empty param.code || not empty param.sort}"/>
+            ||not empty param.type || not empty param.code || not empty param.isModify || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==0}">active</c:if>">
@@ -40,11 +36,18 @@
                             </shiro:hasPermission>--%>
                             <c:if test="${status!=2}">
                             <shiro:hasPermission name="applySelf:edit">
-                                <button class="jqEditBtn btn btn-primary btn-sm">
-                                    <i class="fa fa-edit"></i> 行程信息变更
+                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                        data-url="${ctx}/applySelf_au" data-open-by="page">
+                                    <i class="fa fa-edit"></i> 行程变更
                                 </button>
                             </shiro:hasPermission>
                             </c:if>
+                               <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/applySelfModify_page"
+                                       data-id-name="applyId"
+                                       data-open-by="page">
+                                   <i class="fa fa-search"></i> 变更记录
+                               </button>
 
                                    <button id="detailBtn" class="btn btn-warning btn-sm">
                                        <i class="fa fa-info-circle"></i> 详情
@@ -112,6 +115,19 @@
                                                             $("#searchForm select[name=type]").val('${param.type}');
                                                         </script>
                                                 </div>
+                                                    <div class="form-group">
+                                                        <label>是否修改</label>
+                                                        <div class="input-group">
+                                                            <select name="isModify" data-rel="select2" data-placeholder="请选择">
+                                                                <option></option>
+                                                                <option value="0">否</option>
+                                                                <option value="1">是</option>
+                                                            </select>
+                                                            <script>
+                                                                $("#searchForm select[name=isModify]").val("${param.isModify}");
+                                                            </script>
+                                                        </div>
+                                                    </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

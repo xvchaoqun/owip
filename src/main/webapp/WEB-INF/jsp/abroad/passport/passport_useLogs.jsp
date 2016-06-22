@@ -77,57 +77,50 @@
         pager:"jqGridPager2",
         url: "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
         colModel: [
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 },
-            { label: '申请编码',align:'center', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '申请日期', name: 'applyDate' },
+            { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
                 return 'D{0}'.format(cellvalue);
             } },
-            { label: '用途', align:'center', width: 150 , formatter:function(cellvalue, options, rowObject){
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return '因私出国';
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')
-                    return '因公出访台湾';
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
-                    return '其他事务';
-                return cellvalue;
+            { label: '用途', name:'type', width: 150 , formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.PASSPORT_DRAW_TYPE_MAP[cellvalue];
             }},
-            { label: '行程',align:'center',  name: 'applyId', width: 75 , formatter:function(cellvalue, options, rowObject){
+            { label: '行程',  name: 'applyId', width: 75 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
                     return 'S{0}'.format(cellvalue);
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')
-                    return 'T{0}'.format(rowObject.id);
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
-                    return 'Q{0}'.format(rowObject.id);
+                return  '-';
             }},
-            { label: '出行时间', align:'center', name: 'startDate', width: 100  , formatter:function(cellvalue, options, rowObject){
+            { label: '出行时间', name: 'startDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
                     return rowObject.applySelf.startDate;
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;
             }},
-            { label: '回国时间', align:'center', name: 'endDate', width: 100  , formatter:function(cellvalue, options, rowObject){
+            { label: '回国时间', name: 'endDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
                     return rowObject.applySelf.endDate;
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;
             }},
-            { label: '前往国家或地区', align:'center', name: 'realToCountry',width: 150 , formatter:function(cellvalue, options, rowObject){
+            { label: '前往国家或地区', name: 'realToCountry',width: 150 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
                     return rowObject.applySelf.toCountry;
-                if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')
+                /*if(rowObject.type=='${PASSPORT_DRAW_TYPE_TW}')
                     return '台湾';
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
-                return cellvalue;
+                return cellvalue;*/
+                return '-';
             }},
-            { label:'因私出国境事由', align:'center', name: 'reason', width: 150, formatter:function(cellvalue, options, rowObject){
+            { label:'因私出国境事由', name: 'reason', width: 150, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return rowObject.applySelf.reason;
+                    return rowObject.applySelf.reason.replace(/\+\+\+/g, ',');;
                 return cellvalue;
             } },
-            { label:'借出日期', align:'center', name: 'drawTime', width: 100 },
-            { label:'归还日期', align:'center', name: 'realReturnDate', width: 100 }
+            { label:'借出日期', name: 'drawTime' },
+            { label:'归还日期', name: 'realReturnDate' }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid2');

@@ -1,3 +1,9 @@
+--2016-6-22
+ALTER TABLE `abroad_apply_self_modify`
+	ADD COLUMN `modify_proof_file_name` VARCHAR(255) NULL DEFAULT NULL COMMENT '变更证明文件名' AFTER `modify_proof`;
+
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `is_modify` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '后台是否修改' AFTER `is_agreed`;
 
 --2016-6-21
 ALTER TABLE `ow_graduate_abroad`

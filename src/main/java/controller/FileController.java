@@ -41,6 +41,12 @@ public class FileController extends BaseController {
         DownloadUtils.download(request, response, path, "证件录入样表.xlsx");
     }
 
+    @RequestMapping(value = "/attach/download")
+    public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
+
     @RequestMapping(value = "/attach/passportDrawFile")
     public void passportDrawFile(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 

@@ -107,7 +107,7 @@ public class ApplySelfService extends BaseMapper {
     public Map findApplySelfList(HttpServletResponse response, Integer cadreId,
                                  String _applyDate,
                                  // 出行时间范围
-                                 Byte type, int status, String sort, String order, Integer pageNo, Integer pageSize, int export) {
+                                 Byte type, Boolean isModify, int status, String sort, String order, Integer pageNo, Integer pageSize, int export) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -140,6 +140,9 @@ public class ApplySelfService extends BaseMapper {
 
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if(isModify!=null){
+            criteria.andIsModifyEqualTo(isModify);
         }
 
         if (export == 1) {
@@ -674,6 +677,7 @@ public class ApplySelfService extends BaseMapper {
     public int insertSelective(ApplySelf record) {
         record.setIsFinish(false);
         record.setIsAgreed(false);
+        record.setIsModify(false);
         return applySelfMapper.insertSelective(record);
     }
 
@@ -700,23 +704,23 @@ public class ApplySelfService extends BaseMapper {
 
     // 变更行程
     @Transactional
-    public void modify(ApplySelf record, String modifyProof, String remark) {
+    public void modify(ApplySelf record, String modifyProof, String modifyProofFileName, String remark) {
 
         // 第一次修改，需要保留原纪录
         {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
-            example.createCriteria().andIdEqualTo(record.getId());
+            example.createCriteria().andApplyIdEqualTo(record.getId());
             if(applySelfModifyMapper.countByExample(example)==0){
-                addModify(record.getId(), null, "init");
+                addModify(record.getId(), null, null, "提交的记录");
             }
         }
-
+        record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(record.getId(), modifyProof, remark);
+        addModify(record.getId(), modifyProof, modifyProofFileName, remark);
     }
 
-    private void addModify(int applyId, String modifyProof, String remark){
+    private void addModify(int applyId, String modifyProof, String modifyProofFileName, String remark){
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -727,7 +731,10 @@ public class ApplySelfService extends BaseMapper {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+        modify.setId(null);
+        modify.setApplyId(applyId);
         modify.setModifyProof(modifyProof);
+        modify.setModifyProofFileName(modifyProofFileName);
         modify.setRemark(remark);
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         modify.setModifyUserId(ShiroSecurityHelper.getCurrentUserId());

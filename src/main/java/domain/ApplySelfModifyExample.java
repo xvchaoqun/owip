@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class ApplySelfExample {
+public class ApplySelfModifyExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ApplySelfExample() {
+    public ApplySelfModifyExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -189,6 +189,66 @@ public class ApplySelfExample {
 
         public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdIsNull() {
+            addCriterion("apply_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdIsNotNull() {
+            addCriterion("apply_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdEqualTo(Integer value) {
+            addCriterion("apply_id =", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdNotEqualTo(Integer value) {
+            addCriterion("apply_id <>", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdGreaterThan(Integer value) {
+            addCriterion("apply_id >", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_id >=", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdLessThan(Integer value) {
+            addCriterion("apply_id <", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_id <=", value, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdIn(List<Integer> values) {
+            addCriterion("apply_id in", values, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdNotIn(List<Integer> values) {
+            addCriterion("apply_id not in", values, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdBetween(Integer value1, Integer value2) {
+            addCriterion("apply_id between", value1, value2, "applyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_id not between", value1, value2, "applyId");
             return (Criteria) this;
         }
 
@@ -842,6 +902,276 @@ public class ApplySelfExample {
             return (Criteria) this;
         }
 
+        public Criteria andModifyProofIsNull() {
+            addCriterion("modify_proof is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofIsNotNull() {
+            addCriterion("modify_proof is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofEqualTo(String value) {
+            addCriterion("modify_proof =", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofNotEqualTo(String value) {
+            addCriterion("modify_proof <>", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofGreaterThan(String value) {
+            addCriterion("modify_proof >", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofGreaterThanOrEqualTo(String value) {
+            addCriterion("modify_proof >=", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofLessThan(String value) {
+            addCriterion("modify_proof <", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofLessThanOrEqualTo(String value) {
+            addCriterion("modify_proof <=", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofLike(String value) {
+            addCriterion("modify_proof like", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofNotLike(String value) {
+            addCriterion("modify_proof not like", value, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofIn(List<String> values) {
+            addCriterion("modify_proof in", values, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofNotIn(List<String> values) {
+            addCriterion("modify_proof not in", values, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofBetween(String value1, String value2) {
+            addCriterion("modify_proof between", value1, value2, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofNotBetween(String value1, String value2) {
+            addCriterion("modify_proof not between", value1, value2, "modifyProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameIsNull() {
+            addCriterion("modify_proof_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameIsNotNull() {
+            addCriterion("modify_proof_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameEqualTo(String value) {
+            addCriterion("modify_proof_file_name =", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameNotEqualTo(String value) {
+            addCriterion("modify_proof_file_name <>", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameGreaterThan(String value) {
+            addCriterion("modify_proof_file_name >", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("modify_proof_file_name >=", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameLessThan(String value) {
+            addCriterion("modify_proof_file_name <", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameLessThanOrEqualTo(String value) {
+            addCriterion("modify_proof_file_name <=", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameLike(String value) {
+            addCriterion("modify_proof_file_name like", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameNotLike(String value) {
+            addCriterion("modify_proof_file_name not like", value, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameIn(List<String> values) {
+            addCriterion("modify_proof_file_name in", values, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameNotIn(List<String> values) {
+            addCriterion("modify_proof_file_name not in", values, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameBetween(String value1, String value2) {
+            addCriterion("modify_proof_file_name between", value1, value2, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyProofFileNameNotBetween(String value1, String value2) {
+            addCriterion("modify_proof_file_name not between", value1, value2, "modifyProofFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdIsNull() {
+            addCriterion("modify_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdIsNotNull() {
+            addCriterion("modify_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdEqualTo(Integer value) {
+            addCriterion("modify_user_id =", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdNotEqualTo(Integer value) {
+            addCriterion("modify_user_id <>", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdGreaterThan(Integer value) {
+            addCriterion("modify_user_id >", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("modify_user_id >=", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdLessThan(Integer value) {
+            addCriterion("modify_user_id <", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("modify_user_id <=", value, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdIn(List<Integer> values) {
+            addCriterion("modify_user_id in", values, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdNotIn(List<Integer> values) {
+            addCriterion("modify_user_id not in", values, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("modify_user_id between", value1, value2, "modifyUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("modify_user_id not between", value1, value2, "modifyUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -1349,66 +1679,6 @@ public class ApplySelfExample {
 
         public Criteria andIsAgreedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_agreed not between", value1, value2, "isAgreed");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyIsNull() {
-            addCriterion("is_modify is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyIsNotNull() {
-            addCriterion("is_modify is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyEqualTo(Boolean value) {
-            addCriterion("is_modify =", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyNotEqualTo(Boolean value) {
-            addCriterion("is_modify <>", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyGreaterThan(Boolean value) {
-            addCriterion("is_modify >", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_modify >=", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyLessThan(Boolean value) {
-            addCriterion("is_modify <", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_modify <=", value, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyIn(List<Boolean> values) {
-            addCriterion("is_modify in", values, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyNotIn(List<Boolean> values) {
-            addCriterion("is_modify not in", values, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_modify between", value1, value2, "isModify");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsModifyNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_modify not between", value1, value2, "isModify");
             return (Criteria) this;
         }
     }
