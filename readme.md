@@ -25,7 +25,9 @@ Organization Work Integration Platform
 服务器
 219.224.19.170
 root
-zzgz@2015
+zzgz)(*QAZ!@#zzgz
+数据库
+longtor@2016
 
 219.143.237.234 root  zzgz@2015
 
