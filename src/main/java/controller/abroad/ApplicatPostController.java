@@ -38,7 +38,7 @@ import java.util.Map;
 @Controller
 public class ApplicatPostController extends BaseController {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+   /* private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatPost")
@@ -221,5 +221,5 @@ public class ApplicatPostController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 }

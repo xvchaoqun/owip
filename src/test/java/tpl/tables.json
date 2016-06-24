@@ -278,6 +278,14 @@
       "ignore": true
     },
     {
+      "table": "cadre_additional_post",
+      "key": "id",
+      "searchColumns": "cadre_id,unit_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
       "table": "history_unit",
       "key": "id",
       "searchColumns": "unit_id",
@@ -319,7 +327,7 @@
       "searchColumns": "type,content",
       "excludeEditColumns": "id,role_id,create_time,update_time",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     }
   ]
 }

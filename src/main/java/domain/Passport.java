@@ -61,11 +61,15 @@ public class Passport implements Serializable {
 
     private Date cancelTime;
 
+    private Integer cancelUserId;
+
     private Byte lostType;
 
     private Date lostTime;
 
     private String lostProof;
+
+    private Integer lostUserId;
 
     private Boolean hasFind;
 
@@ -203,6 +207,14 @@ public class Passport implements Serializable {
         this.cancelTime = cancelTime;
     }
 
+    public Integer getCancelUserId() {
+        return cancelUserId;
+    }
+
+    public void setCancelUserId(Integer cancelUserId) {
+        this.cancelUserId = cancelUserId;
+    }
+
     public Byte getLostType() {
         return lostType;
     }
@@ -225,6 +237,14 @@ public class Passport implements Serializable {
 
     public void setLostProof(String lostProof) {
         this.lostProof = lostProof == null ? null : lostProof.trim();
+    }
+
+    public Integer getLostUserId() {
+        return lostUserId;
+    }
+
+    public void setLostUserId(Integer lostUserId) {
+        this.lostUserId = lostUserId;
     }
 
     public Boolean getHasFind() {

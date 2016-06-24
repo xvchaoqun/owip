@@ -185,7 +185,7 @@ pageEncoding="UTF-8" %>
                 if(rowObject.passportClass.code=='mt_passport_normal' || !rowObject.needSign){
                     return '-';
                 }
-                return '<button data-id="{0}" class="printBtn btn btn-info btn-mini btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
+                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}\')" class="btn btn-info btn-mini btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
             }},
             </c:if>
@@ -201,7 +201,7 @@ pageEncoding="UTF-8" %>
                 if(rowObject.status=='${PASSPORT_DRAW_STATUS_INIT}'){
                     return '-';
                 }
-                return '<button data-id="{0}" class="shortMsgBtn btn btn-warning btn-mini btn-xs">'
+                return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-mini btn-xs">'
                                 .format(rowObject.id)
                         +'<i class="fa fa-info"></i> 短信通知</button>';
             }},
@@ -221,7 +221,7 @@ pageEncoding="UTF-8" %>
                 if(rowObject.drawStatus!='${PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow){
                     return '-';
                 }
-                return '<button data-id="{0}" class="returnMsgBtn btn btn-danger btn-mini btn-xs">'
+                return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-mini btn-xs">'
                                 .format(rowObject.id)
                         +'<i class="fa fa-hand-paper-o"></i> 催交证件</button>';
             }},
@@ -237,20 +237,6 @@ pageEncoding="UTF-8" %>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
-    $(document).on('click',".returnMsgBtn",function(){
-        var id = $(this).data("id");
-        loadModal("${ctx}/shortMsg_view?id={0}&type=passportDrawReturn".format(id));
-    });
-
-    $(document).on('click',".shortMsgBtn",function(){
-        var id = $(this).data("id");
-        loadModal("${ctx}/shortMsg_view?id={0}&type=passportDrawApply".format(id));
-    });
-
-    $(document).on('click',".printBtn",function(){
-        printWindow("${ctx}/report/passportSign?id="+ $(this).data("id"));
-    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

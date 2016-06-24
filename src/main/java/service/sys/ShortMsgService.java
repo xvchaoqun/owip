@@ -138,7 +138,7 @@ public class ShortMsgService extends BaseMapper {
     }
 
 
-    private ContentTpl getShortMsgTpl(String key){
+    public ContentTpl getShortMsgTpl(String key){
 
         ContentTpl contentTpl = contentTplService.codeKeyMap().get(key);
         if(contentTpl == null || StringUtils.isBlank(contentTpl.getContent()))

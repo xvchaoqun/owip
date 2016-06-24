@@ -1,5 +1,23 @@
 
 
+
+--2016-6-23
+ALTER TABLE `abroad_approver`
+	CHANGE COLUMN `cadre_id` `cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '干部' AFTER `id`;
+
+ALTER TABLE `abroad_applicat_post`
+	COMMENT='申请人职务属性分组， 此表弃用20160623';
+
+ALTER TABLE `abroad_passport`
+	ADD COLUMN `cancel_user_id` INT UNSIGNED NULL COMMENT '取消确认操作人' AFTER `cancel_time`,
+	ADD COLUMN `lost_user_id` INT UNSIGNED NULL COMMENT '丢失确认操作人' AFTER `lost_proof`;
+
+
+--出国暂留当做转出做视图
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ext_member_view` AS select u.code as sid, u.realname, om.status, om.`type`, om.political_status  from sys_user u, ow_member om where om.user_id=u.id and om.user_id not in(select user_id from ow_graduate_abroad where status=3)
+union all
+select su.code as sid, su.realname, (oga.status+1) as status, om.type, om.political_status from ow_graduate_abroad oga, ow_member om, sys_user su where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id ;
+
 --2016-6-22
 ALTER TABLE `abroad_apply_self_modify`
 	ADD COLUMN `modify_type` TINYINT(3) UNSIGNED NULL COMMENT '修改类型，1首次提交申请 2行程修改' AFTER `id`;

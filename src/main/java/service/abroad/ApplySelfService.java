@@ -65,7 +65,7 @@ public class ApplySelfService extends BaseMapper {
                 List<SysUser> _users = new ArrayList<>();
                 List<Cadre> mainPostList = cadreService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
-                    if(_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
                         _users.add(_cadre.getUser());
                 }
                 return _users;
@@ -76,7 +76,7 @@ public class ApplySelfService extends BaseMapper {
                 List<Leader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (Leader managerUnitLeader : managerUnitLeaders) {
                     Cadre _cadre = managerUnitLeader.getCadre();
-                    if(_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
                         users.add(managerUnitLeader.getUser());
                 }
                 return users;
@@ -85,7 +85,7 @@ public class ApplySelfService extends BaseMapper {
                 List<Approver> approvers = approverService.findByType(approvalTypeId);
                 for (Approver approver : approvers) {
                     Cadre _cadre = approver.getCadre();
-                    if(_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
                         users.add(approver.getUser());
                 }
                 return users;
@@ -141,7 +141,7 @@ public class ApplySelfService extends BaseMapper {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(isModify!=null){
+        if (isModify != null) {
             criteria.andIsModifyEqualTo(isModify);
         }
 
@@ -193,10 +193,10 @@ public class ApplySelfService extends BaseMapper {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
             ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
 
-            if(approverTypeBean!=null) {
-                if (approverTypeBean.getMainPostUnitId() != null) {
+            if (approverTypeBean != null) {
+                if (approverTypeBean.getMainPostUnitIds().size()>0) {
                     List unitIds = new ArrayList();
-                    unitIds.add(approverTypeBean.getMainPostUnitId());
+                    unitIds.addAll(approverTypeBean.getMainPostUnitIds());
                     approverTypeUnitIdListMap.put(mainPostApproverType.getId(), unitIds);
                 }
                 if (approverTypeBean.getLeaderUnitIds().size() > 0) {
@@ -205,8 +205,10 @@ public class ApplySelfService extends BaseMapper {
 
                 approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
             }
-            if (approverTypeUnitIdListMap!=null && approverTypeUnitIdListMap.size() == 0) approverTypeUnitIdListMap = null;
-            if (approverTypePostIdListMap!=null && approverTypePostIdListMap.size() == 0) approverTypePostIdListMap = null;
+            if (approverTypeUnitIdListMap != null && approverTypeUnitIdListMap.size() == 0)
+                approverTypeUnitIdListMap = null;
+            if (approverTypePostIdListMap != null && approverTypePostIdListMap.size() == 0)
+                approverTypePostIdListMap = null;
             //==============================================
 
             String applyDateStart = null;
@@ -422,10 +424,10 @@ public class ApplySelfService extends BaseMapper {
     public ApproverTypeBean getApproverTypeBean(int userId) {
 
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre == null || cadre.getStatus()!= SystemConstants.CADRE_STATUS_NOW) return null;
+        if (cadre == null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW) return null;
 
         // 本单位正职
-        Integer mainPostUnitId = getMainPostUnitId(userId);
+        List<Integer> mainPostUnitIds = getMainPostUnitIds(userId);
         // 分管校领导
         List<Integer> leaderUnitIds = getLeaderMangerUnitIds(userId);
 
@@ -443,8 +445,7 @@ public class ApplySelfService extends BaseMapper {
 
         ApproverTypeBean approverTypeBean = new ApproverTypeBean();
         approverTypeBean.setCadre(cadre);
-        approverTypeBean.setMainPost(mainPostUnitId != null);
-        approverTypeBean.setMainPostUnitId(mainPostUnitId);
+        approverTypeBean.setMainPostUnitIds(mainPostUnitIds);
         approverTypeBean.setManagerLeader(leaderUnitIds.size() > 0);
         approverTypeBean.setLeaderUnitIds(leaderUnitIds);
         approverTypeBean.setApprover(!approverTypePostIdListMap.isEmpty());
@@ -461,18 +462,24 @@ public class ApplySelfService extends BaseMapper {
      */
     public Map<Integer, ApprovalResult> getApprovalResultMap(int applyId) {
 
+        Map<Integer, ApprovalResult> approvalResultMap = new LinkedHashMap<>();
+
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Integer cadreId = applySelf.getCadreId();
-        Cadre cadre = cadreService.findAll().get(cadreId);
-        Integer postId = cadre.getPostId();
+        //Cadre cadre = cadreService.findAll().get(cadreId);
+        //Integer postId = cadre.getPostId();
 
         Integer applicatTypeId = null;
         {   // 查询申请人身份
-            ApplicatPostExample example = new ApplicatPostExample();
-            example.createCriteria().andPostIdEqualTo(postId);
-            List<ApplicatPost> applicatPosts = applicatPostMapper.selectByExample(example);
-            ApplicatPost applicatPost = applicatPosts.get(0);
-            applicatTypeId = applicatPost.getTypeId();
+            ApplicatCadreExample example = new ApplicatCadreExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
+            if(applicatCadres.size()==0){
+                logger.error("数据异常，干部没有任何身份: cadreId="+cadreId);
+                return approvalResultMap;// 异常情况，不允许申请人没有任何身份
+            }
+            ApplicatCadre applicatCadre = applicatCadres.get(0);
+            applicatTypeId = applicatCadre.getTypeId();
         }
         Set<Integer> needApprovalTypeSet = new HashSet<>();
         List<ApprovalOrder> approvalOrders = null;
@@ -517,7 +524,7 @@ public class ApplySelfService extends BaseMapper {
             }
         }
 
-        Map<Integer, ApprovalResult> approvalResultMap = new LinkedHashMap<>();
+
         approvalResultMap.put(SystemConstants.APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(resultMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST),
                 approvalLogMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST))); // 初审
 
@@ -536,22 +543,38 @@ public class ApplySelfService extends BaseMapper {
         return approvalResultMap;
     }
 
-    // 如果是本单位正职，返回单位ID
-    public Integer getMainPostUnitId(int userId) {
+    // 如果是本单位正职，返回单位ID 列表，包括兼职单位
+    public List<Integer> getMainPostUnitIds(int userId) {
 
+        List<Integer> unitIds = new ArrayList<>();
+
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null && cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW ) { // 必须是现任干部
-            MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
-            if (postType!=null && postType.getBoolAttr()) {
-                return cadre.getUnitId();
+        if (cadre != null && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW) { // 必须是现任干部
+            MetaType postType = metaTypeMap.get(cadre.getPostId());
+            if (postType != null && postType.getBoolAttr()) {
+                unitIds.add(cadre.getUnitId());
             }
-            if(postType==null){
+            if (postType == null) {
                 SysUser sysUser = cadre.getUser();
                 logger.error(String.format("读取职务属性出错：%s %s postId=%s",
                         sysUser.getUsername(), sysUser.getRealname(), cadre.getPostId()));
             }
         }
-        return null;
+        {
+            // 兼任职务所在单位
+            CadreAdditionalPostExample example = new CadreAdditionalPostExample();
+            example.createCriteria().andCadreIdEqualTo(cadre.getId());
+            List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
+            for (CadreAdditionalPost cPost : cPosts) {
+                MetaType postType = metaTypeMap.get(cPost.getPostId());
+                if (postType.getBoolAttr()) {
+                    unitIds.add(cPost.getUnitId());
+                }
+            }
+        }
+
+        return unitIds;
     }
 
     // 如果是分管校领导，返回分管单位ID列表
@@ -559,7 +582,7 @@ public class ApplySelfService extends BaseMapper {
 
         List<Integer> unitIds = new ArrayList<>();
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null && cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW ) { // 必须是现任干部
+        if (cadre != null && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW) { // 必须是现任干部
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
             unitIds = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
         }
@@ -586,9 +609,9 @@ public class ApplySelfService extends BaseMapper {
         // 待审批的干部所在单位
         List<Integer> unitIds = new ArrayList<>();
 
-        // 如果是本单位正职
-        Integer mainPostUnitId = getMainPostUnitId(userId);
-        if (mainPostUnitId != null) unitIds.add(mainPostUnitId);
+        // 如果是本单位正职（包括兼任职务所在单位）
+        List<Integer> mainPostUnitIds = getMainPostUnitIds(userId);
+        if (mainPostUnitIds.size()>0) unitIds.addAll(mainPostUnitIds);
 
         //分管校领导
         unitIds.addAll(getLeaderMangerUnitIds(userId));
@@ -710,17 +733,17 @@ public class ApplySelfService extends BaseMapper {
         {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
-            if(applySelfModifyMapper.countByExample(example)==0){
+            if (applySelfModifyMapper.countByExample(example) == 0) {
                 addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, "提交的记录");
             }
         }
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(),modifyProof, modifyProofFileName, remark);
+        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), modifyProof, modifyProofFileName, remark);
     }
 
-    private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String remark){
+    private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String remark) {
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -743,7 +766,7 @@ public class ApplySelfService extends BaseMapper {
         modify.setCreateTime(new Date());
 
         // 第一条记录标记为本人提交
-        if(modifyType==SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL) {
+        if (modifyType == SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL) {
             modify.setModifyUserId(applySelf.getUser().getId());
             modify.setIp(applySelf.getIp());
             modify.setCreateTime(applySelf.getCreateTime());

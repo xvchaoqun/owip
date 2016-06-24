@@ -2,6 +2,7 @@ package service.cadre;
 
 import bean.XlsCadre;
 import domain.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,6 +29,8 @@ public class CadreService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private UnitService unitService;
+    @Autowired
+    private CadreAdditionalPostService cadreAdditionalPostService;
 
     @Transactional
     @Caching(evict= {
@@ -64,10 +67,18 @@ public class CadreService extends BaseMapper {
         }
         return success;
     }
-    // 职务属性-干部 Set<cadreId>
-    public TreeNode getTree( Set<Integer> selectIdSet){
+
+    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
+
+        return getTree(cadreList, selectIdSet, disabledIdSet, true, false);
+    }
+
+    // 职务属性-干部 Set<cadreId> , 用于审批人身份时disabledIdSet=null
+    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet,
+                             Set<Integer> disabledIdSet, boolean enableSelect, boolean defExpand){
 
         if(null == selectIdSet) selectIdSet = new HashSet<>();
+        if(null == disabledIdSet) disabledIdSet = new HashSet<>();
 
         TreeNode root = new TreeNode();
         root.title = "现任干部库";
@@ -79,52 +90,194 @@ public class CadreService extends BaseMapper {
 
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         // 职务属性-干部
-        Map<String, List<Cadre>> cadreMap = new LinkedHashMap<>();
+        Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
 
-        CadreExample example = new CadreExample();
+        /*CadreExample example = new CadreExample();
         example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
-        List<Cadre> cadres = cadreMapper.selectByExample(example);
-        for (Cadre cadre : cadres) {
-            List<Cadre> list = null;
-            MetaType postType = postMap.get(cadre.getPostId());
-            String post = postType.getName();
-            if (cadreMap.containsKey(post)) {
-                list = cadreMap.get(post);
-            }
-            if (null == list) list = new ArrayList<>();
-            list.add(cadre);
+        List<Cadre> cadres = cadreMapper.selectByExample(example);*/
+        for (Cadre cadre : cadreList) {
+            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW) {
+                List<Cadre> list = null;
+                MetaType postType = postMap.get(cadre.getPostId());
+                int postId = postType.getId();
+                if (postIdCadresMap.containsKey(postId)) {
+                    list = postIdCadresMap.get(postId);
+                }
+                if (null == list) list = new ArrayList<>();
+                list.add(cadre);
 
-            cadreMap.put(post, list);
+                postIdCadresMap.put(postId, list);
+            }
+        }
+
+        // 排序
+        Map<String, List<Cadre>> postCadresMap = new LinkedHashMap<>();
+        for (MetaType metaType : postMap.values()) {
+            if(postIdCadresMap.containsKey(metaType.getId()))
+                postCadresMap.put(metaType.getName(), postIdCadresMap.get(metaType.getId()));
         }
 
         int i = 0;
-        for (Map.Entry<String, List<Cadre>> entry : cadreMap.entrySet()) {
+        for (Map.Entry<String, List<Cadre>> entry : postCadresMap.entrySet()) {
 
+            List<Cadre> entryValue = entry.getValue();
             TreeNode titleNode = new TreeNode();
-            titleNode.title = entry.getKey();
-            titleNode.expand = (i++<1);
+            titleNode.title = entry.getKey() + "("+ entryValue.size() + "人)";
+            titleNode.expand = defExpand;
             titleNode.isFolder = true;
             List<TreeNode> titleChildren = new ArrayList<TreeNode>();
             titleNode.children = titleChildren;
+            if(!enableSelect)
+                titleNode.hideCheckbox = true;
 
-            for (Cadre cadre : entry.getValue()) {
+            for (Cadre cadre : entryValue) {
 
+                int cadreId = cadre.getId();
+                String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
-                node.title = sysUser.getRealname();
-                node.key = cadre.getId() + "";
-                if (selectIdSet.contains(cadre.getId().intValue())) {
+                node.title = sysUser.getRealname() + (title!=null?("-" + title):"");
+                node.key =  cadreId + "";
+
+                if (enableSelect && selectIdSet.contains(cadreId)) {
                     node.select = true;
                 }
+                if(!enableSelect || disabledIdSet.contains(cadreId))
+                    node.hideCheckbox = true;
                 titleChildren.add(node);
             }
 
             rootChildren.add(titleNode);
         }
-
         return root;
     }
+
+    class CadrePostBean{
+        private int cadreId;
+        private int postId;
+        private boolean additional;
+
+        public CadrePostBean(int cadreId, int postId, boolean additional) {
+            this.cadreId = cadreId;
+            this.postId = postId;
+            this.additional = additional;
+        }
+
+        public int getCadreId() {
+            return cadreId;
+        }
+
+        public void setCadreId(int cadreId) {
+            this.cadreId = cadreId;
+        }
+
+        public int getPostId() {
+            return postId;
+        }
+
+        public void setPostId(int postId) {
+            this.postId = postId;
+        }
+
+        public boolean isAdditional() {
+            return additional;
+        }
+
+        public void setAdditional(boolean additional) {
+            this.additional = additional;
+        }
+    }
+
+    // 本单位正职列表（审批人，包括兼任职务）
+    public TreeNode getTree2(){
+
+        TreeNode root = new TreeNode();
+        root.title = "现任干部库";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, Cadre> cadreMap = findAll();
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+        // 职务属性-干部
+        Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
+
+        for (Cadre cadre : cadreMap.values()) {
+            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
+                    && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
+                List<CadrePostBean> list = null;
+                Integer unitId = cadre.getUnitId();
+                if (unitIdCadresMap.containsKey(unitId)) {
+                    list = unitIdCadresMap.get(unitId);
+                }
+                if (null == list) list = new ArrayList<>();
+                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
+                list.add(bean);
+
+                unitIdCadresMap.put(unitId, list);
+            }
+        }
+        Map<Integer, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
+        for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
+            Cadre cadre = cadreMap.get(cPost.getCadreId());
+            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
+                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
+                List<CadrePostBean> list = null;
+                Integer unitId = cPost.getUnitId();
+                if (unitIdCadresMap.containsKey(unitId)) {
+                    list = unitIdCadresMap.get(unitId);
+                }
+                if (null == list) list = new ArrayList<>();
+                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
+                        cPost.getPostId(), true);
+                list.add(bean);
+
+                unitIdCadresMap.put(unitId, list);
+            }
+        }
+
+        // 排序
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        Map<String, List<CadrePostBean>> unitCadresMap = new LinkedHashMap<>();
+        for (Unit unit : unitMap.values()) {
+            if(unitIdCadresMap.containsKey(unit.getId()))
+                unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
+        }
+
+        int i = 0;
+        for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
+
+            List<CadrePostBean> entryValue = entry.getValue();
+            TreeNode titleNode = new TreeNode();
+            titleNode.title = entry.getKey() + "(" + entryValue.size() + "人)";
+            //titleNode.expand = (i++<1);
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+            titleNode.hideCheckbox = true;
+
+            for (CadrePostBean bean : entryValue) {
+
+                int cadreId = bean.getCadreId();
+                TreeNode node = new TreeNode();
+                Cadre cadre = cadreMap.get(cadreId);
+                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                node.title = sysUser.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
+                (bean.additional?"(兼任职务)":"");
+                node.key =  cadreId + "";
+
+                 node.hideCheckbox = true;
+                titleChildren.add(node);
+            }
+
+            rootChildren.add(titleNode);
+        }
+        return root;
+    }
+
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
@@ -172,20 +325,36 @@ public class CadreService extends BaseMapper {
         return null;
     }
 
-    // 查找某个单位的正职
+    // 查找某个单位的正职(包括兼任职务的干部)
     public List<Cadre> findMainPost(int unitId){
 
         List<Cadre> cadreList = new ArrayList<>();
-
-        CadreExample example = new CadreExample();
-        example.createCriteria().andUnitIdEqualTo(unitId);
-        List<Cadre> cadres = cadreMapper.selectByExample(example);
-        for (Cadre cadre : cadres) {
-            MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
-            if (postType.getBoolAttr()){
-                cadreList.add(cadre);
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        {
+            CadreExample example = new CadreExample();
+            example.createCriteria().andUnitIdEqualTo(unitId);
+            List<Cadre> cadres = cadreMapper.selectByExample(example);
+            for (Cadre cadre : cadres) {
+                MetaType postType = metaTypeMap.get(cadre.getPostId());
+                if (postType.getBoolAttr()) {
+                    cadreList.add(cadre);
+                }
             }
         }
+        {
+            Map<Integer, Cadre> cadreMap = findAll();
+            // 兼任职务
+            CadreAdditionalPostExample example = new CadreAdditionalPostExample();
+            example.createCriteria().andUnitIdEqualTo(unitId);
+            List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
+            for (CadreAdditionalPost cPost : cPosts) {
+                MetaType postType = metaTypeMap.get(cPost.getPostId());
+                if (postType.getBoolAttr()) {
+                    cadreList.add(cadreMap.get(cPost.getCadreId()));
+                }
+            }
+        }
+
         return cadreList;
     }
 

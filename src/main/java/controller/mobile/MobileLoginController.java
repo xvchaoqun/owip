@@ -69,7 +69,7 @@ public class MobileLoginController extends BaseController {
 			Cadre cadre = approverTypeBean.getCadre();
 			// 没有审批权限的干部 不能登录
 			if (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW ||
-					!(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+					!(approverTypeBean.getMainPostUnitIds().size()>0 || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
 				return failed(sysUser.getRealname()+"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
 			}
 		}

@@ -22,7 +22,7 @@
                         <i class="fa fa-edit"></i> 修改信息</a>
 
                     <shiro:hasPermission name="leaderUnit:list">
-                        <button  class="jqOpenViewBtn btn btn-sm btn-primary"
+                        <button  class="jqOpenViewBtn btn btn-sm btn-warning"
                                  data-url="${ctx}/leader_unit">
                             <i class="fa fa-sitemap"></i> 编辑联系单位
                         </button>

@@ -54,8 +54,15 @@ pageEncoding="UTF-8" %>
 								<td>${approverType.name}</td>
 								<td>${APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
+                                    <c:if test="${approverType.type!=APPROVER_TYPE_OTHER}">
+                                        <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}"
+                                                class="popupBtn btn btn-primary btn-mini btn-xs">
+                                            <i class="fa fa-th-list"></i>  查看干部
+                                        </button>
+                                     </c:if>
                                     <c:if test="${approverType.type==APPROVER_TYPE_OTHER}">
-                                    <button data-id="${approverType.id}" class="selectCadreBtn btn btn-primary btn-mini btn-xs">
+                                    <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
+                                            class="popupBtn btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
                                     </button>
                                     </c:if>
@@ -132,10 +139,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    $(".selectCadreBtn").click(function(){
-        loadModal("${ctx}/approverType/select_cadres?id="+$(this).data("id"))
-    });
-
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2-ajax"]').select2({

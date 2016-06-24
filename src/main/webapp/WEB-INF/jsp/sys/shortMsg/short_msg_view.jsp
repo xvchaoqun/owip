@@ -28,7 +28,7 @@
     </c:when>
     <c:otherwise>
       <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-      <input type="submit" class="btn btn-primary" value="确定发送"/>
+      <input type="submit" ${empty shortMsgBean.mobile?"disabled":""} class="btn btn-primary" value="确定发送"/>
     </c:otherwise>
   </c:choose>
 </div>

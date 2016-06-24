@@ -56,10 +56,17 @@ pageEncoding="UTF-8" %>
                                 <i class="fa fa-edit"></i> 离任
                             </button>
                         </c:if>
+                        <c:if test="${status==CADRE_STATUS_NOW}">
+                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    data-url="${ctx}/cadre_additional_post" data-rel="tooltip" data-placement="bottom"
+                                    title="添加职务——仅用于因私出国（境）审批人身份设定">
+                                <i class="fa fa-plus"></i> 兼审单位
+                            </button>
+                        </c:if>
                         <a class="importBtn btn btn-primary btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
-                        <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                        <a class="jqExportBtn btn btn-success btn-sm"
+                           data-rel="tooltip" data-placement="bottom" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="cadre:del">
                             <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
@@ -161,6 +168,11 @@ pageEncoding="UTF-8" %>
             { label: '所在单位', name: 'unit.name', width: 200 },
             { label: '职务', name: 'post', width: 350 },
             { label: '所在单位及职务', name: 'title', width: 350 },
+            { label: '兼审单位', name: 'additional', width: 150,formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="popupBtn btn btn-warning btn-xs" ' +
+                        'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</a>'
+                        .format(rowObject.id);
+            } },
             { label: '手机号', name: 'mobile' },
             { label: '办公电话', name: 'officePhone' },
             { label: '家庭电话', name: 'homePhone' },

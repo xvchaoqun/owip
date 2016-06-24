@@ -262,6 +262,11 @@ public class PassportDrawController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         modelMap.put("passport", passport);
 
+        ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW);
+        modelMap.put("shortMsg", shortMsgTpl.getContent());
+        modelMap.put("mobile", cadreInfoService.getCadreMobileByCadreId(passport.getCadreId()));
+
+
         return "abroad/passportDraw/passportDraw_draw";
     }
 

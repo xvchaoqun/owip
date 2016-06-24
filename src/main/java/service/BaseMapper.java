@@ -58,7 +58,7 @@ public class BaseMapper {
 	}
 
 	@Autowired
-	protected ApplicatPostMapper applicatPostMapper;
+	protected ApplicatCadreMapper applicatCadreMapper;
 	@Autowired
 	protected ApplicatTypeMapper applicatTypeMapper;
 	@Autowired
@@ -216,6 +216,8 @@ public class BaseMapper {
 	protected LeaderUnitMapper leaderUnitMapper;
 	@Autowired
 	protected CadreMapper cadreMapper;
+	@Autowired
+	protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
 	@Autowired
 	protected CadreViewMapper cadreViewMapper;
 	@Autowired

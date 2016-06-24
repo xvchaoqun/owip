@@ -105,7 +105,7 @@ public class ShiroUser implements Serializable {
 
             // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
             if (cadre==null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW || approverTypeBean == null ||
-                    !(approverTypeBean.isMainPost() || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+                    !(approverTypeBean.getMainPostUnitIds().size()>0 || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
 
                 userPermissions.remove("applySelf:approvalList");
                 if (!userRoles.contains("cadreAdmin")) {

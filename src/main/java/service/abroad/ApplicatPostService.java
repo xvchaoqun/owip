@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class ApplicatPostService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, int postId){
+   /* public boolean idDuplicate(Integer id, int postId){
 
         ApplicatPostExample example = new ApplicatPostExample();
         ApplicatPostExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
@@ -80,11 +80,11 @@ public class ApplicatPostService extends BaseMapper {
         return map;
     }
 
-    /**
+    *//**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * @param id
      * @param addNum
-     */
+     *//*
     @Transactional
     @CacheEvict(value = "ApplicatPost:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
@@ -120,5 +120,5 @@ public class ApplicatPostService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             applicatPostMapper.updateByPrimaryKeySelective(record);
         }
-    }
+    }*/
 }

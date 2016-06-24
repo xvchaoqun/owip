@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.helper.ExportHelper;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -103,10 +104,19 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passportList_page")
     public String passportList_page(
+            @CurrentUser SysUser loginUser,
             Integer cadreId,
             // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
             @RequestParam(required = false, defaultValue = "1") byte status,
             Integer userId, ModelMap modelMap) {
+
+        // 判断下是否上传了签名 和联系电话
+        String sign = loginUser.getSign();
+        if(StringUtils.isBlank(sign)
+                || new File(springProps.uploadPath + sign).exists()==false
+                || StringUtils.isBlank(loginUser.getMobile())) {
+            return "abroad/passportApply/passportApply_sign";
+        }
 
         modelMap.put("status", status);
         if (userId != null) {
@@ -333,7 +343,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_cancel(int id, MultipartFile _cancelPic, HttpServletRequest request) {
+    public Map do_passport_cancel( @CurrentUser SysUser loginUser, int id, MultipartFile _cancelPic, HttpServletRequest request) {
 
         if (_cancelPic == null || _cancelPic.isEmpty()) throw new RuntimeException("请选择确认文件");
 
@@ -350,6 +360,7 @@ public class PassportController extends BaseController {
         record.setCancelPic(savePath);
         record.setCancelTime(new Date());
         record.setCancelConfirm(true);
+        record.setCancelUserId(loginUser.getId());
 
         passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
@@ -401,6 +412,7 @@ public class PassportController extends BaseController {
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
+            @CurrentUser SysUser loginUser,
             int id,
             String _lostTime,
             MultipartFile _lostProof,
@@ -421,6 +433,7 @@ public class PassportController extends BaseController {
             FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
             record.setLostProof(savePath);
         }
+        record.setLostUserId(loginUser.getId());
         if(record.getLostTime()!=null || record.getLostProof()!=null)
             passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));

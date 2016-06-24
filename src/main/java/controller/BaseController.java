@@ -173,6 +173,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreService cadreService;
     @Autowired
+    protected CadreAdditionalPostService cadreAdditionalPostService;
+    @Autowired
     protected HistoryUnitService historyUnitService;
     @Autowired
     protected UnitService unitService;

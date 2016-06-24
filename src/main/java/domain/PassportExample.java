@@ -1073,52 +1073,112 @@ public class PassportExample {
         }
 
         public Criteria andCancelTimeEqualTo(Date value) {
-            addCriterion("cancel_time =", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time =", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeNotEqualTo(Date value) {
-            addCriterion("cancel_time <>", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time <>", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeGreaterThan(Date value) {
-            addCriterion("cancel_time >", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time >", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("cancel_time >=", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time >=", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeLessThan(Date value) {
-            addCriterion("cancel_time <", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time <", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeLessThanOrEqualTo(Date value) {
-            addCriterion("cancel_time <=", value, "cancelTime");
+            addCriterionForJDBCDate("cancel_time <=", value, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeIn(List<Date> values) {
-            addCriterion("cancel_time in", values, "cancelTime");
+            addCriterionForJDBCDate("cancel_time in", values, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeNotIn(List<Date> values) {
-            addCriterion("cancel_time not in", values, "cancelTime");
+            addCriterionForJDBCDate("cancel_time not in", values, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeBetween(Date value1, Date value2) {
-            addCriterion("cancel_time between", value1, value2, "cancelTime");
+            addCriterionForJDBCDate("cancel_time between", value1, value2, "cancelTime");
             return (Criteria) this;
         }
 
         public Criteria andCancelTimeNotBetween(Date value1, Date value2) {
-            addCriterion("cancel_time not between", value1, value2, "cancelTime");
+            addCriterionForJDBCDate("cancel_time not between", value1, value2, "cancelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdIsNull() {
+            addCriterion("cancel_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdIsNotNull() {
+            addCriterion("cancel_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdEqualTo(Integer value) {
+            addCriterion("cancel_user_id =", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdNotEqualTo(Integer value) {
+            addCriterion("cancel_user_id <>", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdGreaterThan(Integer value) {
+            addCriterion("cancel_user_id >", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cancel_user_id >=", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdLessThan(Integer value) {
+            addCriterion("cancel_user_id <", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cancel_user_id <=", value, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdIn(List<Integer> values) {
+            addCriterion("cancel_user_id in", values, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdNotIn(List<Integer> values) {
+            addCriterion("cancel_user_id not in", values, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("cancel_user_id between", value1, value2, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cancel_user_id not between", value1, value2, "cancelUserId");
             return (Criteria) this;
         }
 
@@ -1193,52 +1253,52 @@ public class PassportExample {
         }
 
         public Criteria andLostTimeEqualTo(Date value) {
-            addCriterion("lost_time =", value, "lostTime");
+            addCriterionForJDBCDate("lost_time =", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeNotEqualTo(Date value) {
-            addCriterion("lost_time <>", value, "lostTime");
+            addCriterionForJDBCDate("lost_time <>", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeGreaterThan(Date value) {
-            addCriterion("lost_time >", value, "lostTime");
+            addCriterionForJDBCDate("lost_time >", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("lost_time >=", value, "lostTime");
+            addCriterionForJDBCDate("lost_time >=", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeLessThan(Date value) {
-            addCriterion("lost_time <", value, "lostTime");
+            addCriterionForJDBCDate("lost_time <", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeLessThanOrEqualTo(Date value) {
-            addCriterion("lost_time <=", value, "lostTime");
+            addCriterionForJDBCDate("lost_time <=", value, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeIn(List<Date> values) {
-            addCriterion("lost_time in", values, "lostTime");
+            addCriterionForJDBCDate("lost_time in", values, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeNotIn(List<Date> values) {
-            addCriterion("lost_time not in", values, "lostTime");
+            addCriterionForJDBCDate("lost_time not in", values, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeBetween(Date value1, Date value2) {
-            addCriterion("lost_time between", value1, value2, "lostTime");
+            addCriterionForJDBCDate("lost_time between", value1, value2, "lostTime");
             return (Criteria) this;
         }
 
         public Criteria andLostTimeNotBetween(Date value1, Date value2) {
-            addCriterion("lost_time not between", value1, value2, "lostTime");
+            addCriterionForJDBCDate("lost_time not between", value1, value2, "lostTime");
             return (Criteria) this;
         }
 
@@ -1309,6 +1369,66 @@ public class PassportExample {
 
         public Criteria andLostProofNotBetween(String value1, String value2) {
             addCriterion("lost_proof not between", value1, value2, "lostProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdIsNull() {
+            addCriterion("lost_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdIsNotNull() {
+            addCriterion("lost_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdEqualTo(Integer value) {
+            addCriterion("lost_user_id =", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdNotEqualTo(Integer value) {
+            addCriterion("lost_user_id <>", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdGreaterThan(Integer value) {
+            addCriterion("lost_user_id >", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("lost_user_id >=", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdLessThan(Integer value) {
+            addCriterion("lost_user_id <", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("lost_user_id <=", value, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdIn(List<Integer> values) {
+            addCriterion("lost_user_id in", values, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdNotIn(List<Integer> values) {
+            addCriterion("lost_user_id not in", values, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("lost_user_id between", value1, value2, "lostUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLostUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("lost_user_id not between", value1, value2, "lostUserId");
             return (Criteria) this;
         }
 
