@@ -17,7 +17,6 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-    <form class="form-horizontal" action="${ctx}/cadre_au" id="modalForm" method="post">
 
 		<table class="table table-bordered table-striped">
 			<tbody>
@@ -136,7 +135,6 @@ pageEncoding="UTF-8"%>
 			</tr>
 			</tbody>
 		</table>
-    </form>
 </div></div></div>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
@@ -616,19 +614,3 @@ pageEncoding="UTF-8"%>
 				</tbody>
 			</table>
 		</div></div></div>
-<script>
-    $("#modal form").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }
-    });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-</script>

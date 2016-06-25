@@ -3,6 +3,7 @@ package domain;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
@@ -19,9 +20,14 @@ public class CadreView implements Serializable {
         return adminLevelMap.get(typeId);
     }
     public MetaType getPostType(){
-
         Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
         return postMap.get(postId);
+    }
+
+    // 兼审单位
+    public List<CadreAdditionalPost> getCadreAdditionalPosts(){
+
+        return CmTag.getCadreAdditionalPosts(id);
     }
 
     private Integer id;

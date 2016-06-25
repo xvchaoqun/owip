@@ -40,6 +40,8 @@
       </table>-->
       <!--<table tableName="abroad_approver" domainObjectName="Approver">
       </table>-->
+      <table tableName="abroad_approver_black_list" domainObjectName="ApproverBlackList">
+      </table>
       <!--<table tableName="abroad_approver_type" domainObjectName="ApproverType">
       </table>-->
      <!-- <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
@@ -47,8 +49,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
       </table>-->
-      <table tableName="abroad_passport" domainObjectName="Passport">
-      </table>
+     <!-- <table tableName="abroad_passport" domainObjectName="Passport">
+      </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">

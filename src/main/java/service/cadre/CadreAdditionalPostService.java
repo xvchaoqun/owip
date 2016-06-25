@@ -5,12 +5,12 @@ import domain.CadreAdditionalPost;
 import domain.CadreAdditionalPostExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,19 +37,26 @@ public class CadreAdditionalPostService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true)
+    @Caching(evict={
+            @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true),
+            @CacheEvict(value="CadreAdditionalPost", key="#record.cadreId")
+    })
     public void insertSelective(CadreAdditionalPost record){
 
         Assert.isTrue(!idDuplicate(null, record.getCadreId(), record.getUnitId()));
         cadreAdditionalPostMapper.insertSelective(record);
     }
+
     @Transactional
-    @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true)
-    public void del(Integer id){
+    @Caching(evict={
+            @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true),
+            @CacheEvict(value="CadreAdditionalPost", key="#cadreId")
+    })
+    public void del(Integer id, int cadreId){
         cadreAdditionalPostMapper.deleteByPrimaryKey(id);
     }
 
-    @Transactional
+   /* @Transactional
     @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
@@ -58,27 +65,37 @@ public class CadreAdditionalPostService extends BaseMapper {
         CadreAdditionalPostExample example = new CadreAdditionalPostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadreAdditionalPostMapper.deleteByExample(example);
-    }
+    }*/
 
-    @Transactional
+    /*@Transactional
     @CacheEvict(value="CadreAdditionalPost:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(CadreAdditionalPost record){
 
         Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getUnitId()));
 
         return cadreAdditionalPostMapper.updateByPrimaryKeySelective(record);
+    }*/
+
+    @Cacheable(value="CadreAdditionalPost", key="#cadreId")
+    public List<CadreAdditionalPost> findCadrePosts(int cadreId) {
+
+        CadreAdditionalPostExample example = new CadreAdditionalPostExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        List<CadreAdditionalPost> cadreAdditionalPostes = cadreAdditionalPostMapper.selectByExample(example);
+
+        return cadreAdditionalPostes;
     }
 
+    // key: cadreId+"_"+unitId
     @Cacheable(value="CadreAdditionalPost:ALL")
-    public Map<Integer, CadreAdditionalPost> findAll() {
+    public Map<String, CadreAdditionalPost> findAll() {
 
         CadreAdditionalPostExample example = new CadreAdditionalPostExample();
         List<CadreAdditionalPost> cadreAdditionalPostes = cadreAdditionalPostMapper.selectByExample(example);
-        Map<Integer, CadreAdditionalPost> map = new LinkedHashMap<>();
-        for (CadreAdditionalPost cadreAdditionalPost : cadreAdditionalPostes) {
-            map.put(cadreAdditionalPost.getId(), cadreAdditionalPost);
+        Map<String, CadreAdditionalPost> map = new LinkedHashMap<>();
+        for (CadreAdditionalPost cPost : cadreAdditionalPostes) {
+            map.put(cPost.getCadreId() + "_" + cPost.getUnitId(), cPost);
         }
-
         return map;
     }
 }

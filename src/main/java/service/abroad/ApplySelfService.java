@@ -46,6 +46,8 @@ public class ApplySelfService extends BaseMapper {
     @Autowired
     protected ApproverService approverService;
     @Autowired
+    protected ApproverBlackListService approverBlackListService;
+    @Autowired
     protected ApproverTypeService approverTypeService;
     @Autowired
     protected SpringProps springProps;
@@ -58,6 +60,12 @@ public class ApplySelfService extends BaseMapper {
             List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin");
             return cadreAdmin;
         } else {
+
+            ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+            Map<Integer, ApproverBlackList> mainPostBlackList = approverBlackListService.findAll(mainPostApproverType.getId());
+            Map<Integer, ApproverBlackList> leaderBlackList = approverBlackListService.findAll(leaderApproverType.getId());
+
             Map<Integer, Cadre> cadreMap = cadreService.findAll();
             Cadre cadre = cadreMap.get(cadreId);
             ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
@@ -65,7 +73,8 @@ public class ApplySelfService extends BaseMapper {
                 List<SysUser> _users = new ArrayList<>();
                 List<Cadre> mainPostList = cadreService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
-                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
+                            && mainPostBlackList.get(_cadre.getId())==null)  // 排除黑名单
                         _users.add(_cadre.getUser());
                 }
                 return _users;
@@ -76,7 +85,8 @@ public class ApplySelfService extends BaseMapper {
                 List<Leader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (Leader managerUnitLeader : managerUnitLeaders) {
                     Cadre _cadre = managerUnitLeader.getCadre();
-                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW)
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
+                            && leaderBlackList.get(_cadre.getId())==null)  // 排除黑名单
                         users.add(managerUnitLeader.getUser());
                 }
                 return users;
@@ -547,10 +557,13 @@ public class ApplySelfService extends BaseMapper {
     public List<Integer> getMainPostUnitIds(int userId) {
 
         List<Integer> unitIds = new ArrayList<>();
-
+        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW) { // 必须是现任干部
+        if (cadre != null
+                && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
+                && blackListMap.get(cadre.getId())==null) { // 必须是现任干部，且不在黑名单
             MetaType postType = metaTypeMap.get(cadre.getPostId());
             if (postType != null && postType.getBoolAttr()) {
                 unitIds.add(cadre.getUnitId());
@@ -580,9 +593,13 @@ public class ApplySelfService extends BaseMapper {
     // 如果是分管校领导，返回分管单位ID列表
     public List<Integer> getLeaderMangerUnitIds(int userId) {
 
+        ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverType.getId());
+
         List<Integer> unitIds = new ArrayList<>();
         Cadre cadre = cadreService.findByUserId(userId);
-        if (cadre != null && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW) { // 必须是现任干部
+        if (cadre != null && cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
+                && blackListMap.get(cadre.getId())==null) { // 必须是现任干部，且不在黑名单
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
             unitIds = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
         }

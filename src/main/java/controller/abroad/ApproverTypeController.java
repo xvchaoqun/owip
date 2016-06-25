@@ -1,11 +1,8 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.ApproverType;
-import domain.ApproverTypeExample;
+import domain.*;
 import domain.ApproverTypeExample.Criteria;
-import domain.Cadre;
-import domain.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -42,28 +39,37 @@ public class ApproverTypeController extends BaseController {
             Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreService.getTree(new HashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
+            TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
 
 
             resultMap.put("tree", tree);
         }
         if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职
-            resultMap.put("tree", cadreService.getTree2());
+            resultMap.put("tree", cadreService.getMainPostCadreTree());
         }
 
         if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
 
-            Set<Cadre> cadreSet = new HashSet<>();
-            Set<Integer> cadreIdSet = new HashSet<>();
+            // 分管校领导 黑名单
+            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+            Integer leaderApproverTypeId = leaderApproverType.getId();
+            Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverTypeId);
+            Set<Integer> unselectCadreSet = new HashSet<>();
+            for (ApproverBlackList approverBlackList : blackListMap.values()) {
+                unselectCadreSet.add(approverBlackList.getCadreId());
+            }
 
+            Set<Cadre> cadreSet = new LinkedHashSet<>();
+            Set<Integer> selectCadreSet = new HashSet<>();
             Map<Integer, Leader> leaderMap = leaderService.findAll();
             for (Leader leader : leaderMap.values()) {
                 Cadre cadre = leader.getCadre();
                 cadreSet.add(cadre);
-                cadreIdSet.add(leader.getCadreId());
+                if(!unselectCadreSet.contains(cadre.getId()))
+                    selectCadreSet.add(cadre.getId());
             }
 
-            TreeNode tree = cadreService.getTree(cadreSet, null, null, false, true);
+            TreeNode tree = cadreService.getTree(cadreSet, selectCadreSet, null, true, true);
             resultMap.put("tree", tree);
         }
 
@@ -84,9 +90,26 @@ public class ApproverTypeController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_cadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        approverTypeService.updateApproverCadreIds(id, cadreIds);
+        if (type != SystemConstants.APPROVER_TYPE_OTHER) {
+            if(type==SystemConstants.APPROVER_TYPE_UNIT){
+                // 本单位正职身份
+                ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+                Integer mainPostTypeId = mainPostApproverType.getId();
+                approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
+            }
+            if(type==SystemConstants.APPROVER_TYPE_LEADER){
+                // 分管校领导身份
+                ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+                Integer leaderApproverTypeId = leaderApproverType.getId();
+                approverBlackListService.updateCadreIds(leaderApproverTypeId, cadreIds);
+            }
+        }
+
+        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+            approverTypeService.updateApproverCadreIds(id, cadreIds);
+        }
         return success(FormUtils.SUCCESS);
     }
 

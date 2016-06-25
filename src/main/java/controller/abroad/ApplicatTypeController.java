@@ -39,13 +39,14 @@ public class ApplicatTypeController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 查询还没有分配申请人身份的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadresEscape_tree")
     @ResponseBody
     public Map selectCadresEscapse_tree() throws IOException {
 
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
-        Set<Cadre> cadreSet = new HashSet<>();
+        Set<Cadre> cadreSet = new LinkedHashSet<>();
         Set<Integer> cadreIdSet = new HashSet<>();
         for (Cadre cadre : cadreService.findAll().values()) {
 
@@ -62,6 +63,7 @@ public class ApplicatTypeController extends BaseController {
         return resultMap;
     }
 
+    // 查询还没有分配申请人身份的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadresEscape")
     public String selectCadres_escapse() throws IOException {
@@ -69,6 +71,7 @@ public class ApplicatTypeController extends BaseController {
         return "abroad/applicatType/selectCadresEscape";
     }
 
+    // 查看某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadres_tree")
     @ResponseBody
@@ -77,13 +80,14 @@ public class ApplicatTypeController extends BaseController {
         Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreService.getTree(new HashSet<Cadre>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
+        TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
         return resultMap;
     }
 
+    // 查看某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadres")
     public String select_posts(int id, ModelMap modelMap) throws IOException {
@@ -93,6 +97,7 @@ public class ApplicatTypeController extends BaseController {
         return "abroad/applicatType/selectCadres";
     }
 
+    // 更新某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/applicatType/selectCadres", method = RequestMethod.POST)
     @ResponseBody

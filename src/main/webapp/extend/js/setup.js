@@ -555,16 +555,21 @@ $(document).on("click", ".myTableDiv .jqItemDelBtn", function(){
 // 调序
 $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
 
-    var id = $(this).data("id");
-    var direction = parseInt($(this).data("direction"));
-    var step = $(this).closest("td").find("input").val();
+    var $this = $(this);
+    var id = $this.data("id");
+    var direction = parseInt($this.data("direction"));
+    var step = $this.closest("td").find("input").val();
     var addNum = (parseInt(step)||1)*direction;
-    var $div = $(this).closest(".myTableDiv");
+    var $div = $this.closest(".myTableDiv");
     //console.log($div.data("url-co"))
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
-            $("#jqGrid").trigger("reloadGrid");
-            SysMsg.success('操作成功。', '成功');
+            SysMsg.success('操作成功。', '成功',function(){
+                if($this.hasClass("pageReload")){
+                    page_reload();
+                }else
+                    $("#jqGrid").trigger("reloadGrid");
+            });
         }
     });
 });

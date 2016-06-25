@@ -154,8 +154,8 @@ public class CadreAdditionalPostController extends BaseController {
             logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部附属职务属性：%s", record.getId()));
         } else {
 
-            cadreAdditionalPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新干部附属职务属性：%s", record.getId()));
+            //cadreAdditionalPostService.updateByPrimaryKeySelective(record);
+            //logger.info(addLog( SystemConstants.LOG_ADMIN, "更新干部附属职务属性：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -178,14 +178,14 @@ public class CadreAdditionalPostController extends BaseController {
     public Map do_cadreAdditionalPost_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
-
-            cadreAdditionalPostService.del(id);
+            CadreAdditionalPost cPost = cadreAdditionalPostMapper.selectByPrimaryKey(id);
+            cadreAdditionalPostService.del(cPost.getId(), cPost.getCadreId());
             logger.info(addLog( SystemConstants.LOG_ADMIN, "删除干部附属职务属性：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreAdditionalPost:del")
+   /* @RequiresPermissions("cadreAdditionalPost:del")
     @RequestMapping(value = "/cadreAdditionalPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -197,5 +197,5 @@ public class CadreAdditionalPostController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 }

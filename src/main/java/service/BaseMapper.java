@@ -66,6 +66,8 @@ public class BaseMapper {
 	@Autowired
 	protected ApproverMapper approverMapper;
 	@Autowired
+	protected ApproverBlackListMapper approverBlackListMapper;
+	@Autowired
 	protected ApproverTypeMapper approverTypeMapper;
 	@Autowired
 	protected PassportDrawFileMapper passportDrawFileMapper;

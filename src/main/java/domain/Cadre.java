@@ -3,6 +3,7 @@ package domain;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public class Cadre implements Serializable {
@@ -23,7 +24,11 @@ public class Cadre implements Serializable {
         Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
         return postMap.get(postId);
     }
+    // 兼审单位
+    public List<CadreAdditionalPost> getCadreAdditionalPosts(){
 
+        return CmTag.getCadreAdditionalPosts(id);
+    }
     private Integer id;
 
     private Integer userId;

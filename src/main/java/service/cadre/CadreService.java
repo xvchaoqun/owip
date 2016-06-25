@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.abroad.ApproverBlackListService;
+import service.abroad.ApproverTypeService;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
@@ -31,6 +33,10 @@ public class CadreService extends BaseMapper {
     private UnitService unitService;
     @Autowired
     private CadreAdditionalPostService cadreAdditionalPostService;
+    @Autowired
+    private ApproverBlackListService approverBlackListService;
+    @Autowired
+    private ApproverTypeService approverTypeService;
 
     @Transactional
     @Caching(evict= {
@@ -123,7 +129,7 @@ public class CadreService extends BaseMapper {
 
             List<Cadre> entryValue = entry.getValue();
             TreeNode titleNode = new TreeNode();
-            titleNode.title = entry.getKey() + "("+ entryValue.size() + "人)";
+
             titleNode.expand = defExpand;
             titleNode.isFolder = true;
             List<TreeNode> titleChildren = new ArrayList<TreeNode>();
@@ -131,6 +137,7 @@ public class CadreService extends BaseMapper {
             if(!enableSelect)
                 titleNode.hideCheckbox = true;
 
+            int selectCount = 0;
             for (Cadre cadre : entryValue) {
 
                 int cadreId = cadre.getId();
@@ -141,13 +148,14 @@ public class CadreService extends BaseMapper {
                 node.key =  cadreId + "";
 
                 if (enableSelect && selectIdSet.contains(cadreId)) {
+                    selectCount++;
                     node.select = true;
                 }
                 if(!enableSelect || disabledIdSet.contains(cadreId))
                     node.hideCheckbox = true;
                 titleChildren.add(node);
             }
-
+            titleNode.title = entry.getKey() + String.format("(%s", selectCount>0?selectCount+"/":"")+ entryValue.size() + "人)";
             rootChildren.add(titleNode);
         }
         return root;
@@ -190,7 +198,7 @@ public class CadreService extends BaseMapper {
     }
 
     // 本单位正职列表（审批人，包括兼任职务）
-    public TreeNode getTree2(){
+    public TreeNode getMainPostCadreTree(){
 
         TreeNode root = new TreeNode();
         root.title = "现任干部库";
@@ -220,7 +228,7 @@ public class CadreService extends BaseMapper {
                 unitIdCadresMap.put(unitId, list);
             }
         }
-        Map<Integer, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
+        Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
         for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
             Cadre cadre = cadreMap.get(cPost.getCadreId());
             if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
@@ -247,18 +255,23 @@ public class CadreService extends BaseMapper {
                 unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
         }
 
-        int i = 0;
+        // 本单位正职身份
+        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+        Integer mainPostTypeId = mainPostApproverType.getId();
+        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
         for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
 
             List<CadrePostBean> entryValue = entry.getValue();
             TreeNode titleNode = new TreeNode();
-            titleNode.title = entry.getKey() + "(" + entryValue.size() + "人)";
-            //titleNode.expand = (i++<1);
+
+
             titleNode.isFolder = true;
+            titleNode.hideCheckbox=true;
+            titleNode.unselectable=true;
             List<TreeNode> titleChildren = new ArrayList<TreeNode>();
             titleNode.children = titleChildren;
-            titleNode.hideCheckbox = true;
 
+            int blackCount = 0;
             for (CadrePostBean bean : entryValue) {
 
                 int cadreId = bean.getCadreId();
@@ -266,13 +279,26 @@ public class CadreService extends BaseMapper {
                 Cadre cadre = cadreMap.get(cadreId);
                 SysUser sysUser = sysUserService.findById(cadre.getUserId());
                 node.title = sysUser.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
-                (bean.additional?"(兼任职务)":"");
-                node.key =  cadreId + "";
+                (bean.additional?"(兼审单位)":"");
 
-                 node.hideCheckbox = true;
+                if(bean.additional) {
+                    node.unselectable = true;
+                }else{
+                    node.key =  cadreId + "";
+                }
+                node.select=true;
+
+                // 本单位正职黑名单
+                if(!bean.additional && blackListMap.get(cadreId)!=null) {
+                    node.select = false;
+                    blackCount++;
+                }
+
                 titleChildren.add(node);
             }
 
+            int selectCount = entryValue.size() - blackCount;
+            titleNode.title = entry.getKey() + String.format("(%s", selectCount>0?selectCount+"/":"") + entryValue.size() + ")";
             rootChildren.add(titleNode);
         }
         return root;

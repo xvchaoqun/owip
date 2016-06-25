@@ -168,9 +168,11 @@ pageEncoding="UTF-8" %>
             { label: '所在单位', name: 'unit.name', width: 200 },
             { label: '职务', name: 'post', width: 350 },
             { label: '所在单位及职务', name: 'title', width: 350 },
-            { label: '兼审单位', name: 'additional', width: 150,formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="popupBtn btn btn-warning btn-xs" ' +
-                        'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</a>'
+            { label: '兼审单位', name: 'additional', formatter:function(cellvalue, options, rowObject){
+                var cadreAdditionalPosts = rowObject.cadreAdditionalPosts;
+                if(cadreAdditionalPosts.length==0) return ''
+                return '<button class="popupBtn btn btn-xs btn-warning"' +
+                        'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</button>'
                         .format(rowObject.id);
             } },
             { label: '手机号', name: 'mobile' },

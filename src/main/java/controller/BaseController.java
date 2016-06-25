@@ -36,6 +36,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected ApproverService approverService;
     @Autowired
+    protected ApproverBlackListService approverBlackListService;
+    @Autowired
     protected ApproverTypeService approverTypeService;
 
     @Autowired

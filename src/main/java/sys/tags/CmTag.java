@@ -11,6 +11,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
+import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
@@ -53,6 +54,7 @@ public class CmTag {
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
     static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
     static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
+    static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -192,6 +194,11 @@ public class CmTag {
     public static Cadre getCadreByUserId(Integer userId) {
 
         return cadreService.findByUserId(userId);
+    }
+
+    public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){
+
+        return cadreAdditionalPostService.findCadrePosts(cadreId);
     }
 
     public static SysUser getUserById(Integer id) {
