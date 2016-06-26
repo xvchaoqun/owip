@@ -30,7 +30,14 @@ pageEncoding="UTF-8" %>
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
                     <div class="jqgrid-vertical-offset buttons">
-
+                        <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+                        <button class="jqBatchBtn btn btn-warning btn-sm"
+                                data-title="重新任用"
+                                data-msg="确定任用这{0}个干部吗？"
+                                data-url="${ctx}/cadre_assign">
+                            <i class="fa fa-reply"></i> 重新任用
+                        </button>
+                        </c:if>
                         <shiro:hasPermission name="cadre:edit">
                             <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
                                 <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
@@ -63,7 +70,8 @@ pageEncoding="UTF-8" %>
                                 <i class="fa fa-plus"></i> 兼审单位
                             </button>
                         </c:if>
-                        <a class="importBtn btn btn-primary btn-sm tooltip-success"
+                        <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                           data-url="${ctx}/cadre_import?status=${status}"
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
                         <a class="jqExportBtn btn btn-success btn-sm"
                            data-rel="tooltip" data-placement="bottom" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -183,9 +191,6 @@ pageEncoding="UTF-8" %>
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $(".importBtn").click(function(){
-        loadModal("${ctx}/cadre_import?status=${status}");
-    });
     function _pass(){
 
         var grid = $("#jqGrid");

@@ -231,6 +231,18 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 在“离任处级干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_assign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_assign(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        cadreService.assign(ids);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部任用：%s", StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
     // for test 给所有的干部加上干部身份
     @RequiresRoles("admin")
     @RequestMapping(value = "/cadre_addAllCadreRole")

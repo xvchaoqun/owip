@@ -332,6 +332,24 @@ public class CadreService extends BaseMapper {
         cadreMapper.updateByExampleSelective(record, example);
     }
 
+    // 重新任用， 离任->考察对象
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void assign(Integer[] ids){
+
+        Cadre record = new Cadre();
+        record.setStatus(SystemConstants.CADRE_STATUS_TEMP);
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids))
+                .andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_LEAVE,
+                        SystemConstants.CADRE_STATUS_LEADER_LEAVE));
+
+        cadreMapper.updateByExampleSelective(record, example);
+    }
+
     public boolean idDuplicate(Integer id, int userId){
 
         CadreExample example = new CadreExample();
