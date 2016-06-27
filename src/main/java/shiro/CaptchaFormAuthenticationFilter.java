@@ -207,6 +207,15 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
                     logger.trace("Login page view.");
                 }
 
+                if (HttpUtils.isAjaxRequest((HttpServletRequest) request)) {// 是ajax请求
+
+                    WebUtils.getAndClearSavedRequest(request);// 清除，防止再次登录进入ajax请求
+                    Map<String, Object> resultMap = new HashMap();
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "login");
+                    JSONUtils.write((HttpServletResponse) response, resultMap);
+                    return false;
+                }
                 // allow them to see the login page ;)
                 return true;
             }
@@ -215,23 +224,26 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
                 logger.trace("Attempting to access a path which requires authentication.  Forwarding to the "
                         + "Authentication url [" + getLoginUrl() + "]");
             }
-            if (!HttpUtils.isAjaxRequest((HttpServletRequest) request)) {// 不是ajax请求
-
-                String requestURI = ((HttpServletRequest) request).getRequestURI();
-                if (requestURI.startsWith("/m/")) { // 移动端
-                    saveRequest(request);
-                    WebUtils.issueRedirect(request, response, "/m/login");
-                } else
-                    saveRequestAndRedirectToLogin(request, response);
-
-            } else {
-
-                Map<String, Object> resultMap = new HashMap();
-                resultMap.put("success", false);
-                resultMap.put("msg", "login");
-                JSONUtils.write((HttpServletResponse) response, resultMap);
-            }
+            processAccessDenied((HttpServletRequest)request, (HttpServletResponse)response);
             return false;
+        }
+    }
+    private void processAccessDenied(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        if (!HttpUtils.isAjaxRequest( request)) {// 不是ajax请求
+
+            String requestURI = request.getRequestURI();
+            if (requestURI.startsWith("/m/")) { // 移动端
+                saveRequest(request);
+                WebUtils.issueRedirect(request, response, "/m/login");
+            } else
+                saveRequestAndRedirectToLogin(request, response);
+        } else {
+            WebUtils.getAndClearSavedRequest(request); // 清除，防止再次登录进入ajax请求
+            Map<String, Object> resultMap = new HashMap();
+            resultMap.put("success", false);
+            resultMap.put("msg", "login");
+            JSONUtils.write(response, resultMap);
         }
     }
 

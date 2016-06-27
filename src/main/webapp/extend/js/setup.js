@@ -421,7 +421,8 @@ $(document).on("click", ".jqOpenViewBtn", function(){
     var needId = $(this).data("need-id");
     if(needId==undefined) needId = true;
     var idName = $(this).data("id-name") || 'id';
-    var grid = $("#jqGrid");
+    var gridId = $(this).data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
     var id  = grid.getGridParam("selrow");
     var ids  = grid.getGridParam("selarrrow")
     if(needId && (!id || ids.length>1)){
@@ -667,7 +668,8 @@ $(document).on("click", ".myTableDiv .jqBatchBtn", function(){
     var pageReload = $(this).data("page-reload");
     var title = $(this).data("title");
     var msg = $(this).data("msg");
-    var grid = $("#jqGrid");
+    var gridId = $(this).data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
     var ids  = grid.getGridParam("selarrrow");
 
     if(ids.length==0){

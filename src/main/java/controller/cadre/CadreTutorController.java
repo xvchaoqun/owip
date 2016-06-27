@@ -24,17 +24,15 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
+import java.util.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CadreTutorController extends BaseController {
@@ -47,14 +45,15 @@ public class CadreTutorController extends BaseController {
 
         return "index";
     }
-    /*@RequiresPermissions("cadreTutor:list")
-    @RequestMapping("/cadreTutor_page")
-    public String cadreTutor_page(HttpServletResponse response,
+    @RequiresPermissions("cadreTutor:list")
+    @RequestMapping("/cadreTutor_data")
+    @ResponseBody
+    public void cadreTutor_data(HttpServletResponse response,
                                  @RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  @RequestParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -74,7 +73,7 @@ public class CadreTutorController extends BaseController {
 
         if (export == 1) {
             cadreTutor_export(example, response);
-            return null;
+            return;
         }
 
         int count = cadreTutorMapper.countByExample(example);
@@ -83,25 +82,20 @@ public class CadreTutorController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<CadreTutor> cadreTutors = cadreTutorMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreTutors", cadreTutors);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", cadreTutors);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "cadre/cadreTutor/cadreTutor_page";
-    }*/
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
+    }
 
     @RequiresPermissions("cadreTutor:edit")
     @RequestMapping(value = "/cadreTutor_au", method = RequestMethod.POST)

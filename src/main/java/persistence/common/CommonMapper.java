@@ -138,6 +138,12 @@ public interface CommonMapper {
     void upOrder_cadreEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
+    @Update("update base_cadre_under_edu set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    void downOrder_cadreUnderEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+    @Update("update base_cadre_under_edu set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    void upOrder_cadreUnderEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+
+
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search, RowBounds rowBounds);
     int countCadre(@Param("search") String search);

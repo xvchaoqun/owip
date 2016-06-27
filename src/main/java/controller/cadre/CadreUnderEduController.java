@@ -2,9 +2,9 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.Cadre;
-import domain.CadreEdu;
-import domain.CadreEduExample;
-import domain.CadreEduExample.Criteria;
+import domain.CadreUnderEdu;
+import domain.CadreUnderEduExample;
+import domain.CadreUnderEduExample.Criteria;
 import domain.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -41,19 +41,19 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CadreEduController extends BaseController {
+public class CadreUnderEduController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreEdu:list")
-    @RequestMapping("/cadreEdu")
-    public String cadreEdu() {
+    /*@RequiresPermissions("cadreUnderEdu:list")
+    @RequestMapping("/cadreUnderEdu")
+    public String cadreUnderEdu() {
 
         return "index";
     }
-    @RequiresPermissions("cadreEdu:list")
-    @RequestMapping("/cadreEdu_page")
-    public String cadreEdu_page(HttpServletResponse response,
+    @RequiresPermissions("cadreUnderEdu:list")
+    @RequestMapping("/cadreUnderEdu_page")
+    public String cadreUnderEdu_page(HttpServletResponse response,
                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                 Integer cadreId,
@@ -67,13 +67,13 @@ public class CadreEduController extends BaseController {
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
-        modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
-        return "cadre/cadreEdu/cadreEdu_page";
-    }
-    @RequiresPermissions("cadreEdu:list")
-    @RequestMapping("/cadreEdu_data")
+        modelMap.put("cadreTutors", cadreTutorService.findAll(cadreId).values());
+        return "cadre/cadreUnderEdu/cadreUnderEdu_page";
+    }*/
+    @RequiresPermissions("cadreUnderEdu:list")
+    @RequestMapping("/cadreUnderEdu_data")
     @ResponseBody
-    public void cadreEdu_data(HttpServletResponse response,
+    public void cadreUnderEdu_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
@@ -88,7 +88,7 @@ public class CadreEduController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreEduExample example = new CadreEduExample();
+        CadreUnderEduExample example = new CadreUnderEduExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -97,20 +97,20 @@ public class CadreEduController extends BaseController {
         }
 
         if (export == 1) {
-            cadreEdu_export(example, response);
+            cadreUnderEdu_export(example, response);
             return;
         }
 
-        int count = cadreEduMapper.countByExample(example);
+        int count = cadreUnderEduMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreEdu> CadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreUnderEdu> CadreUnderEdus = cadreUnderEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", CadreEdus);
+        resultMap.put("rows", CadreUnderEdus);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
@@ -121,54 +121,36 @@ public class CadreEduController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("cadreEdu:edit")
-    @RequestMapping(value = "/cadreEdu_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreUnderEdu:edit")
+    @RequestMapping(value = "/cadreUnderEdu_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_au(CadreEdu record, String _enrolTime, String _finishTime, String _degreeTime, HttpServletRequest request) {
+    public Map do_cadreUnderEdu_au(CadreUnderEdu record, String _enrolTime, String _finishTime, String _degreeTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_enrolTime)){
             record.setEnrolTime(DateUtils.parseDate(_enrolTime, "yyyy.MM"));
         }
-        if(StringUtils.isNotBlank(_finishTime)){
-            record.setFinishTime(DateUtils.parseDate(_finishTime, "yyyy.MM"));
-        }
-        if(StringUtils.isNotBlank(_degreeTime)){
-            record.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYY_MM_DD));
-        }
-        record.setHasDegree((record.getHasDegree() == null) ? false : record.getHasDegree());
-        if(!record.getHasDegree()){
-            record.setDegree(""); // 没有获得学位，清除学位名称
-        }
-        if(record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
-                record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC){
-            record.setDegreeCountry("中国");
-        }
-
-        record.setIsHighEdu((record.getIsHighEdu() == null) ? false : record.getIsHighEdu());
-        record.setIsHighDegree((record.getIsHighDegree() == null) ? false : record.getIsHighDegree());
-
 
         if (id == null) {
-            cadreEduService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
+            cadreUnderEduService.insertSelective(record);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部在读学习经历：%s", record.getId()));
         } else {
 
-            cadreEduService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
+            cadreUnderEduService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部在读学习经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreEdu:edit")
-    @RequestMapping("/cadreEdu_au")
-    public String cadreEdu_au(Integer id, int cadreId, ModelMap modelMap) {
+    @RequiresPermissions("cadreUnderEdu:edit")
+    @RequestMapping("/cadreUnderEdu_au")
+    public String cadreUnderEdu_au(Integer id, int cadreId, ModelMap modelMap) {
 
         if (id != null) {
-            CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(id);
-            modelMap.put("cadreEdu", cadreEdu);
+            CadreUnderEdu cadreUnderEdu = cadreUnderEduMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreUnderEdu", cadreUnderEdu);
         }
 
         Cadre cadre = cadreService.findAll().get(cadreId);
@@ -176,64 +158,64 @@ public class CadreEduController extends BaseController {
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadre/cadreEdu/cadreEdu_au";
+        return "cadre/cadreUnderEdu/cadreUnderEdu_au";
     }
 
     // 认定规则
-    @RequiresPermissions("cadreEdu:edit")
-    @RequestMapping("/cadreEdu_rule")
-    public String cadreEdu_rule() {
+    @RequiresPermissions("cadreUnderEdu:edit")
+    @RequestMapping("/cadreUnderEdu_rule")
+    public String cadreUnderEdu_rule() {
 
-        return "cadre/cadreEdu/cadreEdu_rule";
+        return "cadre/cadreUnderEdu/cadreUnderEdu_rule";
     }
 
-    @RequiresPermissions("cadreEdu:del")
-    @RequestMapping(value = "/cadreEdu_del", method = RequestMethod.POST)
+    @RequiresPermissions("cadreUnderEdu:del")
+    @RequestMapping(value = "/cadreUnderEdu_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreUnderEdu_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cadreEduService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
+            cadreUnderEduService.del(id);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部在读学习经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreEdu:del")
-    @RequestMapping(value = "/cadreEdu_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreUnderEdu:del")
+    @RequestMapping(value = "/cadreUnderEdu_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreEduService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
+            cadreUnderEduService.batchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部在读学习经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreEdu:changeOrder")
-    @RequestMapping(value = "/cadreEdu_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("cadreUnderEdu:changeOrder")
+    @RequestMapping(value = "/cadreUnderEdu_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
+    public Map do_cadreUnderEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
 
-        cadreEduService.changeOrder(id, cadreId, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部学习经历调序：%s,%s", id, addNum));
+        cadreUnderEduService.changeOrder(id, cadreId, addNum);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部在读学习经历调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreEdu_export(CadreEduExample example, HttpServletResponse response) {
+    public void cadreUnderEdu_export(CadreUnderEduExample example, HttpServletResponse response) {
 
-        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
-        int rownum = cadreEduMapper.countByExample(example);
+        List<CadreUnderEdu> cadreUnderEdus = cadreUnderEduMapper.selectByExample(example);
+        int rownum = cadreUnderEduMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部","学历","毕业学校","院系","入学时间","毕业时间","学位"};
+        String[] titles = {"所属干部","在读学历","在读学校","院系","所学专业", "入学时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -242,15 +224,14 @@ public class CadreEduController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            CadreEdu cadreEdu = cadreEdus.get(i);
+            CadreUnderEdu cadreUnderEdu = cadreUnderEdus.get(i);
             String[] values = {
-                        cadreEdu.getCadreId()+"",
-                                            cadreEdu.getEduId()+"",
-                                            cadreEdu.getSchool(),
-                                            cadreEdu.getDep(),
-                                            DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYY_MM_DD),
-                                            cadreEdu.getDegree()
+                        cadreUnderEdu.getCadreId()+"",
+                                            cadreUnderEdu.getEduId()+"",
+                                            cadreUnderEdu.getSchool(),
+                                            cadreUnderEdu.getDep(),
+                                            cadreUnderEdu.getMajor(),
+                                            DateUtils.formatDate(cadreUnderEdu.getEnrolTime(), DateUtils.YYYY_MM_DD)
                     };
 
             Row row = sheet.createRow(i + 1);
@@ -262,7 +243,7 @@ public class CadreEduController extends BaseController {
             }
         }
         try {
-            String fileName = "干部学习经历_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = "干部在读学习经历_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

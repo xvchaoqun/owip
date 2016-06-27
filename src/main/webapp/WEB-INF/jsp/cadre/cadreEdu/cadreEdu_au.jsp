@@ -8,13 +8,14 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreEdu_au" id="modalForm" method="post">
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-5">
         	<input type="hidden" name="id" value="${cadreEdu.id}">
         	<input type="hidden" name="cadreId" value="${cadre.id}">
 			<div class="form-group">
 				<label class="col-xs-5 control-label">学历</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="eduId" data-placeholder="请选择">
+					<select required data-rel="select2" name="eduId"
+							data-placeholder="请选择" data-width="162">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_edu"/>
 					</select>
@@ -53,7 +54,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">学校类型</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="schoolType" data-placeholder="请选择">
+					<select required data-rel="select2" name="schoolType"
+							data-placeholder="请选择" data-width="162">
 						<option></option>
 						<c:forEach items="${CADRE_SCHOOL_TYPE_MAP}" var="schoolType">
 							<option value="${schoolType.key}">${schoolType.value}</option>
@@ -96,7 +98,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">学习方式</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="learnStyle" data-placeholder="请选择">
+					<select required data-rel="select2" name="learnStyle"
+							data-placeholder="请选择" data-width="162">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_learn_style"/>
 					</select>
@@ -176,8 +179,22 @@ pageEncoding="UTF-8"%>
 	function hasDegreeChange(){
 		if($("input[name=hasDegree]").bootstrapSwitch("state")){
 			$("input[name=degree]").prop("disabled", false).attr("required", "required");
+			$("input[name=isHighDegree]").bootstrapSwitch('disabled', false);
+			$("input[name=degreeCountry]").val('').prop("disabled", false).attr("required");
+			$("input[name=degreeUnit]").val('').prop("disabled", false).attr("required");
+
+			var finishTime = $("input[name=_finishTime]").datepicker("getDate");
+			var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy-MM-dd")
+			$("input[name=_degreeTime]").val(degreeTime)
+					.prop("disabled", false).attr("required");
+
+			$("input[name=school]").trigger("keyup");
 		}else{
 			$("input[name=degree]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
+			$("input[name=degreeCountry]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=degreeUnit]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=_degreeTime]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
 	$('input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
@@ -187,14 +204,14 @@ pageEncoding="UTF-8"%>
 		hasDegreeChange();
 	});
 
-	hasDegreeChange();
-
 	function schoolTypeChange(){
-		var $schoolType = $("select[name=schoolType]");
-		if($schoolType.val()=='${CADRE_SCHOOL_TYPE_THIS_SCHOOL}' || $schoolType.val()=='${CADRE_SCHOOL_TYPE_DOMESTIC}'){
-			$("input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
-		}else{
-			$("input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
+		if($("input[name=hasDegree]").bootstrapSwitch("state")){
+			var $schoolType = $("select[name=schoolType]");
+			if($schoolType.val()=='${CADRE_SCHOOL_TYPE_THIS_SCHOOL}' || $schoolType.val()=='${CADRE_SCHOOL_TYPE_DOMESTIC}'){
+				$("input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
+			}else{
+				$("input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
+			}
 		}
 	}
 	$("select[name=schoolType]").change(function(){
@@ -202,17 +219,25 @@ pageEncoding="UTF-8"%>
 	});
 	schoolTypeChange();
 
+	hasDegreeChange();
+
 	$("input[name=school]").keyup(function(){
-		var $degreeUnit = $("input[name=degreeUnit]");
-		if($degreeUnit.val()==''||$(this).val().startWith($degreeUnit.val())){
-			$degreeUnit.val($(this).val());
+		console.log($("input[name=hasDegree]").bootstrapSwitch("state"))
+		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
+			var $degreeUnit = $("input[name=degreeUnit]");
+			if ($degreeUnit.val() == '' || $(this).val().startWith($degreeUnit.val())) {
+				$degreeUnit.val($(this).val());
+			}
 		}
 	})
 
 	$("input[name=_finishTime]").on('changeDate ',function(ev){
-		var $_degreeTime = $("input[name=_degreeTime]")
-		if($_degreeTime.val()==''){
-			$_degreeTime.val(ev.date.format("yyyy-MM-dd"));
+
+		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
+			var $_degreeTime = $("input[name=_degreeTime]")
+			if ($_degreeTime.val() == '') {
+				$_degreeTime.val(ev.date.format("yyyy-MM-dd"));
+			}
 		}
 	})
 
@@ -223,9 +248,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        SysMsg.success('操作成功。', '成功',function(){
-							_reload();
-						});
+						$("#modal").modal("hide");
+						$("#jqGrid_cadreEdu").trigger("reloadGrid");
                     }
                 }
             });

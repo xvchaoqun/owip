@@ -12,7 +12,8 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-4 control-label">类型</label>
             <div class="col-xs-6">
-                <select required data-rel="select2" name="type" data-placeholder="请选择">
+                <select required data-rel="select2" name="type"
+                        data-placeholder="请选择" data-width="200">
                     <option></option>
                     <c:forEach items="${CADRE_TUTOR_TYPE_MAP}" var="_type">
                         <option value="${_type.key}">${_type.value}</option>
@@ -25,7 +26,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
 				<label class="col-xs-4 control-label">导师姓名</label>
-				<div class="col-xs-6">
+				<div class="col-xs-3">
                         <input required class="form-control" type="text" name="name" value="${cadreTutor.name}">
 				</div>
 			</div>
@@ -49,9 +50,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        SysMsg.success('操作成功。', '成功', function(){
-                            _reload();
-                        });
+                        $("#modal").modal("hide");
+                        $("#jqGrid_cadreTutor").trigger("reloadGrid");
                     }
                 }
             });

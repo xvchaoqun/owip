@@ -371,6 +371,11 @@ public class GraduateAbroadService extends BaseMapper {
                 if(!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
+            if(partyService.isDirectBranch(graduateAbroad.getPartyId())
+                    && status==SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY){ // 分党委打回至直属党支部，需要直接打回支部审核模块
+                status=SystemConstants.GRADUATE_ABROAD_STATUS_APPLY;
+            }
+
             back(graduateAbroad, status, loginUserId, reason);
         }
     }

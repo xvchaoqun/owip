@@ -40,8 +40,8 @@
       </table>-->
       <!--<table tableName="abroad_approver" domainObjectName="Approver">
       </table>-->
-      <table tableName="abroad_approver_black_list" domainObjectName="ApproverBlackList">
-      </table>
+     <!-- <table tableName="abroad_approver_black_list" domainObjectName="ApproverBlackList">
+      </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="ApproverType">
       </table>-->
      <!-- <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
@@ -171,6 +171,8 @@
        </table>-->
       <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>-->
+      <table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">
+      </table>
       <!--  <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
        </table>-->
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
