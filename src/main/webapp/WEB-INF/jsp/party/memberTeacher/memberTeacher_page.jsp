@@ -255,7 +255,10 @@ pageEncoding="UTF-8" %>
                 .format(rowObject.retireApply.userId, cellvalue);
     }
     $("#jqGrid").jqGrid({
+        multiboxonly:false,
+        ondblClickRow:function(){},
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        sortname:'party',
         colModel: [
             { label: '姓名',name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
             <c:if test="${cls==4}">
@@ -276,13 +279,13 @@ pageEncoding="UTF-8" %>
             { label: '最高学历', name: 'education', width: 100 },
             { label: '岗位类别', name: 'postClass', width: 100 },
             { label: '专业技术职务', name: 'proPost', width: 150 },
-            { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter },
+            { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter,sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间', name: 'growTime', width: 100 },
+            { label:'入党时间', name: 'growTime', width: 120,sortable:true },
             { label:'转正时间',  name: 'positiveTime', width: 100 },
             { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">

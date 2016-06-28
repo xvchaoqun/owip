@@ -5,28 +5,36 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.GraduateAbroadMapper;
+import persistence.MemberOutMapper;
+import persistence.MemberTransferMapper;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.ext.ExtService;
 import service.helper.ContextHelper;
 import service.helper.ShiroSecurityHelper;
+import service.sys.LogService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class MemberService extends BaseMapper {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -37,6 +45,8 @@ public class MemberService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     private BranchService branchService;
+    @Autowired
+    private LogService logService;
 
     public Member get(int userId){
 
@@ -378,13 +388,52 @@ public class MemberService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] userIds){
+    public void batchDel(Integer[] userIds) {
 
-        if(userIds==null || userIds.length==0) return;
+        if (userIds == null || userIds.length == 0) return;
+        {
+            MemberExample example = new MemberExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            memberMapper.deleteByExample(example);
+        }
 
-        MemberExample example = new MemberExample();
-        example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-        memberMapper.deleteByExample(example);
+        // 删除组织关系转出、出国党员暂留、校内转接、党员流出
+        {
+            MemberOutExample example = new MemberOutExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
+            if(memberOuts.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts)));
+                memberOutMapper.deleteByExample(example);
+            }
+        }
+        {
+            GraduateAbroadExample example = new GraduateAbroadExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<GraduateAbroad> graduateAbroads = graduateAbroadMapper.selectByExample(example);
+            if(graduateAbroads.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(graduateAbroads)));
+                graduateAbroadMapper.deleteByExample(example);
+            }
+        }
+        {
+            MemberTransferExample example = new MemberTransferExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
+            if(memberTransfers.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers)));
+                memberTransferMapper.deleteByExample(example);
+            }
+        }
+        {
+            MemberOutflowExample example = new MemberOutflowExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
+            if(memberOutflows.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows)));
+                memberOutflowMapper.deleteByExample(example);
+            }
+        }
 
         for (Integer userId : userIds) {
             SysUser sysUser = sysUserService.findById(userId);

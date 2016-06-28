@@ -7,7 +7,6 @@ import domain.MemberTeacherExample;
 import domain.MemberTeacherExample.Criteria;
 import domain.Party;
 import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -69,7 +68,7 @@ public class MemberTeacherController extends BaseController {
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher_data")
     public void memberTeacher_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_teacher") String sort,
+                                   @RequestParam(defaultValue = "party") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
@@ -99,7 +98,12 @@ public class MemberTeacherController extends BaseController {
 
         MemberTeacherExample example = new MemberTeacherExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if(StringUtils.equalsIgnoreCase(sort, "party")){
+            example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
+        }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
+            example.setOrderByClause(String.format("grow_time %s", order));
+        }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 

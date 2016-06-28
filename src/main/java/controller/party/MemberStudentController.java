@@ -146,7 +146,7 @@ public class MemberStudentController extends BaseController {
     @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_data")
     public void memberStudent_data(HttpServletResponse response,
-                                     @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_student") String sort,
+                                     @RequestParam(defaultValue = "party") String sort,
                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                      @RequestParam(defaultValue = "1")int cls,
                                      Integer userId,
@@ -180,8 +180,11 @@ public class MemberStudentController extends BaseController {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
         else
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
-
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        if(StringUtils.equalsIgnoreCase(sort, "party")){
+            example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
+        }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
+            example.setOrderByClause(String.format("grow_time %s", order));
+        }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 

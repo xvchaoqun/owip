@@ -230,6 +230,7 @@
         multiboxonly:false,
         ondblClickRow:function(){},
         url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        sortname:'party',
         colModel: [
             { label: '姓名', name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
@@ -245,13 +246,13 @@
                 var branch = rowObject.branch;
                 //console.log(branch)
                 return party + (($.trim(branch)=='')?'':'-'+branch);
-            } },
+            },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间',  name: 'growTime'},
+            { label:'入党时间',  name: 'growTime', width: 120, sortable:true},
             { label:'转正时间',  name: 'positiveTime'},
             { label:'培养层次',  name: 'eduLevel' },
             { label:'培养类型',  name: 'eduType' },
