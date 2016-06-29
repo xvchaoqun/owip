@@ -100,9 +100,9 @@
         pager: "#jqGridPager_cadreWork",
         url: '${ctx}/cadreWork_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 180},
-            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 180},
-            {label: '工作单位', name: 'unit'},
+            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '工作单位', name: 'unit' ,width: 280},
             {label: '担任职务或者专技职务', name: 'post', width: 280},
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
@@ -168,7 +168,7 @@
             colModel: [
                 {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                 {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                {label: '工作单位', name: 'unit'},
+                {label: '工作单位', name: 'unit',width: 280},
                 {label: '担任职务或者专技职务', name: 'post', width: 180},
                 {
                     label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
