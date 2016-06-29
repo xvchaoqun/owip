@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.CadreWork" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="fid" property="fid" jdbcType="INTEGER" />
+    <result column="sub_work_count" property="subWorkCount" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="end_time" property="endTime" jdbcType="DATE" />
@@ -11,8 +12,8 @@
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
     <result column="work_type" property="workType" jdbcType="INTEGER" />
+    <result column="is_cadre" property="isCadre" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="dispatchs" property="dispatchs" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, fid, cadre_id, start_time, end_time, unit, post, type_id, work_type, remark, 
-    dispatchs
+    id, fid, sub_work_count, cadre_id, start_time, end_time, unit, post, type_id, work_type, 
+    is_cadre, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreWorkExample" >
     select
@@ -107,14 +108,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.CadreWork" >
-    insert into base_cadre_work (id, fid, cadre_id, 
-      start_time, end_time, unit, 
-      post, type_id, work_type, 
-      remark, dispatchs)
-    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{workType,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{dispatchs,jdbcType=VARCHAR})
+    insert into base_cadre_work (id, fid, sub_work_count, 
+      cadre_id, start_time, end_time, 
+      unit, post, type_id, 
+      work_type, is_cadre, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, 
+      #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{workType,jdbcType=INTEGER}, #{isCadre,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.CadreWork" >
     insert into base_cadre_work
@@ -124,6 +127,9 @@
       </if>
       <if test="fid != null" >
         fid,
+      </if>
+      <if test="subWorkCount != null" >
+        sub_work_count,
       </if>
       <if test="cadreId != null" >
         cadre_id,
@@ -146,11 +152,11 @@
       <if test="workType != null" >
         work_type,
       </if>
+      <if test="isCadre != null" >
+        is_cadre,
+      </if>
       <if test="remark != null" >
         remark,
-      </if>
-      <if test="dispatchs != null" >
-        dispatchs,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -159,6 +165,9 @@
       </if>
       <if test="fid != null" >
         #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="subWorkCount != null" >
+        #{subWorkCount,jdbcType=INTEGER},
       </if>
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
@@ -181,11 +190,11 @@
       <if test="workType != null" >
         #{workType,jdbcType=INTEGER},
       </if>
+      <if test="isCadre != null" >
+        #{isCadre,jdbcType=BIT},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="dispatchs != null" >
-        #{dispatchs,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -203,6 +212,9 @@
       </if>
       <if test="record.fid != null" >
         fid = #{record.fid,jdbcType=INTEGER},
+      </if>
+      <if test="record.subWorkCount != null" >
+        sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
       </if>
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -225,11 +237,11 @@
       <if test="record.workType != null" >
         work_type = #{record.workType,jdbcType=INTEGER},
       </if>
+      <if test="record.isCadre != null" >
+        is_cadre = #{record.isCadre,jdbcType=BIT},
+      </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dispatchs != null" >
-        dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -240,6 +252,7 @@
     update base_cadre_work
     set id = #{record.id,jdbcType=INTEGER},
       fid = #{record.fid,jdbcType=INTEGER},
+      sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       start_time = #{record.startTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE},
@@ -247,8 +260,8 @@
       post = #{record.post,jdbcType=VARCHAR},
       type_id = #{record.typeId,jdbcType=INTEGER},
       work_type = #{record.workType,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      dispatchs = #{record.dispatchs,jdbcType=VARCHAR}
+      is_cadre = #{record.isCadre,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +271,9 @@
     <set >
       <if test="fid != null" >
         fid = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="subWorkCount != null" >
+        sub_work_count = #{subWorkCount,jdbcType=INTEGER},
       </if>
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -280,11 +296,11 @@
       <if test="workType != null" >
         work_type = #{workType,jdbcType=INTEGER},
       </if>
+      <if test="isCadre != null" >
+        is_cadre = #{isCadre,jdbcType=BIT},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="dispatchs != null" >
-        dispatchs = #{dispatchs,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -292,6 +308,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.CadreWork" >
     update base_cadre_work
     set fid = #{fid,jdbcType=INTEGER},
+      sub_work_count = #{subWorkCount,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=DATE},
       end_time = #{endTime,jdbcType=DATE},
@@ -299,8 +316,8 @@
       post = #{post,jdbcType=VARCHAR},
       type_id = #{typeId,jdbcType=INTEGER},
       work_type = #{workType,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      dispatchs = #{dispatchs,jdbcType=VARCHAR}
+      is_cadre = #{isCadre,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.CadreWorkExample" id="selectByExampleWithRowbounds" >

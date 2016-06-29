@@ -197,14 +197,14 @@ public class MemberOutService extends BaseMapper {
 
     // 分党委、党总支、直属党支部 通过
     @Transactional
-    public void check1(int userId){
+    public void check1(int id){
 
-        MemberOut memberOut = get(userId);
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         if(memberOut.getStatus()!= SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
-        record.setUserId(userId);
+        record.setUserId(memberOut.getUserId());
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -212,17 +212,17 @@ public class MemberOutService extends BaseMapper {
 
     // 组织部审核通过
     @Transactional
-    public void check2(int userId, boolean isDirect){
+    public void check2(int id, boolean isDirect){
 
-        MemberOut memberOut = get(userId);
-
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+        Integer userId = memberOut.getUserId();
         if(isDirect && memberOut.getStatus()!= SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         if(!isDirect && memberOut.getStatus()!= SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberOut record = new MemberOut();
-        record.setId(memberOut.getId());
+        record.setId(id);
         record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
         //record.setBranchId(memberOut.getBranchId());
@@ -284,13 +284,13 @@ public class MemberOutService extends BaseMapper {
                 VerifyAuth<MemberOut> verifyAuth = checkVerityAuth2(id);
                 memberOut = verifyAuth.entity;
 
-                check1(memberOut.getUserId());
+                check1(memberOut.getId());
             }
             if(type==2) {
                 SecurityUtils.getSubject().checkRole("odAdmin");
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
-                check2(memberOut.getUserId(), false);
+                check2(memberOut.getId(), false);
             }
 
             int userId = memberOut.getUserId();

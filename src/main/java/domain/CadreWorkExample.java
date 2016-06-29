@@ -252,6 +252,66 @@ public class CadreWorkExample {
             return (Criteria) this;
         }
 
+        public Criteria andSubWorkCountIsNull() {
+            addCriterion("sub_work_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountIsNotNull() {
+            addCriterion("sub_work_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountEqualTo(Integer value) {
+            addCriterion("sub_work_count =", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotEqualTo(Integer value) {
+            addCriterion("sub_work_count <>", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountGreaterThan(Integer value) {
+            addCriterion("sub_work_count >", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sub_work_count >=", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountLessThan(Integer value) {
+            addCriterion("sub_work_count <", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountLessThanOrEqualTo(Integer value) {
+            addCriterion("sub_work_count <=", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountIn(List<Integer> values) {
+            addCriterion("sub_work_count in", values, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotIn(List<Integer> values) {
+            addCriterion("sub_work_count not in", values, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountBetween(Integer value1, Integer value2) {
+            addCriterion("sub_work_count between", value1, value2, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("sub_work_count not between", value1, value2, "subWorkCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreIdIsNull() {
             addCriterion("cadre_id is null");
             return (Criteria) this;
@@ -692,6 +752,66 @@ public class CadreWorkExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsCadreIsNull() {
+            addCriterion("is_cadre is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreIsNotNull() {
+            addCriterion("is_cadre is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreEqualTo(Boolean value) {
+            addCriterion("is_cadre =", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreNotEqualTo(Boolean value) {
+            addCriterion("is_cadre <>", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreGreaterThan(Boolean value) {
+            addCriterion("is_cadre >", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_cadre >=", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreLessThan(Boolean value) {
+            addCriterion("is_cadre <", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_cadre <=", value, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreIn(List<Boolean> values) {
+            addCriterion("is_cadre in", values, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreNotIn(List<Boolean> values) {
+            addCriterion("is_cadre not in", values, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_cadre between", value1, value2, "isCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCadreNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_cadre not between", value1, value2, "isCadre");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
@@ -759,76 +879,6 @@ public class CadreWorkExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsIsNull() {
-            addCriterion("dispatchs is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsIsNotNull() {
-            addCriterion("dispatchs is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsEqualTo(String value) {
-            addCriterion("dispatchs =", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsNotEqualTo(String value) {
-            addCriterion("dispatchs <>", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsGreaterThan(String value) {
-            addCriterion("dispatchs >", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsGreaterThanOrEqualTo(String value) {
-            addCriterion("dispatchs >=", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsLessThan(String value) {
-            addCriterion("dispatchs <", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsLessThanOrEqualTo(String value) {
-            addCriterion("dispatchs <=", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsLike(String value) {
-            addCriterion("dispatchs like", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsNotLike(String value) {
-            addCriterion("dispatchs not like", value, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsIn(List<String> values) {
-            addCriterion("dispatchs in", values, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsNotIn(List<String> values) {
-            addCriterion("dispatchs not in", values, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsBetween(String value1, String value2) {
-            addCriterion("dispatchs between", value1, value2, "dispatchs");
-            return (Criteria) this;
-        }
-
-        public Criteria andDispatchsNotBetween(String value1, String value2) {
-            addCriterion("dispatchs not between", value1, value2, "dispatchs");
             return (Criteria) this;
         }
     }

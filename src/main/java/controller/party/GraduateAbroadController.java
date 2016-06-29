@@ -603,21 +603,20 @@ public class GraduateAbroadController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除暂留：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("graduateAbroad:del")
     @RequestMapping(value = "/graduateAbroad_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             graduateAbroadService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除暂留：%s", StringUtils.join(ids, ",")));
         }
-
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     public void graduateAbroad_export(GraduateAbroadViewExample example, HttpServletResponse response) {
 

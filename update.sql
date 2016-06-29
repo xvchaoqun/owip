@@ -1,5 +1,25 @@
 
 
+--2016-6-29
+ALTER TABLE `base_cadre_work`
+	CHANGE COLUMN `work_type` `work_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '院系/机关工作经历，关联元数据' AFTER `type_id`,
+	ADD CONSTRAINT `FK_base_cadre_work_base_meta_type_2` FOREIGN KEY (`work_type`) REFERENCES `base_meta_type` (`id`);
+ALTER TABLE `base_cadre_work`
+	ADD COLUMN `is_cadre` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否干部任职' AFTER `dispatchs`;
+
+	ALTER TABLE `base_cadre_work`
+	COMMENT='工作经历，目前有两级，工作经历->期间工作经历',
+	CHANGE COLUMN `fid` `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属工作经历，即期间经历的归属' AFTER `id`,
+	ADD COLUMN `sub_work_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '期间工作数量，提交期间工作时设定' AFTER `fid`;
+
+	update base_cadre_work set sub_work_count=0;
+ALTER TABLE `base_cadre_work`
+	CHANGE COLUMN `sub_work_count` `sub_work_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '期间工作数量，提交期间工作时设定' AFTER `fid`;
+
+ALTER TABLE `base_cadre_work`
+	DROP COLUMN `dispatchs`;
+
+
 
 --2016-6-23
 ALTER TABLE `abroad_approver`

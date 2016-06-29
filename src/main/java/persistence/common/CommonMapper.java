@@ -195,10 +195,10 @@ public interface CommonMapper {
     int countDispatchByCodeUnit(@Param("search") String code, @Param("unitId") int unitId);
 
 
-    // 查找干部发文（按发文时间排序）
+    // 查找干部发文（与干部任免排序规则相同）
     @ResultMap("persistence.DispatchCadreMapper.BaseResultMap")
-    @Select("select distinct dc.* from base_dispatch_cadre dc, base_dispatch d " +
-            "where dc.dispatch_id=d.id and dc.cadre_id=#{cadreId} order by d.pub_time desc")
+    @Select("select distinct dc.* from base_dispatch_cadre dc, base_dispatch d, base_dispatch_type dt " +
+            "where dc.dispatch_id=d.id and d.dispatch_type_id=dt.id and dc.cadre_id=#{cadreId} order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc")
     List<DispatchCadre> selectDispatchCadreList(@Param("cadreId") int cadreId);
 
     // 根据所属单位查找干部发文（按发文时间排序）

@@ -110,7 +110,7 @@
                         </div>
                     </div></div>
                 <div class="clearfix form-actions center">
-                    <button class="btn btn-info" type="submit">
+                    <button class="btn btn-info" id="submitBtn" type="button" data-loading-text="提交中..." autocomplete="off">
                         <i class="ace-icon fa fa-check bigger-110"></i>
                         提交
                     </button>
@@ -125,6 +125,11 @@
 
     $('textarea.limited').inputlimiter();
     register_date($('.date-picker'));
+    $("#submitBtn").click(function(){
+        var $btn = $(this).button('loading');
+        $("#modalForm").submit();
+        setTimeout(function () { $btn.button('reset'); },1000);
+        return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
@@ -136,6 +141,7 @@
             }
             $(form).ajaxSubmit({
                 success:function(ret){
+                    $("#submitBtn").button("reset");
                     if(ret.success){
                         bootbox.alert('提交成功。',function(){
                             location.reload();

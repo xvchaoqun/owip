@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                 <shiro:hasPermission name="branch:del">
                     <a class="jqDelBtn btn btn-danger btn-sm  tooltip-warning"
                        data-rel="tooltip" data-placement="top" title="如果党支部已经设置了管理员、支部委员会或添加了党员，则不可以删除"><i class="fa fa-trash"></i> 删除</a>

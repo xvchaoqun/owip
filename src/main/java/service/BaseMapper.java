@@ -211,6 +211,8 @@ public class BaseMapper {
 	@Autowired
 	protected DispatchCadreMapper dispatchCadreMapper;
 	@Autowired
+	protected DispatchCadreRelateMapper dispatchCadreRelateMapper;
+	@Autowired
 	protected DispatchUnitMapper dispatchUnitMapper;
 	@Autowired
 	protected DispatchUnitRelateMapper dispatchUnitRelateMapper;

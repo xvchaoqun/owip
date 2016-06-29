@@ -13,7 +13,7 @@
                         返回</a>
                     <%--<i class="ace-icon fa fa-user"></i>干部个人信息--%>
                 </h4>
-                <div class="widget-toolbar no-border">
+                <div class="jqgrid-vertical-offset widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/cadre_base?id=${param.id}">基本信息</a>

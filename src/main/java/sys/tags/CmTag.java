@@ -13,10 +13,7 @@ import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreService;
-import service.dispatch.DispatchCadreService;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchTypeService;
-import service.dispatch.DispatchUnitService;
+import service.dispatch.*;
 import service.party.*;
 import service.sys.MetaClassService;
 import service.sys.MetaTypeService;
@@ -55,6 +52,7 @@ public class CmTag {
     static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
     static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
+    static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -296,6 +294,11 @@ public class CmTag {
 
     public static Integer getDispatchCadreCount(Integer dispatchId, Byte type){
         return dispatchCadreService.count(dispatchId, type);
+    }
+
+    public static  List<DispatchCadreRelate> findDispatchCadreRelates(Integer relateId, Byte relateType){
+
+        return dispatchCadreRelateService.findDispatchCadreRelates(relateId, relateType);
     }
 
     public static DispatchUnit getDispatchUnit(Integer dispatchUnitId){

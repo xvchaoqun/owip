@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-search"></i> 查看修改记录
                         </button>
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                           data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                             <i class="fa fa-download"></i> 导出</a>
                         <shiro:hasAnyRoles name="admin,odAdmin">
                         <a class="jqDelBtn btn btn-danger btn-sm">

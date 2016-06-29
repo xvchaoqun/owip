@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
                            data-url="${ctx}/cadre_import?status=${status}"
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
                         <a class="jqExportBtn btn btn-success btn-sm"
-                           data-rel="tooltip" data-placement="bottom" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                           data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="cadre:del">
                             <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>

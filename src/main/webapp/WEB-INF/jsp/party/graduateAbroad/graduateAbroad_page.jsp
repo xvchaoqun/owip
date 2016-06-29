@@ -129,7 +129,7 @@
                                 </c:if>
                                 </shiro:hasAnyRoles>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
 
                                 <c:if test="${cls==1||cls==11}">
@@ -174,6 +174,15 @@
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
+
+                                <shiro:hasAnyRoles name="admin,odAdmin">
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-title="删除"
+                                       data-msg="确定删除这{0}条记录吗？"
+                                       data-url="${ctx}/graduateAbroad_batchDel">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </button>
+                                </shiro:hasAnyRoles>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">

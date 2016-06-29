@@ -167,12 +167,12 @@
        </table>-->
       <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
       </table>-->
-      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
-       </table>-->
+       <table tableName="base_cadre_work" domainObjectName="CadreWork">
+       </table>
       <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>-->
-      <table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">
-      </table>
+      <!--<table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">
+      </table>-->
       <!--  <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
        </table>-->
     <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
@@ -191,6 +191,8 @@
      <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
       </table>-->
     <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
+    </table>-->
+     <!-- <table tableName="base_dispatch_cadre_relate" domainObjectName="DispatchCadreRelate">
     </table>-->
       <!--
     <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">

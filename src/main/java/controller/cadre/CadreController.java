@@ -77,6 +77,7 @@ public class CadreController extends BaseController {
                                     Integer postId,
                                     String title,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -105,6 +106,8 @@ public class CadreController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             cadre_export(example, response);
             return;
         }
@@ -316,7 +319,7 @@ public class CadreController extends BaseController {
 
         if (null != ids){
             cadreService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", new Object[]{ids}));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

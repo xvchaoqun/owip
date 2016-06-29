@@ -1,12 +1,23 @@
 package domain;
 
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CadreWork implements Serializable {
+
+    public List<DispatchCadreRelate> getDispatchCadreRelates(){
+        return CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+    }
+
     private Integer id;
 
     private Integer fid;
+
+    private Integer subWorkCount;
 
     private Integer cadreId;
 
@@ -22,9 +33,9 @@ public class CadreWork implements Serializable {
 
     private Integer workType;
 
-    private String remark;
+    private Boolean isCadre;
 
-    private String dispatchs;
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +53,14 @@ public class CadreWork implements Serializable {
 
     public void setFid(Integer fid) {
         this.fid = fid;
+    }
+
+    public Integer getSubWorkCount() {
+        return subWorkCount;
+    }
+
+    public void setSubWorkCount(Integer subWorkCount) {
+        this.subWorkCount = subWorkCount;
     }
 
     public Integer getCadreId() {
@@ -100,19 +119,19 @@ public class CadreWork implements Serializable {
         this.workType = workType;
     }
 
+    public Boolean getIsCadre() {
+        return isCadre;
+    }
+
+    public void setIsCadre(Boolean isCadre) {
+        this.isCadre = isCadre;
+    }
+
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public String getDispatchs() {
-        return dispatchs;
-    }
-
-    public void setDispatchs(String dispatchs) {
-        this.dispatchs = dispatchs == null ? null : dispatchs.trim();
     }
 }

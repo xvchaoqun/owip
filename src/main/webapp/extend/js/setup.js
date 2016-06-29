@@ -42,8 +42,9 @@ $.jgrid.defaults.onPaging= function(){
 };*/
 // 恢复重新加载之前滚动位置及选中的行状态
 var jgrid_sid,jgrid_left, jgrid_top;
-$.jgrid.defaults.onSelectRow = function(id) {
-    jgrid_sid = id;
+$.jgrid.defaults.onSelectRow = function(id, status) {
+    if(status) jgrid_sid = id;
+    else jgrid_sid = null;
 }
 $.jgrid.defaults.gridComplete = function(){
 
@@ -498,6 +499,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function(){
 
 $(document).on("click", ".confirm", function(){
 
+    var _this = this;
     var url = $(this).data("url");
     var msg = $(this).data("msg");
     var callback = $.trim($(this).data("callback"));
@@ -507,7 +509,8 @@ $(document).on("click", ".confirm", function(){
             $.post(url, {}, function (ret) {
                 if (ret.success) {
                      if(callback){
-                        window[callback](this);
+                        // console.log(_this)
+                        window[callback](_this);
                      }
                 }
             });
@@ -660,7 +663,7 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 });
 
 // 批量操作 for jqgrid
-$(document).on("click", ".myTableDiv .jqBatchBtn", function(){
+$(document).on("click", ".jqBatchBtn", function(){
 
     var queryString = $(this).data("querystr");
     var url = $(this).data("url") + (queryString?("?"+queryString):"");
@@ -822,7 +825,7 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function(){
 //↑↑↑↑↑↑↑↑↑弹出框列表操作↑↑↑↑↑↑↑↑↑
 
 // 内页标签
-$(document).on("click", "#view-box .nav-tabs li a", function(){
+$(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function(){
     var $this = $(this);
     var $container = $("#view-box .tab-content");
     $container.showLoading({'afterShow':
@@ -834,7 +837,7 @@ $(document).on("click", "#view-box .nav-tabs li a", function(){
     if($(this).data("url")!='') {
         $container.load($(this).data("url"), function () {
             $container.hideLoading();
-            $("#view-box .nav-tabs li").removeClass("active");
+            $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
             $this.closest("li").addClass("active");
         });
     }else{

@@ -15,7 +15,7 @@
 
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                             class="fa fa-download"></i> 导出</a>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

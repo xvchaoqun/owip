@@ -62,7 +62,7 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
                                     <c:if test="${cls==1||cls==4}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-success btn-sm"

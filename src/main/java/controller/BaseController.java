@@ -167,6 +167,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected DispatchCadreService dispatchCadreService;
     @Autowired
+    protected DispatchCadreRelateService dispatchCadreRelateService;
+    @Autowired
     protected DispatchUnitRelateService dispatchUnitRelateService;
     @Autowired
     protected DispatchUnitService dispatchUnitService;
