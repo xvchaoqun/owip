@@ -612,8 +612,13 @@ public class GraduateAbroadController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
+
+            GraduateAbroadExample example = new GraduateAbroadExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<GraduateAbroad> graduateAbroads = graduateAbroadMapper.selectByExample(example);
+
             graduateAbroadService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除暂留：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_OW, "批量删除暂留：%s", JSONUtils.toString(graduateAbroads)));
         }
         return success(FormUtils.SUCCESS);
     }
