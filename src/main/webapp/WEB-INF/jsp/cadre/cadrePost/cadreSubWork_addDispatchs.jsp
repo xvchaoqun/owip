@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                             </td>
                                 <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
 								<td nowrap>${dispatch.year}</td>
-								<td nowrap>${metaTypeMap.get(dispatch.typeId).name}</td>
+								<td nowrap>${metaTypeMap.get(dispatch.dispatchTypeId).name}</td>
 								<td nowrap>${dispatch.code}</td>
 								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
 								<td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
