@@ -254,7 +254,7 @@
         $(window).triggerHandler('resize.jqGrid2');
         $('.noSubWork [aria-describedby="jqGrid_cadreWork_subgrid"]').removeClass();
 
-        console.log(currentExpandRows)
+        //console.log(currentExpandRows)
         for(i in currentExpandRows)
             $("#jqGrid_cadreWork").expandSubGridRow(currentExpandRows[i])
     });
