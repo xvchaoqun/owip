@@ -79,15 +79,23 @@ public class CadreInfoController extends BaseController {
             }
         }
 
-        CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
-        if (cadreInfo == null) {
-            cadreInfoService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部联系方式：%s", record.getCadreId()));
-        } else {
-            cadreInfoService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部联系方式：%s", record.getCadreId()));
-        }
+        cadreInfoService.insertOrUpdate(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部联系方式：%s", record.getCadreId()));
 
+        return success(FormUtils.SUCCESS);
+    }
+    @RequiresPermissions("cadreInfo:edit")
+    @RequestMapping(value = "/cadreInfo_updateWork", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreInfo_updateWork(int cadreId, String work, HttpServletRequest request) {
+
+
+        CadreInfo record = new CadreInfo();
+        record.setCadreId(cadreId);
+        record.setWork(work);
+
+        cadreInfoService.insertOrUpdate(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新工作经历信息：%s, %s", record.getCadreId(), work));
         return success(FormUtils.SUCCESS);
     }
 

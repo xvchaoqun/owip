@@ -324,7 +324,7 @@
         caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==11}">
@@ -332,7 +332,7 @@
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
         <c:if test="${cls==12}">
@@ -340,7 +340,7 @@
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==1||cls==11||cls==12}">

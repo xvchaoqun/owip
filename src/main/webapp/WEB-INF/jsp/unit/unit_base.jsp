@@ -178,3 +178,9 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
+<style>
+	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+		background-color: #f9f9f9;
+		text-align: right;
+	}
+</style>

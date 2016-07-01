@@ -1,8 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class CadrePostExample {
@@ -104,32 +102,6 @@ public class CadrePostExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -252,6 +224,136 @@ public class CadrePostExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostIsNull() {
+            addCriterion("post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIsNotNull() {
+            addCriterion("post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostEqualTo(String value) {
+            addCriterion("post =", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotEqualTo(String value) {
+            addCriterion("post <>", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostGreaterThan(String value) {
+            addCriterion("post >", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostGreaterThanOrEqualTo(String value) {
+            addCriterion("post >=", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLessThan(String value) {
+            addCriterion("post <", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLessThanOrEqualTo(String value) {
+            addCriterion("post <=", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLike(String value) {
+            addCriterion("post like", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotLike(String value) {
+            addCriterion("post not like", value, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIn(List<String> values) {
+            addCriterion("post in", values, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotIn(List<String> values) {
+            addCriterion("post not in", values, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostBetween(String value1, String value2) {
+            addCriterion("post between", value1, value2, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNotBetween(String value1, String value2) {
+            addCriterion("post not between", value1, value2, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdIsNull() {
+            addCriterion("post_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdIsNotNull() {
+            addCriterion("post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdEqualTo(Integer value) {
+            addCriterion("post_id =", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdNotEqualTo(Integer value) {
+            addCriterion("post_id <>", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdGreaterThan(Integer value) {
+            addCriterion("post_id >", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("post_id >=", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdLessThan(Integer value) {
+            addCriterion("post_id <", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("post_id <=", value, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdIn(List<Integer> values) {
+            addCriterion("post_id in", values, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdNotIn(List<Integer> values) {
+            addCriterion("post_id not in", values, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("post_id between", value1, value2, "postId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("post_id not between", value1, value2, "postId");
+            return (Criteria) this;
+        }
+
         public Criteria andAdminLevelIdIsNull() {
             addCriterion("admin_level_id is null");
             return (Criteria) this;
@@ -312,373 +414,303 @@ public class CadrePostExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIsNull() {
-            addCriterion("is_present is null");
+        public Criteria andPostClassIdIsNull() {
+            addCriterion("post_class_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIsNotNull() {
-            addCriterion("is_present is not null");
+        public Criteria andPostClassIdIsNotNull() {
+            addCriterion("post_class_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentEqualTo(Boolean value) {
-            addCriterion("is_present =", value, "isPresent");
+        public Criteria andPostClassIdEqualTo(Integer value) {
+            addCriterion("post_class_id =", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotEqualTo(Boolean value) {
-            addCriterion("is_present <>", value, "isPresent");
+        public Criteria andPostClassIdNotEqualTo(Integer value) {
+            addCriterion("post_class_id <>", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentGreaterThan(Boolean value) {
-            addCriterion("is_present >", value, "isPresent");
+        public Criteria andPostClassIdGreaterThan(Integer value) {
+            addCriterion("post_class_id >", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_present >=", value, "isPresent");
+        public Criteria andPostClassIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("post_class_id >=", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentLessThan(Boolean value) {
-            addCriterion("is_present <", value, "isPresent");
+        public Criteria andPostClassIdLessThan(Integer value) {
+            addCriterion("post_class_id <", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_present <=", value, "isPresent");
+        public Criteria andPostClassIdLessThanOrEqualTo(Integer value) {
+            addCriterion("post_class_id <=", value, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIn(List<Boolean> values) {
-            addCriterion("is_present in", values, "isPresent");
+        public Criteria andPostClassIdIn(List<Integer> values) {
+            addCriterion("post_class_id in", values, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotIn(List<Boolean> values) {
-            addCriterion("is_present not in", values, "isPresent");
+        public Criteria andPostClassIdNotIn(List<Integer> values) {
+            addCriterion("post_class_id not in", values, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present between", value1, value2, "isPresent");
+        public Criteria andPostClassIdBetween(Integer value1, Integer value2) {
+            addCriterion("post_class_id between", value1, value2, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present not between", value1, value2, "isPresent");
+        public Criteria andPostClassIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("post_class_id not between", value1, value2, "postClassId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeIsNull() {
-            addCriterion("start_time is null");
+        public Criteria andUnitIdIsNull() {
+            addCriterion("unit_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeIsNotNull() {
-            addCriterion("start_time is not null");
+        public Criteria andUnitIdIsNotNull() {
+            addCriterion("unit_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time =", value, "startTime");
+        public Criteria andUnitIdEqualTo(Integer value) {
+            addCriterion("unit_id =", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time <>", value, "startTime");
+        public Criteria andUnitIdNotEqualTo(Integer value) {
+            addCriterion("unit_id <>", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("start_time >", value, "startTime");
+        public Criteria andUnitIdGreaterThan(Integer value) {
+            addCriterion("unit_id >", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time >=", value, "startTime");
+        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_id >=", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeLessThan(Date value) {
-            addCriterionForJDBCDate("start_time <", value, "startTime");
+        public Criteria andUnitIdLessThan(Integer value) {
+            addCriterion("unit_id <", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time <=", value, "startTime");
+        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_id <=", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("start_time in", values, "startTime");
+        public Criteria andUnitIdIn(List<Integer> values) {
+            addCriterion("unit_id in", values, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("start_time not in", values, "startTime");
+        public Criteria andUnitIdNotIn(List<Integer> values) {
+            addCriterion("unit_id not in", values, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("start_time between", value1, value2, "startTime");
+        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id between", value1, value2, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("start_time not between", value1, value2, "startTime");
+        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id not between", value1, value2, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdIsNull() {
-            addCriterion("start_dispatch_cadre_id is null");
+        public Criteria andIsDoubleIsNull() {
+            addCriterion("is_double is null");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdIsNotNull() {
-            addCriterion("start_dispatch_cadre_id is not null");
+        public Criteria andIsDoubleIsNotNull() {
+            addCriterion("is_double is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdEqualTo(Integer value) {
-            addCriterion("start_dispatch_cadre_id =", value, "startDispatchCadreId");
+        public Criteria andIsDoubleEqualTo(Boolean value) {
+            addCriterion("is_double =", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdNotEqualTo(Integer value) {
-            addCriterion("start_dispatch_cadre_id <>", value, "startDispatchCadreId");
+        public Criteria andIsDoubleNotEqualTo(Boolean value) {
+            addCriterion("is_double <>", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdGreaterThan(Integer value) {
-            addCriterion("start_dispatch_cadre_id >", value, "startDispatchCadreId");
+        public Criteria andIsDoubleGreaterThan(Boolean value) {
+            addCriterion("is_double >", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("start_dispatch_cadre_id >=", value, "startDispatchCadreId");
+        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double >=", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdLessThan(Integer value) {
-            addCriterion("start_dispatch_cadre_id <", value, "startDispatchCadreId");
+        public Criteria andIsDoubleLessThan(Boolean value) {
+            addCriterion("is_double <", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdLessThanOrEqualTo(Integer value) {
-            addCriterion("start_dispatch_cadre_id <=", value, "startDispatchCadreId");
+        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double <=", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdIn(List<Integer> values) {
-            addCriterion("start_dispatch_cadre_id in", values, "startDispatchCadreId");
+        public Criteria andIsDoubleIn(List<Boolean> values) {
+            addCriterion("is_double in", values, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdNotIn(List<Integer> values) {
-            addCriterion("start_dispatch_cadre_id not in", values, "startDispatchCadreId");
+        public Criteria andIsDoubleNotIn(List<Boolean> values) {
+            addCriterion("is_double not in", values, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdBetween(Integer value1, Integer value2) {
-            addCriterion("start_dispatch_cadre_id between", value1, value2, "startDispatchCadreId");
+        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double between", value1, value2, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andStartDispatchCadreIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("start_dispatch_cadre_id not between", value1, value2, "startDispatchCadreId");
+        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double not between", value1, value2, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeIsNull() {
-            addCriterion("end_time is null");
+        public Criteria andDoubleUnitIdIsNull() {
+            addCriterion("double_unit_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeIsNotNull() {
-            addCriterion("end_time is not null");
+        public Criteria andDoubleUnitIdIsNotNull() {
+            addCriterion("double_unit_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("end_time =", value, "endTime");
+        public Criteria andDoubleUnitIdEqualTo(Integer value) {
+            addCriterion("double_unit_id =", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("end_time <>", value, "endTime");
+        public Criteria andDoubleUnitIdNotEqualTo(Integer value) {
+            addCriterion("double_unit_id <>", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("end_time >", value, "endTime");
+        public Criteria andDoubleUnitIdGreaterThan(Integer value) {
+            addCriterion("double_unit_id >", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("end_time >=", value, "endTime");
+        public Criteria andDoubleUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("double_unit_id >=", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeLessThan(Date value) {
-            addCriterionForJDBCDate("end_time <", value, "endTime");
+        public Criteria andDoubleUnitIdLessThan(Integer value) {
+            addCriterion("double_unit_id <", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("end_time <=", value, "endTime");
+        public Criteria andDoubleUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("double_unit_id <=", value, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("end_time in", values, "endTime");
+        public Criteria andDoubleUnitIdIn(List<Integer> values) {
+            addCriterion("double_unit_id in", values, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("end_time not in", values, "endTime");
+        public Criteria andDoubleUnitIdNotIn(List<Integer> values) {
+            addCriterion("double_unit_id not in", values, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("end_time between", value1, value2, "endTime");
+        public Criteria andDoubleUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("double_unit_id between", value1, value2, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("end_time not between", value1, value2, "endTime");
+        public Criteria andDoubleUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("double_unit_id not between", value1, value2, "doubleUnitId");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdIsNull() {
-            addCriterion("end_dispatch_cadre_id is null");
+        public Criteria andIsMainPostIsNull() {
+            addCriterion("is_main_post is null");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdIsNotNull() {
-            addCriterion("end_dispatch_cadre_id is not null");
+        public Criteria andIsMainPostIsNotNull() {
+            addCriterion("is_main_post is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdEqualTo(Integer value) {
-            addCriterion("end_dispatch_cadre_id =", value, "endDispatchCadreId");
+        public Criteria andIsMainPostEqualTo(Boolean value) {
+            addCriterion("is_main_post =", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdNotEqualTo(Integer value) {
-            addCriterion("end_dispatch_cadre_id <>", value, "endDispatchCadreId");
+        public Criteria andIsMainPostNotEqualTo(Boolean value) {
+            addCriterion("is_main_post <>", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdGreaterThan(Integer value) {
-            addCriterion("end_dispatch_cadre_id >", value, "endDispatchCadreId");
+        public Criteria andIsMainPostGreaterThan(Boolean value) {
+            addCriterion("is_main_post >", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("end_dispatch_cadre_id >=", value, "endDispatchCadreId");
+        public Criteria andIsMainPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_main_post >=", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdLessThan(Integer value) {
-            addCriterion("end_dispatch_cadre_id <", value, "endDispatchCadreId");
+        public Criteria andIsMainPostLessThan(Boolean value) {
+            addCriterion("is_main_post <", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdLessThanOrEqualTo(Integer value) {
-            addCriterion("end_dispatch_cadre_id <=", value, "endDispatchCadreId");
+        public Criteria andIsMainPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_main_post <=", value, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdIn(List<Integer> values) {
-            addCriterion("end_dispatch_cadre_id in", values, "endDispatchCadreId");
+        public Criteria andIsMainPostIn(List<Boolean> values) {
+            addCriterion("is_main_post in", values, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdNotIn(List<Integer> values) {
-            addCriterion("end_dispatch_cadre_id not in", values, "endDispatchCadreId");
+        public Criteria andIsMainPostNotIn(List<Boolean> values) {
+            addCriterion("is_main_post not in", values, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdBetween(Integer value1, Integer value2) {
-            addCriterion("end_dispatch_cadre_id between", value1, value2, "endDispatchCadreId");
+        public Criteria andIsMainPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_main_post between", value1, value2, "isMainPost");
             return (Criteria) this;
         }
 
-        public Criteria andEndDispatchCadreIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("end_dispatch_cadre_id not between", value1, value2, "endDispatchCadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIsNull() {
-            addCriterion("remark is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIsNotNull() {
-            addCriterion("remark is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkEqualTo(String value) {
-            addCriterion("remark =", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotEqualTo(String value) {
-            addCriterion("remark <>", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThan(String value) {
-            addCriterion("remark >", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
-            addCriterion("remark >=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThan(String value) {
-            addCriterion("remark <", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThanOrEqualTo(String value) {
-            addCriterion("remark <=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLike(String value) {
-            addCriterion("remark like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotLike(String value) {
-            addCriterion("remark not like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIn(List<String> values) {
-            addCriterion("remark in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotIn(List<String> values) {
-            addCriterion("remark not in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkBetween(String value1, String value2) {
-            addCriterion("remark between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotBetween(String value1, String value2) {
-            addCriterion("remark not between", value1, value2, "remark");
+        public Criteria andIsMainPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_main_post not between", value1, value2, "isMainPost");
             return (Criteria) this;
         }
     }

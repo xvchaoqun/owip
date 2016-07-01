@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="domain.CadrePost" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
-    <result column="is_present" property="isPresent" jdbcType="BIT" />
-    <result column="start_time" property="startTime" jdbcType="DATE" />
-    <result column="start_dispatch_cadre_id" property="startDispatchCadreId" jdbcType="INTEGER" />
-    <result column="end_time" property="endTime" jdbcType="DATE" />
-    <result column="end_dispatch_cadre_id" property="endDispatchCadreId" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="post_class_id" property="postClassId" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="is_double" property="isDouble" jdbcType="BIT" />
+    <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
+    <result column="is_main_post" property="isMainPost" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, admin_level_id, is_present, start_time, start_dispatch_cadre_id, end_time, 
-    end_dispatch_cadre_id, remark
+    id, cadre_id, post, post_id, admin_level_id, post_class_id, unit_id, is_double, double_unit_id, 
+    is_main_post
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadrePostExample" >
     select
@@ -105,14 +106,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.CadrePost" >
-    insert into base_cadre_post (id, cadre_id, admin_level_id, 
-      is_present, start_time, start_dispatch_cadre_id, 
-      end_time, end_dispatch_cadre_id, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, 
-      #{isPresent,jdbcType=BIT}, #{startTime,jdbcType=DATE}, #{startDispatchCadreId,jdbcType=INTEGER}, 
-      #{endTime,jdbcType=DATE}, #{endDispatchCadreId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+    insert into base_cadre_post (id, cadre_id, post, 
+      post_id, admin_level_id, post_class_id, 
+      unit_id, is_double, double_unit_id, 
+      is_main_post)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
+      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{postClassId,jdbcType=INTEGER}, 
+      #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, #{doubleUnitId,jdbcType=INTEGER}, 
+      #{isMainPost,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.CadrePost" >
     insert into base_cadre_post
@@ -123,26 +124,29 @@
       <if test="cadreId != null" >
         cadre_id,
       </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="postId != null" >
+        post_id,
+      </if>
       <if test="adminLevelId != null" >
         admin_level_id,
       </if>
-      <if test="isPresent != null" >
-        is_present,
+      <if test="postClassId != null" >
+        post_class_id,
       </if>
-      <if test="startTime != null" >
-        start_time,
+      <if test="unitId != null" >
+        unit_id,
       </if>
-      <if test="startDispatchCadreId != null" >
-        start_dispatch_cadre_id,
+      <if test="isDouble != null" >
+        is_double,
       </if>
-      <if test="endTime != null" >
-        end_time,
+      <if test="doubleUnitId != null" >
+        double_unit_id,
       </if>
-      <if test="endDispatchCadreId != null" >
-        end_dispatch_cadre_id,
-      </if>
-      <if test="remark != null" >
-        remark,
+      <if test="isMainPost != null" >
+        is_main_post,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -152,26 +156,29 @@
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
       </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        #{postId,jdbcType=INTEGER},
+      </if>
       <if test="adminLevelId != null" >
         #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="isPresent != null" >
-        #{isPresent,jdbcType=BIT},
+      <if test="postClassId != null" >
+        #{postClassId,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=DATE},
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="startDispatchCadreId != null" >
-        #{startDispatchCadreId,jdbcType=INTEGER},
+      <if test="isDouble != null" >
+        #{isDouble,jdbcType=BIT},
       </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=DATE},
+      <if test="doubleUnitId != null" >
+        #{doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="endDispatchCadreId != null" >
-        #{endDispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
+      <if test="isMainPost != null" >
+        #{isMainPost,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -190,26 +197,29 @@
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null" >
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
       <if test="record.adminLevelId != null" >
         admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="record.isPresent != null" >
-        is_present = #{record.isPresent,jdbcType=BIT},
+      <if test="record.postClassId != null" >
+        post_class_id = #{record.postClassId,jdbcType=INTEGER},
       </if>
-      <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=DATE},
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.startDispatchCadreId != null" >
-        start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
+      <if test="record.isDouble != null" >
+        is_double = #{record.isDouble,jdbcType=BIT},
       </if>
-      <if test="record.endTime != null" >
-        end_time = #{record.endTime,jdbcType=DATE},
+      <if test="record.doubleUnitId != null" >
+        double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="record.endDispatchCadreId != null" >
-        end_dispatch_cadre_id = #{record.endDispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="record.remark != null" >
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="record.isMainPost != null" >
+        is_main_post = #{record.isMainPost,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -220,13 +230,14 @@
     update base_cadre_post
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      post = #{record.post,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=INTEGER},
       admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
-      is_present = #{record.isPresent,jdbcType=BIT},
-      start_time = #{record.startTime,jdbcType=DATE},
-      start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
-      end_time = #{record.endTime,jdbcType=DATE},
-      end_dispatch_cadre_id = #{record.endDispatchCadreId,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      post_class_id = #{record.postClassId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      is_double = #{record.isDouble,jdbcType=BIT},
+      double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
+      is_main_post = #{record.isMainPost,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -237,26 +248,29 @@
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
       <if test="adminLevelId != null" >
         admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="isPresent != null" >
-        is_present = #{isPresent,jdbcType=BIT},
+      <if test="postClassId != null" >
+        post_class_id = #{postClassId,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=DATE},
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="startDispatchCadreId != null" >
-        start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
+      <if test="isDouble != null" >
+        is_double = #{isDouble,jdbcType=BIT},
       </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=DATE},
+      <if test="doubleUnitId != null" >
+        double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="endDispatchCadreId != null" >
-        end_dispatch_cadre_id = #{endDispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="isMainPost != null" >
+        is_main_post = #{isMainPost,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -264,13 +278,14 @@
   <update id="updateByPrimaryKey" parameterType="domain.CadrePost" >
     update base_cadre_post
     set cadre_id = #{cadreId,jdbcType=INTEGER},
+      post = #{post,jdbcType=VARCHAR},
+      post_id = #{postId,jdbcType=INTEGER},
       admin_level_id = #{adminLevelId,jdbcType=INTEGER},
-      is_present = #{isPresent,jdbcType=BIT},
-      start_time = #{startTime,jdbcType=DATE},
-      start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
-      end_time = #{endTime,jdbcType=DATE},
-      end_dispatch_cadre_id = #{endDispatchCadreId,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      post_class_id = #{postClassId,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      is_double = #{isDouble,jdbcType=BIT},
+      double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
+      is_main_post = #{isMainPost,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.CadrePostExample" id="selectByExampleWithRowbounds" >

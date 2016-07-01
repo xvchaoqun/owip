@@ -3,7 +3,7 @@ package sys.tags;
 import bean.ApplySelfModifyBean;
 import bean.ApproverTypeBean;
 import domain.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.PassportMapper;
 import persistence.common.SelectMapper;
@@ -23,6 +23,7 @@ import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.HtmlEscapeUtils;
+import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
 import java.util.*;
@@ -53,6 +54,22 @@ public class CmTag {
     static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
+
+    public static String toJSONObject(Object obj){
+
+        if(obj==null) return "{}";
+        String jsonStr = JSONUtils.toString(obj);
+
+        return StringUtils.isBlank(jsonStr)?"{}":jsonStr;
+    }
+
+    public static String toJSONArray(List list){
+
+        if(list==null) return "[]";
+        String jsonStr = JSONUtils.toString(list);
+
+        return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
+    }
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -290,6 +307,11 @@ public class CmTag {
     public static Dispatch getDispatch(Integer dispatchId){
 
         return dispatchService.findAll().get(dispatchId);
+    }
+
+    public static DispatchCadre getDispatchCadre(Integer dispatchCadreId){
+
+        return dispatchCadreService.findAll().get(dispatchCadreId);
     }
 
     public static Integer getDispatchCadreCount(Integer dispatchId, Byte type){

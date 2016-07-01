@@ -566,13 +566,11 @@ public class SystemConstants {
 
 	// 干部任免关联模块
 	public static final byte DISPATCH_CADRE_RELATE_TYPE_WORK = 1;
-	public static final byte DISPATCH_CADRE_RELATE_TYPE_MAINWORK = 2;
-	public static final byte DISPATCH_CADRE_RELATE_TYPE_SUBWORK = 3;
+	public static final byte DISPATCH_CADRE_RELATE_TYPE_POST = 2;
 	public final static Map<Byte, String> DISPATCH_CADRE_RELATE_TYPE_MAP = new HashMap();
 	static {
 		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_WORK, "工作经历");
-		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_MAINWORK, "任职情况(主职)");
-		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_SUBWORK, " 任职情况(兼职)");
+		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_POST, "任职情况(主职/兼职)");
 	}
 
 	// 干部学习经历 学校类型 1本校 2境内 3境外

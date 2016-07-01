@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
+import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +103,7 @@ public class CommonController extends BaseController{
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
         Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(MetaType.class, OptionMixin.class);
+        sourceMixins.put(MetaType.class, MetaTypeOptionMixin.class);
         sourceMixins.put(Party.class, OptionMixin.class);
         sourceMixins.put(Branch.class, OptionMixin.class);
         //sourceMixins.put(Dispatch.class, OptionMixin.class);

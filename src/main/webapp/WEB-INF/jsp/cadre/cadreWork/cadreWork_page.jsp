@@ -46,7 +46,68 @@
 </div>
     </c:if>
     <c:if test="${type==2}">
-    预览
+        <div class="row two-frames">
+            <div class="left">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4 class="smaller">
+                            参考
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main" style="min-height: 647px">
+                           <c:forEach items="${cadreWorks}" var="cadreWork">
+                               <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
+                               &nbsp;&nbsp;${cadreWork.unit}${cadreWork.post}</p>
+                               <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
+                                   <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
+                                       <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
+                                       <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
+                                       ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
+                                       &nbsp;&nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
+                                   </c:forEach>
+                               </c:if>
+                           </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4 class="smaller">
+                            编辑区域
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main" style="margin-bottom: 10px">
+                            <textarea id="content">
+                                <c:if test="${not empty cadreInfo.work}">${cadreInfo.work}</c:if>
+                                <c:if test="${empty cadreInfo.work}">
+                                <c:forEach items="${cadreWorks}" var="cadreWork">
+                                    <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
+                                        &nbsp;&nbsp;${cadreWork.unit}${cadreWork.post}</p>
+                                    <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
+                                        <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
+                                            <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
+                                            <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
+                                            ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
+                                            &nbsp;&nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
+                                        </c:forEach>
+                                    </c:if>
+                                </c:forEach>
+                                </c:if>
+                            </textarea>
+                            <input type="hidden" name="content">
+                        </div>
+                        <div class="modal-footer center">
+                            <input type="button" onclick="updateCadreInfoWork()" class="btn btn-primary" value="${empty cadreInfo.work?"提交":"修改"}"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </c:if>
 <style>
     .table > tbody > tr.ui-subgrid.active > td,
@@ -65,7 +126,7 @@
 </button>&nbsp;
 <button class="confirm btn btn-xs btn-danger"
         data-parent="{{=parentRowKey}}"
-        data-url="${ctx}/cadreWork_del?id={{=id}}"
+        data-url="${ctx}/cadreWork_batchDel?ids[]={{=id}}"
         data-msg="确定删除该记录？"
         data-callback="_delCallback"><i class="fa fa-times"></i> 删除
 </button>
@@ -90,6 +151,47 @@
         display: none;
     }
 </style>
+<c:if test="${type==2}">
+    <style>
+        .two-frames{
+            padding: 10px 20px;
+            max-width: 1330px;
+        }
+        .two-frames .left, .two-frames .right{
+            float: left;
+        }
+        .two-frames .left{
+            width: 630px;
+            margin-right: 25px;
+        }
+        .two-frames .right{
+            width: 630px;
+        }
+    </style>
+<script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+<script>
+    KE.init({
+        id: 'content',
+        height: '550px',
+        resizeMode: 1,
+        width: '600px',
+        //scriptPath:"${ctx}/js/kindeditor/",
+        //skinsPath : KE.scriptPath + 'skins/',
+        items: [
+            'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
+            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+    });
+    KE.create('content');
+    function updateCadreInfoWork(){
+        $.post("${ctx}/cadreInfo_updateWork",{cadreId:'${param.cadreId}',work:KE.util.getData('content')},function(ret){
+            if(ret.success){
+                SysMsg.info("操作成功");
+            }
+        });
+    }
+</script>
+</c:if>
+<c:if test="${type==1}">
 <script>
     function _innerPage(type){
         $("#view-box .tab-content").load("${ctx}/cadreWork_page?cadreId=${param.cadreId}&type="+type)
@@ -143,7 +245,7 @@
         subGridOptions: {
             // configure the icons from theme rolloer
             plusicon: "fa fa-folder-o",
-            minusicon: "fa fa-folder-open-o",
+            minusicon: "fa fa-folder-open-o"
             // selectOnExpand:true
             //openicon: "ui-icon-arrowreturn-1-e"
         }
@@ -218,14 +320,17 @@
         loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
     }
 
-    var _id;
-    function showDispatch(id) {
-        _id = id;
-        loadModal("${ctx}/cadreWork_addDispatchs?cadreId=${cadre.id}&id=" + id, 1000);
+    function showDispatch(_param) {
+        //alert(_param)
+        loadModal("${ctx}/cadreWork_addDispatchs?cadreId=${param.cadreId}&" + _param, 1000);
     }
 
-    function closeSwfPreview() {
-        showDispatch(_id);
+    function closeSwfPreview(close) {
+        if(close==0){
+            $("#modal").modal("hide")
+        }else {
+            showDispatch(_param);
+        }
     }
 
     function _reload() {
@@ -236,3 +341,4 @@
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
+</c:if>

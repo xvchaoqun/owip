@@ -162,18 +162,18 @@ public class CadreController extends BaseController {
         modelMap.put("extJzg", extJzg);
 
         // 主职
-        modelMap.put("cadreMainWork", cadreMainWorkService.getByCadreId(id));
+        modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(id));
 
         // 现任职务
-        modelMap.put("cadrePost", cadrePostService.getPresentByCadreId(id));
+        //modelMap.put("cadreAdminLevel", cadrePostService.getPresentByCadreId(id));
 
         // 兼职单位
-        List<CadreSubWork> cadreSubWorks = cadreSubWorkService.findByCadreId(id);
-        if(cadreSubWorks.size()>=1){
-            modelMap.put("cadreSubWork1", cadreSubWorks.get(0));
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
+        if(subCadrePosts.size()>=1){
+            modelMap.put("subCadrePost1", subCadrePosts.get(0));
         }
-        if(cadreSubWorks.size()>=2){
-            modelMap.put("cadreSubWork2", cadreSubWorks.get(1));
+        if(subCadrePosts.size()>=2){
+            modelMap.put("subCadrePost2", subCadrePosts.get(1));
         }
 
         // 最高学历

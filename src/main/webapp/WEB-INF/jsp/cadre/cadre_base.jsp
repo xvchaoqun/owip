@@ -275,20 +275,20 @@ pageEncoding="UTF-8"%>
 						任职单位
 					</td>
 					<td style="min-width: 80px">
-						${unitMap.get(cadreMainWork.unitId).name}
+						${unitMap.get(mainCadrePost.unitId).name}
 					</td>
 					<td>
 						单位属性
 					</td>
 					<td style="min-width: 80px">
-						${unitTypeMap.get(unitMap.get(cadreMainWork.unitId).typeId).name}
+						${unitTypeMap.get(unitMap.get(mainCadrePost.unitId).typeId).name}
 					</td>
 
 					<td>
 						是否双肩挑
 					</td>
 					<td  style="min-width: 80px">
-						${cadreMainWork.isDouble?"是":"否"}
+						${mainCadrePost.isDouble?"是":"否"}
 					</td>
 
 				</tr>
@@ -297,17 +297,17 @@ pageEncoding="UTF-8"%>
 						现任职务
 					</td>
 					<td style="min-width: 120px">
-						${cadreMainWork.work}
+						${mainCadrePost.post}
 					</td>
 					<td >
 						任现职时间
 					</td>
-					<td>${cm:formatDate(cadreMainWork.postTime,'yyyy-MM-dd')}
+					<td><%--${cm:formatDate(mainCadrePost.postTime,'yyyy-MM-dd')}--%>
 					</td>
 					<td>
 						现职务始任时间
 					</td>
-					<td>${cm:formatDate(cadreMainWork.startTime,'yyyy-MM-dd')}
+					<td><%--${cm:formatDate(mainCadrePost.startTime,'yyyy-MM-dd')}--%>
 					</td>
 				</tr>
 				<tr>
@@ -315,53 +315,53 @@ pageEncoding="UTF-8"%>
 						行政级别
 					</td>
 					<td>
-						${adminLevelMap.get(cadrePost.adminLevelId).name}
+						<%--${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}--%>
 					</td>
 					<td>任现职级时间</td>
 					<td >
-						${cm:formatDate(cadrePost.startTime,'yyyy-MM-dd')}
+						<%--${cm:formatDate(cadreAdminLevel.startTime,'yyyy-MM-dd')}--%>
 					</td>
 					<td>
 						任现职级年限
 					</td>
 					<td>
-						${cm:intervalYearsUntilNow(cadrePost.startTime)}
+						<%--${cm:intervalYearsUntilNow(cadreAdminLevel.startTime)}--%>
 					</td>
 				</tr>
 				<tr>
 
 					<td>兼职单位1</td>
 					<td >
-						${unitMap.get(cadreSubWork1.unitId).name}
+						${unitMap.get(subCadrePost1.unitId).name}
 					</td>
 					<td>
 						兼任职务1
 					</td>
 					<td>
-						${cadreSubWork1.post}
+						${subCadrePost1.post}
 					</td>
 					<td >
 						任兼职时间1
 					</td>
-					<td>${cm:formatDate(cadreSubWork1.postTime,'yyyy-MM-dd')}
+					<td><%--${cm:formatDate(subCadrePost1.postTime,'yyyy-MM-dd')}--%>
 					</td>
 				</tr>
 				<tr>
 
 					<td>兼职单位2</td>
 					<td >
-						${unitMap.get(cadreSubWork2.unitId).name}
+						${unitMap.get(subCadrePost2.unitId).name}
 					</td>
 					<td>
 						兼任职务2
 					</td>
 					<td>
-						${cadreSubWork2.post}
+						${subCadrePost2.post}
 					</td>
 					<td >
 						任兼职时间2
 					</td>
-					<td>${cm:formatDate(cadreSubWork2.postTime,'yyyy-MM-dd')}
+					<td><%--${cm:formatDate(subCadrePost2.postTime,'yyyy-MM-dd')}--%>
 					</td>
 				</tr>
 				<tr>
@@ -614,3 +614,9 @@ pageEncoding="UTF-8"%>
 				</tbody>
 			</table>
 		</div></div></div>
+<style>
+	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+		background-color: #f9f9f9;
+		text-align: right;
+	}
+</style>

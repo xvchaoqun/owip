@@ -3,27 +3,27 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:if test="${empty dispatch || empty filePath}">
     <div class="modal-header">
-        <button type="button" onclick="closeSwfPreview()" aria-hidden="true" class="close">&times;</button>
+        <button type="button" onclick="closeSwfPreview(0)" aria-hidden="true" class="close">&times;</button>
         <h3>提示</h3>
     </div>
     <div class="modal-body">
         没有文件
     </div>
     <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+        <a href="#" onclick="closeSwfPreview()" class="btn btn-default">返回</a>
     </div>
 </c:if>
 <c:if test="${not empty dispatch && not empty filePath}">
   <div class="modal-header">
-    <button type="button" onclick="closeSwfPreview()" aria-hidden="true" class="close">&times;</button>
-    <h3>${dispatch.year}-${dispatch.code}</h3>
+    <button type="button" onclick="closeSwfPreview(0)" aria-hidden="true" class="close">&times;</button>
+    <h3>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</h3>
   </div>
   <div class="modal-body">
 	   <div class="txt" id="flashContent">
 	   </div>
   </div>
   <div class="modal-footer">
-  <a href="#" onclick="closeSwfPreview()" class="btn btn-default">关闭</a>
+  <a href="#" onclick="closeSwfPreview()" class="btn btn-default">返回</a>
   </div>
   <style>
       .modal .modal-body{

@@ -145,9 +145,10 @@
       </table>-->
       <!--<table tableName="base_location" domainObjectName="Location">
       </table>-->
-      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
-      </table>
-      <table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
+    <!--  <table tableName="base_cadre_info" domainObjectName="CadreInfo">
+          <columnOverride column="work" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
+      <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
       </table>
       <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
       </table>
@@ -161,14 +162,12 @@
       </table>-->
       <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
       </table>-->
-      <!-- <table tableName="base_cadre_main_work" domainObjectName="CadreMainWork">
+      <!-- <table tableName="base_cadre_admin_level" domainObjectName="CadreAdminLevel">
        </table>-->
-      <!-- <table tableName="base_cadre_sub_work" domainObjectName="CadreSubWork">
+      <table tableName="base_cadre_post" domainObjectName="CadrePost">
+      </table>
+       <!--<table tableName="base_cadre_work" domainObjectName="CadreWork">
        </table>-->
-      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
-      </table>-->
-       <table tableName="base_cadre_work" domainObjectName="CadreWork">
-       </table>
       <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>-->
       <!--<table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">

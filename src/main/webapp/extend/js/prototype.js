@@ -58,6 +58,35 @@ function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式
     return  iDays
 }
 
+/* 计算两日期相差的日期年月日等 */
+Date.prototype.dateDiff = function(interval,objDate2)
+{
+    var d=this, i={}, t=d.getTime(), t2=objDate2.getTime();
+    i['y']=objDate2.getFullYear()-d.getFullYear();
+    i['q']=i['y']*4+Math.floor(objDate2.getMonth()/4)-Math.floor(d.getMonth()/4);
+    i['m']=i['y']*12+objDate2.getMonth()-d.getMonth();
+    i['ms']=objDate2.getTime()-d.getTime();
+    i['w']=Math.floor((t2+345600000)/(604800000))-Math.floor((t+345600000)/(604800000));
+    i['d']=Math.floor(t2/86400000)-Math.floor(t/86400000);
+    i['h']=Math.floor(t2/3600000)-Math.floor(t/3600000);
+    i['n']=Math.floor(t2/60000)-Math.floor(t/60000);
+    i['s']=Math.floor(t2/1000)-Math.floor(t/1000);
+    return i[interval];
+}
+
+//计算月份差
+function MonthDiff(date1,date2){
+    //默认格式为"2003-03-03",根据自己需要改格式和方法
+    var year1 =  date1.substr(0,4);
+    var year2 =  date2.substr(0,4);
+    var month1 = date1.substr(5,2);
+    var month2 = date2.substr(5,2);
+
+    var len=(year2-year1)*12+(month2-month1);
+    return len;
+
+}
+
 
 var SysMsg = {};
 SysMsg.error = function(msg, title){

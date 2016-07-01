@@ -423,14 +423,14 @@ pageEncoding="UTF-8" %>
         caption:"批量通过",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量不通过",
         btnbase:"jqBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-times-circle-o",
-        props:'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定拒绝这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定拒绝这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -451,7 +451,7 @@ pageEncoding="UTF-8" %>
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
@@ -465,7 +465,7 @@ pageEncoding="UTF-8" %>
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${stage==APPLY_STAGE_PLAN}">
@@ -479,7 +479,7 @@ pageEncoding="UTF-8" %>
         caption:"分党委审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_draw_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_draw_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });*/
     </c:if>
 
@@ -494,13 +494,13 @@ pageEncoding="UTF-8" %>
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_grow_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_grow_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
 
@@ -515,13 +515,13 @@ pageEncoding="UTF-8" %>
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_positive_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/apply_positive_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
 

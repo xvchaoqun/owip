@@ -12,6 +12,15 @@ public class CadreWork implements Serializable {
     public List<DispatchCadreRelate> getDispatchCadreRelates(){
         return CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
+    private List<CadreWork> subCadreWorks;
+
+    public List<CadreWork> getSubCadreWorks() {
+        return subCadreWorks;
+    }
+
+    public void setSubCadreWorks(List<CadreWork> subCadreWorks) {
+        this.subCadreWorks = subCadreWorks;
+    }
 
     private Integer id;
 

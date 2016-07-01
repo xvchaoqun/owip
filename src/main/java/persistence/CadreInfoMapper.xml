@@ -7,6 +7,7 @@
     <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
     <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    cadre_id, mobile, office_phone, home_phone, email
+    cadre_id, mobile, office_phone, home_phone, email, work
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreInfoExample" >
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.CadreInfo" >
     insert into base_cadre_info (cadre_id, mobile, office_phone, 
-      home_phone, email)
+      home_phone, email, work
+      )
     values (#{cadreId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR}, 
-      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.CadreInfo" >
     insert into base_cadre_info
@@ -123,6 +126,9 @@
       <if test="email != null" >
         email,
       </if>
+      <if test="work != null" >
+        work,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="cadreId != null" >
@@ -139,6 +145,9 @@
       </if>
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.email != null" >
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.work != null" >
+        work = #{record.work,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       mobile = #{record.mobile,jdbcType=VARCHAR},
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR}
+      email = #{record.email,jdbcType=VARCHAR},
+      work = #{record.work,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
     </set>
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set mobile = #{mobile,jdbcType=VARCHAR},
       office_phone = #{officePhone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
+      email = #{email,jdbcType=VARCHAR},
+      work = #{work,jdbcType=VARCHAR}
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.CadreInfoExample" id="selectByExampleWithRowbounds" >

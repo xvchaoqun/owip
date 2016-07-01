@@ -119,11 +119,9 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected UnitAdminService unitAdminService;
     @Autowired
-    protected CadreSubWorkService cadreSubWorkService;
-    @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
-    protected CadreMainWorkService cadreMainWorkService;
+    protected CadreAdminLevelService cadreAdminLevelService;
     @Autowired
     protected ExtJzgService extJzgService;
     @Autowired

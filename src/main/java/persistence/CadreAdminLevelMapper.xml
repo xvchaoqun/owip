@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.CadreSubWorkMapper" >
-  <resultMap id="BaseResultMap" type="domain.CadreSubWork" >
+<mapper namespace="persistence.CadreAdminLevelMapper" >
+  <resultMap id="BaseResultMap" type="domain.CadreAdminLevel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="post_time" property="postTime" jdbcType="DATE" />
-    <result column="dispatchs" property="dispatchs" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="DATE" />
-    <result column="dispatch_cadre_id" property="dispatchCadreId" jdbcType="INTEGER" />
+    <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
+    <result column="start_dispatch_cadre_id" property="startDispatchCadreId" jdbcType="INTEGER" />
+    <result column="end_dispatch_cadre_id" property="endDispatchCadreId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, unit_id, post, post_time, dispatchs, start_time, dispatch_cadre_id
+    id, cadre_id, admin_level_id, start_dispatch_cadre_id, end_dispatch_cadre_id, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreSubWorkExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreAdminLevelExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_sub_work
+    from base_cadre_admin_level
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,29 +87,29 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_sub_work
+    from base_cadre_admin_level
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_sub_work
+    delete from base_cadre_admin_level
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.CadreSubWorkExample" >
-    delete from base_cadre_sub_work
+  <delete id="deleteByExample" parameterType="domain.CadreAdminLevelExample" >
+    delete from base_cadre_admin_level
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.CadreSubWork" >
-    insert into base_cadre_sub_work (id, cadre_id, unit_id, 
-      post, post_time, dispatchs, 
-      start_time, dispatch_cadre_id)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
-      #{post,jdbcType=VARCHAR}, #{postTime,jdbcType=DATE}, #{dispatchs,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=DATE}, #{dispatchCadreId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="domain.CadreAdminLevel" >
+    insert into base_cadre_admin_level (id, cadre_id, admin_level_id, 
+      start_dispatch_cadre_id, end_dispatch_cadre_id, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, 
+      #{startDispatchCadreId,jdbcType=INTEGER}, #{endDispatchCadreId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.CadreSubWork" >
-    insert into base_cadre_sub_work
+  <insert id="insertSelective" parameterType="domain.CadreAdminLevel" >
+    insert into base_cadre_admin_level
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -119,23 +117,17 @@
       <if test="cadreId != null" >
         cadre_id,
       </if>
-      <if test="unitId != null" >
-        unit_id,
+      <if test="adminLevelId != null" >
+        admin_level_id,
       </if>
-      <if test="post != null" >
-        post,
+      <if test="startDispatchCadreId != null" >
+        start_dispatch_cadre_id,
       </if>
-      <if test="postTime != null" >
-        post_time,
+      <if test="endDispatchCadreId != null" >
+        end_dispatch_cadre_id,
       </if>
-      <if test="dispatchs != null" >
-        dispatchs,
-      </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="dispatchCadreId != null" >
-        dispatch_cadre_id,
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -145,34 +137,28 @@
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
-        #{unitId,jdbcType=INTEGER},
+      <if test="adminLevelId != null" >
+        #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
-        #{post,jdbcType=VARCHAR},
+      <if test="startDispatchCadreId != null" >
+        #{startDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="postTime != null" >
-        #{postTime,jdbcType=DATE},
+      <if test="endDispatchCadreId != null" >
+        #{endDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="dispatchs != null" >
-        #{dispatchs,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=DATE},
-      </if>
-      <if test="dispatchCadreId != null" >
-        #{dispatchCadreId,jdbcType=INTEGER},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.CadreSubWorkExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_sub_work
+  <select id="countByExample" parameterType="domain.CadreAdminLevelExample" resultType="java.lang.Integer" >
+    select count(*) from base_cadre_admin_level
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_sub_work
+    update base_cadre_admin_level
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -180,23 +166,17 @@
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitId != null" >
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.adminLevelId != null" >
+        admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="record.post != null" >
-        post = #{record.post,jdbcType=VARCHAR},
+      <if test="record.startDispatchCadreId != null" >
+        start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.postTime != null" >
-        post_time = #{record.postTime,jdbcType=DATE},
+      <if test="record.endDispatchCadreId != null" >
+        end_dispatch_cadre_id = #{record.endDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.dispatchs != null" >
-        dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
-      </if>
-      <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=DATE},
-      </if>
-      <if test="record.dispatchCadreId != null" >
-        dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -204,64 +184,54 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_sub_work
+    update base_cadre_admin_level
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
-      post = #{record.post,jdbcType=VARCHAR},
-      post_time = #{record.postTime,jdbcType=DATE},
-      dispatchs = #{record.dispatchs,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=DATE},
-      dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER}
+      admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
+      end_dispatch_cadre_id = #{record.endDispatchCadreId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.CadreSubWork" >
-    update base_cadre_sub_work
+  <update id="updateByPrimaryKeySelective" parameterType="domain.CadreAdminLevel" >
+    update base_cadre_admin_level
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
-        unit_id = #{unitId,jdbcType=INTEGER},
+      <if test="adminLevelId != null" >
+        admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
-        post = #{post,jdbcType=VARCHAR},
+      <if test="startDispatchCadreId != null" >
+        start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="postTime != null" >
-        post_time = #{postTime,jdbcType=DATE},
+      <if test="endDispatchCadreId != null" >
+        end_dispatch_cadre_id = #{endDispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="dispatchs != null" >
-        dispatchs = #{dispatchs,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=DATE},
-      </if>
-      <if test="dispatchCadreId != null" >
-        dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.CadreSubWork" >
-    update base_cadre_sub_work
+  <update id="updateByPrimaryKey" parameterType="domain.CadreAdminLevel" >
+    update base_cadre_admin_level
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
-      post = #{post,jdbcType=VARCHAR},
-      post_time = #{postTime,jdbcType=DATE},
-      dispatchs = #{dispatchs,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=DATE},
-      dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER}
+      admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
+      end_dispatch_cadre_id = #{endDispatchCadreId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.CadreSubWorkExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.CadreAdminLevelExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_sub_work
+    from base_cadre_admin_level
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

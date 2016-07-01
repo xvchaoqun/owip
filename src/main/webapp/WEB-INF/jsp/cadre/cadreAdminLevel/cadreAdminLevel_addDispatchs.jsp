@@ -3,11 +3,11 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>关联任免文件</h3>
+    <h3>关联${param.cls=='start'?"始任":"结束"}文件</h3>
 </div>
 <div class="modal-body">
     <c:if test="${fn:length(dispatchCadres)>0}">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>
                 <c:if test="${type=='edit'}">
@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 <th>年份</th>
                 <th>发文号</th>
-                <th>任免方式</th>
+                <th>任命方式</th>
                 <th>姓名</th>
                 <th>所在单位及职务</th>
                 <th>职务属性</th>
@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
     </c:if>
     <c:if test="${fn:length(dispatchCadres)==0}">
         <div class="well well-lg center">
-            <h4 class="green lighter">没有该干部的任命文件</h4>
+            <h4 class="green lighter">没有该干部的${param.cls=='start'?"任命":"免职"}文件</h4>
         </div>
     </c:if>
 </div>
@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
     </c:if>
     <c:if test="${type!='edit'}">
         <button class="popupBtn btn btn-success"
-                data-url="${ctx}/cadrePost_addDispatchs?id=${param.id}&cadreId=${param.cadreId}&type=edit"
+                data-url="${ctx}/cadreAdminLevel_addDispatchs?id=${param.id}&cadreId=${param.cadreId}&type=edit&cls=${param.cls}"
                 data-width="1000"><i class="fa fa-reply"></i>
             重新编辑</button>
     </c:if>
@@ -83,21 +83,27 @@ pageEncoding="UTF-8" %>
 <script>
     var _url;
     function swf_preview(id, type){
-        _url="${ctx}/cadrePost_addDispatchs?id=${param.id}&cadreId=${param.cadreId}&type=${type}";
+        _url="${ctx}/cadreAdminLevel_addDispatchs?id=${param.id}&cadreId=${param.cadreId}&type=${type}&cls=${param.cls}";
         loadModal("${ctx}/swf_preview?way=2&id="+id + "&type=" + type);
     }
 
-    function addDispatch(){
+    function addDispatch(type){
 
-        var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
-            return $(item).val();
-        });
-        $.post("${ctx}/cadrePost_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
-            if(ret.success) {
-                //$("#modal").modal('hide');
-                _reload();
+            var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
+                return $(item).val();
+            });
+            if(ids.length>1){
+                SysMsg.warning("只能选择一个发文");
+                return;
+            }else{
+
+                $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:ids[0]},function(ret){
+                    if(ret.success) {
+                        _reload();
+                        SysMsg.success('操作成功。', '成功');
+                    }
+                });
             }
-        });
     }
 </script>
 </div>

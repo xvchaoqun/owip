@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 
@@ -32,11 +33,6 @@ public class CadreInfoService extends BaseMapper {
     }
 
     @Transactional
-    public int insertSelective(CadreInfo record){
-
-        return cadreInfoMapper.insertSelective(record);
-    }
-    @Transactional
     public void del(Integer cadreId){
 
         cadreInfoMapper.deleteByPrimaryKey(cadreId);
@@ -53,7 +49,14 @@ public class CadreInfoService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreInfo record){
-        return cadreInfoMapper.updateByPrimaryKeySelective(record);
+    public void insertOrUpdate(CadreInfo record){
+
+        Integer cadreId = record.getCadreId();
+        CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
+        if (cadreInfo == null) {
+            cadreInfoMapper.insertSelective(record);
+        } else {
+            cadreInfoMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

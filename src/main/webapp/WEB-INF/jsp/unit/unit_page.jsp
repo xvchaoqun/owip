@@ -132,7 +132,10 @@
         url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '单位编号', name: 'code', width: 80,frozen:true },
-            { label: '单位名称', name: 'name', width: 350,frozen:true },
+            { label: '单位名称', name: 'name', width: 350,formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            },frozen:true },
             <c:if test="${!_query}">
             { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})

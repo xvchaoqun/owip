@@ -187,9 +187,7 @@ public class BaseMapper {
 	@Autowired
 	protected CadrePostMapper cadrePostMapper;
 	@Autowired
-	protected CadreMainWorkMapper cadreMainWorkMapper;
-	@Autowired
-	protected CadreSubWorkMapper cadreSubWorkMapper;
+	protected CadreAdminLevelMapper cadreAdminLevelMapper;
 	@Autowired
 	protected CadreWorkMapper cadreWorkMapper;
 	@Autowired

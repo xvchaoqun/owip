@@ -57,21 +57,21 @@ public class CadreWorkController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
         modelMap.put("type", type);
-
-        if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
+        if(type==2){
+            List<CadreWork> cadreWorks = cadreWorkService.findCadreWorks(cadreId);
+            modelMap.put("cadreWorks", cadreWorks);
+            CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
+            modelMap.put("cadreInfo", cadreInfo);
         }
+
         return "cadre/cadreWork/cadreWork_page";
     }
 
     @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_data")
     public void cadreWork_data(HttpServletResponse response,
-                               @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
-                               @OrderParam(required = false, defaultValue = "desc") String order,
+                              /* @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,*/
                                Integer cadreId,
                                Integer fid,
                                @RequestParam(required = false, defaultValue = "0") int export,
@@ -87,7 +87,7 @@ public class CadreWorkController extends BaseController {
 
         CadreWorkExample example = new CadreWorkExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("start_time asc");
         if (fid != null) {
             criteria.andFidEqualTo(fid);
         } else {
@@ -174,7 +174,7 @@ public class CadreWorkController extends BaseController {
 
         return "cadre/cadreWork/cadreWork_au";
     }
-
+/*
     @RequiresPermissions("cadreWork:del")
     @RequestMapping(value = "/cadreWork_del", method = RequestMethod.POST)
     @ResponseBody
@@ -186,7 +186,7 @@ public class CadreWorkController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除工作经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreWork:del")
     @RequestMapping(value = "/cadreWork_batchDel", method = RequestMethod.POST)
@@ -207,20 +207,20 @@ public class CadreWorkController extends BaseController {
     public String cadreWork_addDispatchs(HttpServletResponse response, int id, int cadreId, String type, ModelMap modelMap) {
 
         // 已关联的发文
-        Set<Integer> cadreDispatchIdSet = new HashSet<>();
+        Set<Integer> dispatchCadreIdSet = new HashSet<>();
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
         Map<Integer, DispatchCadre> dispatchCadreMap = dispatchCadreService.findAll();
         List<DispatchCadreRelate> dispatchCadreRelates = dispatchCadreRelateService.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
             Integer dispatchCadreId = dispatchCadreRelate.getDispatchCadreId();
-            cadreDispatchIdSet.add(dispatchCadreId);
+            dispatchCadreIdSet.add(dispatchCadreId);
             relateDispatchCadres.add(dispatchCadreMap.get(dispatchCadreId));
         }
-        modelMap.put("cadreDispatchIdSet", cadreDispatchIdSet);
+        modelMap.put("dispatchCadreIdSet", dispatchCadreIdSet);
 
         if(relateDispatchCadres.size()==0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
-            List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId);
+            List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, null);
             modelMap.put("dispatchCadres", dispatchCadres);
 
             Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
@@ -229,8 +229,6 @@ public class CadreWorkController extends BaseController {
             modelMap.put("type", "add");
             modelMap.put("dispatchCadres", relateDispatchCadres);
         }
-
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));
 
         return "cadre/cadreWork/cadreWork_addDispatchs";
     }

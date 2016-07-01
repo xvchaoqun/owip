@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>关联任免文件</h3>
+    <h3>关联任命文件</h3>
 </div>
 <div class="modal-body">
             <c:if test="${fn:length(dispatchCadres)>0}">
@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
                         </c:if>
 							<th>年份</th>
 							<th>发文号</th>
-							<th>任免方式</th>
+							<th>任命方式</th>
 							<th>姓名</th>
                             <th>所在单位及职务</th>
                             <th>职务属性</th>
@@ -37,7 +37,7 @@ pageEncoding="UTF-8" %>
                                 <c:if test="${!otherDispatchCadreRelateSet.contains(dispatchCadre.id)}">
                                 <label class="pos-rel">
                                     <input type="checkbox"
-                                           value="${dispatchCadre.id}" class="ace" ${cadreDispatchIdSet.contains(dispatchCadre.id)?"checked":""}>
+                                           value="${dispatchCadre.id}" class="ace" ${dispatchCadreIdSet.contains(dispatchCadre.id)?"checked":""}>
                                     <span class="lbl"></span>
                                 </label>
                                 </c:if>
@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">
                                     <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
-                                    <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">预览</a>
+                                    <a href="javascript:void(0)" onclick="swf_preview(${param.id},${dispatch.id}, 'file')">预览</a>
                                 </c:if>
                                 </td>
                         </tr>
@@ -64,12 +64,12 @@ pageEncoding="UTF-8" %>
             </c:if>
             <c:if test="${fn:length(dispatchCadres)==0}">
                 <div class="well well-lg center">
-                    <h4 class="green lighter">没有干部任免记录</h4>
+                    <h4 class="green lighter">没有该干部的任命文件</h4>
                 </div>
             </c:if>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 <c:if test="${type=='edit'}">
     <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
     </c:if>
@@ -81,7 +81,10 @@ pageEncoding="UTF-8" %>
     </c:if>
 </div>
 <script>
-    function swf_preview(id, type){
+    var _param;
+    function swf_preview(_id, id, type){
+        _param="id="+_id + "&type=${type}";
+        //alert(_param)
         loadModal("${ctx}/swf_preview?way=2&id="+id + "&type=" + type);
     }
     function addDispatch(){

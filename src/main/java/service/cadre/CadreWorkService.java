@@ -2,17 +2,43 @@ package service.cadre;
 
 import domain.CadreWork;
 import domain.CadreWorkExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.dispatch.DispatchCadreRelateService;
+import sys.constants.SystemConstants;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CadreWorkService extends BaseMapper {
+
+    @Autowired
+    private DispatchCadreRelateService dispatchCadreRelateService;
+
+    // 获取树状列表
+    public List<CadreWork> findCadreWorks(int cadreId){
+
+        List<CadreWork> cadreWorks = null;
+        {
+            CadreWorkExample example = new CadreWorkExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andFidIsNull();
+            example.setOrderByClause("start_time asc");
+            cadreWorks = cadreWorkMapper.selectByExample(example);
+        }
+        if(cadreWorks!=null) {
+            for (CadreWork cadreWork : cadreWorks) {
+                Integer fid = cadreWork.getId();
+                CadreWorkExample example = new CadreWorkExample();
+                example.createCriteria().andFidEqualTo(fid);
+                example.setOrderByClause("start_time asc");
+                List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
+                cadreWork.setSubCadreWorks(subCadreWorks);
+            }
+        }
+        return cadreWorks;
+    }
 
     // 更新 子工作经历的数量
     private void updateSubWorkCount(Integer fid){
@@ -35,7 +61,7 @@ public class CadreWorkService extends BaseMapper {
 
         updateSubWorkCount(record.getFid()); // 必须放插入之后
     }
-    @Transactional
+ /*   @Transactional
     public void del(Integer id){
 
         CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
@@ -45,25 +71,53 @@ public class CadreWorkService extends BaseMapper {
 
         CadreWorkExample example = new CadreWorkExample();
         example.createCriteria().andFidEqualTo(id);
-        cadreWorkMapper.deleteByExample(example); // 如果有子工作经历，则删除
-    }
+
+        List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
+        if(subCadreWorks.size()>0) {
+            cadreWorkMapper.deleteByExample(example); // 如果有子工作经历，则删除
+
+            List<Integer> subCadreWorkIds = new ArrayList<>();
+            for (CadreWork subCadreWork : subCadreWorks) {
+                subCadreWorkIds.add(subCadreWork.getId());
+            }
+            // 同时删除关联的任免文件
+            dispatchCadreRelateService.delDispatchCadreRelates(subCadreWorkIds, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+        }
+
+        // 同时删除关联的任免文件
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(id),  SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+    }*/
 
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-        int count = 0;
+
         {
             CadreWorkExample example = new CadreWorkExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids)).andFidIsNull(); // 只能批量删除父工作经历
-            count = cadreWorkMapper.deleteByExample(example);
-        }
-        if(count>0){
-
-            CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andFidIn(Arrays.asList(ids));
+
+            List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
+            if(subCadreWorks.size()>0) {
+                cadreWorkMapper.deleteByExample(example); // 如果有子工作经历，先删除
+
+                List<Integer> subCadreWorkIds = new ArrayList<>();
+                for (CadreWork subCadreWork : subCadreWorks) {
+                    subCadreWorkIds.add(subCadreWork.getId());
+                }
+                // 同时删除关联的任免文件
+                dispatchCadreRelateService.delDispatchCadreRelates(subCadreWorkIds, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+            }
+        }
+
+        {
+            CadreWorkExample example = new CadreWorkExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids)); // 删除工作经历
             cadreWorkMapper.deleteByExample(example);
         }
+
+        // 同时删除关联的任免文件
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids),  SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
 
     @Transactional

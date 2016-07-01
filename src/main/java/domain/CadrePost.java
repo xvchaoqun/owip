@@ -1,26 +1,38 @@
 package domain;
 
+import bean.DispatchCadreRelateBean;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 public class CadrePost implements Serializable {
+
+    public DispatchCadreRelateBean getDispatchCadreRelateBean(){
+        List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+        return new DispatchCadreRelateBean(all);
+    }
+
     private Integer id;
 
     private Integer cadreId;
 
+    private String post;
+
+    private Integer postId;
+
     private Integer adminLevelId;
 
-    private Boolean isPresent;
+    private Integer postClassId;
 
-    private Date startTime;
+    private Integer unitId;
 
-    private Integer startDispatchCadreId;
+    private Boolean isDouble;
 
-    private Date endTime;
+    private Integer doubleUnitId;
 
-    private Integer endDispatchCadreId;
-
-    private String remark;
+    private Boolean isMainPost;
 
     private static final long serialVersionUID = 1L;
 
@@ -40,6 +52,22 @@ public class CadrePost implements Serializable {
         this.cadreId = cadreId;
     }
 
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
     public Integer getAdminLevelId() {
         return adminLevelId;
     }
@@ -48,51 +76,43 @@ public class CadrePost implements Serializable {
         this.adminLevelId = adminLevelId;
     }
 
-    public Boolean getIsPresent() {
-        return isPresent;
+    public Integer getPostClassId() {
+        return postClassId;
     }
 
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
+    public void setPostClassId(Integer postClassId) {
+        this.postClassId = postClassId;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Integer getUnitId() {
+        return unitId;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
-    public Integer getStartDispatchCadreId() {
-        return startDispatchCadreId;
+    public Boolean getIsDouble() {
+        return isDouble;
     }
 
-    public void setStartDispatchCadreId(Integer startDispatchCadreId) {
-        this.startDispatchCadreId = startDispatchCadreId;
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Integer getDoubleUnitId() {
+        return doubleUnitId;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setDoubleUnitId(Integer doubleUnitId) {
+        this.doubleUnitId = doubleUnitId;
     }
 
-    public Integer getEndDispatchCadreId() {
-        return endDispatchCadreId;
+    public Boolean getIsMainPost() {
+        return isMainPost;
     }
 
-    public void setEndDispatchCadreId(Integer endDispatchCadreId) {
-        this.endDispatchCadreId = endDispatchCadreId;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setIsMainPost(Boolean isMainPost) {
+        this.isMainPost = isMainPost;
     }
 }

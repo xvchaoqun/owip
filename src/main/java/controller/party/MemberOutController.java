@@ -117,6 +117,7 @@ public class MemberOutController extends BaseController {
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
                                Integer userId,
                                Byte status,
+                               Boolean hasReceipt,
                                Boolean isBack,
                                Boolean isModify,
                                Boolean isPrint,
@@ -154,6 +155,9 @@ public class MemberOutController extends BaseController {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if (hasReceipt != null) {
+            criteria.andHasReceiptEqualTo(hasReceipt);
         }
         if (isBack != null) {
             criteria.andIsBackEqualTo(isBack);

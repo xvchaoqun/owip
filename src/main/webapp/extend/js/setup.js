@@ -50,7 +50,6 @@ $.jgrid.defaults.gridComplete = function(){
 
     // 自定义初始化方法
     $(this).trigger('initGrid');
-
     //alert(jgrid_sid)
     if(jgrid_sid){
         $(this).jqGrid("setSelection",jgrid_sid);
@@ -133,11 +132,20 @@ $(window).on('resize.jqGrid3', function () {
 })
 // 不改变高度
 $(window).on('resize.jqGrid4', function () {
+
     var gridWidth = $(window).width()-70;
     if($("#menu-toggler").is(":hidden")){ // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
-    $(".jqGrid4").jqGrid( 'setGridWidth', gridWidth );
+
+    $(".jqGrid4").each(function(){
+        var _gridWidth = gridWidth;
+        var widthReduce = $(this).data("width-reduce");
+        if(widthReduce!=undefined && Math.abs(widthReduce)>0) {
+            _gridWidth = _gridWidth - widthReduce;
+        }
+        $(this).jqGrid( 'setGridWidth', _gridWidth );
+    });
 })
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
@@ -171,10 +179,10 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
-$(document).on("click", ".widget-header", function(){
+$(document).on("click", ".myTableDiv .widget-header", function(){
     $("a[data-action=collapse]", this).click()
 })
-$(document).on("click", ".widget-header a[data-action=collapse]",function(e){
+$(document).on("click", ".myTableDiv .widget-header a[data-action=collapse]",function(e){
     e.stopPropagation();
 })
 
@@ -665,15 +673,16 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 // 批量操作 for jqgrid
 $(document).on("click", ".jqBatchBtn", function(){
 
-    var queryString = $(this).data("querystr");
-    var url = $(this).data("url") + (queryString?("?"+queryString):"");
+    var _this = $(this);
+    var queryString = _this.data("querystr");
+    var url = _this.data("url") + (queryString?("?"+queryString):"");
 
-    var pageReload = $(this).data("page-reload");
-    var title = $(this).data("title");
-    var msg = $(this).data("msg");
-    var gridId = $(this).data("grid-id") || "#jqGrid";
+    var title = _this.data("title");
+    var msg = _this.data("msg");
+    var gridId = _this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids  = grid.getGridParam("selarrrow");
+    var callback = $.trim(_this.data("callback"));
 
     if(ids.length==0){
         SysMsg.warning("请选择行", "提示");
@@ -687,9 +696,12 @@ $(document).on("click", ".jqBatchBtn", function(){
         if(result){
             $.post(url,{ids:ids},function(ret){
                 if(ret.success) {
-                    if(pageReload) page_reload()
-                    else grid.trigger("reloadGrid");
-                    SysMsg.success('操作成功。', '成功');
+                    if(callback){
+                        // console.log(_this)
+                        window[callback](_this);
+                    }else {
+                        grid.trigger("reloadGrid");
+                    }
                 }
             });
         }

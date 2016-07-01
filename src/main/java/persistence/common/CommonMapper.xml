@@ -196,5 +196,13 @@
       and d.code like #{search}
     </if>
   </select>
+  <select id="selectDispatchCadreList" parameterType="map" resultMap="persistence.DispatchCadreMapper.BaseResultMap" >
+    select distinct dc.* from base_dispatch_cadre dc, base_dispatch d, base_dispatch_type dt
+    where dc.dispatch_id=d.id and d.dispatch_type_id=dt.id and dc.cadre_id=#{cadreId}
+    <if test="type!=null">
+      and dc.type=#{type}
+    </if>
+    order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
+  </select>
 
 </mapper>

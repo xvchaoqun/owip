@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
     <h3 class="header">因私出国申请变更</h3>
-    <form class="form-horizontal" action="${ctx}/applySelf_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/applySelf_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${applySelf.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
@@ -286,10 +286,10 @@ pageEncoding="UTF-8"%>
 			}
 			$("#modalForm input[name=needPassports]").val(needPassports.join(","));
 
-			if($('#modalForm input[type=file]').val()==''){
-				SysMsg.info("请上传更改证明");
+			/*if($('#modalForm input[type=file]').val()==''){
+				SysMsg.info("请上传本人说明材料");
 				return;
-			}
+			}*/
 			if($.trim($('#modalForm textarea[name=remark]').val())==''){
 				SysMsg.info("请填写更改原因",'',function(){
 					$('#modalForm textarea[name=remark]').focus();

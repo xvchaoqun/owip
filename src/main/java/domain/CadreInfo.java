@@ -13,6 +13,8 @@ public class CadreInfo implements Serializable {
 
     private String email;
 
+    private String work;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getCadreId() {
@@ -53,5 +55,13 @@ public class CadreInfo implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work == null ? null : work.trim();
     }
 }

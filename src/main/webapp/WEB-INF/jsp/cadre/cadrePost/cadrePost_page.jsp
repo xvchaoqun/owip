@@ -1,10 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主职</h4>
+        <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主职
+            <div class="buttons">
+                <c:if test="${empty mainCadrePost}">
+                <a class="popupBtn btn btn-info btn-sm"
+                   data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.cadreId}"><i class="fa fa-plus"></i> 添加主职</a>
+                </c:if>
+                <button class="popupBtn btn btn-warning btn-sm"
+                        data-url="${ctx}/cadrePost_au?id=${mainCadrePost.id}&isMainPost=1&cadreId=${param.cadreId}">
+                    <i class="fa fa-edit"></i> 修改
+                </button>
+                <button class="confirm btn btn-danger btn-sm"
+                        data-url="${ctx}/cadrePost_batchDel?ids[]=${mainCadrePost.id}"
+                        data-title="删除主职"
+                        data-msg="确定删除主职吗？"
+                        data-callback="_reload">
+                    <i class="fa fa-trash"></i> 删除
+                </button>
+            </div>
+        </h4>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -13,74 +31,34 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
     <div class="widget-body">
-        <div class="widget-main">
-            <c:if test="${fn:length(cadreMainWorks)==0}">
-                <div class="buttons pull-right">
-                    <a class="btn btn-info btn-sm" onclick="cadreMainWork_au()"><i class="fa fa-plus"></i> 添加主职</a>
-                </div>
-                <h4>&nbsp;</h4>
-                <div class="space-4"></div>
-            </c:if>
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-							<th>主职</th>
-							<th>职务属性</th>
-							<th>行政级别</th>
-							<th>是否正职</th>
-							<th>职务类别</th>
-							<th>所属单位</th>
-							<th>任职日期</th>
-							<th>现任职务始任日期</th>
-							<th>现任职务始任文号</th>
-							<th>是否双肩挑</th>
-							<th>双肩挑单位</th>
-							<th>现任职务年限</th>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <c:forEach items="${cadreMainWorks}" var="cadreMainWork" varStatus="st">
-
-                        <tr>
-								<td>${cadreMainWork.work}</td>
-								<td>${postMap.get(cadreMainWork.postId).name}</td>
-								<td>${adminLevelMap.get(cadreMainWork.adminLevelId).name}</td>
-								<td>${cadreMainWork.isPositive?"是":"否"}</td>
-								<td>${postClassMap.get(cadreMainWork.postClassId).name}</td>
-								<td>${unitMap.get(cadreMainWork.unitId).name}</td>
-								<td>${cm:formatDate(cadreMainWork.postTime,'yyyy-MM-dd')}</td>
-								<td>${cm:formatDate(cadreMainWork.startTime,'yyyy-MM-dd')}</td>
-								<td>${dispatchMap.get(dispatchCadreMap.get(cadreMainWork.dispatchCadreId).dispatchId).code}
-                                <a class="btn btn-mini btn-xs btn-primary" onclick="cadreMainWork_selectDispatch(${cadreMainWork.id})">
-                                    ${cadreMainWork.dispatchCadreId==null?"选择":"修改"}</a>
-                                </td>
-								<td>${cadreMainWork.isDouble?"是":"否"}</td>
-								<td>${unitMap.get(cadreMainWork.doubleUnitId).name}</td>
-								<td>${cm:intervalYearsUntilNow(cadreMainWork.startTime)}</td>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                        <button onclick="cadreMainWork_au(${cadreMainWork.id})" class="btn btn-mini btn-xs btn-warning">
-                                            <i class="fa fa-edit"></i> 编辑
-                                        </button>
-                                        <button onclick="cadreMainWork_addDispatchs(${cadreMainWork.id})" class="btn btn-default btn-mini btn-xs">
-                                            <i class="fa fa-edit"></i> 关联任免文件
-                                        </button>
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="cadreMainWork_del(${cadreMainWork.id})">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-</div></div></div>
+        <div class="widget-main table-nonselect">
+            <table id="jqGrid_mainCadrePost" data-width-reduce="30" class="jqGrid4"></table>
+        </div>
+    </div>
+</div>
 
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职</h4>
+        <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
+            <div class="buttons">
+                <a class="popupBtn btn  btn-sm btn-info"
+                   data-url="${ctx}/cadrePost_au?isMainPost=0&cadreId=${param.cadreId}"><i class="fa fa-plus"></i> 添加兼职</a>
+                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                        data-url="${ctx}/cadrePost_au"
+                        data-grid-id="#jqGrid_subCadrePosts"
+                        data-querystr="&isMainPost=0&cadreId=${param.cadreId}">
+                    <i class="fa fa-edit"></i> 修改
+                </button>
+                <button data-url="${ctx}/cadrePost_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？"
+                        data-grid-id="#jqGrid_subCadrePosts"
+                        data-callback="_reload"
+                        class="jqBatchBtn btn btn-danger btn-sm">
+                    <i class="fa fa-times"></i> 删除
+                </button>
+            </div>
+        </h4>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -90,58 +68,33 @@ pageEncoding="UTF-8" %>
     </div>
     <div class="widget-body">
         <div class="widget-main">
-<div class="buttons pull-right">
-    <a class="btn btn-info btn-sm" onclick="cadreSubWork_au()"><i class="fa fa-plus"></i> 添加兼职</a>
+            <table id="jqGrid_subCadrePosts" data-width-reduce="30" class="jqGrid4"></table>
+        </div>
+    </div>
 </div>
-<h4 >&nbsp;</h4>
-<div class="space-4"></div>
-<table class="table table-actived table-striped table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>兼任单位</th>
-        <th>兼任职务</th>
-        <th>兼任职务任职日期</th>
-        <th>兼任职务始任日期</th>
-        <th>兼任职务始任文号</th>
-        <th nowrap></th>
-    </tr>
-    </thead>
-    <tbody>
-
-    <c:forEach items="${cadreSubWorks}" var="cadreSubWork" varStatus="st">
-
-        <tr>
-            <td>${unitMap.get(cadreSubWork.unitId).name}</td>
-            <td>${cadreSubWork.post}</td>
-            <td>${cm:formatDate(cadreSubWork.postTime,'yyyy-MM-dd')}</td>
-            <td>${cm:formatDate(cadreSubWork.startTime,'yyyy-MM-dd')}</td>
-            <td>
-                    ${dispatchMap.get(dispatchCadreMap.get(cadreSubWork.dispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-xs btn-primary" onclick="cadreSubWork_selectDispatch(${cadreSubWork.id})">
-                        ${cadreSubWork.dispatchCadreId==null?"选择":"修改"}</a>
-            </td>
-            <td>
-                <div class="hidden-sm hidden-xs action-buttons">
-                        <button onclick="cadreSubWork_au(${cadreSubWork.id})" class="btn btn-mini btn-xs btn-warning">
-                            <i class="fa fa-edit"></i> 编辑
-                        </button>
-                        <button onclick="cadreSubWork_addDispatchs(${cadreSubWork.id})" class="btn btn-default btn-mini btn-xs">
-                            <i class="fa fa-edit"></i> 关联任免文件
-                        </button>
-                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadreSubWork_del(${cadreSubWork.id})">
-                            <i class="fa fa-trash"></i> 删除
-                        </button>
-                </div>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-</div></div></div>
 
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-history"></i> 任职级经历</h4>
+        <h4 class="widget-title"><i class="fa fa-history"></i> 任职级经历
+            <div class="buttons">
+                <a class="popupBtn btn  btn-sm btn-info"
+                   data-url="${ctx}/cadreAdminLevel_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i> 添加任职级经历</a>
+                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                        data-url="${ctx}/cadreAdminLevel_au"
+                        data-grid-id="#jqGrid_cadreAdminLevels"
+                        data-querystr="&cadreId=${param.cadreId}">
+                    <i class="fa fa-edit"></i> 修改
+                </button>
+                <button data-url="${ctx}/cadreAdminLevel_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？"
+                        data-grid-id="#jqGrid_cadreAdminLevels"
+                        data-callback="_reload"
+                        class="jqBatchBtn btn btn-danger btn-sm">
+                    <i class="fa fa-times"></i> 删除
+                </button>
+            </div>
+        </h4>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -151,179 +104,227 @@ pageEncoding="UTF-8" %>
     </div>
     <div class="widget-body">
         <div class="widget-main">
-<div class="buttons pull-right">
-    <a class="btn btn-info btn-sm" onclick="cadrePost_au()"><i class="fa fa-plus"></i> 添加任职级经历</a>
+            <div class="space-4"></div>
+            <table id="jqGrid_cadreAdminLevels" data-width-reduce="30" class="jqGrid4"></table>
+        </div>
+    </div>
 </div>
-<h4>&nbsp;</h4>
-<div class="space-4"></div>
-<table class="table table-actived table-striped table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>行政级别</th>
-        <th>是否现任职级</th>
-        <th>职级始任日期</th>
-        <th>职级始任文号</th>
-        <th>职级结束日期</th>
-        <th>职级结束文号</th>
-        <th>备注</th>
-        <th nowrap></th>
-    </tr>
-    </thead>
-    <tbody>
 
-    <c:forEach items="${cadrePosts}" var="cadrePost" varStatus="st">
+<script type="text/template" id="dispatch_select_tpl">
+<button class="popupBtn btn btn-warning btn-xs"
+        data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
+        data-width="1000"><i class="fa fa-link"></i>
+    关联任命文件
+</button>
+</script>
+<script type="text/template" id="dispatch_show_tpl">
+<button class="popupBtn btn btn-success btn-xs"
+        data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
+        data-width="1000"><i class="fa fa-link"></i>
+    任命文件({{=count}})
+</button>
+</script>
+<script type="text/template" id="dispatch_adminLevel_tpl">
+<button class="popupBtn btn btn-xs btn-{{=!hasStart?"success":"primary"}}"
+data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=start&id={{=id}}&cadreId={{=cadreId}}"
+data-width="1000">
+    <i class="fa fa-link"></i>
+    {{=!hasStart?"关联始任文件":"修改始任文件"}}</button>&nbsp;
+<button class="popupBtn btn btn-xs btn-{{=!hasEnd?"success":"primary"}}"
+data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=end&id={{=id}}&cadreId={{=cadreId}}"
+data-width="1000">
+    <i class="fa fa-link"></i>
+    {{=!hasEnd?"关联结束文件":"修改结束文件"}}</button>
+</script>
 
-        <tr>
-            <td>${adminLevelMap.get(cadrePost.adminLevelId).name}</td>
-            <td>${cadrePost.isPresent?"是":"否"}</td>
-            <td>${cm:formatDate(cadrePost.startTime,'yyyy-MM-dd')}</td>
-            <td>
-                    ${dispatchMap.get(dispatchCadreMap.get(cadrePost.startDispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-xs btn-primary" onclick="cadrePost_selectStartDispatch(${cadrePost.id})">
-                        ${cadrePost.startDispatchCadreId==null?"选择":"修改"}</a>
-            </td>
-            <td>${cm:formatDate(cadrePost.endTime,'yyyy-MM-dd')}</td>
-            <td>
-                    ${dispatchMap.get(dispatchCadreMap.get(cadrePost.endDispatchCadreId).dispatchId).code}
-                <a class="btn btn-mini btn-xs btn-primary" onclick="cadrePost_selectEndDispatch(${cadrePost.id})">
-                        ${cadrePost.endDispatchCadreId==null?"选择":"修改"}
-            </td>
-            <td>${cadrePost.remark}</td>
-            <td>
-                <div class="hidden-sm hidden-xs action-buttons">
-                        <button onclick="cadrePost_au(${cadrePost.id})" class="btn btn-mini btn-xs btn-warning">
-                            <i class="fa fa-edit"></i> 编辑
-                        </button>
-                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadrePost_del(${cadrePost.id})">
-                            <i class="fa fa-trash"></i> 删除
-                        </button>
-                </div>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-            </div></div></div>
+<style>
+     .table-nonselect .table > tbody > tr.active > td,
+     .table-nonselect .table tbody tr:hover td, .table-nonselect .table tbody tr:hover th {
+         background-color: inherit !important;
+     }
+
+    .table-nonselect tr.success td {
+        background-color: inherit !important;
+    }
+</style>
+<c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
+    var mainCadrePost = ${mainCadrePostStr};
+    $("#jqGrid_mainCadrePost").jqGrid({
+        pager: null,
+        ondblClickRow:function(){},
+        height:60,
+        multiselect:false,
+        datatype: "local",
+        data:[${mainCadrePost==null?"":mainCadrePostStr}], // 防止出现[{}]，造成空行
+        colModel: [
+            {label: '职务', name: 'post' ,frozen:true},
+            {label: '职务属性', width:120, name: 'postId', formatter:function(cellvalue, options, rowObject){
+                return _metaTypeMap[cellvalue]
+            }},
+            {label: '行政级别', name: 'adminLevelId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.adminLevelMap[cellvalue].name
+            }},
+            {label: '是否正职', name: 'postId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.postMap[cellvalue].boolAttr?"是":"否"
+            }},
+            {label: '职务类别', name: 'postClassId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.postClassMap[cellvalue].name
+            }},
+            {label: '所在单位', name: 'unitId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.unitMap[cellvalue].name
+            }},
+            {label: '任职日期', name: 'dispatchCadreRelateBean.last.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '现任职务年限', width:120, name: 'dispatchCadreRelateBean.last.workTime', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue ==undefined) return ''
+                var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                var year = Math.floor(month/12);
+                return year==0?"未满一年":year;
+            }},
+            {label: '现任职务始任日期', width:150, name: 'dispatchCadreRelateBean.first.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '现任职务始任年限', width:150, name: 'dispatchCadreRelateBean.first.workTime', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue ==undefined) return ''
+                var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                var year = Math.floor(month/12);
+                return year==0?"未满一年":year;
+            }},
+            {label: '现任职务始任文件', width:150, name: 'dispatchCadreRelateBean.first',formatter:function(cellvalue, options, rowObject){
+                if(!cellvalue || cellvalue.id ==undefined) return ''
+                var dispatchCode = cellvalue.dispatchCode;
+                if(cellvalue.fileName && cellvalue.fileName!='')
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                else return dispatchCode;
+            }},
+            {
+                label: '关联任命文件', name: 'dispatchCadreRelateBean.all', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
+                var count = cellvalue.length;
+                return count > 0 ? _.template($("#dispatch_show_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
+                ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
+                        : _.template($("#dispatch_select_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
+                ({id: rowObject.id, cadreId: rowObject.cadreId});
+            }, width: 120
+            }   ,
+            {label: '是否双肩挑', name: 'isDouble', formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            {label: '双肩挑单位', name: 'doubleUnitId', width:150, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.unitMap[cellvalue].name
+            }}
+        ]
+    })
 
-    function cadreMainWork_au(id) {
-        url = "${ctx}/cadreMainWork_au?cadreId=${cadre.id}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url, 800);
-    }
-
-    function cadreMainWork_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreMainWork_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
+    $("#jqGrid_subCadrePosts").jqGrid({
+        pager: null,
+        ondblClickRow:function(){},
+        datatype: "local",
+        height:120,
+        data:${cm:toJSONArray(subCadrePosts)},
+        colModel: [
+            {label: '兼任单位', width:200, name: 'unitId', formatter:function(cellvalue, options, rowObject){
+                return _cMap.unitMap[cellvalue].name
+            } ,frozen:true},
+            {label: '兼任职务', name: 'post' ,frozen:true},
+            {label: '职务属性', width:120, name: 'postId', formatter:function(cellvalue, options, rowObject){
+                return _metaTypeMap[cellvalue]
+            }},
+            {label: '职务类别', name: 'postClassId', formatter:function(cellvalue, options, rowObject){
+                return _cMap.postClassMap[cellvalue].name
+            }},
+            {label: '兼任任职日期', width:120, name: 'dispatchCadreRelateBean.last.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '兼任职务年限', width:120, name: 'dispatchCadreRelateBean.last.workTime', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue ==undefined) return ''
+                var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                var year = Math.floor(month/12);
+                return year==0?"未满一年":year;
+            }},
+            {label: '兼任职务始任日期', width:150, name: 'dispatchCadreRelateBean.first.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '兼任职务始任年限', width:150, name: 'dispatchCadreRelateBean.first.workTime', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue ==undefined) return ''
+                var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                var year = Math.floor(month/12);
+                return year==0?"未满一年":year;
+            }},
+            {label: '兼任职务始任文件', width:150, name: 'dispatchCadreRelateBean.first',formatter:function(cellvalue, options, rowObject){
+                if(!cellvalue || cellvalue.id ==undefined) return ''
+                var dispatchCode = cellvalue.dispatchCode;
+                if(cellvalue.fileName && cellvalue.fileName!='')
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                else return dispatchCode;
+            }},
+            {
+                label: '关联任命文件', name: 'dispatchCadreRelateBean.all', formatter: function (cellvalue, options, rowObject) {
+                var count = cellvalue.length;
+                return count > 0 ? _.template($("#dispatch_show_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
+                ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
+                        : _.template($("#dispatch_select_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
+                ({id: rowObject.id, cadreId: rowObject.cadreId});
+            }, width: 120
             }
-        });
-    }
+        ]
+    })
 
-    function cadreSubWork_au(id) {
-        url = "${ctx}/cadreSubWork_au?cadreId=${cadre.id}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
+    $("#jqGrid_cadreAdminLevels").jqGrid({
+        pager: null,
+        ondblClickRow:function(){},
+        datatype: "local",
+        height:120,
+        data:${cm:toJSONArray(cadreAdminLevels)},
+        colModel: [
+            {label: '行政级别', name: 'adminLevelId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.adminLevelMap[cellvalue].name
+            }},
+            {label: '是否现任职级', width:120, name: 'isNow' ,formatter:function(cellvalue, options, rowObject){
+                return (rowObject.adminLevelId==mainCadrePost.adminLevelId)?"是":"否";
+            }},
+            {label: '职级始任日期', width:120, name: 'startDispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '职级始任职务', width:120, name: 'startDispatchCadre.post'},
+            {label: '职级始任文件', width:120, name: 'startDispatch',formatter:function(cellvalue, options, rowObject){
+                if(!cellvalue || cellvalue.id ==undefined) return ''
+                var dispatchCode = cellvalue.dispatchCode;
+                if(cellvalue.fileName && cellvalue.fileName!='')
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                else return dispatchCode;
+            }},
+            {label: '职级结束日期', width:120, name: 'endDispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '职级结束文件', width:150, name: 'endDispatch',formatter:function(cellvalue, options, rowObject){
+                if(!cellvalue || cellvalue.id ==undefined) return ''
+                var dispatchCode = cellvalue.dispatchCode;
+                if(cellvalue.fileName && cellvalue.fileName!='')
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                else return dispatchCode;
+            }},
+            {
+                label: '关联任免文件', name: 'selectDispatch', formatter: function (cellvalue, options, rowObject) {
 
-    function cadreSubWork_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreSubWork_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
+                var hasStart = rowObject.startDispatchCadreId>0;
+                var hasEnd = rowObject.endDispatchCadreId>0;
+                return  _.template($("#dispatch_adminLevel_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
+                ({id: rowObject.id, hasStart: hasStart, hasEnd: hasEnd, cadreId:rowObject.cadreId});
+            }, width: 250},
+            {label: '备注', name: 'remark', width: 250}
+        ]
+    })
 
-    var _id;
-    var type;
-    function cadreMainWork_addDispatchs(id){
-        _id = id;
-        type=1
-        loadModal("${ctx}/cadreMainWork_addDispatchs?type=checkbox&cadreId=${cadre.id}&id="+id, 1000);
-    }
-    function cadreSubWork_addDispatchs(id){
-        _id = id;
-        type=2
-        loadModal("${ctx}/cadreSubWork_addDispatchs?type=checkbox&cadreId=${cadre.id}&id="+id, 1000);
-    }
+    $(window).triggerHandler('resize.jqGrid4');
 
-    function cadreMainWork_selectDispatch(id){
-        _id = id;
-        type=3
-        loadModal("${ctx}/cadreMainWork_addDispatchs?type=radio&cadreId=${cadre.id}&id="+id, 1000);
-    }
-
-    function cadreSubWork_selectDispatch(id){
-        _id = id;
-        type=4
-        loadModal("${ctx}/cadreSubWork_addDispatchs?type=radio&cadreId=${cadre.id}&id="+id, 1000);
-    }
-
-    function cadrePost_selectStartDispatch(id){
-        _id = id;
-        type=5
-        loadModal("${ctx}/cadrePost_addDispatchs?type=start&cadreId=${cadre.id}&id="+id, 1000);
-    }
-
-    function cadrePost_selectEndDispatch(id){
-        _id = id;
-        type=6
-        loadModal("${ctx}/cadrePost_addDispatchs?type=end&cadreId=${cadre.id}&id="+id, 1000);
-    }
-
-    function closeSwfPreview(){
-        switch (type) {
-            case 1:
-                cadreMainWork_addDispatchs(_id);
-                break;
-            case 2:
-                cadreSubWork_addDispatchs(_id);
-                break;
-            case 3:
-                cadreMainWork_selectDispatch(_id);
-                break;
-            case 4:
-                cadreSubWork_selectDispatch(_id);
-                break;
-            case 5:
-                cadrePost_selectStartDispatch(_id);
-                break;
-            case 6:
-                cadrePost_selectEndDispatch(_id);
-                break;
+    function closeSwfPreview(close) {
+        //$("#modal").modal('hide');
+        //console.log(_url)
+        if(close==0){
+            $("#modal").modal("hide")
+        }else {
+            loadModal(_url, 1000);
         }
     }
 
-    function cadrePost_au(id) {
-        url = "${ctx}/cadrePost_au?cadreId=${cadre.id}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
-
-    function cadrePost_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadrePost_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-
-    function _reload(){
+    function _reload() {
         $("#modal").modal('hide');
         $("#view-box .tab-content").load("${ctx}/cadrePost_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }

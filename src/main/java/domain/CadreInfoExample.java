@@ -443,6 +443,76 @@ public class CadreInfoExample {
             addCriterion("email not between", value1, value2, "email");
             return (Criteria) this;
         }
+
+        public Criteria andWorkIsNull() {
+            addCriterion("work is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkIsNotNull() {
+            addCriterion("work is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkEqualTo(String value) {
+            addCriterion("work =", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkNotEqualTo(String value) {
+            addCriterion("work <>", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkGreaterThan(String value) {
+            addCriterion("work >", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkGreaterThanOrEqualTo(String value) {
+            addCriterion("work >=", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkLessThan(String value) {
+            addCriterion("work <", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkLessThanOrEqualTo(String value) {
+            addCriterion("work <=", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkLike(String value) {
+            addCriterion("work like", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkNotLike(String value) {
+            addCriterion("work not like", value, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkIn(List<String> values) {
+            addCriterion("work in", values, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkNotIn(List<String> values) {
+            addCriterion("work not in", values, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkBetween(String value1, String value2) {
+            addCriterion("work between", value1, value2, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkNotBetween(String value1, String value2) {
+            addCriterion("work not between", value1, value2, "work");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -12,7 +12,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
-                || not empty param.status ||not empty param.isBack||not empty param.isModify || not empty param.isPrint
+                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -241,6 +241,19 @@
                                             </div>
                                             <c:if test="${cls==3}">
                                             <div class="form-group">
+                                                <label>是否有回执</label>
+                                                <div class="input-group">
+                                                    <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">否</option>
+                                                        <option value="1">是</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
                                                 <label>是否修改</label>
                                                 <div class="input-group">
                                                     <select name="isModify" data-rel="select2" data-placeholder="请选择">
@@ -436,7 +449,7 @@
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
 <c:if test="${cls==6||cls==7}">
@@ -445,7 +458,7 @@
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </shiro:hasRole>
     </c:if>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,14 @@ public class DispatchCadreRelateService extends BaseMapper {
 
     @Autowired
     private DispatchService dispatchService;
+
+    // 删除已关联的干部发文
+    public int delDispatchCadreRelates(List<Integer> relateIds, byte relateType){
+
+        DispatchCadreRelateExample example = new DispatchCadreRelateExample();
+        example.createCriteria().andRelateIdIn(relateIds).andRelateTypeEqualTo(relateType);
+        return dispatchCadreRelateMapper.deleteByExample(example);
+    }
 
     // 查找已关联的干部发文
     public List<DispatchCadreRelate> findDispatchCadreRelates(int relateId, byte relateType){

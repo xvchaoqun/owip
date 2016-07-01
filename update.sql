@@ -1,5 +1,49 @@
 
 
+--2016-6-30
+ALTER TABLE `base_cadre_info`
+	ADD COLUMN `work` TEXT NULL COMMENT '工作经历，在干部工作经历中编辑，用于任免审批表和干部信息采集' AFTER `email`;
+ALTER TABLE `base_cadre_info`
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(11) NULL COMMENT '手机号' AFTER `cadre_id`,
+	CHANGE COLUMN `email` `email` VARCHAR(50) NULL COMMENT '电子邮箱' AFTER `home_phone`;
+
+ALTER TABLE `base_cadre_post`
+	CHANGE COLUMN `start_dispatch_cadre_id` `start_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联始任文件' AFTER `admin_level_id`,
+	CHANGE COLUMN `end_dispatch_cadre_id` `end_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联结束文件' AFTER `start_dispatch_cadre_id`,
+	DROP COLUMN `is_present`,
+	DROP COLUMN `start_time`,
+	DROP COLUMN `end_time`;
+
+	ALTER TABLE `base_cadre_main_work`
+	DROP COLUMN `is_positive`,
+	DROP COLUMN `post_time`,
+	DROP COLUMN `dispatchs`,
+	DROP COLUMN `start_time`;
+
+	RENAME TABLE `base_cadre_post` TO `base_cadre_admin_level`;
+
+ALTER TABLE `base_cadre_main_work`
+	COMMENT='干部现任职务，包括主职、兼职，每个干部只有一个主职，可以有多个兼职',
+	CHANGE COLUMN `cadre_id` `cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '所属干部' AFTER `id`,
+	CHANGE COLUMN `work` `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '职务' AFTER `cadre_id`,
+	CHANGE COLUMN `admin_level_id` `admin_level_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据，只用于主职' AFTER `post_id`,
+	CHANGE COLUMN `is_double` `is_double` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否双肩挑，只用于主职' AFTER `dispatch_cadre_id`,
+	CHANGE COLUMN `double_unit_id` `double_unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '双肩挑单位，只用于主职' AFTER `is_double`,
+	ADD COLUMN `is_main_post` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否主职，否则兼职' AFTER `double_unit_id`;
+RENAME TABLE `base_cadre_main_work` TO `base_cadre_post`;
+
+DROP TABLE `base_cadre_sub_work`;
+
+ALTER TABLE `base_cadre_post`
+	DROP COLUMN `dispatch_cadre_id`,
+	DROP FOREIGN KEY `FK_base_cadre_main_work_base_dispatch_cadre`;
+
+	ALTER TABLE `base_cadre_post`
+	DROP INDEX `cadre_id`,
+	DROP FOREIGN KEY `FK_base_cadre_main_work_base_cadre`;
+	ALTER TABLE `base_cadre_post`
+	ADD CONSTRAINT `FK_base_cadre_post_base_cadre2` FOREIGN KEY (`cadre_id`) REFERENCES `base_cadre` (`id`);
+
 --2016-6-29
 ALTER TABLE `base_cadre_work`
 	CHANGE COLUMN `work_type` `work_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '院系/机关工作经历，关联元数据' AFTER `type_id`,

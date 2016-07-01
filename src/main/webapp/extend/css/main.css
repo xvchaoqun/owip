@@ -82,7 +82,12 @@ body{
 /*.widget-box{
     border: none;
 }*/
-.widget-header{
+.widget-box .widget-header .widget-title .buttons{
+    display: inherit;
+    position: absolute;
+    right:80px
+ }
+.myTableDiv .widget-header{ /*搜索框点击收起*/
     /*background-image: none;
     background: none;*/
     cursor: pointer;
@@ -238,10 +243,7 @@ body{
 #view-box .widget-box .table tbody tr:hover td, #view-box .table tbody tr:hover th {
     background-color:transparent;
 }
-#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-    background-color: #f9f9f9;
-    text-align: right;
-}
+
 #view-box .widget-main.no-padding .table{
 
     border: 1px solid #E5E5E5
