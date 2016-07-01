@@ -32,7 +32,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main table-nonselect">
-            <table id="jqGrid_mainCadrePost" data-width-reduce="30" class="jqGrid4"></table>
+            <table id="jqGrid_mainCadrePost" data-width-reduce="50" class="jqGrid4"></table>
         </div>
     </div>
 </div>
@@ -68,7 +68,34 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <table id="jqGrid_subCadrePosts" data-width-reduce="30" class="jqGrid4"></table>
+            <table id="jqGrid_subCadrePosts" data-width-reduce="50" class="jqGrid4"></table>
+        </div>
+    </div>
+</div>
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="fa fa-history"></i> 任职经历
+            <div class="buttons">
+                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                        data-url="${ctx}/cadreWork_updateUnitId"
+                        data-grid-id="#jqGrid_cadreWork"
+                        data-querystr="&cadreId=${param.cadreId}">
+                    <i class="fa fa-edit"></i> 修改对应现运行单位
+                </button>
+            </div>
+        </h4>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <table id="jqGrid_cadreWork" data-width-reduce="50" class="jqGrid4"></table>
+            <div id="jqGridPager_cadreWork"></div>
         </div>
     </div>
 </div>
@@ -104,8 +131,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <div class="space-4"></div>
-            <table id="jqGrid_cadreAdminLevels" data-width-reduce="30" class="jqGrid4"></table>
+            <table id="jqGrid_cadreAdminLevels" data-width-reduce="50" class="jqGrid4"></table>
         </div>
     </div>
 </div>
@@ -177,7 +203,7 @@ data-width="1000">
             {label: '所在单位', name: 'unitId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 return _cMap.unitMap[cellvalue].name
-            }},
+            }, width:250},
             {label: '任职日期', name: 'dispatchCadreRelateBean.last.workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '现任职务年限', width:120, name: 'dispatchCadreRelateBean.last.workTime', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue ==undefined) return ''
@@ -265,6 +291,35 @@ data-width="1000">
                         : _.template($("#dispatch_select_tpl").html().replace(/\n|\r|(\r\n)/g, ''))
                 ({id: rowObject.id, cadreId: rowObject.cadreId});
             }, width: 120
+            }
+        ]
+    })
+
+    $("#jqGrid_cadreWork").jqGrid({
+        ondblClickRow: function () {},
+        pager: "#jqGridPager_cadreWork",
+        url: '${ctx}/cadreWork_data?fid=-1&pageSize=4&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '任职单位', name: 'unit' ,width: 280},
+            {label: '担任职务或者专技职务', name: 'post', width: 280},
+            {
+                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                return _metaTypeMap[cellvalue]
+            }, width: 200
+            },
+            {
+                label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
+                return _metaTypeMap[cellvalue]
+            }, width: 200
+            },
+            {
+                label: '对应现运行单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
+                return _cMap.unitMap[cellvalue].name
+            }, width: 200
             }
         ]
     })

@@ -57,7 +57,7 @@ public class CadreWorkController extends BaseController {
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
         modelMap.put("type", type);
-        if(type==2){
+        if (type == 2) {
             List<CadreWork> cadreWorks = cadreWorkService.findCadreWorks(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
             CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
@@ -72,10 +72,10 @@ public class CadreWorkController extends BaseController {
     public void cadreWork_data(HttpServletResponse response,
                               /* @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
-                               Integer cadreId,
-                               Integer fid,
-                               @RequestParam(required = false, defaultValue = "0") int export,
-                               Integer pageSize, Integer pageNo) throws IOException {
+                              Integer cadreId,
+                              Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取期间工作
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -89,7 +89,8 @@ public class CadreWorkController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("start_time asc");
         if (fid != null) {
-            criteria.andFidEqualTo(fid);
+            if (fid > 0)
+                criteria.andFidEqualTo(fid);
         } else {
             criteria.andFidIsNull();
         }
@@ -163,7 +164,7 @@ public class CadreWorkController extends BaseController {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
             modelMap.put("cadreWork", cadreWork);
         }
-        if(fid!=null){
+        if (fid != null) {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(fid);
             modelMap.put("topCadreWork", cadreWork);
         }
@@ -173,6 +174,46 @@ public class CadreWorkController extends BaseController {
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreWork/cadreWork_au";
+    }
+
+    @RequiresPermissions("cadreWork:edit")
+    @RequestMapping(value = "/cadreWork_updateUnitId", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreWork_updateUnitId(int id, Integer unitId, HttpServletRequest request) {
+
+        if(unitId==null){
+
+            updateMapper.del_cadreWork_unitId(id);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
+        }else {
+            CadreWork record = new CadreWork();
+            record.setId(id);
+            record.setUnitId(unitId);
+            cadreWorkService.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新对应工作单位：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreWork:edit")
+    @RequestMapping("/cadreWork_updateUnitId")
+    public String cadreWork_updateUnitId(Integer id, int cadreId, ModelMap modelMap) {
+
+        if (id != null) {
+            CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreWork", cadreWork);
+            if(cadreWork.getUnitId()!=null){
+                modelMap.put("unit", unitService.findAll().get(cadreWork.getUnitId()));
+            }
+        }
+        Cadre cadre = cadreService.findAll().get(cadreId);
+        modelMap.put("cadre", cadre);
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "cadre/cadreWork/cadreWork_updateUnitId";
     }
 /*
     @RequiresPermissions("cadreWork:del")
@@ -218,14 +259,14 @@ public class CadreWorkController extends BaseController {
         }
         modelMap.put("dispatchCadreIdSet", dispatchCadreIdSet);
 
-        if(relateDispatchCadres.size()==0 || StringUtils.equalsIgnoreCase(type, "edit")) {
+        if (relateDispatchCadres.size() == 0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
             List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, null);
             modelMap.put("dispatchCadres", dispatchCadres);
 
             Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
             modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
-        }else{
+        } else {
             modelMap.put("type", "add");
             modelMap.put("dispatchCadres", relateDispatchCadres);
         }
@@ -239,8 +280,8 @@ public class CadreWorkController extends BaseController {
     public Map do_cadreWork_addDispatchs(HttpServletRequest request, int id, @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         //if (ids != null && ids.length > 0) { // 可以删除
-            dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK, ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK, ids);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         //}
         return success(FormUtils.SUCCESS);
     }

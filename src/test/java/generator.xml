@@ -164,10 +164,10 @@
       </table>-->
       <!-- <table tableName="base_cadre_admin_level" domainObjectName="CadreAdminLevel">
        </table>-->
-      <table tableName="base_cadre_post" domainObjectName="CadrePost">
-      </table>
-       <!--<table tableName="base_cadre_work" domainObjectName="CadreWork">
-       </table>-->
+      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
+      </table>-->
+       <table tableName="base_cadre_work" domainObjectName="CadreWork">
+       </table>
       <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
       </table>-->
       <!--<table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">

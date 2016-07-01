@@ -8,16 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreWork_au" id="modalForm" method="post">
             <input type="hidden" name="id" value="${cadreWork.id}">
-            <c:if test="${not empty cadreWork.fid}">
-            <input  type="hidden" name="fid" value="${cadreWork.fid}">
-            </c:if>
-            <c:if test="${empty cadreWork.fid}">
-            <input  type="hidden" name="fid" value="${param.fid}">
-             </c:if>
-                <c:if test="${not empty param.fid}">
-                    <input  type="hidden" name="cadreId" value="${param.cadreId}">
-                </c:if>
-            <c:if test="${empty param.fid}">
+            <input  type="hidden" name="fid" value="${empty cadreWork?param.fid:cadreWork.fid}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">所属干部</label>
 				<div class="col-xs-6 label-text">
@@ -25,7 +16,6 @@ pageEncoding="UTF-8"%>
                         ${sysUser.realname}
 				</div>
 			</div>
-                </c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">开始日期</label>
 				<div class="col-xs-6">
@@ -115,13 +105,20 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+
                         $("#modal").modal("hide");
                         <c:if test="${not empty param.fid}">
+                        if(currentExpandRows)currentExpandRows.push(${param.fid})
+                        </c:if>
+                        $("#jqGrid_cadreWork").trigger("reloadGrid");
+
+                        <%--<c:if test="${topCadreWork.subWorkCount==0 || empty param.fid}">
+                            $("#jqGrid_cadreWork").trigger("reloadGrid");
                             _reloadSubGrid(${param.fid});
                         </c:if>
-                        <c:if test="${empty param.fid}">
-                            $("#jqGrid_cadreWork").trigger("reloadGrid");
-                        </c:if>
+                        <c:if test="${topCadreWork.subWorkCount>0 && not empty param.fid}">
+                            _reloadSubGrid(${param.fid});
+                        </c:if>--%>
                     }
                 }
             });

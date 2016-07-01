@@ -99,7 +99,7 @@ public class CadreWorkService extends BaseMapper {
 
             List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
             if(subCadreWorks.size()>0) {
-                cadreWorkMapper.deleteByExample(example); // 如果有子工作经历，先删除
+                cadreWorkMapper.deleteByExample(example); // 如果有期间工作，先删除
 
                 List<Integer> subCadreWorkIds = new ArrayList<>();
                 for (CadreWork subCadreWork : subCadreWorks) {
@@ -110,10 +110,22 @@ public class CadreWorkService extends BaseMapper {
             }
         }
 
+        List<CadreWork> topCadreWorks = null; //  读取所有父工作经历，下面待用
         {
             CadreWorkExample example = new CadreWorkExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids)); // 删除工作经历
+            example.createCriteria().andIdIn(Arrays.asList(ids)).andFidIsNotNull();
+            topCadreWorks = cadreWorkMapper.selectByExample(example);
+        }
+        {
+            CadreWorkExample example = new CadreWorkExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids)); // 删除记录
             cadreWorkMapper.deleteByExample(example);
+
+            if(topCadreWorks!=null) {
+                for (CadreWork cadreWork : topCadreWorks) {
+                    updateSubWorkCount(cadreWork.getFid()); // 更新父工作经历的期间工作数量
+                }
+            }
         }
 
         // 同时删除关联的任免文件

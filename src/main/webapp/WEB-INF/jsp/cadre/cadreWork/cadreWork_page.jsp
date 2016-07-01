@@ -241,7 +241,8 @@
             }
         },
         subGrid: true,
-        subGridRowExpanded: showChildGrid,
+        subGridRowExpanded: subGridRowExpanded,
+        subGridRowColapsed:subGridRowColapsed,
         subGridOptions: {
             // configure the icons from theme rolloer
             plusicon: "fa fa-folder-o",
@@ -252,10 +253,22 @@
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid2');
         $('.noSubWork [aria-describedby="jqGrid_cadreWork_subgrid"]').removeClass();
+
+        console.log(currentExpandRows)
+        for(i in currentExpandRows)
+            $("#jqGrid_cadreWork").expandSubGridRow(currentExpandRows[i])
     });
+
+    var currentExpandRows = [];
+    function subGridRowColapsed(parentRowID, parentRowKey){
+        currentExpandRows.remove(parentRowKey);
+    }
     // the event handler on expanding parent row receives two parameters
     // the ID of the grid tow  and the primary key of the row
-    function showChildGrid(parentRowID, parentRowKey) {
+    function subGridRowExpanded(parentRowID, parentRowKey) {
+
+        currentExpandRows.push(parentRowKey);
+
         var childGridID = parentRowID + "_table";
         var childGridPagerID = parentRowID + "_pager";
 
@@ -309,13 +322,15 @@
     }
 
     function _delCallback(target) {
-        _reloadSubGrid($(target).data("parent"))
+        //_reloadSubGrid($(target).data("parent"))
+        $("#jqGrid_cadreWork").trigger("reloadGrid");
     }
 
     function _reloadSubGrid(fid) {
         if (fid > 0) $("#jqGrid_cadreWork").collapseSubGridRow(fid).expandSubGridRow(fid)
     }
 
+    // 删除期间工作时调用
     function showSubWork(id) {
         loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
     }
@@ -333,10 +348,10 @@
         }
     }
 
-    function _reload() {
+    /*function _reload() {
         $("#modal").modal('hide');
         $("#view-box .tab-content").load("${ctx}/cadreWork_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }
+    }*/
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

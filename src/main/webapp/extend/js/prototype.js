@@ -31,6 +31,19 @@ String.prototype.NoSpace = function()
     return this.replace(/\s+/g, "");
 }
 
+Array.prototype.indexOf = function(val) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i;
+    }
+    return -1;
+};
+Array.prototype.remove = function(val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1); // 会改变原始数组
+    }
+};
+
 Date.prototype.format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份

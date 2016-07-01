@@ -1038,6 +1038,32 @@ function templateSelection(state){
         $state += '-' + state.code;
     return $state;
 }
+
+function register_ajax_select($select){
+
+    $($select).select2({
+        ajax: {
+            dataType: 'json',
+            delay: 300,
+            data: function (params) {
+                return {
+                    searchStr: params.term,
+                    pageSize: 10,
+                    pageNo: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.options, pagination: {
+                        more: (params.page * 10) < data.totalCount
+                    }
+                };
+            },
+            cache: true
+        }
+    });
+}
 // 选择账号
 function register_user_select($select, ts){
     return $select.select2({

@@ -1,4 +1,8 @@
 
+--2016-7-1
+ALTER TABLE `base_cadre_work`
+	ADD COLUMN `unit_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '对应现运行单位' AFTER `unit`;
+
 
 --2016-6-30
 ALTER TABLE `base_cadre_info`

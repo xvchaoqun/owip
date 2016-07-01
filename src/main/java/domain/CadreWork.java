@@ -36,6 +36,8 @@ public class CadreWork implements Serializable {
 
     private String unit;
 
+    private Integer unitId;
+
     private String post;
 
     private Integer typeId;
@@ -102,6 +104,14 @@ public class CadreWork implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public String getPost() {
