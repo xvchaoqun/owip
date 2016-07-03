@@ -187,11 +187,11 @@ data-width="1000">
             {label: '职务', name: 'post' ,frozen:true},
             {label: '职务属性', width:120, name: 'postId', formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue]
-            }},
+            },frozen:true},
             {label: '行政级别', name: 'adminLevelId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 return _cMap.adminLevelMap[cellvalue].name
-            }},
+            },frozen:true},
             {label: '是否正职', name: 'postId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 return _cMap.postMap[cellvalue].boolAttr?"是":"否"
@@ -243,7 +243,7 @@ data-width="1000">
                 return _cMap.unitMap[cellvalue].name
             }}
         ]
-    })
+    }).jqGrid("setFrozenColumns")
 
     $("#jqGrid_subCadrePosts").jqGrid({
         pager: null,

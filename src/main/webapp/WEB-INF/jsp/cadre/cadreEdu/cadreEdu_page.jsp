@@ -29,7 +29,7 @@
         </shiro:hasPermission>
     </div>
     <h4><i class="fa fa-history"></i> 学习经历：</h4>
-    <table id="jqGrid_cadreEdu" class="jqGrid4 table-striped"></table>
+    <table id="jqGrid_cadreEdu" class="jqGrid4"></table>
     <div id="jqGridPager_cadreEdu"></div>
     <div class="space-4"></div>
 
@@ -55,7 +55,7 @@
         </shiro:hasPermission>
     </div>
     <h4><i class="fa fa-history"></i> 在读学习经历：</h4>
-    <table id="jqGrid_cadreUnderEdu" class="jqGrid4 table-striped"></table>
+    <table id="jqGrid_cadreUnderEdu" class="jqGrid4"></table>
     <div id="jqGridPager_cadreUnderEdu"></div>
     <div class="space-4"></div>
 
@@ -81,7 +81,7 @@
         </shiro:hasPermission>
     </div>
     <h4><i class="fa fa-user-secret"></i> 导师信息：</h4>
-    <table id="jqGrid_cadreTutor" class="jqGrid4 table-striped"></table>
+    <table id="jqGrid_cadreTutor" class="jqGrid4"></table>
     <div id="jqGridPager_cadreTutor"></div>
 </div>
 <script>

@@ -226,6 +226,11 @@ body{
     background-image: linear-gradient(to bottom, #f8f8f8 0%, #ececec 100%);
     background-repeat: repeat-x;
 }
+
+.widget-body .ui-common-table.table {
+     border-top: none!important;
+}
+
 /*#item-content .table-striped > tbody > tr:nth-of-type(odd) {
     background-color:inherit;
 }
