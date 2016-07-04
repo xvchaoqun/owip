@@ -213,6 +213,7 @@ public class MemberOutController extends BaseController {
                     .andIsBackEqualTo(true);
         } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MEMBER_OUT_STATUS_ABOLISH);
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_SELF_BACK);
             statusList.add(SystemConstants.MEMBER_OUT_STATUS_BACK);
             criteria.andStatusIn(statusList);
@@ -473,7 +474,32 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_au";
     }
 
-    @RequiresPermissions("memberOut:del")
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOut:abolish")
+    @RequestMapping("/memberOut_abolish")
+    public String memberOut_abolish(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+            modelMap.put("memberOut", memberOut);
+        }
+        return "party/memberOut/memberOut_abolish";
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("memberOut:abolish")
+    @RequestMapping(value = "/memberOut_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_abolish(HttpServletRequest request, Integer id, String remark) {
+
+        if (id != null) {
+            memberOutService.abolish(id, remark, (byte)3); // 默认组织部撤销
+            logger.info(addLog(SystemConstants.LOG_OW, "撤销已完成的组织关系转出：%s", id));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    /*@RequiresPermissions("memberOut:del")
     @RequestMapping(value = "/memberOut_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_del(HttpServletRequest request, Integer id) {
@@ -499,7 +525,7 @@ public class MemberOutController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-
+*/
     public void memberOut_export(MemberOutExample example, HttpServletResponse response) {
 
         List<MemberOut> records = memberOutMapper.selectByExample(example);

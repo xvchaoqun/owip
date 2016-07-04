@@ -73,6 +73,25 @@ public class MemberService extends BaseMapper {
         sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername(), sysUser.getCode());
     }
 
+    /**
+     * 党员出党后重新回来
+     * @param userId
+     */
+    @Transactional
+    public void reback(int userId){
+
+        Member record = new Member();
+        record.setUserId(userId);
+        record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL);
+        //record.setBranchId(member.getBranchId());
+        int ret = updateByPrimaryKeySelective(record);
+        if(ret>0) {
+            // 更新系统角色  访客->党员
+            SysUser sysUser = sysUserService.findById(userId);
+            sysUserService.changeRoleGuestToMember(userId, sysUser.getUsername(), sysUser.getCode());
+        }
+    }
+
     // 后台数据库中导入党员数据后，需要同步信息、更新状态
     @Transactional
     public void dbUpdate(int userId){

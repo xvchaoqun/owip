@@ -120,6 +120,7 @@
 <c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
 
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUT_STATUS_ABOLISH" value="<%=SystemConstants.MEMBER_OUT_STATUS_ABOLISH%>"/>
 <c:set var="MEMBER_OUT_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_OUT_STATUS_SELF_BACK%>"/>
 <c:set var="MEMBER_OUT_STATUS_BACK" value="<%=SystemConstants.MEMBER_OUT_STATUS_BACK%>"/>
 <c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUT_STATUS_APPLY%>"/>

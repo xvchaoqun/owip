@@ -351,6 +351,7 @@ public class SystemConstants {
 	}
 
 	// 党员转出状态
+	public final static byte MEMBER_OUT_STATUS_ABOLISH = -3;
 	public final static byte MEMBER_OUT_STATUS_SELF_BACK = -2;
 	public final static byte MEMBER_OUT_STATUS_BACK = -1;
 	public final static byte MEMBER_OUT_STATUS_APPLY = 0;
@@ -358,6 +359,7 @@ public class SystemConstants {
 	public final static byte MEMBER_OUT_STATUS_OW_VERIFY= 2;
 	public final static Map<Byte, String> MEMBER_OUT_STATUS_MAP = new LinkedHashMap<>();
 	static {
+		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ABOLISH, "组织部撤销已完成的审批");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_SELF_BACK, "本人撤回");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_BACK, "返回修改");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_APPLY, "申请");

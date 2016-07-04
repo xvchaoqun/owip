@@ -47,8 +47,7 @@ public class UserMemberOutController extends BaseController{
         MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
-        if(memberOut==null || memberOut.getStatus()== SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
-                || memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut==null || memberOut.getStatus() <= SystemConstants.MEMBER_OUT_STATUS_BACK)
             return "user/memberOut/memberOut_au";
 
         return "user/memberOut/memberOut";
@@ -71,8 +70,7 @@ public class UserMemberOutController extends BaseController{
 
         MemberOut memberOut = memberOutService.get(userId);
 
-        if(memberOut!=null && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
-                && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut!=null && memberOut.getStatus() > SystemConstants.MEMBER_OUT_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
         Member member = memberService.get(userId);

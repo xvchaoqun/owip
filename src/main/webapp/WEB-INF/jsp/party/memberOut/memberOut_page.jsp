@@ -130,6 +130,12 @@
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量介绍信套打
                                 </button>
+                                <shiro:hasAnyRoles name="admin,odAdmin">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/memberOut_abolish">
+                                        <i class="fa fa-reply"></i> 撤销
+                                    </button>
+                                </shiro:hasAnyRoles>
                                 </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -216,9 +222,7 @@
                                                     <select name="status" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
                                                         <c:forEach var="_status" items="${MEMBER_OUT_STATUS_MAP}">
-                                                            <c:if test="${_status.key>MEMBER_OUT_STATUS_BACK && _status.key<MEMBER_OUT_STATUS_OW_VERIFY}">
                                                                 <option value="${_status.key}">${_status.value}</option>
-                                                            </c:if>
                                                         </c:forEach>
                                                     </select>
                                                     <script>

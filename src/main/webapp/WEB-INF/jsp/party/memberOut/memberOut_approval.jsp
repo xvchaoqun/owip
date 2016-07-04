@@ -175,7 +175,7 @@
                                       ${cm:formatDate(memberOut.applyTime,'yyyy-MM-dd')}
                                   </span>
                                 </li>
-                                <c:if test="${memberOut.status==MEMBER_OUT_STATUS_SELF_BACK || memberOut.status==MEMBER_OUT_STATUS_BACK}">
+                                <c:if test="${memberOut.status <= MEMBER_OUT_STATUS_BACK}">
                                     <li data-step="2" class="active">
                                         <span class="step">1</span>
                                         <span class="title">未通过申请</span>
