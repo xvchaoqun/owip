@@ -129,8 +129,10 @@
 
                 var filesArray = []
                 for(var i in rowObject.files){
-                    var file = rowObject.files[i];
-                    filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i)+1));
+                    if(rowObject.files.hasOwnProperty(i)){
+                        var file = rowObject.files[i];
+                        filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i)+1));
+                    }
                 }
                 return filesArray.join("，");
             }},
