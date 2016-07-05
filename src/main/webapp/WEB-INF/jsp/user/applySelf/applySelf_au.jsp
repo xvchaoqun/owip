@@ -131,7 +131,7 @@ pageEncoding="UTF-8"%>
 				<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
 			</div>--%>
 			<div class="modal-footer center">
-				<input id="submit" class="btn btn-primary btn-lg" value="${param.edit==1?"修改提交":"提交申请"}"/>
+				<input id="submitBtn" data-loading-text="提交中..."  data-success-text="您的申请已提交成功" autocomplete="off" class="btn btn-primary btn-lg" value="${param.edit==1?"修改提交":"提交申请"}"/>
 			</div>
 		</div>
 	</div>
@@ -237,7 +237,7 @@ pageEncoding="UTF-8"%>
 		//autosize($('#form-field-tags'));
 	}
 
-	$("#submit").click(function(){$("#applyForm").submit();return false;});
+	$("#submitBtn").click(function(){$("#applyForm").submit();return false;});
     $("#applyForm").validate({
         submitHandler: function (form) {
 
@@ -366,15 +366,17 @@ pageEncoding="UTF-8"%>
 				return false;
 			}*/
 
-
+			var $btn = $("#submitBtn").button('loading');
+			//setTimeout(function () { $btn.button('reset'); },1000);
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-
+						$btn.button("success").addClass("btn-success");
 						bootbox.dialog({
+							closeButton:false,
 							message:'<p style="padding:30px;font-size:20pt;text-indent: 2em; ">您可以继续申请使用因私出国境证件，' +
 							'也可以在因私出国境申请通过审批之后，再次登陆系统申请。</p>',
-							callback:function(){alert(1)},
+							//callback:function(){alert(1)},
 							title:'<h3 class="label label-success" style="font-size: 30px; height: 50px;border-radius:6px;">申请成功</h3>',
 							buttons: {
 								Cancel: {
@@ -399,7 +401,9 @@ pageEncoding="UTF-8"%>
 							}
 						}).draggable({handle :".modal-header"});
 
-                    }
+                    }else{
+						$btn.button('reset');
+					}
                 }
             });
         }

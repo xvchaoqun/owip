@@ -119,6 +119,12 @@
         background-color: inherit !important;
     }
 </style>
+<script type="text/template" id="switch_tpl">
+<button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
+        data-id="{{=id}}"><i class="fa fa-folder-o"></i>
+    <span>查看期间工作</span>
+</button>
+</script>
 <script type="text/template" id="subgrid_op_tpl">
 <button class="popupBtn btn btn-xs btn-primary"
         data-url="${ctx}/cadreWork_au?id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
@@ -202,6 +208,10 @@
         pager: "#jqGridPager_cadreWork",
         url: '${ctx}/cadreWork_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.subWorkCount == 0) return ''
+                return _.template($("#switch_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id});
+            } ,width: 130},
             {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '工作单位', name: 'unit' ,width: 280},
@@ -259,14 +269,32 @@
             $("#jqGrid_cadreWork").expandSubGridRow(currentExpandRows[i])
     });
 
+    var getEvent = function(){
+        return window.event || arguments.callee.caller.arguments[0];
+    }
+
+    function _swtich(id, btn){
+
+        if(!$("i", btn).hasClass("fa-folder-open-o")) {
+            $("#jqGrid_cadreWork").expandSubGridRow(id)
+        }else{
+            $("#jqGrid_cadreWork").collapseSubGridRow(id)
+        }
+        getEvent().stopPropagation();
+    }
+
     var currentExpandRows = [];
     function subGridRowColapsed(parentRowID, parentRowKey){
+        $(".switchBtn i", '#' + parentRowKey).removeClass("fa-folder-open-o");
+        $(".switchBtn span", '#' + parentRowKey).html("查看期间工作");
         currentExpandRows.remove(parentRowKey);
     }
     // the event handler on expanding parent row receives two parameters
     // the ID of the grid tow  and the primary key of the row
     function subGridRowExpanded(parentRowID, parentRowKey) {
 
+        $(".switchBtn i", '#' + parentRowKey).addClass("fa-folder-open-o");
+        $(".switchBtn span", '#' + parentRowKey).html("隐藏期间工作");
         currentExpandRows.push(parentRowKey);
 
         var childGridID = parentRowID + "_table";
