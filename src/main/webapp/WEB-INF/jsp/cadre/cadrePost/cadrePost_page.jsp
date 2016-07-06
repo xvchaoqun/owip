@@ -124,7 +124,7 @@
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="widget-title"><i class="fa fa-history"></i> 任职经历
-                    <div class="buttons">
+                    <div class="jqgrid-vertical-offset buttons">
                         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                                 data-url="${ctx}/cadreWork_updateUnitId"
                                 data-grid-id="#jqGrid_cadreWork"

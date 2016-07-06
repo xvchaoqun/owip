@@ -39,11 +39,11 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreInfo:del">
+                                    <%-- <shiro:hasPermission name="cadreInfo:del">
                                     <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${cadreInfo.cadreId})">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
-                                      </shiro:hasPermission>
+                                      </shiro:hasPermission>--%>
                                 </div>
                             </td>
                         </tr>
@@ -56,18 +56,6 @@ pageEncoding="UTF-8" %>
         loadModal("${ctx}/cadreInfo_au?cadreId=${param.cadreId}");
     }
 
-    function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreInfo_del", {cadreId: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
     function _reload(){
         $("#modal").modal('hide');
         $("#view-box .tab-content").load("${ctx}/cadreInfo_page?${cm:encodeQueryString(pageContext.request.queryString)}");

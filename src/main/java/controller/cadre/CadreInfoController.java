@@ -113,7 +113,7 @@ public class CadreInfoController extends BaseController {
         return "cadre/cadreInfo/cadreInfo_au";
     }
 
-    @RequiresPermissions("cadreInfo:del")
+    /*@RequiresPermissions("cadreInfo:del")
     @RequestMapping(value = "/cadreInfo_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreInfo_del(HttpServletRequest request, Integer cadreId) {
@@ -138,7 +138,7 @@ public class CadreInfoController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
 
     public void cadreInfo_export(CadreInfoExample example, HttpServletResponse response) {
