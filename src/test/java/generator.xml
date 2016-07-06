@@ -21,7 +21,6 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-
      <!-- <table tableName="abroad_applicat_type" domainObjectName="ApplicatType">
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
@@ -145,9 +144,9 @@
       </table>-->
       <!--<table tableName="base_location" domainObjectName="Location">
       </table>-->
-      <table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
           <columnOverride column="work" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
       </table>
       <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
