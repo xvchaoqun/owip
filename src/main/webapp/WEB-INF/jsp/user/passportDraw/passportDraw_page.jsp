@@ -49,28 +49,28 @@
     </div>
 </div>
 <script type="text/template" id="needSign_tpl">
-<button data-url="${ctx}/user/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
-        class="openView btn btn-success btn-mini btn-xs">
-    <i class="fa fa-eye"></i> 签注申请表
-</button>
+    <button data-url="${ctx}/user/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
+            class="openView btn btn-success btn-mini btn-xs">
+        <i class="fa fa-eye"></i> 签注申请表
+    </button>
 </script>
 <script type="text/template" id="notNeedSign_tpl">
-<button data-url="${ctx}/user/passportDraw_self_sign?type=add&id={{=id}}&passportId={{=passportId}}"
-        class="openView btn btn-default btn-mini btn-xs">
-    <i class="fa fa-plus"></i> 办理签注
-</button>
+    <button data-url="${ctx}/user/passportDraw_self_sign?type=add&id={{=id}}&passportId={{=passportId}}"
+            class="openView btn btn-default btn-mini btn-xs">
+        <i class="fa fa-plus"></i> 办理签注
+    </button>
 </script>
 <script type="text/template" id="abolish_tpl">
-<button class="confirm btn btn-danger btn-xs"
-        data-url="${ctx}/user/passportDraw_del?id={{=id}}"
-        data-callback="_delCallback"
-        data-msg="确定撤销该申请吗？">
-    <i class="fa fa-trash"></i> 撤销申请
-</button>
+    <button class="confirm btn btn-danger btn-xs"
+            data-url="${ctx}/user/passportDraw_del?id={{=id}}"
+            data-callback="_delCallback"
+            data-msg="确定撤销该申请吗？">
+        <i class="fa fa-trash"></i> 撤销申请
+    </button>
 </script>
 <script type="text/template" id="applyId_tpl">
-<a class="openView" href="javascript:;"
-   data-url="${ctx}/user/applySelf_view?id={{=id}}"> S{{=id}}</a>
+    <a class="openView" href="javascript:;"
+       data-url="${ctx}/user/applySelf_view?id={{=id}}"> S{{=id}}</a>
 </script>
 <script>
     $("#jqGrid").jqGrid({
@@ -94,7 +94,7 @@
             {
                 label: '因私出国（境）行程', name: 'applyId', width: 160, formatter: function (cellvalue, options, rowObject) {
 
-                return _.template($("#applyId_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: cellvalue});
+                return _.template($("#applyId_tpl").html().NoMultiSpace())({id: cellvalue});
             }
             },
             {
@@ -125,17 +125,22 @@
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
             {label: '费用来源', name: 'costSource', width: 100},
             </c:if>
-            {label: '${type==PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}', name: 'files', width: 150, formatter: function (cellvalue, options, rowObject) {
+            {
+                label: '${type==PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}',
+                name: 'files',
+                width: 150,
+                formatter: function (cellvalue, options, rowObject) {
 
-                var filesArray = []
-                for(var i in rowObject.files){
-                    if(rowObject.files.hasOwnProperty(i)){
-                        var file = rowObject.files[i];
-                        filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i)+1));
+                    var filesArray = []
+                    for (var i in rowObject.files) {
+                        if (rowObject.files.hasOwnProperty(i)) {
+                            var file = rowObject.files[i];
+                            filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
+                        }
                     }
+                    return filesArray.join("，");
                 }
-                return filesArray.join("，");
-            }},
+            },
             </c:if>
             <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
             {
@@ -144,25 +149,29 @@
             }
             },
             {
-                label: '签注申请表', name: 'op', width: 120, frozen: true, formatter: function (cellvalue, options, rowObject) {
-                var str = "";
-                <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
-                if (rowObject.passportClass.code != 'mt_passport_normal') {
-                    console.log(rowObject.needSign)
-                    if (rowObject.needSign)
-                        str += _.template($("#needSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
-                            id: rowObject.id,
-                            passportId: rowObject.passportId
-                        });
-                    else
-                        str += _.template($("#notNeedSign_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({
-                            id: rowObject.id,
-                            passportId: rowObject.passportId
-                        });
+                label: '签注申请表',
+                name: 'op',
+                width: 120,
+                frozen: true,
+                formatter: function (cellvalue, options, rowObject) {
+                    var str = "";
+                    <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
+                    if (rowObject.passportClass.code != 'mt_passport_normal') {
+                        console.log(rowObject.needSign)
+                        if (rowObject.needSign)
+                            str += _.template($("#needSign_tpl").html().NoMultiSpace())({
+                                id: rowObject.id,
+                                passportId: rowObject.passportId
+                            });
+                        else
+                            str += _.template($("#notNeedSign_tpl").html().NoMultiSpace())({
+                                id: rowObject.id,
+                                passportId: rowObject.passportId
+                            });
+                    }
+                    </c:if>
+                    return str;
                 }
-                </c:if>
-                return str;
-            }
             },
             </c:if>
             {
@@ -184,8 +193,8 @@
             {
                 label: '操作', name: 'op', width: 100, frozen: true, formatter: function (cellvalue, options, rowObject) {
                 var str = "";
-                if(rowObject.status==0){
-                    str += _.template($("#abolish_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id});
+                if (rowObject.status == 0) {
+                    str += _.template($("#abolish_tpl").html().NoMultiSpace())({id: rowObject.id});
                 }
                 return str;
             }

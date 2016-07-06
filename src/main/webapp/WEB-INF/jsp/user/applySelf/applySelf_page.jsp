@@ -169,7 +169,7 @@
             }},
             { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
-                    return _.template($("#remark_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                    return _.template($("#remark_tpl").html().NoMultiSpace())({id:rowObject.id})
                 else return ''
             } }
         ],

@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
             },frozen:true },
                 <c:if test="${!_query}">
             { label:'排序', index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             </c:if>
             { label: '党委常委会日期',  name: 'meetingTime', width: 130 },

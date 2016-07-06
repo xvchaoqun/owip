@@ -31,6 +31,16 @@ String.prototype.NoSpace = function()
     return this.replace(/\s+/g, "");
 }
 
+/** trim() method for String */
+String.prototype.trim=function() {
+    return this.replace(/(^\s*)|(\s*$)|\r|\n|(\r\n)/g,'');
+};
+/**把连续的空格替换成一个空格**/
+String.prototype.NoMultiSpace = function()
+{
+    return this.replace(/\s{2}/g, " ").trim();
+}
+
 Array.prototype.indexOf = function(val) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == val) return i;

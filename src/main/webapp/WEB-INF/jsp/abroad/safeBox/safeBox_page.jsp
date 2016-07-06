@@ -68,7 +68,7 @@
                         .format(rowObject.id, rowObject.totalCount - rowObject.keepCount)
             },frozen:true},
             { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             { label: '证件所属单位', name: 'units', width: 500 },
             { label: '备注', align:'center', name: 'remark', width: 250 }

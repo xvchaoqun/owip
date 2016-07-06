@@ -138,7 +138,7 @@
             },frozen:true },
             <c:if test="${!_query}">
             { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             </c:if>
             { label: '单位类型', name: 'unitType.name', width: 250,frozen:true  },

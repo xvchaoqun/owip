@@ -169,7 +169,7 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             { label: '行政级别', name: 'adminLevelType.name' },
             { label: '职务属性', name: 'postType.name', width: 150 },
@@ -188,7 +188,9 @@ pageEncoding="UTF-8" %>
             { label: '家庭电话', name: 'homePhone' },
             { label: '电子邮箱', name: 'email', width: 150 },
             { label: '备注', name: 'remark', width: 150 }
-        ]}).jqGrid("setFrozenColumns");
+        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid');
 
     function _pass(){
@@ -232,7 +234,7 @@ pageEncoding="UTF-8" %>
     });*/
 
     $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+
 
         register_user_select($('#searchForm select[name=cadreId]'));
 </script>

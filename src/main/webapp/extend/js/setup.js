@@ -112,6 +112,10 @@ $(window).on('resize.jqGrid2', function () {
     if($("#menu-toggler").is(":hidden")){ // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
+    var widthReduce = $(".jqGrid2").data("width-reduce");
+    if(widthReduce!=undefined && Math.abs(widthReduce)>0) {
+        gridWidth = gridWidth - widthReduce;
+    }
     $(".jqGrid2").jqGrid( 'setGridWidth', gridWidth );
     var height = 0;
     $("#item-content .jqgrid-vertical-offset").each(function(){

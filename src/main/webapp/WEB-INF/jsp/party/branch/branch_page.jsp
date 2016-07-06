@@ -187,7 +187,7 @@ pageEncoding="UTF-8" %>
             { label: '所属分党委', name: 'party.name',align:'left', width: 400 , frozen:true},
            /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             } },
             </c:if>*/
             { label:'类别', align:'center', name: 'branchType.name', width: 150},

@@ -107,7 +107,7 @@
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             </c:if>
             { label:'行政级别', align:'center', name: 'cadre.adminLevelType.name', width: 280},
@@ -115,10 +115,11 @@
             { label: '分管工作', align:'center', name: 'job', width: 350 }
 
         ]
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid');
 
     register_user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
 </script>
