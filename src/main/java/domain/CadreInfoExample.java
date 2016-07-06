@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CadreInfoExample {
@@ -511,6 +512,66 @@ public class CadreInfoExample {
 
         public Criteria andWorkNotBetween(String value1, String value2) {
             addCriterion("work not between", value1, value2, "work");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateIsNull() {
+            addCriterion("work_save_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateIsNotNull() {
+            addCriterion("work_save_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateEqualTo(Date value) {
+            addCriterion("work_save_date =", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateNotEqualTo(Date value) {
+            addCriterion("work_save_date <>", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateGreaterThan(Date value) {
+            addCriterion("work_save_date >", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("work_save_date >=", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateLessThan(Date value) {
+            addCriterion("work_save_date <", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateLessThanOrEqualTo(Date value) {
+            addCriterion("work_save_date <=", value, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateIn(List<Date> values) {
+            addCriterion("work_save_date in", values, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateNotIn(List<Date> values) {
+            addCriterion("work_save_date not in", values, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateBetween(Date value1, Date value2) {
+            addCriterion("work_save_date between", value1, value2, "workSaveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkSaveDateNotBetween(Date value1, Date value2) {
+            addCriterion("work_save_date not between", value1, value2, "workSaveDate");
             return (Criteria) this;
         }
     }

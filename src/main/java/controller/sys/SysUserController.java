@@ -116,9 +116,8 @@ public class SysUserController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (StringUtils.isNotBlank(username)) {
-            criteria.andUsernameLike("%" + username + "%");
-        }
+        criteria.andUsernameEqualTo(username);
+
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike("%" + realname + "%");
         }

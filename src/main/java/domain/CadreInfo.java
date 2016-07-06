@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CadreInfo implements Serializable {
     private Integer cadreId;
@@ -14,6 +15,8 @@ public class CadreInfo implements Serializable {
     private String email;
 
     private String work;
+
+    private Date workSaveDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -63,5 +66,13 @@ public class CadreInfo implements Serializable {
 
     public void setWork(String work) {
         this.work = work == null ? null : work.trim();
+    }
+
+    public Date getWorkSaveDate() {
+        return workSaveDate;
+    }
+
+    public void setWorkSaveDate(Date workSaveDate) {
+        this.workSaveDate = workSaveDate;
     }
 }

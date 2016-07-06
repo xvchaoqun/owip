@@ -8,6 +8,7 @@
     <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="work_save_date" property="workSaveDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    cadre_id, mobile, office_phone, home_phone, email, work
+    cadre_id, mobile, office_phone, home_phone, email, work, work_save_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.CadreInfoExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="domain.CadreInfo" >
     insert into base_cadre_info (cadre_id, mobile, office_phone, 
-      home_phone, email, work
-      )
+      home_phone, email, work, 
+      work_save_date)
     values (#{cadreId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR}, 
-      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}
-      )
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, 
+      #{workSaveDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.CadreInfo" >
     insert into base_cadre_info
@@ -129,6 +130,9 @@
       <if test="work != null" >
         work,
       </if>
+      <if test="workSaveDate != null" >
+        work_save_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="cadreId != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="work != null" >
         #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="workSaveDate != null" >
+        #{workSaveDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.work != null" >
         work = #{record.work,jdbcType=VARCHAR},
       </if>
+      <if test="record.workSaveDate != null" >
+        work_save_date = #{record.workSaveDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      work = #{record.work,jdbcType=VARCHAR}
+      work = #{record.work,jdbcType=VARCHAR},
+      work_save_date = #{record.workSaveDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="work != null" >
         work = #{work,jdbcType=VARCHAR},
       </if>
+      <if test="workSaveDate != null" >
+        work_save_date = #{workSaveDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       office_phone = #{officePhone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      work = #{work,jdbcType=VARCHAR}
+      work = #{work,jdbcType=VARCHAR},
+      work_save_date = #{workSaveDate,jdbcType=TIMESTAMP}
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.CadreInfoExample" id="selectByExampleWithRowbounds" >

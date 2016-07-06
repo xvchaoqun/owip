@@ -1,4 +1,11 @@
 
+
+
+--2016-7-6
+ALTER TABLE `base_cadre_info`
+	ADD COLUMN `work_save_date` DATETIME NULL COMMENT '上一次工作经历保存时间' AFTER `work`;
+
+
 --2016-7-1
 ALTER TABLE `base_cadre_work`
 	ADD COLUMN `unit_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '对应现运行单位' AFTER `unit`;

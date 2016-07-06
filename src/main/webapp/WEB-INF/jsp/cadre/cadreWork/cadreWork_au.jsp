@@ -105,10 +105,16 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-
+                        jgrid_sid = null;
+                        currentExpandRows = [];
                         $("#modal").modal("hide");
+                        // 如果添加主要工作经历，那么添加之后所有的期间工作经历都是隐藏状态；
+                        // 如果添加期间工作经历，那么添加之后，只有它所在的主要工作经历的期间工作经历为打开状态，其他主要工作经历的期间工作经历为隐藏状态。
                         <c:if test="${not empty param.fid}">
-                        if(currentExpandRows)currentExpandRows.push(${param.fid})
+                        currentExpandRows = [];
+                        </c:if>
+                        <c:if test="${not empty param.fid}">
+                        currentExpandRows.push(${param.fid})
                         </c:if>
                         $("#jqGrid_cadreWork").trigger("reloadGrid");
 

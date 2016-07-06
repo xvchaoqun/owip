@@ -36,15 +36,18 @@ public class CadrePostController extends BaseController {
     @RequiresPermissions("cadrePost:list")
     @RequestMapping("/cadrePost_page")
     public String cadrePost_page(HttpServletResponse response,
+                                 @RequestParam(defaultValue = "1") Byte type, // “1 任现职情况”和“2 任职经历”
                                  Integer cadreId, ModelMap modelMap) {
 
-        // 主职
-        modelMap.put("mainCadrePost",cadrePostService.getCadreMainCadrePost(cadreId));
-        // 兼职
-        modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
-        // 任职级经历
-        modelMap.put("cadreAdminLevels", cadreAdminLevelService.getCadreAdminLevels(cadreId));
-
+        modelMap.put("type", type);
+        if (type == 1) {
+            // 主职
+            modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(cadreId));
+            // 兼职
+            modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
+            // 任职级经历
+            modelMap.put("cadreAdminLevels", cadreAdminLevelService.getCadreAdminLevels(cadreId));
+        }
         return "cadre/cadrePost/cadrePost_page";
     }
 

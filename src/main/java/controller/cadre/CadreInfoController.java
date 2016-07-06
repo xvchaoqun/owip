@@ -93,6 +93,7 @@ public class CadreInfoController extends BaseController {
         CadreInfo record = new CadreInfo();
         record.setCadreId(cadreId);
         record.setWork(work);
+        record.setWorkSaveDate(new Date());
 
         cadreInfoService.insertOrUpdate(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新工作经历信息：%s, %s", record.getCadreId(), work));

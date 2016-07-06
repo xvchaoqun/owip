@@ -1,7 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<div class="tabbable">
+    <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+        <li class="${type==1?"active":""}">
+            <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
+        </li>
+        <li class="${type==2?"active":""}">
+            <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
+        </li>
+    </ul>
+    <div class="space-4"></div>
+    <c:if test="${type==1}">
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主职
@@ -36,7 +46,6 @@
         </div>
     </div>
 </div>
-
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
@@ -72,34 +81,6 @@
         </div>
     </div>
 </div>
-
-<div class="widget-box">
-    <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-history"></i> 任职经历
-            <div class="buttons">
-                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
-                        data-url="${ctx}/cadreWork_updateUnitId"
-                        data-grid-id="#jqGrid_cadreWork"
-                        data-querystr="&cadreId=${param.cadreId}">
-                    <i class="fa fa-edit"></i> 修改对应现运行单位
-                </button>
-            </div>
-        </h4>
-
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-up"></i>
-            </a>
-        </div>
-    </div>
-    <div class="widget-body">
-        <div class="widget-main">
-            <table id="jqGrid_cadreWork" data-width-reduce="50" class="jqGrid4"></table>
-            <div id="jqGridPager_cadreWork"></div>
-        </div>
-    </div>
-</div>
-
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-history"></i> 任职级经历
@@ -135,7 +116,36 @@
         </div>
     </div>
 </div>
+    </c:if>
+<c:if test="${type==2}">
+<div class="widget-box">
+        <div class="widget-header">
+            <h4 class="widget-title"><i class="fa fa-history"></i> 任职经历
+                <div class="buttons">
+                    <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                            data-url="${ctx}/cadreWork_updateUnitId"
+                            data-grid-id="#jqGrid_cadreWork"
+                            data-querystr="&cadreId=${param.cadreId}">
+                        <i class="fa fa-edit"></i> 修改对应现运行单位
+                    </button>
+                </div>
+            </h4>
 
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <table id="jqGrid_cadreWork" data-width-reduce="50" class="jqGrid4"></table>
+                <div id="jqGridPager_cadreWork"></div>
+            </div>
+        </div>
+    </div>
+</c:if>
+    </div>
 <script type="text/template" id="dispatch_select_tpl">
 <button class="popupBtn btn btn-warning btn-xs"
         data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
@@ -175,6 +185,11 @@ data-width="1000">
 </style>
 <c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
+    function _innerPage(type){
+        $("#view-box .tab-content").load("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type="+type)
+    }
+
+    <c:if test="${type==1}">
     var mainCadrePost = ${mainCadrePostStr};
     $("#jqGrid_mainCadrePost").jqGrid({
         pager: null,
@@ -295,35 +310,6 @@ data-width="1000">
         ]
     })
 
-    $("#jqGrid_cadreWork").jqGrid({
-        ondblClickRow: function () {},
-        pager: "#jqGridPager_cadreWork",
-        url: '${ctx}/cadreWork_data?fid=-1&pageSize=4&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '任职单位', name: 'unit' ,width: 280},
-            {label: '担任职务或者专技职务', name: 'post', width: 280},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
-                return _metaTypeMap[cellvalue]
-            }, width: 200
-            },
-            {
-                label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                return _metaTypeMap[cellvalue]
-            }, width: 200
-            },
-            {
-                label: '对应现运行单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
-                return _cMap.unitMap[cellvalue].name
-            }, width: 200
-            }
-        ]
-    })
-
     $("#jqGrid_cadreAdminLevels").jqGrid({
         pager: null,
         ondblClickRow:function(){},
@@ -366,6 +352,37 @@ data-width="1000">
             {label: '备注', name: 'remark', width: 250}
         ]
     })
+    </c:if>
+    <c:if test="${type==2}">
+    $("#jqGrid_cadreWork").jqGrid({
+        ondblClickRow: function () {},
+        pager: "#jqGridPager_cadreWork",
+        url: '${ctx}/cadreWork_data?fid=-1&isCadre=1&pageSize=4&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '任职单位', name: 'unit' ,width: 280},
+            {label: '担任职务或者专技职务', name: 'post', width: 280},
+            {
+                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                return _metaTypeMap[cellvalue]
+            }, width: 200
+            },
+            {
+                label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
+                return _metaTypeMap[cellvalue]
+            }, width: 200
+            },
+            {
+                label: '对应现运行单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
+                return _cMap.unitMap[cellvalue].name
+            }, width: 200
+            }
+        ]
+    })
+    </c:if>
 
     $(window).triggerHandler('resize.jqGrid4');
 

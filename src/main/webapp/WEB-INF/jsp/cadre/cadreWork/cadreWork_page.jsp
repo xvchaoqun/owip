@@ -38,7 +38,7 @@
             <i class="fa fa-times"></i> 删除
         </button>
     </shiro:hasPermission>
-    <span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>
+    <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>--%>
 </div>
 <div class="space-4"></div>
 <table id="jqGrid_cadreWork" class="jqGrid2"></table>
@@ -51,20 +51,20 @@
                 <div class="widget-box">
                     <div class="widget-header">
                         <h4 class="smaller">
-                            参考
+                            初始数据
                         </h4>
                     </div>
                     <div class="widget-body">
-                        <div class="widget-main" style="min-height: 647px">
+                        <div class="widget-main" style="min-height: 647px" id="orginal">
                            <c:forEach items="${cadreWorks}" var="cadreWork">
                                <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
-                               &nbsp;&nbsp;${cadreWork.unit}${cadreWork.post}</p>
+                               &nbsp;${cadreWork.unit}${cadreWork.post}</p>
                                <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
                                    <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
                                        <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
                                        <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
                                        ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
-                                       &nbsp;&nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
+                                       &nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
                                    </c:forEach>
                                </c:if>
                            </c:forEach>
@@ -76,7 +76,7 @@
                 <div class="widget-box">
                     <div class="widget-header">
                         <h4 class="smaller">
-                            编辑区域
+                            最终数据（<span style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.workSaveDate?"未保存":cm:formatDate(cadreInfo.workSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                         </h4>
                     </div>
                     <div class="widget-body">
@@ -86,13 +86,13 @@
                                 <c:if test="${empty cadreInfo.work}">
                                 <c:forEach items="${cadreWorks}" var="cadreWork">
                                     <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
-                                        &nbsp;&nbsp;${cadreWork.unit}${cadreWork.post}</p>
+                                        &nbsp;${cadreWork.unit}${cadreWork.post}</p>
                                     <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
                                         <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
                                             <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
                                             <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
                                             ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
-                                            &nbsp;&nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
+                                            &nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
                                         </c:forEach>
                                     </c:if>
                                 </c:forEach>
@@ -101,7 +101,12 @@
                             <input type="hidden" name="content">
                         </div>
                         <div class="modal-footer center">
-                            <input type="button" onclick="updateCadreInfoWork()" class="btn btn-primary" value="${empty cadreInfo.work?"提交":"修改"}"/>
+                            <a href="javascript:;" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                                <i class="ace-icon fa fa-copy"></i>
+                                复制初始数据
+                            </a>
+                            <input type="button" onclick="updateCadreInfoWork()" class="btn btn-primary" value="保存"/>
+
                         </div>
                     </div>
                 </div>
@@ -122,7 +127,7 @@
 <script type="text/template" id="switch_tpl">
 <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
         data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-    <span>查看期间工作</span>
+    <span>查看期间工作({{=count}})</span>
 </button>
 </script>
 <script type="text/template" id="subgrid_op_tpl">
@@ -191,9 +196,16 @@
     function updateCadreInfoWork(){
         $.post("${ctx}/cadreInfo_updateWork",{cadreId:'${param.cadreId}',work:KE.util.getData('content')},function(ret){
             if(ret.success){
-                SysMsg.info("操作成功");
+                SysMsg.info("保存成功", "",function(){
+                    _innerPage(2)
+                });
             }
         });
+    }
+    function copyOrginal(){
+        //console.log($("#orginal").html())
+        KE.util.setFullHtml('content', $("#orginal").html())
+        SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
     }
 </script>
 </c:if>
@@ -210,22 +222,22 @@
         colModel: [
             {label: '', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.subWorkCount == 0) return ''
-                return _.template($("#switch_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id});
+                return _.template($("#switch_tpl").html().replace(/\n|\r|(\r\n)/g, ''))({id: rowObject.id, count:rowObject.subWorkCount});
             } ,width: 130},
             {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '工作单位', name: 'unit' ,width: 280},
-            {label: '担任职务或者专技职务', name: 'post', width: 280},
+            {label: '担任职务或者专技职务', name: 'post', width: 170},
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return ''
                 return _metaTypeMap[cellvalue]
-            }, width: 200
+            }
             },
             {
                 label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
                 return _metaTypeMap[cellvalue]
-            }, width: 200
+            }
             },
             {
                 label: '干部任职', name: 'isCadre', formatter: function (cellvalue, options, rowObject) {

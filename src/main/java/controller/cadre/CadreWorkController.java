@@ -74,6 +74,7 @@ public class CadreWorkController extends BaseController {
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
                               Integer cadreId,
                               Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取期间工作
+                              Boolean isCadre,
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer pageSize, Integer pageNo) throws IOException {
 
@@ -94,6 +95,10 @@ public class CadreWorkController extends BaseController {
         } else {
             criteria.andFidIsNull();
         }
+        if(isCadre!=null){
+            criteria.andIsCadreEqualTo(isCadre);
+        }
+
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
