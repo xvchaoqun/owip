@@ -127,7 +127,7 @@
 <script type="text/template" id="switch_tpl">
 <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
         data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-    <span>查看期间工作({{=count}})</span>
+    <span>查看期间工作</span>({{=count}})
 </button>
 </script>
 <script type="text/template" id="subgrid_op_tpl">
