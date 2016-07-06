@@ -1,12 +1,18 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.ext.*;
+import domain.member.Member;
+import domain.member.MemberExample;
+import domain.member.MemberTeacher;
+import domain.party.Branch;
+import domain.party.GraduateAbroad;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;

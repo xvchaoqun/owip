@@ -1,9 +1,9 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.DispatchType;
-import domain.DispatchTypeExample;
-import domain.DispatchTypeExample.Criteria;
+import domain.dispatch.DispatchType;
+import domain.dispatch.DispatchTypeExample;
+import domain.dispatch.DispatchTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchTypeMixin;

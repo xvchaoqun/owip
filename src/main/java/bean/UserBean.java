@@ -1,7 +1,7 @@
 package bean;
 
-import domain.Branch;
-import domain.Party;
+import domain.party.Branch;
+import domain.party.Party;
 
 import java.io.Serializable;
 import java.util.Date;

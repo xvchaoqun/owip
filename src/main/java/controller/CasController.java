@@ -1,6 +1,6 @@
 package controller;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;

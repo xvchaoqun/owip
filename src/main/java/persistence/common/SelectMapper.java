@@ -1,7 +1,11 @@
 package persistence.common;
 
 import bean.*;
-import domain.*;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApprovalOrder;
+import domain.abroad.Passport;
+import domain.dispatch.DispatchCadre;
+import domain.unit.Leader;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -14,7 +18,7 @@ import java.util.Map;
 
 public interface SelectMapper {
 
-    @ResultMap("persistence.ApprovalOrderMapper.BaseResultMap")
+    @ResultMap("persistence.abroad.ApprovalOrderMapper.BaseResultMap")
     @Select("select aao.* from abroad_approval_order aao, abroad_approver_type aat " +
             "where aao.applicat_type_id=#{applicatTypeId} and aao.approver_type_id = aat.id order by aat.sort_order desc")
     List<ApprovalOrder> selectApprovalOrderList(@Param("applicatTypeId") int applicatTypeId, RowBounds rowBounds);
@@ -27,7 +31,7 @@ public interface SelectMapper {
     List<Integer> getLeaderManagerUnitId(@Param("cadreId") Integer cadreId, @Param("leaderTypeId") Integer leaderTypeId);
 
     //查询分管当前单位的校领导
-    @ResultMap("persistence.LeaderMapper.BaseResultMap")
+    @ResultMap("persistence.unit.LeaderMapper.BaseResultMap")
     @Select("select bl.* from base_leader_unit blu, base_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
     List<Leader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);

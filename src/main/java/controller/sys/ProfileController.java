@@ -1,7 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysUser;
+import domain.sys.SysUser;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;

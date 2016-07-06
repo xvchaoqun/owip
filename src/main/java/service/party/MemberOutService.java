@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.MemberOut;
-import domain.MemberOutExample;
+import domain.member.MemberOut;
+import domain.member.MemberOutExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

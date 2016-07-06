@@ -1,7 +1,7 @@
 package service.ext;
 
-import domain.ExtBks;
-import domain.ExtBksExample;
+import domain.ext.ExtBks;
+import domain.ext.ExtBksExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

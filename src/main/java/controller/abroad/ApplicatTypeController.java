@@ -1,8 +1,13 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.*;
-import domain.ApplicatTypeExample.Criteria;
+import domain.abroad.ApplicatCadreExample;
+import domain.abroad.ApplicatType;
+import domain.abroad.ApplicatTypeExample;
+import domain.abroad.ApplicatTypeExample.Criteria;
+import domain.abroad.ApprovalOrder;
+import domain.cadre.Cadre;
+import domain.cadre.CadreExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

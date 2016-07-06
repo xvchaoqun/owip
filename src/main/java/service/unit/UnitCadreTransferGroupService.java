@@ -1,14 +1,12 @@
 package service.unit;
 
-import domain.UnitCadreTransferGroup;
-import domain.UnitCadreTransferGroupExample;
-import org.apache.commons.lang.StringUtils;
+import domain.unit.UnitCadreTransferGroup;
+import domain.unit.UnitCadreTransferGroupExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;

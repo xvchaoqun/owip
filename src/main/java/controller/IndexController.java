@@ -1,6 +1,6 @@
 package controller;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

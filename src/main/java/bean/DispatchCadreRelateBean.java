@@ -1,8 +1,8 @@
 package bean;
 
-import domain.Dispatch;
-import domain.DispatchCadre;
-import domain.DispatchCadreRelate;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreRelate;
 import sys.tags.CmTag;
 
 import java.util.List;

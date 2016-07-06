@@ -1,12 +1,10 @@
 package service.sys;
 
-import domain.MetaType;
-import domain.SysLog;
+import domain.sys.MetaType;
+import domain.sys.SysLog;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.helper.ContextHelper;
 import shiro.ShiroUser;

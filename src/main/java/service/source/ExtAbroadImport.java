@@ -2,13 +2,13 @@ package service.source;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domain.ExtAbroad;
-import domain.ExtAbroadExample;
+import domain.ext.ExtAbroad;
+import domain.ext.ExtAbroadExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.ExtAbroadMapper;
+import persistence.ext.ExtAbroadMapper;
 import sys.utils.JSONUtils;
 
 import java.sql.ResultSet;

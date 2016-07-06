@@ -1,24 +1,18 @@
 package location;
 
 import com.google.gson.Gson;
-import domain.Location;
-import domain.LocationExample;
+import domain.base.Location;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.LocationMapper;
-import persistence.common.SelectMapper;
+import persistence.base.LocationMapper;
 import service.sys.LocationService;
-import sys.utils.JSONUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

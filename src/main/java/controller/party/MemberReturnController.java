@@ -1,8 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberReturnExample.Criteria;
+import domain.member.MemberReturn;
+import domain.member.MemberReturnExample;
+import domain.member.MemberReturnExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberReturnMixin;

@@ -1,6 +1,9 @@
 package service.abroad;
 
-import domain.*;
+import domain.abroad.ApplicatCadre;
+import domain.abroad.ApplicatCadreExample;
+import domain.abroad.ApplicatType;
+import domain.abroad.ApplicatTypeExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;

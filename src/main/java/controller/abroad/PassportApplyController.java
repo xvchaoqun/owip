@@ -1,7 +1,11 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.*;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyView;
+import domain.abroad.PassportApplyViewExample;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportApplyMixin;

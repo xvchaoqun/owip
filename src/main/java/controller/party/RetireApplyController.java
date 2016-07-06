@@ -1,8 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.RetireApply;
-import domain.SysUser;
+import domain.party.RetireApply;
+import domain.sys.SysUser;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

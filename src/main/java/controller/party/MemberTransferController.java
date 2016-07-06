@@ -2,8 +2,13 @@ package controller.party;
 
 import bean.UserBean;
 import controller.BaseController;
-import domain.*;
-import domain.MemberTransferExample.Criteria;
+import domain.member.Member;
+import domain.member.MemberTransfer;
+import domain.member.MemberTransferExample;
+import domain.member.MemberTransferExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberTransferMixin;

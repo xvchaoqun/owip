@@ -1,11 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.ApplyOpenTime;
-import domain.ApplyOpenTimeExample;
-import domain.ApplyOpenTimeExample.Criteria;
-import domain.Branch;
-import domain.Party;
+import domain.member.ApplyOpenTime;
+import domain.member.ApplyOpenTimeExample;
+import domain.member.ApplyOpenTimeExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

@@ -1,6 +1,6 @@
 package shiro;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

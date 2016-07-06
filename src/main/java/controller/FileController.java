@@ -1,8 +1,8 @@
 package controller;
 
-import domain.PassportDraw;
-import domain.PassportDrawFile;
-import domain.SysUser;
+import domain.abroad.PassportDraw;
+import domain.abroad.PassportDrawFile;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;

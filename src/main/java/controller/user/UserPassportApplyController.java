@@ -1,10 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.PassportApply;
-import domain.PassportApplyExample;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyExample;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

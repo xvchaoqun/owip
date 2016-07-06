@@ -1,8 +1,12 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.*;
-import domain.ApproverTypeExample.Criteria;
+import domain.abroad.ApproverBlackList;
+import domain.abroad.ApproverType;
+import domain.abroad.ApproverTypeExample;
+import domain.abroad.ApproverTypeExample.Criteria;
+import domain.cadre.Cadre;
+import domain.unit.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -1,6 +1,9 @@
 package service.sys;
 
-import domain.*;
+import domain.ext.*;
+import domain.sys.SysUser;
+import domain.sys.SysUserSync;
+import domain.sys.SysUserSyncExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;

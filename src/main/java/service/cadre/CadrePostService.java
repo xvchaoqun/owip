@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadrePost;
-import domain.CadrePostExample;
+import domain.cadre.CadrePost;
+import domain.cadre.CadrePostExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

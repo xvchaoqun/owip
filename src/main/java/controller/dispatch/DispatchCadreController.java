@@ -1,8 +1,14 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.*;
-import domain.DispatchCadreExample.Criteria;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreExample;
+import domain.dispatch.DispatchCadreExample.Criteria;
+import domain.cadre.Cadre;
+import domain.dispatch.DispatchType;
+import domain.sys.SysUser;
+import domain.unit.Unit;
 import mixin.DispatchMixin;
 import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;

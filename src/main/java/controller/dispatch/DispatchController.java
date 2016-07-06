@@ -1,10 +1,10 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.Dispatch;
-import domain.DispatchExample;
-import domain.DispatchExample.Criteria;
-import domain.DispatchType;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchExample;
+import domain.dispatch.DispatchExample.Criteria;
+import domain.dispatch.DispatchType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchMixin;

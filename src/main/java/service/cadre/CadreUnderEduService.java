@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreUnderEdu;
-import domain.CadreUnderEduExample;
+import domain.cadre.CadreUnderEdu;
+import domain.cadre.CadreUnderEduExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

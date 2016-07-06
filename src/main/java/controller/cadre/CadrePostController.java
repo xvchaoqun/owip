@@ -1,7 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.*;
+import domain.cadre.Cadre;
+import domain.cadre.CadrePost;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreRelate;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -1,8 +1,14 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.*;
-import domain.CadreWorkExample.Criteria;
+import domain.cadre.Cadre;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreWork;
+import domain.cadre.CadreWorkExample;
+import domain.cadre.CadreWorkExample.Criteria;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreRelate;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

@@ -1,9 +1,9 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.UnitAdminGroup;
-import domain.UnitAdminGroupExample;
-import domain.UnitAdminGroupExample.Criteria;
+import domain.unit.UnitAdminGroup;
+import domain.unit.UnitAdminGroupExample;
+import domain.unit.UnitAdminGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

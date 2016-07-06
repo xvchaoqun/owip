@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreCompany;
-import domain.CadreCompanyExample;
+import domain.cadre.CadreCompany;
+import domain.cadre.CadreCompanyExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;

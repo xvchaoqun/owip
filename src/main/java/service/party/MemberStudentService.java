@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.MemberStudent;
-import domain.MemberStudentExample;
+import domain.member.MemberStudent;
+import domain.member.MemberStudentExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;

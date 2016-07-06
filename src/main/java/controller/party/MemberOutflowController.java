@@ -1,7 +1,14 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.Member;
+import domain.member.MemberOutflow;
+import domain.member.MemberOutflowView;
+import domain.member.MemberOutflowViewExample;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberOutflowMixin;
@@ -203,7 +210,7 @@ public class MemberOutflowController extends BaseController {
                     .andIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
-                    .andIsBackEqualTo(true);;
+                    .andIsBackEqualTo(true);
         }else if(cls==5 ||cls==6){ // 支部已审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过

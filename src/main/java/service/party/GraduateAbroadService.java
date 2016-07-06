@@ -1,10 +1,10 @@
 package service.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.GraduateAbroad;
-import domain.GraduateAbroadExample;
-import domain.Member;
+import domain.party.Branch;
+import domain.party.GraduateAbroad;
+import domain.party.GraduateAbroadExample;
+import domain.member.Member;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

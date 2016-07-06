@@ -1,8 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.PartyMemberGroupExample.Criteria;
+import domain.party.*;
+import domain.party.PartyMemberGroupExample.Criteria;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchUnit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMemberGroupMixin;

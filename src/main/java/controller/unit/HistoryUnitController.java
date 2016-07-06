@@ -1,9 +1,9 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.HistoryUnit;
-import domain.HistoryUnitExample;
-import domain.HistoryUnitExample.Criteria;
+import domain.unit.HistoryUnit;
+import domain.unit.HistoryUnitExample;
+import domain.unit.HistoryUnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

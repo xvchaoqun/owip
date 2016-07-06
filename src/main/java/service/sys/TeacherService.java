@@ -1,6 +1,6 @@
 package service.sys;
 
-import domain.Teacher;
+import domain.member.Teacher;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 

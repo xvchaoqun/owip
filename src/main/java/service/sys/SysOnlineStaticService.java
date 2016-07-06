@@ -1,21 +1,15 @@
 package service.sys;
 
 import bean.LoginUser;
-import domain.SysOnlineStatic;
-import domain.SysOnlineStaticExample;
+import domain.sys.SysOnlineStatic;
+import domain.sys.SysOnlineStaticExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 

@@ -1,8 +1,12 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.BranchMemberExample.Criteria;
+import domain.party.Branch;
+import domain.party.BranchMember;
+import domain.party.BranchMemberExample;
+import domain.party.BranchMemberExample.Criteria;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

@@ -1,9 +1,9 @@
 package service.sys;
 
-import domain.SysUser;
-import domain.SysUserExample;
-import domain.SysUserReg;
-import domain.SysUserRegExample;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserRegExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;

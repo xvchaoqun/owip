@@ -1,8 +1,8 @@
 package service.cadre;
 
-import domain.Cadre;
-import domain.CadreAdditionalPost;
-import domain.CadreAdditionalPostExample;
+import domain.cadre.Cadre;
+import domain.cadre.CadreAdditionalPost;
+import domain.cadre.CadreAdditionalPostExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;

@@ -1,7 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
+import domain.abroad.*;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;

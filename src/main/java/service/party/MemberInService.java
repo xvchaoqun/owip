@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.Member;
-import domain.MemberIn;
-import domain.MemberInExample;
+import domain.party.EnterApply;
+import domain.member.Member;
+import domain.member.MemberIn;
+import domain.member.MemberInExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

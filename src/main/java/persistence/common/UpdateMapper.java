@@ -1,6 +1,6 @@
 package persistence.common;
 
-import domain.MemberExample;
+import domain.member.MemberExample;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import sys.constants.SystemConstants;

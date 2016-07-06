@@ -1,7 +1,17 @@
 package service.cadre;
 
 import bean.XlsCadre;
-import domain.*;
+import domain.abroad.ApproverBlackList;
+import domain.abroad.ApproverType;
+import domain.abroad.Passport;
+import domain.abroad.PassportExample;
+import domain.cadre.Cadre;
+import domain.cadre.CadreAdditionalPost;
+import domain.cadre.CadreAdditionalPostExample;
+import domain.cadre.CadreExample;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
+import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +27,6 @@ import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;

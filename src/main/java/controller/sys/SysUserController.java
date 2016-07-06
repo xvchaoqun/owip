@@ -1,9 +1,12 @@
 package controller.sys;
 
-import bean.UserBean;
 import controller.BaseController;
-import domain.*;
-import domain.SysUserExample.Criteria;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserExample.Criteria;
+import domain.ext.ExtBks;
+import domain.ext.ExtJzg;
+import domain.ext.ExtYjs;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

@@ -1,11 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.MetaType;
-import domain.PartyMember;
-import domain.PartyMemberExample;
-import domain.PartyMemberExample.Criteria;
-import domain.SysUser;
+import domain.sys.MetaType;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
+import domain.party.PartyMemberExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +29,6 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 

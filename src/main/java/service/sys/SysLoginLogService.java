@@ -1,8 +1,8 @@
 package service.sys;
 
 import bean.LoginUser;
-import domain.SysLoginLog;
-import domain.SysLoginLogExample;
+import domain.sys.SysLoginLog;
+import domain.sys.SysLoginLogExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -10,8 +10,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
 import service.helper.ContextHelper;
 import shiro.ShiroUser;

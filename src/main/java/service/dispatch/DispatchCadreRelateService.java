@@ -1,13 +1,12 @@
 package service.dispatch;
 
-import domain.DispatchCadreRelate;
-import domain.DispatchCadreRelateExample;
+import domain.dispatch.DispatchCadreRelate;
+import domain.dispatch.DispatchCadreRelateExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -1,11 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberTeacher;
-import domain.MemberTeacherExample;
-import domain.MemberTeacherExample.Criteria;
-import domain.Party;
+import domain.party.Branch;
+import domain.member.MemberTeacher;
+import domain.member.MemberTeacherExample;
+import domain.member.MemberTeacherExample.Criteria;
+import domain.party.Party;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;

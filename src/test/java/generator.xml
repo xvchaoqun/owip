@@ -21,249 +21,249 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-     <!-- <table tableName="abroad_applicat_type" domainObjectName="ApplicatType">
+     <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
       </table>-->
-      <!--<table tableName="abroad_apply_self_file" domainObjectName="ApplySelfFile">
+      <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
       </table>-->
-      <!--<table tableName="abroad_apply_self" domainObjectName="ApplySelf">
+      <!--<table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf">
       </table>-->
-     <!-- <table tableName="abroad_apply_self_modify" domainObjectName="ApplySelfModify">
+     <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
       </table>-->
-     <!-- <table tableName="abroad_approval_log" domainObjectName="ApprovalLog">
+     <!-- <table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog">
       </table>-->
-     <!-- <table tableName="abroad_applicat_post" domainObjectName="ApplicatPost">
+     <!-- <table tableName="abroad_applicat_post" domainObjectName="abroad.ApplicatPost">
       </table>-->
-     <!-- <table tableName="abroad_applicat_cadre" domainObjectName="ApplicatCadre">
+     <!-- <table tableName="abroad_applicat_cadre" domainObjectName="abroad.ApplicatCadre">
       </table>-->
-      <!--<table tableName="abroad_approval_order" domainObjectName="ApprovalOrder">
+      <!--<table tableName="abroad_approval_order" domainObjectName="abroad.ApprovalOrder">
       </table>-->
-      <!--<table tableName="abroad_approver" domainObjectName="Approver">
+      <!--<table tableName="abroad_approver" domainObjectName="abroad.Approver">
       </table>-->
-     <!-- <table tableName="abroad_approver_black_list" domainObjectName="ApproverBlackList">
+     <!-- <table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList">
       </table>-->
-      <!--<table tableName="abroad_approver_type" domainObjectName="ApproverType">
+      <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
       </table>-->
-     <!-- <table tableName="abroad_passport_draw" domainObjectName="PassportDraw">
+     <!-- <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
       </table>-->
       <!--
-      <table tableName="abroad_passport_draw_file" domainObjectName="PassportDrawFile">
+      <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
-     <!-- <table tableName="abroad_passport" domainObjectName="Passport">
+     <!-- <table tableName="abroad_passport" domainObjectName="abroad.Passport">
       </table>-->
-      <!--<table tableName="abroad_safe_box" domainObjectName="SafeBox">
+      <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->
-      <!--<table tableName="abroad_passport_apply" domainObjectName="PassportApply">
+      <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
       </table>-->
-      <!--<table tableName="abroad_passport_apply_view" domainObjectName="PassportApplyView">
+      <!--<table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
       </table>-->
 
 
-    <!--  <table tableName="ow_enter_apply" domainObjectName="EnterApply">
+    <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
       </table>-->
-    <!-- <table tableName="ow_member_transfer" domainObjectName="MemberTransfer">
+    <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
       </table>
-       <table tableName="ow_member_stay" domainObjectName="MemberStay">
+       <table tableName="ow_member_stay" domainObjectName="member.MemberStay">
        </table>-->
-      <!--<table tableName="ow_member_stay_view" domainObjectName="MemberStayView">
+      <!--<table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView">
       </table>-->
-      <!-- <table tableName="ow_member_in" domainObjectName="MemberIn">
+      <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
       </table>-->
-        <!--<table tableName="ow_member_out" domainObjectName="MemberOut">
+        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
        </table>-->
-      <!--<table tableName="ow_member_out_modify" domainObjectName="MemberOutModify">
+      <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
       </table>-->
 
 
-    <!--  <table tableName="ow_member_inflow" domainObjectName="MemberInflow">
+    <!--  <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
       </table>-->
-      <!--<table tableName="ow_member_outflow" domainObjectName="MemberOutflow">
+      <!--<table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
       </table>
-      <table tableName="ow_member_outflow_view" domainObjectName="MemberOutflowView">
+      <table tableName="ow_member_outflow_view" domainObjectName="member.MemberOutflowView">
       </table>-->
-      <!--<table tableName="ow_member_return" domainObjectName="MemberReturn">
+      <!--<table tableName="ow_member_return" domainObjectName="member.MemberReturn">
       </table>-->
-      <!--<table tableName="ow_member_abroad" domainObjectName="MemberAbroad">
+      <!--<table tableName="ow_member_abroad" domainObjectName="member.MemberAbroad">
       </table>-->
-      <!--<table tableName="ow_member_abroad_view" domainObjectName="MemberAbroadView">
+      <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
       </table>-->
 
-      <!--<table tableName="ow_graduate_abroad" domainObjectName="GraduateAbroad">
+      <!--<table tableName="ow_graduate_abroad" domainObjectName="member.GraduateAbroad">
       </table>
-      <table tableName="ow_graduate_abroad_view" domainObjectName="GraduateAbroadView">
+      <table tableName="ow_graduate_abroad_view" domainObjectName="member.GraduateAbroadView">
       </table>-->
-      <!--<table tableName="ow_member_quit" domainObjectName="MemberQuit">
-      </table>-->
-
-      <!--<table tableName="ow_apply_approval_log" domainObjectName="ApplyApprovalLog">
+      <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
       </table>-->
 
-      <!--<table tableName="ow_retire_apply" domainObjectName="RetireApply">
+      <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
       </table>-->
-      <!--<table tableName="ow_member_student" domainObjectName="MemberStudent">
+
+      <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
       </table>-->
-     <!-- <table tableName="ow_member_teacher" domainObjectName="MemberTeacher">
+      <!--<table tableName="ow_member_student" domainObjectName="member.MemberStudent">
       </table>-->
-     <!-- <table tableName="ow_member" domainObjectName="Member">
+     <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher">
+      </table>-->
+     <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <!--<table tableName="ow_member_modify" domainObjectName="MemberModify">
+      <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
       </table>-->
-      <!--<table tableName="ow_student" domainObjectName="Student">
+      <!--<table tableName="ow_student" domainObjectName="member.Student">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <!--<table tableName="ow_teacher" domainObjectName="Teacher">
+      <!--<table tableName="ow_teacher" domainObjectName="member.Teacher">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <!--<table tableName="ow_apply_log" domainObjectName="ApplyLog">
+      <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">
       </table>-->
-      <!--<table tableName="ow_apply_open_time" domainObjectName="ApplyOpenTime">
+      <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
       </table>-->
-     <!-- <table tableName="ow_member_apply" domainObjectName="MemberApply">
+     <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <!--<table tableName="ow_branch_member" domainObjectName="BranchMember">
+      <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
       </table>
-      <table tableName="ow_branch_member_group" domainObjectName="BranchMemberGroup">
+      <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
       </table>-->
-      <!--<table tableName="ow_branch_member_group_view" domainObjectName="BranchMemberGroupView">
+      <!--<table tableName="ow_branch_member_group_view" domainObjectName="party.BranchMemberGroupView">
       </table>-->
 
-   <!--<table tableName="ow_party" domainObjectName="Party">
+   <!--<table tableName="ow_party" domainObjectName="party.Party">
        <ignoreColumn column="update_time"/>
     </table>
-      <table tableName="ow_party_member_group" domainObjectName="PartyMemberGroup">
+      <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
       </table>
-       <table tableName="ow_party_member" domainObjectName="PartyMember">
+       <table tableName="ow_party_member" domainObjectName="party.PartyMember">
       </table>-->
-<!--    <table tableName="ow_branch" domainObjectName="Branch">
+<!--    <table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
     </table>-->
-      <!--<table tableName="ow_org_admin" domainObjectName="OrgAdmin">
+      <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
-      <!--<table tableName="base_country" domainObjectName="Country">
+      <!--<table tableName="base_country" domainObjectName="base.Country">
       </table>-->
-      <!--<table tableName="base_location" domainObjectName="Location">
+      <!--   <table tableName="base_content_tpl" domainObjectName="base.ContentTpl">
+               <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+               <ignoreColumn column="update_time"/>
+           </table>
+        -->
+      <!--<table tableName="base_location" domainObjectName="base.Location">
       </table>-->
-      <!--<table tableName="base_cadre_info" domainObjectName="CadreInfo">
+      <!--<table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="work" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="CadreFamliyAbroad">
+      <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
       </table>
-      <table tableName="base_cadre_famliy" domainObjectName="CadreFamliy">
+      <table tableName="base_cadre_famliy" domainObjectName="cadre.CadreFamliy">
       </table>
-      <table tableName="base_cadre_company" domainObjectName="CadreCompany">
+      <table tableName="base_cadre_company" domainObjectName="cadre.CadreCompany">
       </table>-->
-      <!--<table tableName="base_cadre_parttime" domainObjectName="CadreParttime">
+      <!--<table tableName="base_cadre_parttime" domainObjectName="cadre.CadreParttime">
       </table>
-      <table tableName="base_cadre_course" domainObjectName="CadreCourse">
+      <table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
       </table>-->
-      <!--<table tableName="base_cadre_reward" domainObjectName="CadreReward">
+      <!--<table tableName="base_cadre_reward" domainObjectName="cadre.CadreReward">
       </table>-->
-      <!--<table tableName="base_cadre_research" domainObjectName="CadreResearch">
+      <!--<table tableName="base_cadre_research" domainObjectName="cadre.CadreResearch">
       </table>-->
-      <!-- <table tableName="base_cadre_admin_level" domainObjectName="CadreAdminLevel">
+      <!-- <table tableName="base_cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
        </table>-->
-      <!--<table tableName="base_cadre_post" domainObjectName="CadrePost">
+      <!--<table tableName="base_cadre_post" domainObjectName="cadre.CadrePost">
       </table>-->
-      <!-- <table tableName="base_cadre_work" domainObjectName="CadreWork">
+      <!-- <table tableName="base_cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
-      <!--<table tableName="base_cadre_edu" domainObjectName="CadreEdu">
+      <!--<table tableName="base_cadre_edu" domainObjectName="cadre.CadreEdu">
       </table>-->
-      <!--<table tableName="base_cadre_under_edu" domainObjectName="CadreUnderEdu">
+      <!--<table tableName="base_cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
       </table>-->
-      <!--  <table tableName="base_cadre_tutor" domainObjectName="CadreTutor">
+      <!--  <table tableName="base_cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->
-    <!--<table tableName="base_unit_transfer" domainObjectName="UnitTransfer">
+    <!--<table tableName="base_unit_transfer" domainObjectName="unit.UnitTransfer">
         <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <!--<table tableName="base_unit_admin_group" domainObjectName="UnitAdminGroup">
+      <!--<table tableName="base_unit_admin_group" domainObjectName="unit.UnitAdminGroup">
       </table>-->
-      <!--<table tableName="base_unit_admin" domainObjectName="UnitAdmin">
+      <!--<table tableName="base_unit_admin" domainObjectName="unit.UnitAdmin">
       </table>-->
-    <!--<table tableName="base_unit_cadre_transfer" domainObjectName="UnitCadreTransfer">
+    <!--<table tableName="base_unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
     </table>-->
-      <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="UnitCadreTransferGroup">
+      <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
       </table>-->
-     <!-- <table tableName="base_dispatch" domainObjectName="Dispatch">
+     <!-- <table tableName="base_dispatch" domainObjectName="dispatch.Dispatch">
       </table>-->
-     <!-- <table tableName="base_dispatch_type" domainObjectName="DispatchType">
+     <!-- <table tableName="base_dispatch_type" domainObjectName="dispatch.DispatchType">
       </table>-->
-    <!--<table tableName="base_dispatch_cadre" domainObjectName="DispatchCadre">
+    <!--<table tableName="base_dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
     </table>-->
-     <!-- <table tableName="base_dispatch_cadre_relate" domainObjectName="DispatchCadreRelate">
+     <!-- <table tableName="base_dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
     </table>-->
       <!--
-    <table tableName="base_dispatch_unit" domainObjectName="DispatchUnit">
+    <table tableName="base_dispatch_unit" domainObjectName="dispatch.DispatchUnit">
     </table>
-    <table tableName="base_dispatch_unit_relate" domainObjectName="DispatchUnitRelate">
+    <table tableName="base_dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
     </table>
-    <table tableName="base_leader" domainObjectName="Leader">
+    <table tableName="base_leader" domainObjectName="unit.Leader">
     </table>
-    <table tableName="base_leader_unit" domainObjectName="LeaderUnit">
+    <table tableName="base_leader_unit" domainObjectName="unit.LeaderUnit">
     </table>
     -->
-   <!-- <table tableName="base_cadre" domainObjectName="Cadre">
+   <!-- <table tableName="base_cadre" domainObjectName="cadre.Cadre">
     </table>-->
-      <!--<table tableName="base_cadre_additional_post" domainObjectName="CadreAdditionalPost">
+      <!--<table tableName="base_cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-      <!--<table tableName="base_cadre_view" domainObjectName="CadreView">
+      <!--<table tableName="base_cadre_view" domainObjectName="cadre.CadreView">
       </table>-->
-    <!--<table tableName="base_meta_class" domainObjectName="MetaClass">
+    <!--<table tableName="base_meta_class" domainObjectName="sys.MetaClass">
     </table>-->
       <!--
-    <table tableName="base_meta_type" domainObjectName="MetaType">
+    <table tableName="base_meta_type" domainObjectName="sys.MetaType">
     </table>
 
-    <table tableName="base_unit" domainObjectName="Unit">
+    <table tableName="base_unit" domainObjectName="unit.Unit">
       <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
     </table>
-    <table tableName="base_history_unit" domainObjectName="HistoryUnit">
+    <table tableName="base_history_unit" domainObjectName="unit.HistoryUnit">
     </table>-->
-      <!--<table tableName="base_short_msg" domainObjectName="ShortMsg">
+      <!--<table tableName="base_short_msg" domainObjectName="sys.ShortMsg">
       </table>-->
-   <!--   <table tableName="base_content_tpl" domainObjectName="ContentTpl">
-          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-          <ignoreColumn column="update_time"/>
-      </table>
--->
 
-    <!--<table tableName="sys_log" domainObjectName="SysLog">
+    <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-   <!-- <table tableName="sys_user" domainObjectName="SysUser">
+   <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-      <!--<table tableName="sys_user_reg" domainObjectName="SysUserReg">
+      <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
-   <!-- <table tableName="sys_login_log" domainObjectName="SysLoginLog">
+   <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
     </table>-->
-     <!-- <table tableName="sys_online_static" domainObjectName="SysOnlineStatic">
+     <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
       </table>-->
 
-   <!-- <table tableName="sys_role" domainObjectName="SysRole">
+   <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
         <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-    <!--<table tableName="sys_resource" domainObjectName="SysResource">
+    <!--<table tableName="sys_resource" domainObjectName="sys.SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
 
-     <!-- <table tableName="sys_config" domainObjectName="SysConfig">
+     <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>-->
 
-      <!--<table tableName="sys_user_sync" domainObjectName="SysUserSync">
+      <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
       </table>-->
 
-      <!--<table tableName="ext_bks" domainObjectName="ExtBks">
+      <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
       </table>
 
-      <table tableName="ext_jzg" domainObjectName="ExtJzg">
+      <table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
       </table>
-      <table tableName="ext_yjs" domainObjectName="ExtYjs">
+      <table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
       </table>-->
-      <!--<table tableName="ext_abroad" domainObjectName="ExtAbroad">
+      <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
       </table>-->
   </context>
 </generatorConfiguration>

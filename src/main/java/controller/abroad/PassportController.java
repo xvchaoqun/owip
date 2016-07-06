@@ -2,7 +2,13 @@ package controller.abroad;
 
 import bean.*;
 import controller.BaseController;
-import domain.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportExample;
+import domain.abroad.SafeBox;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportMixin;

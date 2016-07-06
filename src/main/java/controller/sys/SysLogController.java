@@ -2,9 +2,9 @@ package controller.sys;
 
 
 import controller.BaseController;
-import domain.SysLog;
-import domain.SysLogExample;
-import domain.SysUser;
+import domain.sys.SysLog;
+import domain.sys.SysLogExample;
+import domain.sys.SysUser;
 import mixin.SysLogMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;

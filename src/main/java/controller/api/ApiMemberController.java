@@ -1,8 +1,8 @@
 package controller.api;
 
 import controller.BaseController;
-import domain.Member;
-import domain.SysUser;
+import domain.member.Member;
+import domain.sys.SysUser;
 import interceptor.NeedSign;
 import interceptor.SignParam;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package service.sys;
 
-import domain.Location;
-import domain.LocationExample;
+import domain.base.Location;
+import domain.base.LocationExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;

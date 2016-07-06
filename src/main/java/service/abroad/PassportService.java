@@ -1,7 +1,13 @@
 package service.abroad;
 
 import bean.XlsPassport;
-import domain.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportExample;
+import domain.abroad.SafeBox;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

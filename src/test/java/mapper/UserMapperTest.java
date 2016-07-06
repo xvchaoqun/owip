@@ -1,8 +1,8 @@
 package mapper;
 
-import domain.SysUser;
-import domain.SysUserExample;
-import persistence.SysUserMapper;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import persistence.sys.SysUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

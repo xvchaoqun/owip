@@ -1,7 +1,8 @@
 package service.party;
 
-import domain.*;
-import domain.MemberTransfer;
+import domain.member.Member;
+import domain.member.MemberTransfer;
+import domain.member.MemberTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

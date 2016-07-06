@@ -1,7 +1,11 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.*;
+import domain.party.Branch;
+import domain.party.EnterApply;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;

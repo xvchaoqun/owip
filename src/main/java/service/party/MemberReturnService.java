@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.Member;
-import domain.MemberReturn;
-import domain.MemberReturnExample;
+import domain.party.EnterApply;
+import domain.member.Member;
+import domain.member.MemberReturn;
+import domain.member.MemberReturnExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;

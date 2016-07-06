@@ -1,8 +1,9 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.BranchExample.Criteria;
+import domain.party.*;
+import domain.party.BranchExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMixin;

@@ -1,11 +1,11 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.Party;
-import domain.SysUser;
-import domain.SysUserReg;
-import domain.SysUserRegExample;
-import domain.SysUserRegExample.Criteria;
+import domain.party.Party;
+import domain.sys.SysUser;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserRegExample;
+import domain.sys.SysUserRegExample.Criteria;
 import mixin.SysUserRegMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;

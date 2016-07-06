@@ -1,7 +1,7 @@
 package service.abroad;
 
-import domain.ApproverBlackList;
-import domain.ApproverBlackListExample;
+import domain.abroad.ApproverBlackList;
+import domain.abroad.ApproverBlackListExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

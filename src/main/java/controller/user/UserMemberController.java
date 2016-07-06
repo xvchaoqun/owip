@@ -1,27 +1,17 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
+import domain.member.MemberStudent;
+import domain.member.MemberTeacher;
+import domain.sys.SysUser;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Map;
 
 // 权限开通
 @Controller

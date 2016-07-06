@@ -1,10 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberInflow;
-import domain.Party;
-import domain.SysUser;
+import domain.party.Branch;
+import domain.member.MemberInflow;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

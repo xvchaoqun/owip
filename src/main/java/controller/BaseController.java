@@ -1,6 +1,6 @@
 package controller;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,10 @@
 package service.party;
 
-import domain.*;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
+import domain.party.PartyMemberGroup;
+import domain.party.PartyMemberGroupExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,7 @@ public class PartyMemberGroupService extends BaseMapper {
     private SysUserService sysUserService;
 
     // 查找现任班子
-    public  PartyMemberGroup getPresentGroup(int partyId){
+    public PartyMemberGroup getPresentGroup(int partyId){
 
         PartyMemberGroupExample _example = new PartyMemberGroupExample();
         _example.createCriteria().andPartyIdEqualTo(partyId).andIsPresentEqualTo(true);

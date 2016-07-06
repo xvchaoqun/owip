@@ -2,8 +2,8 @@ package controller.mobile;
 
 import bean.ApproverTypeBean;
 import controller.BaseController;
-import domain.Cadre;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -18,7 +18,6 @@ import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

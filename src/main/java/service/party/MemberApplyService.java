@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.Member;
-import domain.MemberApply;
-import domain.MemberApplyExample;
-import domain.SysUser;
+import domain.member.Member;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

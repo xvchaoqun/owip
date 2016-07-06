@@ -1,11 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreParttime;
-import domain.CadreParttimeExample;
-import domain.CadreParttimeExample.Criteria;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreParttime;
+import domain.cadre.CadreParttimeExample;
+import domain.cadre.CadreParttimeExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

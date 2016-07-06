@@ -1,7 +1,15 @@
 package persistence.common;
 
 import bean.MemberApplyCount;
-import domain.*;
+import domain.cadre.Cadre;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchUnit;
+import domain.member.Member;
+import domain.member.MemberInflow;
+import domain.party.BranchMember;
+import domain.party.OrgAdmin;
+import domain.party.PartyMember;
+import domain.sys.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -27,12 +35,12 @@ public interface CommonMapper {
     int isPartyAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
     // 查询现任分党委的所有管理员(委员)
-    @ResultMap("persistence.PartyMemberMapper.BaseResultMap")
+    @ResultMap("persistence.party.PartyMemberMapper.BaseResultMap")
     @Select("select pm.* from ow_party_member_group pmg, ow_party_member pm " +
             "where pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id")
     List<PartyMember> findPartyAdminOfPartyMember(@Param("userId") int userId, @Param("partyId") int partyId);
     // 查询现任分党委的所有管理员(全局用户)
-    @ResultMap("persistence.OrgAdminMapper.BaseResultMap")
+    @ResultMap("persistence.party.OrgAdminMapper.BaseResultMap")
     @Select("select * from ow_org_admin where user_id=#{userId} and party_id=#{partyId}")
     List<OrgAdmin> findPartyAdminOfOrgAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
@@ -54,12 +62,12 @@ public interface CommonMapper {
     int isBranchAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
 
     // 查询现任支部委员会的所有管理员(委员)
-    @ResultMap("persistence.BranchMemberMapper.BaseResultMap")
+    @ResultMap("persistence.party.BranchMemberMapper.BaseResultMap")
     @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bm.user_id=#{userId} and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id")
     List<BranchMember> findBranchAdminOfBranchMember(@Param("userId") int userId, @Param("branchId") int branchId);
     // 查询现任支部委员会的所有管理员(全局用户)
-    @ResultMap("persistence.OrgAdminMapper.BaseResultMap")
+    @ResultMap("persistence.party.OrgAdminMapper.BaseResultMap")
     @Select("select * from ow_org_admin where user_id=#{userId} and branch_id=#{branchId}")
     List<OrgAdmin> findBranchAdminOfOrgAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
 
@@ -199,13 +207,13 @@ public interface CommonMapper {
     List<DispatchCadre> selectDispatchCadreList(@Param("cadreId") int cadreId, @Param("type") Byte type);
 
     // 根据所属单位查找干部发文（按发文时间排序）
-    @ResultMap("persistence.DispatchCadreMapper.BaseResultMap")
+    @ResultMap("persistence.dispatch.DispatchCadreMapper.BaseResultMap")
     @Select("select distinct dc.* from base_dispatch_cadre dc, base_dispatch d " +
             "where dc.dispatch_id=d.id and dc.unit_id=#{unitId} order by d.pub_time desc")
     List<DispatchCadre> selectDispatchCadreByUnitIdList(@Param("unitId") int unitId);
 
     // 查找单位发文（按发文时间排序）
-    @ResultMap("persistence.DispatchUnitMapper.BaseResultMap")
+    @ResultMap("persistence.dispatch.DispatchUnitMapper.BaseResultMap")
     @Select("select distinct du.* from base_dispatch_unit du, base_dispatch d " +
             "where du.dispatch_id=d.id and du.unit_id=#{unitId} order by d.pub_time desc")
     List<DispatchUnit> selectDispatchUnitList(@Param("unitId") int unitId);

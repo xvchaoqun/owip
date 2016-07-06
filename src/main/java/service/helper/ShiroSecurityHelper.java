@@ -1,6 +1,6 @@
 package service.helper;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;

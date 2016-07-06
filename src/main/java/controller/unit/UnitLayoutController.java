@@ -1,10 +1,10 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.Leader;
-import domain.LeaderUnit;
-import domain.MetaType;
-import domain.Unit;
+import domain.unit.Leader;
+import domain.unit.LeaderUnit;
+import domain.sys.MetaType;
+import domain.unit.Unit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

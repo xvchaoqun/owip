@@ -1,11 +1,23 @@
 package service;
 
-import domain.MemberModify;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import persistence.*;
+import persistence.abroad.*;
+import persistence.base.ContentTplMapper;
+import persistence.base.CountryMapper;
+import persistence.base.LocationMapper;
+import persistence.cadre.*;
 import persistence.common.*;
+import persistence.dispatch.*;
+import persistence.ext.ExtAbroadMapper;
+import persistence.ext.ExtBksMapper;
+import persistence.ext.ExtJzgMapper;
+import persistence.ext.ExtYjsMapper;
+import persistence.member.*;
+import persistence.party.*;
+import persistence.sys.*;
+import persistence.unit.*;
 import shiro.ShiroUser;
 import sys.tags.CmTag;
 

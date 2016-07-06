@@ -2,13 +2,13 @@ package service.source;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domain.ExtYjs;
-import domain.ExtYjsExample;
+import domain.ext.ExtYjs;
+import domain.ext.ExtYjsExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.ExtYjsMapper;
+import persistence.ext.ExtYjsMapper;
 import sys.utils.JSONUtils;
 
 import java.sql.ResultSet;

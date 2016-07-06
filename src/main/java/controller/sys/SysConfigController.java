@@ -1,9 +1,9 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysConfig;
-import domain.SysConfigExample;
-import domain.SysUser;
+import domain.sys.SysConfig;
+import domain.sys.SysConfigExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

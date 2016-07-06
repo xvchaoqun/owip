@@ -1,10 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreCompany;
-import domain.CadreCompanyExample;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreCompany;
+import domain.cadre.CadreCompanyExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;

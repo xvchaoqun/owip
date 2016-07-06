@@ -1,6 +1,8 @@
 package service.party;
 
-import domain.*;
+import domain.party.OrgAdmin;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

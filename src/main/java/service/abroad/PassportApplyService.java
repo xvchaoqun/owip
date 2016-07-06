@@ -1,8 +1,8 @@
 package service.abroad;
 
 import bean.ShortMsgBean;
-import domain.PassportApply;
-import domain.PassportApplyExample;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyExample;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

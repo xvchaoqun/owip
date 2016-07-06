@@ -1,9 +1,8 @@
 package controller.abroad;
 
-import bean.ApplySelfModifyBean;
 import controller.BaseController;
-import domain.ApplySelfModify;
-import domain.ApplySelfModifyExample;
+import domain.abroad.ApplySelfModify;
+import domain.abroad.ApplySelfModifyExample;
 import mixin.ApplySelfMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -2,9 +2,9 @@ package controller.abroad;
 
 import bean.SafeBoxBean;
 import controller.BaseController;
-import domain.Passport;
-import domain.SafeBox;
-import domain.SafeBoxExample;
+import domain.abroad.Passport;
+import domain.abroad.SafeBox;
+import domain.abroad.SafeBoxExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportMixin;

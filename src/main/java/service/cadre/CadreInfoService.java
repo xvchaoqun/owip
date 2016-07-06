@@ -1,14 +1,13 @@
 package service.cadre;
 
-import domain.Cadre;
-import domain.CadreInfo;
-import domain.CadreInfoExample;
+import domain.cadre.Cadre;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreInfoExample;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 

@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreReward;
-import domain.CadreRewardExample;
+import domain.cadre.CadreReward;
+import domain.cadre.CadreRewardExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

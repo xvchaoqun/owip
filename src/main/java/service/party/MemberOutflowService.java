@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.Member;
-import domain.MemberOutflow;
-import domain.MemberOutflowExample;
-import domain.SysUser;
+import domain.member.Member;
+import domain.member.MemberOutflow;
+import domain.member.MemberOutflowExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

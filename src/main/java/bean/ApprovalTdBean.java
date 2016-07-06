@@ -1,7 +1,6 @@
 package bean;
 
-import domain.Cadre;
-import domain.SysUser;
+import domain.sys.SysUser;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package service.party;
 
 import controller.BaseController;
-import domain.MemberQuit;
-import domain.MemberQuitExample;
+import domain.member.MemberQuit;
+import domain.member.MemberQuitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

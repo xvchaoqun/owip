@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.MetaType;
-import domain.Party;
-import domain.PartyExample;
+import domain.sys.MetaType;
+import domain.party.Party;
+import domain.party.PartyExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

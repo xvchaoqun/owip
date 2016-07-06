@@ -1,9 +1,9 @@
 package service.abroad;
 
 import bean.ApprovalResult;
-import domain.ApplySelf;
-import domain.ApprovalLog;
-import domain.ApprovalLogExample;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApprovalLog;
+import domain.abroad.ApprovalLogExample;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

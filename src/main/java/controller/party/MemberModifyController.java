@@ -1,10 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.MemberModify;
-import domain.MemberModifyExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.member.MemberModify;
+import domain.member.MemberModifyExample;
 import mixin.MemberMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;

@@ -1,6 +1,6 @@
 package service.party;
 
-import domain.*;
+import domain.party.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

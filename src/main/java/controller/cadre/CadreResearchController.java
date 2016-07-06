@@ -1,7 +1,8 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.*;
+import domain.cadre.*;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

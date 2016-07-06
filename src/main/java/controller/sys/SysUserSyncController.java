@@ -1,9 +1,9 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysUserSync;
-import domain.SysUserSyncExample;
-import domain.SysUserSyncExample.Criteria;
+import domain.sys.SysUserSync;
+import domain.sys.SysUserSyncExample;
+import domain.sys.SysUserSyncExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserSyncMixin;

@@ -1,7 +1,7 @@
 package service.base;
 
-import domain.ContentTpl;
-import domain.ContentTplExample;
+import domain.base.ContentTpl;
+import domain.base.ContentTplExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;

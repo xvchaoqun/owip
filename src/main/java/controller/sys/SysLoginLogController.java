@@ -2,11 +2,10 @@ package controller.sys;
 
 
 import controller.BaseController;
-import domain.SysLoginLog;
-import domain.SysLoginLogExample;
+import domain.sys.SysLoginLog;
+import domain.sys.SysLoginLogExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

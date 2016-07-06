@@ -1,8 +1,7 @@
 package service.party;
 
-import domain.*;
-import domain.MemberStay;
-import domain.MemberStayExample;
+import domain.member.MemberStay;
+import domain.member.MemberStayExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;

@@ -2,8 +2,8 @@ package shiro;
 
 import bean.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import domain.Cadre;
-import domain.MetaType;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 

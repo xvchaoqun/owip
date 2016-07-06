@@ -1,11 +1,10 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.DispatchCadre;
-import domain.UnitCadreTransfer;
-import domain.UnitCadreTransferExample;
-import domain.UnitCadreTransferExample.Criteria;
-import domain.UnitCadreTransferGroup;
+import domain.dispatch.DispatchCadre;
+import domain.unit.UnitCadreTransfer;
+import domain.unit.UnitCadreTransferExample;
+import domain.unit.UnitCadreTransferExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

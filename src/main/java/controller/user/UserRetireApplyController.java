@@ -1,11 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.Party;
-import domain.RetireApply;
-import domain.SysUser;
-import org.apache.shiro.authz.UnauthorizedException;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.party.RetireApply;
+import domain.sys.SysUser;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

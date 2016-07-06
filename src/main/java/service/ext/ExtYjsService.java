@@ -1,7 +1,7 @@
 package service.ext;
 
-import domain.ExtYjs;
-import domain.ExtYjsExample;
+import domain.ext.ExtYjs;
+import domain.ext.ExtYjsExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

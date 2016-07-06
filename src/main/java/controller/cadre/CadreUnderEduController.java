@@ -1,11 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreUnderEdu;
-import domain.CadreUnderEduExample;
-import domain.CadreUnderEduExample.Criteria;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreUnderEdu;
+import domain.cadre.CadreUnderEduExample;
+import domain.cadre.CadreUnderEduExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

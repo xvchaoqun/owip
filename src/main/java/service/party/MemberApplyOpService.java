@@ -1,15 +1,14 @@
 package service.party;
 
 import controller.BaseController;
-import domain.MemberApply;
-import domain.MemberApplyExample;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
-import sys.utils.FormUtils;
 
 import java.util.Date;
 

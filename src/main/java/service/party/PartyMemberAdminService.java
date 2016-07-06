@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.PartyMember;
-import domain.PartyMemberGroup;
-import domain.SysUser;
+import domain.party.PartyMember;
+import domain.party.PartyMemberGroup;
+import domain.sys.SysUser;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

@@ -1,6 +1,10 @@
 package service.sys;
 
-import domain.*;
+import domain.party.EnterApply;
+import domain.sys.SysResource;
+import domain.sys.SysRole;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.SysUserMapper;
 import service.BaseMapper;
 import service.helper.ShiroSecurityHelper;
 import service.party.EnterApplyService;

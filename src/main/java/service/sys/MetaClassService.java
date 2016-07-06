@@ -1,7 +1,7 @@
 package service.sys;
 
-import domain.MetaClass;
-import domain.MetaClassExample;
+import domain.sys.MetaClass;
+import domain.sys.MetaClassExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.tool.tree.TreeNode;
 
 import java.util.*;
 

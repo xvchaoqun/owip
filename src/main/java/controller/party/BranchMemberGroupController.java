@@ -1,8 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.BranchMemberGroupExample.Criteria;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchUnit;
+import domain.party.*;
+import domain.party.BranchMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMemberGroupViewMixin;

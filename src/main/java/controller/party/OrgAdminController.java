@@ -1,10 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.OrgAdmin;
-import domain.OrgAdminExample;
-import domain.OrgAdminExample.Criteria;
-import domain.SysUser;
+import domain.party.OrgAdmin;
+import domain.party.OrgAdminExample;
+import domain.party.OrgAdminExample.Criteria;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

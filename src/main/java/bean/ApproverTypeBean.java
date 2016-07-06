@@ -1,6 +1,6 @@
 package bean;
 
-import domain.Cadre;
+import domain.cadre.Cadre;
 
 import java.util.List;
 import java.util.Map;

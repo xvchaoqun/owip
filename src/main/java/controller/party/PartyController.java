@@ -1,8 +1,9 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.PartyExample.Criteria;
+import domain.party.*;
+import domain.party.PartyExample.Criteria;
+import domain.sys.MetaType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMixin;

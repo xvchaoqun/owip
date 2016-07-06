@@ -1,9 +1,9 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.UnitCadreTransferGroup;
-import domain.UnitCadreTransferGroupExample;
-import domain.UnitCadreTransferGroupExample.Criteria;
+import domain.unit.UnitCadreTransferGroup;
+import domain.unit.UnitCadreTransferGroupExample;
+import domain.unit.UnitCadreTransferGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

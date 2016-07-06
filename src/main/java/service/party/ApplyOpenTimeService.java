@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.ApplyOpenTime;
-import domain.ApplyOpenTimeExample;
+import domain.member.ApplyOpenTime;
+import domain.member.ApplyOpenTimeExample;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

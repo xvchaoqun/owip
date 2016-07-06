@@ -1,7 +1,7 @@
 package service.abroad;
 
-import domain.Approver;
-import domain.ApproverExample;
+import domain.abroad.Approver;
+import domain.abroad.ApproverExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,8 +1,8 @@
 package service;
 
-import domain.OrgAdmin;
-import domain.OrgAdminExample;
-import domain.SysUser;
+import domain.party.OrgAdmin;
+import domain.party.OrgAdminExample;
+import domain.sys.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;

@@ -1,7 +1,7 @@
 package service.dispatch;
 
-import domain.DispatchType;
-import domain.DispatchTypeExample;
+import domain.dispatch.DispatchType;
+import domain.dispatch.DispatchTypeExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;

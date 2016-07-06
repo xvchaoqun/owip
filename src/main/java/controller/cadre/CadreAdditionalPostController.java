@@ -1,10 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreAdditionalPost;
-import domain.CadreAdditionalPostExample;
-import domain.CadreAdditionalPostExample.Criteria;
+import domain.cadre.Cadre;
+import domain.cadre.CadreAdditionalPost;
+import domain.cadre.CadreAdditionalPostExample;
+import domain.cadre.CadreAdditionalPostExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;

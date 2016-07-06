@@ -1,18 +1,17 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberInflowExample.Criteria;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.member.MemberInflowExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -30,9 +29,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -192,7 +189,7 @@ public class MemberInflowOutController extends BaseController {
                     .andOutIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-                    .andOutIsBackEqualTo(true);;
+                    .andOutIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过

@@ -2,8 +2,12 @@ package controller.party;
 
 import bean.MemberApplyCount;
 import controller.BaseController;
-import domain.*;
-import domain.MemberApplyExample.Criteria;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
+import domain.member.MemberApplyExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberApplyMixin;

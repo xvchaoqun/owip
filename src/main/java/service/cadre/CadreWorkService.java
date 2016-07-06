@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreWork;
-import domain.CadreWorkExample;
+import domain.cadre.CadreWork;
+import domain.cadre.CadreWorkExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

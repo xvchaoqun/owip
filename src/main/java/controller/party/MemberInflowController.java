@@ -1,8 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberInflowExample.Criteria;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.member.MemberInflowExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
@@ -172,7 +177,7 @@ public class MemberInflowController extends BaseController {
                     .andIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
-                    .andIsBackEqualTo(true);;
+                    .andIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过

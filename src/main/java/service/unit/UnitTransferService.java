@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.UnitTransfer;
-import domain.UnitTransferExample;
+import domain.unit.UnitTransfer;
+import domain.unit.UnitTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,8 +1,13 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.*;
-import domain.LeaderExample.Criteria;
+import domain.sys.SysUser;
+import domain.unit.Leader;
+import domain.unit.LeaderExample;
+import domain.unit.LeaderExample.Criteria;
+import domain.cadre.Cadre;
+import domain.unit.LeaderUnit;
+import domain.unit.LeaderUnitExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.CadreMixin;

@@ -1,9 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.CadreTutor;
-import domain.CadreTutorExample;
-import domain.CadreTutorExample.Criteria;
+import domain.cadre.CadreTutor;
+import domain.cadre.CadreTutorExample;
+import domain.cadre.CadreTutorExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;

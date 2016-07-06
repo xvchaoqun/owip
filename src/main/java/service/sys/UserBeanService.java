@@ -1,7 +1,12 @@
 package service.sys;
 
 import bean.UserBean;
-import domain.*;
+import domain.member.Member;
+import domain.member.Student;
+import domain.member.Teacher;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

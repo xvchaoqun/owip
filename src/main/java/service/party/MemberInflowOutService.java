@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.MemberInflow;
-import domain.MemberInflowExample;
-import domain.SysUser;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

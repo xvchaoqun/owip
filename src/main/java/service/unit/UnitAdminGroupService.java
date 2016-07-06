@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.UnitAdminGroup;
-import domain.UnitAdminGroupExample;
+import domain.unit.UnitAdminGroup;
+import domain.unit.UnitAdminGroupExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

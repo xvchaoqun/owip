@@ -1,8 +1,8 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.*;
-import domain.MetaClassExample.Criteria;
+import domain.sys.*;
+import domain.sys.MetaClassExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

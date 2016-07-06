@@ -1,13 +1,13 @@
 package sys.tags;
 
 import bean.ApprovalResult;
-import domain.ApplySelf;
-import domain.Cadre;
-import domain.SysUser;
+import domain.abroad.ApplySelf;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import persistence.ApplySelfMapper;
+import persistence.abroad.ApplySelfMapper;
 import service.abroad.ApplySelfService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;

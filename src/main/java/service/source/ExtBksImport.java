@@ -1,15 +1,14 @@
 package service.source;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domain.ExtBks;
-import domain.ExtBksExample;
+import domain.ext.ExtBks;
+import domain.ext.ExtBksExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.ExtBksMapper;
+import persistence.ext.ExtBksMapper;
 import sys.utils.JSONUtils;
 
 import java.sql.ResultSet;

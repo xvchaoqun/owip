@@ -1,10 +1,10 @@
 package controller.base;
 
 import controller.BaseController;
-import domain.ContentTpl;
-import domain.ContentTplExample;
-import domain.ContentTplExample.Criteria;
-import domain.SysUser;
+import domain.base.ContentTpl;
+import domain.base.ContentTplExample;
+import domain.base.ContentTplExample.Criteria;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

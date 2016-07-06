@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreAdminLevel;
-import domain.CadreAdminLevelExample;
+import domain.cadre.CadreAdminLevel;
+import domain.cadre.CadreAdminLevelExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;

@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.MemberAbroad;
-import domain.MemberAbroadExample;
+import domain.member.MemberAbroad;
+import domain.member.MemberAbroadExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.member.MemberTransferMapper" >
+  <resultMap id="BaseResultMap" type="domain.member.MemberTransfer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="to_party_id" property="toPartyId" jdbcType="INTEGER" />
+    <result column="to_branch_id" property="toBranchId" jdbcType="INTEGER" />
+    <result column="from_phone" property="fromPhone" jdbcType="VARCHAR" />
+    <result column="from_fax" property="fromFax" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="DATE" />
+    <result column="valid_days" property="validDays" jdbcType="INTEGER" />
+    <result column="from_handle_time" property="fromHandleTime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, party_id, branch_id, to_party_id, to_branch_id, from_phone, from_fax, 
+    pay_time, valid_days, from_handle_time, status, is_back, reason, apply_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.MemberTransferExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_member_transfer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_member_transfer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.member.MemberTransferExample" >
+    delete from ow_member_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert keyProperty="id" id="insert" parameterType="domain.member.MemberTransfer" >
+    insert into ow_member_transfer (id, user_id, party_id, 
+      branch_id, to_party_id, to_branch_id, 
+      from_phone, from_fax, pay_time, 
+      valid_days, from_handle_time, status, 
+      is_back, reason, apply_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{toPartyId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, 
+      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
+      #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.member.MemberTransfer" >
+    insert into ow_member_transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="toPartyId != null" >
+        to_party_id,
+      </if>
+      <if test="toBranchId != null" >
+        to_branch_id,
+      </if>
+      <if test="fromPhone != null" >
+        from_phone,
+      </if>
+      <if test="fromFax != null" >
+        from_fax,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="validDays != null" >
+        valid_days,
+      </if>
+      <if test="fromHandleTime != null" >
+        from_handle_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="toPartyId != null" >
+        #{toPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="toBranchId != null" >
+        #{toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="fromPhone != null" >
+        #{fromPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fromFax != null" >
+        #{fromFax,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=DATE},
+      </if>
+      <if test="validDays != null" >
+        #{validDays,jdbcType=INTEGER},
+      </if>
+      <if test="fromHandleTime != null" >
+        #{fromHandleTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.member.MemberTransferExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_member_transfer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toPartyId != null" >
+        to_party_id = #{record.toPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toBranchId != null" >
+        to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromPhone != null" >
+        from_phone = #{record.fromPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromFax != null" >
+        from_fax = #{record.fromFax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=DATE},
+      </if>
+      <if test="record.validDays != null" >
+        valid_days = #{record.validDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromHandleTime != null" >
+        from_handle_time = #{record.fromHandleTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyTime != null" >
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_member_transfer
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      to_party_id = #{record.toPartyId,jdbcType=INTEGER},
+      to_branch_id = #{record.toBranchId,jdbcType=INTEGER},
+      from_phone = #{record.fromPhone,jdbcType=VARCHAR},
+      from_fax = #{record.fromFax,jdbcType=VARCHAR},
+      pay_time = #{record.payTime,jdbcType=DATE},
+      valid_days = #{record.validDays,jdbcType=INTEGER},
+      from_handle_time = #{record.fromHandleTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberTransfer" >
+    update ow_member_transfer
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="toPartyId != null" >
+        to_party_id = #{toPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="toBranchId != null" >
+        to_branch_id = #{toBranchId,jdbcType=INTEGER},
+      </if>
+      <if test="fromPhone != null" >
+        from_phone = #{fromPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fromFax != null" >
+        from_fax = #{fromFax,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=DATE},
+      </if>
+      <if test="validDays != null" >
+        valid_days = #{validDays,jdbcType=INTEGER},
+      </if>
+      <if test="fromHandleTime != null" >
+        from_handle_time = #{fromHandleTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.member.MemberTransfer" >
+    update ow_member_transfer
+    set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      to_party_id = #{toPartyId,jdbcType=INTEGER},
+      to_branch_id = #{toBranchId,jdbcType=INTEGER},
+      from_phone = #{fromPhone,jdbcType=VARCHAR},
+      from_fax = #{fromFax,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=DATE},
+      valid_days = #{validDays,jdbcType=INTEGER},
+      from_handle_time = #{fromHandleTime,jdbcType=DATE},
+      status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
+      reason = #{reason,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.member.MemberTransferExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

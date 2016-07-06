@@ -1,6 +1,7 @@
 package service.party;
 
-import domain.*;
+import domain.party.*;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -39,7 +40,7 @@ public class BranchMemberGroupService extends BaseMapper {
         }
     }
     // 查找现任班子
-    public  BranchMemberGroup getPresentGroup(int branchId){
+    public BranchMemberGroup getPresentGroup(int branchId){
 
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
         _example.createCriteria().andBranchIdEqualTo(branchId).andIsPresentEqualTo(true);

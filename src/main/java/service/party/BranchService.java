@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.Branch;
-import domain.BranchExample;
-import domain.Party;
+import domain.party.Branch;
+import domain.party.BranchExample;
+import domain.party.Party;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

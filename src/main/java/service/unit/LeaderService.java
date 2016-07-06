@@ -1,9 +1,9 @@
 package service.unit;
 
-import domain.Leader;
-import domain.LeaderExample;
-import domain.LeaderUnit;
-import domain.LeaderUnitExample;
+import domain.unit.Leader;
+import domain.unit.LeaderExample;
+import domain.unit.LeaderUnit;
+import domain.unit.LeaderUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.MemberOut;
-import domain.MemberTransfer;
+import domain.member.MemberOut;
+import domain.member.MemberTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

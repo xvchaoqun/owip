@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.abroad.ApplySelfModifyMapper" >
+  <resultMap id="BaseResultMap" type="domain.abroad.ApplySelfModify" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="modify_type" property="modifyType" jdbcType="TINYINT" />
+    <result column="apply_id" property="applyId" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="apply_date" property="applyDate" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="to_country" property="toCountry" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="peer_staff" property="peerStaff" jdbcType="VARCHAR" />
+    <result column="cost_source" property="costSource" jdbcType="VARCHAR" />
+    <result column="need_passports" property="needPassports" jdbcType="VARCHAR" />
+    <result column="modify_proof" property="modifyProof" jdbcType="VARCHAR" />
+    <result column="modify_proof_file_name" property="modifyProofFileName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="is_finish" property="isFinish" jdbcType="BIT" />
+    <result column="flow_node" property="flowNode" jdbcType="INTEGER" />
+    <result column="flow_nodes" property="flowNodes" jdbcType="VARCHAR" />
+    <result column="flow_users" property="flowUsers" jdbcType="VARCHAR" />
+    <result column="is_agreed" property="isAgreed" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, modify_type, apply_id, cadre_id, apply_date, type, start_date, end_date, to_country, 
+    reason, peer_staff, cost_source, need_passports, modify_proof, modify_proof_file_name, 
+    remark, modify_user_id, create_time, ip, status, is_finish, flow_node, flow_nodes, 
+    flow_users, is_agreed
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.ApplySelfModifyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_apply_self_modify
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from abroad_apply_self_modify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from abroad_apply_self_modify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.abroad.ApplySelfModifyExample" >
+    delete from abroad_apply_self_modify
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.abroad.ApplySelfModify" >
+    insert into abroad_apply_self_modify (id, modify_type, apply_id, 
+      cadre_id, apply_date, type, 
+      start_date, end_date, to_country, 
+      reason, peer_staff, cost_source, 
+      need_passports, modify_proof, modify_proof_file_name, 
+      remark, modify_user_id, create_time, 
+      ip, status, is_finish, flow_node, 
+      flow_nodes, flow_users, is_agreed
+      )
+    values (#{id,jdbcType=INTEGER}, #{modifyType,jdbcType=TINYINT}, #{applyId,jdbcType=INTEGER}, 
+      #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{toCountry,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, #{costSource,jdbcType=VARCHAR}, 
+      #{needPassports,jdbcType=VARCHAR}, #{modifyProof,jdbcType=VARCHAR}, #{modifyProofFileName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{modifyUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
+      #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.abroad.ApplySelfModify" >
+    insert into abroad_apply_self_modify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="modifyType != null" >
+        modify_type,
+      </if>
+      <if test="applyId != null" >
+        apply_id,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
+      <if test="applyDate != null" >
+        apply_date,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="toCountry != null" >
+        to_country,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="peerStaff != null" >
+        peer_staff,
+      </if>
+      <if test="costSource != null" >
+        cost_source,
+      </if>
+      <if test="needPassports != null" >
+        need_passports,
+      </if>
+      <if test="modifyProof != null" >
+        modify_proof,
+      </if>
+      <if test="modifyProofFileName != null" >
+        modify_proof_file_name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="modifyUserId != null" >
+        modify_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isFinish != null" >
+        is_finish,
+      </if>
+      <if test="flowNode != null" >
+        flow_node,
+      </if>
+      <if test="flowNodes != null" >
+        flow_nodes,
+      </if>
+      <if test="flowUsers != null" >
+        flow_users,
+      </if>
+      <if test="isAgreed != null" >
+        is_agreed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modifyType != null" >
+        #{modifyType,jdbcType=TINYINT},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="toCountry != null" >
+        #{toCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="peerStaff != null" >
+        #{peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="costSource != null" >
+        #{costSource,jdbcType=VARCHAR},
+      </if>
+      <if test="needPassports != null" >
+        #{needPassports,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyProof != null" >
+        #{modifyProof,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyProofFileName != null" >
+        #{modifyProofFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUserId != null" >
+        #{modifyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="isFinish != null" >
+        #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null" >
+        #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null" >
+        #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null" >
+        #{flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgreed != null" >
+        #{isAgreed,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.abroad.ApplySelfModifyExample" resultType="java.lang.Integer" >
+    select count(*) from abroad_apply_self_modify
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update abroad_apply_self_modify
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.modifyType != null" >
+        modify_type = #{record.modifyType,jdbcType=TINYINT},
+      </if>
+      <if test="record.applyId != null" >
+        apply_id = #{record.applyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyDate != null" >
+        apply_date = #{record.applyDate,jdbcType=DATE},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.toCountry != null" >
+        to_country = #{record.toCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.peerStaff != null" >
+        peer_staff = #{record.peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costSource != null" >
+        cost_source = #{record.costSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needPassports != null" >
+        need_passports = #{record.needPassports,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyProof != null" >
+        modify_proof = #{record.modifyProof,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyProofFileName != null" >
+        modify_proof_file_name = #{record.modifyProofFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyUserId != null" >
+        modify_user_id = #{record.modifyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.isFinish != null" >
+        is_finish = #{record.isFinish,jdbcType=BIT},
+      </if>
+      <if test="record.flowNode != null" >
+        flow_node = #{record.flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowNodes != null" >
+        flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowUsers != null" >
+        flow_users = #{record.flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAgreed != null" >
+        is_agreed = #{record.isAgreed,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update abroad_apply_self_modify
+    set id = #{record.id,jdbcType=INTEGER},
+      modify_type = #{record.modifyType,jdbcType=TINYINT},
+      apply_id = #{record.applyId,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      apply_date = #{record.applyDate,jdbcType=DATE},
+      type = #{record.type,jdbcType=TINYINT},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      to_country = #{record.toCountry,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      peer_staff = #{record.peerStaff,jdbcType=VARCHAR},
+      cost_source = #{record.costSource,jdbcType=VARCHAR},
+      need_passports = #{record.needPassports,jdbcType=VARCHAR},
+      modify_proof = #{record.modifyProof,jdbcType=VARCHAR},
+      modify_proof_file_name = #{record.modifyProofFileName,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      modify_user_id = #{record.modifyUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      is_finish = #{record.isFinish,jdbcType=BIT},
+      flow_node = #{record.flowNode,jdbcType=INTEGER},
+      flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      flow_users = #{record.flowUsers,jdbcType=VARCHAR},
+      is_agreed = #{record.isAgreed,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.abroad.ApplySelfModify" >
+    update abroad_apply_self_modify
+    <set >
+      <if test="modifyType != null" >
+        modify_type = #{modifyType,jdbcType=TINYINT},
+      </if>
+      <if test="applyId != null" >
+        apply_id = #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        apply_date = #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="toCountry != null" >
+        to_country = #{toCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="peerStaff != null" >
+        peer_staff = #{peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="costSource != null" >
+        cost_source = #{costSource,jdbcType=VARCHAR},
+      </if>
+      <if test="needPassports != null" >
+        need_passports = #{needPassports,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyProof != null" >
+        modify_proof = #{modifyProof,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyProofFileName != null" >
+        modify_proof_file_name = #{modifyProofFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUserId != null" >
+        modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="isFinish != null" >
+        is_finish = #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null" >
+        flow_node = #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null" >
+        flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null" >
+        flow_users = #{flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgreed != null" >
+        is_agreed = #{isAgreed,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.abroad.ApplySelfModify" >
+    update abroad_apply_self_modify
+    set modify_type = #{modifyType,jdbcType=TINYINT},
+      apply_id = #{applyId,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      apply_date = #{applyDate,jdbcType=DATE},
+      type = #{type,jdbcType=TINYINT},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      to_country = #{toCountry,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      peer_staff = #{peerStaff,jdbcType=VARCHAR},
+      cost_source = #{costSource,jdbcType=VARCHAR},
+      need_passports = #{needPassports,jdbcType=VARCHAR},
+      modify_proof = #{modifyProof,jdbcType=VARCHAR},
+      modify_proof_file_name = #{modifyProofFileName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      is_finish = #{isFinish,jdbcType=BIT},
+      flow_node = #{flowNode,jdbcType=INTEGER},
+      flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      flow_users = #{flowUsers,jdbcType=VARCHAR},
+      is_agreed = #{isAgreed,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.abroad.ApplySelfModifyExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_apply_self_modify
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

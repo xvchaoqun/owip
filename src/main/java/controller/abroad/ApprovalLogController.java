@@ -1,9 +1,9 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.ApprovalLog;
-import domain.ApprovalLogExample;
-import domain.ApprovalLogExample.Criteria;
+import domain.abroad.ApprovalLog;
+import domain.abroad.ApprovalLogExample;
+import domain.abroad.ApprovalLogExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -19,24 +19,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ApprovalLogController extends BaseController {

@@ -2,10 +2,10 @@ package controller.sys;
 
 import bean.ShortMsgBean;
 import controller.BaseController;
-import domain.ShortMsg;
-import domain.ShortMsgExample;
-import domain.ShortMsgExample.Criteria;
-import domain.SysUser;
+import domain.sys.ShortMsg;
+import domain.sys.ShortMsgExample;
+import domain.sys.ShortMsgExample.Criteria;
+import domain.sys.SysUser;
 import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;

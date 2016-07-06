@@ -1,16 +1,16 @@
 package controller.mobile;
 
-import bean.ApplySelfSearchBean;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import bean.m.Breadcrumb;
 import controller.BaseController;
-import domain.*;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApplySelfExample;
+import domain.abroad.ApplySelfFile;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -20,16 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
