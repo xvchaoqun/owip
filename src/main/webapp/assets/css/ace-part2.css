@@ -563,32 +563,32 @@ div.dataTables_processing {
 	.fc {
 		position:relative;
 		top:-40px;
-		
+
 		> .fc-header {
 			position:relative;
 			z-index:10;
 		}
-		
+
 		.fc-header-space {
 			padding-left:2px;
 		}
 	}
-	
+
 	.fc-header-title > h2 {
 		font-size: floor(@base-font-size * 1.4);
 		line-height: 36px;
 	}
-	
+
 	.fc-content {
 		top:-14px;
 		z-index:11;
 	}
-	
+
 	.fc-button-content {
 		height:37px;
 		line-height:36px;
 	}
-	
+
 }
 */
 @media only screen and (max-width: 480px) {
@@ -2963,7 +2963,7 @@ img.editable-click:hover {
   font-family: FontAwesome;
   font-size: 14px;
 }
-.ui-jqgrid .ui-jqgrid-view {
+/*.ui-jqgrid .ui-jqgrid-view {
   z-index: auto;
 }
 .ui-jqgrid .ui-jqgrid-view,
@@ -3147,7 +3147,7 @@ img.editable-click:hover {
   border-right: 1px solid #E1E1E1 !important;
   text-align: left !important;
 }
-/* checkbox container */
+*//* checkbox container *//*
 .ui-jqgrid-labels th[id*="_cb"]:first-child > div {
   padding-top: 0;
   text-align: center !important;
@@ -3655,7 +3655,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
   .ui-jqgrid .ui-jqgrid-pager > .ui-pager-control > .ui-pg-table > tbody > tr > td#grid-pager_center > .ui-pg-table {
     width: 300px;
   }
-}
+}*/
 .dd {
   position: relative;
   display: block;
@@ -5977,7 +5977,7 @@ input.typeahead.scrollable ~ .tt-menu {
     /**
 	background: transparent none !important;
 	border-bottom: 1px solid #DDD;
-	
+
 	.navbar-brand {
 		color: @text-color !important;
 	}

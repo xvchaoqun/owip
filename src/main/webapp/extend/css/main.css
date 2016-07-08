@@ -169,6 +169,8 @@ body{
  .table-bordered{
     border-right: none!important;
 }*/
+/* 鼠标悬浮背景色对齐校正*/
+.frozen-bdiv.ui-jqgrid-bdiv{top:39px !important;}
 /*jqgrid ====end*/
 
 .table{

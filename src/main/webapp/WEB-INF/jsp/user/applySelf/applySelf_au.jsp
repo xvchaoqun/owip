@@ -369,6 +369,7 @@ pageEncoding="UTF-8"%>
 			var $btn = $("#submitBtn").button('loading');
 			//setTimeout(function () { $btn.button('reset'); },1000);
             $(form).ajaxSubmit({
+				dataType:'json',
                 success:function(ret){
                     if(ret.success){
 						$btn.button("success").addClass("btn-success");
