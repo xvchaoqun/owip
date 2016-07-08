@@ -31,7 +31,7 @@ select * from dba_tab_cols where column_name='DWMC'
 
 
 20160322迁移->
-172.16.212.114
+172.16.212.108
 root
 wlzx@2015
 
