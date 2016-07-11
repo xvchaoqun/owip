@@ -75,52 +75,59 @@
                   id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
+                    <label class="col-xs-3 control-label">类别</label>
+                    <div class="col-xs-6">
+                    <input type="radio" name="usePassport" value="0" class="bigger"> 没有使用证件出国（境）
+                    <input type="radio" name="usePassport" value="1" class="bigger"> 违规使用证件出国（境）
+                    </div>
+                </div>
+                <div id="illegalUsePassport" style="display: none">
+                <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
                     <div class="col-xs-2 file" style="width:300px;">
                         <input type="file" name="_useRecord" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实际出发时间</label>
+                    <label class="col-xs-3 control-label">出国（境）时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 200px">
-                            <input required class="form-control date-picker" name="_realStartDate" type="text"
+                            <input class="form-control date-picker" name="_realStartDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实际返回时间</label>
+                    <label class="col-xs-3 control-label">回国时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 200px">
-                            <input required class="form-control date-picker" name="_realEndDate" type="text"
+                            <input class="form-control date-picker" name="_realEndDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
                 </div>
-                <c:if test="${not empty applySelf}">
+
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实际前往国家或地区</label>
+                    <label class="col-xs-3 control-label">所到国家/地区</label>
                     <div class="col-xs-6">
-                        <input type="text" name="realToCountry" id="form-field-tags"
-                               value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
+                        <input type="text" name="realToCountry" id="form-field-tags" placeholder="输入后选择国家或按回车 ..." />
                     </div>
                 </div>
-                </c:if>
+                </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">备注</label>
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
 <div class="modal-footer center">
-
     <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
     <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
@@ -161,31 +168,47 @@
         $('input[type=file]').ace_file_input('reset_input');
     });
 
+    $("input[name=usePassport]").click(function(){
+        var val = $(this).val();
+        if(val==0){
+            $("#illegalUsePassport").slideUp();
+        }
+        if(val==1){
+            $("#illegalUsePassport").slideDown();
+        }
+    })
     $("input[type=submit]").click(function(){
-        if($('input[type=file]').val()==''){
-            SysMsg.info('请选择证件使用记录');
+
+        var usePassport = $("input[name=usePassport]:checked").val();
+        if(usePassport==undefined){
+            SysMsg.info('请选择类别');
             return;
         }
-        if($('input[name=_realStartDate]').val()==''){
-            SysMsg.info('请选择实际出发时间','',function(){
-                $('input[name=_realStartDate]').focus();
-            });
-            return;
+        if(usePassport==1) {
+
+            if ($('input[type=file]').val() == '') {
+                SysMsg.info('请选择证件使用记录');
+                return;
+            }
+            if ($('input[name=_realStartDate]').val() == '') {
+                SysMsg.info('请选择出国（境）时间', '', function () {
+                    $('input[name=_realStartDate]').focus();
+                });
+                return;
+            }
+            if ($('input[name=_realEndDate]').val() == '') {
+                SysMsg.info('请选择回国时间', '', function () {
+                    $('input[name=_realEndDate]').focus();
+                });
+                return;
+            }
+            if ($('input[name=realToCountry]').val().trim() == '') {
+                SysMsg.info('请输入所到国家/地区', '', function () {
+                    $('input[name=realToCountry]').focus();
+                });
+                return;
+            }
         }
-        if($('input[name=_realEndDate]').val()==''){
-            SysMsg.info('请选择实际返回时间','',function(){
-                $('input[name=_realEndDate]').focus();
-            });
-            return;
-        }
-        <c:if test="${not empty applySelf}">
-        if($('input[name=realToCountry]').val().trim()==''){
-            SysMsg.info('请输入实际前往国家或地区','',function(){
-                $('input[name=realToCountry]').focus();
-            });
-            return;
-        }
-            </c:if>
         $("#modalForm").submit();return false;
     });
     $("#modalForm").validate({

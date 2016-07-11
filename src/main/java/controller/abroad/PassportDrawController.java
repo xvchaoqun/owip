@@ -328,6 +328,10 @@ public class PassportDrawController extends BaseController {
         }
         modelMap.put("countryList", JSONUtils.toString(countryList));
 
+        if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            return "abroad/passportDraw/passportDraw_other_return";
+        }
+
         return "abroad/passportDraw/passportDraw_return";
     }
 
