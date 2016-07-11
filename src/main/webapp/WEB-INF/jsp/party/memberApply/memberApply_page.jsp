@@ -251,6 +251,15 @@ pageEncoding="UTF-8" %>
                                                                     data-open-by="page">
                                                                 <i class="fa fa-sign-in"></i> 查看审批记录
                                                             </button>
+                                                            <shiro:hasRole name="partyAdmin">
+                                                                <c:if test="${stage<APPLY_STAGE_GROW && stage>=APPLY_STAGE_INIT}">
+                                                                    <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                                                                            data-url="${ctx}/memberApply_back"
+                                                                            data-querystr="&stage=${param.stage}">
+                                                                        <i class="fa fa-reply-all"></i> 打回申请（批量）
+                                                                    </button>
+                                                                </c:if>
+                                                            </shiro:hasRole>
                                                         </div>
                                                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                                             <div class="widget-header">
@@ -447,12 +456,14 @@ pageEncoding="UTF-8" %>
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate"'
     });
+    <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
     </c:if>
     <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -461,12 +472,14 @@ pageEncoding="UTF-8" %>
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_plan"'
     });
+    <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
     </c:if>
     <c:if test="${stage==APPLY_STAGE_PLAN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -490,18 +503,22 @@ pageEncoding="UTF-8" %>
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow"'
     });
+    <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
+    <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
     </c:if>
 
     <c:if test="${stage==APPLY_STAGE_GROW}">
@@ -511,21 +528,25 @@ pageEncoding="UTF-8" %>
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive"'
     });
+    <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
+    <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
     </c:if>
 
-    <shiro:hasRole name="partyAdmin">
+    <%--<shiro:hasRole name="partyAdmin">
     <c:if test="${stage<APPLY_STAGE_GROW && stage>=APPLY_STAGE_INIT}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"打回申请",
@@ -534,7 +555,7 @@ pageEncoding="UTF-8" %>
         props:'data-url="${ctx}/memberApply_back" data-querystr="&stage=${param.stage}"'
     });
     </c:if>
-    </shiro:hasRole>
+    </shiro:hasRole>--%>
 
     $(".addBtn").click(function(){
         loadModal("${ctx}/memberApply_au");
