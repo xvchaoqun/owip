@@ -192,6 +192,7 @@ public class MemberController extends BaseController {
 
             SecurityUtils.getSubject().checkPermission("member:edit");
 
+            record.setPoliticalStatus(null); // 不能修改党籍状态
             memberService.updateByPrimaryKeySelective(record, reason);
 
             logger.info(addLog(SystemConstants.LOG_MEMBER,

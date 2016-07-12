@@ -1,6 +1,18 @@
 
 
 
+--2016-07-12 导入预备党员 到入党申请 预备党员模块中
+
+-- --保证都有入党时间
+update ow_member set grow_time = '2015-07-01' where user_id in(6609, 67799,72629);
+-- 导入数据
+insert into ow_member_apply(user_id , type, party_id, branch_id, apply_time, grow_time, remark, fill_time, create_time, stage)
+select  user_id , if(type=1,2, 1) as type , party_id, branch_id, '2016-07-12' as apply_time, grow_time, '统一导入' as remark, '2016-07-12 10:30:00' as fill_time , '2016-07-12 10:30:00' as create_time, 6 as stage from ow_member where source=1 and political_status=1 and status=1 and grow_time is not null;
+-- 导入日志
+insert into ow_apply_approval_log(record_id, party_id, branch_id, apply_user_id, status, remark, create_time, stage, type)
+select user_id , party_id, branch_id, user_id, 1 as status, '预备党员统一导入' as remark, '2016-07-12 10:30:00' as create_time, '预备党员' as stage, 1 as type  from ow_member where source=1 and political_status=1 and status=1 and grow_time is not null;
+
+
 --2016-7-6
 ALTER TABLE `base_cadre_info`
 	ADD COLUMN `work_save_date` DATETIME NULL COMMENT '上一次工作经历保存时间' AFTER `work`;

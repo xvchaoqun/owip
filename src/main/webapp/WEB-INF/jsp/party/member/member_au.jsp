@@ -43,7 +43,14 @@ pageEncoding="UTF-8"%>
 				</script>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">党籍状态</label>
+					<c:if test="${not empty member.politicalStatus}">
+						<div class="col-xs-6 label-text">
+								${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
+						</div>
+					</c:if>
+					<c:if test="${empty member.politicalStatus}">
 					<div class="col-xs-6">
+
 						<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
 							<option></option>
 							<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
@@ -54,6 +61,7 @@ pageEncoding="UTF-8"%>
 							$("#modalForm select[name=politicalStatus]").val(${member.politicalStatus});
 						</script>
 					</div>
+					</c:if>
 				</div>
 				<%--<div class="form-group">
 					<label class="col-xs-3 control-label">状态</label>
