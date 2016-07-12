@@ -102,19 +102,26 @@
             {label: '学校类型', name: 'schoolType', formatter:function(cellvalue, options, rowObject){
                 return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
             }},
-            {label: '入学时间', name: 'enrolTime',formatter:'date',formatoptions: {newformat:'Y-m'}},
-            {label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y-m'}},
+            {label: '入学时间', name: 'enrolTime',formatter:'date',formatoptions: {newformat:'Y.m'}},
+            {label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}},
             {label: '学制', name: 'schoolLen'},
             {label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue]
             }},
-            {label: '学位', name: 'degree'},
+            {label: '学位', name: 'degree', formatter:function(cellvalue, options, rowObject){
+                return rowObject.hasDegree?cellvalue:"-";
+            }},
             {label: '最高学位', name: 'isHighDegree', formatter:function(cellvalue, options, rowObject){
+                if(!rowObject.hasDegree) return "-";
                 return cellvalue?"是":"否";
             }},
-            {label: '学位授予国家', name: 'degreeCountry', width:150},
-            {label: '学位授予单位', name: 'degreeUnit', width:150},
-            {label: '学位授予日期', name: 'degreeTime', width:150,formatter:'date',formatoptions: {newformat:'Y-m-d'}}
+            {label: '学位授予国家', name: 'degreeCountry', width:150, formatter:function(cellvalue, options, rowObject){
+                return rowObject.hasDegree?cellvalue:"-";
+            }},
+            {label: '学位授予单位', name: 'degreeUnit', width:150, formatter:function(cellvalue, options, rowObject){
+                return rowObject.hasDegree?cellvalue:"-";
+            }},
+            {label: '学位授予日期', name: 'degreeTime', width:150,formatter:'date',formatoptions: {newformat:'Y.m'}}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid4');

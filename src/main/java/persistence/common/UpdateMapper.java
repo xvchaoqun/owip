@@ -26,6 +26,9 @@ public interface UpdateMapper {
     @Update("update base_dispatch set ppt=null, ppt_name=null where id=#{id}")
     void del_dispatch_ppt(@Param("id") int id);
 
+    @Update("update base_cadre_edu set degree=null, is_high_degree=null, degree_country=null, degree_unit=null, degree_time=null where id=#{id}")
+    void del_caderEdu_hasDegree(@Param("id") int id);
+
     @Update("update base_cadre_work set unit_id=null where id=#{id}")
     void del_cadreWork_unitId(@Param("id") int id);
 

@@ -135,12 +135,14 @@ public class CadreEduController extends BaseController {
             record.setFinishTime(DateUtils.parseDate(_finishTime, "yyyy.MM"));
         }
         if(StringUtils.isNotBlank(_degreeTime)){
-            record.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYY_MM_DD));
+            record.setDegreeTime(DateUtils.parseDate(_degreeTime, "yyyy.MM"));
         }
         record.setHasDegree((record.getHasDegree() == null) ? false : record.getHasDegree());
-        if(!record.getHasDegree()){
+        /*if(!record.getHasDegree()){
             record.setDegree(""); // 没有获得学位，清除学位名称
-        }
+            record.setDegreeCountry("");
+            record.setDegreeUnit("");
+        }*/
         if(record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
                 record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC){
             record.setDegreeCountry("中国");

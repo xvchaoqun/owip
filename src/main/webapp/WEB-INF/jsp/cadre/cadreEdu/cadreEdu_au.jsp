@@ -155,7 +155,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 					<input  required class="form-control date-picker" name="_degreeTime" type="text"
-						   data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreEdu.degreeTime,'yyyy-MM-dd')}" />
+							data-date-min-view-mode="1"
+						   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.degreeTime,'yyyy.MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -180,11 +181,12 @@ pageEncoding="UTF-8"%>
 		if($("input[name=hasDegree]").bootstrapSwitch("state")){
 			$("input[name=degree]").prop("disabled", false).attr("required", "required");
 			$("input[name=isHighDegree]").bootstrapSwitch('disabled', false);
-			$("input[name=degreeCountry]").val('').prop("disabled", false).attr("required");
-			$("input[name=degreeUnit]").val('').prop("disabled", false).attr("required");
+			$("input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required");
+			$("input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required");
 
-			var finishTime = $("input[name=_finishTime]").datepicker("getDate");
-			var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy-MM-dd")
+			var finishTime = $("input[name=_finishTime]").val();
+			//alert(finishTime)
+			var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM")
 			$("input[name=_degreeTime]").val(degreeTime)
 					.prop("disabled", false).attr("required");
 
@@ -236,7 +238,7 @@ pageEncoding="UTF-8"%>
 		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
 			var $_degreeTime = $("input[name=_degreeTime]")
 			if ($_degreeTime.val() == '') {
-				$_degreeTime.val(ev.date.format("yyyy-MM-dd"));
+				$_degreeTime.val(ev.date.format("yyyy.MM"));
 			}
 		}
 	})

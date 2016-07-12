@@ -53,8 +53,13 @@ public class CadreEduService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreEdu record){
-        return cadreEduMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(CadreEdu record){
+
+        cadreEduMapper.updateByPrimaryKeySelective(record);
+
+        if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
+            updateMapper.del_caderEdu_hasDegree(record.getId());
+        }
     }
 
     /**
