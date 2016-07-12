@@ -603,7 +603,7 @@ $(document).on("click", ".myTableDiv .jqOrderBtn", function(){
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
             $("#jqGrid").trigger("reloadGrid");
-            SysMsg.success('操作成功。', '成功');
+            //SysMsg.success('操作成功。', '成功');
         }
     });
 });
