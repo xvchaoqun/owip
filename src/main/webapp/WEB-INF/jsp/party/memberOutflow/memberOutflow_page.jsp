@@ -330,7 +330,7 @@
             { label:'原职业',  name:'originalJob',width: 200 , formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
             }},
-            { label: '外出流向',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
+            { label: '外出流向',   name: 'direction', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
             }},
             { label: '流出时间',   name: 'flowTime', width: 100 },

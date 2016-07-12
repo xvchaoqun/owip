@@ -89,21 +89,23 @@ public class PassportService extends BaseMapper {
 
     // 0 不重复  1证件号码重复 2证件类别重复
     public int idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
+        //Assert.isTrue(StringUtils.isNotBlank(code));
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
-
-        // 证件号码不允许重复
-        PassportExample example = new PassportExample();
-        PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        if(id!=null){
-            criteria.andIdNotEqualTo(id);
+        if (id != null) {
             Passport passport = passportMapper.selectByPrimaryKey(id);
             type = passport.getType();
-        }else{
-            if(type==null)
-                type=SystemConstants.PASSPORT_TYPE_KEEP;
+        } else {
+            if (type == null)
+                type = SystemConstants.PASSPORT_TYPE_KEEP; // 默认存入集中保管
         }
-        if(passportMapper.countByExample(example) > 0) return 1;
+
+        if(StringUtils.isNotBlank(code)) {
+            // 证件号码不允许重复
+            PassportExample example = new PassportExample();
+            PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+            if(id!=null) criteria.andIdNotEqualTo(id);
+            if (passportMapper.countByExample(example) > 0) return 1;
+        }
 
         if(type==SystemConstants.PASSPORT_TYPE_KEEP) {
             //“集中管理证件”中不存在同一个人有两本护照（或者港澳通行证、台湾通行证）就可以。
