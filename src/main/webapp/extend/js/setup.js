@@ -580,12 +580,12 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
     //console.log($div.data("url-co"))
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
-            SysMsg.success('操作成功。', '成功',function(){
+            //SysMsg.success('操作成功。', '成功',function(){
                 if($this.hasClass("pageReload")){
                     page_reload();
                 }else
                     $("#jqGrid").trigger("reloadGrid");
-            });
+            //});
         }
     });
 });
@@ -834,7 +834,7 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function(){
     $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
         if(ret.success) {
             pop_reload();
-            SysMsg.success('操作成功。', '成功');
+            //SysMsg.success('操作成功。', '成功');
         }
     });
 });
