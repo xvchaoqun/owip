@@ -54,13 +54,13 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">证件号码</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="code" value="${passport.code}">
+                        <input class="form-control" type="text" name="code" value="${passport.code}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发证机关</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="authority"
+                        <input class="form-control" type="text" name="authority"
                                value="${not empty param.applyId?"公安部出入境管理局":passport.authority}">
 				</div>
 			</div>
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">发证日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_issueDate" type="text"
+                        <input class="form-control date-picker" name="_issueDate" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">有效期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_expiryDate" type="text"
+                        <input class="form-control date-picker" name="_expiryDate" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

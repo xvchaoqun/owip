@@ -1,5 +1,7 @@
-
-
+--2016-07-12
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `code` `code` VARCHAR(50) NULL DEFAULT '' COMMENT '证件号码' AFTER `class_id`,
+	CHANGE COLUMN `authority` `authority` VARCHAR(50) NULL DEFAULT '' COMMENT '发证机关' AFTER `code`;
 
 --2016-07-12 导入预备党员 到入党申请 预备党员模块中
 
