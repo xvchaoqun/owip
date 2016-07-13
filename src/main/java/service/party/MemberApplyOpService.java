@@ -487,8 +487,10 @@ public class MemberApplyOpService extends BaseController {
             boolean directParty = verifyAuth.isDirectBranch;
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(positiveTime.before(memberApply.getGrowTime())){
-                throw new RuntimeException("转正时间应该在发展之后");
+            if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
+                if (positiveTime.before(memberApply.getGrowTime())) {
+                    throw new RuntimeException("转正时间应该在发展之后");
+                }
             }
 
             MemberApply record = new MemberApply();

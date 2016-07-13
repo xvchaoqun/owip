@@ -69,15 +69,8 @@ public class UserPassportDrawController extends BaseController {
         Cadre cadre = cadreService.findByUserId(userId);
         int cadreId = cadre.getId();
 
-        Passport passportTw = null;
-        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
         List<Passport> passports = passportService.findByCadreId(cadreId);
-        for (Passport passport : passports) {
-            if(passport.getClassId().intValue() == passportTwType.getId())
-                passportTw = passport;
-        }
         modelMap.put("passports", passports);
-        modelMap.put("passportTw", passportTw);
 
         return "user/passportDraw/passportDraw_select";
     }
@@ -200,8 +193,16 @@ public class UserPassportDrawController extends BaseController {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
+
+        Passport passportTw = null;
+        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
+        for (Passport passport : passports) {
+            if(passport.getClassId().intValue() == passportTwType.getId())
+                passportTw = passport;
+        }
         modelMap.put("passports", passports);
+        modelMap.put("passportTw", passportTw);
 
         return "user/passportDraw/passportDraw_tw";
     }

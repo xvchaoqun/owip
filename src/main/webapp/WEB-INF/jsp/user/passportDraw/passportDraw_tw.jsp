@@ -21,7 +21,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">申请类型</label>
     <div class="col-xs-6 choice label-text">
-      <input  name="type"type="radio" value="${PASSPORT_DRAW_TYPE_TW}"> 因公赴台&nbsp;&nbsp;
+      <input ${empty passportTw?"disabled":""} name="type"type="radio" value="${PASSPORT_DRAW_TYPE_TW}"> 因公赴台&nbsp;&nbsp;
       <input name="type" type="radio" value="${PASSPORT_DRAW_TYPE_LONG_SELF}"> 长期因公出国
     </div>
   </div>
@@ -220,6 +220,13 @@
       SysMsg.info("请选择申请类型");
       return false;
     }
+    if($("input[name=type]:checked").val()=='${PASSPORT_DRAW_TYPE_TW}'){
+      if($.trim("${passportTw}")==''){
+        SysMsg.info("您还未提交大陆居民往来台湾通行证");
+        return false;
+      }
+    }
+
     if($.trim($("input[name=_startDate]").val())==''){
       SysMsg.info("请选择出行时间", '', function(){
         $("input[name=_startDate]").val('').focus();

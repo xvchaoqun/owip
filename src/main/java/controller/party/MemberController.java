@@ -3,6 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.ext.*;
 import domain.member.Member;
+import domain.member.MemberApply;
 import domain.member.MemberExample;
 import domain.member.MemberTeacher;
 import domain.party.Branch;
@@ -179,6 +180,11 @@ public class MemberController extends BaseController {
         if (member == null) {
             SecurityUtils.getSubject().checkPermission("member:add");
 
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply!=null && memberApply.getStage()>=SystemConstants.APPLY_STAGE_INIT){
+                throw new RuntimeException("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
+            }
+
             record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
@@ -205,6 +211,16 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
+    @RequestMapping(value = "/member_addGrowApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_addGrowApply(int userId) {
+
+        SecurityUtils.getSubject().checkPermission("member:edit");
+        memberApplyService.addGrowApply(userId);
+
+        return success(FormUtils.SUCCESS);
+    }
     //@RequiresPermissions("member:edit")
     @RequestMapping("/member_au")
     public String member_au(Integer userId, Integer partyId, Integer branchId, ModelMap modelMap) {
