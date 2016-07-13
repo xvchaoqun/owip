@@ -1,3 +1,5 @@
+
+
 --2016-07-12
 ALTER TABLE `abroad_passport`
 	CHANGE COLUMN `code` `code` VARCHAR(50) NULL DEFAULT '' COMMENT '证件号码' AFTER `class_id`,
@@ -5,7 +7,8 @@ ALTER TABLE `abroad_passport`
 
 --2016-07-12 导入预备党员 到入党申请 预备党员模块中
 
-
+--删除已经是党员的入党申请（申请-预备党员之间的阶段）
+delete oma.* from ow_member om, ow_member_apply oma where om.status =1 and om.user_id=oma.user_id and oma.stage<6 and oma.stage>=0;
 
 ######处理后台添加的预备党员
 insert into ow_member_apply(user_id , type, party_id, branch_id, apply_time, grow_time, remark, fill_time, create_time, stage)
