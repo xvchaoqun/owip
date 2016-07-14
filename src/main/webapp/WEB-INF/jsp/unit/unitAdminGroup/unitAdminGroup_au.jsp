@@ -34,14 +34,14 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否现任班子</label>
-				<div class="col-xs-6">
+				<div class="col-xs-9">
                     <div class="col-xs-3">
                         <label>
                             <input name="isPresent" ${unitAdminGroup.isPresent?"checked":""}  type="checkbox" />
                             <span class="lbl"></span>
                         </label>
                     </div>
-                    <div class="col-xs-offset-3">（提示：每个单位的“现任行政班子”只有一个）</div>
+                    <br><br><span class="help-block">（提示：每个单位的“现任行政班子”只有一个）</span>
 				</div>
 			</div>
         <div class="form-group">
