@@ -51,7 +51,7 @@
 <script type="text/template" id="needSign_tpl">
     <button data-url="${ctx}/user/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
             class="openView btn btn-success btn-mini btn-xs">
-        <i class="fa fa-eye"></i> 签注申请表
+        <i class="fa fa-eye"></i> {{=printStr}}签注申请表
     </button>
 </script>
 <script type="text/template" id="notNeedSign_tpl">
@@ -151,17 +151,18 @@
             {
                 label: '签注申请表',
                 name: 'op',
-                width: 120,
+                width: 130,
                 frozen: true,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
                     <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
                     if (rowObject.passportClass.code != 'mt_passport_normal') {
-                        console.log(rowObject.needSign)
+                        //console.log(rowObject.needSign)
                         if (rowObject.needSign)
                             str += _.template($("#needSign_tpl").html().NoMultiSpace())({
                                 id: rowObject.id,
-                                passportId: rowObject.passportId
+                                passportId: rowObject.passportId,
+                                printStr:(rowObject.status == '${PASSPORT_DRAW_STATUS_PASS}')?"打印":""
                             });
                         else
                             str += _.template($("#notNeedSign_tpl").html().NoMultiSpace())({

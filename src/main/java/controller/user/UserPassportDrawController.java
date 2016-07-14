@@ -131,7 +131,8 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_sign")
-    public String passportDraw_self_sign(@CurrentUser SysUser loginUser, String type, Integer passportId, ModelMap modelMap) {
+    public String passportDraw_self_sign(@CurrentUser SysUser loginUser, String type,
+                                         Integer passportId, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -139,6 +140,11 @@ public class UserPassportDrawController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         if(passport==null || passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
         modelMap.put("passport", passport);
+
+        if(id!=null){
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            modelMap.put("passportDraw", passportDraw);
+        }
 
         if(StringUtils.equals(type, "tw")) {
             /*Passport passportTw = null;

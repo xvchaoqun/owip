@@ -373,7 +373,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
 						$btn.button("success").addClass("btn-success");
-						bootbox.dialog({
+						/*bootbox.dialog({
 							closeButton:false,
 							message:'<p style="padding:30px;font-size:20pt;text-indent: 2em; ">您可以继续申请使用因私出国境证件，' +
 							'也可以在因私出国境申请通过审批之后，再次登陆系统申请。</p>',
@@ -391,16 +391,12 @@ pageEncoding="UTF-8"%>
 									label: "继续申请",
 									className: "btn-success",
 									callback: function () {
-										$("#sidebar a[href='/user/applySelf']").closest("li").removeClass("active");
-										$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
-										$("#body-content").hide();
-										$.get("${ctx}/user/passportDraw_self",{},function(html){
-											$("#item-content").hide().html(html).fadeIn("slow");
-										})
+						 				_gotoPassportDrawPage();
 									}
 								}
 							}
-						}).draggable({handle :".modal-header"});
+						}).draggable({handle :".modal-header"});*/
+						_gotoPassportDrawPage(); // 强制跳转
 
                     }else{
 						$btn.button('reset');
@@ -409,6 +405,15 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+	function _gotoPassportDrawPage(){
+
+		$("#sidebar a[href='/user/applySelf']").closest("li").removeClass("active");
+		$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
+		$("#body-content").hide();
+		$.get("${ctx}/user/passportDraw_self",{},function(html){
+			$("#item-content").hide().html(html).fadeIn("slow");
+		})
+	}
     $('#applyForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 	$('.date-picker').datepicker({
