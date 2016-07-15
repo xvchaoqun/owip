@@ -396,7 +396,7 @@ pageEncoding="UTF-8"%>
 								}
 							}
 						}).draggable({handle :".modal-header"});*/
-						_gotoPassportDrawPage(); // 强制跳转
+						_gotoPassportDrawPage(ret.applyId); // 强制跳转
 
                     }else{
 						$btn.button('reset');
@@ -405,12 +405,12 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-	function _gotoPassportDrawPage(){
+	function _gotoPassportDrawPage(applyId){
 
 		$("#sidebar a[href='/user/applySelf']").closest("li").removeClass("active");
 		$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
 		$("#body-content").hide();
-		$.get("${ctx}/user/passportDraw_self",{},function(html){
+		$.get("${ctx}/user/passportDraw_self_select",{applyId:applyId},function(html){
 			$("#item-content").hide().html(html).fadeIn("slow");
 		})
 	}

@@ -278,7 +278,9 @@ public class UserApplySelfController extends BaseController {
             applySelfFileMapper.insert(applySelfFile);
         }
 
-        return success(FormUtils.SUCCESS);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("applyId", applyId);
+        return resultMap;
     }
 
     @RequiresRoles("cadre")
