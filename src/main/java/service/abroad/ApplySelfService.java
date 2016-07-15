@@ -677,12 +677,9 @@ public class ApplySelfService extends BaseMapper {
         Byte type = approverType.getType();
 
         if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职审批
-            // 待审批的干部所在单位
+           // 待审批的干部所在单位
             Set<Integer> unitIds = new HashSet<>();
-            // 如果是本单位正职
-            MetaType postType = metaTypeService.findAll().get(cadre.getPostId());
-            if (postType.getBoolAttr()) unitIds.add(cadre.getUnitId());
-
+            unitIds.addAll(getMainPostUnitIds(userId));
             return unitIds.contains(targetCadre.getUnitId());
         }
 
