@@ -129,6 +129,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected ExtBksService extBksService;
     @Autowired
+    protected CadreConcatService cadreConcatService;
+    @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired
     protected CadreFamliyAbroadService cadreFamliyAbroadService;

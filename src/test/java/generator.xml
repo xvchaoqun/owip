@@ -149,8 +149,10 @@
         -->
       <!--<table tableName="base_location" domainObjectName="base.Location">
       </table>-->
-      <!--<table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
-          <columnOverride column="work" jdbcType="VARCHAR"></columnOverride>
+      <table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <!--<table tableName="base_cadre_concat" domainObjectName="cadre.CadreConcat">
       </table>-->
       <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
       </table>
@@ -159,8 +161,9 @@
       <table tableName="base_cadre_company" domainObjectName="cadre.CadreCompany">
       </table>-->
       <!--<table tableName="base_cadre_parttime" domainObjectName="cadre.CadreParttime">
-      </table>
-      <table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
+      <!--<table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
       </table>-->
       <!--<table tableName="base_cadre_reward" domainObjectName="cadre.CadreReward">
       </table>-->

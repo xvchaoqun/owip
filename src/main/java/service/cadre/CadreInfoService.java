@@ -1,35 +1,18 @@
 package service.cadre;
 
-import domain.cadre.Cadre;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreInfoExample;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CadreInfoService extends BaseMapper {
-
-    @Autowired
-    private CadreService cadreService;
-
-    // 获取干部联系手机号码
-    public String getCadreMobile(int userId){
-
-        Cadre cadre = cadreService.findByUserId(userId);
-        if(cadre==null) return null;
-
-        return getCadreMobileByCadreId(cadre.getId());
-    }
-    public String getCadreMobileByCadreId(int cadreId){
-
-        CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
-        return (cadreInfo==null)?null: StringUtils.trimToNull(cadreInfo.getMobile());
-    }
 
     @Transactional
     public void del(Integer cadreId){
@@ -47,14 +30,32 @@ public class CadreInfoService extends BaseMapper {
         cadreInfoMapper.deleteByExample(example);
     }
 
-    @Transactional
-    public void insertOrUpdate(CadreInfo record){
+    public CadreInfo get(int cadreId, byte type){
 
-        Integer cadreId = record.getCadreId();
-        CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
+        CadreInfoExample example = new CadreInfoExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type);
+
+        CadreInfo cadreInfo = null;
+        List<CadreInfo> cadreInfos = cadreInfoMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(cadreInfos.size()>0) cadreInfo = cadreInfos.get(0);
+
+        return cadreInfo;
+    }
+
+    @Transactional
+    public void insertOrUpdate(int cadreId, String content, byte type){
+
+        CadreInfo record = new CadreInfo();
+        record.setCadreId(cadreId);
+        record.setContent(content);
+        record.setLastSaveDate(new Date());
+        record.setType(type);
+
+        CadreInfo cadreInfo = get(cadreId, type);
         if (cadreInfo == null) {
             cadreInfoMapper.insertSelective(record);
         } else {
+            record.setId(cadreInfo.getId());
             cadreInfoMapper.updateByPrimaryKeySelective(record);
         }
     }

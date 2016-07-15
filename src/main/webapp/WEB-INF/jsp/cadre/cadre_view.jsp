@@ -52,7 +52,7 @@
                             <a href="javascript:;" data-url="${ctx}/cadreCompany_page?cadreId=${param.id}">企业兼职情况</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreInfo_page?cadreId=${param.id}">联系方式</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreConcat_page?cadreId=${param.id}">联系方式</a>
                         </li>
                     </ul>
                 </div>

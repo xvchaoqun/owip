@@ -1,4 +1,54 @@
 
+--2016-07-13
+ALTER TABLE `base_cadre_parttime`
+	ADD COLUMN `remark` TEXT NULL DEFAULT NULL COMMENT '备注' AFTER `post`;
+
+ALTER TABLE `base_cadre_info`
+	ADD COLUMN `parttime` TEXT NULL DEFAULT NULL COMMENT '兼职情况' AFTER `work_save_date`,
+	ADD COLUMN `parttime_save_date` DATETIME NULL DEFAULT NULL COMMENT '上一次保存时间' AFTER `parttime`,
+	DROP COLUMN `mobile`,
+	DROP COLUMN `office_phone`,
+	DROP COLUMN `home_phone`,
+	DROP COLUMN `email`;
+
+	ALTER TABLE `base_cadre_info`
+	COMMENT='干部干部信息采集表';
+
+	CREATE TABLE `base_cadre_concat` (
+	`cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '干部ID',
+	`mobile` VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号',
+	`office_phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '办公电话',
+	`home_phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '家庭电话',
+	`email` VARCHAR(50) NULL DEFAULT NULL COMMENT '电子邮箱',
+	PRIMARY KEY (`cadre_id`)
+)
+COMMENT='干部联系方式'
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+ROW_FORMAT=DYNAMIC
+;
+
+ALTER TABLE `base_cadre_info`
+	CHANGE COLUMN `work` `content` TEXT NULL COMMENT '已编辑的信息，用于任免审批表和干部信息采集' AFTER `cadre_id`,
+	CHANGE COLUMN `work_save_date` `last_save_date` DATETIME NULL DEFAULT NULL COMMENT '上一次工作经历保存时间' AFTER `content`,
+	ADD COLUMN `type` TINYINT NULL DEFAULT NULL COMMENT '类型，1 工作经历 2 兼职情况' AFTER `last_save_date`,
+	DROP COLUMN `parttime`,
+	DROP COLUMN `parttime_save_date`;
+
+ALTER TABLE `base_cadre_info`
+	ADD COLUMN `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST,
+	DROP PRIMARY KEY,
+	ADD PRIMARY KEY (`id`);
+
+	ALTER TABLE `base_cadre_info`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型，1 工作经历 2 兼职情况' AFTER `last_save_date`;
+ALTER TABLE `base_cadre_info`
+	ADD UNIQUE INDEX `type_cadre_id` (`type`, `cadre_id`);
+
+
+	ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `base_cadre_view` AS select bc.*, bcc.mobile, bcc.office_phone, bcc.home_phone, bcc.email from base_cadre bc left join base_cadre_concat bcc on bcc.cadre_id = bc.id  ;
+
+--  cadreInfo:* -> cadreConcat:*
 
 --2016-07-12
 ALTER TABLE `abroad_passport`

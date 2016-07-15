@@ -18,7 +18,7 @@ public class CadreWorkService extends BaseMapper {
     private DispatchCadreRelateService dispatchCadreRelateService;
 
     // 获取树状列表
-    public List<CadreWork> findCadreWorks(int cadreId){
+    public List<CadreWork> findByCadre(int cadreId){
 
         List<CadreWork> cadreWorks = null;
         {

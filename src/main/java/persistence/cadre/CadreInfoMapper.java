@@ -11,7 +11,7 @@ public interface CadreInfoMapper {
 
     int deleteByExample(CadreInfoExample example);
 
-    int deleteByPrimaryKey(Integer cadreId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(CadreInfo record);
 
@@ -21,7 +21,7 @@ public interface CadreInfoMapper {
 
     List<CadreInfo> selectByExample(CadreInfoExample example);
 
-    CadreInfo selectByPrimaryKey(Integer cadreId);
+    CadreInfo selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") CadreInfo record, @Param("example") CadreInfoExample example);
 

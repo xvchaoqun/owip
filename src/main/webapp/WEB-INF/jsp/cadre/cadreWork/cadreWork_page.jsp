@@ -77,14 +77,14 @@
                 <div class="widget-header">
                     <h4 class="smaller">
                         最终数据（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.workSaveDate?"未保存":cm:formatDate(cadreInfo.workSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                     </h4>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
                         <textarea id="content">
-                            <c:if test="${not empty cadreInfo.work}">${cadreInfo.work}</c:if>
-                            <c:if test="${empty cadreInfo.work}">
+                            <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
+                            <c:if test="${empty cadreInfo.content}">
                                 <c:forEach items="${cadreWorks}" var="cadreWork">
                                     <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
                                         &nbsp;${cadreWork.unit}${cadreWork.post}</p>
@@ -106,7 +106,7 @@
                             <i class="ace-icon fa fa-copy"></i>
                             复制初始数据
                         </a>
-                        <input type="button" onclick="updateCadreInfoWork()" class="btn btn-primary" value="保存"/>
+                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
                     </div>
                 </div>
@@ -196,10 +196,11 @@
                 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
         });
         KE.create('content');
-        function updateCadreInfoWork() {
-            $.post("${ctx}/cadreInfo_updateWork", {
+        function updateCadreInfo() {
+            $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                work: KE.util.getData('content')
+                content: KE.util.getData('content'),
+                type:"${CADRE_INFO_TYPE_WORK}"
             }, function (ret) {
                 if (ret.success) {
                     SysMsg.info("保存成功", "", function () {

@@ -8,6 +8,7 @@
     <result column="end_time" property="endTime" jdbcType="DATE" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, start_time, end_time, unit, post, sort_order
+    id, cadre_id, start_time, end_time, unit, post, remark, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreParttimeExample" >
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreParttime" >
     insert into base_cadre_parttime (id, cadre_id, start_time, 
-      end_time, unit, post, sort_order
-      )
+      end_time, unit, post, remark, 
+      sort_order)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
-      #{endTime,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{endTime,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreParttime" >
     insert into base_cadre_parttime
@@ -129,6 +130,9 @@
       </if>
       <if test="post != null" >
         post,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="sortOrder != null" >
         sort_order,
@@ -152,6 +156,9 @@
       </if>
       <if test="post != null" >
         #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
@@ -185,6 +192,9 @@
       <if test="record.post != null" >
         post = #{record.post,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -201,6 +211,7 @@
       end_time = #{record.endTime,jdbcType=DATE},
       unit = #{record.unit,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,6 +235,9 @@
       <if test="post != null" >
         post = #{post,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -237,6 +251,7 @@
       end_time = #{endTime,jdbcType=DATE},
       unit = #{unit,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

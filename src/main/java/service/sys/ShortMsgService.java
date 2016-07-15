@@ -35,7 +35,7 @@ import service.SpringProps;
 import service.abroad.ApplySelfService;
 import service.abroad.PassportService;
 import service.base.ContentTplService;
-import service.cadre.CadreInfoService;
+import service.cadre.CadreConcatService;
 import service.cadre.CadreService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
@@ -58,7 +58,7 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private PassportService passportService;
     @Autowired
-    private CadreInfoService cadreInfoService;
+    private CadreConcatService cadreInfoService;
     @Autowired
     private ApplySelfService applySelfService;
     @Autowired

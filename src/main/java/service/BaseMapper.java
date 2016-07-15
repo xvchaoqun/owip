@@ -181,6 +181,8 @@ public class BaseMapper {
 	@Autowired
 	protected UnitAdminMapper unitAdminMapper;
 	@Autowired
+	protected CadreConcatMapper cadreConcatMapper;
+	@Autowired
 	protected CadreInfoMapper cadreInfoMapper;
 	@Autowired
 	protected CadreFamliyAbroadMapper cadreFamliyAbroadMapper;

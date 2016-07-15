@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadreInfoMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadreInfo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="last_save_date" property="lastSaveDate" jdbcType="TIMESTAMP" />
+<mapper namespace="persistence.cadre.CadreConcatMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreConcat" >
+    <id column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
+    <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, cadre_id, content, last_save_date
+    cadre_id, mobile, office_phone, home_phone, email
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreInfoExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreConcatExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_info
+    from base_cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +86,85 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_info
-    where id = #{id,jdbcType=INTEGER}
+    from base_cadre_concat
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_info
-    where id = #{id,jdbcType=INTEGER}
+    delete from base_cadre_concat
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreInfoExample" >
-    delete from base_cadre_info
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreConcatExample" >
+    delete from base_cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreInfo" >
-    insert into base_cadre_info (id, type, cadre_id, 
-      content, last_save_date)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{cadreId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{lastSaveDate,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="domain.cadre.CadreConcat" >
+    insert into base_cadre_concat (cadre_id, mobile, office_phone, 
+      home_phone, email)
+    values (#{cadreId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR}, 
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreInfo" >
-    insert into base_cadre_info
+  <insert id="insertSelective" parameterType="domain.cadre.CadreConcat" >
+    insert into base_cadre_concat
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
       <if test="cadreId != null" >
         cadre_id,
       </if>
-      <if test="content != null" >
-        content,
+      <if test="mobile != null" >
+        mobile,
       </if>
-      <if test="lastSaveDate != null" >
-        last_save_date,
+      <if test="officePhone != null" >
+        office_phone,
+      </if>
+      <if test="homePhone != null" >
+        home_phone,
+      </if>
+      <if test="email != null" >
+        email,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
-      </if>
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="lastSaveDate != null" >
-        #{lastSaveDate,jdbcType=TIMESTAMP},
+      <if test="officePhone != null" >
+        #{officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="homePhone != null" >
+        #{homePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreInfoExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_info
+  <select id="countByExample" parameterType="domain.cadre.CadreConcatExample" resultType="java.lang.Integer" >
+    select count(*) from base_cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_info
+    update base_cadre_concat
     <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
-      </if>
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.content != null" >
-        content = #{record.content,jdbcType=VARCHAR},
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
-      <if test="record.lastSaveDate != null" >
-        last_save_date = #{record.lastSaveDate,jdbcType=TIMESTAMP},
+      <if test="record.officePhone != null" >
+        office_phone = #{record.officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.homePhone != null" >
+        home_phone = #{record.homePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -172,49 +172,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_info
-    set id = #{record.id,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
-      cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR},
-      last_save_date = #{record.lastSaveDate,jdbcType=TIMESTAMP}
+    update base_cadre_concat
+    set cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      office_phone = #{record.officePhone,jdbcType=VARCHAR},
+      home_phone = #{record.homePhone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreInfo" >
-    update base_cadre_info
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreConcat" >
+    update base_cadre_concat
     <set >
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="cadreId != null" >
-        cadre_id = #{cadreId,jdbcType=INTEGER},
+      <if test="officePhone != null" >
+        office_phone = #{officePhone,jdbcType=VARCHAR},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
+      <if test="homePhone != null" >
+        home_phone = #{homePhone,jdbcType=VARCHAR},
       </if>
-      <if test="lastSaveDate != null" >
-        last_save_date = #{lastSaveDate,jdbcType=TIMESTAMP},
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreInfo" >
-    update base_cadre_info
-    set type = #{type,jdbcType=TINYINT},
-      cadre_id = #{cadreId,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      last_save_date = #{lastSaveDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreConcat" >
+    update base_cadre_concat
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      office_phone = #{officePhone,jdbcType=VARCHAR},
+      home_phone = #{homePhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR}
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreInfoExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreConcatExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_info
+    from base_cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -16,6 +16,8 @@ public class CadreParttime implements Serializable {
 
     private String post;
 
+    private String remark;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +68,14 @@ public class CadreParttime implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Integer getSortOrder() {

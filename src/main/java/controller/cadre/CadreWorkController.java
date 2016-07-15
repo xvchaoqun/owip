@@ -55,7 +55,7 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_page")
     public String cadreWork_page(HttpServletResponse response,
-                                 @RequestParam(defaultValue = "1") Byte type, // 1 工作经历 2 预览
+                                 @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
                                  @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer cadreId,
@@ -64,9 +64,9 @@ public class CadreWorkController extends BaseController {
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
         modelMap.put("type", type);
         if (type == 2) {
-            List<CadreWork> cadreWorks = cadreWorkService.findCadreWorks(cadreId);
+            List<CadreWork> cadreWorks = cadreWorkService.findByCadre(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
-            CadreInfo cadreInfo = cadreInfoMapper.selectByPrimaryKey(cadreId);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
             modelMap.put("cadreInfo", cadreInfo);
         }
 
@@ -318,8 +318,8 @@ public class CadreWorkController extends BaseController {
             CadreWork cadreWork = cadreWorks.get(i);
             String[] values = {
                     cadreWork.getCadreId() + "",
-                    DateUtils.formatDate(cadreWork.getStartTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(cadreWork.getEndTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(cadreWork.getStartTime(), "yyyy.MM"),
+                    DateUtils.formatDate(cadreWork.getEndTime(), "yyyy.MM"),
                     cadreWork.getUnit(),
                     cadreWork.getPost(),
                     cadreWork.getTypeId() + "",

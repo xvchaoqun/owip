@@ -575,6 +575,15 @@ public class SystemConstants {
 		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_POST, "任职情况(主职/兼职)");
 	}
 
+	// 干部干部信息采集表 类型，1 工作经历 2 兼职情况
+	public final static byte CADRE_INFO_TYPE_WORK = 1;
+	public final static byte CADRE_INFO_TYPE_PARTTIME = 2;
+	public final static Map<Byte, String>CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "兼职情况");
+	}
+
 	// 干部学习经历 学校类型 1本校 2境内 3境外
 	public final static byte CADRE_SCHOOL_TYPE_THIS_SCHOOL = 1;
 	public final static byte CADRE_SCHOOL_TYPE_DOMESTIC = 2;
