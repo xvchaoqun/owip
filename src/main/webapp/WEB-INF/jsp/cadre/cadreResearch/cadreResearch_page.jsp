@@ -244,7 +244,7 @@
                         <p>${researchInInfo.content}</p>
                         <p>${researchDirectInfo.content}</p>
                         <p>${bookPaperInfo.content}</p>
-                        获奖情况：
+                        <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
                         <c:forEach items="${cadreRewards}" var="cadreReward">
                             <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
                         </c:forEach>
@@ -272,7 +272,7 @@
                                     <p>${researchInInfo.content}</p>
                                     <p>${researchDirectInfo.content}</p>
                                     <p>${bookPaperInfo.content}</p>
-                                    获奖情况：
+                                    <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
                                     <c:forEach items="${cadreRewards}" var="cadreReward">
                                         <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
                                     </c:forEach>
