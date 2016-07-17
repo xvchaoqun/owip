@@ -4,7 +4,7 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职单位</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职情况</a>
     </li>
     <li class="${type==2?"active":""}">
         <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
@@ -16,12 +16,12 @@
         <shiro:hasPermission name="cadreParttime:edit">
             <a class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreParttime_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                添加兼职单位</a>
+                添加</a>
             <a class="jqOpenViewBtn btn btn-primary btn-sm"
                data-url="${ctx}/cadreParttime_au"
                data-grid-id="#jqGrid_cadreParttime"
                data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                修改兼职单位</a>
+                修改</a>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreParttime:del">
             <button data-url="${ctx}/cadreParttime_batchDel"

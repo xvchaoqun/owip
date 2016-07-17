@@ -612,3 +612,32 @@ input[type=radio].bigger{
     background-color: #f1f1f1;
 
 }
+
+/*spinner*/
+.ace-spinner .btn-sm{
+    border-width: 4px;
+    font-size: 13px;
+    padding: 4px 9px;
+    line-height: 1.38;
+}
+.ace-spinner .btn-danger, .ace-spinner .btn-success{
+    background-image:none;
+    box-shadow: none;
+}
+.ace-spinner .btn-danger{
+    background-color: #d15b47 !important;
+    border-color: #d15b47;
+}
+.ace-spinner .btn-danger:hover{
+    background-color: #b74635 !important;
+    border-color: #d15b47;
+}
+
+.ace-spinner .btn-success{
+    background-color: #87b87f !important;
+    border-color: #87b87f;
+}
+.ace-spinner .btn-success:hover{
+    background-color: #629b58 !important;
+    border-color: #87b87f;
+}

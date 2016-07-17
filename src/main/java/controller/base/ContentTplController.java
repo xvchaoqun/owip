@@ -113,7 +113,8 @@ public class ContentTplController extends BaseController {
     @RequiresPermissions("contentTpl:edit")
     @RequestMapping(value = "/contentTpl_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_contentTpl_au(@CurrentUser SysUser loginUser, ContentTpl record, HttpServletRequest request) {
+    public Map do_contentTpl_au(@CurrentUser SysUser loginUser,
+                                ContentTpl record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -136,13 +137,18 @@ public class ContentTplController extends BaseController {
 
     @RequiresPermissions("contentTpl:edit")
     @RequestMapping("/contentTpl_au")
-    public String contentTpl_au(Integer id, ModelMap modelMap) {
+    public String contentTpl_au(Integer id,  Byte contentType, ModelMap modelMap) {
 
         if (id != null) {
             ContentTpl contentTpl = contentTplMapper.selectByPrimaryKey(id);
+            contentType = contentTpl.getContentType();
             modelMap.put("contentTpl", contentTpl);
         }
-        return "base/contentTpl/contentTpl_au";
+        if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING)
+            return "base/contentTpl/contentTpl_string_au";
+        if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML)
+            return "base/contentTpl/contentTpl_html_au";
+        throw new RuntimeException("模板类型错误");
     }
 
     @RequiresPermissions("contentTpl:del")

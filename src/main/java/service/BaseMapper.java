@@ -193,9 +193,15 @@ public class BaseMapper {
 	@Autowired
 	protected CadreParttimeMapper cadreParttimeMapper;
 	@Autowired
+	protected CadreTrainMapper cadreTrainMapper;
+	@Autowired
 	protected CadreRewardMapper cadreRewardMapper;
 	@Autowired
+	protected CadrePaperMapper cadrePaperMapper;
+	@Autowired
 	protected CadreResearchMapper cadreResearchMapper;
+	@Autowired
+	protected CadreBookMapper cadreBookMapper;
 	@Autowired
 	protected CadreCourseMapper cadreCourseMapper;
 	@Autowired

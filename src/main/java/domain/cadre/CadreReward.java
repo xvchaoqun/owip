@@ -14,11 +14,17 @@ public class CadreReward implements Serializable {
 
     private String unit;
 
+    private String proof;
+
+    private String proofFilename;
+
+    private String remark;
+
     private Integer rank;
 
     private Integer sortOrder;
 
-    private Byte type;
+    private Byte rewardType;
 
     private static final long serialVersionUID = 1L;
 
@@ -62,6 +68,30 @@ public class CadreReward implements Serializable {
         this.unit = unit == null ? null : unit.trim();
     }
 
+    public String getProof() {
+        return proof;
+    }
+
+    public void setProof(String proof) {
+        this.proof = proof == null ? null : proof.trim();
+    }
+
+    public String getProofFilename() {
+        return proofFilename;
+    }
+
+    public void setProofFilename(String proofFilename) {
+        this.proofFilename = proofFilename == null ? null : proofFilename.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public Integer getRank() {
         return rank;
     }
@@ -78,11 +108,11 @@ public class CadreReward implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public Byte getType() {
-        return type;
+    public Byte getRewardType() {
+        return rewardType;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setRewardType(Byte rewardType) {
+        this.rewardType = rewardType;
     }
 }

@@ -4,7 +4,7 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 其他奖励情况</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 培训情况</a>
     </li>
     <li class="${type==2?"active":""}">
         <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
@@ -13,29 +13,29 @@
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-        <shiro:hasPermission name="cadreReward:edit">
+        <shiro:hasPermission name="cadreTrain:edit">
             <a class="popupBtn btn btn-success btn-sm"
-               data-url="${ctx}/cadreReward_au?rewardType=${param.rewardType}&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+               data-url="${ctx}/cadreTrain_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                 添加</a>
             <a class="jqOpenViewBtn btn btn-primary btn-sm"
-               data-url="${ctx}/cadreReward_au"
-               data-grid-id="#jqGrid_cadreReward"
-               data-querystr="&rewardType=${param.rewardType}&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+               data-url="${ctx}/cadreTrain_au"
+               data-grid-id="#jqGrid_cadreTrain"
+               data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                 修改</a>
         </shiro:hasPermission>
-        <shiro:hasPermission name="cadreReward:del">
-            <button data-url="${ctx}/cadreReward_batchDel"
+        <shiro:hasPermission name="cadreTrain:del">
+            <button data-url="${ctx}/cadreTrain_batchDel"
                     data-title="删除"
                     data-msg="确定删除这{0}条数据？"
-                    data-grid-id="#jqGrid_cadreReward"
+                    data-grid-id="#jqGrid_cadreTrain"
                     class="jqBatchBtn btn btn-danger btn-sm">
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
     </div>
     <div class="space-4"></div>
-    <table id="jqGrid_cadreReward" class="jqGrid2"></table>
-    <div id="jqGridPager_cadreReward"></div>
+    <table id="jqGrid_cadreTrain" class="jqGrid2"></table>
+    <div id="jqGridPager_cadreTrain"></div>
     </div>
 </c:if>
 <c:if test="${type==2}">
@@ -49,9 +49,9 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
-                        <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p>${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}
-                                &nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
+                        <c:forEach items="${cadreTrains}" var="cadreTrain">
+                            <p>${cm:formatDate(cadreTrain.startTime, "yyyy.MM")}${(cadreTrain.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreTrain.endTime, "yyyy.MM")}
+                                ，${cadreTrain.content}，${cadreTrain.unit}主办</p>
                         </c:forEach>
                     </div>
                 </div>
@@ -70,9 +70,9 @@
                         <textarea id="content">
                             <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
                             <c:if test="${empty cadreInfo.content}">
-                                <c:forEach items="${cadreRewards}" var="cadreReward">
-                                    <p>${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}
-                                        &nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
+                                <c:forEach items="${cadreTrains}" var="cadreTrain">
+                                    <p>${cm:formatDate(cadreTrain.startTime, "yyyy.MM")}${(cadreTrain.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreTrain.endTime, "yyyy.MM")}
+                                        ，${cadreTrain.content}，${cadreTrain.unit}主办</p>
                                 </c:forEach>
                             </c:if>
                         </textarea>
@@ -131,7 +131,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: KE.util.getData('content'),
-                type:"${CADRE_INFO_TYPE_REWARD_OTHER}"
+                type:"${CADRE_INFO_TYPE_TRAIN}"
             }, function (ret) {
                 if (ret.success) {
                     SysMsg.info("保存成功", "", function () {
@@ -150,27 +150,18 @@
 <c:if test="${type==1}">
     <script>
         function _innerPage(type) {
-            $("#view-box .tab-content").load("${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type)
+            $("#view-box .tab-content").load("${ctx}/cadreTrain_page?cadreId=${param.cadreId}&type=" + type)
         }
-        $("#jqGrid_cadreReward").jqGrid({
+        $("#jqGrid_cadreTrain").jqGrid({
             ondblClickRow: function () {
             },
-            pager: "#jqGridPager_cadreReward",
-            url: '${ctx}/cadreReward_data?${cm:encodeQueryString(pageContext.request.queryString)}',
+            pager: "#jqGridPager_cadreTrain",
+            url: '${ctx}/cadreTrain_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
-                {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-                {label: '获得奖项', name: 'name', width: 350},
-                {label: '颁奖单位', name: 'unit', width: 280},
-                {label: '获奖证书', name: 'proof', width: 250,
-                    formatter: function (cellvalue, options, rowObject) {
-                        if(rowObject.proof==undefined) return '-';
-                        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(rowObject.proof,rowObject.proofFilename);
-                    }},
-                {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '-'
-                    return '第{0}'.format(cellvalue);
-                }},
+                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+                {label: '培训内容', name: 'content', width: 350},
+                {label: '主办单位', name: 'unit', width: 280},
                 {label: '备注', name: 'remark', width: 350}
             ]
         }).on("initGrid", function () {
@@ -178,7 +169,7 @@
         });
 
         function _delCallback(target) {
-            $("#jqGrid_cadreReward").trigger("reloadGrid");
+            $("#jqGrid_cadreTrain").trigger("reloadGrid");
         }
 
         $('#searchForm [data-rel="select2"]').select2();

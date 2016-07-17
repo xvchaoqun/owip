@@ -141,9 +141,15 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreRewardService cadreRewardService;
     @Autowired
+    protected CadreBookService cadreBookService;
+    @Autowired
     protected CadreResearchService cadreResearchService;
     @Autowired
+    protected CadrePaperService cadrePaperService;
+    @Autowired
     protected CadreParttimeService cadreParttimeService;
+    @Autowired
+    protected CadreTrainService cadreTrainService;
     @Autowired
     protected CadreCourseService cadreCourseService;
     @Autowired

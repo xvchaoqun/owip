@@ -4,7 +4,6 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/contentTpl_au"
              data-url-page="${ctx}/contentTpl_page"
              data-url-export="${ctx}/contentTpl_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -13,10 +12,17 @@
             <!-- PAGE CONTENT BEGINS -->
             <div class="jqgrid-vertical-offset  buttons">
                 <shiro:hasPermission name="contentTpl:edit">
-                    <a class="editBtn btn btn-info btn-sm">
-                        <i class="fa fa-plus"></i> 添加
+                    <a class="popupBtn btn btn-success btn-sm"
+                       data-url="${ctx}/contentTpl_au?contentType=${CONTENT_TPL_CONTENT_TYPE_STRING}">
+                        <i class="fa fa-plus"></i> 添加普通文本
                     </a>
-                    <button class="jqEditBtn btn btn-primary btn-sm" >
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-width="700"
+                       data-url="${ctx}/contentTpl_au?contentType=${CONTENT_TPL_CONTENT_TYPE_HTML}">
+                        <i class="fa fa-plus"></i> 添加HTML文本
+                    </a>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/contentTpl_au">
                         <i class="fa fa-edit"></i> 修改
                     </button>
                 </shiro:hasPermission>

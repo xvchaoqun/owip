@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class CadreRewardExample {
+public class CadreTrainExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreRewardExample() {
+    public CadreTrainExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -252,133 +252,193 @@ public class CadreRewardExample {
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeIsNull() {
-            addCriterion("reward_time is null");
+        public Criteria andStartTimeIsNull() {
+            addCriterion("start_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeIsNotNull() {
-            addCriterion("reward_time is not null");
+        public Criteria andStartTimeIsNotNull() {
+            addCriterion("start_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("reward_time =", value, "rewardTime");
+        public Criteria andStartTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time =", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("reward_time <>", value, "rewardTime");
+        public Criteria andStartTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time <>", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("reward_time >", value, "rewardTime");
+        public Criteria andStartTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("start_time >", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("reward_time >=", value, "rewardTime");
+        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time >=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeLessThan(Date value) {
-            addCriterionForJDBCDate("reward_time <", value, "rewardTime");
+        public Criteria andStartTimeLessThan(Date value) {
+            addCriterionForJDBCDate("start_time <", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("reward_time <=", value, "rewardTime");
+        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time <=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("reward_time in", values, "rewardTime");
+        public Criteria andStartTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("start_time in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("reward_time not in", values, "rewardTime");
+        public Criteria andStartTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("start_time not in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("reward_time between", value1, value2, "rewardTime");
+        public Criteria andStartTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_time between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andRewardTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("reward_time not between", value1, value2, "rewardTime");
+        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_time not between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andEndTimeIsNull() {
+            addCriterion("end_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andEndTimeIsNotNull() {
+            addCriterion("end_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andEndTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time =", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andEndTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time <>", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andEndTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("end_time >", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time >=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andEndTimeLessThan(Date value) {
+            addCriterionForJDBCDate("end_time <", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time <=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andEndTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("end_time in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andEndTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("end_time not in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andEndTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_time between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_time not between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andContentIsNull() {
+            addCriterion("content is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andContentIsNotNull() {
+            addCriterion("content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentEqualTo(String value) {
+            addCriterion("content =", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotEqualTo(String value) {
+            addCriterion("content <>", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentGreaterThan(String value) {
+            addCriterion("content >", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentGreaterThanOrEqualTo(String value) {
+            addCriterion("content >=", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLessThan(String value) {
+            addCriterion("content <", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLessThanOrEqualTo(String value) {
+            addCriterion("content <=", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentLike(String value) {
+            addCriterion("content like", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotLike(String value) {
+            addCriterion("content not like", value, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentIn(List<String> values) {
+            addCriterion("content in", values, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotIn(List<String> values) {
+            addCriterion("content not in", values, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentBetween(String value1, String value2) {
+            addCriterion("content between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotBetween(String value1, String value2) {
+            addCriterion("content not between", value1, value2, "content");
             return (Criteria) this;
         }
 
@@ -452,146 +512,6 @@ public class CadreRewardExample {
             return (Criteria) this;
         }
 
-        public Criteria andProofIsNull() {
-            addCriterion("proof is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofIsNotNull() {
-            addCriterion("proof is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofEqualTo(String value) {
-            addCriterion("proof =", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofNotEqualTo(String value) {
-            addCriterion("proof <>", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofGreaterThan(String value) {
-            addCriterion("proof >", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofGreaterThanOrEqualTo(String value) {
-            addCriterion("proof >=", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofLessThan(String value) {
-            addCriterion("proof <", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofLessThanOrEqualTo(String value) {
-            addCriterion("proof <=", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofLike(String value) {
-            addCriterion("proof like", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofNotLike(String value) {
-            addCriterion("proof not like", value, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofIn(List<String> values) {
-            addCriterion("proof in", values, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofNotIn(List<String> values) {
-            addCriterion("proof not in", values, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofBetween(String value1, String value2) {
-            addCriterion("proof between", value1, value2, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofNotBetween(String value1, String value2) {
-            addCriterion("proof not between", value1, value2, "proof");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameIsNull() {
-            addCriterion("proof_filename is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameIsNotNull() {
-            addCriterion("proof_filename is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameEqualTo(String value) {
-            addCriterion("proof_filename =", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameNotEqualTo(String value) {
-            addCriterion("proof_filename <>", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameGreaterThan(String value) {
-            addCriterion("proof_filename >", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameGreaterThanOrEqualTo(String value) {
-            addCriterion("proof_filename >=", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameLessThan(String value) {
-            addCriterion("proof_filename <", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameLessThanOrEqualTo(String value) {
-            addCriterion("proof_filename <=", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameLike(String value) {
-            addCriterion("proof_filename like", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameNotLike(String value) {
-            addCriterion("proof_filename not like", value, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameIn(List<String> values) {
-            addCriterion("proof_filename in", values, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameNotIn(List<String> values) {
-            addCriterion("proof_filename not in", values, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameBetween(String value1, String value2) {
-            addCriterion("proof_filename between", value1, value2, "proofFilename");
-            return (Criteria) this;
-        }
-
-        public Criteria andProofFilenameNotBetween(String value1, String value2) {
-            addCriterion("proof_filename not between", value1, value2, "proofFilename");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
@@ -662,66 +582,6 @@ public class CadreRewardExample {
             return (Criteria) this;
         }
 
-        public Criteria andRankIsNull() {
-            addCriterion("rank is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankIsNotNull() {
-            addCriterion("rank is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankEqualTo(Integer value) {
-            addCriterion("rank =", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankNotEqualTo(Integer value) {
-            addCriterion("rank <>", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankGreaterThan(Integer value) {
-            addCriterion("rank >", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankGreaterThanOrEqualTo(Integer value) {
-            addCriterion("rank >=", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankLessThan(Integer value) {
-            addCriterion("rank <", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankLessThanOrEqualTo(Integer value) {
-            addCriterion("rank <=", value, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankIn(List<Integer> values) {
-            addCriterion("rank in", values, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankNotIn(List<Integer> values) {
-            addCriterion("rank not in", values, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankBetween(Integer value1, Integer value2) {
-            addCriterion("rank between", value1, value2, "rank");
-            return (Criteria) this;
-        }
-
-        public Criteria andRankNotBetween(Integer value1, Integer value2) {
-            addCriterion("rank not between", value1, value2, "rank");
-            return (Criteria) this;
-        }
-
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;
@@ -779,66 +639,6 @@ public class CadreRewardExample {
 
         public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeIsNull() {
-            addCriterion("reward_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeIsNotNull() {
-            addCriterion("reward_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeEqualTo(Byte value) {
-            addCriterion("reward_type =", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeNotEqualTo(Byte value) {
-            addCriterion("reward_type <>", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeGreaterThan(Byte value) {
-            addCriterion("reward_type >", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("reward_type >=", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeLessThan(Byte value) {
-            addCriterion("reward_type <", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("reward_type <=", value, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeIn(List<Byte> values) {
-            addCriterion("reward_type in", values, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeNotIn(List<Byte> values) {
-            addCriterion("reward_type not in", values, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeBetween(Byte value1, Byte value2) {
-            addCriterion("reward_type between", value1, value2, "rewardType");
-            return (Criteria) this;
-        }
-
-        public Criteria andRewardTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("reward_type not between", value1, value2, "rewardType");
             return (Criteria) this;
         }
     }

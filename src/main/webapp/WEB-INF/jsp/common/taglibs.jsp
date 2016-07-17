@@ -24,6 +24,8 @@
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_STRING" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_HTML" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>"/>
 <c:set var="CONTENT_TPL_CONTENT_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_MAP%>"/>
 <c:set var="CONTENT_TPL_ENGINE_MAP" value="<%=SystemConstants.CONTENT_TPL_ENGINE_MAP%>"/>
 
@@ -68,7 +70,24 @@
 
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_WORK%>" var="CADRE_INFO_TYPE_WORK"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_PARTTIME%>" var="CADRE_INFO_TYPE_PARTTIME"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_TRAIN%>" var="CADRE_INFO_TYPE_TRAIN"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_TEACH%>" var="CADRE_INFO_TYPE_TEACH"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH%>" var="CADRE_INFO_TYPE_RESEARCH"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER%>" var="CADRE_INFO_TYPE_REWARD_OTHER"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY%>" var="CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_MAP%>" var="CADRE_INFO_TYPE_MAP"/>
+
+<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
+<c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=SystemConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
+<c:set var="CADRE_REWARD_TYPE_TEACH" value="<%=SystemConstants.CADRE_REWARD_TYPE_TEACH%>"/>
+
+<c:set var="CADRE_COURSE_TYPE_MAP" value="<%=SystemConstants.CADRE_COURSE_TYPE_MAP%>"/>
+<c:set var="CADRE_BOOK_TYPE_MAP" value="<%=SystemConstants.CADRE_BOOK_TYPE_MAP%>"/>
+
+<c:set var="CADRE_RESEARCH_TYPE_DIRECT" value="<%=SystemConstants.CADRE_RESEARCH_TYPE_DIRECT%>"/>
+<c:set var="CADRE_RESEARCH_TYPE_IN" value="<%=SystemConstants.CADRE_RESEARCH_TYPE_IN%>"/>
 
 <c:set value="<%=SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL%>" var="CADRE_SCHOOL_TYPE_THIS_SCHOOL"/>
 <c:set value="<%=SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC%>" var="CADRE_SCHOOL_TYPE_DOMESTIC"/>

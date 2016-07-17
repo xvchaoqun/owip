@@ -1,15 +1,20 @@
 package domain.cadre;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class CadreCourse implements Serializable {
+public class CadreTrain implements Serializable {
     private Integer id;
 
     private Integer cadreId;
 
-    private String name;
+    private Date startTime;
 
-    private Byte type;
+    private Date endTime;
+
+    private String content;
+
+    private String unit;
 
     private String remark;
 
@@ -33,20 +38,36 @@ public class CadreCourse implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public String getName() {
-        return name;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Byte getType() {
-        return type;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getRemark() {

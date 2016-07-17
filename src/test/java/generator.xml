@@ -149,9 +149,9 @@
         -->
       <!--<table tableName="base_location" domainObjectName="base.Location">
       </table>-->
-      <table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
+      <!--<table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <!--<table tableName="base_cadre_concat" domainObjectName="cadre.CadreConcat">
       </table>-->
       <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
@@ -163,12 +163,20 @@
       <!--<table tableName="base_cadre_parttime" domainObjectName="cadre.CadreParttime">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <!--<table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
+     <!-- <table tableName="base_cadre_train" domainObjectName="cadre.CadreTrain">
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <!--<table tableName="base_cadre_reward" domainObjectName="cadre.CadreReward">
+     <!-- <table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
       </table>-->
-      <!--<table tableName="base_cadre_research" domainObjectName="cadre.CadreResearch">
+    <!--  <table tableName="base_cadre_reward" domainObjectName="cadre.CadreReward">
+        <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->
+     <!-- <table tableName="base_cadre_book" domainObjectName="cadre.CadreBook">
+      </table>-->
+    <!--  <table tableName="base_cadre_research" domainObjectName="cadre.CadreResearch">
+      </table>-->
+      <table tableName="base_cadre_paper" domainObjectName="cadre.CadrePaper">
+      </table>
       <!-- <table tableName="base_cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
        </table>-->
       <!--<table tableName="base_cadre_post" domainObjectName="cadre.CadrePost">

@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
+
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
         <div class="widget-box transparent" id="view-box">
@@ -45,7 +45,7 @@
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadreTrain:*">
                         <li>
-                            <a href="javascript:;" data-url="">培训情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreTrain_page?cadreId=${param.id}">培训情况</a>
                         </li>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadreCourse:*">
@@ -60,7 +60,7 @@
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadreReward:*">
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreReward_page?type=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.id}">其他奖励情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreReward_page?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.id}">其他奖励情况</a>
                         </li>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadreFamliy:*">

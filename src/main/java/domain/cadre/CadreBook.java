@@ -3,24 +3,20 @@ package domain.cadre;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CadreResearch implements Serializable {
+public class CadreBook implements Serializable {
     private Integer id;
 
     private Integer cadreId;
 
-    private Date startTime;
-
-    private Date endTime;
+    private Date pubTime;
 
     private String name;
 
     private String type;
 
-    private String unit;
+    private String publisher;
 
     private String remark;
-
-    private Byte researchType;
 
     private static final long serialVersionUID = 1L;
 
@@ -40,20 +36,12 @@ public class CadreResearch implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getPubTime() {
+        return pubTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setPubTime(Date pubTime) {
+        this.pubTime = pubTime;
     }
 
     public String getName() {
@@ -72,12 +60,12 @@ public class CadreResearch implements Serializable {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getUnit() {
-        return unit;
+    public String getPublisher() {
+        return publisher;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setPublisher(String publisher) {
+        this.publisher = publisher == null ? null : publisher.trim();
     }
 
     public String getRemark() {
@@ -86,13 +74,5 @@ public class CadreResearch implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Byte getResearchType() {
-        return researchType;
-    }
-
-    public void setResearchType(Byte researchType) {
-        this.researchType = researchType;
     }
 }

@@ -1,4 +1,44 @@
 
+--2017-7-17
+ALTER TABLE `base_cadre_research`
+	CHANGE COLUMN `chair_file` `start_time` DATE NULL DEFAULT NULL COMMENT '项目起始时间' AFTER `cadre_id`,
+	CHANGE COLUMN `chair_file_name` `end_time` DATE NULL DEFAULT NULL COMMENT '项目结题时间' AFTER `start_time`,
+	CHANGE COLUMN `join_file` `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '项目名称' AFTER `end_time`,
+	CHANGE COLUMN `join_file_name` `type` VARCHAR(200) NULL DEFAULT NULL COMMENT '项目类型' AFTER `name`,
+	CHANGE COLUMN `publish_file` `unit` VARCHAR(200) NULL DEFAULT NULL COMMENT '委托单位' AFTER `type`,
+	CHANGE COLUMN `publish_file_name` `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `unit`,
+	ADD COLUMN `research_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1 主持 2 参与' AFTER `remark`;
+
+ALTER TABLE `base_cadre_research`
+	DROP INDEX `cadre_id`,
+	DROP FOREIGN KEY `base_cadre_research_ibfk_1`;
+
+	ALTER TABLE `base_cadre_research`
+	ADD CONSTRAINT `FK_base_cadre_research_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `base_cadre` (`id`);
+--2016-7-16
+ALTER TABLE `base_cadre_reward`
+	ADD COLUMN `proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '获奖证书' AFTER `unit`,
+	ADD COLUMN `remark` TEXT NULL DEFAULT NULL COMMENT '备注' AFTER `proof`;
+ALTER TABLE `base_cadre_reward`
+	ADD COLUMN `proof_filename` VARCHAR(255) NULL DEFAULT NULL COMMENT '获奖证书文件名' AFTER `proof`;
+
+	ALTER TABLE `base_cadre_reward`
+	CHANGE COLUMN `type` `reward_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别， 1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况' AFTER `sort_order`;
+
+ALTER TABLE `base_cadre_course`
+	ADD COLUMN `sort_order` INT UNSIGNED NULL COMMENT '排序' AFTER `type`;
+
+	ALTER TABLE `base_cadre_course`
+	ADD COLUMN `remark` VARCHAR(255) NULL COMMENT '备注' AFTER `type`;
+
+
+
+
+
+--2016-07-15
+--编辑干部信息采集表权限
+-- cadreInfo:edit
+
 --2016-07-13
 ALTER TABLE `base_cadre_parttime`
 	ADD COLUMN `remark` TEXT NULL DEFAULT NULL COMMENT '备注' AFTER `post`;

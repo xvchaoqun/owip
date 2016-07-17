@@ -90,9 +90,9 @@
         //forceFit:true,
         url: '${ctx}/sysConfig_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称', name: 'name', width: 250,frozen:true },
+            { label: '名称', name: 'name', width: 250,frozen:true, align:'left' },
             <shiro:hasRole name="admin">
-            { label: '代码', name: 'code', width: 200 },
+            { label: '代码', name: 'code', width: 250, align:'left' },
             </shiro:hasRole>
             { label: '备注', name: 'remark', width: 250}
         ]

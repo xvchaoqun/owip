@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadreResearchMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadreResearch" >
+<mapper namespace="persistence.cadre.CadreBookMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreBook" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="start_time" property="startTime" jdbcType="DATE" />
-    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="pub_time" property="pubTime" jdbcType="DATE" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="research_type" property="researchType" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, start_time, end_time, name, type, unit, remark, research_type
+    id, cadre_id, pub_time, name, type, publisher, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreResearchExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreBookExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_research
+    from base_cadre_book
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,29 +88,29 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_research
+    from base_cadre_book
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_research
+    delete from base_cadre_book
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreResearchExample" >
-    delete from base_cadre_research
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreBookExample" >
+    delete from base_cadre_book
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreResearch" >
-    insert into base_cadre_research (id, cadre_id, start_time, 
-      end_time, name, type, unit, 
-      remark, research_type)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
-      #{endTime,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{researchType,jdbcType=TINYINT})
+  <insert id="insert" parameterType="domain.cadre.CadreBook" >
+    insert into base_cadre_book (id, cadre_id, pub_time, 
+      name, type, publisher, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{pubTime,jdbcType=DATE}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreResearch" >
-    insert into base_cadre_research
+  <insert id="insertSelective" parameterType="domain.cadre.CadreBook" >
+    insert into base_cadre_book
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -120,11 +118,8 @@
       <if test="cadreId != null" >
         cadre_id,
       </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="endTime != null" >
-        end_time,
+      <if test="pubTime != null" >
+        pub_time,
       </if>
       <if test="name != null" >
         name,
@@ -132,14 +127,11 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="unit != null" >
-        unit,
+      <if test="publisher != null" >
+        publisher,
       </if>
       <if test="remark != null" >
         remark,
-      </if>
-      <if test="researchType != null" >
-        research_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -149,11 +141,8 @@
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=DATE},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=DATE},
+      <if test="pubTime != null" >
+        #{pubTime,jdbcType=DATE},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -161,25 +150,22 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null" >
-        #{unit,jdbcType=VARCHAR},
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="researchType != null" >
-        #{researchType,jdbcType=TINYINT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreResearchExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_research
+  <select id="countByExample" parameterType="domain.cadre.CadreBookExample" resultType="java.lang.Integer" >
+    select count(*) from base_cadre_book
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_research
+    update base_cadre_book
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -187,11 +173,8 @@
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=DATE},
-      </if>
-      <if test="record.endTime != null" >
-        end_time = #{record.endTime,jdbcType=DATE},
+      <if test="record.pubTime != null" >
+        pub_time = #{record.pubTime,jdbcType=DATE},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -199,14 +182,11 @@
       <if test="record.type != null" >
         type = #{record.type,jdbcType=VARCHAR},
       </if>
-      <if test="record.unit != null" >
-        unit = #{record.unit,jdbcType=VARCHAR},
+      <if test="record.publisher != null" >
+        publisher = #{record.publisher,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.researchType != null" >
-        research_type = #{record.researchType,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -214,31 +194,26 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_research
+    update base_cadre_book
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      start_time = #{record.startTime,jdbcType=DATE},
-      end_time = #{record.endTime,jdbcType=DATE},
+      pub_time = #{record.pubTime,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
-      unit = #{record.unit,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      research_type = #{record.researchType,jdbcType=TINYINT}
+      publisher = #{record.publisher,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreResearch" >
-    update base_cadre_research
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreBook" >
+    update base_cadre_book
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=DATE},
-      </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=DATE},
+      <if test="pubTime != null" >
+        pub_time = #{pubTime,jdbcType=DATE},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -246,37 +221,32 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null" >
-        unit = #{unit,jdbcType=VARCHAR},
+      <if test="publisher != null" >
+        publisher = #{publisher,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="researchType != null" >
-        research_type = #{researchType,jdbcType=TINYINT},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreResearch" >
-    update base_cadre_research
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreBook" >
+    update base_cadre_book
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      start_time = #{startTime,jdbcType=DATE},
-      end_time = #{endTime,jdbcType=DATE},
+      pub_time = #{pubTime,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      unit = #{unit,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      research_type = #{researchType,jdbcType=TINYINT}
+      publisher = #{publisher,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreResearchExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreBookExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_research
+    from base_cadre_book
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

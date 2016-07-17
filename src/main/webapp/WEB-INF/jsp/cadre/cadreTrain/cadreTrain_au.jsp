@@ -3,11 +3,11 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreParttime!=null}">编辑</c:if><c:if test="${cadreParttime==null}">添加</c:if>社会或学术兼职</h3>
+    <h3><c:if test="${cadreTrain!=null}">编辑</c:if><c:if test="${cadreTrain==null}">添加</c:if>培训记录</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreParttime_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cadreParttime.id}">
+    <form class="form-horizontal" action="${ctx}/cadreTrain_au" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${cadreTrain.id}">
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属干部</label>
@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
                                data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreParttime.startTime,'yyyy.MM')}" />
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -32,34 +32,34 @@ pageEncoding="UTF-8"%>
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_endTime" type="text"
                                data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreParttime.endTime,'yyyy.MM')}" />
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">兼职单位</label>
+				<label class="col-xs-3 control-label">培训内容</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreParttime.unit}">
+                    <textarea required class="form-control" name="content">${cadreTrain.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">兼任职务</label>
+				<label class="col-xs-3 control-label">主办单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="post" value="${cadreParttime.post}">
+                        <input required class="form-control" type="text" name="unit" value="${cadreTrain.unit}">
 				</div>
 			</div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注</label>
                 <div class="col-xs-6">
-                    <textarea required class="form-control" name="remark">${cadreParttime.remark}</textarea>
+                    <textarea class="form-control" name="remark">${cadreTrain.remark}</textarea>
                 </div>
             </div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreParttime!=null}">确定</c:if><c:if test="${cadreParttime==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreTrain!=null}">确定</c:if><c:if test="${cadreTrain==null}">添加</c:if>"/>
 </div>
 
 <script>
@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        $("#jqGrid_cadreParttime").trigger("reloadGrid");
+                        $("#jqGrid_cadreTrain").trigger("reloadGrid");
                     }
                 }
             });

@@ -590,19 +590,25 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function(){
     });
 });
 // 调序 for jqgird
-$(document).on("click", ".myTableDiv .jqOrderBtn", function(){
+$(document).on("click", ".jqOrderBtn", function(){
 
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+    var gridId = $(this).data("grid-id") || "#jqGrid";
+    //alert(gridId)
+    var grid = $(gridId);
+
+    jgrid_left = grid.closest(".ui-jqgrid-bdiv").scrollLeft();
+    jgrid_top = grid.closest(".ui-jqgrid-bdiv").scrollTop();
     var id = $(this).data("id");
     var direction = parseInt($(this).data("direction"));
     var step = $(this).closest("td").find("input").val();
     var addNum = (parseInt(step)||1)*direction;
+
     var $div = $(this).closest(".myTableDiv");
+    var url = $(this).data("url") || $div.data("url-co");
     //console.log($div.data("url-co"))
-    $.post($div.data("url-co"),{id:id, addNum:addNum},function(ret){
+    $.post(url,{id:id, addNum:addNum},function(ret){
         if(ret.success) {
-            $("#jqGrid").trigger("reloadGrid");
+            grid.trigger("reloadGrid");
             //SysMsg.success('操作成功。', '成功');
         }
     });

@@ -578,10 +578,25 @@ public class SystemConstants {
 	// 干部干部信息采集表 类型，1 工作经历 2 兼职情况
 	public final static byte CADRE_INFO_TYPE_WORK = 1;
 	public final static byte CADRE_INFO_TYPE_PARTTIME = 2;
+	public final static byte CADRE_INFO_TYPE_TRAIN = 3;
+	public final static byte CADRE_INFO_TYPE_TEACH = 4;
+	public final static byte CADRE_INFO_TYPE_RESEARCH = 5;
+	public final static byte CADRE_INFO_TYPE_REWARD_OTHER = 6;
+	public final static byte CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY = 7;
+	public final static byte CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY = 8;
+	public final static byte CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY = 9;
 	public final static Map<Byte, String>CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "兼职情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TRAIN, "培训情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TEACH, "教学经历");// 包含教学成果及获奖情况
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况"); // 包含科研成果及获奖情况
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_REWARD_OTHER, "其他奖励情况");
+
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY, "参与科研项目总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY, "主持科研项目总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY, "出版著作及发表论文等总体情况");
 	}
 
 	// 干部学习经历 学校类型 1本校 2境内 3境外
@@ -611,13 +626,28 @@ public class SystemConstants {
 	static {
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BKS, "本科生课程");
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_SS, "硕士生课程");
-		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "研究生课程");
+		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "博士生课程");
 	}
 
 	// 干部获奖类别 1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
 	public final static byte CADRE_REWARD_TYPE_TEACH = 1;
 	public final static byte CADRE_REWARD_TYPE_RESEARCH = 2;
 	public final static byte CADRE_REWARD_TYPE_OTHER = 3;
+
+	// 干部科研项目类别 1,主持 2 参与
+	public final static byte CADRE_RESEARCH_TYPE_DIRECT = 1;
+	public final static byte CADRE_RESEARCH_TYPE_IN = 2;
+
+	// 干部出版著作类别 独著、译著、合著
+	public final static byte CADRE_BOOK_TYPE_ALONE = 1;
+	public final static byte CADRE_BOOK_TYPE_TRANSLATE = 2;
+	public final static byte CADRE_BOOK_TYPE_COAUTHOR = 3;
+	public final static Map<Byte, String> CADRE_BOOK_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_ALONE, "独著");
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_TRANSLATE, "译著");
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_COAUTHOR, "合著");
+	}
 
 	// 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿
 	public final static byte CADRE_FAMLIY_TITLE_FATHER = 1;
@@ -762,15 +792,19 @@ public class SystemConstants {
 
 	// 内容模板类别  1 短信
 	public final static byte CONTENT_TPL_TYPE_SHORTMSG = 1;
+	public final static byte CONTENT_TPL_TYPE_NORMAL = 2;
 	public final static Map<Byte, String> CONTENT_TPL_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_SHORTMSG, "短信");
+		CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_NORMAL, "文本");
 	}
 	// 内容模板内容类型  1 普通文本
 	public final static byte CONTENT_TPL_CONTENT_TYPE_STRING = 1;
+	public final static byte CONTENT_TPL_CONTENT_TYPE_HTML = 2;
 	public final static Map<Byte, String> CONTENT_TPL_CONTENT_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_STRING, "普通文本");
+		CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_HTML, "HTML");
 	}
 	// 内容模板引擎  1 MessageFormat
 	public final static byte CONTENT_TPL_ENGINE_MESSAGEFORMAT = 1;

@@ -7,9 +7,12 @@
     <result column="reward_time" property="rewardTime" jdbcType="DATE" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="proof" property="proof" jdbcType="VARCHAR" />
+    <result column="proof_filename" property="proofFilename" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="rank" property="rank" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="reward_type" property="rewardType" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, reward_time, name, unit, rank, sort_order, type
+    id, cadre_id, reward_time, name, unit, proof, proof_filename, remark, rank, sort_order, 
+    reward_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreRewardExample" >
     select
@@ -104,11 +108,13 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreReward" >
     insert into base_cadre_reward (id, cadre_id, reward_time, 
-      name, unit, rank, sort_order, 
-      type)
+      name, unit, proof, 
+      proof_filename, remark, rank, 
+      sort_order, reward_type)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{rewardTime,jdbcType=DATE}, 
-      #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT})
+      #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{proof,jdbcType=VARCHAR}, 
+      #{proofFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{rewardType,jdbcType=TINYINT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreReward" >
     insert into base_cadre_reward
@@ -128,14 +134,23 @@
       <if test="unit != null" >
         unit,
       </if>
+      <if test="proof != null" >
+        proof,
+      </if>
+      <if test="proofFilename != null" >
+        proof_filename,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
       <if test="rank != null" >
         rank,
       </if>
       <if test="sortOrder != null" >
         sort_order,
       </if>
-      <if test="type != null" >
-        type,
+      <if test="rewardType != null" >
+        reward_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -154,14 +169,23 @@
       <if test="unit != null" >
         #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="proof != null" >
+        #{proof,jdbcType=VARCHAR},
+      </if>
+      <if test="proofFilename != null" >
+        #{proofFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="rank != null" >
         #{rank,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
+      <if test="rewardType != null" >
+        #{rewardType,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -189,14 +213,23 @@
       <if test="record.unit != null" >
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
+      <if test="record.proof != null" >
+        proof = #{record.proof,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proofFilename != null" >
+        proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.rank != null" >
         rank = #{record.rank,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
+      <if test="record.rewardType != null" >
+        reward_type = #{record.rewardType,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -210,9 +243,12 @@
       reward_time = #{record.rewardTime,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
+      proof = #{record.proof,jdbcType=VARCHAR},
+      proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       rank = #{record.rank,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT}
+      reward_type = #{record.rewardType,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -232,14 +268,23 @@
       <if test="unit != null" >
         unit = #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="proof != null" >
+        proof = #{proof,jdbcType=VARCHAR},
+      </if>
+      <if test="proofFilename != null" >
+        proof_filename = #{proofFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="rank != null" >
         rank = #{rank,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+      <if test="rewardType != null" >
+        reward_type = #{rewardType,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -250,9 +295,12 @@
       reward_time = #{rewardTime,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
+      proof = #{proof,jdbcType=VARCHAR},
+      proof_filename = #{proofFilename,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT}
+      reward_type = #{rewardType,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreRewardExample" id="selectByExampleWithRowbounds" >

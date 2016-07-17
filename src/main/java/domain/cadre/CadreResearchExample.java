@@ -1,6 +1,8 @@
 package domain.cadre;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CadreResearchExample {
@@ -102,6 +104,32 @@ public class CadreResearchExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -224,423 +252,463 @@ public class CadreResearchExample {
             return (Criteria) this;
         }
 
-        public Criteria andChairFileIsNull() {
-            addCriterion("chair_file is null");
+        public Criteria andStartTimeIsNull() {
+            addCriterion("start_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileIsNotNull() {
-            addCriterion("chair_file is not null");
+        public Criteria andStartTimeIsNotNull() {
+            addCriterion("start_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileEqualTo(String value) {
-            addCriterion("chair_file =", value, "chairFile");
+        public Criteria andStartTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time =", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNotEqualTo(String value) {
-            addCriterion("chair_file <>", value, "chairFile");
+        public Criteria andStartTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time <>", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileGreaterThan(String value) {
-            addCriterion("chair_file >", value, "chairFile");
+        public Criteria andStartTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("start_time >", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileGreaterThanOrEqualTo(String value) {
-            addCriterion("chair_file >=", value, "chairFile");
+        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time >=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileLessThan(String value) {
-            addCriterion("chair_file <", value, "chairFile");
+        public Criteria andStartTimeLessThan(Date value) {
+            addCriterionForJDBCDate("start_time <", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileLessThanOrEqualTo(String value) {
-            addCriterion("chair_file <=", value, "chairFile");
+        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_time <=", value, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileLike(String value) {
-            addCriterion("chair_file like", value, "chairFile");
+        public Criteria andStartTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("start_time in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNotLike(String value) {
-            addCriterion("chair_file not like", value, "chairFile");
+        public Criteria andStartTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("start_time not in", values, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileIn(List<String> values) {
-            addCriterion("chair_file in", values, "chairFile");
+        public Criteria andStartTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_time between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNotIn(List<String> values) {
-            addCriterion("chair_file not in", values, "chairFile");
+        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_time not between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileBetween(String value1, String value2) {
-            addCriterion("chair_file between", value1, value2, "chairFile");
+        public Criteria andEndTimeIsNull() {
+            addCriterion("end_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNotBetween(String value1, String value2) {
-            addCriterion("chair_file not between", value1, value2, "chairFile");
+        public Criteria andEndTimeIsNotNull() {
+            addCriterion("end_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameIsNull() {
-            addCriterion("chair_file_name is null");
+        public Criteria andEndTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time =", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameIsNotNull() {
-            addCriterion("chair_file_name is not null");
+        public Criteria andEndTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time <>", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameEqualTo(String value) {
-            addCriterion("chair_file_name =", value, "chairFileName");
+        public Criteria andEndTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("end_time >", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameNotEqualTo(String value) {
-            addCriterion("chair_file_name <>", value, "chairFileName");
+        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time >=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameGreaterThan(String value) {
-            addCriterion("chair_file_name >", value, "chairFileName");
+        public Criteria andEndTimeLessThan(Date value) {
+            addCriterionForJDBCDate("end_time <", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameGreaterThanOrEqualTo(String value) {
-            addCriterion("chair_file_name >=", value, "chairFileName");
+        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_time <=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameLessThan(String value) {
-            addCriterion("chair_file_name <", value, "chairFileName");
+        public Criteria andEndTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("end_time in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameLessThanOrEqualTo(String value) {
-            addCriterion("chair_file_name <=", value, "chairFileName");
+        public Criteria andEndTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("end_time not in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameLike(String value) {
-            addCriterion("chair_file_name like", value, "chairFileName");
+        public Criteria andEndTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_time between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameNotLike(String value) {
-            addCriterion("chair_file_name not like", value, "chairFileName");
+        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_time not between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameIn(List<String> values) {
-            addCriterion("chair_file_name in", values, "chairFileName");
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameNotIn(List<String> values) {
-            addCriterion("chair_file_name not in", values, "chairFileName");
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameBetween(String value1, String value2) {
-            addCriterion("chair_file_name between", value1, value2, "chairFileName");
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andChairFileNameNotBetween(String value1, String value2) {
-            addCriterion("chair_file_name not between", value1, value2, "chairFileName");
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileIsNull() {
-            addCriterion("join_file is null");
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileIsNotNull() {
-            addCriterion("join_file is not null");
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileEqualTo(String value) {
-            addCriterion("join_file =", value, "joinFile");
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNotEqualTo(String value) {
-            addCriterion("join_file <>", value, "joinFile");
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileGreaterThan(String value) {
-            addCriterion("join_file >", value, "joinFile");
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileGreaterThanOrEqualTo(String value) {
-            addCriterion("join_file >=", value, "joinFile");
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileLessThan(String value) {
-            addCriterion("join_file <", value, "joinFile");
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileLessThanOrEqualTo(String value) {
-            addCriterion("join_file <=", value, "joinFile");
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileLike(String value) {
-            addCriterion("join_file like", value, "joinFile");
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNotLike(String value) {
-            addCriterion("join_file not like", value, "joinFile");
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileIn(List<String> values) {
-            addCriterion("join_file in", values, "joinFile");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNotIn(List<String> values) {
-            addCriterion("join_file not in", values, "joinFile");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileBetween(String value1, String value2) {
-            addCriterion("join_file between", value1, value2, "joinFile");
+        public Criteria andTypeEqualTo(String value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNotBetween(String value1, String value2) {
-            addCriterion("join_file not between", value1, value2, "joinFile");
+        public Criteria andTypeNotEqualTo(String value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameIsNull() {
-            addCriterion("join_file_name is null");
+        public Criteria andTypeGreaterThan(String value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameIsNotNull() {
-            addCriterion("join_file_name is not null");
+        public Criteria andTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameEqualTo(String value) {
-            addCriterion("join_file_name =", value, "joinFileName");
+        public Criteria andTypeLessThan(String value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameNotEqualTo(String value) {
-            addCriterion("join_file_name <>", value, "joinFileName");
+        public Criteria andTypeLessThanOrEqualTo(String value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameGreaterThan(String value) {
-            addCriterion("join_file_name >", value, "joinFileName");
+        public Criteria andTypeLike(String value) {
+            addCriterion("type like", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameGreaterThanOrEqualTo(String value) {
-            addCriterion("join_file_name >=", value, "joinFileName");
+        public Criteria andTypeNotLike(String value) {
+            addCriterion("type not like", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameLessThan(String value) {
-            addCriterion("join_file_name <", value, "joinFileName");
+        public Criteria andTypeIn(List<String> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameLessThanOrEqualTo(String value) {
-            addCriterion("join_file_name <=", value, "joinFileName");
+        public Criteria andTypeNotIn(List<String> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameLike(String value) {
-            addCriterion("join_file_name like", value, "joinFileName");
+        public Criteria andTypeBetween(String value1, String value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameNotLike(String value) {
-            addCriterion("join_file_name not like", value, "joinFileName");
+        public Criteria andTypeNotBetween(String value1, String value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameIn(List<String> values) {
-            addCriterion("join_file_name in", values, "joinFileName");
+        public Criteria andUnitIsNull() {
+            addCriterion("unit is null");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameNotIn(List<String> values) {
-            addCriterion("join_file_name not in", values, "joinFileName");
+        public Criteria andUnitIsNotNull() {
+            addCriterion("unit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameBetween(String value1, String value2) {
-            addCriterion("join_file_name between", value1, value2, "joinFileName");
+        public Criteria andUnitEqualTo(String value) {
+            addCriterion("unit =", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andJoinFileNameNotBetween(String value1, String value2) {
-            addCriterion("join_file_name not between", value1, value2, "joinFileName");
+        public Criteria andUnitNotEqualTo(String value) {
+            addCriterion("unit <>", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileIsNull() {
-            addCriterion("publish_file is null");
+        public Criteria andUnitGreaterThan(String value) {
+            addCriterion("unit >", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileIsNotNull() {
-            addCriterion("publish_file is not null");
+        public Criteria andUnitGreaterThanOrEqualTo(String value) {
+            addCriterion("unit >=", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileEqualTo(String value) {
-            addCriterion("publish_file =", value, "publishFile");
+        public Criteria andUnitLessThan(String value) {
+            addCriterion("unit <", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNotEqualTo(String value) {
-            addCriterion("publish_file <>", value, "publishFile");
+        public Criteria andUnitLessThanOrEqualTo(String value) {
+            addCriterion("unit <=", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileGreaterThan(String value) {
-            addCriterion("publish_file >", value, "publishFile");
+        public Criteria andUnitLike(String value) {
+            addCriterion("unit like", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileGreaterThanOrEqualTo(String value) {
-            addCriterion("publish_file >=", value, "publishFile");
+        public Criteria andUnitNotLike(String value) {
+            addCriterion("unit not like", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileLessThan(String value) {
-            addCriterion("publish_file <", value, "publishFile");
+        public Criteria andUnitIn(List<String> values) {
+            addCriterion("unit in", values, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileLessThanOrEqualTo(String value) {
-            addCriterion("publish_file <=", value, "publishFile");
+        public Criteria andUnitNotIn(List<String> values) {
+            addCriterion("unit not in", values, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileLike(String value) {
-            addCriterion("publish_file like", value, "publishFile");
+        public Criteria andUnitBetween(String value1, String value2) {
+            addCriterion("unit between", value1, value2, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNotLike(String value) {
-            addCriterion("publish_file not like", value, "publishFile");
+        public Criteria andUnitNotBetween(String value1, String value2) {
+            addCriterion("unit not between", value1, value2, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileIn(List<String> values) {
-            addCriterion("publish_file in", values, "publishFile");
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNotIn(List<String> values) {
-            addCriterion("publish_file not in", values, "publishFile");
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileBetween(String value1, String value2) {
-            addCriterion("publish_file between", value1, value2, "publishFile");
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNotBetween(String value1, String value2) {
-            addCriterion("publish_file not between", value1, value2, "publishFile");
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameIsNull() {
-            addCriterion("publish_file_name is null");
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameIsNotNull() {
-            addCriterion("publish_file_name is not null");
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameEqualTo(String value) {
-            addCriterion("publish_file_name =", value, "publishFileName");
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameNotEqualTo(String value) {
-            addCriterion("publish_file_name <>", value, "publishFileName");
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameGreaterThan(String value) {
-            addCriterion("publish_file_name >", value, "publishFileName");
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameGreaterThanOrEqualTo(String value) {
-            addCriterion("publish_file_name >=", value, "publishFileName");
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameLessThan(String value) {
-            addCriterion("publish_file_name <", value, "publishFileName");
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameLessThanOrEqualTo(String value) {
-            addCriterion("publish_file_name <=", value, "publishFileName");
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameLike(String value) {
-            addCriterion("publish_file_name like", value, "publishFileName");
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameNotLike(String value) {
-            addCriterion("publish_file_name not like", value, "publishFileName");
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameIn(List<String> values) {
-            addCriterion("publish_file_name in", values, "publishFileName");
+        public Criteria andResearchTypeIsNull() {
+            addCriterion("research_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameNotIn(List<String> values) {
-            addCriterion("publish_file_name not in", values, "publishFileName");
+        public Criteria andResearchTypeIsNotNull() {
+            addCriterion("research_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameBetween(String value1, String value2) {
-            addCriterion("publish_file_name between", value1, value2, "publishFileName");
+        public Criteria andResearchTypeEqualTo(Byte value) {
+            addCriterion("research_type =", value, "researchType");
             return (Criteria) this;
         }
 
-        public Criteria andPublishFileNameNotBetween(String value1, String value2) {
-            addCriterion("publish_file_name not between", value1, value2, "publishFileName");
+        public Criteria andResearchTypeNotEqualTo(Byte value) {
+            addCriterion("research_type <>", value, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeGreaterThan(Byte value) {
+            addCriterion("research_type >", value, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("research_type >=", value, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeLessThan(Byte value) {
+            addCriterion("research_type <", value, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("research_type <=", value, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeIn(List<Byte> values) {
+            addCriterion("research_type in", values, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeNotIn(List<Byte> values) {
+            addCriterion("research_type not in", values, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeBetween(Byte value1, Byte value2) {
+            addCriterion("research_type between", value1, value2, "researchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andResearchTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("research_type not between", value1, value2, "researchType");
             return (Criteria) this;
         }
     }
