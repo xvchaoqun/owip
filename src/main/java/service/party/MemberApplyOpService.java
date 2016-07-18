@@ -3,11 +3,13 @@ package service.party;
 import controller.BaseController;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -373,15 +375,13 @@ public class MemberApplyOpService extends BaseController {
         }
     }
 
-    // 领取志愿书：提交 预备党员
+    // 领取志愿书：提交 预备党员 【// 分党委直接提交，不需要审核 -- 20160718 修改by 邹老师】
     @Transactional
     public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
 
         for (int userId : userIds) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
-            boolean partyAdmin = verifyAuth.isPartyAdmin;
-            boolean directParty = verifyAuth.isDirectBranch;
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
             if(growTime.before(memberApply.getDrawTime())){
@@ -389,11 +389,7 @@ public class MemberApplyOpService extends BaseController {
             }
 
             MemberApply record = new MemberApply();
-            if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
-                record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
-            }else {
-                record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-            }
+            record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
             record.setGrowTime(growTime);
 
             MemberApplyExample example = new MemberApplyExample();
@@ -404,18 +400,17 @@ public class MemberApplyOpService extends BaseController {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                        (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交");
+                        "预备党员，分党委提交");
 
             }
         }
     }
 
-    // 领取志愿书：审核 预备党员
+    /*// 领取志愿书：审核 预备党员  【领取志愿书是需要组织部审批的，这样我们能够控制他们领取志愿书的人和数量的对应】
     @Transactional
     public void apply_grow_check(Integer[] userIds, int loginUserId){
 
@@ -423,7 +418,14 @@ public class MemberApplyOpService extends BaseController {
 
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
-            boolean isParty = verifyAuth.isParty;
+
+            if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
+                    || memberApply.getGrowStatus()==null
+                    || memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_UNCHECKED){
+                throw new RuntimeException("还没有提交发展时间。");
+            }
+
+            //boolean isParty = verifyAuth.isParty;
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
 
@@ -435,7 +437,7 @@ public class MemberApplyOpService extends BaseController {
                     .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
                     .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-            if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            *//*if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
                 memberApplyService.applyGrowCheckByParty(userId, record, example);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
@@ -444,7 +446,7 @@ public class MemberApplyOpService extends BaseController {
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，分党委审核");
-            }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            }else *//*if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
@@ -453,16 +455,23 @@ public class MemberApplyOpService extends BaseController {
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，党总支直属党支部审核");
+                        "预备党员，分党委审核");
             }
         }
-    }
+    }*/
 
     // 领取志愿书：组织部管理员审核 预备党员
     @Transactional
     public void apply_grow_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
+            MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
+                    || _memberApply.getGrowStatus()==null
+                    || _memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_CHECKED){
+                throw new RuntimeException("分党委还没有审核。");
+            }
+
             memberApplyService.memberGrow(userId);
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);

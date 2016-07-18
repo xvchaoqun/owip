@@ -109,9 +109,9 @@ public class MemberApplyController extends BaseController {
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:
+            case SystemConstants.APPLY_STAGE_DRAW:
                 modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
-            case SystemConstants.APPLY_STAGE_DRAW:
             case SystemConstants.APPLY_STAGE_GROW:
                 if(status==-1)
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
@@ -178,7 +178,7 @@ public class MemberApplyController extends BaseController {
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
                 modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)-1));
-                modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
+                //modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
                 modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
@@ -538,7 +538,7 @@ public class MemberApplyController extends BaseController {
         return success();
     }
     //审核 预备党员
-    @RequiresPermissions("memberApply:grow_check")
+ /*   @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_grow_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
@@ -546,7 +546,7 @@ public class MemberApplyController extends BaseController {
         memberApplyOpService.apply_grow_check(ids, loginUser.getId());
 
         return success();
-    }
+    }*/
 
     //组织部管理员审核 预备党员
     @RequiresRoles("odAdmin")

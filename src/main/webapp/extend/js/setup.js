@@ -363,7 +363,8 @@ function page_reload(fn) {
     //console.log(queryString)
     //alert($div.data("url-page"))
     var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
-    $target.load($div.data("url-page") + (queryString?("?"+queryString):""), function(){if(fn) fn();});
+    //console.log(fn)
+    $target.load($div.data("url-page") + (queryString?("?"+queryString):""), function(){if(typeof fn == 'function') fn();});
 }
 // 添加/编辑
 $(document).on("click", ".myTableDiv .editBtn", function(){

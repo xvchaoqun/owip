@@ -149,7 +149,7 @@ pageEncoding="UTF-8"%>
 				<c:forEach items="${adminIds}" var="adminId" varStatus="st">
 					<c:set var="user" value="${cm:getUserById(adminId)}"/>
 					<tr>
-						<td >${user.realname}</td>
+						<td >${user.realname}（${user.code}）</td>
 						<td >
 							<a class="confirm btn btn-danger btn-xs"
 							   data-url="${ctx}/partyAdmin_del?userId=${adminId}&partyId=${party.id}"
