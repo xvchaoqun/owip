@@ -6,9 +6,6 @@
     <li class="${type==0?"active":""}">
         <a href="javascript:;" onclick="_innerPage(0)"><i class="fa fa-flag"></i> 科研情况</a>
     </li>
-    <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
-    </li>
     <li class="dropdown <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY
     ||type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY || type==CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}">active</c:if>" >
         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -27,6 +24,9 @@
                 <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}')">出版著作及发表论文等</a>
             </li>
         </ul>
+    </li>
+    <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
 <div class="space-4"></div>
