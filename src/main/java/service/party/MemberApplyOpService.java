@@ -3,7 +3,9 @@ package service.party;
 import controller.BaseController;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -592,8 +594,23 @@ public class MemberApplyOpService extends BaseController {
     @Transactional
     public void memberApply_back(Integer[] userIds, byte stage, String reason, int loginUserId){
 
+        Subject subject = SecurityUtils.getSubject();
+
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+                throw new UnauthorizedException();
+            }
+
+            byte _stage = memberApply.getStage();
+            if(_stage>=SystemConstants.APPLY_STAGE_GROW){
+                throw new RuntimeException("已是党员，不可以打回入党申请状态。");
+            }
+            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
+                throw new RuntimeException("打回状态有误，请联系系统管理员。");
+            }
+
             memberApplyService.memberApply_back(memberApply, stage);
 
             applyApprovalLogService.add(userId,

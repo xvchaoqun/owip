@@ -109,8 +109,13 @@ public class MemberApplyController extends BaseController {
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:
-            case SystemConstants.APPLY_STAGE_DRAW:
                 modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+                break;
+            case SystemConstants.APPLY_STAGE_DRAW:
+                if(status<1)
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+                else
+                    modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
                 if(status==-1)
@@ -616,21 +621,9 @@ public class MemberApplyController extends BaseController {
                                    @RequestParam(value = "ids[]") Integer[] ids, byte stage,
                                    String reason) {
 
-        for (int userId : ids) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-            MemberApply memberApply = verifyAuth.entity;
-            byte _stage = memberApply.getStage();
-            if(_stage>=SystemConstants.APPLY_STAGE_GROW){
-                return failed("已是党员，不可以打回入党申请状态。");
-            }
-            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
-                return failed("参数有误。");
-            }
-        }
-
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_OW, "打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
