@@ -378,7 +378,25 @@ public class CadreService extends BaseMapper {
         return null;
     }
 
-    // 查找某个单位的正职(包括兼任职务的干部)
+    // 获取某个单位下的兼审正职
+    public List<Cadre> findAdditionalPost(int unitId){
+
+        List<Cadre> cadreList = new ArrayList<>();
+        Map<Integer, Cadre> cadreMap = findAll();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        CadreAdditionalPostExample example = new CadreAdditionalPostExample();
+        example.createCriteria().andUnitIdEqualTo(unitId);
+        List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
+        for (CadreAdditionalPost cPost : cPosts) {
+            MetaType postType = metaTypeMap.get(cPost.getPostId());
+            if (postType.getBoolAttr()) {
+                cadreList.add(cadreMap.get(cPost.getCadreId()));
+            }
+        }
+        return cadreList;
+    }
+
+    // 查找某个单位的正职(不包括兼任职务的干部)
     public List<Cadre> findMainPost(int unitId){
 
         List<Cadre> cadreList = new ArrayList<>();
@@ -391,19 +409,6 @@ public class CadreService extends BaseMapper {
                 MetaType postType = metaTypeMap.get(cadre.getPostId());
                 if (postType.getBoolAttr()) {
                     cadreList.add(cadre);
-                }
-            }
-        }
-        {
-            Map<Integer, Cadre> cadreMap = findAll();
-            // 兼任职务
-            CadreAdditionalPostExample example = new CadreAdditionalPostExample();
-            example.createCriteria().andUnitIdEqualTo(unitId);
-            List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
-            for (CadreAdditionalPost cPost : cPosts) {
-                MetaType postType = metaTypeMap.get(cPost.getPostId());
-                if (postType.getBoolAttr()) {
-                    cadreList.add(cadreMap.get(cPost.getCadreId()));
                 }
             }
         }

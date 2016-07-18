@@ -81,9 +81,17 @@ public class ApplySelfService extends BaseMapper {
                 List<Cadre> mainPostList = cadreService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
                     if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
-                            && mainPostBlackList.get(_cadre.getId())==null)  // 排除黑名单
+                            && (mainPostBlackList.get(_cadre.getId())==null))  // 排除本单位正职黑名单（不包括兼审单位正职）
                         _users.add(_cadre.getUser());
                 }
+
+                List<Cadre> additionalPost = cadreService.findAdditionalPost(cadre.getUnitId());
+                for (Cadre _cadre : additionalPost) {
+                    if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW){
+                        _users.add(_cadre.getUser());
+                    }
+                }
+
                 return _users;
             } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
 
