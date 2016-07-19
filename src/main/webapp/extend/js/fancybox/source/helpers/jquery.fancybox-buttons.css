@@ -97,10 +97,11 @@
 }
 
 #fancybox-buttons a.btnRotateL {
-	background-position: 5px 0;
+	background-position: -60px -60px;
+	border-right: 1px solid #3e3e3e;
 }
 
 #fancybox-buttons a.btnRotateR {
-	background-position: -33px 0;
+	background-position: -60px -32px;
 	border-right: 1px solid #3e3e3e;
 }
