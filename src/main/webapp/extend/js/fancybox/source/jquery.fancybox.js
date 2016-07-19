@@ -12,7 +12,7 @@
 
 (function (window, document, $, undefined) {
 	"use strict";
-
+	var rad = 0;
 	var H = $("html"),
 		W = $(window),
 		D = $(document),
@@ -137,8 +137,8 @@
 
 			// HTML templates
 			tpl: {
-				wrap     : '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
-				image    : '<img class="fancybox-image" src="{href}" alt="" />',
+				wrap     : '<div id="fancybox-wrap" class="fancybox-wrap" tabIndex="-1"><div id="fancybox-skin" class="fancybox-skin"><div id="fancybox-outer" class="fancybox-outer"><div id="fancybox-content" class="fancybox-inner"></div></div></div></div>',
+				image    : '<img id="fancybox-img" class="fancybox-image" src="{href}" alt="" />',
 				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen' + (IE ? ' allowtransparency="true"' : '') + '></iframe>',
 				error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
 				closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',
@@ -472,6 +472,7 @@
 		// Navigate to next gallery item
 		next: function ( direction ) {
 			var current = F.current;
+			rad = 0;//加入重置rad值
 
 			if (current) {
 				if (!isString(direction)) {
@@ -485,6 +486,7 @@
 		// Navigate to previous gallery item
 		prev: function ( direction ) {
 			var current = F.current;
+			rad = 0;//加入重置rad值
 
 			if (current) {
 				if (!isString(direction)) {
@@ -582,7 +584,122 @@
 
 			}, (anyway && !isTouch ? 0 : 300));
 		},
+		//==
+		rotateL : function(){
+			var f_w = $("#fancybox-content").width();
+			var f_h = $("#fancybox-content").height();
+			var translate = (f_h - f_w)/2;
+			rad=rad-90;
+			if(rad==-360){
+				rad = 0;
+			}
+			//if($.browser.msie){
+			//	if($.browser.version=="7.0"||$.browser.version=="8.0"){
+			//	   F.rotIsIE(f_w,f_h,translate);
+			//	}else{
+			//		F.rot(f_w,f_h,translate);
+			//	}
+			//}else{
+			//	F.rot(f_w,f_h,translate);
+			//}
+			F.rot(f_w,f_h,translate);
+		},
 
+		rotateR : function(){
+			var f_w = $("#fancybox-content").width();
+			var f_h = $("#fancybox-content").height();
+			var translate = (f_h - f_w)/2;
+			rad=rad+90;
+			if(rad==360){
+				rad = 0;
+			}
+			//if($.browser.msie){
+			//	if($.browser.version=="7.0"||$.browser.version=="8.0"){
+			//	   F.rotIsIE(f_w,f_h,translate);
+			//	}else{
+			//		F.rot(f_w,f_h,translate);
+			//	}
+			//}else{
+			//	F.rot(f_w,f_h,translate);
+			//}
+			F.rot(f_w,f_h,translate);
+		},
+
+		rot : function(f_w,f_h,translate){
+			if(rad/90%2){
+				$("#fancybox-img").css("-webkit-transform","translate("+(translate-4)+"px,"+(-translate)+"px)"+" rotate("+rad+"deg)").css("-moz-transform","translate("+(translate-4)+"px,"+(-translate)+"px)"+" rotate("+rad+"deg)").css("-o-transform","translate("+(translate-4)+"px,"+(-translate)+"px)"+" rotate("+rad+"deg)").css("-ms-transform","translate("+(translate-4)+"px,"+(-translate)+"px)"+" rotate("+rad+"deg)").css("transform","translate("+(translate-4)+"px,"+(-translate)+"px)"+" rotate("+rad+"deg)");
+				$("#fancybox-img").height(f_h).width(f_w);
+				$("#fancybox-content").height(f_w).width(f_h);
+				$("#fancybox-wrap").width($("#fancybox-content").width()+20);
+				var left = $("#fancybox-wrap").css("left");
+				var leftvalue = left.substring(0,left.length - 2);
+				var tempvalue = ($("#fancybox-content").height()-$("#fancybox-content").width())/2;
+				var pianyivalue = parseInt(leftvalue) + parseInt(tempvalue);
+				$("#fancybox-wrap").css("left",pianyivalue+"px");
+			}else{
+				$("#fancybox-img").css("-webkit-transform","rotate("+rad+"deg)").css("-moz-transform","rotate("+rad+"deg)").css("-o-transform","rotate("+rad+"deg)").css("-ms-transform","rotate("+rad+"deg)").css("transform","translate(-4px, 0px) rotate("+rad+"deg)");
+				$("#fancybox-img").height("100%").width("100%");
+				$("#fancybox-content").height(f_w).width(f_h);
+				$("#fancybox-wrap").width($("#fancybox-content").width()+20);
+				var left = $("#fancybox-wrap").css("left");
+				var leftvalue = left.substring(0,left.length - 2);
+				var tempvalue = ($("#fancybox-content").height()-$("#fancybox-content").width())/2;
+				var pianyivalue = parseInt(leftvalue) + parseInt(tempvalue);
+				$("#fancybox-wrap").css("left",pianyivalue+"px");
+			}
+		},
+
+		rotIsIE : function (f_w,f_h,translate){
+			if(rad/90%2){
+				F.progidIE();
+				$("#fancybox-img").height(f_h).width(f_w);
+				$("#fancybox-content").height(f_w).width(f_h);
+				$("#fancybox-wrap").width($("#fancybox-content").width()+20);
+				var left = $("#fancybox-wrap").css("left");
+				var leftvalue = left.substring(0,left.length - 2);
+				var tempvalue = ($("#fancybox-content").height()-$("#fancybox-content").width())/2;
+				var pianyivalue = parseInt(leftvalue) + parseInt(tempvalue);
+				$("#fancybox-wrap").css("left",pianyivalue+"px");
+			}else{
+				F.progidIE();
+				$("#fancybox-img").height("100%").width("100%");
+				$("#fancybox-content").height(f_w).width(f_h);
+				$("#fancybox-wrap").width($("#fancybox-content").width()+20);
+				var left = $("#fancybox-wrap").css("left");
+				var leftvalue = left.substring(0,left.length - 2);
+				var tempvalue = ($("#fancybox-content").height()-$("#fancybox-content").width())/2;
+				var pianyivalue = parseInt(leftvalue) + parseInt(tempvalue);
+				$("#fancybox-wrap").css("left",pianyivalue+"px");
+			}
+		},
+
+		progidIE : function(){
+			alert(rad);
+			switch(rad/90){
+				case -3:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=1)");
+					break;
+				case -2:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=2)");
+					break;
+				case -1:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=3)");
+					break;
+				case 0:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=0)");
+					break;
+				case 1:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=1)");
+					break;
+				case 2:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=2)");
+					break;
+				case 3:
+					$("#fancybox-img").css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=3)");
+					break;
+			}
+		},
+		//==
 		// Shrink content to fit inside viewport or restore if resized
 		toggle: function ( action ) {
 			if (F.isOpen) {

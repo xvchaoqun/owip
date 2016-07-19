@@ -22,7 +22,8 @@
 		defaults : {
 			skipSingle : false, // disables if gallery contains single image
 			position   : 'top', // 'top' or 'bottom'
-			tpl        : '<div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:;"></a></li><li><a class="btnPlay" title="Start slideshow" href="javascript:;"></a></li><li><a class="btnNext" title="Next" href="javascript:;"></a></li><li><a class="btnToggle" title="Toggle size" href="javascript:;"></a></li><li><a class="btnClose" title="Close" href="javascript:;"></a></li></ul></div>'
+			tpl        : '<div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:;"></a></li><li><a class="btnPlay" title="Start slideshow" href="javascript:;"></a></li><li><a class="btnNext" title="Next" href="javascript:;"></a></li><li><a class="btnToggle" title="Toggle size" href="javascript:;"></a></li>' +
+			'<li><a class="btnRotateL" title="left" href="javascript:;"></a></li><li><a class="btnRotateR" title="right" href="javascript:;"></a></li><li><a class="btnClose" title="Close" href="javascript:;"></a></li></ul></div>'
 		},
 
 		list : null,
@@ -65,7 +66,9 @@
 					next   : this.list.find('.btnNext').click( F.next ),
 					play   : this.list.find('.btnPlay').click( F.play ),
 					toggle : this.list.find('.btnToggle').click( F.toggle ),
-					close  : this.list.find('.btnClose').click( F.close )
+					close  : this.list.find('.btnClose').click( F.close ),
+					rotateL : this.list.find('.btnRotateL').click( F.rotateL ),//增加左转单击事件
+					rotateR : this.list.find('.btnRotateR').click( F.rotateR )//增加右转单击事件
 				}
 			}
 
