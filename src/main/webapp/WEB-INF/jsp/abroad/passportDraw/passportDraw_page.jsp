@@ -106,7 +106,12 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+<link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
 
+<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
+<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
 
     $(".printProofBtn").click(function () {
@@ -199,7 +204,8 @@
                     for (var i in rowObject.files) {
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
-                            filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
+                            //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
+                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-fancybox-type="image" href="${ctx}/img?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
                     }
                     return filesArray.join("，");
@@ -301,7 +307,38 @@
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130}
         ]
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        //alert($(".various").length)
+        $(".various").fancybox({
+            tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>',},
+            maxWidth	: 800,
+            maxHeight	: 600,
+            fitToView	: false,
+            width		: '70%',
+            height		: '70%',
+            autoSize	: false,
+            closeClick	: false,
+            openEffect	: 'none',
+            closeEffect	: 'none',
+            loop:false,
+
+            arrows:false,
+            prevEffect		: 'none',
+            nextEffect		: 'none',
+            closeBtn		: false,
+            helpers		: {
+                overlay:{
+                    closeClick : false,
+                    locked     : false },
+                title	: { type : 'inside' },
+                buttons	: {}
+            },
+            afterLoad: function() {
+                //console.log(this)
+                this.title = this.title + '【<a href="${ctx}/attach/passportDrawFile?id={0}">下载</a>】 '.format($(this.element).data('title-id')) ;
+            }
+        });
+    });
     $(window).triggerHandler('resize.jqGrid');
 
     $('#searchForm [data-rel="select2"]').select2();
