@@ -333,6 +333,9 @@
                 title	: { type : 'inside' },
                 buttons	: {}
             },
+            beforeShow: function() {
+                this.wrap.draggable();
+            },
             afterLoad: function() {
                 //console.log(this)
                 this.title = this.title + '【<a href="${ctx}/attach/passportDrawFile?id={0}">下载</a>】 '.format($(this.element).data('title-id')) ;
