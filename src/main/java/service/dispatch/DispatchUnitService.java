@@ -110,9 +110,9 @@ public class DispatchUnitService extends BaseMapper {
             DispatchUnit targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_dispatch_unit", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_unit", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_dispatch_unit", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_unit", baseSortOrder, targetEntity.getSortOrder());
 
             DispatchUnit record = new DispatchUnit();
             record.setId(id);

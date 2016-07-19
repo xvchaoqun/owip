@@ -75,7 +75,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_history_unit
+    from unit_history_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,27 +86,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_history_unit
+    from unit_history_unit
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_history_unit
+    delete from unit_history_unit
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.unit.HistoryUnitExample" >
-    delete from base_history_unit
+    delete from unit_history_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.unit.HistoryUnit" >
-    insert into base_history_unit (id, unit_id, old_unit_id, 
+  <insert keyProperty="id" id="insert" parameterType="domain.unit.HistoryUnit" >
+    insert into unit_history_unit (id, unit_id, old_unit_id, 
       sort_order, create_time)
     values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{oldUnitId,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.unit.HistoryUnit" >
-    insert into base_history_unit
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.unit.HistoryUnit" >
+    insert into unit_history_unit
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -143,13 +143,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.unit.HistoryUnitExample" resultType="java.lang.Integer" >
-    select count(*) from base_history_unit
+    select count(*) from unit_history_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_history_unit
+    update unit_history_unit
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -172,7 +172,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_history_unit
+    update unit_history_unit
     set id = #{record.id,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       old_unit_id = #{record.oldUnitId,jdbcType=INTEGER},
@@ -183,7 +183,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.unit.HistoryUnit" >
-    update base_history_unit
+    update unit_history_unit
     <set >
       <if test="unitId != null" >
         unit_id = #{unitId,jdbcType=INTEGER},
@@ -201,7 +201,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.unit.HistoryUnit" >
-    update base_history_unit
+    update unit_history_unit
     set unit_id = #{unitId,jdbcType=INTEGER},
       old_unit_id = #{oldUnitId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -214,7 +214,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_history_unit
+    from unit_history_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

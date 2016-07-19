@@ -1,4 +1,79 @@
 
+
+--2017-7-19
+RENAME TABLE `base_cadre` TO `cadre`;
+RENAME TABLE `base_cadre_additional_post` TO `cadre_additional_post`;
+RENAME TABLE `base_cadre_concat` TO `cadre_concat`;
+
+
+RENAME TABLE `base_cadre_admin_level` TO `cadre_admin_level`;
+
+RENAME TABLE `base_cadre_book` TO `cadre_book`;
+
+RENAME TABLE `base_cadre_company` TO `cadre_company`;
+
+RENAME TABLE `base_cadre_course` TO `cadre_course`;
+
+RENAME TABLE `base_cadre_edu` TO `cadre_edu`;
+
+RENAME TABLE `base_cadre_famliy` TO `cadre_famliy`;
+
+RENAME TABLE `base_cadre_famliy_abroad` TO `cadre_famliy_abroad`;
+
+RENAME TABLE `base_cadre_info` TO `cadre_info`;
+
+RENAME TABLE `base_cadre_paper` TO `cadre_paper`;
+
+RENAME TABLE `base_cadre_parttime` TO `cadre_parttime`;
+
+
+RENAME TABLE base_cadre_post TO  cadre_post;
+
+RENAME TABLE base_cadre_research TO  cadre_research;
+
+RENAME TABLE base_cadre_reward TO  cadre_reward;
+
+RENAME TABLE base_cadre_train TO  cadre_train;
+
+RENAME TABLE base_cadre_tutor TO  cadre_tutor;
+
+RENAME TABLE base_cadre_under_edu TO  cadre_under_edu;
+
+RENAME TABLE base_cadre_work TO  cadre_work;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `base_cadre_view` AS select c.*, cc.mobile, cc.office_phone, cc.home_phone, cc.email from cadre c left join cadre_concat cc on cc.cadre_id = c.id  ;
+RENAME TABLE `base_cadre_view` TO `cadre_view`;
+
+
+
+RENAME TABLE `base_dispatch` TO `dispatch`;
+RENAME TABLE `base_dispatch_cadre` TO `dispatch_cadre`;
+RENAME TABLE `base_dispatch_cadre_relate` TO `dispatch_cadre_relate`;
+RENAME TABLE `base_dispatch_type` TO `dispatch_type`;
+RENAME TABLE `base_dispatch_unit` TO `dispatch_unit`;
+RENAME TABLE `base_dispatch_unit_relate` TO `dispatch_unit_relate`;
+
+
+RENAME TABLE `base_unit` TO `unit`;
+RENAME TABLE `base_unit_admin` TO `unit_admin`;
+
+RENAME TABLE `base_unit_admin_group` TO `unit_admin_group`;
+
+RENAME TABLE `base_unit_cadre_transfer` TO `unit_cadre_transfer`;
+
+
+RENAME TABLE `base_unit_cadre_transfer_group` TO `unit_cadre_transfer_group`;
+
+RENAME TABLE `base_unit_transfer` TO `unit_transfer`;
+
+RENAME TABLE `base_leader` TO `unit_leader`;
+
+RENAME TABLE `base_leader_unit` TO `unit_leader_unit`;
+
+RENAME TABLE `base_history_unit` TO `unit_history_unit`;
+
+
 --2017-7-17
 ALTER TABLE `base_cadre_research`
 	CHANGE COLUMN `chair_file` `start_time` DATE NULL DEFAULT NULL COMMENT '项目起始时间' AFTER `cadre_id`,

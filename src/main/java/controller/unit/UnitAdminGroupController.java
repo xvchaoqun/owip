@@ -52,7 +52,7 @@ public class UnitAdminGroupController extends BaseController {
     @RequiresPermissions("unitAdminGroup:list")
     @RequestMapping("/unitAdminGroup_page")
     public String unitAdminGroup_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_admin_group") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_admin_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     String name,
                                     int unitId,

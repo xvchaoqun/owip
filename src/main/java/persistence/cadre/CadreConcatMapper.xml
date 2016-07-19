@@ -75,7 +75,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_concat
+    from cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,27 +86,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_concat
+    from cadre_concat
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_concat
+    delete from cadre_concat
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreConcatExample" >
-    delete from base_cadre_concat
+    delete from cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreConcat" >
-    insert into base_cadre_concat (cadre_id, mobile, office_phone, 
+    insert into cadre_concat (cadre_id, mobile, office_phone, 
       home_phone, email)
     values (#{cadreId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR}, 
       #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreConcat" >
-    insert into base_cadre_concat
+    insert into cadre_concat
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="cadreId != null" >
         cadre_id,
@@ -143,13 +143,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreConcatExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_concat
+    select count(*) from cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_concat
+    update cadre_concat
     <set >
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -172,7 +172,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_concat
+    update cadre_concat
     set cadre_id = #{record.cadreId,jdbcType=INTEGER},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
@@ -183,7 +183,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreConcat" >
-    update base_cadre_concat
+    update cadre_concat
     <set >
       <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreConcat" >
-    update base_cadre_concat
+    update cadre_concat
     set mobile = #{mobile,jdbcType=VARCHAR},
       office_phone = #{officePhone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_concat
+    from cadre_concat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

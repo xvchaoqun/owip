@@ -84,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_work
+    from cadre_work
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -95,21 +95,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_work
+    from cadre_work
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_work
+    delete from cadre_work
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreWorkExample" >
-    delete from base_cadre_work
+    delete from cadre_work
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreWork" >
-    insert into base_cadre_work (id, fid, sub_work_count, 
+    insert into cadre_work (id, fid, sub_work_count, 
       cadre_id, start_time, end_time, 
       unit, unit_id, post, 
       type_id, work_type, is_cadre, 
@@ -121,7 +121,7 @@
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreWork" >
-    insert into base_cadre_work
+    insert into cadre_work
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -206,13 +206,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreWorkExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_work
+    select count(*) from cadre_work
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_work
+    update cadre_work
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -259,7 +259,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_work
+    update cadre_work
     set id = #{record.id,jdbcType=INTEGER},
       fid = #{record.fid,jdbcType=INTEGER},
       sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
@@ -278,7 +278,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreWork" >
-    update base_cadre_work
+    update cadre_work
     <set >
       <if test="fid != null" >
         fid = #{fid,jdbcType=INTEGER},
@@ -320,7 +320,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreWork" >
-    update base_cadre_work
+    update cadre_work
     set fid = #{fid,jdbcType=INTEGER},
       sub_work_count = #{subWorkCount,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -341,7 +341,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_work
+    from cadre_work
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

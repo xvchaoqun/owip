@@ -92,7 +92,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_edu
+    from cadre_edu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -103,21 +103,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_edu
+    from cadre_edu
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_edu
+    delete from cadre_edu
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreEduExample" >
-    delete from base_cadre_edu
+    delete from cadre_edu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreEdu" >
-    insert into base_cadre_edu (id, cadre_id, edu_id, 
+    insert into cadre_edu (id, cadre_id, edu_id, 
       is_high_edu, school, dep, 
       major, school_type, enrol_time, 
       finish_time, school_len, learn_style, 
@@ -133,7 +133,7 @@
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreEdu" >
-    insert into base_cadre_edu
+    insert into cadre_edu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -260,13 +260,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreEduExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_edu
+    select count(*) from cadre_edu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_edu
+    update cadre_edu
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -334,7 +334,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_edu
+    update cadre_edu
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       edu_id = #{record.eduId,jdbcType=INTEGER},
@@ -360,7 +360,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreEdu" >
-    update base_cadre_edu
+    update cadre_edu
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -423,7 +423,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreEdu" >
-    update base_cadre_edu
+    update cadre_edu
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       edu_id = #{eduId,jdbcType=INTEGER},
       is_high_edu = #{isHighEdu,jdbcType=BIT},
@@ -451,7 +451,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_edu
+    from cadre_edu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

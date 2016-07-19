@@ -96,7 +96,7 @@ public class UnitCadreTransferController extends BaseController {
     @RequiresPermissions("unitCadreTransfer:list")
     @RequestMapping("/unitCadreTransfer_page")
     public String unitCadreTransfer_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_cadre_transfer") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer cadreId,

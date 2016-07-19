@@ -73,7 +73,7 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order",tableName = "base_cadre") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order",tableName = "cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer cadreId,

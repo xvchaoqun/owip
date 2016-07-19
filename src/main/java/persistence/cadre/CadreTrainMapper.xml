@@ -78,7 +78,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_train
+    from cadre_train
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,21 +89,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_train
+    from cadre_train
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_train
+    delete from cadre_train
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreTrainExample" >
-    delete from base_cadre_train
+    delete from cadre_train
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreTrain" >
-    insert into base_cadre_train (id, cadre_id, start_time, 
+    insert into cadre_train (id, cadre_id, start_time, 
       end_time, content, unit, 
       remark, sort_order)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
@@ -111,7 +111,7 @@
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreTrain" >
-    insert into base_cadre_train
+    insert into cadre_train
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -166,13 +166,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreTrainExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_train
+    select count(*) from cadre_train
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_train
+    update cadre_train
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -204,7 +204,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_train
+    update cadre_train
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       start_time = #{record.startTime,jdbcType=DATE},
@@ -218,7 +218,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreTrain" >
-    update base_cadre_train
+    update cadre_train
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -245,7 +245,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreTrain" >
-    update base_cadre_train
+    update cadre_train
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=DATE},
       end_time = #{endTime,jdbcType=DATE},
@@ -261,7 +261,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_train
+    from cadre_train
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_admin
+    from unit_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,21 +87,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_unit_admin
+    from unit_admin
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_unit_admin
+    delete from unit_admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.unit.UnitAdminExample" >
-    delete from base_unit_admin
+    delete from unit_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.unit.UnitAdmin" >
-    insert into base_unit_admin (id, group_id, cadre_id, 
+    insert into unit_admin (id, group_id, cadre_id, 
       post_id, is_admin, sort_order
       )
     values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
@@ -109,7 +109,7 @@
       )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.unit.UnitAdmin" >
-    insert into base_unit_admin
+    insert into unit_admin
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -152,13 +152,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.unit.UnitAdminExample" resultType="java.lang.Integer" >
-    select count(*) from base_unit_admin
+    select count(*) from unit_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_unit_admin
+    update unit_admin
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -184,7 +184,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_unit_admin
+    update unit_admin
     set id = #{record.id,jdbcType=INTEGER},
       group_id = #{record.groupId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -196,7 +196,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitAdmin" >
-    update base_unit_admin
+    update unit_admin
     <set >
       <if test="groupId != null" >
         group_id = #{groupId,jdbcType=INTEGER},
@@ -217,7 +217,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitAdmin" >
-    update base_unit_admin
+    update unit_admin
     set group_id = #{groupId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
@@ -231,7 +231,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_admin
+    from unit_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

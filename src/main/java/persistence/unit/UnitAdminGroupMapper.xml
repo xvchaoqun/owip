@@ -81,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_admin_group
+    from unit_admin_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,21 +92,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_unit_admin_group
+    from unit_admin_group
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_unit_admin_group
+    delete from unit_admin_group
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.unit.UnitAdminGroupExample" >
-    delete from base_unit_admin_group
+    delete from unit_admin_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.unit.UnitAdminGroup" >
-    insert into base_unit_admin_group (id, fid, unit_id, 
+    insert into unit_admin_group (id, fid, unit_id, 
       name, is_present, tran_time, 
       actual_tran_time, appoint_time, dispatch_unit_id, 
       sort_order)
@@ -116,7 +116,7 @@
       #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.unit.UnitAdminGroup" >
-    insert into base_unit_admin_group
+    insert into unit_admin_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -183,13 +183,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.unit.UnitAdminGroupExample" resultType="java.lang.Integer" >
-    select count(*) from base_unit_admin_group
+    select count(*) from unit_admin_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_unit_admin_group
+    update unit_admin_group
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_unit_admin_group
+    update unit_admin_group
     set id = #{record.id,jdbcType=INTEGER},
       fid = #{record.fid,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -243,7 +243,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitAdminGroup" >
-    update base_unit_admin_group
+    update unit_admin_group
     <set >
       <if test="fid != null" >
         fid = #{fid,jdbcType=INTEGER},
@@ -276,7 +276,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitAdminGroup" >
-    update base_unit_admin_group
+    update unit_admin_group
     set fid = #{fid,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_admin_group
+    from unit_admin_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

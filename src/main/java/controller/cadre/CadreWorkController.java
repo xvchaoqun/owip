@@ -56,7 +56,7 @@ public class CadreWorkController extends BaseController {
     @RequestMapping("/cadreWork_page")
     public String cadreWork_page(HttpServletResponse response,
                                  @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
-                                 @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
+                                 @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer cadreId,
                                  Integer fid,
@@ -76,7 +76,7 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_data")
     public void cadreWork_data(HttpServletResponse response,
-                              /* @SortParam(required = false, defaultValue = "id", tableName = "base_cadre_work") String sort,
+                              /* @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
                               Integer cadreId,
                               Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取期间工作

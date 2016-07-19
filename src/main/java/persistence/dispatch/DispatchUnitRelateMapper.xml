@@ -74,7 +74,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch_unit_relate
+    from dispatch_unit_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,27 +85,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_dispatch_unit_relate
+    from dispatch_unit_relate
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_dispatch_unit_relate
+    delete from dispatch_unit_relate
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.dispatch.DispatchUnitRelateExample" >
-    delete from base_dispatch_unit_relate
+    delete from dispatch_unit_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.dispatch.DispatchUnitRelate" >
-    insert into base_dispatch_unit_relate (id, dispatch_unit_id, unit_id, 
+  <insert keyProperty="id" id="insert" parameterType="domain.dispatch.DispatchUnitRelate" >
+    insert into dispatch_unit_relate (id, dispatch_unit_id, unit_id, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{dispatchUnitId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.dispatch.DispatchUnitRelate" >
-    insert into base_dispatch_unit_relate
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.DispatchUnitRelate" >
+    insert into dispatch_unit_relate
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -136,13 +136,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.dispatch.DispatchUnitRelateExample" resultType="java.lang.Integer" >
-    select count(*) from base_dispatch_unit_relate
+    select count(*) from dispatch_unit_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_dispatch_unit_relate
+    update dispatch_unit_relate
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -162,7 +162,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_dispatch_unit_relate
+    update dispatch_unit_relate
     set id = #{record.id,jdbcType=INTEGER},
       dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -172,7 +172,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.dispatch.DispatchUnitRelate" >
-    update base_dispatch_unit_relate
+    update dispatch_unit_relate
     <set >
       <if test="dispatchUnitId != null" >
         dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
@@ -187,7 +187,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.dispatch.DispatchUnitRelate" >
-    update base_dispatch_unit_relate
+    update dispatch_unit_relate
     set dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
@@ -199,7 +199,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch_unit_relate
+    from dispatch_unit_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -54,7 +54,7 @@ public class CadreEduController extends BaseController {
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
     public String cadreEdu_page(HttpServletResponse response,
-                                @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
+                                @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                 Integer cadreId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
@@ -74,7 +74,7 @@ public class CadreEduController extends BaseController {
     @RequestMapping("/cadreEdu_data")
     @ResponseBody
     public void cadreEdu_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

@@ -80,7 +80,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre
+    from cadre
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,21 +91,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre
+    from cadre
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre
+    delete from cadre
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreExample" >
-    delete from base_cadre
+    delete from cadre
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.Cadre" >
-    insert into base_cadre (id, user_id, type_id, 
+    insert into cadre (id, user_id, type_id, 
       post_id, unit_id, title, 
       post, remark, sort_order, 
       status)
@@ -114,8 +114,8 @@
       #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert keyProperty="id"  id="insertSelective" parameterType="domain.cadre.Cadre" >
-    insert into base_cadre
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.Cadre" >
+    insert into cadre
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -182,13 +182,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre
+    select count(*) from cadre
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre
+    update cadre
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -226,7 +226,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre
+    update cadre
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.Cadre" >
-    update base_cadre
+    update cadre
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -275,7 +275,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.Cadre" >
-    update base_cadre
+    update cadre
     set user_id = #{userId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
@@ -293,7 +293,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre
+    from cadre
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

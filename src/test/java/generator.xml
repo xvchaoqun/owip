@@ -140,6 +140,8 @@
     </table>-->
       <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
+
+
       <!--<table tableName="base_country" domainObjectName="base.Country">
       </table>-->
       <!--   <table tableName="base_content_tpl" domainObjectName="base.ContentTpl">
@@ -149,95 +151,104 @@
         -->
       <!--<table tableName="base_location" domainObjectName="base.Location">
       </table>-->
-      <!--<table tableName="base_cadre_info" domainObjectName="cadre.CadreInfo">
-          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
-      <!--<table tableName="base_cadre_concat" domainObjectName="cadre.CadreConcat">
-      </table>-->
-      <!--<table tableName="base_cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
-      </table>
-      <table tableName="base_cadre_famliy" domainObjectName="cadre.CadreFamliy">
-      </table>
-      <table tableName="base_cadre_company" domainObjectName="cadre.CadreCompany">
-      </table>-->
-      <!--<table tableName="base_cadre_parttime" domainObjectName="cadre.CadreParttime">
-          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
-     <!-- <table tableName="base_cadre_train" domainObjectName="cadre.CadreTrain">
-          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
-     <!-- <table tableName="base_cadre_course" domainObjectName="cadre.CadreCourse">
-      </table>-->
-    <!--  <table tableName="base_cadre_reward" domainObjectName="cadre.CadreReward">
-        <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
-     <!-- <table tableName="base_cadre_book" domainObjectName="cadre.CadreBook">
-      </table>-->
-    <!--  <table tableName="base_cadre_research" domainObjectName="cadre.CadreResearch">
-      </table>-->
-      <table tableName="base_cadre_paper" domainObjectName="cadre.CadrePaper">
-      </table>
-      <!-- <table tableName="base_cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
-       </table>-->
-      <!--<table tableName="base_cadre_post" domainObjectName="cadre.CadrePost">
-      </table>-->
-      <!-- <table tableName="base_cadre_work" domainObjectName="cadre.CadreWork">
-       </table>-->
-      <!--<table tableName="base_cadre_edu" domainObjectName="cadre.CadreEdu">
-      </table>-->
-      <!--<table tableName="base_cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
-      </table>-->
-      <!--  <table tableName="base_cadre_tutor" domainObjectName="cadre.CadreTutor">
-       </table>-->
-    <!--<table tableName="base_unit_transfer" domainObjectName="unit.UnitTransfer">
-        <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-    </table>-->
-      <!--<table tableName="base_unit_admin_group" domainObjectName="unit.UnitAdminGroup">
-      </table>-->
-      <!--<table tableName="base_unit_admin" domainObjectName="unit.UnitAdmin">
-      </table>-->
-    <!--<table tableName="base_unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
-    </table>-->
-      <!--<table tableName="base_unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
-      </table>-->
-     <!-- <table tableName="base_dispatch" domainObjectName="dispatch.Dispatch">
-      </table>-->
-     <!-- <table tableName="base_dispatch_type" domainObjectName="dispatch.DispatchType">
-      </table>-->
-    <!--<table tableName="base_dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
-    </table>-->
-     <!-- <table tableName="base_dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
-    </table>-->
-      <!--
-    <table tableName="base_dispatch_unit" domainObjectName="dispatch.DispatchUnit">
-    </table>
-    <table tableName="base_dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
-    </table>
-    <table tableName="base_leader" domainObjectName="unit.Leader">
-    </table>
-    <table tableName="base_leader_unit" domainObjectName="unit.LeaderUnit">
-    </table>
-    -->
-   <!-- <table tableName="base_cadre" domainObjectName="cadre.Cadre">
-    </table>-->
-      <!--<table tableName="base_cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
-      </table>-->
-
-      <!--<table tableName="base_cadre_view" domainObjectName="cadre.CadreView">
-      </table>-->
-    <!--<table tableName="base_meta_class" domainObjectName="sys.MetaClass">
+      <!--<table tableName="base_meta_class" domainObjectName="sys.MetaClass">
     </table>-->
       <!--
     <table tableName="base_meta_type" domainObjectName="sys.MetaType">
     </table>
-
-    <table tableName="base_unit" domainObjectName="unit.Unit">
-      <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-    </table>
-    <table tableName="base_history_unit" domainObjectName="unit.HistoryUnit">
-    </table>-->
-      <!--<table tableName="base_short_msg" domainObjectName="sys.ShortMsg">
+      <table tableName="base_short_msg" domainObjectName="sys.ShortMsg">
       </table>-->
+
+
+      <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
+        </table>
+      <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
+      </table>
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView">
+      </table>
+      <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="cadre_concat" domainObjectName="cadre.CadreConcat">
+      </table>
+      <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
+      </table>
+      <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
+      </table>
+      <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
+      </table>
+      <table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="cadre_train" domainObjectName="cadre.CadreTrain">
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
+      </table>
+      <table tableName="cadre_reward" domainObjectName="cadre.CadreReward">
+        <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="cadre_book" domainObjectName="cadre.CadreBook">
+      </table>
+      <table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
+      </table>
+      <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper">
+      </table>
+       <table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
+       </table>
+      <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
+      </table>
+       <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
+       </table>
+      <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
+      </table>
+      <table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
+      </table>
+        <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
+       </table>-->
+      <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
+      </table>
+      <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
+      </table>
+      <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
+      </table>
+
+     <!-- <table tableName="dispatch" domainObjectName="dispatch.Dispatch">
+      </table>
+      <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
+      </table>
+    <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
+    </table>
+      <table tableName="dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
+    </table>
+    <table tableName="dispatch_unit" domainObjectName="dispatch.DispatchUnit">
+    </table>
+    <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
+    </table>-->
+
+
+     <!-- <table tableName="unit" domainObjectName="unit.Unit">
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">
+      </table>
+      <table tableName="unit_transfer" domainObjectName="unit.UnitTransfer">
+        <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+    </table>
+      <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
+      </table>
+      <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
+      </table>
+      <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
+      </table>
+      <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
+      </table>
+      <table tableName="unit_leader" domainObjectName="unit.Leader">
+      </table>
+      <table tableName="unit_leader_unit" domainObjectName="unit.LeaderUnit">
+      </table>
+      -->
+
 
     <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -245,31 +256,27 @@
    <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-
       <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
    <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
     </table>-->
      <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
       </table>-->
-
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
         <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
     <!--<table tableName="sys_resource" domainObjectName="sys.SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-
      <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-
       <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
       </table>-->
 
+
       <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
       </table>
-
       <table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
       </table>
       <table tableName="ext_yjs" domainObjectName="ext.ExtYjs">

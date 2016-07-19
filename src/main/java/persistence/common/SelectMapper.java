@@ -26,23 +26,23 @@ public interface SelectMapper {
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
     //查询校领导的分管单位
-    @Select("select blu.unit_id from base_leader_unit blu, base_leader bl " +
+    @Select("select blu.unit_id from unit_leader_unit blu, unit_leader bl " +
             "where  bl.cadre_id = #{cadreId} and blu.leader_id = bl.id and blu.type_id=#{leaderTypeId}")
     List<Integer> getLeaderManagerUnitId(@Param("cadreId") Integer cadreId, @Param("leaderTypeId") Integer leaderTypeId);
 
     //查询分管当前单位的校领导
     @ResultMap("persistence.unit.LeaderMapper.BaseResultMap")
-    @Select("select bl.* from base_leader_unit blu, base_leader bl " +
+    @Select("select bl.* from unit_leader_unit blu, unit_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
     List<Leader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
 
     @ResultType(bean.ApplySelfModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
-            "where apply_id=#{applyId} and modify_type=" + SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY)
+            "where apply_id=#{applyId} and modify_type=" + SystemConstants. APPLYSELF_MODIFY_TYPE_MODIFY)
     List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);
 
     // 其他审批人身份的干部，查找他需要审批的干部
-    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, base_cadre bc where aat.id in(" +
+    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id " +
             "and bc.post_id = aap.post_id")
@@ -55,7 +55,7 @@ public interface SelectMapper {
     List<Integer> getApprovalPostIds(@Param("cadreId") Integer cadreId);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部
-    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, base_cadre bc where aat.id in(" +
+    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id " +
             "and bc.post_id = aap.post_id")

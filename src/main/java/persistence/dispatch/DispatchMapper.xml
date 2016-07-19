@@ -89,7 +89,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch
+    from dispatch
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,21 +100,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_dispatch
+    from dispatch
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_dispatch
+    delete from dispatch
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.dispatch.DispatchExample" >
-    delete from base_dispatch
+    delete from dispatch
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.dispatch.Dispatch" >
-    insert into base_dispatch (id, year, dispatch_type_id, 
+    insert into dispatch (id, year, dispatch_type_id, 
       code, meeting_time, pub_time, 
       work_time, appoint_count, real_appoint_count, 
       dismiss_count, real_dismiss_count, file, 
@@ -128,7 +128,7 @@
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.Dispatch" >
-    insert into base_dispatch
+    insert into dispatch
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -237,13 +237,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.dispatch.DispatchExample" resultType="java.lang.Integer" >
-    select count(*) from base_dispatch
+    select count(*) from dispatch
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_dispatch
+    update dispatch
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -302,7 +302,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_dispatch
+    update dispatch
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
@@ -325,7 +325,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.dispatch.Dispatch" >
-    update base_dispatch
+    update dispatch
     <set >
       <if test="year != null" >
         year = #{year,jdbcType=INTEGER},
@@ -379,7 +379,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.dispatch.Dispatch" >
-    update base_dispatch
+    update dispatch
     set year = #{year,jdbcType=INTEGER},
       dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       code = #{code,jdbcType=INTEGER},
@@ -404,7 +404,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch
+    from dispatch
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

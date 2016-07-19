@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_paper
+    from cadre_paper
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,21 +87,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_cadre_paper
+    from cadre_paper
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_cadre_paper
+    delete from cadre_paper
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.cadre.CadrePaperExample" >
-    delete from base_cadre_paper
+    delete from cadre_paper
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadrePaper" >
-    insert into base_cadre_paper (id, cadre_id, pub_time, 
+    insert into cadre_paper (id, cadre_id, pub_time, 
       file_path, file_name, remark
       )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{pubTime,jdbcType=DATE}, 
@@ -109,7 +109,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePaper" >
-    insert into base_cadre_paper
+    insert into cadre_paper
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -152,13 +152,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadrePaperExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_paper
+    select count(*) from cadre_paper
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_paper
+    update cadre_paper
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -184,7 +184,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_paper
+    update cadre_paper
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       pub_time = #{record.pubTime,jdbcType=DATE},
@@ -196,7 +196,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePaper" >
-    update base_cadre_paper
+    update cadre_paper
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -217,7 +217,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePaper" >
-    update base_cadre_paper
+    update cadre_paper
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       pub_time = #{pubTime,jdbcType=DATE},
       file_path = #{filePath,jdbcType=VARCHAR},
@@ -231,7 +231,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_paper
+    from cadre_paper
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

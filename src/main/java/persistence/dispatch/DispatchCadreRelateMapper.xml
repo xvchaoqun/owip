@@ -74,7 +74,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch_cadre_relate
+    from dispatch_cadre_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,27 +85,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_dispatch_cadre_relate
+    from dispatch_cadre_relate
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_dispatch_cadre_relate
+    delete from dispatch_cadre_relate
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.dispatch.DispatchCadreRelateExample" >
-    delete from base_dispatch_cadre_relate
+    delete from dispatch_cadre_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dispatch.DispatchCadreRelate" >
-    insert into base_dispatch_cadre_relate (id, dispatch_cadre_id, relate_id, 
+    insert into dispatch_cadre_relate (id, dispatch_cadre_id, relate_id, 
       relate_type)
     values (#{id,jdbcType=INTEGER}, #{dispatchCadreId,jdbcType=INTEGER}, #{relateId,jdbcType=INTEGER}, 
       #{relateType,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.DispatchCadreRelate" >
-    insert into base_dispatch_cadre_relate
+    insert into dispatch_cadre_relate
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -136,13 +136,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.dispatch.DispatchCadreRelateExample" resultType="java.lang.Integer" >
-    select count(*) from base_dispatch_cadre_relate
+    select count(*) from dispatch_cadre_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_dispatch_cadre_relate
+    update dispatch_cadre_relate
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -162,7 +162,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_dispatch_cadre_relate
+    update dispatch_cadre_relate
     set id = #{record.id,jdbcType=INTEGER},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       relate_id = #{record.relateId,jdbcType=INTEGER},
@@ -172,7 +172,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.dispatch.DispatchCadreRelate" >
-    update base_dispatch_cadre_relate
+    update dispatch_cadre_relate
     <set >
       <if test="dispatchCadreId != null" >
         dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
@@ -187,7 +187,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.dispatch.DispatchCadreRelate" >
-    update base_dispatch_cadre_relate
+    update dispatch_cadre_relate
     set dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       relate_id = #{relateId,jdbcType=INTEGER},
       relate_type = #{relateType,jdbcType=TINYINT}
@@ -199,7 +199,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_dispatch_cadre_relate
+    from dispatch_cadre_relate
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

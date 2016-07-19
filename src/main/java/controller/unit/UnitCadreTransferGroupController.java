@@ -52,7 +52,7 @@ public class UnitCadreTransferGroupController extends BaseController {
     @RequiresPermissions("unitCadreTransferGroup:list")
     @RequestMapping("/unitCadreTransferGroup_page")
     public String unitCadreTransferGroup_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_cadre_transfer_group") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
                                     String name,

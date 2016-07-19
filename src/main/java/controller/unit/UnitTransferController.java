@@ -94,7 +94,7 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:list")
     @RequestMapping("/unitTransfer_page")
     public String unitTransfer_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_transfer") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_transfer") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
                                     String subject,

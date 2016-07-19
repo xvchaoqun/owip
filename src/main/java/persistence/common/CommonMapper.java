@@ -92,24 +92,24 @@ public interface CommonMapper {
     @Update("update ow_branch_member set sort_order = sort_order + 1 where group_id = #{groupId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_branchMember(@Param("groupId") int groupId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_unit_admin set sort_order = sort_order - 1 where group_id = #{groupId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update unit_admin set sort_order = sort_order - 1 where group_id = #{groupId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_unitAdmin(@Param("groupId") int groupId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_unit_admin set sort_order = sort_order + 1 where group_id = #{groupId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update unit_admin set sort_order = sort_order + 1 where group_id = #{groupId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_unitAdmin(@Param("groupId") int groupId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_dispatch_unit_relate set sort_order = sort_order - 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update dispatch_unit_relate set sort_order = sort_order - 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_dispatchUnit(@Param("dispatchUnitId") int dispatchUnitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_dispatch_unit_relate set sort_order = sort_order + 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update dispatch_unit_relate set sort_order = sort_order + 1 where dispatch_unit_id = #{dispatchUnitId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_dispatchUnit(@Param("dispatchUnitId") int dispatchUnitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_unit set sort_order = sort_order - 1 where status=#{status} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update unit set sort_order = sort_order - 1 where status=#{status} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_unit(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_unit set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update unit set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_unit(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_cadre set sort_order = sort_order - 1 where status=#{status} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre set sort_order = sort_order - 1 where status=#{status} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadre(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadre(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
@@ -118,15 +118,15 @@ public interface CommonMapper {
     @Update("update base_meta_type set sort_order = sort_order + 1 where class_id=#{classId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_metaType(@Param("classId") int classId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_history_unit set sort_order = sort_order - 1 where unit_id=#{unitId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update unit_history_unit set sort_order = sort_order - 1 where unit_id=#{unitId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_historyUnit(@Param("unitId") int unitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_history_unit set sort_order = sort_order + 1 where unit_id=#{unitId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update unit_history_unit set sort_order = sort_order + 1 where unit_id=#{unitId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_historyUnit(@Param("unitId") int unitId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
-    @Update("update base_dispatch_type set sort_order = sort_order - 1 where year=#{year} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update dispatch_type set sort_order = sort_order - 1 where year=#{year} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_dispatchType(@Param("year") int year, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_history_unit set sort_order = sort_order + 1 where year=#{year} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update unit_history_unit set sort_order = sort_order + 1 where year=#{year} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_dispatchType(@Param("year") int year, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
@@ -135,32 +135,32 @@ public interface CommonMapper {
     @Update("update abroad_approval_order set sort_order = sort_order + 1 where applicat_type_id=#{applicatTypeId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_approvalOrder(@Param("applicatTypeId") int applicatTypeId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_cadre_tutor set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre_tutor set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadreTutor(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre_tutor set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre_tutor set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadreTutor(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update base_cadre_edu set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre_edu set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadreEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre_edu set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre_edu set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadreEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
-    @Update("update base_cadre_under_edu set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre_under_edu set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadreUnderEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre_under_edu set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre_under_edu set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadreUnderEdu(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
-    @Update("update base_cadre_parttime set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre_parttime set sort_order = sort_order - 1 where cadre_id=#{cadreId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadreParttime(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre_parttime set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre_parttime set sort_order = sort_order + 1 where cadre_id=#{cadreId} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadreParttime(@Param("cadreId") int cadreId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
 
-    @Update("update base_cadre_course set sort_order = sort_order - 1 where cadre_id=#{cadreId} and type=#{type} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    @Update("update cadre_course set sort_order = sort_order - 1 where cadre_id=#{cadreId} and type=#{type} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_cadreCourse(@Param("cadreId") int cadreId, @Param("type") byte type, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update base_cadre_course set sort_order = sort_order + 1 where cadre_id=#{cadreId} and type=#{type} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
+    @Update("update cadre_course set sort_order = sort_order + 1 where cadre_id=#{cadreId} and type=#{type} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_cadreCourse(@Param("cadreId") int cadreId, @Param("type") byte type, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
     // 根据账号、姓名、学工号查找干部
@@ -219,13 +219,13 @@ public interface CommonMapper {
 
     // 根据所属单位查找干部发文（按发文时间排序）
     @ResultMap("persistence.dispatch.DispatchCadreMapper.BaseResultMap")
-    @Select("select distinct dc.* from base_dispatch_cadre dc, base_dispatch d " +
+    @Select("select distinct dc.* from dispatch_cadre dc, dispatch d " +
             "where dc.dispatch_id=d.id and dc.unit_id=#{unitId} order by d.pub_time desc")
     List<DispatchCadre> selectDispatchCadreByUnitIdList(@Param("unitId") int unitId);
 
     // 查找单位发文（按发文时间排序）
     @ResultMap("persistence.dispatch.DispatchUnitMapper.BaseResultMap")
-    @Select("select distinct du.* from base_dispatch_unit du, base_dispatch d " +
+    @Select("select distinct du.* from dispatch_unit du, dispatch d " +
             "where du.dispatch_id=d.id and du.unit_id=#{unitId} order by d.pub_time desc")
     List<DispatchUnit> selectDispatchUnitList(@Param("unitId") int unitId);
 }

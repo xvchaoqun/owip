@@ -111,7 +111,7 @@ public class DispatchCadreController extends BaseController {
     @RequestMapping("/dispatchCadre_data")
     @ResponseBody
     public void dispatchCadre_data(HttpServletResponse response,
-                                 /*@SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_cadre") String sort,
+                                 /*@SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
                                     Integer dispatchId,
                                     /*Integer typeId,*/

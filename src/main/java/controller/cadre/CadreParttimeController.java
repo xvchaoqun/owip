@@ -75,7 +75,7 @@ public class CadreParttimeController extends BaseController {
     @RequiresPermissions("cadreParttime:list")
     @RequestMapping("/cadreParttime_data")
     public void cadreParttime_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_parttime") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_parttime") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

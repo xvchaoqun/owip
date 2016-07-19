@@ -53,7 +53,7 @@ public class DispatchUnitController extends BaseController {
     @RequiresPermissions("dispatchUnit:list")
     @RequestMapping("/dispatchUnit_data")
     public void dispatchUnit_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_unit") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
                                     Integer unitId,

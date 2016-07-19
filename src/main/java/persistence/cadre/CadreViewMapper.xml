@@ -85,7 +85,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_view
+    from cadre_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,13 +94,13 @@
     </if>
   </select>
   <delete id="deleteByExample" parameterType="domain.cadre.CadreViewExample" >
-    delete from base_cadre_view
+    delete from cadre_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreView" >
-    insert into base_cadre_view (id, user_id, type_id, 
+    insert into cadre_view (id, user_id, type_id, 
       post_id, unit_id, title, 
       post, remark, sort_order, 
       status, mobile, office_phone, 
@@ -112,7 +112,7 @@
       #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreView" >
-    insert into base_cadre_view
+    insert into cadre_view
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -203,13 +203,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreViewExample" resultType="java.lang.Integer" >
-    select count(*) from base_cadre_view
+    select count(*) from cadre_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_cadre_view
+    update cadre_view
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -259,7 +259,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_cadre_view
+    update cadre_view
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
@@ -284,7 +284,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_cadre_view
+    from cadre_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

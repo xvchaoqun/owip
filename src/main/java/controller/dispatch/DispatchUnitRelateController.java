@@ -49,7 +49,7 @@ public class DispatchUnitRelateController extends BaseController {
     @RequiresPermissions("dispatchUnitRelate:list")
     @RequestMapping("/dispatchUnitRelate_page")
     public String dispatchUnitRelate_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_unit_relate") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit_relate") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer dispatchUnitId,
                                     Integer unitId,

@@ -84,7 +84,7 @@ public class CadreAdditionalPostController extends BaseController {
     @RequiresPermissions("cadreAdditionalPost:list")
     @RequestMapping("/cadreAdditionalPost_page")
     public String cadreAdditionalPost_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_additional_post") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_additional_post") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer unitId,

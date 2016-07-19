@@ -110,9 +110,9 @@ public class UnitTransferService extends BaseMapper {
             UnitTransfer targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_unitTransfer", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_transfer", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_unitTransfer", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_transfer", baseSortOrder, targetEntity.getSortOrder());
 
             UnitTransfer record = new UnitTransfer();
             record.setId(id);

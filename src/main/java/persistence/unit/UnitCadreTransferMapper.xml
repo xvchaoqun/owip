@@ -81,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_cadre_transfer
+    from unit_cadre_transfer
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,21 +92,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from base_unit_cadre_transfer
+    from unit_cadre_transfer
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from base_unit_cadre_transfer
+    delete from unit_cadre_transfer
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="domain.unit.UnitCadreTransferExample" >
-    delete from base_unit_cadre_transfer
+    delete from unit_cadre_transfer
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="domain.unit.UnitCadreTransfer" >
-    insert into base_unit_cadre_transfer (id, group_id, cadre_id, 
+    insert into unit_cadre_transfer (id, group_id, cadre_id, 
       name, post_id, appoint_time, 
       dismiss_time, dispatchs, remark, 
       sort_order)
@@ -116,7 +116,7 @@
       #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitCadreTransfer" >
-    insert into base_unit_cadre_transfer
+    insert into unit_cadre_transfer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -183,13 +183,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.unit.UnitCadreTransferExample" resultType="java.lang.Integer" >
-    select count(*) from base_unit_cadre_transfer
+    select count(*) from unit_cadre_transfer
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update base_unit_cadre_transfer
+    update unit_cadre_transfer
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update base_unit_cadre_transfer
+    update unit_cadre_transfer
     set id = #{record.id,jdbcType=INTEGER},
       group_id = #{record.groupId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -243,7 +243,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitCadreTransfer" >
-    update base_unit_cadre_transfer
+    update unit_cadre_transfer
     <set >
       <if test="groupId != null" >
         group_id = #{groupId,jdbcType=INTEGER},
@@ -276,7 +276,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitCadreTransfer" >
-    update base_unit_cadre_transfer
+    update unit_cadre_transfer
     set group_id = #{groupId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from base_unit_cadre_transfer
+    from unit_cadre_transfer
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
