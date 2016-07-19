@@ -229,7 +229,7 @@
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
-        url: '${ctx}/memberStudent_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname:'party',
         colModel: [
             { label: '姓名', name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){

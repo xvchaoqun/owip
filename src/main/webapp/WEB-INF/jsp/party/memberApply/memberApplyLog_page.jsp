@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: "${ctx}/applyApprovalLog_data?callback=?type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/applyApprovalLog_data?callback=?&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen:true},
             {label: '姓名', name: 'applyUser.realname', width: 100, frozen:true},

@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid2").jqGrid({
         //multiselect:false,
         pager:"jqGridPager2",
-        url: '${ctx}/partyMemberGroup_data?callback=?partyId=${param.partyId}',
+        url: '${ctx}/partyMemberGroup_data?callback=?&partyId=${param.partyId}',
         colModel: [
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';

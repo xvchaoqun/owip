@@ -129,7 +129,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/passportApply_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '申请日期', name: 'applyDate',frozen:true},
             { label: '工作证号', name: 'applyUser.code',frozen:true},

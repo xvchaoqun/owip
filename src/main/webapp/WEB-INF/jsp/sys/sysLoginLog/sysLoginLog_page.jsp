@@ -76,7 +76,7 @@
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: '${ctx}/sysLoginLog_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysLoginLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '登录账号', name: 'username', width: 100,frozen:true },
             { label: '系统用户', name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){

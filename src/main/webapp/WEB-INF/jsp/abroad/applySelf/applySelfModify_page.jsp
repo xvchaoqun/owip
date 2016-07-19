@@ -48,7 +48,7 @@
   $("#jqGrid2").jqGrid({
     multiselect:false,
     pager:"jqGridPager2",
-    url: "${ctx}/applySelfModify_data?callback=?applyId=${param.applyId}",
+    url: "${ctx}/applySelfModify_data?callback=?&applyId=${param.applyId}",
     colModel: [
       { label: '操作', name: 'modifyType', width: 150,formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return ''

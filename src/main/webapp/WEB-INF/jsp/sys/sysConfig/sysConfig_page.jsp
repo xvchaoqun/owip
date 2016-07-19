@@ -88,7 +88,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/sysConfig_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysConfig_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true, align:'left' },
             <shiro:hasRole name="admin">

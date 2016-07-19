@@ -148,7 +148,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/sysUserReg_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysUserReg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '账号', name: 'username', width: 100,frozen:true},
             {label: '真实姓名', name: 'realname', width: 100,frozen:true},

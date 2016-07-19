@@ -185,7 +185,7 @@ pageEncoding="UTF-8" %>
 <script>
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/party_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号',name: 'code', width: 75 ,frozen:true},
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){

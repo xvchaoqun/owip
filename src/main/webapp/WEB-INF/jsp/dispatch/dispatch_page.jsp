@@ -143,7 +143,7 @@ pageEncoding="UTF-8" %>
     register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/dispatch_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '年份', name: 'year', width: 75,frozen:true },
             { label:'发文类型', name: 'dispatchType' , formatter:function(cellvalue, options, rowObject){

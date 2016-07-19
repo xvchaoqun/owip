@@ -118,7 +118,7 @@
         ondblClickRow : function(rowid,iRow,iCol,e){
             $(".jqOpenViewBtn").click();
         },
-        url: '${ctx}/user/applySelf_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/user/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);

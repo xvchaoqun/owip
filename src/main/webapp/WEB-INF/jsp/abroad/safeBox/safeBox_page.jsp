@@ -51,7 +51,7 @@
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/safeBox_data?callback=?',
+        url: '${ctx}/safeBox_data?callback=?&',
         colModel: [
             { label: '保险柜编号', align:'center', name: 'code', width: 100,frozen:true },
             { label: '证件总数量', align:'center', name: 'totalCount', width: 100 , formatter:function(cellvalue, options, rowObject){

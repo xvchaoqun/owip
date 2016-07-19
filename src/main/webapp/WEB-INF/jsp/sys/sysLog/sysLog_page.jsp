@@ -81,7 +81,7 @@
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: '${ctx}/sysLog_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '模块', name: 'logType.name', width: 120,frozen:true},
             { label: '操作人',  name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){

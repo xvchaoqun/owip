@@ -92,7 +92,7 @@
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/dispatchUnit_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/dispatchUnit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label:'所属发文',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')

@@ -90,7 +90,7 @@
 <script>
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/partyMemberGroup_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/partyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';

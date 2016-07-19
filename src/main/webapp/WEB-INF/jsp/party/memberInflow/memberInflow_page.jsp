@@ -293,7 +293,7 @@
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
-        url: '${ctx}/memberInflow_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberInflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',  name: 'user.code', width: 120, frozen:true },
             { label: '姓名',  name: 'user.realname', width: 100, frozen:true },

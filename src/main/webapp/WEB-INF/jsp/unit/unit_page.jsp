@@ -129,7 +129,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/unit_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '单位编号', name: 'code', width: 80,frozen:true },
             { label: '单位名称', name: 'name', width: 350,formatter:function(cellvalue, options, rowObject){

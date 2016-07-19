@@ -87,7 +87,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/dispatchType_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/dispatchType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
             { label: '发文属性', align:'center', name: 'attr', width: 150,frozen:true },

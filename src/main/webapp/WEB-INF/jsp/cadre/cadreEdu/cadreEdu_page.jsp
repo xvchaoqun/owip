@@ -88,7 +88,7 @@
     $("#jqGrid_cadreEdu").jqGrid({
         pager: "#jqGridPager_cadreEdu",
         ondblClickRow:function(){},
-        url: '${ctx}/cadreEdu_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '学历', name: 'eduId' ,frozen:true, formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue]
@@ -130,7 +130,7 @@
     $("#jqGrid_cadreUnderEdu").jqGrid({
         pager: "#jqGridPager_cadreUnderEdu",
         ondblClickRow:function(){},
-        url: '${ctx}/cadreUnderEdu_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreUnderEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '在读学历', name: 'eduId' ,frozen:true, formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue]
@@ -153,7 +153,7 @@
     $("#jqGrid_cadreTutor").jqGrid({
         pager: "#jqGridPager_cadreTutor",
         ondblClickRow:function(){},
-        url: '${ctx}/cadreTutor_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreTutor_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '类型', name: 'type', width:'150' ,frozen:true, formatter:function(cellvalue, options, rowObject){
                 return _cMap.CADRE_TUTOR_TYPE_MAP[cellvalue]

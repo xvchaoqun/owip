@@ -126,7 +126,7 @@
     });
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/passportDraw_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号',

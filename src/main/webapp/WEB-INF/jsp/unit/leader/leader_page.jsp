@@ -97,7 +97,7 @@
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/leader_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/leader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){

@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
 <script>
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/sysOnlineLog_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysOnlineLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '会话ID', name: 'sid', width: 280,frozen:true },
             { label: '账号', name: 'shiroUser.username', width: 150,frozen:true },
