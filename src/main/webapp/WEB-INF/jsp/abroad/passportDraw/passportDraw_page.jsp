@@ -310,7 +310,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         //alert($(".various").length)
         $(".various").fancybox({
-            tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>',},
+            tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
             maxWidth	: 800,
             maxHeight	: 600,
             fitToView	: false,
