@@ -281,7 +281,7 @@
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
-        url: '${ctx}/memberReturn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberReturn_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
             <c:if test="${cls==3}">

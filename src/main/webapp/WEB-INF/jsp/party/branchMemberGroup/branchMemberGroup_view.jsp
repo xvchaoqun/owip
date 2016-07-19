@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid2").jqGrid({
         pager:"jqGridPager2",
-        url: '${ctx}/branchMemberGroup_data?callback=?&branchId=${param.branchId}',
+        url: '${ctx}/branchMemberGroup_data?callback=?branchId=${param.branchId}',
         colModel: [
             { label: '名称',  name: 'name',align:'left',width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任委员会</span>&nbsp;';

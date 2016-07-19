@@ -91,7 +91,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/contentTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/contentTpl_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '模板名称', name: 'name', align:'left', width: 220,frozen:true },
             <shiro:hasRole name="admin">

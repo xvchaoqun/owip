@@ -37,7 +37,7 @@
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager:"jqGridPager2",
-        url: "${ctx}/applySelf_yearLogs_data?callback=?&cadreId=${applySelf.cadreId}&year=${currentYear}",
+        url: "${ctx}/applySelf_yearLogs_data?callback=?cadreId=${applySelf.cadreId}&year=${currentYear}",
         colModel: [
             { label: '序号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);

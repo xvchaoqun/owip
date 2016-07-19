@@ -95,7 +95,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/metaClass_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/metaClass_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
             { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200,frozen:true },

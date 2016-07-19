@@ -97,7 +97,7 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/memberAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberAbroad_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '教工号', name: 'user.code', frozen:true},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){

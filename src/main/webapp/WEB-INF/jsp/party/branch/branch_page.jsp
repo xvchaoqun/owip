@@ -176,7 +176,7 @@ pageEncoding="UTF-8" %>
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/branch_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号',align:'center', name: 'code', frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){

@@ -87,7 +87,7 @@
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: '${ctx}/shortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/shortMsg_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '接收方', name: 'receiverId', width: 100, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'

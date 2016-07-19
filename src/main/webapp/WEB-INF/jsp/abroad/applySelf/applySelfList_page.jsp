@@ -159,7 +159,7 @@
     });
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/applySelfList_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $("#detailBtn").click();
         },

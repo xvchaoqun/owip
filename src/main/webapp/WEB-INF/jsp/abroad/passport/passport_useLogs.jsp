@@ -75,7 +75,7 @@
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager:"jqGridPager2",
-        url: "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
+        url: "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?callback=?passportId=${passport.id}&year=${param.year}",
         colModel: [
             { label: '申请日期', name: 'applyDate' },
             { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){

@@ -74,7 +74,7 @@
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/user/userPassportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/user/userPassportDraw_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号', name: 'id', width: 75, formatter: function (cellvalue, options, rowObject) {

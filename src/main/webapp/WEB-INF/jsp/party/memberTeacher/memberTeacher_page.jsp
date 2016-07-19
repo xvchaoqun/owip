@@ -257,7 +257,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
-        url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberTeacher_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname:'party',
         colModel: [
             { label: '姓名',name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },

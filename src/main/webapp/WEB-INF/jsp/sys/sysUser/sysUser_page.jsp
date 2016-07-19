@@ -143,7 +143,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/sysUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysUser_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '账号', name: 'username', width: 150,frozen:true },
             { label: '学工号', name: 'code', width: 150,frozen:true },

@@ -32,7 +32,7 @@
   $("#jqGrid2").jqGrid({
     multiselect:false,
     pager:"jqGridPager2",
-    url: "${ctx}/applyApprovalLog_data?callback=?&id=${param.id}&type=${type}",
+    url: "${ctx}/applyApprovalLog_data?callback=?id=${param.id}&type=${type}",
     colModel: [
       { label: '阶段',  name: 'stage', width: 200 },
       { label: '操作时间',  name: 'createTime', width: 200 },

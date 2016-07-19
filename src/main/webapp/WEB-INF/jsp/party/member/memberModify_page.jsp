@@ -32,7 +32,7 @@
   $("#jqGrid2").jqGrid({
     multiselect:false,
     pager:"jqGridPager2",
-    url: "${ctx}/memberModify_data?callback=?&userId=${param.userId}",
+    url: "${ctx}/memberModify_data?callback=?userId=${param.userId}",
     colModel: [
       { label: '操作人', name: 'opUser.realname', width: 150, frozen:true },
       { label: '操作时间',  name: 'opTime', width: 150 , frozen:true},

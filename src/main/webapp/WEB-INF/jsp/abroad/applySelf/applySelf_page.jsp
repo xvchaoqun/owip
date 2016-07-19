@@ -223,7 +223,7 @@
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $("#detailBtn").click();
         },
-        url: '${ctx}/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/applySelf_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {

@@ -189,7 +189,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/passport_data?callback=?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号', name: 'user.code',frozen:true },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
