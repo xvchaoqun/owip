@@ -74,38 +74,38 @@
 	<function>
 		<name>getSysResource</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.SysResource  getSysResource(java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.SysResource  getSysResource(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getCurrentSysResource</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.SysResource  getCurrentSysResource(java.lang.String)</function-signature>
+		<function-signature>domain.sys.SysResource  getCurrentSysResource(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>getMetaType</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.MetaType getMetaType(java.lang.String, java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.MetaType getMetaType(java.lang.String, java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getMetaTypeByCode</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
+		<function-signature>domain.sys.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>getMetaClassByCode</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
+		<function-signature>domain.sys.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<name>getUserById</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.SysUser getUserById(java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.SysUser getUserById(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getUserByUsername</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.SysUser getUserByUsername(java.lang.String)</function-signature>
+		<function-signature>domain.sys.SysUser getUserByUsername(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>typeEqualsCode</name>
@@ -125,14 +125,14 @@
 	<function>
 		<name>getApplyStatus</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getApplyStatus(domain.MemberApply)</function-signature>
+		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApply)</function-signature>
 	</function>
 
-	<function>
+	<!--<function>
 		<name>getRetireApply</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.RetireApply getRetireApply(java.lang.Integer)</function-signature>
-	</function>
+	</function>-->
 	<function>
 		<name>getDispatchCode</name>
 		<function-class>sys.tags.CmTag</function-class>
@@ -151,12 +151,12 @@
 	<function>
 		<name>getPassport</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.Passport getPassport(java.lang.Integer)</function-signature>
+		<function-signature>domain.abroad.Passport getPassport(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getApprovalLog</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.ApprovalLog getApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
+		<function-signature>domain.abroad.ApprovalLog getApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>toJSONObject</name>
