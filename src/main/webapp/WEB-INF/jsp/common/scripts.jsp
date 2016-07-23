@@ -93,6 +93,7 @@ window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<
 <script src="${ctx}/extend/js/jqGrid/i18n/grid.locale-cn.js"></script>
 
 <script src="${ctx}/extend/js/placeholders.jquery.js"></script>
+<%--<script src="${ctx}/extend/js/jquery.cookie.js"></script>--%>
 <script src="${ctx}/extend/js/base64.js"></script>
 <script src="${ctx}/extend/js/jquery.ba-throttle-debounce.js"></script>
 <script src="${ctx}/extend/js/jquery.stickyheader.js"></script>
