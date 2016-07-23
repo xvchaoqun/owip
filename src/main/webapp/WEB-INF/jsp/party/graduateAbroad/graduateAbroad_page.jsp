@@ -471,7 +471,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",

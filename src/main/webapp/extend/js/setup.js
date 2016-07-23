@@ -6,35 +6,40 @@ $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下select2在modal里不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
-$.fn.bootstrapSwitch.defaults.onText = "是";
-$.fn.bootstrapSwitch.defaults.offText= "否";
-$.fn.bootstrapSwitch.defaults.onColor= "success";
-$.fn.bootstrapSwitch.defaults.offColor= "danger";
-
-
-//$.jgrid.defaults.width = '100%';
-$.jgrid.defaults.responsive = true;
-$.jgrid.defaults.styleUI = 'Bootstrap';
-$.jgrid.defaults.prmNames={page:"pageNo",rows:"pageSize", sort:"sort",order:"order"};
-//$.jgrid.defaults.width=$(window).width()-$(".nav-list").width()-50;
-//$.jgrid.defaults.height=$(window).height()-390;
-$.jgrid.defaults.viewrecords = true;
-$.jgrid.defaults.shrinkToFit = false;
-$.jgrid.defaults.rowNum = 20;
-$.jgrid.defaults.multiselect = true;
-$.jgrid.defaults.multiboxonly = true;
-$.jgrid.defaults.mtype = "GET";
-$.jgrid.defaults.datatype = "jsonp";
-$.jgrid.defaults.loadui = "disable";
-$.jgrid.defaults.pager = "#jqGridPager";
-$.jgrid.defaults.cmTemplate = {sortable:false,
-    align:'center', width:100};
-$.jgrid.defaults.sortorder = "desc";
-$.jgrid.defaults.ondblClickRow = function(rowid,iRow,iCol,e){
-    $(".jqEditBtn").click();
-}
-$.jgrid.defaults.onPaging= function(){
-    $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+$.extend($.fn.bootstrapSwitch.defaults, {
+    onText:"是",
+    offText:"否",
+    onColor:"success",
+    offColor:"danger"
+});
+$.extend($.jgrid.defaults, {
+    responsive:true,
+    styleUI:"Bootstrap",
+    prmNames:{page:"pageNo",rows:"pageSize", sort:"sort",order:"order"},
+    //width:$(window).width()-$(".nav-list").width()-50,
+    //height:$(window).height()-390,
+    viewrecords:true,
+    shrinkToFit:false,
+    rowNum:20,
+    multiselect:true,
+    multiboxonly:true,
+    mtype:"GET",
+    datatype:"jsonp",
+    //loadui:"disable",
+    loadtext:"数据加载中，请稍后...",
+    pager:"#jqGridPager",
+    //pagerpos:"right",
+    cmTemplate:{sortable:false, align:'center', width:100},
+    sortorder:"desc",
+    ondblClickRow:function(rowid,iRow,iCol,e){
+        $(".jqEditBtn").click();
+    },
+    onPaging:function(){
+        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+    }
+})
+function _initNavGrid(gridId, pagerId){
+    $("#" + gridId).navGrid('#' + pagerId,{refresh: true, refreshstate:'current',refreshtitle:'获取最新数据', edit:false,add:false,del:false,search:false});
 }
 
 /*$.jgrid.defaults.onSelectRow = function(ids) {
@@ -47,7 +52,6 @@ $.jgrid.defaults.onSelectRow = function(id, status) {
     else jgrid_sid = null;
 }
 $.jgrid.defaults.gridComplete = function(){
-
     // 自定义初始化方法
     $(this).trigger('initGrid');
     //alert(jgrid_sid)

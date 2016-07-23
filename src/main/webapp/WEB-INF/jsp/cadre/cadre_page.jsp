@@ -192,7 +192,7 @@ pageEncoding="UTF-8" %>
         $('[data-rel="tooltip"]').tooltip();
     });
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     function _pass(){
 
         var grid = $("#jqGrid");

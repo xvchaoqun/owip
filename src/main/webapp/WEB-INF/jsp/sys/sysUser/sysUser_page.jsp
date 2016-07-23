@@ -219,7 +219,7 @@
         $('.avatar').on('click', showAvatarModal);
     });
     $(window).triggerHandler('resize.jqGrid');
-    
+    _initNavGrid("jqGrid", "jqGridPager");
     /*$(".table th.sortable").click(function(){
 
         var $this = $(this);

@@ -99,6 +99,6 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     register_user_select($('#searchForm select[name=userId]'));
 </script>

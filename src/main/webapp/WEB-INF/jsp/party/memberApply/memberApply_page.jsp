@@ -454,7 +454,7 @@ pageEncoding="UTF-8" %>
         $(window).triggerHandler('resize.jqGrid0')
     });
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${stage==APPLY_STAGE_INIT}">
     <shiro:hasRole name="branchAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{

@@ -252,7 +252,7 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })
-
+    _initNavGrid("jqGrid", "jqGridPager");
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;

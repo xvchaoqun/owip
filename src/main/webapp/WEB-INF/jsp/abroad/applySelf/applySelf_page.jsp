@@ -341,6 +341,7 @@
         $('[data-tooltip="tooltip"]').tooltip({container: 'body'});
     });
     $(window).triggerHandler('resize.jqGrid');
+    _initNavGrid("jqGrid", "jqGridPager");
 
     function approverTdAttrs(tdBean) {
         var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);

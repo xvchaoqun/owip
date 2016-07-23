@@ -198,4 +198,5 @@ pageEncoding="UTF-8" %>
         $('[data-rel="tooltip"]').tooltip();
     });
     $(window).triggerHandler('resize.jqGrid');
+    _initNavGrid("jqGrid", "jqGridPager");
 </script>
