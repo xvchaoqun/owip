@@ -237,7 +237,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberIn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '介绍信抬头', name: 'fromTitle', width: 200, frozen:true},
+            {label: '介绍信抬头', name: 'fromTitle', width: 250, align:'left', frozen:true},
 
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
                 <c:if test="${cls==3}">
@@ -256,7 +256,7 @@
             }},
             </c:if>
             {
-                label: '转入组织机构', name: 'party',  width: 450,
+                label: '转入组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
@@ -266,8 +266,8 @@
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
             }},
-            {label: '转出单位', name: 'fromUnit', width: 150},
-            {label: '转出单位地址', name: 'fromAddress', width: 120},
+            {label: '转出单位', name: 'fromUnit', width: 200, align:'left'},
+            {label: '转出单位地址', name: 'fromAddress', width: 350, align:'left'},
             {label: '转出单位联系电话', name: 'fromPhone', width: 150},
             {label: '转出单位传真', name: 'fromFax', width: 120},
             {label: '转出单位邮编', name: 'fromPostCode', width: 120},
