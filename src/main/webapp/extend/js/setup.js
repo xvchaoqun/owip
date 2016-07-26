@@ -47,17 +47,42 @@ function _initNavGrid(gridId, pagerId){
 };*/
 // 恢复重新加载之前滚动位置及选中的行状态
 var jgrid_sid,jgrid_left, jgrid_top;
+function saveJqgridSelected(jqGridId, id, selectRowStatus){
+
+    if($(jqGridId).hasClass("jqGrid4")){
+        jgrid_sid={};
+        if(selectRowStatus) jgrid_sid[jqGridId] = id;
+        else jgrid_sid[jqGridId] = null;
+    }else{
+        if(selectRowStatus) jgrid_sid = id;
+        else jgrid_sid = null;
+    }
+}
+function loadJqgridSelected(jqGridId){
+
+    if($(jqGridId).hasClass("jqGrid4")){
+        if(jgrid_sid && jgrid_sid[jqGridId]){
+            $(jqGridId).jqGrid("setSelection",jgrid_sid[jqGridId]);
+        }
+    }else{
+        if(jgrid_sid){
+            $(jqGridId).jqGrid("setSelection",jgrid_sid);
+        }
+    }
+}
 $.jgrid.defaults.onSelectRow = function(id, status) {
-    if(status) jgrid_sid = id;
-    else jgrid_sid = null;
+
+    saveJqgridSelected("#"+this.id, id, status);
+    //console.log(jgrid_sid)
 }
 $.jgrid.defaults.gridComplete = function(){
     // 自定义初始化方法
     $(this).trigger('initGrid');
     //alert(jgrid_sid)
-    if(jgrid_sid){
-        $(this).jqGrid("setSelection",jgrid_sid);
-    }
+
+    //console.log(jgrid_sid)
+    loadJqgridSelected("#"+this.id);
+
     //console.log("加载完成：left:{0}, top:{1}".format(_left, _top))
     if(jgrid_left!=undefined) {
         $(this).closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(jgrid_left);
@@ -398,7 +423,8 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
         SysMsg.warning("请选择一行", "提示");
         return ;
     }
-    jgrid_sid = id;
+
+    saveJqgridSelected("#jqGrid", id, true);
 
     var $div = $(this).closest("div.myTableDiv");
     var url = $div.data("url-au");
@@ -447,7 +473,7 @@ $(document).on("click", ".jqOpenViewBtn", function(){
         SysMsg.warning("请选择一行", "提示");
         return ;
     }
-    if(needId) jgrid_sid = id;
+    if(needId) saveJqgridSelected(gridId, id, true);
 
     var url = $(this).data("url");
     var querystr = $(this).data("querystr");

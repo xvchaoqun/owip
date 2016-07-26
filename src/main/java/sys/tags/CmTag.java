@@ -5,6 +5,8 @@ import bean.ApproverTypeBean;
 import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.cadre.CadreAdditionalPost;
+import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamliyAbroad;
 import domain.dispatch.*;
 import domain.member.MemberApply;
 import domain.party.Party;
@@ -23,6 +25,8 @@ import service.abroad.ApprovalLogService;
 import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.CadreAdditionalPostService;
+import service.cadre.CadreFamliyAbroadService;
+import service.cadre.CadreFamliyService;
 import service.cadre.CadreService;
 import service.dispatch.*;
 import service.party.*;
@@ -44,6 +48,7 @@ public class CmTag {
     static ApplicationContext context = ApplicationContextSupport.getContext();
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
+    static CadreFamliyService cadreFamliyService = (CadreFamliyService) context.getBean("cadreFamliyService");
     static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
     static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
@@ -225,6 +230,10 @@ public class CmTag {
     public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){
 
         return cadreAdditionalPostService.findCadrePosts(cadreId);
+    }
+
+    public static CadreFamliy getCadreFamliy(Integer id){
+        return cadreFamliyService.get(id);
     }
 
     public static SysUser getUserById(Integer id) {

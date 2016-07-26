@@ -1,9 +1,16 @@
 package domain.cadre;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreFamliyAbroad implements Serializable {
+
+    public CadreFamliy getCadreFamliy(){
+
+        return (famliyId!=null)?CmTag.getCadreFamliy(famliyId):null;
+    }
     private Integer id;
 
     private Integer cadreId;

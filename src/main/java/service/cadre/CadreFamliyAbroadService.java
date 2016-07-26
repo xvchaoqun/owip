@@ -11,6 +11,10 @@ import java.util.Arrays;
 @Service
 public class CadreFamliyAbroadService extends BaseMapper {
 
+    public CadreFamliyAbroad get(int id){
+
+        return cadreFamliyAbroadMapper.selectByPrimaryKey(id);
+    }
     @Transactional
     public int insertSelective(CadreFamliyAbroad record){
 

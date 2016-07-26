@@ -106,11 +106,11 @@ public class CadreEduController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreEdu> CadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreEdu> records = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", CadreEdus);
+        resultMap.put("rows", records);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);

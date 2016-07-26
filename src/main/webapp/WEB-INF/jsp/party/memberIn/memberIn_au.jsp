@@ -13,6 +13,46 @@ pageEncoding="UTF-8"%>
 			<div class="row">
 				<div class="col-xs-4">
 					<div class="form-group">
+						<label class="col-xs-5 control-label">介绍信抬头</label>
+						<div class="col-xs-6">
+							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">介绍信有效期天数</label>
+						<div class="col-xs-6">
+							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">类别</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
+								<option></option>
+								<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+									<option value="${_type.key}">${_type.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=type]").val(${memberIn.type});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">党籍状态</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+								<option></option>
+								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+									<option value="${_status.key}">${_status.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-xs-5 control-label">用户</label>
 						<c:if test="${not empty userBean}">
 						<div class="col-xs-6 label-text">
@@ -57,34 +97,8 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<%--</c:if>--%>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">党籍状态</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
-								<option></option>
-								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-									<option value="${_status.key}">${_status.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
-							</script>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">类别</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
-								<option></option>
-								<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
-									<option value="${_type.key}">${_type.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=type]").val(${memberIn.type});
-							</script>
-						</div>
-					</div>
+
+
 
 					<div class="form-group">
 						<label class="col-xs-5 control-label">分党委</label>
@@ -117,12 +131,7 @@ pageEncoding="UTF-8"%>
 							<input required class="form-control" type="text" name="fromUnit" value="${memberIn.fromUnit}">
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位抬头</label>
-						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label">转出单位地址</label>
 						<div class="col-xs-6">
@@ -158,12 +167,7 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">介绍信有效期天数</label>
-						<div class="col-xs-6">
-							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label">转出办理时间</label>
 						<div class="col-xs-6">

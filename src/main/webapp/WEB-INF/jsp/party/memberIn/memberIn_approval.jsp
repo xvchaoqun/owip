@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -38,6 +37,36 @@
                         <div class="col-xs-12">
                             <div class="col-xs-6">
                                 <div class="profile-user-info profile-user-info-striped">
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 介绍信抬头 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromTitle}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 介绍信有效期天数 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.validDays}</span>
+                                        </div>
+                                    </div>
+                                    <c:if test="${param.type==2}">
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 是否有回执 </div>
+                                        <div class="profile-info-value">
+                                            <span class="editable" > ${memberIn.hasReceipt?"是":"否"}</span>
+                                        </div>
+                                    </div>
+                                    </c:if>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 类别 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</span>
+                                        </div>
+                                    </div>
+
                                 <div class="profile-info-row">
                                     <div class="profile-info-name">  ${(user.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 
@@ -54,8 +83,101 @@
                                     </div>
                                 </div>
 
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 转出单位 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromUnit}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 转出单位地址 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromAddress}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 转出单位联系电话 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromPhone}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 转出单位传真 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromFax}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 转出单位邮编 </div>
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberIn.fromPostCode}</span>
+                                        </div>
+                                    </div>
+                            </div></div>
+                            <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 所属组织机构 </div>
+                                    <div class="profile-info-name"> 党籍状态 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${MEMBER_POLITICAL_STATUS_MAP.get(memberIn.politicalStatus)}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 党费缴纳至年月 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.payTime,'yyyy-MM')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出办理时间 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.fromHandleTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转入办理时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 提交书面申请书时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.applyTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 确定为入党积极分子时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.activeTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 确定为发展对象时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.candidateTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 入党时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转正时间 </div>
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${cm:formatDate(memberIn.positiveTime,'yyyy-MM-dd')}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 申请转入组织机构 </div>
 
                                     <div class="profile-info-value">
                                     <span class="editable">
@@ -66,47 +188,6 @@
                                     </span>
                                     </div>
                                 </div>
-
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 类别 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</span>
-                                    </div>
-                                </div>
-
-
-                            </div></div>
-                            <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 转出单位 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${memberIn.fromUnit}</span>
-                                    </div>
-                                </div>
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 转出单位抬头 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${memberIn.fromTitle}</span>
-                                    </div>
-                                </div>
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 介绍信有效期天数 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${memberIn.validDays}</span>
-                                    </div>
-                                </div>
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> 转出办理时间 </div>
-
-                                    <div class="profile-info-value">
-                                        <span class="editable" >${cm:formatDate(memberIn.fromHandleTime,'yyyy-MM-dd')}</span>
-                                    </div>
-                                </div>
-
                             </div></div>
                         </div>
 

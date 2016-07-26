@@ -331,13 +331,36 @@ public class MemberInController extends BaseController {
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                   byte type, // 1:分党委审核 3：组织部审核
+                                   //byte type, // 1:分党委审核 2：组织部审核
                                    @RequestParam(value = "ids[]") Integer[] ids) {
 
+        memberInService.memberIn_check(ids, null, (byte)2, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-组织部审核通过：%s", StringUtils.join( ids, ",")));
 
-        memberInService.memberIn_check(ids, type, loginUser.getId());
+        return success(FormUtils.SUCCESS);
+    }
 
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-审核：%s", StringUtils.join( ids, ",")));
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping("/memberIn_party_check")
+    public String memberIn_party_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        int id = ids[0];
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        modelMap.put("memberIn", memberIn);
+
+        return "party/memberIn/memberIn_party_check";
+    }
+
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberIn_party_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                 @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
+
+        memberInService.memberIn_check(ids, hasReceipt, (byte)1, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-分党委审核通过：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }

@@ -4,6 +4,8 @@ import controller.BaseController;
 import domain.cadre.*;
 import domain.cadre.CadreFamliyExample.Criteria;
 import domain.sys.SysUser;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -22,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
+import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -46,8 +50,72 @@ public class CadreFamliyController extends BaseController {
     @RequiresPermissions("cadreFamliy:list")
     @RequestMapping("/cadreFamliy_page")
     public String cadreFamliy_page(HttpServletResponse response,
+                                Integer cadreId, ModelMap modelMap) {
+
+        if (cadreId!=null) {
+
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+        modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
+        return "cadre/cadreFamliy/cadreFamliy_page";
+    }
+
+    @RequiresPermissions("cadreFamliy:list")
+    @RequestMapping("/cadreFamliy_data")
+    public void cadreFamliy_data(HttpServletResponse response,
+                                 Integer cadreId,
+                                 Integer pageSize, Integer pageNo,
+                                 @RequestParam(required = false, defaultValue = "0") int export) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadreFamliyExample example = new CadreFamliyExample();
+        Criteria criteria = example.createCriteria();
+        //example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+
+        if (export == 1) {
+            cadreFamliy_export(example, response);
+            return;
+        }
+
+        int count = cadreFamliyMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreFamliy> records = cadreFamliyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
+    }
+    
+   /* @RequiresPermissions("cadreFamliy:list")
+    @RequestMapping("/cadreFamliy_data")
+    public void cadreFamliy_data(HttpServletResponse response,
                                     int cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
+                                 @RequestParam(required = false, defaultValue = "0") int export) {
 
         List<CadreFamliy> cadreFamliys = new ArrayList<>();
         {
@@ -73,7 +141,7 @@ public class CadreFamliyController extends BaseController {
         modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
 
         return "cadre/cadreFamliy/cadreFamliy_page";
-    }
+    }*/
 
     @RequiresPermissions("cadreFamliy:edit")
     @RequestMapping(value = "/cadreFamliy_au", method = RequestMethod.POST)
@@ -83,7 +151,7 @@ public class CadreFamliyController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_birthday)){
-            record.setBirthday(DateUtils.parseDate(_birthday, DateUtils.YYYY_MM_DD));
+            record.setBirthday(DateUtils.parseDate(_birthday, "yyyy-MM"));
         }
 
         if (id == null) {

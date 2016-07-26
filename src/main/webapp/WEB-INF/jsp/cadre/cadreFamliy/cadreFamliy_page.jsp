@@ -1,192 +1,108 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_FAMLIY_TITLE_MAP" value="<%=SystemConstants.CADRE_FAMLIY_TITLE_MAP%>"/>
-<div class="widget-box">
-    <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-home"></i> 家庭成员信息</h4>
-
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-up"></i>
-            </a>
-        </div>
+<div class="row myTableDiv">
+    <div class="buttons pull-right">
+        <shiro:hasPermission name="cadreFamliy:edit">
+            <a class="popupBtn btn btn-success btn-sm"
+               data-url="${ctx}/cadreFamliy_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                添加</a>
+            <a class="jqOpenViewBtn btn btn-primary btn-sm"
+               data-url="${ctx}/cadreFamliy_au"
+               data-grid-id="#jqGrid_cadreFamliy"
+               data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+                修改</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="cadreFamliy:del">
+            <button data-url="${ctx}/cadreFamliy_batchDel"
+                    data-title="删除"
+                    data-msg="确定删除这{0}条数据？"
+                    data-grid-id="#jqGrid_cadreFamliy"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-trash"></i> 删除
+            </button>
+        </shiro:hasPermission>
     </div>
-    <div class="widget-body">
-        <div class="widget-main">
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadreFamliy:edit">
-                    <a class="btn btn-info btn-sm" onclick="cadreFamliy_au()"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                </div>
-            <h4>&nbsp;</h4>
-            <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-							<th>称谓</th>
-							<th>姓名</th>
-							<th>出生年月</th>
-							<th>年龄</th>
-							<th>政治面貌</th>
-							<th>工作单位及职务</th>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${cadreFamliys}" var="cadreFamliy" varStatus="st">
-                        <tr>
-								<td>${CADRE_FAMLIY_TITLE_MAP.get(cadreFamliy.title)}</td>
-								<td>${cadreFamliy.realname}</td>
-								<td>${cm:formatDate(cadreFamliy.birthday,'yyyy-MM-dd')}</td>
-								<td>${cm:intervalYearsUntilNow(cadreFamliy.birthday)}</td>
-								<td>${politicalStatusMap.get(cadreFamliy.politicalStatus).name}</td>
-								<td>${cadreFamliy.unit}</td>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreFamliy:edit">
-                                    <button onclick="cadreFamliy_au(${cadreFamliy.id})" class="btn btn-default btn-mini btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreFamliy:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliy_del(${cadreFamliy.id})">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+    <h4><i class="fa fa-history"></i> 家庭成员信息：</h4>
+    <table id="jqGrid_cadreFamliy" class="jqGrid4"></table>
+    <div id="jqGridPager_cadreFamliy"></div>
+    <div class="space-4"></div>
 
-        </div>
+    <div class="buttons pull-right">
+        <shiro:hasPermission name="cadreFamliy:edit">
+            <a class="popupBtn btn btn-success btn-sm"
+               data-url="${ctx}/cadreFamliyAbroad_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                添加</a>
+            <a class="jqOpenViewBtn btn btn-primary btn-sm"
+               data-url="${ctx}/cadreFamliyAbroad_au"
+               data-grid-id="#jqGrid_cadreFamliyAbroad"
+               data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+                修改</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="cadreFamliy:del">
+            <button data-url="${ctx}/cadreFamliy_batchDel"
+                    data-title="删除"
+                    data-msg="确定删除这{0}条数据？"
+                    data-grid-id="#jqGrid_cadreFamliyAbroad"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-trash"></i> 删除
+            </button>
+        </shiro:hasPermission>
     </div>
+    <h4><i class="fa fa-history"></i> 家庭成员移居国（境）外的情况：</h4>
+    <table id="jqGrid_cadreFamliyAbroad" class="jqGrid4"></table>
+    <div id="jqGridPager_cadreFamliyAbroad"></div>
+    <div class="space-4"></div>
 </div>
-
-<div class="widget-box">
-    <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-fighter-jet"></i> 家庭成员移居国（境）外的情况</h4>
-
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-up"></i>
-            </a>
-        </div>
-    </div>
-    <div class="widget-body">
-        <div class="widget-main">
-            <div class="buttons pull-right">
-                <shiro:hasPermission name="cadreFamliyAbroad:edit">
-                    <a class="btn btn-info btn-sm" onclick="cadreFamliyAbroad_au()"><i class="fa fa-plus"></i> 添加</a>
-                </shiro:hasPermission>
-            </div>
-            <h4>&nbsp;</h4>
-            <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>称谓</th>
-                        <th>姓名</th>
-                        <th>移居国家</th>
-                        <th>移居类别</th>
-                        <th>移居时间</th>
-                        <th>现居住城市</th>
-                        <shiro:hasPermission name="cadreFamliyAbroad:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${cadreFamliyAbroads}" var="cadreFamliyAbroad" varStatus="st">
-                        <c:set value="${cadreFamliyMap.get(cadreFamliyAbroad.famliyId)}" var="cf"/>
-                        <tr>
-                            <td>${CADRE_FAMLIY_TITLE_MAP.get(cf.title)}</td>
-                            <td>${cf.realname}</td>
-                            <td>${cadreFamliyAbroad.country}</td>
-                            <td>${abroadTypeMap.get(cadreFamliyAbroad.type).name}</td>
-                            <td>${cm:formatDate(cadreFamliyAbroad.abroadTime,'yyyy-MM-dd')}</td>
-                            <td>${cadreFamliyAbroad.city}</td>
-                            <shiro:hasPermission name="cadreFamliyAbroad:changeOrder">
-                                <c:if test="${!_query && commonList.recNum>1}">
-                                    <td class="hidden-480">
-                                        <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreFamliyAbroad.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                        <input type="text" value="1"
-                                               class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                        <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreFamliyAbroad.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                    </td>
-                                </c:if>
-                            </shiro:hasPermission>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreFamliyAbroad:edit">
-                                        <button onclick="cadreFamliyAbroad_au(${cadreFamliyAbroad.id})" class="btn btn-default btn-mini btn-xs">
-                                            <i class="fa fa-edit"></i> 编辑
-                                        </button>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="cadreFamliyAbroad:del">
-                                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliyAbroad_del(${cadreFamliyAbroad.id})">
-                                            <i class="fa fa-trash"></i> 删除
-                                        </button>
-                                    </shiro:hasPermission>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
-            </div></div></div>
 <script>
+    $("#jqGrid_cadreFamliy").jqGrid({
+        pager: "#jqGridPager_cadreFamliy",
+        ondblClickRow:function(){},
+        url: '${ctx}/cadreFamliy_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '称谓', name: 'title' ,frozen:true, formatter:function(cellvalue, options, rowObject){
+                return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+            }},
+            {label: '姓名', width:120, name: 'realname'},
+            {label: '出生年月', name: 'birthday',formatter:'date',formatoptions: {newformat:'Y-m'}},
+            {
+                label: '年龄',
+                name: 'birthday',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return ''
+                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                    var year = Math.floor(month / 12);
+                    return year;
+                }
+            },
+            {label: '政治面貌', name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.politicalStatusMap[cellvalue].name
+            }},
+            {label: '工作单位及职务', name: 'unit', width:250}
+        ]
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid4');
+    });
 
-    function cadreFamliy_au(id) {
-        url = "${ctx}/cadreFamliy_au?cadreId=${param.cadreId}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
-
-    function cadreFamliy_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreFamliy_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-
-    function cadreFamliyAbroad_au(id) {
-        url = "${ctx}/cadreFamliyAbroad_au?cadreId=${param.cadreId}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
-
-    function cadreFamliyAbroad_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreFamliyAbroad_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/cadreFamliy_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }
-
-    $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $("#jqGrid_cadreFamliyAbroad").jqGrid({
+        pager: "#jqGridPager_cadreFamliyAbroad",
+        ondblClickRow:function(){},
+        url: '${ctx}/cadreFamliyAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '称谓', name: 'cadreFamliy.title' ,frozen:true, formatter:function(cellvalue, options, rowObject){
+                return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+            }},
+            {label: '姓名', name: 'cadreFamliy.realname'},
+            {label: '移居国家', name: 'country', width:200},
+            {label: '移居类别', name: 'type', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.abroadTypeMap[cellvalue].name
+            }},
+            {label: '移居时间', name: 'abroadTime',formatter:'date',formatoptions: {newformat:'Y-m'}},
+            {label: '现居住城市', name: 'city', width:150}
+        ]
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid4');
+    });
 </script>
