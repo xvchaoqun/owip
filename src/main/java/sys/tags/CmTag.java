@@ -11,10 +11,7 @@ import domain.dispatch.*;
 import domain.member.MemberApply;
 import domain.party.Party;
 import domain.party.RetireApply;
-import domain.sys.MetaClass;
-import domain.sys.MetaType;
-import domain.sys.SysResource;
-import domain.sys.SysUser;
+import domain.sys.*;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -30,10 +27,7 @@ import service.cadre.CadreFamliyService;
 import service.cadre.CadreService;
 import service.dispatch.*;
 import service.party.*;
-import service.sys.MetaClassService;
-import service.sys.MetaTypeService;
-import service.sys.SysResourceService;
-import service.sys.SysUserService;
+import service.sys.*;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -46,6 +40,7 @@ import java.util.*;
 public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
+    static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
     static CadreFamliyService cadreFamliyService = (CadreFamliyService) context.getBean("cadreFamliyService");
@@ -85,6 +80,11 @@ public class CmTag {
         String jsonStr = JSONUtils.toString(list);
 
         return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
+    }
+
+    public static SysConfig getSysConfig(String code){
+
+        return sysConfigService.codeKeyMap().get(code);
     }
 
     public static String getApplyStatus(MemberApply memberApply) {

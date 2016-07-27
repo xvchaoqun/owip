@@ -54,9 +54,9 @@
         width: '600px',
         //scriptPath:"${ctx}/js/kindeditor/",
         //skinsPath : KE.scriptPath + 'skins/',
-        items: [
+       /* items: [
             'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']*/
     });
     KE.create('content');
 

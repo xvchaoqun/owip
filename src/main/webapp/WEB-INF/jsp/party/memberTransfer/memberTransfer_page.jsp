@@ -239,7 +239,9 @@
         url: '${ctx}/memberTransfer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '学工号', name: 'user.code', width: 120,frozen:true},
-            {label: '类别', name: 'user.typeName',frozen:true},
+            {label: '类别', name: 'user.type',frozen:true, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.USER_TYPE_MAP[cellvalue];
+            }},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);

@@ -5,7 +5,12 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-    <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入</h3>
+    <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
+		<a class="popupBtn btn btn-success btn-xs"
+		   data-width="800"
+		   data-url="${ctx}/sc_content?code=${SYS_CONFIG_MEMBER_IN_NOTE_BACK}">
+			<i class="fa fa-info-circle"></i> 申请说明</a>
+	</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberIn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberIn.id}">

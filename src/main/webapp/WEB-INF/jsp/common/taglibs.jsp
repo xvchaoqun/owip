@@ -53,6 +53,8 @@
 <c:set var="SYS_CONFIG_APPLY_SELF_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_NOTE%>"/>
 <c:set var="SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE" value="<%=SystemConstants.SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE%>"/>
 <c:set var="SYS_CONFIG_PASSPORT_DRAW_NOTE" value="<%=SystemConstants.SYS_CONFIG_PASSPORT_DRAW_NOTE%>"/>
+<c:set var="SYS_CONFIG_MEMBER_IN_NOTE_FRONT" value="<%=SystemConstants.SYS_CONFIG_MEMBER_IN_NOTE_FRONT%>"/>
+<c:set var="SYS_CONFIG_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.SYS_CONFIG_MEMBER_IN_NOTE_BACK%>"/>
 
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>

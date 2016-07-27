@@ -15,6 +15,10 @@
     <div class="page-header">
       <h1>
         组织关系转入
+        <a class="popupBtn btn btn-success btn-xs"
+           data-width="800"
+           data-url="${ctx}/sc_content?code=${SYS_CONFIG_MEMBER_IN_NOTE_BACK}">
+          <i class="fa fa-info-circle"></i> 申请说明</a>
       </h1>
     </div>
 <form class="form-horizontal" action="${ctx}/user/memberIn" id="modalForm" method="post">

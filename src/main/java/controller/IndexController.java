@@ -35,6 +35,12 @@ public class IndexController extends BaseController {
 		return "monitor";
 	}
 
+	@RequestMapping("/faq")
+	public String faq() {
+
+		return "faq";
+	}
+
 	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
 	@RequestMapping("/help")
 	public String help() {

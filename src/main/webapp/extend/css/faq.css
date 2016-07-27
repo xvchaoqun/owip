@@ -1,0 +1,13 @@
+﻿/*公共样式*/
+body{background:#fff;margin:0px;padding:0px;color:#333;position:relative;font:14px "微软雅黑","宋体",Verdana,Geneva,sans-serif;min-width:1000px;width:expression((documentElement.clientWidth < 1000) ? "1000px" : "100%" );}
+.w1000{width:1000px;margin:0 auto;}
+.clear{clear:both;}
+
+.top{width:100%;height:59px;padding:25px 0;background:url(/extend/img/top_bg.jpg) #dbf5ff top right no-repeat;}
+.top{
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+.top .logo{float:left;padding-right:25px;height:58px;border-right:1px solid #333;}
+.top .txt{height:58px;line-height:58px;float:left;margin-left:25px;font-size:30px}

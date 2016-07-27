@@ -74,9 +74,12 @@ public class SystemConstants {
 	// 因私出国（境）申请说明
 	public static final String SYS_CONFIG_APPLY_SELF_NOTE = "sc_apply_self_note";
 	// 因私出国（境）审批说明
-	public static final String SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = "sc_apply_self_approval_note ";
+	public static final String SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = "sc_apply_self_approval_note";
 	// 申请使用因私出国（境）证件说明
-	public static final String SYS_CONFIG_PASSPORT_DRAW_NOTE = "sc_passport_draw_note ";
+	public static final String SYS_CONFIG_PASSPORT_DRAW_NOTE = "sc_passport_draw_note";
+	// 组织关系转入说明
+	public static final String SYS_CONFIG_MEMBER_IN_NOTE_FRONT= "sc_member_in_note_front";
+	public static final String SYS_CONFIG_MEMBER_IN_NOTE_BACK= "sc_member_in_note_back";
 /*	public final static Map<String, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
 	static {
 		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_NOTE, "因私出国境申请说明");
