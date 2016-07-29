@@ -15,6 +15,14 @@
       "ignore": true
     },
     {
+      "table": "teacher",
+      "key": "user_id",
+      "searchColumns": "user_id,code",
+      "excludeEditColumns": "user_id,create_time,update_time",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": false
+    },
+    {
       "table": "member_stay",
       "key": "id",
       "searchColumns": "user_id,type",
@@ -29,7 +37,7 @@
       "searchColumns": "user_id,type",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "member_transfer",

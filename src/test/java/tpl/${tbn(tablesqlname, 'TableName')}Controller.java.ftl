@@ -1,11 +1,12 @@
 <#assign TableName=tbn(tablesqlname, "TableName")>
 <#assign tableName=tbn(tablesqlname, "tableName")>
 <#assign tablename=tbn(tablesqlname, "tablename")>
-package controller;
+package controller.${folder};
 
-import domain.${TableName};
-import domain.${TableName}Example;
-import domain.${TableName}Example.Criteria;
+import controller.BaseController;
+import domain.${folder}.${TableName};
+import domain.${folder}.${TableName}Example;
+import domain.${folder}.${TableName}Example.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 
@@ -28,19 +29,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
+import java.util.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ${TableName}Controller extends BaseController {
@@ -56,13 +52,29 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:list")
     @RequestMapping("/${tableName}_page")
     public String ${tableName}_page(HttpServletResponse response,
+    @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
+    @OrderParam(required = false, defaultValue = "desc") String order,
+    <#list searchColumnBeans as column>
+        <#if column.type=="varchar"||column.type=="text"||column.type=="datetime"||column.type=="date">String<#elseif column.type=="int">Integer</#if> ${tbn(column.name, "tableName")},
+    </#list>
+    @RequestParam(required = false, defaultValue = "0") int export,
+    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        return "${folder}/${tableName}/${tableName}_page";
+    }
+
+    @RequiresPermissions("${tableName}:list")
+    @RequestMapping("/${tableName}_data")
+    public void ${tableName}_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                 <#list searchColumnBeans as column>
                                     <#if column.type=="varchar"||column.type=="text"||column.type=="datetime"||column.type=="date">String<#elseif column.type=="int">Integer</#if> ${tbn(column.name, "tableName")},
                                 </#list>
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -89,8 +101,10 @@ public class ${TableName}Controller extends BaseController {
         </#list>
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.and${tbn(key, "TableName")}In(Arrays.asList(ids));
             ${tableName}_export(example, response);
-            return null;
+            return;
         }
 
         int count = ${tableName}Mapper.countByExample(example);
@@ -99,32 +113,18 @@ public class ${TableName}Controller extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("${tableName}s", ${tableName}s);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", ${tableName}s);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        <#list searchColumnBeans as column>
-        <#if column.type=="int">
-        if (${tbn(column.name, "tableName")}!=null) {
-            searchStr += "&${tbn(column.name, "tableName")}=" + ${tbn(column.name, "tableName")};
-        }
-        <#else>
-        if (StringUtils.isNotBlank(${tbn(column.name, "tableName")})) {
-            searchStr += "&${tbn(column.name, "tableName")}=" + ${tbn(column.name, "tableName")};
-        }
-        </#if>
-        </#list>
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "${tableName}/${tableName}_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(${tableName}.class, ${tableName}Mixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("${tableName}:edit")
@@ -158,7 +158,7 @@ public class ${TableName}Controller extends BaseController {
             ${TableName} ${tableName} = ${tableName}Mapper.selectByPrimaryKey(${tbn(key, "tableName")});
             modelMap.put("${tableName}", ${tableName});
         }
-        return "${tableName}/${tableName}_au";
+        return "${folder}/${tableName}/${tableName}_au";
     }
 
     @RequiresPermissions("${tableName}:del")

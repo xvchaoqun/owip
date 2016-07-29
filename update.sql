@@ -1,4 +1,14 @@
 
+--2017-7-28
+update sys_resource set parent_id=null where parent_id=0;
+ALTER TABLE `sys_resource`
+	ADD CONSTRAINT `FK_sys_resource_sys_resource` FOREIGN KEY (`parent_id`) REFERENCES `sys_resource` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `base_meta_type`
+	DROP INDEX `FK_base_meta_type_base_meta_class`,
+	DROP FOREIGN KEY `FK_base_meta_type_base_meta_class`;
+ALTER TABLE `base_meta_type`
+	ADD CONSTRAINT `FK_base_meta_type_base_meta_class` FOREIGN KEY (`class_id`) REFERENCES `base_meta_class` (`id`) ON DELETE CASCADE;
 
 --2017-7-19
 RENAME TABLE `base_cadre` TO `cadre`;

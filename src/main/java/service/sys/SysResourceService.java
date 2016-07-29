@@ -73,10 +73,15 @@ public class SysResourceService {
 	}
 
 	// 按层次递归读取资源
-	private void menuLoop(List<SysResource> menuList, int parentId){
+	private void menuLoop(List<SysResource> menuList, Integer parentId){
 
 		SysResourceExample example = new SysResourceExample();
-		example.createCriteria().andParentIdEqualTo(parentId).andAvailableEqualTo(SystemConstants.AVAILABLE);
+		SysResourceExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(SystemConstants.AVAILABLE);
+		if(parentId==null){
+			criteria.andParentIdIsNull();
+		}else{
+			criteria.andParentIdEqualTo(parentId);
+		}
 		example.setOrderByClause("sort_order desc");
 		List<SysResource> list = sysResourceMapper.selectByExample(example);
 
@@ -91,7 +96,7 @@ public class SysResourceService {
 	public Map<Integer, SysResource> getSortedSysResources(){
 
 		List<SysResource> menuList = new ArrayList<SysResource>();
-		menuLoop(menuList, 0);
+		menuLoop(menuList, null);
 
 		Map<Integer, SysResource> map = new LinkedHashMap<>();
 		for (SysResource sysResource : menuList) {
@@ -119,7 +124,7 @@ public class SysResourceService {
 	public TreeNode getTree(Set<Integer> selectIdSet){
 
 		SysResourceExample example = new SysResourceExample();
-		example.createCriteria().andParentIdEqualTo(0);
+		example.createCriteria().andParentIdIsNull();
 		example.setOrderByClause("sort_order desc");
 		List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
 		SysResource rootRes = sysResources.get(0);

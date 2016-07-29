@@ -13,6 +13,7 @@ import service.BaseMapper;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.party.TeacherService;
 import sys.constants.SystemConstants;
 
 import java.util.Map;

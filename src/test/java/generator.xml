@@ -106,6 +106,9 @@
      <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->
+      <table tableName="ow_teacher" domainObjectName="member.Teacher">
+          <ignoreColumn column="update_time"/>
+      </table>
       <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
       </table>-->
       <!--<table tableName="ow_student" domainObjectName="member.Student">
@@ -206,12 +209,12 @@
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->
-      <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
+     <!-- <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
       </table>
       <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
       </table>
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
-      </table>
+      </table>-->
 
      <!-- <table tableName="dispatch" domainObjectName="dispatch.Dispatch">
       </table>

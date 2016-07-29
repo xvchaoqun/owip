@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 <div class="widget-box">
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>

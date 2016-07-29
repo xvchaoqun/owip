@@ -30,6 +30,11 @@ pageEncoding="UTF-8" %>
                         <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
+                            <button id="teacherEditBtn" class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
+                               data-url="${ctx}/teacher_au"
+                               data-open-by="page" data-id-name="userId"
+                               data-rel="tooltip" data-placement="top" title="只能修改不在人事库账号的教职工基本信息">
+                                <i class="fa fa-edit"></i> 修改人事信息</button>
                         </shiro:hasPermission>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/memberModify_page"
@@ -297,8 +302,24 @@ pageEncoding="UTF-8" %>
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;
             }},
-            {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'}
-        ]
+            {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'},
+            {hidden: true, name: 'source'}
+        ],onSelectRow: function (id, status) {
+            jgrid_sid = null;
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#teacherEditBtn").prop("disabled", true);
+            } else if (ids.length==1) {
+                jgrid_sid = ids[0];
+                var rowData = $(this).getRowData(ids[0]);
+                console.log(rowData)
+                $("#teacherEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"
+                ||rowData.source == "${USER_SOURCE_BKS}"||rowData.source == "${USER_SOURCE_YJS}");
+            }else{
+                $("#teacherEditBtn").prop("disabled", false);
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
