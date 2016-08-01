@@ -47,7 +47,7 @@ public class GraduateAbroadService extends BaseMapper {
         return super.checkVerityAuth2(graduateAbroad, graduateAbroad.getPartyId());
     }
     
-    public int count(Integer partyId, Integer branchId, byte type, byte cls){
+    public int count(Integer partyId, Integer branchId, byte type, Byte cls){
 
         GraduateAbroadExample example = new GraduateAbroadExample();
         GraduateAbroadExample.Criteria criteria = example.createCriteria();
@@ -64,10 +64,12 @@ public class GraduateAbroadService extends BaseMapper {
             throw new RuntimeException("审核类型错误");
         }
 
-        if(cls==1 || cls==2 || cls==3){// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
-            criteria.andIsBackNotEqualTo(true);
-        }else if(cls==11 || cls==21 || cls==31){// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
-            criteria.andIsBackEqualTo(true);
+        if(cls!=null) {
+            if (cls == 1 || cls == 2 || cls == 3) {// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
+                criteria.andIsBackNotEqualTo(true);
+            } else if (cls == 11 || cls == 21 || cls == 31) {// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
+                criteria.andIsBackEqualTo(true);
+            }
         }
 
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);

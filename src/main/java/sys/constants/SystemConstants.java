@@ -215,6 +215,33 @@ public class SystemConstants {
 		APPLY_TYPE_MAP.put(APPLY_TYPE_TECHER, "教职工");
 	}
 
+	// 党员年龄段
+	public final static byte MEMBER_AGE_20= 1; // 20及以下
+	public final static byte MEMBER_AGE_21_30 = 2;
+	public final static byte MEMBER_AGE_31_40 = 3;
+	public final static byte MEMBER_AGE_41_50 = 4;
+	public final static byte MEMBER_AGE_51 = 5;
+	public final static byte MEMBER_AGE_0 = 0; // 未知
+	public final static Map<Byte, String> MEMBER_AGE_MAP = new LinkedHashMap<>();
+	static {
+		MEMBER_AGE_MAP.put(MEMBER_AGE_20, "20及以下");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_21_30, "21~30");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_31_40, "31~40");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_41_50, "41~50");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_51, "51及以上");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
+	}
+
+	public final static Map<Byte, String> PIE_COLOR_MAP = new LinkedHashMap<>();
+	static {
+		PIE_COLOR_MAP.put((byte)0, "#999");
+		PIE_COLOR_MAP.put((byte)1, "#68BC31");
+		PIE_COLOR_MAP.put((byte)2, "#2091CF");
+		PIE_COLOR_MAP.put((byte)3, "#AF4E96");
+		PIE_COLOR_MAP.put((byte)4, "#DA5430");
+		PIE_COLOR_MAP.put((byte)5, "#FEE074");
+	}
+
 	// 申请入党阶段
 	//0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
 	public final static byte APPLY_STAGE_DENY = -1; // 未通过

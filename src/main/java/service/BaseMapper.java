@@ -290,6 +290,8 @@ public class BaseMapper {
 	@Autowired
 	protected UpdateMapper updateMapper;
 	@Autowired
+	protected StatMapper statMapper;
+	@Autowired
 	protected ExtYjsMapper extYjsMapper;
 	@Autowired
 	protected ExtBksMapper extBksMapper;

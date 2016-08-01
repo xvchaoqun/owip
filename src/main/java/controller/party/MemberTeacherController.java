@@ -77,7 +77,7 @@ public class MemberTeacherController extends BaseController {
                                     Integer branchId,
                                     Byte politicalStatus,
                                     Byte gender,
-                                    Integer age,
+                                    Byte age,
                                     String education,
                                     String postClass,
                                     String _retireTime,
@@ -128,23 +128,26 @@ public class MemberTeacherController extends BaseController {
         }
         if(age!=null){
             switch (age){
-                case 1: // 20岁以下
+                case SystemConstants.MEMBER_AGE_20: // 20岁以下
                     criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
                     break;
-                case 2:
+                case SystemConstants.MEMBER_AGE_21_30:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
-                case 3:
+                case SystemConstants.MEMBER_AGE_31_40:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
-                case 4:
+                case SystemConstants.MEMBER_AGE_41_50:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case 5:
+                case SystemConstants.MEMBER_AGE_51:
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+                case SystemConstants.MEMBER_AGE_0:
+                    criteria.andBirthIsNull();
                     break;
             }
         }

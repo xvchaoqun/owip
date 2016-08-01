@@ -15,7 +15,7 @@
           </li>
           <shiro:hasAnyRoles name="admin, odAdmin">
           <li>
-              <a href="javascript:;" data-url="${ctx}/static_page">党员统计信息</a>
+              <a href="javascript:;" data-url="${ctx}/stat_page">党建统计信息</a>
           </li>
           </shiro:hasAnyRoles>
         </ul>

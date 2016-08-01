@@ -90,11 +90,9 @@
                                                     <label>年龄</label>
                                                         <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
-                                                            <option value="1">20岁及以下</option>
-                                                            <option value="2">21岁~30岁</option>
-                                                            <option value="3">31岁~40岁</option>
-                                                            <option value="4">41岁~50岁</option>
-                                                            <option value="5">51岁及以上</option>
+                                                            <c:forEach items="${MEMBER_AGE_MAP}" var="age">
+                                                                <option value="${age.key}">${age.value}</option>
+                                                            </c:forEach>
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=age]").val('${param.age}');

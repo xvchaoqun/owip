@@ -10,6 +10,7 @@ import service.LoginUserService;
 import service.OrgAdminService;
 import service.SpringProps;
 import service.abroad.*;
+import service.analysis.StatService;
 import service.base.ContentTplService;
 import service.cadre.*;
 import service.dispatch.*;
@@ -228,6 +229,9 @@ public class BaseController extends BaseMapper {
     protected SysConfigService sysConfigService;
     @Autowired
     protected SysLoginLogService sysLoginLogService;
+
+    @Autowired
+    protected StatService statService;
 
     @Autowired
     protected PasswordHelper passwordHelper;

@@ -80,13 +80,6 @@ public class IndexController extends BaseController {
 	}
 
 	@RequiresPermissions("index:home")
-	@RequestMapping("/static_page")
-	public String static_page(ModelMap modelMap) {
-
-		return "static_page";
-	}
-
-	@RequiresPermissions("index:home")
 	@RequestMapping("/user_base")
 	public String user_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
 

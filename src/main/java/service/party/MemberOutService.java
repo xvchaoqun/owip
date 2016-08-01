@@ -53,7 +53,7 @@ public class MemberOutService extends BaseMapper {
         return super.checkVerityAuth2(memberOut, memberOut.getPartyId());
     }
 
-    public int count(Integer partyId, Integer branchId, byte type, byte cls) {
+    public int count(Integer partyId, Integer branchId, byte type, Byte cls) {
 
         MemberOutExample example = new MemberOutExample();
         MemberOutExample.Criteria criteria = example.createCriteria();
@@ -67,10 +67,12 @@ public class MemberOutService extends BaseMapper {
         } else {
             throw new RuntimeException("审核类型错误");
         }
-        if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
-            criteria.andIsBackNotEqualTo(true);
-        } else if (cls == 4 || cls == 7) {// 分党委审核（返回修改) / 组织部审核（返回修改)
-            criteria.andIsBackEqualTo(true);
+        if(cls!=null) {
+            if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
+                criteria.andIsBackNotEqualTo(true);
+            } else if (cls == 4 || cls == 7) {// 分党委审核（返回修改) / 组织部审核（返回修改)
+                criteria.andIsBackEqualTo(true);
+            }
         }
         if (partyId != null) criteria.andPartyIdEqualTo(partyId);
         if (branchId != null) criteria.andBranchIdEqualTo(branchId);

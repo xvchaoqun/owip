@@ -641,3 +641,11 @@ input[type=radio].bigger{
     background-color: #629b58 !important;
     border-color: #87b87f;
 }
+/* 统计 */
+.stat-row{
+    margin-bottom: 5px;
+}
+.stat-row .count{
+    color: #0000A1;
+    font-weight: bolder;
+}
