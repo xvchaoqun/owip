@@ -104,8 +104,14 @@ function MonthDiff(date1,date2){
     var year2 =  date2.substr(0,4);
     var month1 = date1.substr(5,2);
     var month2 = date2.substr(5,2);
+    var day1 = date1.substr(8,2);
+    var day2 = date2.substr(8,2);
 
     var len=(year2-year1)*12+(month2-month1);
+
+    if(len>0 && month1==month2 && day2<day1) // 月份相同，日在后面，则这个月不能算
+        len--;
+
     return len;
 
 }

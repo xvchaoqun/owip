@@ -325,7 +325,8 @@ pageEncoding="UTF-8"%>
 						任现职级年限
 					</td>
 					<td>
-						${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}
+						<c:set value="${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}" var="workYear"/>
+						${workYear==0?"未满一年":workYear}
 					</td>
 				</tr>
 				<tr>

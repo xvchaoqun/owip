@@ -280,10 +280,16 @@ pageEncoding="UTF-8" %>
                 name: 'workYear',
                 formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.endDispatch)
-                    if (rowObject.presentAdminLevel==undefined ||
-                            rowObject.presentAdminLevel.endDispatch == undefined
-                            || rowObject.presentAdminLevel.startDispatch==undefined) return ''
-                    var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, rowObject.presentAdminLevel.endDispatch.workTime);
+                    if (rowObject.presentAdminLevel==undefined || rowObject.presentAdminLevel.startDispatch==undefined) return ''
+
+                    var end;
+                    if( rowObject.presentAdminLevel.endDispatch!=undefined)
+                        end = rowObject.presentAdminLevel.endDispatch.workTime;
+                    if(rowObject.presentAdminLevel.adminLevelId == rowObject.mainCadrePost.adminLevelId)
+                        end = new Date().format("yyyy-MM-dd");
+                    if (rowObject.presentAdminLevel.startDispatch==undefined|| end==undefined) return ''
+
+                    var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -301,8 +307,8 @@ pageEncoding="UTF-8" %>
             }
             },
             { label: '联系方式', name: 'mobile' },
-            { label: '办公电话', name: 'officePhone' },
-            { label: '家庭电话', name: 'homePhone' },
+            /*{ label: '办公电话', name: 'officePhone' },
+            { label: '家庭电话', name: 'homePhone' },*/
             { label: '电子邮箱', name: 'email', width: 150 },
             { label: '所属党组织', name: 'partyId',align:'left', width: 550, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.partyId==undefined) return '';

@@ -457,8 +457,15 @@
                 name: 'workYear',
                 formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.endDispatch)
-                    if (rowObject.endDispatch == undefined || rowObject.startDispatch==undefined) return ''
-                    var month = MonthDiff(rowObject.startDispatch.workTime, rowObject.endDispatch.workTime);
+                    var end;
+                    if( rowObject.endDispatch!=undefined)
+                        end = rowObject.endDispatch.workTime;
+                    if(rowObject.adminLevelId == mainCadrePost.adminLevelId)
+                        end = new Date().format("yyyy-MM-dd");
+                    if (rowObject.startDispatch==undefined|| end==undefined) return ''
+
+                    var month = MonthDiff(rowObject.startDispatch.workTime, end);
+                    console.log("month="+month)
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;
                 }
