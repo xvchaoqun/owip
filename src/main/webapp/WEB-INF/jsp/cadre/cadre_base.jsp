@@ -479,7 +479,7 @@ pageEncoding="UTF-8"%>
 
 
 					<td colspan="4" class="bg-right">
-						时间
+						管理岗位分级时间
 					</td>
 					<td>
 						--
