@@ -489,7 +489,7 @@
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreWork",
-        url: '${ctx}/cadreWork_data?fid=-1&isCadre=1&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreWork_data?fid=-1&isCadre=1&cadreId=${param.id}',
         colModel: [
             {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},

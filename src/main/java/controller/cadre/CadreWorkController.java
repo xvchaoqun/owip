@@ -58,15 +58,15 @@ public class CadreWorkController extends BaseController {
                                  @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
                                  @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                 Integer id,
+                                 Integer cadreId,
                                  Integer fid,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
         modelMap.put("type", type);
         if (type == 2) {
-            List<CadreWork> cadreWorks = cadreWorkService.findByCadre(id);
+            List<CadreWork> cadreWorks = cadreWorkService.findByCadre(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
-            CadreInfo cadreInfo = cadreInfoService.get(id, SystemConstants.CADRE_INFO_TYPE_WORK);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
             modelMap.put("cadreInfo", cadreInfo);
         }
 
