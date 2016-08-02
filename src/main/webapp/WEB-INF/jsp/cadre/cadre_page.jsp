@@ -198,7 +198,7 @@ pageEncoding="UTF-8" %>
                 return _cMap.GENDER_MAP[cellvalue];
             }  },
             { label: '民族', name: 'nation'},
-            { label: '籍贯', name: 'nativePlace'},
+            { label: '籍贯', name: 'nativePlace', width: 60},
             { label: '身份证号', name: 'idcard', width: 150 },
             { label: '出生时间', name: 'birth',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '年龄', name: 'birth', width: 50,
@@ -208,6 +208,9 @@ pageEncoding="UTF-8" %>
                     var year = Math.floor(month / 12);
                     return year;
                 } },
+            { label: '党派', name: 'growTime', width: 80,formatter:function(cellvalue, options, rowObject){
+                return (cellvalue!=undefined)?"中共党员":"";
+            }},
             { label: '党派加入时间', name: 'growTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '到校时间', name: 'arriveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '最高学历', name: 'eduId', formatter:function(cellvalue, options, rowObject){
