@@ -27,25 +27,26 @@ iframe{background: transparent;}
 .login_box .login-layout dd img{margin-left:10px;width:100px;height:38px;vertical-align:middle;cursor:pointer;display:block;float:left;}
 .login_box .login-layout#login dd a.submit_btn{ cursor: pointer; width:242px;height:37px;display:block;background:url(/extend/img/login_btn.jpg) top center no-repeat;}
 
-.login_box .login-layout#login .note{
+.login_box .note{
 	position: absolute;
 	background-color: #033975;
 	opacity: 0.9;
-	/*padding-left: 30px;*/
-	width: 100%;
+	/* padding-left: 30px; */
+	width: 400px;
 	height: 100px;
-	right: 500px;
-	top:10px;
-	font-size: 18pt;
-
+	/* right: 500px; */
+	top: 590px;
+	left: 50%;
+	margin-left: 70px;
+	font-size: 16pt;
 }
-.login_box .login-layout#login .note ul li{
+.login_box .note ul li{
 	list-style-type:none;
 	padding-top: 10px;
 	background:url(/extend/img/arrow_redo_right.png) no-repeat 4px 12px;
 	line-height: 32px;
 }
-.login_box .login-layout#login .note ul li a{
+.login_box .note ul li a{
 	margin-left: 40px;
 	text-decoration: underline;
 	color: #fff;

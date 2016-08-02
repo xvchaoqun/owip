@@ -215,13 +215,13 @@ pageEncoding="UTF-8"%>
 
 					<td>岗位类别</td>
 					<td >
-						${extJzg.gwlb}
+						--
 					</td>
 					<td>
 						岗位子类别
 					</td>
 					<td>
-						--
+						${extJzg.gwlb}
 					</td>
 					<td >
 						在岗情况
@@ -302,12 +302,12 @@ pageEncoding="UTF-8"%>
 					<td >
 						任现职时间
 					</td>
-					<td><%--${cm:formatDate(mainCadrePost.postTime,'yyyy-MM-dd')}--%>
+					<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
 					</td>
 					<td>
 						现职务始任时间
 					</td>
-					<td><%--${cm:formatDate(mainCadrePost.startTime,'yyyy-MM-dd')}--%>
+					<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
@@ -315,17 +315,17 @@ pageEncoding="UTF-8"%>
 						行政级别
 					</td>
 					<td>
-						<%--${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}--%>
+						${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}
 					</td>
 					<td>任现职级时间</td>
 					<td >
-						<%--${cm:formatDate(cadreAdminLevel.startTime,'yyyy-MM-dd')}--%>
+						${cm:formatDate(cadreAdminLevel.startDispatch.workTime,'yyyy-MM-dd')}
 					</td>
 					<td>
 						任现职级年限
 					</td>
 					<td>
-						<%--${cm:intervalYearsUntilNow(cadreAdminLevel.startTime)}--%>
+						${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}
 					</td>
 				</tr>
 				<tr>
@@ -343,7 +343,7 @@ pageEncoding="UTF-8"%>
 					<td >
 						任兼职时间1
 					</td>
-					<td><%--${cm:formatDate(subCadrePost1.postTime,'yyyy-MM-dd')}--%>
+					<td>${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
@@ -361,7 +361,7 @@ pageEncoding="UTF-8"%>
 					<td >
 						任兼职时间2
 					</td>
-					<td><%--${cm:formatDate(subCadrePost2.postTime,'yyyy-MM-dd')}--%>
+					<td>${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
 				<tr>
@@ -570,7 +570,7 @@ pageEncoding="UTF-8"%>
 					<td >
 						学校类型
 					</td>
-					<td>${schoolTypeMap.get(highEdu.schoolType).name}
+					<td>${CADRE_SCHOOL_TYPE_MAP.get(highEdu.schoolType)}
 					</td>
 				</tr>
 				<tr>
@@ -607,7 +607,7 @@ pageEncoding="UTF-8"%>
 						学校类型
 					</td>
 					<td>
-						${schoolTypeMap.get(highDegree.schoolType).name}
+						${CADRE_SCHOOL_TYPE_MAP.get(highDegree.schoolType)}
 					</td>
 				</tr>
 

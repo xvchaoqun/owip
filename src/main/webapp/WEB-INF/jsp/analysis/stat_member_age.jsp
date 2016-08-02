@@ -70,7 +70,7 @@
                 series: {
                     pie: {
                         show: true,
-                        tilt: 0.8,
+                        tilt: 0.7,
                         highlight: {
                             opacity: 0.25
                         },
@@ -78,7 +78,17 @@
                             color: '#fff',
                             width: 2
                         },
-                        startAngle: 2
+                        startAngle: 2,
+                        radius: 1,
+                        label: {
+                            show: true,
+                            radius: 2/3,
+                            formatter: function(label, series) {
+                                // series is the series object for the label
+                                return '<div style="color:#fff">' + series['percent'].toFixed(2) + '%</div>';
+                            },
+                            threshold: 0.1
+                        }
                     }
                 },
                 legend: {

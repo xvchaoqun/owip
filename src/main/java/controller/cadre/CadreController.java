@@ -165,11 +165,12 @@ public class CadreController extends BaseController {
         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
         modelMap.put("extJzg", extJzg);
 
+        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(id);
         // 主职
-        modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(id));
+        modelMap.put("mainCadrePost", mainCadrePost);
 
         // 现任职务
-        //modelMap.put("cadreAdminLevel", cadrePostService.getPresentByCadreId(id));
+        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id, mainCadrePost.getAdminLevelId()));
 
         // 兼职单位
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);

@@ -34,16 +34,7 @@
     <div class="w1000 login_con">
 
         <div id="login" class="visible login-layout" >
-            <div class="note">
-                <ul>
-                    <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
-                        <img src="/extend/img/new.gif">
-                    </li>
-                    <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
-                    <img src="/extend/img/new.gif">
-                    </li>
-                </ul>
-            </div>
+
             <c:if test="${not empty error}">
             <div class="login-error">
             <i class="fa fa-times"></i> ${error}</div>
@@ -93,6 +84,16 @@
                 <dt></dt><dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>
         </div>
+    </div>
+    <div class="note visible" id="note">
+        <ul>
+            <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
+                <img src="/extend/img/new.gif">
+            </li>
+            <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
+                <img src="/extend/img/new.gif">
+            </li>
+        </ul>
     </div>
 </div>
 <!--[if !IE]> -->

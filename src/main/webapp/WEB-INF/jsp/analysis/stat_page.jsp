@@ -51,7 +51,7 @@
                           <i class="ace-icon fa fa-calendar-minus-o"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number">${memberOutCount} <span style="font-size: 10pt;">待审</span></span>
+                          <span class="infobox-data-number"><a href="${ctx}/memberOut?cls=6">${memberOutCount}</a> <span style="font-size: 10pt;">待审</span></span>
 
                           <div class="infobox-content">组织关系转出审批</div>
                         </div>
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="infobox-data">
-                          <span class="infobox-data-number">${memberInCount} <span style="font-size: 10pt;">人</span> </span>
+                          <span class="infobox-data-number"><a href="${ctx}/memberIn?cls=1">${memberInCount}</a> <span style="font-size: 10pt;">人</span> </span>
 
                           <div class="infobox-content">
                             组织关系转入申请
@@ -75,7 +75,7 @@
                           <i class="ace-icon fa fa-plane"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number">${graduateAbroadCount} <span style="font-size: 10pt;">申请</span></span>
+                          <span class="infobox-data-number"><a href="${ctx}/graduateAbroad?cls=3">${graduateAbroadCount}</a> <span style="font-size: 10pt;">申请</span></span>
                           <div class="infobox-content">党员出国申请暂留</div>
                         </div>
                       </div>

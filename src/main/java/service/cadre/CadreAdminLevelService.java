@@ -2,6 +2,7 @@ package service.cadre;
 
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreAdminLevelExample;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -39,6 +40,16 @@ public class CadreAdminLevelService extends BaseMapper {
         example.createCriteria().andCadreIdEqualTo(cadreId);
 
         return cadreAdminLevelMapper.selectByExample(example);
+    }
+
+    public CadreAdminLevel getPresentByCadreId(int cadreId, Integer adminLevelId){
+
+        if(adminLevelId==null) return null;
+        CadreAdminLevelExample example = new CadreAdminLevelExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andAdminLevelIdEqualTo(adminLevelId);
+
+        List<CadreAdminLevel> cadreAdminLevels = cadreAdminLevelMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (cadreAdminLevels.size()==1)?cadreAdminLevels.get(0):null;
     }
 
     @Transactional

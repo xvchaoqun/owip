@@ -145,6 +145,7 @@ $(function(){
         var target = $(this).data('target');
         $('#reg, #login').removeClass('visible');//hide others
         $(target).addClass('visible');//show target
+        target=='#login'?$("#note").show():$("#note").hide();
 
         $("input[name=captcha]").val('');
         $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );
