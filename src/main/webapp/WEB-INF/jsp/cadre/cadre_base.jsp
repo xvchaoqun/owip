@@ -325,8 +325,10 @@ pageEncoding="UTF-8"%>
 						任现职级年限
 					</td>
 					<td>
+						<c:if test="${not empty cadreAdminLevel}">
 						<c:set value="${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}" var="workYear"/>
 						${workYear==0?"未满一年":workYear}
+						</c:if>
 					</td>
 				</tr>
 				<tr>
