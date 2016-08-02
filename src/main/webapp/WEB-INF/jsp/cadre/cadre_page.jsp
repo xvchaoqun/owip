@@ -197,8 +197,8 @@ pageEncoding="UTF-8" %>
                 if(cellvalue==undefined) return '';
                 return _cMap.GENDER_MAP[cellvalue];
             }  },
-            { label: '民族', name: 'nation'},
-            { label: '籍贯', name: 'nativePlace', width: 60},
+            { label: '民族', name: 'nation', width: 60},
+            { label: '籍贯', name: 'nativePlace', width: 120},
             { label: '身份证号', name: 'idcard', width: 150 },
             { label: '出生时间', name: 'birth',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '年龄', name: 'birth', width: 50,
