@@ -208,7 +208,7 @@ pageEncoding="UTF-8" %>
                     var year = Math.floor(month / 12);
                     return year;
                 } },
-            { label: '党派加入时间', name: 'growTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
+            { label: '党派加入时间', name: 'growTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '到校时间', name: 'arriveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '最高学历', name: 'eduId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
