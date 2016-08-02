@@ -22,11 +22,9 @@
                         <li class="${cls==11?'active':''}">
                             <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核（${partyApprovalCount}）</a>
                         </li>
-                        <shiro:hasRole name="odAdmin">
                         <li class="${cls==12?'active':''}">
                             <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
                         </li>
-                            </shiro:hasRole>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
@@ -50,17 +48,17 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberQuit_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1"
                                             data-need-id="false"
                                             data-count="${branchApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 支部审核（${branchApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 党支部审核（${branchApprovalCount}）
                                     </button>
                                 </c:if>
                                     <c:if test="${cls==11}">
@@ -76,7 +74,7 @@
                                     </c:if>
                                         <c:if test="${cls==12}">
                                         <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                                                class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-url="${ctx}/memberQuit_approval"
                                                 data-open-by="page"
                                                 data-querystr="&type=3"
@@ -259,21 +257,23 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberQuit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120,frozen: true},
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            {label: '学工号', name: 'user.code', width: 120, frozen:true},
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
-            {label: '性别', name: 'user.genderName', frozen: true},
-            {label: '年龄', name: 'user.age', frozen: true},
-            {label: '入党时间', name: 'growTime', frozen: true},
+            }, frozen:true  },
+            {label: '性别', name: 'user.gender', frozen:true, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.GENDER_MAP[cellvalue];
+            }},
+            {label: '年龄', name: 'user.age', frozen:true},
+            {label: '入党时间', name: 'growTime', frozen:true},
             {
-                label: '所属组织机构', name: 'from', resizable: false, width: 450,
+                label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }, frozen:true
             },
             {label: '出党时间', name: 'quitTime', width: 150},
             {label: '出党原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -320,34 +320,34 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"支部审核",
+        caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
         <c:if test="${cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"组织部审核",
+        caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==1||cls==11||cls==12}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

@@ -80,8 +80,7 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/static/**" location="/static/" />-->
 
-	<mvc:view-controller path="/alert" view-name="sys/alert"/>
-	<mvc:view-controller path="/login" view-name="login"/>
+	<!--<mvc:view-controller path="/login" view-name="login"/>-->
 
 	<mvc:interceptors>
 	    <bean class="interceptor.SessionInterceptor" />  

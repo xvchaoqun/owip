@@ -94,6 +94,7 @@
                 </td>
                 <td class="bg-right">申请状态</td>
                 <td  class="bg-left">
+                    <c:if test="${empty memberOutflow.status}"><span style="color:red">未提交</span></c:if>
                     ${MEMBER_OUTFLOW_STATUS_MAP.get(memberOutflow.status)}
                 </td>
                 </tr>

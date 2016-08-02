@@ -1,16 +1,16 @@
 package controller.mobile;
 
-import bean.ApplySelfSearchBean;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import bean.m.Breadcrumb;
 import controller.BaseController;
-import domain.*;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApplySelfExample;
+import domain.abroad.ApplySelfFile;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -20,16 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +65,7 @@ public class MobileApplySelfController extends BaseController {
 		modelMap.put("status", status);
 
 		Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-				type, status, sort, order, pageNo, springProps.mPageSize, export);
+				type, null, status, sort, order, pageNo, springProps.mPageSize, export);
 		if(map == null) return null; // 导出
 
 		//request.setAttribute("isView", false);
@@ -142,7 +139,7 @@ public class MobileApplySelfController extends BaseController {
 			if(cadre.getId().intValue()!=cadreId) {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-				if (!approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
+				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
 					throw new RuntimeException("您没有权限");
 			}
 		}
@@ -161,10 +158,11 @@ public class MobileApplySelfController extends BaseController {
 		modelMap.put("approvalResultMap", approvalResultMap);
 
 
-		// 本年度的申请记录
+		// 本年度的申请记录（只显示审批通过的申请）
 		int year = DateUtils.getCurrentYear();
 		ApplySelfExample example = new ApplySelfExample();
 		ApplySelfExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
+		criteria.andIsAgreedEqualTo(true);
 		criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
 				DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
 		example.setOrderByClause("create_time desc");

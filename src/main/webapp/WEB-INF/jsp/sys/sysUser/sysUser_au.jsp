@@ -61,7 +61,13 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">手机</label>
+			<label class="col-xs-3 control-label">办公电话</label>
+			<div class="col-xs-6">
+				<input class="form-control" type="text" name="phone" value="${sysUser.phone}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">手机号</label>
 			<div class="col-xs-6">
 				<input class="form-control" type="text" name="mobile" value="${sysUser.mobile}">
 			</div>

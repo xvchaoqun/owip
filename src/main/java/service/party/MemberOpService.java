@@ -1,7 +1,7 @@
 package service.party;
 
-import domain.MemberOut;
-import domain.MemberTransfer;
+import domain.member.MemberOut;
+import domain.member.MemberTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
@@ -31,7 +31,10 @@ public class MemberOpService extends BaseMapper{
             return 1; // 已经申请了组织关系转出
         }
         MemberTransfer memberTransfer = memberTransferService.get(userId);
-        if(memberTransfer!=null && memberTransfer.getStatus()>=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY){
+        if(memberTransfer!=null
+                && memberTransfer.getStatus()>=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY
+                && memberTransfer.getStatus()< SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY // 完成了校内转接，可以其他申请
+                ){
             return 2; // 已经申请了校内组织关系转接
         }
         return 0; // 可以
@@ -41,10 +44,10 @@ public class MemberOpService extends BaseMapper{
 
         int opAuth = findOpAuth(userId);
         if(opAuth==1){
-            throw new RuntimeException("已经申请了组织关系转出");
+            throw new RuntimeException("已经申请了组织关系转出，请撤销后再进行当前申请");
         }
         if(opAuth==2){
-            throw new RuntimeException("已经申请了校内组织关系转接");
+            throw new RuntimeException("已经申请了校内组织关系转接，请撤销后再进行当前申请");
         }
     }
 

@@ -9,8 +9,7 @@ import mixin.serializer.*;
 
 import java.util.Date;
 
-@JsonIgnoreProperties(value = {"createTime", "applyTime",
-        "source", "activeTime", "politicalStatus" })
+@JsonIgnoreProperties(value = {"createTime", "applyTime", "activeTime" })
 public class MemberTeacherMixin {
 
     @JsonProperty("gender")

@@ -1,9 +1,11 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.MemberOutflow;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,6 @@ import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -95,7 +96,8 @@ public class UserMemberOutflowController extends BaseController{
             logger.info(addLog(SystemConstants.LOG_USER, "提交修改流出党员申请"));
         }
         applyApprovalLogService.add(memberOutflow.getId(),
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(), userId,
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

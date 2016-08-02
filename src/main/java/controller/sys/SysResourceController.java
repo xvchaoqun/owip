@@ -1,9 +1,9 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysResource;
-import domain.SysResourceExample;
-import domain.SysUser;
+import domain.sys.SysResource;
+import domain.sys.SysResourceExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;

@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -25,7 +24,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#"  data-dismiss="modal" class="btn btn-default">取消</a>
+
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 
@@ -36,9 +35,10 @@
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        SysMsg.success('操作成功。', '成功', function () {
+                        goto_next(${param.goToNext==1});
+                        /*SysMsg.success('操作成功。', '成功', function () {
                             goto_next(${param.goToNext==1});
-                        });
+                        });*/
                     }
                 }
             });

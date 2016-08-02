@@ -1,6 +1,6 @@
 package mapper;
 
-import domain.Cadre;
+import domain.cadre.Cadre;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;

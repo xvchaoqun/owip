@@ -6,10 +6,14 @@
   <h3>
     <c:choose>
       <c:when test="${param.type=='passportApplyPass'}">申请已批准，发送短信通知</c:when>
-      <c:when test="${param.type=='passportApplyUnPass'}">不发短信，直接返回</c:when>
       <c:when test="${param.type=='passportApplyDraw'}">催交证件</c:when>
+      <c:when test="${param.type=='passportApplySubmit'}">
+        <h3 class="label label-success" style="font-size: 30px; height: 50px;">温馨提示</h3>
+      </c:when>
       <c:otherwise>短信通知</c:otherwise>
     </c:choose>
+    【<i class="fa fa-mobile" aria-hidden="true"></i>
+    ${empty shortMsgBean.mobile?"<span style='color:red;font-weight:bolder'>手机号码为空</span>":shortMsgBean.mobile}】
   </h3>
 </div>
 <div class="modal-body">
@@ -18,8 +22,15 @@
   </p>
 </div>
 <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-  <input type="submit" class="btn btn-primary" value="确定发送"/>
+  <c:choose>
+    <c:when test="${param.type=='passportApplySubmit'}">
+      <a href="#" data-dismiss="modal" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    </c:when>
+    <c:otherwise>
+      <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+      <input type="submit" ${empty shortMsgBean.mobile?"disabled":""} class="btn btn-primary" value="确定发送"/>
+    </c:otherwise>
+  </c:choose>
 </div>
 
 <script>

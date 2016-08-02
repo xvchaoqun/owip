@@ -139,21 +139,21 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchCadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份', name: 'dispatch.year',resizable:false, width: 75, frozen:true },
+            { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, cellvalue);
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.dispatch.id, cellvalue);
                 else return cellvalue;
-            }, frozen:true },
-            { label: '任免日期',  name: 'dispatch.workTime', width: 100 , frozen:true },
+            },frozen:true },
+            { label: '任免日期',  name: 'dispatch.workTime', width: 100,frozen:true  },
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
-            }, frozen:true },
+            },frozen:true },
             { label:'任免方式', name: 'wayId', formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return cellvalue==undefined?'':_metaTypeMap[cellvalue];
             }},
             { label:'任免程序', name: 'procedureId', formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return cellvalue==undefined?'':_metaTypeMap[cellvalue];
             }},
             { label:'干部类型', name: 'cadreTypeId', formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
@@ -177,7 +177,7 @@
             { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">查看</a>'
-                                    .format(rowObject.id);
+                                    .format(rowObject.dispatch.id);
                 else return '';
             }},
             { label:'上会ppt', name: 'pptName', formatter:function(cellvalue, options, rowObject){
@@ -189,7 +189,7 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=cadreId]'));

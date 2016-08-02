@@ -12,6 +12,14 @@
       "showColumns": "user_id",
       "excludeEditColumns": "id,type,status,remark,create_time",
       "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "teacher",
+      "key": "user_id",
+      "searchColumns": "user_id,code",
+      "excludeEditColumns": "user_id,create_time,update_time",
+      "logType":"SystemConstants.LOG_OW",
       "ignore": false
     },
     {
@@ -19,6 +27,14 @@
       "key": "id",
       "searchColumns": "user_id,type",
       "showColumns": "user_id,abroad_time,return_time,mobile,status",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_OW",
+      "ignore": true
+    },
+    {
+      "table": "graduate_abroad",
+      "key": "id",
+      "searchColumns": "user_id,type",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_OW",
       "ignore": true

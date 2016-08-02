@@ -1,11 +1,12 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreReward;
-import domain.CadreRewardExample;
-import domain.CadreRewardExample.Criteria;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreReward;
+import domain.cadre.CadreRewardExample;
+import domain.cadre.CadreRewardExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -25,18 +26,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class CadreRewardController extends BaseController {
@@ -51,13 +51,31 @@ public class CadreRewardController extends BaseController {
     }
     @RequiresPermissions("cadreReward:list")
     @RequestMapping("/cadreReward_page")
-    public String cadreReward_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_reward") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+    public String cadreReward_page(
+            @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
+            Integer cadreId, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+        if (type == 2) {
+
+            CadreRewardExample example = new CadreRewardExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_OTHER);
+            example.setOrderByClause("reward_time asc");
+            List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
+            modelMap.put("cadreRewards", cadreRewards);
+
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER);
+            modelMap.put("cadreInfo", cadreInfo);
+        }
+        return "cadre/cadreReward/cadreReward_page";
+    }
+    @RequiresPermissions("cadreReward:list")
+    @RequestMapping("/cadreReward_data")
+    public void cadreReward_data(HttpServletResponse response,
                                     Integer cadreId,
-                                    byte type, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
+                                    byte rewardType, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -68,8 +86,8 @@ public class CadreRewardController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreRewardExample example = new CadreRewardExample();
-        Criteria criteria = example.createCriteria().andTypeEqualTo(type);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        Criteria criteria = example.createCriteria().andRewardTypeEqualTo(rewardType);
+        example.setOrderByClause("reward_time desc");
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -77,7 +95,7 @@ public class CadreRewardController extends BaseController {
 
         if (export == 1) {
             cadreReward_export(example, response);
-            return null;
+            return;
         }
 
         int count = cadreRewardMapper.countByExample(example);
@@ -85,41 +103,48 @@ public class CadreRewardController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreReward> CadreRewards = cadreRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreRewards", CadreRewards);
-
+        List<CadreReward> cadreRewards = cadreRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", cadreRewards);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        searchStr += "&type=" + type;
-
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "cadre/cadreReward/cadreReward_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("cadreReward:edit")
     @RequestMapping(value = "/cadreReward_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreReward_au(CadreReward record,
-                                 String _rewardTime, HttpServletRequest request) {
+                                 String _rewardTime,MultipartFile _proof, HttpServletRequest request) {
 
         Integer id = record.getId();
-
-        Assert.isTrue(record.getType()!=null);
+        Assert.isTrue(record.getRewardType()!=null);
 
         if(StringUtils.isNotBlank(_rewardTime)){
-            record.setRewardTime(DateUtils.parseDate(_rewardTime, DateUtils.YYYY_MM_DD));
+            record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy.MM"));
+        }
+
+        if(_proof!=null){
+            //String ext = FileUtils.getExtention(_proof.getOriginalFilename());
+            String originalFilename = _proof.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  File.separator
+                    + "cadre" + File.separator
+                    + "file" + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));
+
+            record.setProofFilename(originalFilename);
+            record.setProof(savePath);
         }
 
         if (id == null) {
@@ -136,8 +161,7 @@ public class CadreRewardController extends BaseController {
 
     @RequiresPermissions("cadreReward:edit")
     @RequestMapping("/cadreReward_au")
-    public String cadreReward_au(Integer id, byte type, //  1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
-                                 int cadreId, ModelMap modelMap) {
+    public String cadreReward_au(Integer id, int cadreId, ModelMap modelMap) {
 
         if (id != null) {
             CadreReward cadreReward = cadreRewardMapper.selectByPrimaryKey(id);
@@ -169,12 +193,10 @@ public class CadreRewardController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             cadreRewardService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学奖励：%s", StringUtils.join(ids, ",")));
         }
-
         return success(FormUtils.SUCCESS);
     }
 

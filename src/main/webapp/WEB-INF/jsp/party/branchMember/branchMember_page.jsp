@@ -33,8 +33,8 @@ pageEncoding="UTF-8" %>
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <c:if test="${commonList.recNum>0}">
-                    <a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="branchMember:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
                      </shiro:hasPermission>

@@ -1,10 +1,8 @@
 package service.cadre;
 
-import domain.CadreParttime;
-import domain.CadreParttimeExample;
+import domain.cadre.CadreParttime;
+import domain.cadre.CadreParttimeExample;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -70,7 +68,7 @@ public class CadreParttimeService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, int cadreId, int addNum) {
 
         if(addNum == 0) return ;
 
@@ -80,11 +78,11 @@ public class CadreParttimeService extends BaseMapper {
         CadreParttimeExample example = new CadreParttimeExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -94,9 +92,9 @@ public class CadreParttimeService extends BaseMapper {
             CadreParttime targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_cadre_parttime", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_cadreParttime(cadreId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_cadre_parttime", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_cadreParttime(cadreId, baseSortOrder, targetEntity.getSortOrder());
 
             CadreParttime record = new CadreParttime();
             record.setId(id);

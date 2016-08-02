@@ -5,7 +5,6 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/passportApply_au?type=1"
              data-url-page="${ctx}/passportApply_page"
              data-url-co="${ctx}/passportApply_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -132,16 +131,16 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
-            { label: '工作证号', align:'center', name: 'applyUser.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'applyUser.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '申请日期', name: 'applyDate',frozen:true},
+            { label: '工作证号', name: 'applyUser.code',frozen:true},
+            { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            } ,frozen:true },
+            },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
-            { label: '申办证件名称', align:'center', name: 'passportClass.name', width: 250 },
+            { label: '申办证件名称', name: 'passportClass.name', width: 250 },
             <c:if test="${status==0}">
-            { label: '审批', align:'center', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '审批', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
                 var html = '<button class="jqOpenViewBtn btn btn-success btn-xs" data-open-by="page"'
                 +'data-url="${ctx}/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>';
                 html.format(rowObject.id);
@@ -150,24 +149,30 @@ pageEncoding="UTF-8" %>
             }},
             </c:if>
             <c:if test="${status!=0}">
-            { label: '审批人', align:'center', name: 'approvalUser.realname', width: 100 , formatter:function(cellvalue, options, rowObject){
+            { label: '审批人', name: 'approvalUser.realname', formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.approvalUser.id, cellvalue);
             }},
             { label:'审批日期', align:'center',name: 'approveTime', width: 180},
                 </c:if>
             <c:if test="${status==1 ||status==3}">
-            { label:'应交日期', align:'center', name: 'expectDate', width: 100 },
+            { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
+                var expectDate = rowObject.expectDate;
+                if(expectDate<=new Date().format('yyyy-MM-dd'))
+                    return "class='danger'"
+            }},
             </c:if>
             <c:if test="${status==3}">
-            { label:'实交日期', align:'center', name: 'handleDate', width: 100 },
+            { label:'实交日期', name: 'handleDate'},
+            { label:'证件号码', name: 'code'},
+            { label:'接收人', name: 'handleUser.realname'},
             </c:if>
             <c:if test="${status==2}">
-                { label:'未批准原因', align:'center', name: 'handleDate', width: 200 }
+                { label:'未批准原因', name: 'handleDate', width: 200 }
             </c:if>
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     /*$(".printBtn").click(function(){
         printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"));
     });*/

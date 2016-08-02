@@ -36,6 +36,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="300"
               memoryStoreEvictionPolicy="LRU" />
+       <cache name="ApproverBlackList"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
        <cache name="ApproverType:ALL"
               eternal="false"
               maxElementsInMemory="2000"
@@ -215,6 +223,22 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="300"
               memoryStoreEvictionPolicy="LRU" />
+       <cache name="CadreAdditionalPost:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+       <cache name="CadreAdditionalPost"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
        <cache name="HistoryUnit"
               eternal="false"
               maxElementsInMemory="100"
@@ -249,6 +273,22 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        timeToLiveSeconds="300"
        memoryStoreEvictionPolicy="LRU" />
        <cache name="MetaClass:Code:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+       <cache name="SysConfig:Code:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+       <cache name="ContentTpl:Code:ALL"
               eternal="false"
               maxElementsInMemory="100"
               overflowToDisk="false"
@@ -306,7 +346,7 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToLiveSeconds="0"
               memoryStoreEvictionPolicy="LRU" />
 <!--shiro缓存-->
-<cache name="SysUser:ID"
+<cache name="SysUser:ID_"
        maxEntriesLocalHeap="2000"
        eternal="false"
        timeToIdleSeconds="3600"
@@ -314,6 +354,14 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        overflowToDisk="true"
        statistics="true">
 </cache>
+       <cache name="SysUser:CODE_"
+              maxEntriesLocalHeap="2000"
+              eternal="false"
+              timeToIdleSeconds="3600"
+              timeToLiveSeconds="0"
+              overflowToDisk="true"
+              statistics="true">
+       </cache>
        <cache name="SysUser"
               maxEntriesLocalHeap="2000"
               eternal="false"
@@ -403,14 +451,34 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        overflowToDisk="false"
        statistics="true">
 </cache>
-<cache name="ActiveSessionCache"
+
+       <!--持久化，保证重启服务器不踢出用户-->
+       <cache name="ActiveSessionCache"
+              maxElementsInMemory="1000"
+              overflowToDisk="true"
+              eternal="true"
+              timeToLiveSeconds="0"
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600"/>
+
+<!--<cache name="ActiveSessionCache"
        maxEntriesLocalHeap="2000"
        eternal="false"
        timeToIdleSeconds="3600"
        timeToLiveSeconds="0"
        overflowToDisk="false"
        statistics="true">
-</cache>
+</cache>-->
+
+       <cache name="shiro-kickout-session"
+              maxEntriesLocalHeap="2000"
+              eternal="false"
+              timeToIdleSeconds="3600"
+              timeToLiveSeconds="0"
+              overflowToDisk="false"
+              statistics="true">
+       </cache>
 
 <cache name="TableColumns"
        maxEntriesLocalHeap="200"

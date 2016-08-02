@@ -1,9 +1,9 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.DispatchType;
-import domain.DispatchTypeExample;
-import domain.DispatchTypeExample.Criteria;
+import domain.dispatch.DispatchType;
+import domain.dispatch.DispatchTypeExample;
+import domain.dispatch.DispatchTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchTypeMixin;
@@ -52,7 +52,7 @@ public class DispatchTypeController extends BaseController {
     @RequestMapping("/dispatchType_data")
     @ResponseBody
     public void dispatchType_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_type") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_type") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Short year,
                                     String name,

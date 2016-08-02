@@ -1,12 +1,14 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.ApplyApprovalLog;
+import domain.member.ApplyApprovalLogExample;
+import domain.member.*;
+import domain.sys.SysUser;
 import mixin.ApplyApprovalLogMixin;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -106,7 +108,7 @@ public class ApplyApprovalLogController extends BaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause("create_time asc");
+        example.setOrderByClause("create_time desc");
 
         if(id!=null)
             criteria.andRecordIdEqualTo(id);

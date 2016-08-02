@@ -1,10 +1,10 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.MetaClass;
-import domain.MetaType;
-import domain.MetaTypeExample;
-import domain.MetaTypeExample.Criteria;
+import domain.sys.MetaClass;
+import domain.sys.MetaType;
+import domain.sys.MetaTypeExample;
+import domain.sys.MetaTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,6 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;

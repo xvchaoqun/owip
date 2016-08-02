@@ -261,7 +261,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="bg-right">政治面貌</td>
+		<td class="bg-right">党籍状态</td>
 		<td  class="bg-left" colspan="2">
 			${MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.politicalStatus)}
 		</td>

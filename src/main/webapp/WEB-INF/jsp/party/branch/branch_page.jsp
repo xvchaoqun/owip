@@ -18,9 +18,11 @@ pageEncoding="UTF-8" %>
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.typeId ||not empty param.unitTypeId}"/>
             <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
                 <shiro:hasPermission name="branch:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
+                </shiro:hasAnyRoles>
                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 <shiro:hasPermission name="member:edit">
@@ -42,9 +44,10 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                 <shiro:hasPermission name="branch:del">
-                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                    <a class="jqDelBtn btn btn-danger btn-sm  tooltip-warning"
+                       data-rel="tooltip" data-placement="top" title="如果党支部已经设置了管理员、支部委员会或添加了党员，则不可以删除"><i class="fa fa-trash"></i> 删除</a>
                 </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -175,17 +178,17 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',align:'center', name: 'code',resizable:false, width: 75, frozen:true },
+            { label: '编号',align:'center', name: 'code', frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
 
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            } ,frozen:true},
-            { label: '所属党总支', name: 'party.name',align:'left', width: 400, frozen:true },
+            }, frozen:true },
+            { label: '所属分党委', name: 'party.name',align:'left', width: 400 , frozen:true},
            /* <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            } },
             </c:if>*/
             { label:'类别', align:'center', name: 'branchType.name', width: 150},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){
@@ -205,7 +208,7 @@ pageEncoding="UTF-8" %>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_party_select($('#searchForm select[name=partyId]'));

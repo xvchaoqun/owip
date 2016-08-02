@@ -1,6 +1,6 @@
 package service.ext;
 
-import domain.*;
+import domain.ext.*;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 

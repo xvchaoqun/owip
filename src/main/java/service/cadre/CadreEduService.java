@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreEdu;
-import domain.CadreEduExample;
+import domain.cadre.CadreEdu;
+import domain.cadre.CadreEduExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +13,26 @@ import java.util.List;
 @Service
 public class CadreEduService extends BaseMapper {
 
+    public boolean hasHighEdu(Integer id, Boolean isHighEdu){
+
+        if(!isHighEdu) return false;
+
+        CadreEduExample example = new CadreEduExample();
+        CadreEduExample.Criteria criteria = example.createCriteria()
+                .andIsHighEduEqualTo(true);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+        return cadreEduMapper.countByExample(example) > 0;
+    }
+    public boolean hasHighDegree(Integer id, Boolean isHighDegree){
+
+        if(!isHighDegree) return false;
+
+        CadreEduExample example = new CadreEduExample();
+        CadreEduExample.Criteria criteria = example.createCriteria()
+                .andIsHighDegreeEqualTo(true);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+        return cadreEduMapper.countByExample(example) > 0;
+    }
 
     public CadreEdu getHighEdu(int cadreId){
 
@@ -34,6 +54,13 @@ public class CadreEduService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreEdu record){
 
+        if(hasHighEdu(record.getId(), record.getIsHighEdu())){
+            throw new RuntimeException("已经存在最高学历");
+        }
+        if(hasHighDegree(record.getId(), record.getIsHighDegree())){
+            throw new RuntimeException("已经存在最高学位");
+        }
+
         return cadreEduMapper.insertSelective(record);
     }
     @Transactional
@@ -53,8 +80,20 @@ public class CadreEduService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreEdu record){
-        return cadreEduMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(CadreEdu record){
+
+        if(hasHighEdu(record.getId(), record.getIsHighEdu())){
+            throw new RuntimeException("已经存在最高学历");
+        }
+        if(hasHighDegree(record.getId(), record.getIsHighDegree())){
+            throw new RuntimeException("已经存在最高学位");
+        }
+
+        cadreEduMapper.updateByPrimaryKeySelective(record);
+
+        if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
+            updateMapper.del_caderEdu_hasDegree(record.getId());
+        }
     }
 
     /**

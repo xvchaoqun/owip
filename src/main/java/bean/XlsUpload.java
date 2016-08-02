@@ -1,6 +1,6 @@
 package bean;
 
-import domain.MetaType;
+import domain.sys.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;

@@ -1,15 +1,13 @@
 package mapper;
 
 import bean.ApplySelfSearchBean;
-import domain.ApplySelf;
-import domain.Cadre;
+import domain.abroad.ApplySelf;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.common.CommonMapper;
 import persistence.common.SelectMapper;
 
 import java.util.ArrayList;

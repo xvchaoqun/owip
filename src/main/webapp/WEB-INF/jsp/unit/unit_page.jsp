@@ -131,20 +131,23 @@
         //forceFit:true,
         url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '单位编号', align:'center', name: 'code', width: 80 ,frozen:true},
-            { label: '单位名称', align:'center', name: 'name', width: 350 ,frozen:true},
+            { label: '单位编号', name: 'code', width: 80,frozen:true },
+            { label: '单位名称', name: 'name', width: 350,formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            },frozen:true },
             <c:if test="${!_query}">
-            { label:'排序',align:'center',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+            { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
             </c:if>
-            { label: '单位类型', align:'center', name: 'unitType.name', width: 250 ,frozen:true },
-            { label: '成立时间', align:'center', name: 'workTime', width: 100 },
-            { label: '备注', align:'center', name: 'remark', width: 100 }
+            { label: '单位类型', name: 'unitType.name', width: 250,frozen:true  },
+            { label: '成立时间', name: 'workTime'},
+            { label: '备注', align:'left', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

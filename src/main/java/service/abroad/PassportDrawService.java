@@ -1,6 +1,8 @@
 package service.abroad;
 
-import domain.*;
+import domain.abroad.*;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,10 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class PassportDrawService extends BaseMapper {
+
+    public List<PassportDrawFile> getPassportDrawFiles(int drawId){
+
+        PassportDrawFileExample example = new PassportDrawFileExample();
+        example.createCriteria().andDrawIdEqualTo(drawId);
+        return passportDrawFileMapper.selectByExample(example);
+    }
 
     @Transactional
     public int insertSelective(PassportDraw record){
@@ -42,6 +50,35 @@ public class PassportDrawService extends BaseMapper {
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         passportDrawMapper.deleteByExample(example);
+    }
+    // 领取证件
+    @Transactional
+    public void drawPassport(PassportDraw record){
+
+        updateByPrimaryKeySelective(record);
+
+        // 将证件标记为已借出
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
+        Passport _record = new Passport();
+        _record.setId(passport.getId());
+        _record.setIsLent(true);
+        passportMapper.updateByPrimaryKeySelective(_record);
+    }
+
+    // 归还证件
+    @Transactional
+    public void returnPassport(PassportDraw record){
+
+        updateByPrimaryKeySelective(record);
+
+        // 将证件标记为已借出
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
+        Passport _record = new Passport();
+        _record.setId(passport.getId());
+        _record.setIsLent(false);
+        passportMapper.updateByPrimaryKeySelective(_record);
     }
 
     @Transactional
@@ -73,7 +110,7 @@ public class PassportDrawService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "处级干部因私出国（境）证件使用记录");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部因私出国（境）证件使用记录");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 14));
             rowNum++;
         }

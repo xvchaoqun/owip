@@ -1,10 +1,10 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.Dispatch;
-import domain.DispatchExample;
-import domain.DispatchExample.Criteria;
-import domain.DispatchType;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchExample;
+import domain.dispatch.DispatchExample.Criteria;
+import domain.dispatch.DispatchType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchMixin;
@@ -63,7 +63,7 @@ public class DispatchController extends BaseController {
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch_data")
     public void dispatch_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer year,
                                     Integer dispatchTypeId,

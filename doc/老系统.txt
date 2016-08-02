@@ -1,6 +1,6 @@
 http://zzgz.bnu.edu.cn/
 11112010114
-19830820
+19830820 /  qrsun1234A
 
 组织部
 07159
@@ -31,7 +31,7 @@ select * from dba_tab_cols where column_name='DWMC'
 
 
 20160322迁移->
-172.16.212.114
+172.16.212.108
 root
 wlzx@2015
 

@@ -3,36 +3,63 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreResearch!=null}">编辑</c:if><c:if test="${cadreResearch==null}">添加</c:if>干部科研情况</h3>
+    <h3><c:if test="${cadreResearch!=null}">编辑</c:if><c:if test="${cadreResearch==null}">添加</c:if>干部${param.researchType==CADRE_RESEARCH_TYPE_DIRECT?"主持":"参与"}科研项目情况</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreResearch_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreResearch.id}">
         <input type="hidden" name="cadreId" value="${cadre.id}">
+        <input type="hidden" name="researchType" value="${param.researchType}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
+            <label class="col-xs-3 control-label">所属干部</label>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
             </div>
         </div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">主持科研项目情况</label>
-				<div class="col-xs-6">
-                    <input class="form-control" type="file" name="_chairFile" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">参与科研项目情况</label>
-				<div class="col-xs-6">
-                    <input class="form-control" type="file" name="_joinFile" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">出版著作及发表论文等情况</label>
-				<div class="col-xs-6">
-                    <input class="form-control" type="file" name="_publishFile" />
-				</div>
-			</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">项目起始时间</label>
+            <div class="col-xs-6">
+                <div class="input-group" style="width: 120px">
+                    <input required class="form-control date-picker" name="_startTime" type="text"
+                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreResearch.startTime,'yyyy-MM-dd')}" />
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">项目结题时间</label>
+            <div class="col-xs-6">
+                <div class="input-group" style="width: 120px">
+                    <input required class="form-control date-picker" name="_endTime" type="text"
+                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreResearch.endTime,'yyyy-MM-dd')}" />
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">项目名称</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="name" value="${cadreResearch.name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">项目类型</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="type" value="${cadreResearch.type}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">委托单位</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="unit" value="${cadreResearch.unit}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">备注</label>
+            <div class="col-xs-6">
+                <textarea class="form-control" name="remark">${cadreResearch.remark}</textarea>
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -41,27 +68,19 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-
-    $('#modalForm input[type=file]').ace_file_input({
-        no_file:'请选择文件 ...',
-        btn_choose:'选择',
-        btn_change:'更改',
-        droppable:false,
-        onchange:null,
-        thumbnail:false //| true | large
-        //whitelist:'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
-        //onchange:''
-        //
-    });
-
+    register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal("hide");
+                        <c:if test="${param.researchType==CADRE_RESEARCH_TYPE_IN}">
+                        $("#jqGrid_cadreResearch_in").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.researchType==CADRE_RESEARCH_TYPE_DIRECT}">
+                        $("#jqGrid_cadreResearch_direct").trigger("reloadGrid");
+                        </c:if>
                     }
                 }
             });

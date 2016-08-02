@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.Member;
-import domain.MemberApply;
-import domain.MemberApplyExample;
-import domain.SysUser;
+import domain.member.Member;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ShiroSecurityHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -29,12 +30,49 @@ public class MemberApplyService extends BaseMapper {
     private MemberService memberService;
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
 
     /*@Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
     public int insertSelective(MemberApply record) {
         return memberApplyMapper.insertSelective(record);
     }*/
+
+    // 添加预备党员，需要加入入党申请（预备党员阶段）
+    public void addGrowApply(int userId){
+        Member member = memberService.get(userId);
+        if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL
+                && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
+            Date now = new Date();
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply==null) { // 还没有入党申请
+                MemberApply record = new MemberApply();
+                record.setUserId(userId);
+                record.setType((member.getType()==SystemConstants.MEMBER_TYPE_TEACHER ?
+                        SystemConstants.APPLY_TYPE_TECHER : SystemConstants.APPLY_TYPE_STU));
+                record.setPartyId(member.getPartyId());
+                record.setBranchId(member.getBranchId());
+                record.setApplyTime(now);
+                record.setGrowTime(member.getGrowTime());
+                record.setRemark("后台添加");
+                record.setFillTime(now);
+                record.setCreateTime(now);
+                record.setStage(SystemConstants.APPLY_STAGE_GROW);
+
+                memberApplyMapper.insertSelective(record);
+
+                Integer currentUserId = ShiroSecurityHelper.getCurrentUserId();
+                applyApprovalLogService.add(userId,
+                        member.getPartyId(), member.getBranchId(), userId,
+                        currentUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "后台添加预备党员");
+            }
+        }
+    }
 
     // status=-1代表 isNULL
     public int count(Integer partyId, Integer branchId, Byte  type, Byte stage, Byte status){
@@ -60,8 +98,9 @@ public class MemberApplyService extends BaseMapper {
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case SystemConstants.APPLY_STAGE_PLAN:
-                        if(status==-1) criteria.andDrawStatusIsNull();
-                        else criteria.andDrawStatusEqualTo(status);
+                        /*if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);*/
+                        criteria.andDrawStatusIsNull();
                         break;
                     case SystemConstants.APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
@@ -104,8 +143,9 @@ public class MemberApplyService extends BaseMapper {
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case SystemConstants.APPLY_STAGE_PLAN:
-                        if(status==-1) criteria.andDrawStatusIsNull();
-                        else criteria.andDrawStatusEqualTo(status);
+                        /*if(status==-1) criteria.andDrawStatusIsNull();
+                        else criteria.andDrawStatusEqualTo(status);*/
+                        criteria.andDrawStatusIsNull();
                         break;
                     case SystemConstants.APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
@@ -307,4 +347,6 @@ public class MemberApplyService extends BaseMapper {
                 break;
         }
     }
+
+
 }

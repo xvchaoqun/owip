@@ -36,6 +36,7 @@ pageEncoding="UTF-8" %>
     }
 </style>
 <script>
+    var classBeans = ${fn:length(classBeans)>0?classBeans:"[]"};
     $("#jqGrid1").jqGrid({
         caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照证件的类型和状态统计</span>',
         responsive:false,
@@ -43,7 +44,7 @@ pageEncoding="UTF-8" %>
         footerrow:true,
         datatype: "local",
         height:112,
-        data:${classBeans},
+        data:classBeans,
         colModel: [
             { label: '证件名称', name: 'passportClass.name', width: 180 },
             { label: '数量',   align:'center',name: 'num', width: 50 },
@@ -68,6 +69,7 @@ pageEncoding="UTF-8" %>
             }
         }
     });
+    var lentBeans = ${fn:length(lentBeans)>0?lentBeans:"[]"};
     $("#jqGrid2").jqGrid({
         caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照证件的借出情况统计</span>',
         responsive:false,
@@ -75,7 +77,7 @@ pageEncoding="UTF-8" %>
         footerrow:true,
         datatype: "local",
         height:112,
-        data:${lentBeans},
+        data:lentBeans,
         colModel: [
             { label: '证件名称', name: 'passportClass.name', width: 180 },
             { label: '集中管理总数量',   align:'center',name: 'num', width: 150 },
@@ -96,13 +98,15 @@ pageEncoding="UTF-8" %>
             }
         }
     });
+    var postBeans = ${fn:length(postBeans)>0?postBeans:"[]"};
     $("#jqGrid3").jqGrid({
         caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照职务属性统计</span>',
         responsive:false,
         multiselect:false,
         footerrow:true,
         datatype: "local",
-        data:${postBeans},
+        rowNum:postBeans.length,
+        data:postBeans,
         colModel: [
             { label: '职务属性', name: 'post.name', width: 340 },
             { label: '因私普通护照',   align:'center',name: 'selfNum', width: 200 },

@@ -1,22 +1,16 @@
 package controller.mobile;
 
-import bean.ApproverTypeBean;
 import controller.BaseController;
-import domain.ApproverType;
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
-import shiro.ShiroUser;
 import sys.tool.paging.CommonList;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -57,13 +51,13 @@ public class MobileIndexController extends BaseController {
 		}else{ // 干部管理员 登录
 			{
 				Map map = applySelfService.findApplySelfList(response, null, null,
-						null, 0, null, null, null, null, 0);
+						null, null, 0, null, null, null, null, 0);
 				CommonList commonList = (CommonList) map.get("commonList");
 				notApprovalCount = commonList.recNum;
 			}
 			{
 				Map map = applySelfService.findApplySelfList(response, null, null,
-						null, 1, null, null, null, null, 0);
+						null, null, 1, null, null, null, null, 0);
 				CommonList commonList = (CommonList) map.get("commonList");
 				hasApprovalCount = commonList.recNum;
 			}

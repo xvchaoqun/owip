@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.UnitAdminGroup;
-import domain.UnitAdminGroupExample;
+import domain.unit.UnitAdminGroup;
+import domain.unit.UnitAdminGroupExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -116,9 +116,9 @@ public class UnitAdminGroupService extends BaseMapper {
             UnitAdminGroup targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
 
             UnitAdminGroup record = new UnitAdminGroup();
             record.setId(id);

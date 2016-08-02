@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.SelectMapper" >
 
-  <select id="selectDispatchCadrePage" resultMap="persistence.DispatchCadreMapper.BaseResultMap" parameterType="map" >
-    select dc.* from base_dispatch_cadre dc, base_dispatch d, base_dispatch_type dt
+  <select id="selectDispatchCadrePage" resultMap="persistence.dispatch.DispatchCadreMapper.BaseResultMap" parameterType="map" >
+    select dc.* from dispatch_cadre dc, dispatch d, dispatch_type dt
     where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id
     <if test="dispatchId!=null">
       and d.id =#{dispatchId}
@@ -59,8 +59,8 @@
       and p.cadre_id=c.id and p.class_id=mt.id
     </where>
   </sql>
-  <select id="selectPassportList" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
-    select  p.* from abroad_passport p, base_cadre c, base_meta_type mt
+  <select id="selectPassportList" resultMap="persistence.abroad.PassportMapper.BaseResultMap" parameterType="map">
+    select  p.* from abroad_passport p, cadre c, base_meta_type mt
     <include refid="where_selectPassportList"/>
     order by
       <if test="type==1">
@@ -70,7 +70,7 @@
   </select>
 
   <select id="countPassport" parameterType="map" resultType="java.lang.Integer" >
-    select  count(p.id) from abroad_passport p, base_cadre c, base_meta_type mt
+    select  count(p.id) from abroad_passport p, cadre c, base_meta_type mt
     <include refid="where_selectPassportList"/>
   </select>
 
@@ -119,13 +119,13 @@
       </if>
  </sql>
   <!--待审批-->
-  <select id="selectNotApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
-    select aas.* from abroad_apply_self aas, base_cadre bc
+  <select id="selectNotApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
+    select aas.* from abroad_apply_self aas, cadre bc
     <include refid="Where_selectNotApproval" />
     order by aas.create_time desc
   </select>
   <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer" >
-    select count(aas.id) from abroad_apply_self aas, base_cadre bc
+    select count(aas.id) from abroad_apply_self aas, cadre bc
     <include refid="Where_selectNotApproval" />
   </select>
   <sql id="Where_hasApprovalList">
@@ -169,13 +169,13 @@
       </if>
   </sql>
   <!-- 已审批 -->
-  <select id="selectHasApprovalList" resultMap="persistence.ApplySelfMapper.BaseResultMap" parameterType="map">
-    select aas.* from abroad_apply_self aas, base_cadre bc
+  <select id="selectHasApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
+    select aas.* from abroad_apply_self aas, cadre bc
     <include refid="Where_hasApprovalList" />
     order by aas.create_time desc
   </select>
   <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer" >
-    select count(aas.id) from abroad_apply_self aas, base_cadre bc
+    select count(aas.id) from abroad_apply_self aas, cadre bc
     <include refid="Where_hasApprovalList" />
   </select>
 
@@ -184,7 +184,7 @@
     /*select asb.id as id, asb.code as code, asb.remark as remark,
     count(ap.id) as totalCount, group_concat(bc.unit_id) as unitIds,
     sum(if(ap.type=1, 1, 0)) as keepCount from abroad_safe_box asb ,
-    abroad_passport ap, base_cadre bc
+    abroad_passport ap, cadre bc
     where ap.safe_box_id=asb.id and
     (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0))
     and ap.cadre_id=bc.id
@@ -196,7 +196,7 @@
 
     left join
 
-    (select ap.id, ap.safe_box_id, ap.type, bc.unit_id from abroad_passport ap , base_cadre bc
+    (select ap.id, ap.safe_box_id, ap.type, bc.unit_id from abroad_passport ap , cadre bc
     where (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.cadre_id=bc.id ) as aap
 
     on aap.safe_box_id=asb.id group by asb.id order by asb.sort_order desc
@@ -223,7 +223,7 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
     <!-- 职务属性  因私  港澳 台湾 合计-->
   <select id="passportStatByPost" resultType="bean.PassportStatByPostBean" parameterType="map">
     select bc.post_id as postId, count(*) as num, sum(if(class_id=#{selfPassportTypeId}, 1, 0)) as selfNum,
-    sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, base_cadre bc where
+    sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, cadre bc where
     ap.type=1 and ap.cadre_id = bc.id
     group by bc.post_id order by bc.sort_order desc
   </select>

@@ -1,11 +1,11 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.Party;
-import domain.SysUser;
-import domain.SysUserReg;
-import domain.SysUserRegExample;
-import domain.SysUserRegExample.Criteria;
+import domain.party.Party;
+import domain.sys.SysUser;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserRegExample;
+import domain.sys.SysUserRegExample.Criteria;
 import mixin.SysUserRegMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -203,7 +203,8 @@ public class SysUserRegController extends BaseController {
         logger.info(addLog(SystemConstants.LOG_OW, "拒绝用户注册申请：%s", id));
 
         applyApprovalLogService.add(sysUserReg.getId(),
-                sysUserReg.getPartyId(), null, userId, loginUserId,
+                sysUserReg.getPartyId(), null, userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" , (byte) 0, reason);
 
         return success(FormUtils.SUCCESS);
@@ -224,7 +225,8 @@ public class SysUserRegController extends BaseController {
         int loginUserId = loginUser.getId();
         int userId = sysUserReg.getUserId();
         applyApprovalLogService.add(sysUserReg.getId(),
-                sysUserReg.getPartyId(), null, userId, loginUserId,
+                sysUserReg.getPartyId(), null, userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核", (byte) 1, null);
 
         return success(FormUtils.SUCCESS);

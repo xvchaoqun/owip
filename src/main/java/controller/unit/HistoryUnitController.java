@@ -1,9 +1,9 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.HistoryUnit;
-import domain.HistoryUnitExample;
-import domain.HistoryUnitExample.Criteria;
+import domain.unit.HistoryUnit;
+import domain.unit.HistoryUnitExample;
+import domain.unit.HistoryUnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +49,7 @@ public class HistoryUnitController extends BaseController {
     @RequiresPermissions("historyUnit:list")
     @RequestMapping("/historyUnit_page")
     public String historyUnit_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_history_unit") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_history_unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer unitId,
                                  @RequestParam(required = false, defaultValue = "0") int export,

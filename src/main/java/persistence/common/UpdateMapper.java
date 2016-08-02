@@ -1,22 +1,36 @@
 package persistence.common;
 
-import domain.MemberExample;
+import domain.member.MemberExample;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import sys.constants.SystemConstants;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by fafa on 2016/1/5.
  */
 public interface UpdateMapper {
 
+    // 更新发文提交的干部任免数量
+    @Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
+            "bd.real_dismiss_count=bdc.real_dismiss_count where bd.id=bdc.dispatch_id")
+    void update_dispatch_real_count();
+
     @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
     void globalApplyOpenTime(@Param("id") int id);
 
-    @Update("update base_dispatch set file=null, file_name=null where id=#{id}")
+    @Update("update dispatch set file=null, file_name=null where id=#{id}")
     void del_dispatch_file(@Param("id") int id);
-    @Update("update base_dispatch set ppt=null, ppt_name=null where id=#{id}")
+    @Update("update dispatch set ppt=null, ppt_name=null where id=#{id}")
     void del_dispatch_ppt(@Param("id") int id);
+
+    @Update("update cadre_edu set degree=null, is_high_degree=null, degree_country=null, degree_unit=null, degree_time=null where id=#{id}")
+    void del_caderEdu_hasDegree(@Param("id") int id);
+
+    @Update("update cadre_work set unit_id=null where id=#{id}")
+    void del_cadreWork_unitId(@Param("id") int id);
 
     // 如果修改成直属党支部， 则将支部ID设置为NULL
     @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
@@ -27,6 +41,9 @@ public interface UpdateMapper {
     int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
                           @Param("example") MemberExample example);
 
+    int increaseMemberOutPrintCount(@Param("idList") List<Integer> idList,
+                                    @Param("lastPrintTime") Date lastPrintTime,
+                                    @Param("lastPrintUserId") Integer lastPrintUserId);
     // 入党申请打回至状态
     //====================start
     @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_PLAN
@@ -81,6 +98,12 @@ public interface UpdateMapper {
             +" where id=#{id} and status >= #{status} and status<"
             + SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY)
     void memberStay_back(@Param("id") int id, @Param("status") byte status);
+
+    // 党员出国：打回
+    @Update("update ow_graduate_abroad set status= #{status}"
+            +" where id=#{id} and status >= #{status} and status<"
+            + SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY)
+    void graduateAbroad_back(@Param("id") int id, @Param("status") byte status);
 
     // 校内转接：打回
     @Update("update ow_member_transfer set status= #{status}"

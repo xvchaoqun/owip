@@ -83,7 +83,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-circle-o-notch fa-spin"></i>
+			<i class="ace-icon fa fa-group"></i>
 			领导班子
 		</h4>
 
@@ -120,4 +120,60 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 	</div>
+<div class="widget-box transparent">
 
+	<div class="widget-header widget-header-flat">
+		<h4 class="widget-title lighter">
+			<i class="ace-icon fa fa-key"></i>
+			分党委管理员
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+
+			<table class="table table-striped table-bordered">
+				<thead>
+				<tr>
+					<th style="width: 200px">姓名</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				<c:forEach items="${adminIds}" var="adminId" varStatus="st">
+					<c:set var="user" value="${cm:getUserById(adminId)}"/>
+					<tr>
+						<td >${user.realname}（${user.code}）</td>
+						<td >
+							<a class="confirm btn btn-danger btn-xs"
+							   data-url="${ctx}/partyAdmin_del?userId=${adminId}&partyId=${party.id}"
+							   data-msg="确定删除该管理员？"
+							   data-callback="_delAdminCallback">删除</a>
+						</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+	function _delAdminCallback(target){
+
+		SysMsg.success('删除成功。', '成功',function(){
+			$("#view-box .nav-tabs li.active a").click();
+		});
+	}
+</script>
+<style>
+	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
+		background-color: #f9f9f9;
+		text-align: right;
+	}
+</style>

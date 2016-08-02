@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%--
   Created by IntelliJ IDEA.
   User: fafa
@@ -57,7 +56,7 @@
                         ${userBean.nation}
                     </td>
                     <td class="bg-right">
-                        政治面貌
+                        党籍状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
@@ -124,7 +123,7 @@
                         党费缴纳至年月
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                            ${cm:formatDate(memberOut.payTime,'yyyy-MM-dd')}
+                            ${cm:formatDate(memberOut.payTime,'yyyy-MM')}
                     </td>
                 </tr>
                 <tr>
@@ -144,6 +143,7 @@
                         状态
                     </td>
                     <td class="bg-left" style="min-width: 80px" colspan="3">
+                        <c:if test="${empty memberOut.status}"><span style="color:red">未提交</span></c:if>
                         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
                     </td>
                 </tr>

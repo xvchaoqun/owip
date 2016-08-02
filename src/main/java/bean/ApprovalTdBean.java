@@ -1,5 +1,9 @@
 package bean;
 
+import domain.sys.SysUser;
+
+import java.util.List;
+
 /**
  * Created by fafa on 2016/3/26.
  */
@@ -12,6 +16,7 @@ public class ApprovalTdBean {
      */
     private int tdType;
     private boolean canApproval;
+    private List<SysUser> approverList;
 
     public Integer getApplySelfId() {
         return applySelfId;
@@ -43,5 +48,13 @@ public class ApprovalTdBean {
 
     public void setCanApproval(boolean canApproval) {
         this.canApproval = canApproval;
+    }
+
+    public List<SysUser> getApproverList() {
+        return approverList;
+    }
+
+    public void setApproverList(List<SysUser> approverList) {
+        this.approverList = approverList;
     }
 }

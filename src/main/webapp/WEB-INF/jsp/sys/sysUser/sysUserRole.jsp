@@ -27,8 +27,12 @@
 				checkbox: true,
 				selectMode: 3,
 				children: treeData,
+				onClick:function(node, event){
+					if(node.data.unselectable){
+						$(event.target).qtip({content:"该角色由系统自动维护，不可以手动修改",show: true});
+					}
+				},
 				onSelect: function(select, node) {
-					
 					node.expand(node.data.isFolder && node.isSelected());
 				},
 				cookieId: "dynatree-Cb3",

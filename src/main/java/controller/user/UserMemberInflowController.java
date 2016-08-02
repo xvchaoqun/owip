@@ -1,10 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberInflow;
-import domain.Party;
-import domain.SysUser;
+import domain.party.Branch;
+import domain.member.MemberInflow;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,10 +88,11 @@ public class UserMemberInflowController extends BaseController{
                                String _outTime, HttpServletRequest request) {
 
 
-        MemberInflow memberInflow = memberInflowOutService.out(loginUser.getId(), outUnit, outLocation, _outTime);
+        MemberInflow memberInflow = memberInflowOutService.out(loginUser.getId(), outUnit, outLocation, _outTime, true);
 
         applyApprovalLogService.add(memberInflow.getId(),
-                memberInflow.getPartyId(), memberInflow.getBranchId(), loginUser.getId(), loginUser.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

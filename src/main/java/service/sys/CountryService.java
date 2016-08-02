@@ -1,7 +1,7 @@
 package service.sys;
 
-import domain.Country;
-import domain.CountryExample;
+import domain.base.Country;
+import domain.base.CountryExample;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

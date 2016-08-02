@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -12,7 +11,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
-                || not empty param.status ||not empty param.isBack
+                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -34,7 +33,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <shiro:hasRole name="odAdmin">
+                        <shiro:hasAnyRoles name="odAdmin,admin">
                             <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
@@ -50,13 +49,18 @@
                                 </ul>
                             </li>
 
-                        </shiro:hasRole>
+                        </shiro:hasAnyRoles>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
                             <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
+                        <c:if test="${(cls==1 || cls==4||cls==6||cls==7) && (approvalCountNew+approvalCountBack)>0}">
+                        <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
+                            有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
+                        </div>
+                        </c:if>
                     </ul>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
@@ -66,7 +70,7 @@
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
-                                    <c:if test="${cls!=3}">
+                                    <c:if test="${cls!=2 &&cls!=5}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
@@ -74,28 +78,28 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1||cls==4}">
-                                    <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
+                                    <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 分党委审核（${approvalCount}）
                                     </button>
                                 </c:if>
                                 <c:if test="${cls==6||cls==7}">
-                                    <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
+                                            class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_approval"
                                             data-open-by="page"
-                                            data-querystr="&type=2"
+                                            data-querystr="&type=2&cls=${cls}"
                                             data-need-id="false"
-                                            data-count="${odApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
+                                            data-count="${approvalCount}">
+                                        <i class="fa fa-sign-in"></i> 组织部审核（${approvalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
@@ -104,6 +108,34 @@
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
+                                    <c:if test="${cls==3}">
+                                <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                        data-url="${ctx}/memberOutModify_page"
+                                        data-id-name="outId"
+                                        data-open-by="page">
+                                    <i class="fa fa-search"></i> 查看修改记录
+                                </button>
+                                </c:if>
+                                <c:if test="${cls==3}">
+                                <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                        data-url="${ctx}/memberOut/printPreview"
+                                        data-querystr="&type=${MEMBER_INOUT_TYPE_INSIDE}"
+                                        data-open-by="page">
+                                    <i class="fa fa-print"></i> 批量打印介绍信
+                                </button>
+                                <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/memberOut/printPreview"
+                                        data-querystr="&type=${MEMBER_INOUT_TYPE_OUTSIDE}"
+                                        data-open-by="page">
+                                    <i class="fa fa-print"></i> 批量介绍信套打
+                                </button>
+                                <shiro:hasAnyRoles name="admin,odAdmin">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/memberOut_abolish">
+                                        <i class="fa fa-reply"></i> 撤销
+                                    </button>
+                                </shiro:hasAnyRoles>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -189,9 +221,7 @@
                                                     <select name="status" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
                                                         <c:forEach var="_status" items="${MEMBER_OUT_STATUS_MAP}">
-                                                            <c:if test="${_status.key>MEMBER_OUT_STATUS_BACK && _status.key<MEMBER_OUT_STATUS_OW_VERIFY}">
                                                                 <option value="${_status.key}">${_status.value}</option>
-                                                            </c:if>
                                                         </c:forEach>
                                                     </select>
                                                     <script>
@@ -212,6 +242,49 @@
                                                     </script>
                                                 </div>
                                             </div>
+                                            <c:if test="${cls==3}">
+                                            <div class="form-group">
+                                                <label>是否有回执</label>
+                                                <div class="input-group">
+                                                    <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">否</option>
+                                                        <option value="1">是</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label>是否修改</label>
+                                                <div class="input-group">
+                                                    <select name="isModify" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="0">否</option>
+                                                        <option value="1">是</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isModify]").val("${param.isModify}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            </c:if>
+                                            <c:if test="${cls==3}">
+                                                <div class="form-group">
+                                                    <label>是否已打印</label>
+                                                    <div class="input-group">
+                                                        <select name="isPrint" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=isPrint]").val("${param.isPrint}");
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </c:if>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -254,8 +327,15 @@
 
         loadModal("${ctx}/memberOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
-    function apply_pass(id, type, goToNext) {
-        bootbox.confirm("确定通过该申请？", function (result) {
+    function apply_pass(btn, id, type, goToNext) {
+        $(btn).attr("disabled", "disabled");
+        $.post("${ctx}/memberOut_check", {ids: [id], type: type}, function (ret) {
+            if (ret.success) {
+                goto_next(goToNext);
+                $(btn).removeAttr("disabled");
+            }
+        });
+        /*bootbox.confirm("确定通过该申请？", function (result) {
             if (result) {
                 $.post("${ctx}/memberOut_check", {ids: [id], type: type}, function (ret) {
                     if (ret.success) {
@@ -266,7 +346,7 @@
                     }
                 });
             }
-        });
+        });*/
     }
 
     $("#jqGrid").jqGrid({
@@ -274,48 +354,66 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120,frozen: true},
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            {label: '学工号', name: 'user.code', width: 120, frozen:true},
+            { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            }, frozen:true  },
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 450,
+                label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }, frozen:true
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }, frozen: true},
-            {label: '状态', name: 'statusName', width: 100, formatter: function (cellvalue, options, rowObject) {
+            }, frozen:true},
+            {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
-            }, frozen: true}<c:if test="${cls==4||cls==7}">
+            }, frozen:true}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
+            <c:if test="${cls==3}">
              <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
                     var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/memberOut/printPreview?userId={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
-                                    .format(rowObject.userId);
+                            +' data-url="${ctx}/memberOut/printPreview?type=${MEMBER_INOUT_TYPE_INSIDE}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
+                                    .format(rowObject.id);
                     return html;
                 }
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_OUTSIDE}"){
-                    var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/memberOut/printPreview?userId={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
-                                    .format(rowObject.userId);
+                    var html = '<button class="openView btn btn-warning btn-xs"'
+                            +' data-url="${ctx}/memberOut/printPreview?type=${MEMBER_INOUT_TYPE_OUTSIDE}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
+                                    .format(rowObject.id);
                     return html;
                 }
-            }, frozen: true},
+            }},
+            {label: '打印次数', name: 'printCount'},
+            {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
+            {label: '最近打印人', name: 'lastPrintUser.realname'},
             </shiro:hasAnyRoles>
-            {label: '转入单位', name: 'toUnit', width: 250},
-            {label: '转入单位抬头', name: 'toTitle', width: 150},
-            {label: '转出单位', name: 'fromUnit', width: 250},
+            </c:if>
+            {label: '党员本人联系电话', name: 'phone', width: 180},
+            {label: '转入单位', name: 'toUnit', width: 150},
+            {label: '转入单位抬头', name: 'toTitle', width: 200},
+            {label: '转出单位', name: 'fromUnit', width: 200},
+            {label: '转出单位地址', name: 'fromAddress', width: 120},
+            {label: '转出单位联系电话', name: 'fromPhone', width: 150},
+            {label: '转出单位传真', name: 'fromFax', width: 120},
+            {label: '转出单位邮编', name: 'fromPostCode', width: 120},
+            {label: '党费缴纳至年月', name: 'payTime', width: 150},
             {label: '介绍信有效期天数', name: 'validDays', width: 150},
             {label: '办理时间', name: 'handleTime'},
+            {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"是":"否"
+            }},
+            {label: '是否修改', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"是":"否"
+            }},
+            {label: '申请时间', name: 'applyTime', width: 150},
              {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
@@ -348,26 +446,28 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
+<c:if test="${cls==6||cls==7}">
     <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"组织部审核",
+        caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </shiro:hasRole>
+    </c:if>
     <c:if test="${cls==1||cls==4||cls==6||cls==7}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

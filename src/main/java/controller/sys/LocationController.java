@@ -1,7 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.Location;
+import domain.base.Location;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -16,8 +16,6 @@ import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 
 @Controller

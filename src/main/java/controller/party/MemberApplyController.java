@@ -1,11 +1,17 @@
 package controller.party;
 
+import bean.MemberApplyCount;
 import controller.BaseController;
-import domain.*;
-import domain.MemberApplyExample.Criteria;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
+import domain.member.MemberApplyExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberApplyMixin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -87,26 +93,35 @@ public class MemberApplyController extends BaseController {
         }
         modelMap.put("memberApply", currentMemberApply);
 
+        Integer branchId = currentMemberApply.getBranchId();
+        Integer partyId = currentMemberApply.getPartyId();
         // 是否是当前记录的管理员
         switch (stage){
             case SystemConstants.APPLY_STAGE_INIT:
             case SystemConstants.APPLY_STAGE_PASS:
-                modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
             case SystemConstants.APPLY_STAGE_CANDIDATE:
-            case SystemConstants.APPLY_STAGE_PLAN:
                 if(status==-1)
-                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else
-                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+                break;
+            case SystemConstants.APPLY_STAGE_PLAN:
+                modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
+                if(status<1)
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+                else
+                    modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+                break;
             case SystemConstants.APPLY_STAGE_GROW:
                 if(status==-1)
-                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getBranchId()));
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else if(status==0)
-                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberApply.getPartyId()));
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 else
                     modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
                 break;
@@ -164,11 +179,11 @@ public class MemberApplyController extends BaseController {
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:
                 modelMap.put("drawCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte)-1));
-                modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
+                //modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
                 modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)-1));
-                modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
+                //modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
                 modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
@@ -177,6 +192,30 @@ public class MemberApplyController extends BaseController {
                 modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
                 break;
         }
+
+        Map<Byte, Integer> stageCountMap = new HashMap<>();
+        Map<String, Integer> stageTypeCountMap = new HashMap<>();
+        Subject subject = SecurityUtils.getSubject();
+        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        List<MemberApplyCount> memberApplyCounts = commonMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
+        for (MemberApplyCount memberApplyCount : memberApplyCounts) {
+
+            byte _stage = memberApplyCount.getStage();
+            byte _type = memberApplyCount.getType();
+            Integer _count = memberApplyCount.getNum();
+            Integer stageCount = stageCountMap.get(_stage);
+            if(stageCount==null) stageCount = 0;
+            stageCountMap.put(_stage, stageCount+_count);
+
+            Integer stageTypeCount = stageTypeCountMap.get(_stage + "_" + _type);
+            if(stageTypeCount==null) stageTypeCount = 0;
+            stageTypeCountMap.put(_stage + "_" + _type, stageTypeCount+_count);
+        }
+        modelMap.put("stageCountMap",stageCountMap);
+        modelMap.put("stageTypeCountMap",stageTypeCountMap);
 
         return "party/memberApply/memberApply_page";
     }
@@ -299,7 +338,7 @@ public class MemberApplyController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -335,7 +374,8 @@ public class MemberApplyController extends BaseController {
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUser.getId(),
+                memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "");
 
@@ -347,7 +387,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:deny")
     @RequestMapping(value = "/apply_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_deny(@RequestParam(value = "ids[]") int[] ids, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_deny(@RequestParam(value = "ids[]") Integer[] ids, String remark, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         for (Integer userId : ids) {
             checkVerityAuth(userId);
@@ -362,7 +402,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:pass")
     @RequestMapping(value = "/apply_pass", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_pass(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_pass(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         for (Integer userId : ids) {
             checkVerityAuth(userId);
@@ -384,7 +424,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_active(@RequestParam(value = "ids[]") int[] ids, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_active(@RequestParam(value = "ids[]") Integer[] ids, String _activeTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
         for (Integer userId : ids) {
@@ -411,7 +451,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate(@RequestParam(value = "ids[]") int[] ids, String _candidateTime, String _trainTime,
+    public Map do_apply_candidate(@RequestParam(value = "ids[]") Integer[] ids, String _candidateTime, String _trainTime,
                                   @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_candidate(ids, _candidateTime, _trainTime, loginUser.getId());
@@ -422,7 +462,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:check")
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_candidate_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_candidate_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_candidate_check(ids, loginUser.getId());
 
@@ -440,7 +480,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:plan")
     @RequestMapping(value = "/apply_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_plan(@RequestParam(value = "ids[]") int[] ids, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_plan(@RequestParam(value = "ids[]") Integer[] ids, String _planTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_plan(ids, _planTime, loginUser.getId());
 
@@ -451,7 +491,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:plan_check")
     @RequestMapping(value = "/apply_plan_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_plan_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_plan_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_plan_check(ids, loginUser.getId());
 
@@ -468,22 +508,22 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_draw(@RequestParam(value = "ids[]") int[] ids, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_draw(@RequestParam(value = "ids[]") Integer[] ids, String _drawTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_draw(ids, _drawTime, loginUser.getId());
 
         return success();
     }
     //审核 领取志愿书
-    @RequiresPermissions("memberApply:draw_check")
+   /* @RequiresPermissions("memberApply:draw_check")
     @RequestMapping(value = "/apply_draw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_draw_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_draw_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_draw_check(ids, loginUser.getId());
 
         return success();
-    }
+    }*/
 
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow")
@@ -496,29 +536,29 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_grow(@RequestParam(value = "ids[]") int[] ids, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_grow(@RequestParam(value = "ids[]") Integer[] ids, String _growTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_grow(ids, _growTime, loginUser.getId());
 
         return success();
     }
     //审核 预备党员
-    @RequiresPermissions("memberApply:grow_check")
+ /*   @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_grow_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_grow_check(ids, loginUser.getId());
 
         return success();
-    }
+    }*/
 
     //组织部管理员审核 预备党员
     @RequiresRoles("odAdmin")
     @RequiresPermissions("memberApply:grow_check2")
     @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check2(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_grow_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_grow_check2(ids, loginUser.getId());
 
@@ -535,7 +575,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_positive(@RequestParam(value = "ids[]") int[] ids, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map do_apply_positive(@RequestParam(value = "ids[]") Integer[] ids, String _positiveTime, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_positive(ids, _positiveTime, loginUser.getId());
 
@@ -546,7 +586,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:positive_check")
     @RequestMapping(value = "/apply_positive_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_positive_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_positive_check(ids, loginUser.getId());
 
@@ -558,7 +598,7 @@ public class MemberApplyController extends BaseController {
     @RequiresPermissions("memberApply:positive_check2")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_positive_check2(@RequestParam(value = "ids[]") int[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+    public Map apply_positive_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_positive_check2(ids, loginUser.getId());
 
@@ -578,24 +618,12 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_back(@CurrentUser SysUser loginUser,
-                                   @RequestParam(value = "ids[]") int[] ids, byte stage,
+                                   @RequestParam(value = "ids[]") Integer[] ids, byte stage,
                                    String reason) {
-
-        for (int userId : ids) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-            MemberApply memberApply = verifyAuth.entity;
-            byte _stage = memberApply.getStage();
-            if(_stage>=SystemConstants.APPLY_STAGE_GROW){
-                return failed("已是党员，不可以打回入党申请状态。");
-            }
-            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
-                return failed("参数有误。");
-            }
-        }
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回入党申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -53,14 +52,21 @@
                                         <span class="editable">${user.realname}</span>
                                     </div>
                                 </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 党员本人联系电话 </div>
 
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberOut.phone}</span>
+                                        </div>
+                                    </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 所属组织机构 </div>
 
                                     <div class="profile-info-value">
-                                    <span class="editable">
+                                    <span class="editable" style="height: 55px">
                                         ${partyMap.get(memberOut.partyId).name}
                                             <c:if test="${memberOut.branchId>0}">
+                                                <br/>
                                                 -${branchMap.get(memberOut.branchId).name}
                                             </c:if>
                                     </span>
@@ -74,7 +80,27 @@
                                         <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}</span>
                                     </div>
                                 </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 党费缴纳至年月 </div>
 
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${cm:formatDate(memberOut.payTime,'yyyy-MM')}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 介绍信有效期天数 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberOut.validDays}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-name"> 是否有回执 </div>
+
+                                        <div class="profile-info-value">
+                                            <span class="editable" >${memberOut.hasReceipt?"是":"否"}</span>
+                                        </div>
+                                    </div>
 
                             </div></div>
                             <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
@@ -100,12 +126,34 @@
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 介绍信有效期天数 </div>
+                                    <div class="profile-info-name"> 转出单位地址 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberOut.validDays}</span>
+                                        <span class="editable" >${memberOut.fromAddress}</span>
                                     </div>
                                 </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位联系电话 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromPhone}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位传真 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromFax}</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位邮编 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >${memberOut.fromPostCode}</span>
+                                    </div>
+                                </div>
+
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 办理时间 </div>
 
@@ -126,16 +174,16 @@
                                       ${cm:formatDate(memberOut.applyTime,'yyyy-MM-dd')}
                                   </span>
                                 </li>
-                                <c:if test="${memberOut.status==MEMBER_OUT_STATUS_SELF_BACK || memberOut.status==MEMBER_OUT_STATUS_BACK}">
+                                <c:if test="${memberOut.status <= MEMBER_OUT_STATUS_BACK}">
                                     <li data-step="2" class="active">
                                         <span class="step">1</span>
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberOut.status==MEMBER_OUT_STATUS_PARTY_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberOut.status>=MEMBER_OUT_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">分党委党总支直属党支部审核</span>
+                                    <span class="title">分党委审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>
@@ -158,7 +206,7 @@
                                 </c:if>
                                 <c:if test="${not empty last}">
                                     <button id="last" class="openView btn"
-                                            data-url="${ctx}/memberOut_approval?id=${last.id}&type=${param.type}"
+                                            data-url="${ctx}/memberOut_approval?id=${last.id}&type=${param.type}&cls=${param.cls}"
                                             type="button">
                                         <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
                                     </button>
@@ -172,13 +220,13 @@
                                 </c:if>
                                 <c:if test="${not empty next}">
                                 <button id="next" class="openView btn"
-                                        data-url="${ctx}/memberOut_approval?id=${next.id}&type=${param.type}"
+                                        data-url="${ctx}/memberOut_approval?id=${next.id}&type=${param.type}&cls=${param.cls}"
                                         type="button">
                                     下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                                 </button>
                                     </c:if>
                             </div>
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${memberOut.id}, ${param.type}, true)" class="btn btn-success">
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(this,${memberOut.id}, ${param.type}, true)" class="btn btn-success">
                                 <i class="fa fa-check"></i> 通过
                             </button>
                             &nbsp;&nbsp;

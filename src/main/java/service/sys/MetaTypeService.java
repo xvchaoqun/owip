@@ -1,9 +1,9 @@
 package service.sys;
 
-import domain.MetaClass;
-import domain.MetaClassExample;
-import domain.MetaType;
-import domain.MetaTypeExample;
+import domain.sys.MetaClass;
+import domain.sys.MetaClassExample;
+import domain.sys.MetaType;
+import domain.sys.MetaTypeExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;

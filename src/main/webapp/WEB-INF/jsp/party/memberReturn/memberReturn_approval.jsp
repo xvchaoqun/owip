@@ -28,7 +28,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                留学归国党员申请信息
+                                留学归国党员恢复组织关系申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
@@ -131,7 +131,7 @@
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberReturn.status==MEMBER_RETURN_STATUS_BRANCH_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberReturn.status>=MEMBER_RETURN_STATUS_BRANCH_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">党支部审核</span>
                                     <%--<span class="subtitle">

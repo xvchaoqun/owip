@@ -1,11 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.MetaType;
-import domain.PartyMember;
-import domain.PartyMemberExample;
-import domain.PartyMemberExample.Criteria;
-import domain.SysUser;
+import domain.sys.MetaType;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
+import domain.party.PartyMemberExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +14,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,18 +29,14 @@ import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
+import java.util.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class PartyMemberController extends BaseController {
@@ -62,6 +59,7 @@ public class PartyMemberController extends BaseController {
                                     Integer typeId,
                                     Boolean isAdmin,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
@@ -90,6 +88,8 @@ public class PartyMemberController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             partyMember_export(example, response);
             return null;
         }
@@ -130,6 +130,7 @@ public class PartyMemberController extends BaseController {
         return "party/partyMember/partyMember_page";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -160,6 +161,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping("/partyMember_au")
     public String partyMember_au(Integer id, ModelMap modelMap) {
@@ -172,6 +174,7 @@ public class PartyMemberController extends BaseController {
         return "party/partyMember/partyMember_au";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_admin", method = RequestMethod.POST)
     @ResponseBody
@@ -192,6 +195,18 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresPermissions("partyMember:edit")
+    @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map partyAdmin_del(Integer userId, Integer partyId) {
+
+        partyMemberService.delAdmin(userId, partyId);
+        logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织管理员权限，userId=%s, partyId=%s", userId, partyId));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -205,6 +220,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -219,6 +235,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("partyMember:changeOrder")
     @RequestMapping(value = "/partyMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody

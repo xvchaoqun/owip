@@ -2,10 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
     <h3><c:if test="${memberOut!=null}">编辑</c:if><c:if test="${memberOut==null}">添加</c:if>组织关系转出</h3>
 	<hr/>
 
@@ -63,7 +59,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">政治面貌</label>
+				<label class="col-xs-3 control-label">党籍状态</label>
 				<div class="col-xs-6">
 					<input disabled class="form-control" type="text" name="politicalStatus" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 				</div>
@@ -87,6 +83,12 @@ pageEncoding="UTF-8"%>
 						<script>
 							$("#modalForm select[name=type]").val(${memberOut.type});
 						</script>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">党员本人联系电话</label>
+					<div class="col-xs-6">
+						<input required class="form-control" maxlength="20" type="text" name="phone" value="${memberOut.phone}">
 					</div>
 				</div>
 				</div>
@@ -140,7 +142,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="_payTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberOut.payTime,'yyyy-MM-dd')}" />
+							   data-date-format="yyyy-mm"
+							   data-date-min-view-mode="1" value="${cm:formatDate(memberOut.payTime,'yyyy-MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -174,26 +177,19 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-4 control-label">返回修改原因</label>
 				<div class="col-xs-6">
 					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberOut.reason}</textarea>
 				</div>
-			</div>
+			</div>--%>
 				</div></div>
     </form>
 
-<c:if test="${memberOut.status!=MEMBER_OUT_STATUS_OW_VERIFY}">
 <div class="modal-footer center">
-    <a href="#" class="btn btn-default closeView">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberOut!=null}">确定</c:if><c:if test="${memberOut==null}">添加</c:if>"/>
+    <a href="#" class="btn btn-default closeView">返回</a>
+    <input type="submit" class="btn btn-primary" value="${memberOut!=null?"确定":"添加"}"/>
 </div>
-	</c:if>
-<c:if test="${memberOut.status==MEMBER_OUT_STATUS_OW_VERIFY}">
-	<div class="modal-footer center">
-		<a href="#" class="btn btn-default closeView">返回</a>
-	</div>
-	</c:if>
 
 <script>
 	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
@@ -236,10 +232,10 @@ pageEncoding="UTF-8"%>
 
 			$("#modalForm input[name=code]").val(code);
 			$("#modalForm input[name=realname]").val(realname);
-			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
-			$("#modalForm input[name=politicalStatus]").val(politicalStatus == 1 ? '正式党员' : (politicalStatus == 2 ? '预备党员' : ''));
+			$("#modalForm input[name=politicalStatus]").val(_cMap.MEMBER_POLITICAL_STATUS_MAP[politicalStatus]);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
 			$("#modalForm input[name=code]").val('');

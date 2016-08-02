@@ -82,7 +82,12 @@ body{
 /*.widget-box{
     border: none;
 }*/
-.widget-header{
+.widget-box .widget-header .widget-title .buttons{
+    display: inherit;
+    position: absolute;
+    right:80px
+ }
+.myTableDiv .widget-header{ /*搜索框点击收起*/
     /*background-image: none;
     background: none;*/
     cursor: pointer;
@@ -141,6 +146,9 @@ body{
 .ui-th-column{
     text-align: center!important;
 }
+.rownumbers #jqGrid_cb{
+    text-align: left!important;
+}
 .jqgrow td:first-child input[type=checkbox]{
     display: inherit!important;
 }
@@ -164,6 +172,8 @@ body{
  .table-bordered{
     border-right: none!important;
 }*/
+/* 鼠标悬浮背景色对齐校正*/
+.frozen-bdiv.ui-jqgrid-bdiv{top:39px !important;}
 /*jqgrid ====end*/
 
 .table{
@@ -221,6 +231,11 @@ body{
     background-image: linear-gradient(to bottom, #f8f8f8 0%, #ececec 100%);
     background-repeat: repeat-x;
 }
+
+.widget-body .ui-common-table.table {
+     border-top: none!important;
+}
+
 /*#item-content .table-striped > tbody > tr:nth-of-type(odd) {
     background-color:inherit;
 }
@@ -238,10 +253,7 @@ body{
 #view-box .widget-box .table tbody tr:hover td, #view-box .table tbody tr:hover th {
     background-color:transparent;
 }
-#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-    background-color: #f9f9f9;
-    text-align: right;
-}
+
 #view-box .widget-main.no-padding .table{
 
     border: 1px solid #E5E5E5
@@ -436,6 +448,13 @@ br.xs-100 {
 .modal-header, .modal-footer.draggable{
     cursor: move;
 }
+/**bootbox**/
+.bootbox-confirm .modal-footer button:first-child{
+    display: none!important;
+}
+.bootbox-confirm .modal-footer button:first-child.btn-show{
+    display:inline!important;
+}
 .modal .modal-footer{
     text-align: center!important;
 }
@@ -577,8 +596,8 @@ input[type=checkbox].big{
     height: 20px;
     /*_vertical-align: -2px;*//*针对IE6使用hack*//*
     vertical-align: -3px;*/
-    _vertical-align: -6px;/*针对IE6使用hack*/
-    vertical-align: -6px;
+    _vertical-align: -3px;/*针对IE6使用hack*/
+    vertical-align: -3px;
 }
 
 input[type=checkbox].bigger{
@@ -595,4 +614,41 @@ input[type=radio].bigger{
 .not_approval{
     background-color: #f1f1f1;
 
+}
+
+/*spinner*/
+.ace-spinner .btn-sm{
+    border-width: 4px;
+    font-size: 13px;
+    padding: 4px 9px;
+    line-height: 1.38;
+}
+.ace-spinner .btn-danger, .ace-spinner .btn-success{
+    background-image:none;
+    box-shadow: none;
+}
+.ace-spinner .btn-danger{
+    background-color: #d15b47 !important;
+    border-color: #d15b47;
+}
+.ace-spinner .btn-danger:hover{
+    background-color: #b74635 !important;
+    border-color: #d15b47;
+}
+
+.ace-spinner .btn-success{
+    background-color: #87b87f !important;
+    border-color: #87b87f;
+}
+.ace-spinner .btn-success:hover{
+    background-color: #629b58 !important;
+    border-color: #87b87f;
+}
+/* 统计 */
+.stat-row{
+    margin-bottom: 5px;
+}
+.stat-row .count{
+    color: #0000A1;
+    font-weight: bolder;
 }

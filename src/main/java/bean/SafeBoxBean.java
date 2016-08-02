@@ -1,6 +1,6 @@
 package bean;
 
-import domain.Unit;
+import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import sys.tags.CmTag;
 

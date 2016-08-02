@@ -13,16 +13,32 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
             </div>
         </div>
+        <c:if test="${empty cadreCourse}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">课程名称</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${cadreCourse.name}">
+				<label class="col-xs-3 control-label" style="padding-top: 100px">课程名称（多门课程以#号分隔）</label>
+				<div class="col-xs-8">
+                        <textarea required class="form-control" name="names" rows="10"></textarea>
 				</div>
 			</div>
+        </c:if>
+        <c:if test="${not empty cadreCourse}">
+            <div class="form-group">
+                <label class="col-xs-3 control-label" >课程名称</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="name" value="${cadreCourse.name}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label" >备注</label>
+                <div class="col-xs-6">
+                    <textarea class="form-control" name="remark">${cadreCourse.remark}</textarea>
+                </div>
+            </div>
+        </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">类型</label>
 				<div class="col-xs-6">
@@ -50,8 +66,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal("hide");
+                        $("#jqGrid_cadreCourse").trigger("reloadGrid");
                     }
                 }
             });

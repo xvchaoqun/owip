@@ -1,9 +1,9 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Member;
-import domain.MemberStay;
-import domain.SysUser;
+import domain.member.Member;
+import domain.member.MemberStay;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class UserMemberStayController extends BaseController{
             record.setReturnTime(DateUtils.parseDate(_returnTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_payTime)) {
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
 
         MemberStay memberStay = memberStayService.get(userId);
@@ -106,7 +106,8 @@ public class UserMemberStayController extends BaseController{
             logger.info(addLog(SystemConstants.LOG_USER, "修改暂留申请"));
         }
         applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), userId,
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

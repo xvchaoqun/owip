@@ -1,21 +1,15 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.Branch;
-import domain.MemberTeacher;
-import domain.MemberTeacherExample;
-import domain.MemberTeacherExample.Criteria;
-import domain.Party;
+import domain.party.Branch;
+import domain.member.MemberTeacher;
+import domain.member.MemberTeacherExample;
+import domain.member.MemberTeacherExample.Criteria;
+import domain.party.Party;
 import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +22,7 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -76,15 +68,16 @@ public class MemberTeacherController extends BaseController {
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher_data")
     public void memberTeacher_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "grow_time", tableName = "ow_member_teacher") String sort,
+                                   @RequestParam(defaultValue = "party") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
                                     Integer userId,
                                     Integer unitId,
                                     Integer partyId,
                                     Integer branchId,
+                                    Byte politicalStatus,
                                     Byte gender,
-                                    Integer age,
+                                    Byte age,
                                     String education,
                                     String postClass,
                                     String _retireTime,
@@ -92,6 +85,7 @@ public class MemberTeacherController extends BaseController {
                                     String _growTime,
                                     String _positiveTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -104,7 +98,12 @@ public class MemberTeacherController extends BaseController {
 
         MemberTeacherExample example = new MemberTeacherExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if(StringUtils.equalsIgnoreCase(sort, "party")){
+            example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
+        }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
+            example.setOrderByClause(String.format("grow_time %s", order));
+        }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -124,25 +123,31 @@ public class MemberTeacherController extends BaseController {
         if(gender!=null){
             criteria.andGenderEqualTo(gender);
         }
+        if(politicalStatus!=null){
+            criteria.andPoliticalStatusEqualTo(politicalStatus);
+        }
         if(age!=null){
             switch (age){
-                case 1: // 20岁以下
+                case SystemConstants.MEMBER_AGE_20: // 20岁以下
                     criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
                     break;
-                case 2:
+                case SystemConstants.MEMBER_AGE_21_30:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
-                case 3:
+                case SystemConstants.MEMBER_AGE_31_40:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
-                case 4:
+                case SystemConstants.MEMBER_AGE_41_50:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case 5:
+                case SystemConstants.MEMBER_AGE_51:
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+                case SystemConstants.MEMBER_AGE_0:
+                    criteria.andBirthIsNull();
                     break;
             }
         }
@@ -204,6 +209,9 @@ public class MemberTeacherController extends BaseController {
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
+            case 7:
+                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                break;
            /* case 4:
                 criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
@@ -215,7 +223,9 @@ public class MemberTeacherController extends BaseController {
         }
 
         if (export == 1) {
-            memberTeacher_export(example, response);
+            if(ids!=null && ids.length>0)
+                criteria.andUserIdIn(Arrays.asList(ids));
+            memberTeacher_export(cls, example, response);
             return;
         }
 
@@ -248,17 +258,10 @@ public class MemberTeacherController extends BaseController {
         MemberTeacher memberTeacher = memberTeacherService.get(userId);
         modelMap.put("memberTeacher", memberTeacher);
 
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
-
         return "party/memberTeacher/memberTeacher_base";
     }
 
-    public void memberTeacher_export(MemberTeacherExample example, HttpServletResponse response) {
+    public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
         int rownum = records.size();
@@ -287,7 +290,7 @@ public class MemberTeacherController extends BaseController {
 
             valuesList.add(values);
         }
-        String fileName = "教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = (cls==7?"已转出":"")+"教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }

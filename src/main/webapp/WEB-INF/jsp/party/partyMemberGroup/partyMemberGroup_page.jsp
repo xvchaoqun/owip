@@ -23,7 +23,7 @@
                         <i class="fa fa-user"></i> 编辑委员
                     </button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="partyMemberGroup:del">
                         <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
@@ -95,7 +95,7 @@
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
-            }, frozen:true},
+            },frozen:true},
             { label:'所属分党委', align:'center', name: 'party', width: 280},
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },
@@ -114,7 +114,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })
-
+    _initNavGrid("jqGrid", "jqGridPager");
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

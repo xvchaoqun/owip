@@ -1,7 +1,7 @@
 package service.abroad;
 
-import domain.ApprovalOrder;
-import domain.ApprovalOrderExample;
+import domain.abroad.ApprovalOrder;
+import domain.abroad.ApprovalOrderExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

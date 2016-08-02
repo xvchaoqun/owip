@@ -1,7 +1,7 @@
 package service.dispatch;
 
-import domain.Dispatch;
-import domain.DispatchExample;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,6 +25,13 @@ public class DispatchService extends BaseMapper {
     // String numStr = PatternUtils.withdraw(CODE_REG_STR, code);
     // String numStr = NumberUtils.frontCompWithZore(num, 2);
     // String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
+
+    @Transactional
+    @CacheEvict(value="Dispatch:ALL", allEntries = true)
+    public void update_dispatch_real_count(){
+
+        updateMapper.update_dispatch_real_count();
+    }
 
     public boolean idDuplicate(Integer id, int dispatchTypeId, int year, int code){
 
@@ -160,9 +167,9 @@ public class DispatchService extends BaseMapper {
             Dispatch targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_dispatch", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_dispatch", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch", baseSortOrder, targetEntity.getSortOrder());
 
             Dispatch record = new Dispatch();
             record.setId(id);

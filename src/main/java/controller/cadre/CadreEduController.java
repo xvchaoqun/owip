@@ -1,11 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreEdu;
-import domain.CadreEduExample;
-import domain.CadreEduExample.Criteria;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreEdu;
+import domain.cadre.CadreEduExample;
+import domain.cadre.CadreEduExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -28,12 +28,15 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +54,31 @@ public class CadreEduController extends BaseController {
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
     public String cadreEdu_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_edu") String sort,
+                                @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
+                                @OrderParam(required = false, defaultValue = "desc") String order,
+                                Integer cadreId,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if (cadreId!=null) {
+
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
+        modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
+        return "cadre/cadreEdu/cadreEdu_page";
+    }
+    @RequiresPermissions("cadreEdu:list")
+    @RequestMapping("/cadreEdu_data")
+    @ResponseBody
+    public void cadreEdu_data(HttpServletResponse response,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -70,18 +93,12 @@ public class CadreEduController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
-
-            Cadre cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
-
             criteria.andCadreIdEqualTo(cadreId);
         }
 
         if (export == 1) {
             cadreEdu_export(example, response);
-            return null;
+            return;
         }
 
         int count = cadreEduMapper.countByExample(example);
@@ -89,28 +106,19 @@ public class CadreEduController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreEdu> CadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreEdus", CadreEdus);
-
+        List<CadreEdu> records = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-
-        modelMap.put("cadreTutors", cadreTutorService.findAll(cadreId).values());
-
-        return "cadre/cadreEdu/cadreEdu_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("cadreEdu:edit")
@@ -127,12 +135,14 @@ public class CadreEduController extends BaseController {
             record.setFinishTime(DateUtils.parseDate(_finishTime, "yyyy.MM"));
         }
         if(StringUtils.isNotBlank(_degreeTime)){
-            record.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYY_MM_DD));
+            record.setDegreeTime(DateUtils.parseDate(_degreeTime, "yyyy.MM"));
         }
         record.setHasDegree((record.getHasDegree() == null) ? false : record.getHasDegree());
-        if(!record.getHasDegree()){
+        /*if(!record.getHasDegree()){
             record.setDegree(""); // 没有获得学位，清除学位名称
-        }
+            record.setDegreeCountry("");
+            record.setDegreeUnit("");
+        }*/
         if(record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
                 record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC){
             record.setDegreeCountry("中国");
@@ -169,6 +179,14 @@ public class CadreEduController extends BaseController {
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreEdu/cadreEdu_au";
+    }
+
+    // 认定规则
+    @RequiresPermissions("cadreEdu:edit")
+    @RequestMapping("/cadreEdu_rule")
+    public String cadreEdu_rule() {
+
+        return "cadre/cadreEdu/cadreEdu_rule";
     }
 
     @RequiresPermissions("cadreEdu:del")

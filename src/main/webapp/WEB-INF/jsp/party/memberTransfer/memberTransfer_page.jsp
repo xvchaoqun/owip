@@ -43,7 +43,7 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
@@ -238,19 +238,21 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberTransfer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
-            {label: '类别', name: 'user.typeName', frozen: true},
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            {label: '学工号', name: 'user.code', width: 120,frozen:true},
+            {label: '类别', name: 'user.type',frozen:true, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.USER_TYPE_MAP[cellvalue];
+            }},
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            },frozen:true  },
             {
-                label: '所属组织机构', name: 'from', resizable: false, width: 450,
+                label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                },frozen:true
             },
             {label: '转入组织机构', name: 'to', width: 450,
                 formatter: function (cellvalue, options, rowObject) {
@@ -298,24 +300,24 @@
     $(window).triggerHandler('resize.jqGrid');
 
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转出分党委审核",
+        caption:"转出分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转入分党委审核",
+        caption:"转入分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

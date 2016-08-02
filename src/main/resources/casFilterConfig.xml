@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- CAS验证服务器地址 -->
+	<loginServer>http://cas.bnu.edu.cn/cas</loginServer>
+	<validateServer>http://cas.bnu.edu.cn/cas</validateServer>
+	<!--客户端应用服务器地址-->
+	<serverName>http://localhost:8080</serverName>
+	<!-- 不受CAS保护的资源 -->
+	<notForceAuthUrls>
+		<url-pattern>\.js$</url-pattern>
+		<url-pattern>\.xsl$</url-pattern>
+		<url-pattern>\.xml$</url-pattern>
+		<url-pattern>\.gif$</url-pattern>
+		<url-pattern>\.jpg$</url-pattern>
+		<url-pattern>\.bmp$</url-pattern>
+		<url-pattern>\.css$</url-pattern>
+		<url-pattern>\.swf$</url-pattern>
+		<url-pattern>\.htm$</url-pattern>
+		<url-pattern>\.html$</url-pattern>
+	</notForceAuthUrls>
+</config>

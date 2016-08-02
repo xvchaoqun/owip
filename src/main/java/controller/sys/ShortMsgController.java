@@ -2,10 +2,10 @@ package controller.sys;
 
 import bean.ShortMsgBean;
 import controller.BaseController;
-import domain.ShortMsg;
-import domain.ShortMsgExample;
-import domain.ShortMsgExample.Criteria;
-import domain.SysUser;
+import domain.sys.ShortMsg;
+import domain.sys.ShortMsgExample;
+import domain.sys.ShortMsgExample.Criteria;
+import domain.sys.SysUser;
 import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -36,7 +37,6 @@ public class ShortMsgController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("shortMsg:view")
     @RequestMapping("/shortMsg_view")
     public String shortMsg_view(@CurrentUser SysUser loginUser,
                                 String type, // passport
@@ -48,7 +48,7 @@ public class ShortMsgController extends BaseController {
         return "sys/shortMsg/short_msg_view";
     }
 
-    @RequiresPermissions("ShortMsg:*")
+    @RequiresPermissions("ShortMsg:send")
     @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
     @ResponseBody
     public Map do_shortMsg(@CurrentUser SysUser loginUser, String type, Integer id, HttpServletRequest request) {
@@ -73,11 +73,10 @@ public class ShortMsgController extends BaseController {
 
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg_page")
-    public String shortMsg_page(Integer receiverId, ModelMap modelMap) {
+    public String shortMsg_page(Integer receiverId, Integer senderId, ModelMap modelMap) {
         if (receiverId!=null) {
-
-            SysUser sysUser = sysUserService.findById(receiverId);
-            modelMap.put("sysUser", sysUser);
+            modelMap.put("receiver", sysUserService.findById(receiverId));
+            modelMap.put("sender", sysUserService.findById(senderId));
         }
         return "sys/shortMsg/shortMsg_page";
     }
@@ -86,7 +85,10 @@ public class ShortMsgController extends BaseController {
     @ResponseBody
     public void shortMsg_data(HttpServletResponse response,
                                     Integer receiverId,
+                                    Integer senderId,
                                     String mobile,
+                                    String content,
+                                    String _sendTime,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -104,8 +106,24 @@ public class ShortMsgController extends BaseController {
         if (receiverId!=null) {
             criteria.andReceiverIdEqualTo(receiverId);
         }
+        if (senderId!=null) {
+            criteria.andSenderIdEqualTo(senderId);
+        }
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");
+        }
+        if (StringUtils.isNotBlank(content)) {
+            criteria.andContentLike("%" + content + "%");
+        }
+        if (StringUtils.isNotBlank(_sendTime)) {
+            String start = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andCreateTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andCreateTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
 
         int count = shortMsgMapper.countByExample(example);
@@ -129,7 +147,7 @@ public class ShortMsgController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("shortMsg:edit")
+   /* @RequiresPermissions("shortMsg:edit")
     @RequestMapping(value = "/shortMsg_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_shortMsg_au(ShortMsg record, HttpServletRequest request) {
@@ -158,7 +176,7 @@ public class ShortMsgController extends BaseController {
             modelMap.put("shortMsg", shortMsg);
         }
         return "sys/shortMsg/shortMsg_au";
-    }
+    }*/
 /*
     @RequiresPermissions("shortMsg:del")
     @RequestMapping(value = "/shortMsg_del", method = RequestMethod.POST)

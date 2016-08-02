@@ -35,20 +35,18 @@ public class TplParser {
 		
 		DBParser dbParser = new DBParser(dataSource);
 		
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-abroad.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys.json";
 		ObjectMapper m = new ObjectMapper();
 		JsonNode jsonNode = m.readTree(new File(pathname));
-		
-		String schema = jsonNode.path("schema").getTextValue();
-		String cpath = jsonNode.path("cpath").getTextValue();
-		String spath = jsonNode.path("spath").getTextValue();
-		String vpath = jsonNode.path("vpath").getTextValue();
 
 		String tablePrefix = jsonNode.path("tablePrefix").getTextValue();
-		
+		String folder = tablePrefix.substring(0, tablePrefix.length() - 1);
+		String schema = jsonNode.path("schema").getTextValue();
+		String cpath = jsonNode.path("cpath").getTextValue() + "\\" + folder+ "\\";
+		String spath = jsonNode.path("spath").getTextValue() + "\\" + folder+ "\\";
+		String vpath = jsonNode.path("vpath").getTextValue() + "\\" + folder+ "\\";
+
 		JsonNode tablesNode = jsonNode.path("tables");
 		Iterator<JsonNode> iterator = tablesNode.iterator();
 		
@@ -64,7 +62,7 @@ public class TplParser {
 			String searchColumns = tableNode.path("searchColumns").getTextValue();
 			String logType = tableNode.path("logType").getTextValue();
 
-			genService(tablePrefix, tablename, key, spath);
+			genService(folder, tablePrefix, tablename, key, spath);
 			
 			String outpath4Page = vpath + TableNameMethod.formatStr(tablename, "tableName") + "\\";
 			String cnTableName = dbParser.getTableComments(tablePrefix + tablename, schema);
@@ -81,7 +79,7 @@ public class TplParser {
 			List<ColumnBean> listPageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
 			genPageJsp(tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
 
-			genController(tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
+			genController(folder, tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
 
 			String savePageExcludeColumns = tableNode.path("excludeEditColumns").getTextValue();
 			List<ColumnBean> savePageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
@@ -90,7 +88,7 @@ public class TplParser {
 		}
 	}
 	
-	public static void genController(String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
+	public static void genController(String folder, String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
 									 String logType, String cnTableName, List<ColumnBean> tableColumns, String outpath) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
@@ -99,6 +97,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 		
 		Map root = new HashMap();
+		root.put("folder", folder);
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
@@ -125,7 +124,7 @@ public class TplParser {
 		saveFile( System.getProperty("user.dir") +  outpath, filename, false, content, "");
 	}
 
-	public static void genService(String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
+	public static void genService(String folder, String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
 
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
 		Configuration cfg = new Configuration();
@@ -133,6 +132,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 
 		Map root = new HashMap();
+		root.put("folder", folder);
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
@@ -225,7 +225,7 @@ public class TplParser {
 	public static void saveFile(String filepath, String filename, boolean overwrite, String content, String charset) throws IOException{
 		
 		File folder = new File(filepath);
-		if(!folder.exists()) folder.mkdir();
+		if(!folder.exists()) folder.mkdirs();
 		
 		File file = new File(folder + File.separator +filename);
 		if(!overwrite && file.exists()) {

@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.cadre.CadreViewMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreView" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="post_id" property="postId" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
+    <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="native_place" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="grow_time" property="growTime" jdbcType="DATE" />
+    <result column="arrive_time" property="arriveTime" jdbcType="VARCHAR" />
+    <result column="edu_id" property="eduId" jdbcType="INTEGER" />
+    <result column="finish_time" property="finishTime" jdbcType="DATE" />
+    <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="dep" property="dep" jdbcType="VARCHAR" />
+    <result column="school_type" property="schoolType" jdbcType="TINYINT" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="post_class" property="postClass" jdbcType="VARCHAR" />
+    <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
+    <result column="pro_post" property="proPost" jdbcType="VARCHAR" />
+    <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, type_id, post_id, unit_id, title, post, remark, sort_order, status, 
+    mobile, office_phone, home_phone, email, realname, gender, nation, native_place, 
+    idcard, birth, party_id, branch_id, grow_time, arrive_time, edu_id, finish_time, 
+    learn_style, school, dep, school_type, major, post_class, pro_post_level, pro_post, 
+    manage_level, degree
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreViewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cadre_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreViewExample" >
+    delete from cadre_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cadre.CadreView" >
+    insert into cadre_view (id, user_id, type_id, 
+      post_id, unit_id, title, 
+      post, remark, sort_order, 
+      status, mobile, office_phone, 
+      home_phone, email, realname, 
+      gender, nation, native_place, 
+      idcard, birth, party_id, 
+      branch_id, grow_time, arrive_time, 
+      edu_id, finish_time, learn_style, 
+      school, dep, school_type, 
+      major, post_class, pro_post_level, 
+      pro_post, manage_level, degree
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR}, 
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{arriveTime,jdbcType=VARCHAR}, 
+      #{eduId,jdbcType=INTEGER}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, 
+      #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, 
+      #{major,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}, 
+      #{proPost,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cadre.CadreView" >
+    insert into cadre_view
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="postId != null" >
+        post_id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="officePhone != null" >
+        office_phone,
+      </if>
+      <if test="homePhone != null" >
+        home_phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="nativePlace != null" >
+        native_place,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="growTime != null" >
+        grow_time,
+      </if>
+      <if test="arriveTime != null" >
+        arrive_time,
+      </if>
+      <if test="eduId != null" >
+        edu_id,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="learnStyle != null" >
+        learn_style,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="dep != null" >
+        dep,
+      </if>
+      <if test="schoolType != null" >
+        school_type,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="postClass != null" >
+        post_class,
+      </if>
+      <if test="proPostLevel != null" >
+        pro_post_level,
+      </if>
+      <if test="proPost != null" >
+        pro_post,
+      </if>
+      <if test="manageLevel != null" >
+        manage_level,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null" >
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="officePhone != null" >
+        #{officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="homePhone != null" >
+        #{homePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="growTime != null" >
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="arriveTime != null" >
+        #{arriveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eduId != null" >
+        #{eduId,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=DATE},
+      </if>
+      <if test="learnStyle != null" >
+        #{learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null" >
+        #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolType != null" >
+        #{schoolType,jdbcType=TINYINT},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="postClass != null" >
+        #{postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevel != null" >
+        #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null" >
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null" >
+        #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cadre.CadreViewExample" resultType="java.lang.Integer" >
+    select count(*) from cadre_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cadre_view
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postId != null" >
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null" >
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officePhone != null" >
+        office_phone = #{record.officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.homePhone != null" >
+        home_phone = #{record.homePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null" >
+        native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birth != null" >
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.growTime != null" >
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.arriveTime != null" >
+        arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eduId != null" >
+        edu_id = #{record.eduId,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishTime != null" >
+        finish_time = #{record.finishTime,jdbcType=DATE},
+      </if>
+      <if test="record.learnStyle != null" >
+        learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dep != null" >
+        dep = #{record.dep,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolType != null" >
+        school_type = #{record.schoolType,jdbcType=TINYINT},
+      </if>
+      <if test="record.major != null" >
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postClass != null" >
+        post_class = #{record.postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPostLevel != null" >
+        pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPost != null" >
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageLevel != null" >
+        manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null" >
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cadre_view
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      office_phone = #{record.officePhone,jdbcType=VARCHAR},
+      home_phone = #{record.homePhone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      birth = #{record.birth,jdbcType=DATE},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+      edu_id = #{record.eduId,jdbcType=INTEGER},
+      finish_time = #{record.finishTime,jdbcType=DATE},
+      learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      school = #{record.school,jdbcType=VARCHAR},
+      dep = #{record.dep,jdbcType=VARCHAR},
+      school_type = #{record.schoolType,jdbcType=TINYINT},
+      major = #{record.major,jdbcType=VARCHAR},
+      post_class = #{record.postClass,jdbcType=VARCHAR},
+      pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreViewExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cadre_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

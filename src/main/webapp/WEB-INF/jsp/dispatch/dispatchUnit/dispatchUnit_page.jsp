@@ -96,9 +96,9 @@
         colModel: [
             { label:'所属发文',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, cellvalue);
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.dispatch.id, cellvalue);
                 else return cellvalue;
-            }, frozen:true },
+            },frozen:true },
 
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'类型', name: 'typeId', width: 120  , formatter:function(cellvalue, options, rowObject){
@@ -109,7 +109,7 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     register_date($('.date-picker'));
     $('[data-rel="select2"]').select2();
 </script>

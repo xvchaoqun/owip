@@ -1,8 +1,9 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.PartyExample.Criteria;
+import domain.party.*;
+import domain.party.PartyExample.Criteria;
+import domain.sys.MetaType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMixin;
@@ -10,7 +11,9 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +56,7 @@ public class PartyController extends BaseController {
             List<PartyMember> PartyMembers = partyMemberMapper.selectByExample(example);
             modelMap.put("partyMembers", PartyMembers);
         }
+        modelMap.put("adminIds", commonMapper.findPartyAdmin(id));
 
         return "party/party_base";
     }
@@ -71,6 +75,7 @@ public class PartyController extends BaseController {
         return "index";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_page")
     public String party_page(ModelMap modelMap) {
@@ -78,6 +83,7 @@ public class PartyController extends BaseController {
         return "party/party_page";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
@@ -94,6 +100,7 @@ public class PartyController extends BaseController {
                                     Boolean isSeparate,
                                     String _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -147,6 +154,8 @@ public class PartyController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             party_export(example, response);
             return;
         }
@@ -171,6 +180,7 @@ public class PartyController extends BaseController {
         return;
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping(value = "/party_au", method = RequestMethod.POST)
     @ResponseBody
@@ -200,6 +210,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping("/party_au")
     public String party_au(Integer id, ModelMap modelMap) {
@@ -212,6 +223,7 @@ public class PartyController extends BaseController {
         return "party/party_au";
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_del", method = RequestMethod.POST)
     @ResponseBody
@@ -225,6 +237,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -239,6 +252,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -277,7 +291,9 @@ public class PartyController extends BaseController {
 
     @RequestMapping("/party_selects")
     @ResponseBody
-    public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect, Integer pageNo, Integer classId, String searchStr) throws IOException {
+    public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect,
+                             Boolean notBranchAdmin,
+                             Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -308,12 +324,15 @@ public class PartyController extends BaseController {
                     && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
-                List<Integer> branchIdList = loginUserService.adminBranchIdList();
-                Map<Integer, Branch> branchMap = branchService.findAll();
-                for (Integer branchId : branchIdList) {
-                    Branch branch = branchMap.get(branchId);
-                    if (branch != null) {
-                        partyIdList.add(branch.getPartyId());
+                if(BooleanUtils.isNotTrue(notBranchAdmin)) { // 读取管理党支部所属的分党委，供查询；
+                                                             // 如果账号只是支部管理员，无需读取分党委，则设置notBranchAdmin=1；
+                    List<Integer> branchIdList = loginUserService.adminBranchIdList();
+                    Map<Integer, Branch> branchMap = branchService.findAll();
+                    for (Integer branchId : branchIdList) {
+                        Branch branch = branchMap.get(branchId);
+                        if (branch != null) {
+                            partyIdList.add(branch.getPartyId());
+                        }
                     }
                 }
                 if (partyIdList.size() > 0)

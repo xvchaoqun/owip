@@ -1,9 +1,9 @@
 package service.abroad;
 
-import domain.ApplicatPost;
-import domain.ApplicatPostExample;
-import domain.ApplicatType;
-import domain.ApplicatTypeExample;
+import domain.abroad.ApplicatCadre;
+import domain.abroad.ApplicatCadreExample;
+import domain.abroad.ApplicatType;
+import domain.abroad.ApplicatTypeExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,7 +18,43 @@ import java.util.*;
 @Service
 public class ApplicatTypeService extends BaseMapper {
 
-    public Set<Integer> getPostIds (Integer typeId){
+    public Set<Integer> getCadreIds (Integer typeId){
+
+        Set<Integer> cadreIdSet = new HashSet<Integer>();
+        ApplicatCadreExample example = new ApplicatCadreExample();
+        if(typeId!=null) example.createCriteria().andTypeIdEqualTo(typeId);
+        List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
+        for (ApplicatCadre applicatCadre : applicatCadres) {
+            cadreIdSet.add(applicatCadre.getCadreId());
+        }
+
+        return cadreIdSet;
+    }
+
+    @Transactional
+    public void updateCadreIds(int typeId, Integer[] cadreIds){
+
+        ApplicatCadreExample example = new ApplicatCadreExample();
+        example.createCriteria().andTypeIdEqualTo(typeId);
+        applicatCadreMapper.deleteByExample(example);
+
+        if(cadreIds==null || cadreIds.length==0) return ;
+
+        for (Integer cadreId : cadreIds) {
+
+            ApplicatCadre record = new ApplicatCadre();
+            record.setTypeId(typeId);
+            record.setCadreId(cadreId);
+            applicatCadreMapper.insert(record);
+
+            ApplicatCadre _record = new ApplicatCadre();
+            _record.setId(record.getId());
+            _record.setSortOrder(record.getId());
+            applicatCadreMapper.updateByPrimaryKeySelective(_record);
+        }
+    }
+
+    /*public Set<Integer> getPostIds (Integer typeId){
 
         Set<Integer> postIdSet = new HashSet<Integer>();
         ApplicatPostExample example = new ApplicatPostExample();
@@ -52,7 +88,7 @@ public class ApplicatTypeService extends BaseMapper {
             _record.setSortOrder(record.getId());
             applicatPostMapper.updateByPrimaryKeySelective(_record);
         }
-    }
+    }*/
 
     public boolean idDuplicate(Integer id, String name){
 

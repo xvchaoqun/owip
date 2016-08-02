@@ -1,11 +1,10 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.Member;
-import domain.MemberReturn;
-import domain.MemberReturnExample;
+import domain.party.EnterApply;
+import domain.member.Member;
+import domain.member.MemberReturn;
+import domain.member.MemberReturnExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -235,7 +234,7 @@ public class MemberReturnService extends BaseMapper {
     }
 
     @Transactional
-    public void memberReturn_check(int[] ids, byte type, int loginUserId){
+    public void memberReturn_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberReturn memberReturn = null;
@@ -261,26 +260,28 @@ public class MemberReturnService extends BaseMapper {
 
             int userId = memberReturn.getUserId();
             applyApprovalLogService.add(memberReturn.getId(),
-                    memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                    memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
                             ? "党支部审核" : "分党委审核", (byte) 1, null);
         }
     }
 
     @Transactional
-    public void memberReturn_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberReturn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {
 
             MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
             if(status >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
-                if(!odAdmin) throw new UnauthorizedException();
+                if(!presentPartyAdmin) throw new UnauthorizedException();
             }
             if(status >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
-                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
             back(memberReturn, status, loginUserId, reason);
@@ -325,7 +326,8 @@ public class MemberReturnService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberReturn.getPartyId(), memberReturn.getBranchId(), userId, loginUserId,
+                memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, SystemConstants.MEMBER_RETURN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

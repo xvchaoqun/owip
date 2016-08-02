@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -43,7 +42,7 @@
                         </c:if>
                     </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                             class="fa fa-download"></i> 导出</a>
                     <c:if test="${cls==1}">
                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
@@ -57,7 +56,7 @@
                     </button>
                         <shiro:hasRole name="odAdmin">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
-                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                            class="jqOpenViewBtn btn btn-danger btn-sm"
                             data-url="${ctx}/memberIn_approval"
                             data-open-by="page"
                             data-querystr="&type=2"
@@ -213,6 +212,8 @@
                 $("#next").click();
             else
                 $("#last").click();
+        }else{
+            page_reload();
         }
     }
     function apply_deny(id, type, goToNext) {
@@ -220,18 +221,15 @@
         loadModal("${ctx}/memberIn_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, type, goToNext) {
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if (result) {
-                $.post("${ctx}/memberIn_check", {ids: [id], type: type}, function (ret) {
-                    if (ret.success) {
-                        SysMsg.success('操作成功。', '成功', function () {
-                            //page_reload();
-                            goto_next(goToNext);
-                        });
-                    }
-                });
-            }
-        });
+        if(type==1){
+            loadModal("${ctx}/memberIn_party_check?ids[]="+id + "&type=" + type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"))
+        } else if(type==2){ // 组织部审核通过
+            $.post("${ctx}/memberIn_check", {ids: [id]}, function (ret) {
+                if (ret.success) {
+                    goto_next(goToNext);
+                }
+            });
+        }
     }
 
     $("#jqGrid").jqGrid({
@@ -239,31 +237,47 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberIn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
+            {label: '介绍信抬头', name: 'fromTitle', width: 250, align:'left', frozen:true},
+
+            {label: '学工号', name: 'user.code', width: 120, frozen:true},
                 <c:if test="${cls==3}">
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            }, frozen:true  },
             </c:if>
-<c:if test="${cls!=3}">
-            {label: '姓名', name: 'user.realname', width: 75, frozen: true},
-    </c:if>
+        <c:if test="${cls!=3}">
+            {label: '姓名', name: 'user.realname', width: 75, frozen:true},
+        </c:if>
+            {label: '介绍信有效期天数', name: 'validDays', width: 140},
+    <c:if test="${cls==3}">
+            {label: '是否有回执', name: 'hasReceipt', formatter:function(cellvalue, options, rowObject){
+                return cellvalue?"是":"否";
+            }},
+            </c:if>
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 450,
+                label: '转入组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }, frozen: true},
-            {label: '转出单位', name: 'fromUnit', width: 150},
-            {label: '转出单位抬头', name: 'fromTitle', width: 150},
-            {label: '介绍信有效期天数', name: 'validDays', width: 150},
-            {label: '转出办理时间', name: 'fromHandleTime', width: 150},
+            }},
+            {label: '转出单位', name: 'fromUnit', width: 200, align:'left'},
+            {label: '转出单位地址', name: 'fromAddress', width: 350, align:'left'},
+            {label: '转出单位联系电话', name: 'fromPhone', width: 150},
+            {label: '转出单位传真', name: 'fromFax', width: 120},
+            {label: '转出单位邮编', name: 'fromPostCode', width: 120},
+            {label: '转出办理时间', name: 'fromHandleTime', width: 120},
+            {label: '转入办理时间', name: 'handleTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 160,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 180,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 160,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '入党时间', name: 'growTime',formatter:'date',formatoptions: {newformat:'Y-m-d'}},
+            {label: '转正时间', name: 'positiveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'}},
             {label: '状态', name: 'statusName', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_IN_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==1}">
@@ -302,24 +316,33 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberIn_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
-    });
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
 
+            loadModal("${ctx}/memberIn_party_check?ids[]={0}".format(ids))
+        }
+    });
+    <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"组织部审核",
+        caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberIn_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberIn_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
+    </shiro:hasRole>
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

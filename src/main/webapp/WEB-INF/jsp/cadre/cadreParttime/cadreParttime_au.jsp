@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreParttime!=null}">编辑</c:if><c:if test="${cadreParttime==null}">添加</c:if>干部社会或学术兼职</h3>
+    <h3><c:if test="${cadreParttime!=null}">编辑</c:if><c:if test="${cadreParttime==null}">添加</c:if>社会或学术兼职</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreParttime_au" id="modalForm" method="post">
@@ -11,16 +11,17 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
             </div>
         </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">起始时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreParttime.startTime,'yyyy-MM-dd')}" />
+                               data-date-min-view-mode="1"
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreParttime.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -28,9 +29,10 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">结束时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_endTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreParttime.endTime,'yyyy-MM-dd')}" />
+                               data-date-min-view-mode="1"
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreParttime.endTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -47,6 +49,12 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="post" value="${cadreParttime.post}">
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注</label>
+                <div class="col-xs-6">
+                    <textarea required class="form-control" name="remark">${cadreParttime.remark}</textarea>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -63,8 +71,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal("hide");
+                        $("#jqGrid_cadreParttime").trigger("reloadGrid");
                     }
                 }
             });

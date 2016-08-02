@@ -52,7 +52,7 @@
                         <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                             ${sysUser.realname}
                         </a></td>
-                        <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                        <td>${cadre.title}</td>
                         <td>${postMap.get(cadre.postId).name}</td>
                         <td>${passportTypeMap.get(passport.classId).name}</td>
                         <td>${passport.code}</td>
@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">领取证件拍照</label>
                     <div class="col-xs-2 file" style="width:300px;">
-                        <input required type="file" name="_drawRecord" />
+                        <input type="file" name="_drawRecord" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -100,8 +100,8 @@
     <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
-           class="btn btn-success" value="确认领取"/>
-    <input  class="closeView btn btn-default" value="返回"/>
+           class="btn btn-success" value="提交" style="width: 150px"/>
+    <input type="button" class="closeView btn btn-default" value="返回" style="width: 150px"/>
 </div>
 <script>
     $('input[type=file]').ace_file_input({
@@ -121,10 +121,10 @@
 
     var msg;
     $("input[type=submit]").click(function(){
-        if($('input[type=file]').val()==''){
+        /*if($('input[type=file]').val()==''){
             SysMsg.info('请选择证件拍照');
             return;
-        }
+        }*/
         if($('input[name=_retrunDate]').val()==''){
             SysMsg.info('请选择归还时间','',function(){
                 $('input[name=_retrunDate]').focus();
@@ -134,27 +134,30 @@
         var name = $(this).data("name");
         var date = (new Date($('input[name=_retrunDate]').val())).format("yyyy年M月d日")
         var cls = $(this).data("cls");
-        msg = name+"同志，您好！您的"+cls+"已领取，请按照申请的行程出行，并请于"+date+"之前将证件交回组织部。谢谢！"
+        msg ="${shortMsg}".format(name, cls, date);
 
         bootbox.confirm({
             buttons: {
                 confirm: {
                     label: '确认领取',
-                    className: 'btn-success'
+                    className: 'btn-success ${empty mobile?"disabled":""}'
                 },
                 cancel: {
                     label: '取消',
-                    className: 'btn-default'
+                    className: 'btn-default btn-show'
                 }
             },
             message: '<p style="padding:30px;font-size:20px;text-indent: 2em; ">' + msg + '</p>',
             callback: function(result) {
+                <c:if test="${not empty mobile}">
                 if(result) {
                     $("#modalForm").submit();return false;
                 }
+                </c:if>
             },
-            title: "短信发送"
+            title: '短信发送【<i class="fa fa-mobile" aria-hidden="true"></i>${empty mobile?"<span style=\"color:red;font-weight:bolder\">手机号码为空</span>":mobile}】'
         });  });
+
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -164,7 +167,8 @@
                         $.post("${ctx}/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
                             if(ret.success) {
                                 SysMsg.success('通知成功', '提示', function () {
-                                    page_reload();
+                                    $("#jqGrid").trigger("reloadGrid");
+                                    $(".closeView").click();
                                 });
                             }
                         })

@@ -15,7 +15,7 @@
                 <a href="${ctx}/${param.type=='user'?'user/':''}passport_lostProof_download?id=${passport.id}" target="_blank"
                    class="btn btn-primary btn-sm"><i class="fa fa-download"></i> 下载</a>
                 <shiro:hasAnyRoles name="admin,cadreAdmin">
-                    <button id="updateLostProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
+                    <button id="updateProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
                 </shiro:hasAnyRoles>
             </div>
         </div>
@@ -34,7 +34,7 @@
     $("#print_proof").click(function () {
         printWindow('${ctx}/img?path=${fn:replace(passport.lostProof, "\\","\\/"  )}');
     });
-    $("#updateLostProof").click(function(){
+    $("#updateProof").click(function(){
         loadModal("${ctx}/updateLostProof?id=${passport.id}")
     });
 </script>

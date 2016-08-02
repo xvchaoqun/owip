@@ -1,10 +1,10 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.DispatchUnit;
-import domain.UnitTransfer;
-import domain.UnitTransferExample;
-import domain.UnitTransferExample.Criteria;
+import domain.dispatch.DispatchUnit;
+import domain.unit.UnitTransfer;
+import domain.unit.UnitTransferExample;
+import domain.unit.UnitTransferExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -94,7 +94,7 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:list")
     @RequestMapping("/unitTransfer_page")
     public String unitTransfer_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_transfer") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_transfer") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
                                     String subject,

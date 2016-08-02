@@ -11,7 +11,7 @@
 	${op}</h3>
 </div>
 <div  class="modal-body">
-	<form:form method="post" commandName="sysResource" class="form-horizontal">
+	<form:form method="post" id="modalForm" commandName="sysResource" class="form-horizontal">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
 		<%--<form:hidden path="parentIds"/>--%>
@@ -22,7 +22,7 @@
 				父节点
 			</label>
 			<div class="col-xs-6 ">
-				<select name="parentId">
+				<select name="parentId"  data-width="275">
 					<option value="${parent.id}">${parent.name}</option>
 				</select>
 			</div>
@@ -39,7 +39,7 @@
 		<div class="form-group">
 				<label class="col-xs-3 control-label">类型</label>
 				<div class="col-xs-6 ">
-					<select id="typeSelect" name="type" data-placeholder="请选择资源类型"
+					<select id="typeSelect" name="type" data-placeholder="请选择资源类型"  data-width="275"
 							>
 						<option></option>
 						<option value="menu">菜单</option>
@@ -60,7 +60,8 @@
 		<div class="form-group menuNeeded">
 				<label class="col-xs-3 control-label">菜单样式</label>
 
-			<div class="col-xs-8 ">
+			<div class="col-xs-6">
+				<form:input path="menuCss"  class="form-control" cssStyle="margin-bottom: 5px;"/>
 				<%
 					List<String> icons = new LinkedList<String>();
 
@@ -76,14 +77,14 @@
 					icons.add("fa fa-caret-right");
 					icons.add("fa fa-plane");
 				%>
-				<select id="menuCssSelect" name="menuCss" data-placeholder="请选择模块图标样式">
+				<select id="menuCssSelect" data-placeholder="请选择模块图标样式" data-width="275">
 					<option></option>
 					<c:forEach items="<%=icons%>" var="icon">
 					<option value="${icon}">${icon}</option>
 					</c:forEach>
 				</select>
 				<script>
-					$("#menuCssSelect").val('${sysResource.menuCss}');
+					$("#modalForm input[name=menuCss], #menuCssSelect").val('${sysResource.menuCss}');
 				</script>
 			</div>
 		</div>
@@ -160,6 +161,8 @@
 		templateResult: format,
 		templateSelection: format,
 		theme: "classic",width:'250px'
+	}).change(function(){
+		$("#modalForm input[name=menuCss]").val($(this).val());
 	});
 	$(function(){
 		

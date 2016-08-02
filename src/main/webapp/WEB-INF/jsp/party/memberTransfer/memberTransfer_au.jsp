@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">政治面貌</label>
+							<label class="col-xs-5 control-label">党籍状态</label>
 							<div class="col-xs-6">
 								<input disabled class="form-control" name="politicalStatus" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 							</div>
@@ -119,7 +119,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="_payTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}" />
+							   data-date-format="yyyy-mm"
+							   data-date-min-view-mode="1" value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -213,10 +214,10 @@ pageEncoding="UTF-8"%>
 
 			$("#modalForm input[name=code]").val(code);
 			$("#modalForm input[name=realname]").val(realname);
-			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
-			$("#modalForm input[name=politicalStatus]").val(politicalStatus == 1 ? '正式党员' : (politicalStatus == 2 ? '预备党员' : ''));
+			$("#modalForm input[name=politicalStatus]").val(_cMap.MEMBER_POLITICAL_STATUS_MAP[politicalStatus]);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
 			$("#modalForm input[name=code]").val('');

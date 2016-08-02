@@ -1,7 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysUser;
+import domain.sys.SysUser;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +19,7 @@ import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -48,7 +49,7 @@ public class ProfileController extends BaseController {
     @RequiresPermissions("passportApply:*")
     @RequestMapping(value = "/profile_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile,
+    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile, String phone,
                                      MultipartFile sign) throws IOException {
 
         String savePath =null;
@@ -59,18 +60,28 @@ public class ProfileController extends BaseController {
             savePath += loginUser.getId() + ".jpg";
 
             Thumbnails.of(sign.getInputStream())
-                    .size(75, 50)
+                    .size(750, 500)
                     .outputFormat("jpg")
                     .outputQuality(1.0f)
                     .toFile(springProps.uploadPath + savePath);
+        }
+
+        if(StringUtils.isBlank(phone)){
+            return failed("请填写办公电话");
+        }
+
+        if(StringUtils.isBlank(mobile) ||
+                !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误");
         }
 
         SysUser record = new SysUser();
         record.setId(loginUser.getId());
         record.setSign(savePath);
         record.setMobile(mobile);
+        record.setPhone(phone);
 
-        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername(), loginUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }
@@ -97,7 +108,11 @@ public class ProfileController extends BaseController {
 
     @RequiresPermissions("profile:view")
     @RequestMapping("/profile_page")
-    public String profile_page(ModelMap modelMap) {
+    public String profile_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+        Integer userId = loginUser.getId();
+        modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
+        modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
 
         return "sys/profile/profile";
     }
@@ -116,7 +131,7 @@ public class ProfileController extends BaseController {
             avatar =  File.separator + userId%100 + File.separator;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
-            avatar += sysUser.getUsername() +".jpg";
+            avatar += sysUser.getCode() +".jpg";
 
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
@@ -135,7 +150,7 @@ public class ProfileController extends BaseController {
         record.setEmail(email);
         record.setMobile(mobile);
 
-        sysUserService.updateByPrimaryKeySelective(record, shiroUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, shiroUser.getUsername(),shiroUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }
@@ -151,7 +166,7 @@ public class ProfileController extends BaseController {
             avatar =  File.separator + userId%100 + File.separator;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
-            avatar += sysUser.getUsername() +".jpg";
+            avatar += sysUser.getCode() +".jpg";
 
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
@@ -163,7 +178,7 @@ public class ProfileController extends BaseController {
         SysUser record = new SysUser();
         record.setId(userId);
         record.setAvatar(avatar);
-        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername());
+        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
         return success(FormUtils.SUCCESS);
     }
 
@@ -186,7 +201,7 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map password(@CurrentUser SysUser sysUser, String oldPassword, String password, HttpServletRequest request) {
 
-        if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN){
+        if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN && sysUser.getSource()!= SystemConstants.USER_SOURCE_REG){
             return failed("当前账号不允许修改密码");
         }
         oldPassword = new String(Base64.decodeBase64(oldPassword.getBytes()));
@@ -202,7 +217,7 @@ public class ProfileController extends BaseController {
         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
         _sysUser.setSalt(encrypt.getSalt());
         _sysUser.setPasswd(encrypt.getPassword());
-        sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername() );
+        sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername() , sysUser.getCode());
 
         return success(FormUtils.SUCCESS);
     }

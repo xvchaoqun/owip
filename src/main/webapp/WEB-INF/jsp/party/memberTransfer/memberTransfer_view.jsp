@@ -8,10 +8,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_TYP_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 校内组织关系转接申请</h4>
@@ -60,7 +56,7 @@
                         ${userBean.nation}
                     </td>
                     <td class="bg-right">
-                        政治面貌
+                        党籍状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
@@ -117,7 +113,7 @@
                         党费缴纳至年月
                     </td>
                     <td class="bg-left" style="min-width: 120px" colspan="3">
-                        ${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}
                     </td>
                 </tr>
                 <tr>
@@ -137,6 +133,7 @@
                         状态
                     </td>
                     <td class="bg-left" style="min-width: 80px" colspan="3">
+                        <c:if test="${empty memberTransfer.status}"><span style="color:red">未提交</span></c:if>
                         ${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}
                     </td>
                 </tr>

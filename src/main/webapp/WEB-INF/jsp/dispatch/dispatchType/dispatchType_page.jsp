@@ -2,8 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="USER_SOURCE_ADMIN" value="<%=SystemConstants.USER_SOURCE_ADMIN%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
@@ -91,12 +89,12 @@
         //forceFit:true,
         url: '${ctx}/dispatchType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称', align:'center', name: 'name', width: 250 ,frozen:true},
-            { label: '发文属性', align:'center', name: 'attr', width: 150 ,frozen:true},
+            { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
+            { label: '发文属性', align:'center', name: 'attr', width: 150,frozen:true },
             <%--<c:if test="${!_query}">
             { label:'排序',align:'center', width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
             </c:if>--%>
             { label: '所属年份', align:'center', name: 'year', width: 100 },
             { label: '添加时间', align:'center',  name: 'createTime', width: 150 }

@@ -1,8 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberInflowExample.Criteria;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.member.MemberInflowExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
@@ -94,6 +99,7 @@ public class MemberInflowController extends BaseController {
                                   String _flowTime,
                                   String _growTime,
                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -171,7 +177,7 @@ public class MemberInflowController extends BaseController {
                     .andIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
-                    .andIsBackEqualTo(true);;
+                    .andIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
@@ -185,6 +191,8 @@ public class MemberInflowController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberInflow_export(example, response);
             return;
         }
@@ -247,7 +255,7 @@ public class MemberInflowController extends BaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -256,7 +264,8 @@ public class MemberInflowController extends BaseController {
             enterApplyService.memberInflow(record);
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -297,12 +306,14 @@ public class MemberInflowController extends BaseController {
 
         modelMap.put("memberInflow", currentMemberInflow);
 
+        Integer branchId = currentMemberInflow.getBranchId();
+        Integer partyId = currentMemberInflow.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -334,12 +345,12 @@ public class MemberInflowController extends BaseController {
     @ResponseBody
     public Map do_memberInflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
-                                      @RequestParam(value = "ids[]") int[] ids) {
+                                      @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberInflowService.memberInflow_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -357,14 +368,14 @@ public class MemberInflowController extends BaseController {
     @RequestMapping(value = "/memberInflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_back(@CurrentUser SysUser loginUser,
-                                     @RequestParam(value = "ids[]") int[] ids,
+                                     @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
 
 
         memberInflowService.memberInflow_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflow:edit")
@@ -390,7 +401,7 @@ public class MemberInflowController extends BaseController {
         return "party/memberInflow/memberInflow_au";
     }
 
-    @RequiresPermissions("memberInflow:del")
+    /*@RequiresPermissions("memberInflow:del")
     @RequestMapping(value = "/memberInflow_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow_del(HttpServletRequest request, Integer id) {
@@ -415,7 +426,7 @@ public class MemberInflowController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void memberInflow_export(MemberInflowExample example, HttpServletResponse response) {
 

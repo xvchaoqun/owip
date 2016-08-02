@@ -123,7 +123,12 @@
                                     <span class="title">成为发展对象</span>
                                     <c:if test="${memberApply.stage>=APPLY_STAGE_ACTIVE}"> <span class="subtitle">
                                             ${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}
-                                    </span></c:if>
+                                        <c:if test="${not empty memberApply.trainTime}">
+                                         <br/>（参加培训时间 ${cm:formatDate(memberApply.trainTime,'yyyy-MM-dd')}）
+                                        </c:if>
+                                    </span>
+
+                                    </c:if>
                                 </li>
 
                                 <li data-step="4" <c:if test="${memberApply.stage>APPLY_STAGE_CANDIDATE}">class="complete"</c:if>>
@@ -225,7 +230,7 @@
                                         </button>
                                     </c:if>
                                     <c:if test="${memberApply.planStatus==0}">
-                                        <button onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
+                                        <button ${isAdmin?'':'disabled'} onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
                                     </c:if>
@@ -236,11 +241,11 @@
                                             <i class="fa fa-check"></i> 领取志愿书
                                         </button>
                                     </c:if>
-                                    <c:if test="${memberApply.drawStatus==0}">
+                                    <%--<c:if test="${memberApply.drawStatus==0}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_draw_check(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
-                                    </c:if>
+                                    </c:if>--%>
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
                                     <c:if test="${empty memberApply.growStatus}">

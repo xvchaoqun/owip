@@ -36,8 +36,7 @@
                         <th>出行天数</th>
                         <th>前往国家或地区</th>
                         <th>事由</th>
-                        <th>组织部初审</th>
-                        <th>组织部终审</th>
+                        <th>审批情况</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,8 +49,9 @@
                         <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
                         <td>${applySelf.toCountry}</td>
                         <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            ${applySelf.isFinish?(cm:getMapValue(0, applySelf.approvalTdBeanMap).tdType==6?"通过":"未通过"):"未完成审批"}
+                        </td>
 
                     </tr>
                     </tbody>
@@ -61,10 +61,11 @@
     </div>
     <form class="form-horizontal">
     <div class="well center" style="margin-top: 20px; font-size: 20px">
-        <div class="row" style="padding-left: 100px">
+        <div class="row" style="padding-left: 50px">
+            <div style="float: left; font-weight: bolder;width: 200px;text-align: right">申请使用证件名称：</div>
             <c:forEach items="${passports}" var="passport">
                 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
-                <div style="float: left; margin-right: 40px;">
+                <div style="float: left; margin-right: 40px; padding-left: 10px">
                     <input type="checkbox" class="big" ${passport.id==param.passportId?"checked":""} disabled
                            data-sign="${passportType.code != 'mt_passport_normal'}" class="bigger"> ${passportType.name}
                     <c:if test="${passportType.code != 'mt_passport_normal'}">
@@ -79,9 +80,19 @@
             </c:forEach>
         </div>
 
+        <div class="row" style="padding-left: 50px; padding-top: 15px">
+            <div style="float: left; font-weight: bolder;width: 200px;text-align: right" id="useTypeDiv">领取证件用途：</div>
+            <div style="float: left; margin-right: 40px; padding-left: 10px;">
+            <c:forEach var="useType" items="${PASSPORT_DRAW_USE_TYPE_MAP}">
+             <input name="useType" type="radio" class="bigger" value="${useType.key}"/>  ${useType.value}
+                &nbsp;
+            </c:forEach>
+                </div>
+        </div>
     </div>
+
         <div class="form-group">
-            <label class="col-xs-3 control-label">备注</label>
+            <label class="col-xs-3 control-label">备注：</label>
             <div class="col-xs-3">
                 <textarea class="form-control limited" type="text" id="remark" rows="3"></textarea>
             </div>
@@ -101,6 +112,18 @@
 <script>
     $('textarea.limited').inputlimiter();
     $("#submit").click(function(){
+
+        var useType = $("input[name=useType]:checked").val();
+        if(useType==undefined || useType==''){
+            //SysMsg.warning('请选择领取证件用途');
+            $('#useTypeDiv').qtip({content:'请选择领取证件用途。',
+                position: {
+                    my: 'top left',
+                    at: 'bottom right'
+                },show: true, hide: 'unfocus'});
+            return false;
+        }
+
         if($("#agree").is(":checked") == false){
             $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
             return false;
@@ -109,7 +132,9 @@
         $.post("${ctx}/user/passportDraw_self_au",
                 {applyId:"${applySelf.id}",
                     passportId:"${param.passportId}",
-                    needSign:"${param.sign}", remark:$("#remark").val()},function(ret){
+                    needSign:"${param.sign}",
+                    useType:useType,
+                    remark:$("#remark").val()},function(ret){
             if(ret.success){
                 SysMsg.success('您的申请已提交，谢谢！', '提示', function(){
                     location.href = "${ctx}/user/passportDraw?type=1";

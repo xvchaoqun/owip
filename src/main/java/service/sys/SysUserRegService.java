@@ -1,9 +1,9 @@
 package service.sys;
 
-import domain.SysUser;
-import domain.SysUserExample;
-import domain.SysUserReg;
-import domain.SysUserRegExample;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserRegExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -105,14 +105,14 @@ public class SysUserRegService extends BaseMapper {
             updateByPrimaryKeySelective(record);
         }
         // 删除账号
-        sysUserService.deleteByPrimaryKey(sysUserReg.getUserId(), sysUserReg.getUsername());
+        sysUserService.deleteByPrimaryKey(sysUserReg.getUserId(), sysUserReg.getUsername(), sysUserReg.getCode());
     }
 
     // 通过
     @Transactional
     @Caching(evict={
             @CacheEvict(value="SysUser", key="#username"),
-            @CacheEvict(value="SysUser:ID", key="#userId"),
+            @CacheEvict(value="SysUser:ID_", key="#userId"),
             @CacheEvict(value="UserRoles", key="#username"),
             @CacheEvict(value="UserPermissions", key="#username"),
             @CacheEvict(value="Menus", key="#username")
@@ -138,7 +138,7 @@ public class SysUserRegService extends BaseMapper {
             record.setSource(SystemConstants.USER_SOURCE_REG);
             record.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
 
-            sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername());
+            sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername(), sysUserReg.getCode());
         }
     }
     
@@ -160,16 +160,16 @@ public class SysUserRegService extends BaseMapper {
                        Integer party, String ip){
 
         if(usernameDuplicate(null, null, username))
-            throw new RuntimeException("该用户名已被注册。");
+            throw new RegException("该用户名已被注册。");
         if(idcardDuplicate(null, null, idcard))
-            throw new RuntimeException("该身份证已被注册。");
+            throw new RegException("该身份证已被注册。");
 
         if(!FormUtils.usernameFormatRight(username)){
-            throw new RuntimeException("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+            throw new RegException("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
         }
 
         if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)){
-            throw new RuntimeException("密码由6-16位的字母、下划线和数字组成");
+            throw new RegException("密码由6-16位的字母、下划线和数字组成");
         }
         String code = genCode();
 
@@ -230,6 +230,8 @@ public class SysUserRegService extends BaseMapper {
 
     public boolean idcardDuplicate(Integer id, Integer userId, String idcard){
 
+        // 每个身份证号都有1次机会通过注册账号的方式进行登陆
+
         Assert.isTrue(StringUtils.isNotBlank(idcard));
         {
             SysUserRegExample example = new SysUserRegExample();
@@ -240,23 +242,24 @@ public class SysUserRegService extends BaseMapper {
             if (sysUserRegMapper.countByExample(example) > 0) return true;
         }
 
-        {
+        /*{
             SysUserExample example = new SysUserExample();
             SysUserExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard);
             if(userId!=null) criteria.andIdNotEqualTo(userId);
+
             if (sysUserMapper.countByExample(example) > 0) return true;
-        }
+        }*/
 
         return false;
     }
 
-    @Transactional
+   /* @Transactional
     public int insertSelective(SysUserReg record){
 
         Assert.isTrue(!usernameDuplicate(record.getId(), record.getUserId(), record.getUsername()));
         Assert.isTrue(!idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard()));
         return sysUserRegMapper.insertSelective(record);
-    }
+    }*/
     @Transactional
     public void del(Integer id){
 

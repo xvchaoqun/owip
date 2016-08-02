@@ -28,7 +28,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                公派留学生党员申请组织关系暂留申请信息
+                                校内组织关系转接申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
@@ -107,7 +107,7 @@
                                     </li>
                                 </c:if>
 
-                                <li data-step="1"  class="${memberTransfer.status==MEMBER_TRANSFER_STATUS_FROM_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberTransfer.status>=MEMBER_TRANSFER_STATUS_FROM_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">转出分党委审核</span>
                                     <%--<span class="subtitle">

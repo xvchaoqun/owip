@@ -29,12 +29,12 @@ pageEncoding="UTF-8" %>
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             }, frozen:true},
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 450,
+                label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }, frozen:true
             },
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },

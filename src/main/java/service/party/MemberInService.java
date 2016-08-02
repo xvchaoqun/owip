@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.Member;
-import domain.MemberIn;
-import domain.MemberInExample;
+import domain.party.EnterApply;
+import domain.member.Member;
+import domain.member.MemberIn;
+import domain.member.MemberInExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -134,9 +134,9 @@ public class MemberInService extends BaseMapper {
         return null;
     }
 
-    // 党支部、直属党支部审核通过
+    // 直属党支部审核通过
     @Transactional
-    public void checkMember(int userId){
+    public void checkMember(int userId, boolean hasReceipt){
 
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= SystemConstants.MEMBER_IN_STATUS_APPLY)
@@ -144,15 +144,16 @@ public class MemberInService extends BaseMapper {
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+        record.setHasReceipt(hasReceipt);
         //record.setBranchId(memberIn.getBranchId());
         updateByPrimaryKeySelective(record);
     }
 
-    // 分党委审核， 不需要下一步组织部审核
+    // 分党委、党总支审核， 不需要下一步组织部审核
     @Transactional
-    public void checkByParty(int userId, byte politicalStatus){
+    public void checkByParty(int userId, byte politicalStatus, boolean hasReceipt){
 
-        checkMember(userId);
+        checkMember(userId, hasReceipt);
         addMember(userId, politicalStatus);
     }
 
@@ -167,7 +168,7 @@ public class MemberInService extends BaseMapper {
 
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new DBErrorException("分党委还未审核通过");
 
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
@@ -233,7 +234,7 @@ public class MemberInService extends BaseMapper {
     }
 
     @Transactional
-    public void memberIn_check(int[] ids, byte type, int loginUserId){
+    public void memberIn_check(Integer[] ids, Boolean hasReceipt, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberIn memberIn = null;
@@ -241,11 +242,13 @@ public class MemberInService extends BaseMapper {
                 VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
                 memberIn = verifyAuth.entity;
                 boolean isParty = verifyAuth.isParty;
+                Boolean isPartyGeneralBranch = CmTag.isPartyGeneralBranch(memberIn.getPartyId());
 
-                if (isParty) { // 分党委审核，需要跳过下一步的组织部审核
-                    checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus());
+                hasReceipt = (hasReceipt==null)?false:hasReceipt;
+                if (isParty || isPartyGeneralBranch) { // 分党委、党总支审核，需要跳过下一步的组织部审核
+                    checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus(), hasReceipt);
                 } else {
-                    checkMember(memberIn.getUserId());
+                    checkMember(memberIn.getUserId(), hasReceipt);
                 }
             }
             if(type==2) {
@@ -257,14 +260,16 @@ public class MemberInService extends BaseMapper {
 
             int userId = memberIn.getUserId();
             applyApprovalLogService.add(memberIn.getId(),
-                    memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                    memberIn.getPartyId(), memberIn.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
     }
 
     @Transactional
-    public void memberIn_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberIn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {
@@ -321,7 +326,8 @@ public class MemberInService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberIn.getPartyId(), memberIn.getBranchId(), userId, loginUserId,
+                memberIn.getPartyId(), memberIn.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, SystemConstants.MEMBER_IN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

@@ -1,9 +1,9 @@
 package service.unit;
 
-import domain.Leader;
-import domain.LeaderExample;
-import domain.LeaderUnit;
-import domain.LeaderUnitExample;
+import domain.unit.Leader;
+import domain.unit.LeaderExample;
+import domain.unit.LeaderUnit;
+import domain.unit.LeaderUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -141,9 +141,9 @@ public class LeaderService extends BaseMapper {
             Leader targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_leader", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_leader", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_leader", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_leader", baseSortOrder, targetEntity.getSortOrder());
 
             Leader record = new Leader();
             record.setId(id);

@@ -1,6 +1,6 @@
 package service.party;
 
-import domain.*;
+import domain.party.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -9,22 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.SysUserService;
+import service.OrgAdminService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class BranchMemberService extends BaseMapper {
     @Autowired
-    private SysUserService sysUserService;
+    private OrgAdminService orgAdminService;
     @Autowired
     private BranchMemberAdminService branchMemberAdminService;
     @Autowired
     private  PartyMemberService partyMemberService;
+    @Autowired
+    private  PartyService partyService;
 
     public void checkAuth(int partyId){
 
@@ -40,10 +41,35 @@ public class BranchMemberService extends BaseMapper {
         }
     }
 
-    // 查询用户是否是支部管理员
-    public boolean isPresentAdmin(Integer userId, Integer branchId){
-        if(userId==null || branchId == null) return false;
-        return commonMapper.isBranchAdmin(userId, branchId)>0;
+    // 查询用户是否是支部管理员或直属党支部管理员
+    public boolean isPresentAdmin(Integer userId,Integer partyId, Integer branchId){
+        if(userId==null) return false;
+        if(partyId==null && branchId==null) return false;
+
+        if(branchId==null) { // 直属党支部管理员
+            boolean directBranch = partyService.isDirectBranch(partyId);
+            boolean isAdmin = partyMemberService.isPresentAdmin(userId, partyId);
+            return directBranch && isAdmin;
+        }else { // 支部管理员
+            return commonMapper.isBranchAdmin(userId, branchId) > 0;
+        }
+    }
+
+    // 删除支部管理员
+    @Transactional
+    public void delAdmin(int userId, int branchId){
+
+        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+        checkAuth(branch.getPartyId());
+
+        List<BranchMember> branchMembers = commonMapper.findBranchAdminOfBranchMember(userId, branchId);
+        for (BranchMember branchMember : branchMembers) { // 理论上只有一个
+            branchMemberAdminService.toggleAdmin(branchMember);
+        }
+        List<OrgAdmin> orgAdmins = commonMapper.findBranchAdminOfOrgAdmin(userId, branchId);
+        for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
+            orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
+        }
     }
 
     public boolean idDuplicate(Integer id, int groupId, int userId){
@@ -150,15 +176,16 @@ public class BranchMemberService extends BaseMapper {
         checkAuth(branch.getPartyId());
 
         Integer baseSortOrder = entity.getSortOrder();
+        Integer groupId = entity.getGroupId();
 
         BranchMemberExample example = new BranchMemberExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -168,9 +195,9 @@ public class BranchMemberService extends BaseMapper {
             BranchMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_branch_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_branch_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
 
             BranchMember record = new BranchMember();
             record.setId(id);

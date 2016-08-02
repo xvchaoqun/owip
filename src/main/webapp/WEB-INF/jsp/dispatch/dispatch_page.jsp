@@ -145,31 +145,39 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '年份', name: 'year',resizable:false, width: 75, frozen:true },
-            { label:'发文类型', name: 'dispatchType', width: 100  , formatter:function(cellvalue, options, rowObject){
+            { label: '年份', name: 'year', width: 75,frozen:true },
+            { label:'发文类型', name: 'dispatchType' , formatter:function(cellvalue, options, rowObject){
                 return cellvalue.name;
             },frozen:true},
             { label:'发文号',  name: 'dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, cellvalue);
                 else return cellvalue;
-            }, frozen:true },
+            },frozen:true },
                 <c:if test="${!_query}">
-            { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+            { label:'排序', index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
             </c:if>
             { label: '党委常委会日期',  name: 'meetingTime', width: 130 },
-            { label: '发文日期',  name: 'pubTime', width: 100 },
-            { label: '任免日期',  name: 'workTime', width: 100 },
-            { label: '任免文件',  width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '发文日期',  name: 'pubTime'},
+            { label: '任免日期',  name: 'workTime'},
+            { label: '任命人数',  name: 'appointCount'},
+            { label: '录入任命人数', width: 110 ,  name: 'realAppointCount'},
+            { label: '免职人数',  name: 'dismissCount'},
+            { label: '录入免职人数', width: 110 ,  name: 'realDismissCount'},
+            { label: '是否全部录入', width: 110 , formatter:function(cellvalue, options, rowObject){
+                //console.log((rowObject.realAppointCount+rowObject.realDismissCount)>0)
+                return ((rowObject.realAppointCount+rowObject.realDismissCount)>0&&rowObject.appointCount==rowObject.realAppointCount&&rowObject.dismissCount==rowObject.realDismissCount)?"是":"否";
+            }},
+            { label: '任免文件', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.fileName && rowObject.fileName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">查看</a>'
                             .format(rowObject.id) + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="file">删除</a>'.format(rowObject.id);
                 else return '';
             } },
-            { label: '上会ppt',  width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '上会ppt', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.pptName && rowObject.pptName!='')
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'ppt\')">查看</a>'
                                     .format(rowObject.id) + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
@@ -190,4 +198,5 @@ pageEncoding="UTF-8" %>
         $('[data-rel="tooltip"]').tooltip();
     });
     $(window).triggerHandler('resize.jqGrid');
+    _initNavGrid("jqGrid", "jqGridPager");
 </script>

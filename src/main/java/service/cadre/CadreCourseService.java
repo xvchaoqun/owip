@@ -1,7 +1,11 @@
 package service.cadre;
 
-import domain.CadreCourse;
-import domain.CadreCourseExample;
+import domain.cadre.Cadre;
+import domain.cadre.CadreCourse;
+import domain.cadre.CadreCourseExample;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -14,11 +18,32 @@ import java.util.Map;
 @Service
 public class CadreCourseService extends BaseMapper {
 
+    public List<CadreCourse> find(int cadreId, byte type){
+
+        CadreCourseExample example = new CadreCourseExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type);
+        example.setOrderByClause("sort_order asc");
+        return cadreCourseMapper.selectByExample(example);
+    }
 
     @Transactional
-    public int insertSelective(CadreCourse record){
+    public void batchAdd(CadreCourse record, String names){
+        if(StringUtils.isNotBlank(names)){
+            String[] nameArray = names.split("#");
+            for (String name : nameArray) {
+                if(StringUtils.isNotBlank(name)){
+                    record.setId(null);
+                    record.setName(name);
+                    cadreCourseMapper.insertSelective(record);
 
-        return cadreCourseMapper.insertSelective(record);
+                    Integer id = record.getId();
+                    CadreCourse _record = new CadreCourse();
+                    _record.setId(id);
+                    _record.setSortOrder(id);
+                    cadreCourseMapper.updateByPrimaryKeySelective(_record);
+                }
+            }
+        }
     }
     @Transactional
     public void del(Integer id){
@@ -41,16 +66,40 @@ public class CadreCourseService extends BaseMapper {
         return cadreCourseMapper.updateByPrimaryKeySelective(record);
     }
 
-    public Map<Integer, CadreCourse> findAll() {
+    @Transactional
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        CadreCourse entity = cadreCourseMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+        Integer cadreId = entity.getCadreId();
+        Byte type = entity.getType();
 
         CadreCourseExample example = new CadreCourseExample();
-        example.setOrderByClause("type desc");
-        List<CadreCourse> cadreCoursees = cadreCourseMapper.selectByExample(example);
-        Map<Integer, CadreCourse> map = new LinkedHashMap<>();
-        for (CadreCourse cadreCourse : cadreCoursees) {
-            map.put(cadreCourse.getId(), cadreCourse);
+        if (addNum > 0) { // 下降
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
         }
 
-        return map;
+        List<CadreCourse> overEntities = cadreCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            CadreCourse targetEntity = overEntities.get(overEntities.size()-1);
+            if (addNum > 0)
+                commonMapper.downOrder_cadreCourse(cadreId, type, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder_cadreCourse(cadreId, type, baseSortOrder, targetEntity.getSortOrder());
+
+            CadreCourse record = new CadreCourse();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            cadreCourseMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

@@ -1,11 +1,10 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.DispatchCadre;
-import domain.UnitCadreTransfer;
-import domain.UnitCadreTransferExample;
-import domain.UnitCadreTransferExample.Criteria;
-import domain.UnitCadreTransferGroup;
+import domain.dispatch.DispatchCadre;
+import domain.unit.UnitCadreTransfer;
+import domain.unit.UnitCadreTransferExample;
+import domain.unit.UnitCadreTransferExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -97,7 +96,7 @@ public class UnitCadreTransferController extends BaseController {
     @RequiresPermissions("unitCadreTransfer:list")
     @RequestMapping("/unitCadreTransfer_page")
     public String unitCadreTransfer_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit_cadre_transfer") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer cadreId,

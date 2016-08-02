@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.LeaderUnit;
-import domain.LeaderUnitExample;
+import domain.unit.LeaderUnit;
+import domain.unit.LeaderUnitExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

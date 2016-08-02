@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.EnterApply;
-import domain.MemberInflow;
-import domain.MemberInflowExample;
-import domain.SysUser;
+import domain.party.EnterApply;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,7 +187,7 @@ public class MemberInflowService extends BaseMapper {
 
         // 更新系统角色  访客->流入党员
         sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
     @Transactional
@@ -233,7 +233,7 @@ public class MemberInflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberInflow_check(int[] ids, byte type, int loginUserId){
+    public void memberInflow_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberInflow memberInflow = null;
@@ -258,19 +258,21 @@ public class MemberInflowService extends BaseMapper {
             int userId = memberInflow.getUserId();
 
             applyApprovalLogService.add(memberInflow.getId(),
-                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
     }
 
     @Transactional
-    public void memberInflow_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberInflow_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
             if(status >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
@@ -321,7 +323,8 @@ public class MemberInflowService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

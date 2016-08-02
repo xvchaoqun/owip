@@ -1,18 +1,59 @@
 package controller;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
+import shiro.ShiroUser;
+import sys.CasUtils;
 import sys.constants.SystemConstants;
+import sys.utils.IpUtils;
+import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class IndexController extends BaseController {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	@RequestMapping("/monitor")
+	public String monitor(HttpServletRequest request, String type) {
+
+		String userAgent = RequestUtils.getUserAgent(request);
+		String ip = IpUtils.getRealIp(request);
+
+		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
+		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s, cas=%s", type,
+				userAgent, ip, (shiroUser!=null)?shiroUser.getUsername():null, CasUtils.getUsername(request)));
+		return "monitor";
+	}
+
+	@RequestMapping("/faq")
+	public String faq() {
+
+		return "faq";
+	}
+
+	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+	@RequestMapping("/help")
+	public String help() {
+
+		return "index";
+	}
+
+	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+	@RequestMapping("/help_page")
+	public String help_page() {
+
+		return "help";
+	}
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index")
@@ -36,13 +77,6 @@ public class IndexController extends BaseController {
 		}
 
 		return "index_page";
-	}
-
-	@RequiresPermissions("index:home")
-	@RequestMapping("/static_page")
-	public String static_page(ModelMap modelMap) {
-
-		return "static_page";
 	}
 
 	@RequiresPermissions("index:home")

@@ -1,7 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.Member;
+import domain.member.MemberStay;
+import domain.member.MemberStayView;
+import domain.member.MemberStayViewExample;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberStayMixin;
@@ -104,6 +110,7 @@ public class MemberStayController extends BaseController {
                                     String _payTime,
                                     String mobile,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
@@ -191,6 +198,8 @@ public class MemberStayController extends BaseController {
         }
         
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberStay_export(example, response);
             return;
         }
@@ -277,12 +286,12 @@ public class MemberStayController extends BaseController {
     @ResponseBody
     public Map do_memberStay_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberStayService.memberStay_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -300,14 +309,14 @@ public class MemberStayController extends BaseController {
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
 
 
         memberStayService.memberStay_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -317,8 +326,14 @@ public class MemberStayController extends BaseController {
     public Map do_memberStay_au(@CurrentUser SysUser loginUser,MemberStay record,
                                 String _abroadTime, String _returnTime, String _payTime,  HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
+
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
@@ -326,7 +341,7 @@ public class MemberStayController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -337,11 +352,6 @@ public class MemberStayController extends BaseController {
             return failed("添加重复");
         }
 
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
-
         if(StringUtils.isNotBlank(_abroadTime)) {
             record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
         }
@@ -349,7 +359,7 @@ public class MemberStayController extends BaseController {
             record.setReturnTime(DateUtils.parseDate(_returnTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_payTime)) {
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
 
         if (id == null) {
@@ -358,7 +368,8 @@ public class MemberStayController extends BaseController {
             memberStayService.insertSelective(record);
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

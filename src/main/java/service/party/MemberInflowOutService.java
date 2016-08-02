@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.MemberInflow;
-import domain.MemberInflowExample;
-import domain.SysUser;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -163,16 +163,18 @@ public class MemberInflowOutService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberInflow.getId(),
-                memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(), shiroUser.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(),
+                shiroUser.getId(),  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回流入党员转出申请");
     }
 
+    // reset=true 重置状态，  reset=false，只是更新信息
     @Transactional
-    public MemberInflow out(int userId, String outUnit, Integer outLocation, String _outTime){
-
+    public MemberInflow out(int userId, String outUnit, Integer outLocation, String _outTime, boolean reset){
+        // 1 要求 党员已经流入
         MemberInflow memberInflow = memberInflowService.get(userId);
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
             throw new RuntimeException("状态异常");
@@ -188,17 +190,19 @@ public class MemberInflowOutService extends BaseMapper {
             record.setOutTime(DateUtils.parseDate(_outTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(memberInflow==null ||
-                memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY
-                || !(memberInflow.getOutStatus()==null||memberInflow.getOutStatus()<=SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK)){
+        // 2 要求 提出申请并未完成审批的记录
+        if(memberInflow.getOutStatus()!=null&&memberInflow.getOutStatus()==SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY){
             throw new RuntimeException("状态异常");
         }
-        record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
-        record.setOutIsBack(false);
-        memberInflowMapper.updateByPrimaryKeySelective(record);
 
-        // 清空是否打回状态
-        updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+        if(reset) {
+            // 清空是否打回状态
+            updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+
+            record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
+            record.setOutIsBack(false);
+        }
+        memberInflowMapper.updateByPrimaryKeySelective(record);
 
         return memberInflow;
     }
@@ -236,12 +240,12 @@ public class MemberInflowOutService extends BaseMapper {
 
         // 更新系统角色  流入党员->访客
         sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_INFLOWMEMBER,
-                SystemConstants.ROLE_GUEST, sysUser.getUsername());
+                SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
     }
 
 
     @Transactional
-    public void memberInflowOut_check(int[] ids, byte type, int loginUserId){
+    public void memberInflowOut_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberInflow memberInflow = null;
@@ -266,19 +270,21 @@ public class MemberInflowOutService extends BaseMapper {
             int userId = memberInflow.getUserId();
 
             applyApprovalLogService.add(memberInflow.getId(),
-                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                    memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
     }
 
     @Transactional
-    public void memberInflowOut_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberInflowOut_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
             if(status >= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY){
@@ -315,7 +321,8 @@ public class MemberInflowOutService extends BaseMapper {
         memberInflowService.updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUserId,
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, SystemConstants.MEMBER_INFLOW_OUT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

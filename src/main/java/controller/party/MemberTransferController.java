@@ -2,8 +2,13 @@ package controller.party;
 
 import bean.UserBean;
 import controller.BaseController;
-import domain.*;
-import domain.MemberTransferExample.Criteria;
+import domain.member.Member;
+import domain.member.MemberTransfer;
+import domain.member.MemberTransferExample;
+import domain.member.MemberTransferExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberTransferMixin;
@@ -50,8 +55,6 @@ public class MemberTransferController extends BaseController {
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
 
         modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
         modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
@@ -132,6 +135,7 @@ public class MemberTransferController extends BaseController {
                                     Integer toBranchId,
                                     String _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -197,6 +201,8 @@ public class MemberTransferController extends BaseController {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         }
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberTransfer_export(example, response);
             return;
         }
@@ -283,12 +289,12 @@ public class MemberTransferController extends BaseController {
     @ResponseBody
     public Map do_memberTransfer_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                    byte type, // 1:转出分党委审核 2：转入分党委审核
-                                   @RequestParam(value = "ids[]") int[] ids) {
+                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -306,14 +312,14 @@ public class MemberTransferController extends BaseController {
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_back(@CurrentUser SysUser loginUser,
-                                  @RequestParam(value = "ids[]") int[] ids,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
 
 
         memberTransferService.memberTransfer_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     
@@ -323,6 +329,14 @@ public class MemberTransferController extends BaseController {
     public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,MemberTransfer record,
                                     String _payTime, String _fromHandleTime, HttpServletRequest request) {
 
+        Integer userId = record.getUserId();
+        Member member = memberService.get(userId);
+        if(member.getPartyId().byteValue() == record.getToPartyId()){
+            return failed("转入不能是当前所在分党委");
+        }
+        record.setPartyId(member.getPartyId());
+        record.setBranchId(member.getBranchId());
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
         //===========权限
@@ -330,11 +344,18 @@ public class MemberTransferController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
-            if(!isAdmin) throw new UnauthorizedException();
+
+            boolean isToAdmin = partyMemberService.isPresentAdmin(loginUserId, record.getToPartyId());
+            if(!isToAdmin && record.getToBranchId()!=null) {
+                isToAdmin = branchMemberService.isPresentAdmin(loginUserId, record.getToPartyId(), record.getToBranchId());
+            }
+
+            if(!isAdmin && !isToAdmin) throw new UnauthorizedException();
         }
 
         Integer id = record.getId();
@@ -344,20 +365,11 @@ public class MemberTransferController extends BaseController {
         }
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_fromHandleTime)){
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
-
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        if(member.getPartyId().byteValue() == record.getToPartyId()){
-            return failed("转入不能是当前所在分党委");
-        }
-
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
 
 
         if (id == null) {
@@ -366,7 +378,8 @@ public class MemberTransferController extends BaseController {
             memberTransferService.insertSelective(record);
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -416,7 +429,7 @@ public class MemberTransferController extends BaseController {
         return "party/memberTransfer/memberTransfer_au";
     }
 
-    @RequiresPermissions("memberTransfer:del")
+    /*@RequiresPermissions("memberTransfer:del")
     @RequestMapping(value = "/memberTransfer_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_del(HttpServletRequest request, Integer id) {
@@ -441,7 +454,7 @@ public class MemberTransferController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberTransfer_export(MemberTransferExample example, HttpServletResponse response) {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);

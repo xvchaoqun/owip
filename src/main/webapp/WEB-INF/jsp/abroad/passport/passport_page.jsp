@@ -7,6 +7,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/passport_au?type=1"
              data-url-page="${ctx}/passport_page"
+             data-url-export="${ctx}/passport_data"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
@@ -46,7 +47,7 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasPermission>
                             </c:if>
 
-                            <c:if test="${status==2}">
+                            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
                                 <shiro:hasPermission name="passport:edit">
                                     <button class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息
@@ -68,7 +69,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
-                                   data-open-by="page" data-url="${ctx}/passport_cancel">
+                                   data-open-by="page" data-url="${ctx}/passport_cancel_view">
                                     <i class="fa fa-check-circle-o"></i> 取消集中管理证明
                                 </a>
                             </c:if>
@@ -108,6 +109,9 @@ pageEncoding="UTF-8" %>
                                 <i class="fa fa-search"></i> 证件找回
                             </a>
                             </c:if>
+                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                    class="fa fa-download"></i> 导出</a>
                         </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -187,33 +191,22 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号', name: 'user.code',frozen:true },
+            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-    } ,frozen:true },
+    },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
-            { label: '职务属性', align:'center', name: 'cadre.postType.name', width: 150 },
-            { label: '干部类型', align:'center', name: 'cadre.status', width: 150 , formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==1){
-                    return "现任干部"
-                }
-                if(cellvalue==2){
-                    return "拟任干部"
-                }
-                if(cellvalue==3){
-                    return "离任处级干部"
-                }
-                if(cellvalue==4){
-                    return "离任校领导"
-                }
+            { label: '职务属性', name: 'cadre.postType.name', width: 150 },
+            { label: '干部类型', name: 'cadre.status', width: 150 , formatter:function(cellvalue, options, rowObject){
+               return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},
-            { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
-            { label: '证件号码', align:'center', name: 'code', width: 100 },
-            { label:'发证机关', align:'center',name: 'authority', width: 180},
-            { label:'发证日期', align:'center', name: 'issueDate', width: 100 },
-            { label:'有效期', align:'center', name: 'expiryDate', width: 100 },
-            { label:'集中管理日期', align:'center', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
+            { label: '证件名称', name: 'passportClass.name', width: 200 },
+            { label: '证件号码', name: 'code' },
+            { label:'发证机关',name: 'authority', width: 180},
+            { label:'发证日期', name: 'issueDate' },
+            { label:'有效期', name: 'expiryDate' },
+            { label:'集中管理日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
                     return '';
@@ -221,20 +214,20 @@ pageEncoding="UTF-8" %>
                 return cellvalue
             }  },
             <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
-            { label:'所在保险柜', align:'center', name: 'safeBox.code', width: 130 },
-            { label:'是否借出', align:'center', name: 'isLent', width: 100, formatter:function(cellvalue){
+            { label:'所在保险柜', name: 'safeBox.code', width: 130 },
+            { label:'是否借出', name: 'isLent', formatter:function(cellvalue){
                 return cellvalue?"借出":"-";
             } },
             </c:if>
             <c:if test="${status==4}">
-            { label:'取消集中保管日期', align:'center', name: 'cancelTime', width: 140 },
+            { label:'取消集中保管日期', name: 'cancelTime', width: 140 },
             </c:if>
             <c:if test="${status==PASSPORT_TYPE_LOST}">
-            { label:'登记丢失日期', align:'center', name: 'lostTime', width: 120 },
+            { label:'登记丢失日期', name: 'lostTime', width: 120 },
             </c:if>
             <c:if test="${status==2||status==4}">
-            { label:'取消集中保管原因', align:'center', name: 'cancelType', width: 140 },
-            { label:'状态', align:'center', name: 'cancelConfirm', width: 100, formatter:function(cellvalue){
+            { label:'取消集中保管原因', name: 'cancelType', width: 140 },
+            { label:'状态', name: 'cancelConfirm', formatter:function(cellvalue){
                 return cellvalue?"已确认":"未确认";
             } },
             </c:if>
@@ -259,7 +252,7 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })
-
+    _initNavGrid("jqGrid", "jqGridPager");
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;

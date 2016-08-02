@@ -1,15 +1,18 @@
 package service.party;
 
 import controller.BaseController;
-import domain.MemberApply;
-import domain.MemberApplyExample;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
-import sys.utils.FormUtils;
 
 import java.util.Date;
 
@@ -38,13 +41,14 @@ public class MemberApplyOpService extends BaseController {
 
     // 申请：拒绝申请
     @Transactional
-    public void apply_deny(int[] userIds, String remark, int loginUserId){
+    public void apply_deny(Integer[] userIds, String remark, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
@@ -52,7 +56,7 @@ public class MemberApplyOpService extends BaseController {
     }
     // 申请：通过申请
     @Transactional
-    public void apply_pass(int[] userIds, int loginUserId){
+    public void apply_pass(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -65,7 +69,8 @@ public class MemberApplyOpService extends BaseController {
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
@@ -74,7 +79,7 @@ public class MemberApplyOpService extends BaseController {
     }
     // 申请：确定为入党积极分子
     @Transactional
-    public void apply_active(int[] userIds, Date activeTime, int loginUserId){
+    public void apply_active(Integer[] userIds, Date activeTime, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -88,7 +93,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
@@ -98,7 +104,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 积极分子：提交 确定为发展对象
     @Transactional
-    public void apply_candidate(int[] userIds, String _candidateTime, String _trainTime, int loginUserId){
+    public void apply_candidate(Integer[] userIds, String _candidateTime, String _trainTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -109,12 +115,12 @@ public class MemberApplyOpService extends BaseController {
             DateTime dt = new DateTime(memberApply.getActiveTime());
             DateTime afterActiveTimeOneYear = dt.plusYears(1);
             if (afterActiveTimeOneYear.isAfterNow()) {
-                throw new RuntimeException("确定为入党积极分子满1年之后才能被确定为发展对象。");
+                throw new RuntimeException("确定为入党积极分子满一年之后才能被确定为发展对象。");
             }
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             if(candidateTime.before(afterActiveTimeOneYear.toDate())){
-                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满1年之后");
+                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
             }
 
             Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);
@@ -140,7 +146,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -151,7 +159,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 积极分子：审核 确定为发展对象
     @Transactional
-    public void apply_candidate_check(int[] userIds, int loginUserId){
+    public void apply_candidate_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -169,9 +177,10 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
             }
         }
@@ -179,7 +188,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 发展对象：提交 列入发展计划
     @Transactional
-    public void apply_plan(int[] userIds, String _planTime, int loginUserId){
+    public void apply_plan(Integer[] userIds, String _planTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -212,7 +221,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -223,7 +234,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 发展对象：审核 列入发展计划
     @Transactional
-    public void apply_plan_check(int[] userIds, int loginUserId){
+    public void apply_plan_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -245,7 +256,8 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -255,7 +267,7 @@ public class MemberApplyOpService extends BaseController {
     }
 
     // 列入发展计划：提交 领取志愿书
-    @Transactional
+    /*@Transactional
     public void apply_draw(int[] userIds, String _drawTime, int loginUserId){
 
         for (int userId : userIds) {
@@ -285,17 +297,19 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                         (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
             }
         }
-    }
+    }*/
 
     // 列入发展计划：审核 领取志愿书
-    @Transactional
+    /*@Transactional
     public void apply_draw_check(int[] userIds, int loginUserId){
 
         for (int userId : userIds) {
@@ -315,24 +329,61 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                         "领取志愿书，已审核");
             }
         }
-    }
+    }*/
 
-    // 领取志愿书：提交 预备党员
+    // 分党委直接提交，不需要审核 -- 20160608 修改by 邹老师
+    // 列入发展计划：提交 领取志愿书
     @Transactional
-    public void apply_grow(int[] userIds, String _growTime, int loginUserId){
+    public void apply_draw(Integer[] userIds, String _drawTime, int loginUserId){
 
         for (int userId : userIds) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
-            boolean partyAdmin = verifyAuth.isPartyAdmin;
-            boolean directParty = verifyAuth.isDirectBranch;
+
+            Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
+            if(drawTime.before(memberApply.getPlanTime())){
+                throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
+            }
+
+            MemberApply record = new MemberApply();
+
+            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
+            record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
+
+            record.setDrawTime(drawTime);
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        "领取志愿书，分党委提交");
+            }
+        }
+    }
+
+    // 领取志愿书：提交 预备党员 【// 分党委直接提交，不需要审核 -- 20160718 修改by 邹老师】
+    @Transactional
+    public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
+
+        for (int userId : userIds) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+            MemberApply memberApply = verifyAuth.entity;
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
             if(growTime.before(memberApply.getDrawTime())){
@@ -340,11 +391,7 @@ public class MemberApplyOpService extends BaseController {
             }
 
             MemberApply record = new MemberApply();
-            if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
-                record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
-            }else {
-                record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-            }
+            record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
             record.setGrowTime(growTime);
 
             MemberApplyExample example = new MemberApplyExample();
@@ -354,25 +401,35 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                        (directParty && partyAdmin)?"预备党员，直属党支部提交":"预备党员，党支部提交");
+                        "预备党员，分党委提交");
 
             }
         }
     }
 
-    // 领取志愿书：审核 预备党员
+    /*// 领取志愿书：审核 预备党员  【领取志愿书是需要组织部审批的，这样我们能够控制他们领取志愿书的人和数量的对应】
     @Transactional
-    public void apply_grow_check(int[] userIds, int loginUserId){
+    public void apply_grow_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
 
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
-            boolean isParty = verifyAuth.isParty;
+
+            if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
+                    || memberApply.getGrowStatus()==null
+                    || memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_UNCHECKED){
+                throw new RuntimeException("还没有提交发展时间。");
+            }
+
+            //boolean isParty = verifyAuth.isParty;
+            boolean partyAdmin = verifyAuth.isPartyAdmin;
+            boolean directParty = verifyAuth.isDirectBranch;
 
             MemberApply record = new MemberApply();
             record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
@@ -382,36 +439,47 @@ public class MemberApplyOpService extends BaseController {
                     .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
                     .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
 
-            if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
+            *//*if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
                 memberApplyService.applyGrowCheckByParty(userId, record, example);
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，分党委审核");
-            }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+            }else *//*if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，党总支直属党支部审核");
+                        "预备党员，分党委审核");
             }
         }
-    }
+    }*/
 
     // 领取志愿书：组织部管理员审核 预备党员
     @Transactional
-    public void apply_grow_check2(int[] userIds, int loginUserId){
+    public void apply_grow_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
+            MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
+                    || _memberApply.getGrowStatus()==null
+                    || _memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_CHECKED){
+                throw new RuntimeException("分党委还没有审核。");
+            }
+
             memberApplyService.memberGrow(userId);
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -421,7 +489,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：提交 正式党员
     @Transactional
-    public void apply_positive(int[] userIds, String _positiveTime, int loginUserId){
+    public void apply_positive(Integer[] userIds, String _positiveTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -430,8 +498,10 @@ public class MemberApplyOpService extends BaseController {
             boolean directParty = verifyAuth.isDirectBranch;
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(positiveTime.before(memberApply.getGrowTime())){
-                throw new RuntimeException("转正时间应该在发展之后");
+            if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
+                if (positiveTime.before(memberApply.getGrowTime())) {
+                    throw new RuntimeException("转正时间应该在发展之后");
+                }
             }
 
             MemberApply record = new MemberApply();
@@ -449,7 +519,9 @@ public class MemberApplyOpService extends BaseController {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -461,13 +533,14 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：审核 正式党员
     @Transactional
-    public void apply_positive_check(int[] userIds, int loginUserId){
+    public void apply_positive_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
             boolean isParty = verifyAuth.isParty;
-
+            boolean partyAdmin = verifyAuth.isPartyAdmin;
+            boolean directParty = verifyAuth.isDirectBranch;
             MemberApply record = new MemberApply();
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
@@ -480,7 +553,8 @@ public class MemberApplyOpService extends BaseController {
                 memberApplyService.applyPositiveCheckByParty(userId, record, example);
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -488,7 +562,9 @@ public class MemberApplyOpService extends BaseController {
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -499,14 +575,15 @@ public class MemberApplyOpService extends BaseController {
 
     // 预备党员：组织部管理员审核 正式党员
     @Transactional
-    public void apply_positive_check2(int[] userIds, int loginUserId){
+    public void apply_positive_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             memberApplyService.memberPositive(userId);
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -515,14 +592,30 @@ public class MemberApplyOpService extends BaseController {
     }
 
     @Transactional
-    public void memberApply_back(int[] userIds, byte stage, String reason, int loginUserId){
+    public void memberApply_back(Integer[] userIds, byte stage, String reason, int loginUserId){
+
+        Subject subject = SecurityUtils.getSubject();
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+                throw new UnauthorizedException();
+            }
+
+            byte _stage = memberApply.getStage();
+            if(_stage>=SystemConstants.APPLY_STAGE_GROW){
+                throw new RuntimeException("已是党员，不可以打回入党申请状态。");
+            }
+            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
+                throw new RuntimeException("打回状态有误，请联系系统管理员。");
+            }
+
             memberApplyService.memberApply_back(memberApply, stage);
 
             applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId, loginUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, SystemConstants.APPLY_STAGE_MAP.get(stage),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }

@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-xs-4">
 			<div class="form-group">
-				<label class="col-xs-5 control-label">政治面貌</label>
+				<label class="col-xs-5 control-label">党籍状态</label>
 				<div class="col-xs-6">
 					<input disabled class="form-control" type="text" value="${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}">
 				</div>
@@ -112,7 +112,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="_payTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberStay.payTime,'yyyy-MM-dd')}" />
+							   data-date-format="yyyy-mm"
+							   data-date-min-view-mode="1" value="${cm:formatDate(memberStay.payTime,'yyyy-MM')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>

@@ -1,14 +1,12 @@
 package service.unit;
 
-import domain.UnitCadreTransfer;
-import domain.UnitCadreTransferExample;
-import org.apache.commons.lang.StringUtils;
+import domain.unit.UnitCadreTransfer;
+import domain.unit.UnitCadreTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
@@ -111,9 +109,9 @@ public class UnitCadreTransferService extends BaseMapper {
             UnitCadreTransfer targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_unit_cadre_transfer",baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_cadre_transfer",baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_unit_cadre_transfer",baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_cadre_transfer",baseSortOrder, targetEntity.getSortOrder());
 
             UnitCadreTransfer record = new UnitCadreTransfer();
             record.setId(id);

@@ -1,6 +1,5 @@
 package service.source;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class BnuYjsImportTest  {
 
     @Autowired
-    public BnuYjsImport bnuYjsImport;
+    public ExtYjsImport extYjsImport;
     @Test
     public void excute() throws Exception {
 
-        bnuYjsImport.excute();
+        extYjsImport.excute();
     }
 }

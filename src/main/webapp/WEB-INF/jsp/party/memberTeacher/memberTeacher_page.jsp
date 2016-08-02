@@ -14,6 +14,7 @@ pageEncoding="UTF-8" %>
              ||not empty param.age ||not empty param.gender
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
+             ||not empty param.politicalStatus
                 ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
         <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/party/member/member_menu.jsp"/>
@@ -21,13 +22,28 @@ pageEncoding="UTF-8" %>
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
                     <div class="jqgrid-vertical-offset buttons">
+                        <shiro:hasPermission name="member:add">
                         <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
                             <i class="fa fa-plus"></i> 添加党员</a>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="member:edit">
                         <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
+                            <button id="teacherEditBtn" class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
+                               data-url="${ctx}/teacher_au"
+                               data-open-by="page" data-id-name="userId"
+                               data-rel="tooltip" data-placement="top" title="只能修改不在人事库账号的教职工基本信息">
+                                <i class="fa fa-edit"></i> 修改人事信息</button>
+                        </shiro:hasPermission>
+                        <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                data-url="${ctx}/memberModify_page"
+                                data-id-name="userId"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 查看修改记录
+                        </button>
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                           data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                           data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                             <i class="fa fa-download"></i> 导出</a>
                         <shiro:hasAnyRoles name="admin,odAdmin">
                         <a class="jqDelBtn btn btn-danger btn-sm">
@@ -51,15 +67,20 @@ pageEncoding="UTF-8" %>
                                             <div class="form-group">
                                                 <label>用户</label>
                                                     <div class="input-group">
-                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
+                                                        <c:if test="${cls==6 || cls==7}">
+                                                            <c:set var="_status" value="${MEMBER_STATUS_TRANSFER}"/>
+                                                        </c:if>
+                                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${_status}"
                                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                         </select>
+
                                                     </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>所在单位</label>
-                                                    <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                                <label>分党委所在单位</label>
+                                                    <select name="unitId" data-rel="select2" data-placeholder="请选择分党委所在单位">
                                                         <option></option>
                                                         <c:forEach items="${unitMap}" var="unit">
                                                             <option value="${unit.key}">${unit.value.name}</option>
@@ -87,11 +108,9 @@ pageEncoding="UTF-8" %>
                                                 <label>年龄</label>
                                                     <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
-                                                        <option value="1">20岁及以下</option>
-                                                        <option value="2">21岁~30岁</option>
-                                                        <option value="3">31岁~40岁</option>
-                                                        <option value="4">41岁~50岁</option>
-                                                        <option value="5">51岁及以上</option>
+                                                        <c:forEach items="${MEMBER_AGE_MAP}" var="age">
+                                                            <option value="${age.key}">${age.value}</option>
+                                                        </c:forEach>
                                                     </select>
                                                     <script>
                                                         $("#searchForm select[name=age]").val('${param.age}');
@@ -187,6 +206,18 @@ pageEncoding="UTF-8" %>
                                                 register_party_branch_select($("#searchForm"), "branchDiv",
                                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                             </script>
+                                    <div class="form-group">
+                                        <label>党籍状态</label>
+                                        <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+                                            <option></option>
+                                            <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                                                <option value="${_status.key}">${_status.value}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
+                                        </script>
+                                    </div>
                                     <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -227,11 +258,14 @@ pageEncoding="UTF-8" %>
                 .format(rowObject.retireApply.userId, cellvalue);
     }
     $("#jqGrid").jqGrid({
+        multiboxonly:false,
+        ondblClickRow:function(){},
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        sortname:'party',
         colModel: [
-            { label: '姓名',align:'center', name: 'realname',resizable:false, width: 75, formatter:nameFormatter ,frozen:true },
+            { label: '姓名',name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
             <c:if test="${cls==4}">
-            { label: ' ', align:'center',  width: 200 ,frozen:true, formatter:function(cellvalue, options, rowObject){
+            { label: ' ',  width: 200 , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.retireApply.status!=0)
                     return '<button onclick="_retireApply({0})" class="btn btn-primary btn-mini btn-xs">'.format(rowObject.retireApply.userId)
                             +'<i class="fa fa-edit"></i> 提交党员退休'
@@ -240,33 +274,54 @@ pageEncoding="UTF-8" %>
                     return '<button onclick="_retireApply({0})" class="btn btn-success btn-mini btn-xs">'.format(rowObject.retireApply.userId)
                             +'<i class="fa fa-check"></i> 审核党员退休'
                             +'</button>';
-            }},
+            },frozen:true},
             </c:if>
-            { label: '工作证号', align:'center', name: 'code', width: 100 ,frozen:true},
-            { label: '性别', align:'center', name: 'gender', width: 55 },
-            { label: '年龄', align:'center', name: 'age', width: 55 },
-            { label: '最高学历', align:'center', name: 'education', width: 100 },
-            { label: '岗位类别', align:'center', name: 'postClass', width: 100 },
-            { label: '专业技术职务', align:'center', name: 'proPost', width: 150 },
-            { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter },
-            { label:'入党时间', align:'center', name: 'growTime', width: 100 },
+            { label: '工作证号', name: 'code', width: 100,frozen:true },
+            { label: '性别', name: 'gender', width: 55 },
+            { label: '年龄', name: 'age', width: 55 },
+            { label: '最高学历', name: 'education', width: 100 },
+            { label: '岗位类别', name: 'postClass', width: 100 },
+            { label: '专业技术职务', name: 'proPost', width: 150 },
+            { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter,sortable:true, align:'left' },
+            { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
+                return "-";
+            }},
+            { label:'入党时间', name: 'growTime', width: 120,sortable:true },
             { label:'转正时间',  name: 'positiveTime', width: 100 },
-            { label:'联系手机', align:'center', name: 'mobile', width: 100},
+            { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
-            { label:'退休时间', align:'center', name: 'retireTime', width: 100 },
-            { label:'是否离休', align:'center', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'退休时间', name: 'retireTime', width: 100 },
+            { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             } },
             </c:if>
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;
             }},
-            {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'}
-        ]
+            {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'},
+            {hidden: true, name: 'source'}
+        ],onSelectRow: function (id, status) {
+            jgrid_sid = null;
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#teacherEditBtn").prop("disabled", true);
+            } else if (ids.length==1) {
+                jgrid_sid = ids[0];
+                var rowData = $(this).getRowData(ids[0]);
+                console.log(rowData)
+                $("#teacherEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"
+                ||rowData.source == "${USER_SOURCE_BKS}"||rowData.source == "${USER_SOURCE_YJS}");
+            }else{
+                $("#teacherEditBtn").prop("disabled", false);
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <shiro:hasRole name="partyAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委内部组织关系变动",

@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div style="width: 800px">
+    <div class="well" style="font-size: 14pt;font-weight: bolder">注：本校读取研究生或博士生或留校，<span style="color: #ff0000; ">需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。</span></div>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
@@ -83,7 +84,9 @@
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM-dd')}" />
+                                           data-date-format="yyyy-mm"
+                                           data-date-min-view-mode="1"
+                                           value="${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -99,14 +102,15 @@
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}" />
+                                           data-date-format="yyyy-mm-dd"
+                                           data-date-end-date="${today}" value="${cm:formatDate(memberTransfer.fromHandleTime,'yyyy-MM-dd')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div></div>
                 <div class="clearfix form-actions center">
-                    <button class="btn btn-info" type="submit">
+                    <button class="btn btn-info" id="submitBtn" type="button" data-loading-text="提交中..." autocomplete="off">
                         <i class="ace-icon fa fa-check bigger-110"></i>
                         提交
                     </button>
@@ -120,7 +124,12 @@
 <script>
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'), {endDate:'${today}'});
+    register_date($('.date-picker'));
+    $("#submitBtn").click(function(){
+        var $btn = $(this).button('loading');
+        $("#modalForm").submit();
+        setTimeout(function () { $btn.button('reset'); },1000);
+        return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
@@ -132,6 +141,7 @@
             }
             $(form).ajaxSubmit({
                 success:function(ret){
+                    $("#submitBtn").button("reset");
                     if(ret.success){
                         bootbox.alert('提交成功。',function(){
                             location.reload();

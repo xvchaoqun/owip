@@ -38,7 +38,7 @@
       </if>
     </if>
   </sql>
-  <select id="selectMemberList" resultMap="persistence.MemberMapper.BaseResultMap" parameterType="map" >
+  <select id="selectMemberList" resultMap="persistence.member.MemberMapper.BaseResultMap" parameterType="map" >
     select m.* from ow_member m, sys_user user where m.user_id= user.id
     <if test="type!=null">
       and m.type =#{type}
@@ -66,7 +66,7 @@
     </if>
   </select>
 
-  <select id="selectMemberInflowList" resultMap="persistence.MemberInflowMapper.BaseResultMap" parameterType="map" >
+  <select id="selectMemberInflowList" resultMap="persistence.member.MemberInflowMapper.BaseResultMap" parameterType="map" >
     select m.* from ow_member_inflow m, sys_user user where m.user_id= user.id
     <if test="type!=null">
       and m.type =#{type}
@@ -110,26 +110,31 @@
     </if>
   </select>
 
+  <select  id="selectMemberApplyCount" parameterType="map" resultType="bean.MemberApplyCount" >
+    select type, stage , count(*) as num from ow_member_apply m where 1=1
+    <include refid="member_selects_permits" />
+    group by type, stage
+  </select>
 
-  <select id="selectCadreList" resultMap="persistence.CadreMapper.BaseResultMap" parameterType="map" >
-    select bc.* from base_cadre bc, sys_user user where bc.user_id= user.id
+  <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map" >
+    select bc.* from cadre bc, sys_user user where bc.user_id= user.id
     <if test="search != null" >
     and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
     order by sort_order desc
   </select>
   <select id="countCadre" parameterType="map" resultType="java.lang.Integer" >
-    select count(bc.id) from base_cadre bc, sys_user user where bc.user_id= user.id
+    select count(bc.id) from cadre bc, sys_user user where bc.user_id= user.id
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
   </select>
 
-  <select id="selectCadreByUnitIdList" resultMap="persistence.CadreMapper.BaseResultMap" parameterType="map" >
-    select c.* from base_cadre c, sys_user user where user.id in(
-    select c.user_id from base_cadre_main_work cmw, base_cadre c where cmw.unit_id=#{unitId} and cmw.cadre_id = c.id
+  <select id="selectCadreByUnitIdList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map" >
+    select c.* from cadre c, sys_user user where user.id in(
+    select c.user_id from cadre_main_work cmw, cadre c where cmw.unit_id=#{unitId} and cmw.cadre_id = c.id
     union all
-    select c.user_id from base_cadre_sub_work csw, base_cadre c where csw.unit_id=#{unitId} and csw.cadre_id = c.id)
+    select c.user_id from cadre_sub_work csw, cadre c where csw.unit_id=#{unitId} and csw.cadre_id = c.id)
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
@@ -137,10 +142,10 @@
     order by c.sort_order desc
   </select>
   <select id="countCadreByUnitId" parameterType="map" resultType="java.lang.Integer" >
-    select count(c.id) from base_cadre c, sys_user user where user.id in(
-    select c.user_id from base_cadre_main_work cmw, base_cadre c where cmw.unit_id=#{unitId} and cmw.cadre_id = c.id
+    select count(c.id) from cadre c, sys_user user where user.id in(
+    select c.user_id from cadre_main_work cmw, cadre c where cmw.unit_id=#{unitId} and cmw.cadre_id = c.id
     union all
-    select c.user_id from base_cadre_sub_work csw, base_cadre c where csw.unit_id=#{unitId} and csw.cadre_id = c.id)
+    select c.user_id from cadre_sub_work csw, cadre c where csw.unit_id=#{unitId} and csw.cadre_id = c.id)
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
@@ -148,21 +153,21 @@
   </select>
 
 
-  <select id="selectNotCadreList" resultMap="persistence.SysUserMapper.BaseResultMap" parameterType="map" >
-    select user.* from sys_user user where user.id not in(select user_id from base_cadre)
+  <select id="selectNotCadreList" resultMap="persistence.sys.SysUserMapper.BaseResultMap" parameterType="map" >
+    select user.* from sys_user user where user.id not in(select user_id from cadre)
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
     order by create_time desc
   </select>
   <select id="countNotCadre" parameterType="map" resultType="java.lang.Integer" >
-    select count(user.id) from sys_user user where user.id not in(select user_id from base_cadre)
+    select count(user.id) from sys_user user where user.id not in(select user_id from cadre)
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
   </select>
 
-  <select id="selectNotMemberList" resultMap="persistence.SysUserMapper.BaseResultMap" parameterType="map" >
+  <select id="selectNotMemberList" resultMap="persistence.sys.SysUserMapper.BaseResultMap" parameterType="map" >
     select user.* from sys_user user where user.id not in(select user_id from ow_member where status=1)
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
@@ -176,8 +181,8 @@
     </if>
   </select>
 
-  <select id="selectDispatchUnitByCodeList" resultMap="persistence.DispatchUnitMapper.BaseResultMap" parameterType="map" >
-    select bdu.* from base_dispatch_unit bdu, base_dispatch d
+  <select id="selectDispatchUnitByCodeList" resultMap="persistence.dispatch.DispatchUnitMapper.BaseResultMap" parameterType="map" >
+    select bdu.* from dispatch_unit bdu, dispatch d
     where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
     <if test="search != null" >
     and d.code like #{search}
@@ -185,11 +190,19 @@
     order by bdu.sort_order desc
   </select>
   <select id="countDispatchByCodeUnit" parameterType="map" resultType="java.lang.Integer" >
-    select count(bdu.id) from base_dispatch_unit bdu, base_dispatch d
+    select count(bdu.id) from dispatch_unit bdu, dispatch d
     where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
     <if test="search != null" >
       and d.code like #{search}
     </if>
+  </select>
+  <select id="selectDispatchCadreList" parameterType="map" resultMap="persistence.dispatch.DispatchCadreMapper.BaseResultMap" >
+    select distinct dc.* from dispatch_cadre dc, dispatch d, dispatch_type dt
+    where dc.dispatch_id=d.id and d.dispatch_type_id=dt.id and dc.cadre_id=#{cadreId}
+    <if test="type!=null">
+      and dc.type=#{type}
+    </if>
+    order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
   </select>
 
 </mapper>

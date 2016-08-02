@@ -278,6 +278,14 @@
       "ignore": true
     },
     {
+      "table": "cadre_additional_post",
+      "key": "id",
+      "searchColumns": "cadre_id,unit_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
       "table": "history_unit",
       "key": "id",
       "searchColumns": "unit_id",
@@ -311,7 +319,15 @@
       "showColumns": "receiver_id,type,mobile,content,create_time,ip,status,ret",
       "excludeEditColumns": "id,create_time,ip,status,ret",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
+    },
+    {
+      "table": "content_tpl",
+      "key": "id",
+      "searchColumns": "type,content",
+      "excludeEditColumns": "id,role_id,create_time,update_time",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
     }
   ]
 }

@@ -1,7 +1,8 @@
 package service.party;
 
-import domain.*;
-import domain.MemberTransfer;
+import domain.member.Member;
+import domain.member.MemberTransfer;
+import domain.member.MemberTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -121,7 +122,7 @@ public class MemberTransferService extends BaseMapper {
     public MemberTransfer get(int userId) {
 
         MemberTransferExample example = new MemberTransferExample();
-        example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
         if(memberTransfers.size()>0) return memberTransfers.get(0);
 
@@ -134,7 +135,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new DBErrorException("审批已经开始，不可以撤回");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -145,14 +146,15 @@ public class MemberTransferService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberTransfer.getId(),
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(), shiroUser.getId(),
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
+                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回校内组织关系互转申请");
     }
 
-    // 不通过
+   /* // 不通过
     @Transactional
     public void deny(int userId, String reason){
 
@@ -166,7 +168,7 @@ public class MemberTransferService extends BaseMapper {
         record.setUserId(userId);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
-    }
+    }*/
 
     // 当前所在分党委审核通过
     @Transactional
@@ -174,7 +176,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new DBErrorException("状态异常，该记录不是申请状态");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -185,14 +187,14 @@ public class MemberTransferService extends BaseMapper {
 
     // 转入分党委审核通过
     @Transactional
-    public void check2(int userId, boolean isDirect){
+    public void check2(int userId){
 
         MemberTransfer memberTransfer = get(userId);
 
-        if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
-        if(!isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
-            throw new DBErrorException("状态异常");
+        /*if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+            throw new DBErrorException("状态异常");*/
+        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
+            throw new DBErrorException("只有转出分党委审核通过的记录才可以进行转入分党委审核");
 
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
@@ -251,7 +253,7 @@ public class MemberTransferService extends BaseMapper {
     }
 
     @Transactional
-    public void memberTransfer_check(int[] ids, byte type, int loginUserId){
+    public void memberTransfer_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberTransfer memberTransfer = null;
@@ -265,18 +267,20 @@ public class MemberTransferService extends BaseMapper {
                 VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
                 memberTransfer = verifyAuth.entity;
 
-                check2(memberTransfer.getUserId(), false);
+                check2(memberTransfer.getUserId());
             }
             int userId = memberTransfer.getUserId();
             applyApprovalLogService.add(memberTransfer.getId(),
-                    memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                    memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
+                    loginUserId,  (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
                             ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
         }
     }
 
     @Transactional
-    public void memberTransfer_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 
@@ -318,7 +322,8 @@ public class MemberTransferService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId, loginUserId,
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

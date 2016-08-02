@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 <div class="widget-box">
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
@@ -22,7 +19,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${sysUser.username}">
+					<img src="${ctx}/avatar/${sysUser.username}" class="avatar">
 				</td>
 
 				<td class="bg-right">
@@ -99,12 +96,13 @@ pageEncoding="UTF-8"%>
 				<td  class="bg-left">
 					${student.enrolYear}
 				</td>
-				<td class="bg-right">
+				<%--<td class="bg-right">
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${student.isFullTime?"是":"否"}
-				</td>
+					<c:if test="${empty student.isFullTime}">-</c:if>
+					<c:if test="${not empty student.isFullTime}">${student.isFullTime?"是":"否"}</c:if>
+				</td>--%>
 				<td class="bg-right" >
 					学生类别
 				</td>
@@ -112,7 +110,7 @@ pageEncoding="UTF-8"%>
 					${student.type}
 				</td>
 				<td class="bg-right">教育类别</td>
-				<td  class="bg-left">
+				<td  class="bg-left" colspan="3">
 					${student.eduCategory}
 				</td>
 			</tr>

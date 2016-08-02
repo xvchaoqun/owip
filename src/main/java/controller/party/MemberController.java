@@ -1,43 +1,124 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
+import domain.ext.*;
+import domain.member.Member;
+import domain.member.MemberApply;
+import domain.member.MemberExample;
+import domain.member.MemberTeacher;
+import domain.party.Branch;
+import domain.party.GraduateAbroad;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.source.ExtBksImport;
+import service.source.ExtJzgImport;
+import service.source.ExtYjsImport;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private ExtJzgImport extJzgImport;
+    @Autowired
+    private ExtBksImport extBksImport;
+    @Autowired
+    private ExtYjsImport extYjsImport;
+
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequestMapping("/member/search")
+    public String search(){
+
+        return "party/member/member_search";
+    }
+    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequestMapping(value = "/member/search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_search(String code) {
+
+        String realname = "";
+        String msg = "";
+        String status = "";
+        SysUser sysUser = sysUserService.findByCode(code);
+        if(sysUser==null){
+            msg = "该用户不存在";
+        }else {
+            realname = sysUser.getRealname();
+
+            Member member = memberService.get(sysUser.getId());
+            if(member==null){
+                msg = "该用户不是党员";
+            }else{
+                Integer partyId = member.getPartyId();
+                Integer branchId = member.getBranchId();
+                Party party = partyService.findAll().get(partyId);
+                msg = party.getName();
+                if(branchId!=null){
+                    Branch branch = branchService.findAll().get(branchId);
+                    if(branch!=null) msg += "-" + branch.getName();
+                }
+
+                // 查询状态
+                if(member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+                    status = "正常";
+                }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+                    status = "已转出";
+                }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
+                    status = "已出党";
+                }
+
+                if(member.getType()==SystemConstants.MEMBER_TYPE_TEACHER){
+                    MemberTeacher memberTeacher = memberTeacherService.get(sysUser.getId());
+                    if(memberTeacher.getIsRetire())
+                        status = "已退休";
+                }
+
+                GraduateAbroad graduateAbroad = graduateAbroadService.get(sysUser.getId());
+                if(graduateAbroad!=null){
+                    if(graduateAbroad.getStatus()==SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY){
+                        status = "出国暂留申请已完成审批";
+                    }else if(graduateAbroad.getStatus()>=SystemConstants.GRADUATE_ABROAD_STATUS_APPLY)
+                        status = "已申请出国暂留，但还未审核通过";
+                }
+            }
+        }
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("msg", msg);
+        resultMap.put("realname", realname);
+        resultMap.put("status", status);
+        return resultMap;
+    }
 
     // for test 后台数据库中导入党员数据后，需要同步信息、更新状态
     @RequiresRoles("admin")
     @RequestMapping(value = "/member_dbUpdate")
     @ResponseBody
-    public Map dbUpdate(){
+    public Map dbUpdate() {
 
         List<Member> members = memberMapper.selectByExample(new MemberExample());
         for (Member member : members) {
@@ -47,16 +128,16 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:edit")
+    //@RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_au(@CurrentUser SysUser loginUser, Member record,  String _applyTime, String _activeTime, String _candidateTime,
-                            String _growTime, String _positiveTime, String _transferTime,String reason, HttpServletRequest request) {
+    public Map do_member_au(@CurrentUser SysUser loginUser, Member record, String _applyTime, String _activeTime, String _candidateTime,
+                            String _growTime, String _positiveTime, String _transferTime, String reason, HttpServletRequest request) {
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
-        if(partyId!=null && branchId==null) {
-            if(!partyService.isDirectBranch(partyId)){
+        if (partyId != null && branchId == null) {
+            if (!partyService.isDirectBranch(partyId)) {
                 throw new RuntimeException("只有直属党支部或党支部可以添加党员");
             }
         }
@@ -68,74 +149,100 @@ public class MemberController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
         }
 
         Integer userId = record.getUserId();
 
-        if(StringUtils.isNotBlank(_applyTime)){
+        if (StringUtils.isNotBlank(_applyTime)) {
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_activeTime)){
+        if (StringUtils.isNotBlank(_activeTime)) {
             record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_candidateTime)){
+        if (StringUtils.isNotBlank(_candidateTime)) {
             record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_growTime)){
+        if (StringUtils.isNotBlank(_growTime)) {
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_positiveTime)){
+        if (StringUtils.isNotBlank(_positiveTime)) {
             record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_transferTime)){
+        if (StringUtils.isNotBlank(_transferTime)) {
             record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYY_MM_DD));
         }
         SysUser sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);
         if (member == null) {
+            SecurityUtils.getSubject().checkPermission("member:add");
+
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply!=null && memberApply.getStage()>=SystemConstants.APPLY_STAGE_INIT){
+                throw new RuntimeException("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
+            }
+
             record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+            logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         } else {
-            memberService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY,
+            SecurityUtils.getSubject().checkPermission("member:edit");
+
+            record.setPoliticalStatus(null); // 不能修改党籍状态
+            memberService.updateByPrimaryKeySelective(record, reason);
+
+            logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "更新党员信息表：%s %s %s %s, 更新原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
-                    branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
+                    reason));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:edit")
+    // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
+    @RequestMapping(value = "/member_addGrowApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_addGrowApply(int userId) {
+
+        SecurityUtils.getSubject().checkPermission("member:edit");
+        memberApplyService.addGrowApply(userId);
+
+        return success(FormUtils.SUCCESS);
+    }
+    //@RequiresPermissions("member:edit")
     @RequestMapping("/member_au")
     public String member_au(Integer userId, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         Member member = null;
         if (userId != null) {
+            SecurityUtils.getSubject().checkPermission("member:edit");
+
             member = memberMapper.selectByPrimaryKey(userId);
             modelMap.put("op", "编辑");
 
             partyId = member.getPartyId();
             branchId = member.getBranchId();
             modelMap.put("sysUser", sysUserService.findById(userId));
-        }else{
+        } else {
+            SecurityUtils.getSubject().checkPermission("member:add");
+
             modelMap.put("op", "添加");
         }
 
         Map<Integer, Branch> branchMap = branchService.findAll();
-        if(branchId!=null && partyId==null){ // 给支部添加党员
+        if (branchId != null && partyId == null) { // 给支部添加党员
             Branch branch = branchMap.get(branchId);
             partyId = branch.getPartyId();
         }
@@ -148,8 +255,8 @@ public class MemberController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if(userId==null && partyId!=null && branchId==null) { // 给直属党支部添加党员
-            if(!partyService.isDirectBranch(partyId)){
+        if (userId == null && partyId != null && branchId == null) { // 给直属党支部添加党员
+            if (!partyService.isDirectBranch(partyId)) {
                 throw new RuntimeException("只有直属党支部或党支部可以添加党员");
             }
         }
@@ -160,26 +267,25 @@ public class MemberController extends BaseController {
     }
 
     @RequiresRoles("partyAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping("/member_changeBranch")
     public String member_changeBranch(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){
+        if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
-        modelMap.put("ids", ids);
+        modelMap.put("ids", StringUtils.join(ids, ","));
 
         Integer _partyId = null;
         for (Integer userId : ids) {
             Member member = memberService.get(userId);
-            if(_partyId==null) _partyId = member.getPartyId();
-            if(_partyId!=null && _partyId.intValue() != member.getPartyId()){
+            if (_partyId == null) _partyId = member.getPartyId();
+            if (_partyId != null && _partyId.intValue() != member.getPartyId()) {
                 throw new RuntimeException("只允许在同一个分党委内部进行批量转移。");
             }
-            if(partyService.isDirectBranch(member.getPartyId())){
+            if (partyService.isDirectBranch(member.getPartyId())) {
                 throw new RuntimeException("直属党支部不能进行内部转移。");
             }
         }
@@ -189,41 +295,40 @@ public class MemberController extends BaseController {
 
         return "party/member/member_changeBranch";
     }
+
     // 批量分党委内部转移
     @RequiresRoles("partyAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                        @RequestParam(value = "ids[]") Integer[] ids,
-                        int partyId, // 用于校验
-                        int branchId,
-                        ModelMap modelMap) {
+                                   @RequestParam(value = "ids[]") Integer[] ids,
+                                   int partyId, // 用于校验
+                                   int branchId,
+                                   ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if(!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)){
+        if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
-        if (null != ids){
+        if (null != ids) {
             memberService.changeBranch(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量分党委内部转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", ids, partyId, branchId));
         }
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresRoles("odAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
-        //modelMap.put("ids", ids);
+        //modelMap.put("ids", StringUtils.join( ids, ","));
 
         return "party/member/member_changeParty";
     }
+
     // 批量校内组织关系转移
     @RequiresRoles("odAdmin")
-    @RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -232,14 +337,14 @@ public class MemberController extends BaseController {
                                   Integer branchId,
                                   ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             memberService.changeParty(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量校内组织关系转移：%s, %s, %s", new Object[]{ids, partyId, branchId}));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s", ids, partyId, branchId));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    /*@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
@@ -251,59 +356,90 @@ public class MemberController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
-    @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
+
+            List<Member> members = new ArrayList<>();
+            for (Integer id : ids) {
+                members.add(memberService.get(id));
+            }
+
             memberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除党员：%s", new Object[]{ids}));
+
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members)));
         }
         return success(FormUtils.SUCCESS);
     }
 
     // 同步信息
-    @RequiresPermissions("member:sync")
     @RequestMapping(value = "/member_sync", method = RequestMethod.POST)
     @ResponseBody
-    public Map sync(Integer userId){
+    public Map sync(Integer userId) {
 
         SysUser sysUser = sysUserService.findById(userId);
+        String code = sysUser.getCode();
         Member member = memberService.get(userId);
-        if(member!=null) {
-            if(sysUser.getType()== SystemConstants.USER_TYPE_JZG)
-                memberService.snycTeacher(sysUser.getId(), sysUser);
-            else
-                memberService.snycStudent(sysUser.getId(), sysUser);
+        if (member != null) {
+            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+                extJzgImport.excute(code);
+
+                ExtJzgExample example = new ExtJzgExample();
+                example.createCriteria().andZghEqualTo(code);
+                List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+                if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
+            }else {
+                if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
+                    extYjsImport.excute(code);
+
+                    ExtYjsExample example = new ExtYjsExample();
+                    example.createCriteria().andXhEqualTo(code);
+                    List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
+                    if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
+                }else {
+
+                    extBksImport.excute(code);
+                    ExtBksExample example = new ExtBksExample();
+                    example.createCriteria().andXhEqualTo(code);
+                    List<ExtBks> extBkses = extBksMapper.selectByExample(example);
+                    if(extBkses.size()==1) sysUserSyncService.syncExtBks(extBkses.get(0));
+                }
+            }
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("member:list")
     @RequestMapping("/member")
     public String member() {
 
         return "index";
     }
-    @RequiresPermissions("member:list")
+
     @RequestMapping("/member_page")
-    public String member_page(HttpServletResponse response,@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
+    public String member_page(HttpServletResponse response, @RequestParam(defaultValue = "1") Integer cls, ModelMap
+            modelMap) {
 
         modelMap.put("cls", cls);
-        if(cls==1) { // => member.type=3 member.status=1
+        /**
+         * cls=1 学生党员 member.type=3 member.status=1
+         * cls=6 已转出的学生党员
+         */
+        if (cls == 1 || cls==6) {
             return "forward:/memberStudent_page";
         }
         /*
             cls=2教职工   =>  member.type=1 member.status=1
                 3离退休   =>  member.type=2 member.status=1
-                4应退休   =>  member.type=2 member.status=1
-                5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+                （弃用）4应退休   =>  member.type=2 member.status=1
+                （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
+                cls=7 已转出的教工党员
          */
-        return "forward:/memberTeacher_page";
+         return "forward:/memberTeacher_page";
     }
 
  /*   @RequiresPermissions("member:view")
@@ -313,12 +449,25 @@ public class MemberController extends BaseController {
         return "index";
     }*/
 
-    @RequiresPermissions("member:view")
     @RequestMapping("/member_view")
-    public String member_show_page(HttpServletResponse response, int userId, ModelMap modelMap) {
+    public String member_show_page(@CurrentUser SysUser loginUser, HttpServletResponse response, int userId, ModelMap modelMap) {
 
-        SysUser sysUser = sysUserService.findById(userId);
-        if(sysUser.getType() == SystemConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
+        Member member = memberService.get(userId);
+
+        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN));
+        // 分党委、组织部管理员或管理员才可以操作
+        if (!hasRoles[0] && !hasRoles[1]) {
+            Integer partyId = member.getPartyId();
+            Integer branchId = member.getBranchId();
+            Integer loginUserId = loginUser.getId();
+            boolean isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
+            boolean isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+            if(!isBranchAdmin && !isPartyAdmin){
+                throw new UnauthorizedException();
+            }
+        }
+        if (member.getType() == SystemConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
             return "party/member/teacher_view";
         return "party/member/student_view";
     }

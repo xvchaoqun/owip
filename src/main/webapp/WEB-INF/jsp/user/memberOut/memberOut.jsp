@@ -45,7 +45,7 @@
                         年龄
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${cm:intervalYearsUntilNow(userBean.birth)}
+                        <c:if test="${not empty userBean.birth}">${cm:intervalYearsUntilNow(userBean.birth)}</c:if>
                     </td>
                 </tr>
                 <tr>
@@ -56,7 +56,7 @@
                         ${userBean.nation}
                     </td>
                     <td class="bg-right">
-                        政治面貌
+                        党籍状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
@@ -68,10 +68,10 @@
                         ${userBean.idcard}
                     </td>
                     <td class="bg-right">
-                        类别
+                        党员本人联系电话
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
+                        ${memberOut.phone}
                     </td>
                 </tr>
                 <tr>
@@ -123,7 +123,7 @@
                         党费缴纳至年月
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                            ${cm:formatDate(memberOut.payTime,'yyyy-MM-dd')}
+                            ${cm:formatDate(memberOut.payTime,'yyyy-MM')}
                     </td>
                 </tr>
                 <tr>
@@ -140,13 +140,19 @@
                             ${cm:formatDate(memberOut.handleTime,'yyyy-MM-dd')}
                     </td>
                     <td class="bg-right">
+                        类别
+                    </td>
+                    <td class="bg-left" style="min-width: 120px">
+                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
+                    </td>
+                    <td class="bg-right">
                         状态
                     </td>
-                    <td class="bg-left" style="min-width: 80px" colspan="3">
+                    <td class="bg-left" style="min-width: 80px" >
                         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
                             &nbsp;
                         <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
-                                <button class="btn btn-white btn-warning" onclick="_applyBack()">
+                                <button class="btn btn-white btn-warning btn-xs" onclick="_applyBack()">
                                     <i class="fa fa-undo"></i>
                                     撤销申请
                                 </button>

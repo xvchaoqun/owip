@@ -1,3 +1,10 @@
+
+
+人事系统提供了出国境的信息
+172.16.181.13/gbklicdc
+licdc_zg/neusoft
+SELECT * FROM  licdc_zg.v_rs_jzg_cgjxx t;--教师出国境信息
+
 172.16.181.13:1521/gbklicdc
 licdc_zg/neusoft
 normal

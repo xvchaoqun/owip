@@ -1,8 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.*;
+import domain.cadre.*;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -18,14 +20,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,24 +47,51 @@ public class CadreFamliyAbroadController extends BaseController {
         return "index";
     }
     @RequiresPermissions("cadreFamliyAbroad:list")
-    @RequestMapping("/cadreFamliyAbroad_page")
-    public String cadreFamliyAbroad_page(HttpServletResponse response,
-                                    int cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,ModelMap modelMap) {
+    @RequestMapping("/cadreFamliyAbroad_data")
+    public void cadreFamliyAbroad_data(HttpServletResponse response,
+                                    Integer cadreId,
+                                    Integer pageSize, Integer pageNo,
+                                 @RequestParam(required = false, defaultValue = "0") int export) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
 
         CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreFamliyAbroad> cadreFamliyAbroads = cadreFamliyAbroadMapper.selectByExample(example);
-        modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
+        CadreFamliyAbroadExample.Criteria criteria = example.createCriteria();
+       // example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
 
         if (export == 1) {
             cadreFamliyAbroad_export(example, response);
-            return null;
+            return;
         }
 
+        int count = cadreFamliyAbroadMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
 
-       
-        return "cadre/cadreFamliyAbroad/cadreFamliyAbroad_page";
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreFamliyAbroad> records = cadreFamliyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("cadreFamliyAbroad:edit")
@@ -69,7 +102,7 @@ public class CadreFamliyAbroadController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_abroadTime)){
-            record.setAbroadTime(DateUtils.parseDate(_abroadTime, DateUtils.YYYY_MM_DD));
+            record.setAbroadTime(DateUtils.parseDate(_abroadTime, "yyyy-MM"));
         }
 
         if (id == null) {

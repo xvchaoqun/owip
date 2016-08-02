@@ -1,8 +1,8 @@
 package service.party;
 
 import controller.BaseController;
-import domain.MemberQuit;
-import domain.MemberQuitExample;
+import domain.member.MemberQuit;
+import domain.member.MemberQuitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -223,16 +223,15 @@ public class MemberQuitService extends BaseMapper {
 
 
     @Transactional
-    public void memberQuit_check(int[] ids, byte type, int loginUserId){
+    public void memberQuit_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberQuit memberQuit = null;
             if(type==1) {
                 BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(id);
                 memberQuit = verifyAuth.entity;
-                boolean isDirectBranch = verifyAuth.isDirectBranch;
 
-                if (isDirectBranch) {
+                if (verifyAuth.isDirectBranch) {
                     checkByDirectBranch(memberQuit.getUserId());
                 } else {
                     check1(memberQuit.getUserId());
@@ -252,7 +251,9 @@ public class MemberQuitService extends BaseMapper {
 
             int userId = memberQuit.getUserId();
             applyApprovalLogService.add(memberQuit.getUserId(),
-                    memberQuit.getPartyId(), memberQuit.getBranchId(), userId, loginUserId,
+                    memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            (type == 2)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, (type == 1)
                             ? "支部审核" : (type == 2)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
@@ -260,14 +261,14 @@ public class MemberQuitService extends BaseMapper {
     }
 
     @Transactional
-    public void memberQuit_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberQuit.getPartyId());
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId());
 
             if(status >= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
@@ -304,7 +305,8 @@ public class MemberQuitService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(userId,
-                memberQuit.getPartyId(), memberQuit.getBranchId(), userId, loginUserId,
+                memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, SystemConstants.MEMBER_QUIT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

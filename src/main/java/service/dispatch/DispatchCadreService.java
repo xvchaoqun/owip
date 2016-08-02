@@ -1,8 +1,9 @@
 package service.dispatch;
 
-import domain.DispatchCadre;
-import domain.DispatchCadreExample;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreExample;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,24 @@ import java.util.Map;
 @Service
 public class DispatchCadreService extends BaseMapper {
 
+    @Autowired
+    private DispatchService dispatchService;
+    // 按类别统计某个发文下的录入人数
+    public int count(int dispatchId, byte type){
+
+        DispatchCadreExample example = new DispatchCadreExample();
+        example.createCriteria().andDispatchIdEqualTo(dispatchId).andTypeEqualTo(type);
+        return dispatchCadreMapper.countByExample(example);
+    }
+
     @Transactional
     @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
     public int insertSelective(DispatchCadre record){
 
         dispatchCadreMapper.insertSelective(record);
+
+        dispatchService.update_dispatch_real_count();
+
         Integer id = record.getId();
         DispatchCadre _record = new DispatchCadre();
         _record.setId(id);
@@ -33,6 +47,8 @@ public class DispatchCadreService extends BaseMapper {
     public void del(Integer id){
 
         dispatchCadreMapper.deleteByPrimaryKey(id);
+
+        dispatchService.update_dispatch_real_count();
     }
 
     @Transactional
@@ -44,12 +60,17 @@ public class DispatchCadreService extends BaseMapper {
         DispatchCadreExample example = new DispatchCadreExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         dispatchCadreMapper.deleteByExample(example);
+
+        dispatchService.update_dispatch_real_count();
     }
 
     @Transactional
     @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(DispatchCadre record){
-        return dispatchCadreMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(DispatchCadre record){
+
+        dispatchCadreMapper.updateByPrimaryKeySelective(record);
+
+        dispatchService.update_dispatch_real_count();
     }
 
     @Cacheable(value="DispatchCadre:ALL")
@@ -98,9 +119,9 @@ public class DispatchCadreService extends BaseMapper {
             DispatchCadre targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
 
             DispatchCadre record = new DispatchCadre();
             record.setId(id);

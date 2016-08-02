@@ -1,8 +1,14 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.*;
-import domain.DispatchCadreExample.Criteria;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreExample;
+import domain.dispatch.DispatchCadreExample.Criteria;
+import domain.cadre.Cadre;
+import domain.dispatch.DispatchType;
+import domain.sys.SysUser;
+import domain.unit.Unit;
 import mixin.DispatchMixin;
 import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +111,7 @@ public class DispatchCadreController extends BaseController {
     @RequestMapping("/dispatchCadre_data")
     @ResponseBody
     public void dispatchCadre_data(HttpServletResponse response,
-                                 /*@SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_cadre") String sort,
+                                 /*@SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
                                     Integer dispatchId,
                                     /*Integer typeId,*/

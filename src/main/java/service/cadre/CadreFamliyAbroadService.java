@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreFamliyAbroad;
-import domain.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamliyAbroad;
+import domain.cadre.CadreFamliyAbroadExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -11,6 +11,10 @@ import java.util.Arrays;
 @Service
 public class CadreFamliyAbroadService extends BaseMapper {
 
+    public CadreFamliyAbroad get(int id){
+
+        return cadreFamliyAbroadMapper.selectByPrimaryKey(id);
+    }
     @Transactional
     public int insertSelective(CadreFamliyAbroad record){
 

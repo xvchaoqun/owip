@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                 <div class="buttons pull-right">
                     <c:if test="${commonList.recNum>0}">
                     <%--<a class="exportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>--%>
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>--%>
                     <shiro:hasPermission name="applyLog:del">
                     <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
                      </shiro:hasPermission>

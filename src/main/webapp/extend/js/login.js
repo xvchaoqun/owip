@@ -44,7 +44,8 @@ $(function(){
              $captcha.focus();
              return;
          }
-        $form.ajaxSubmit({
+        $form.submit();
+        /*$form.ajaxSubmit({
             success:function(data){
                 //alert(data)
                 try {
@@ -60,7 +61,7 @@ $(function(){
                     $('img.captcha', $form).click()
                 }
             }
-        });
+        });*/
     });
 
     $("#reg_btn").click(function(){
@@ -144,6 +145,7 @@ $(function(){
         var target = $(this).data('target');
         $('#reg, #login').removeClass('visible');//hide others
         $(target).addClass('visible');//show target
+        target=='#login'?$("#note").show():$("#note").hide();
 
         $("input[name=captcha]").val('');
         $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random()*100) );

@@ -1,13 +1,19 @@
 package service.sys;
 
 import bean.UserBean;
-import domain.*;
+import domain.member.Member;
+import domain.member.Student;
+import domain.member.Teacher;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.party.TeacherService;
 import sys.constants.SystemConstants;
 
 import java.util.Map;
@@ -38,30 +44,36 @@ public class UserBeanService extends BaseMapper{
 
         UserBean userBean = new UserBean();
         userBean.setUserId(userId);
+        userBean.setUsername(sysUser.getUsername());
         userBean.setCode(sysUser.getCode());
         userBean.setType(sysUser.getType());
         userBean.setMobile(sysUser.getMobile());
+        userBean.setGender(sysUser.getGender());
+        userBean.setRealname(sysUser.getRealname());
+        userBean.setIdcard(sysUser.getIdcard());
 
         if(sysUser.getType()== SystemConstants.USER_TYPE_JZG){
             Teacher teacher = teacherService.get(userId);
             if(teacher!=null) {
                 userBean.setBirth(teacher.getBirth());
-                userBean.setGender(teacher.getGender());
-                userBean.setIdcard(teacher.getIdcard());
+                if(teacher.getGender()!=null)
+                    userBean.setGender(teacher.getGender());
+                if(teacher.getIdcard()!=null)userBean.setIdcard(teacher.getIdcard());
                 userBean.setNation(teacher.getNation());
                 userBean.setNativePlace(teacher.getNativePlace());
-                userBean.setRealname(teacher.getRealname());
+                if(teacher.getRealname()!=null)userBean.setRealname(teacher.getRealname());
             }
         }else{
 
             Student student = studentService.get(userId);
             if(student!=null) {
                 userBean.setBirth(student.getBirth());
-                userBean.setGender(student.getGender());
-                userBean.setIdcard(student.getIdcard());
+                if(student.getGender()!=null)
+                    userBean.setGender(student.getGender());
+                if(student.getIdcard()!=null)userBean.setIdcard(student.getIdcard());
                 userBean.setNation(student.getNation());
                 userBean.setNativePlace(student.getNativePlace());
-                userBean.setRealname(student.getRealname());
+                if(student.getRealname()!=null)userBean.setRealname(student.getRealname());
             }
         }
 

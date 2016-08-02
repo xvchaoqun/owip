@@ -62,16 +62,16 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
                                     <c:if test="${cls==1||cls==4}">
-                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberOutflow_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1&cls=${cls}"
                                             data-need-id="false"
                                             data-count="${branchApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 支部审核（${branchApprovalCount}）
+                                        <i class="fa fa-check-circle-o"></i> 党支部审核（${branchApprovalCount}）
                                     </button>
                                     </c:if>
                                     <c:if test="${cls==6}">
@@ -312,25 +312,25 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOutflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '学工号',  name: 'user.code', width: 120 ,frozen:true},
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '学工号',  name: 'user.code', width: 120, frozen:true },
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
-            { label: '所属组织机构', name: 'party',resizable:false, width: 450 ,
+            }, frozen:true  },
+            { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch)=='')?'':'-'+branch);
-                } ,frozen:true },
+                }, frozen:true  },
             { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
-            },frozen:true }<c:if test="${cls==4}">
+            }, frozen:true }<c:if test="${cls==4}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             { label:'原职业',  name:'originalJob',width: 200 , formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
             }},
-            { label: '外出流向',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
+            { label: '外出流向',   name: 'direction', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _metaTypeMap[cellvalue];
             }},
             { label: '流出时间',   name: 'flowTime', width: 100 },
@@ -377,26 +377,26 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"支部审核",
+        caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
     <c:if test="${cls==1||cls==4||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

@@ -1,9 +1,9 @@
 package service.party;
 
-import domain.Member;
-import domain.MemberOutflow;
-import domain.MemberOutflowExample;
-import domain.SysUser;
+import domain.member.Member;
+import domain.member.MemberOutflow;
+import domain.member.MemberOutflowExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -172,7 +172,8 @@ public class MemberOutflowService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberOutflow.getId(),
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(), shiroUser.getId(),
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(),
+                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -288,7 +289,7 @@ public class MemberOutflowService extends BaseMapper {
     }
 
     @Transactional
-    public void memberOutflow_check(int[] ids, byte type, int loginUserId){
+    public void memberOutflow_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
@@ -309,24 +310,26 @@ public class MemberOutflowService extends BaseMapper {
             }
 
             applyApprovalLogService.add(memberOutflow.getId(),
-                    memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
+                    memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, (type==1)?"支部审核":"分党委审核", (byte)1, null);
         }
     }
 
     @Transactional
-    public void memberOutflow_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberOutflow_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         for (int userId : userIds) {
 
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getBranchId());
+            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){
+            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BACK){
+            if(status >= SystemConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以打回
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -357,7 +360,8 @@ public class MemberOutflowService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId, loginUserId,
+                memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, SystemConstants.MEMBER_OUTFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

@@ -52,7 +52,7 @@
                         <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                             ${sysUser.realname}
                         </a></td>
-                        <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                        <td>${cadre.title}</td>
                         <td>${postMap.get(cadre.postId).name}</td>
                         <td>${passportTypeMap.get(passport.classId).name}</td>
                         <td>${passport.code}</td>
@@ -75,9 +75,9 @@
                   id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录拍照</label>
+                    <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
                     <div class="col-xs-2 file" style="width:300px;">
-                        <input required type="file" name="_useRecord" />
+                        <input type="file" name="_useRecord" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -112,7 +112,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label">备注</label>
                     <div class="col-xs-6">
-                        <textarea required class="form-control limited" type="text" name="remark" rows="5"></textarea>
+                        <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
             </form>
@@ -163,7 +163,7 @@
 
     $("input[type=submit]").click(function(){
         if($('input[type=file]').val()==''){
-            SysMsg.info('请选择证件使用记录拍照');
+            SysMsg.info('请选择证件使用记录');
             return;
         }
         if($('input[name=_realStartDate]').val()==''){
@@ -173,7 +173,7 @@
             return;
         }
         if($('input[name=_realEndDate]').val()==''){
-            SysMsg.info('实际返回时间','',function(){
+            SysMsg.info('请选择实际返回时间','',function(){
                 $('input[name=_realEndDate]').focus();
             });
             return;

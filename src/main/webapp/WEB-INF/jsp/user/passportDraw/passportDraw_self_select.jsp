@@ -62,10 +62,13 @@
     </div><!-- /.widget-body -->
   </div>
 <div class="well center" style="margin-top: 20px; font-size: 20px">
-  <div class="row" style="padding-left: 100px">
+  <div class="row" style="padding-left: 50px">
     <c:if test="${fn:length(passports)==0}">
-      您还没有提交证件
+      您没有因私出国（境）证件
     </c:if>
+    <c:if test="${fn:length(passports)>0}">
+    <div style="float: left; font-weight: bolder">申请使用证件名称：</div>
+      </c:if>
     <c:forEach items="${passports}" var="passport">
       <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
       <div style="float: left; margin-right: 40px;">
@@ -81,7 +84,7 @@
 </div>
 <div class="modal-footer center">
 <c:if test="${fn:length(passports)>0}">
-  <input id="next" class="btn btn-success" value="确认"/>
+  <input id="next" class="btn btn-success" value="下一步"/>
   <input data-url="${ctx}/user/passportDraw_self" class="openView btn btn-info" value="返回选择行程"/>
   </c:if>
   <input  class="closeView btn btn-default" value="取消申请"/>

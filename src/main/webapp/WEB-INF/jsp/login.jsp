@@ -12,6 +12,12 @@
 <meta charset="utf-8"/>
 <title>组织工作管理与服务一体化平台</title>
 <link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript">
+        location.href="${ctx}/extend/unsupport.html"
+    </script>
+    <![endif]-->
 </head>
 <body>
 <div class="top">
@@ -21,21 +27,34 @@
     </div>
 </div>
 <div class="login_box">
+
     <div class="bg">
         <img src="${ctx}/extend/img/login_bg.jpg" />
     </div>
     <div class="w1000 login_con">
+
         <div id="login" class="visible login-layout" >
+
+            <c:if test="${not empty error}">
+            <div class="login-error">
+            <i class="fa fa-times"></i> ${error}</div>
+            </c:if>
             <form id="login-form" method="POST" action="${ctx}/login">
                 <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>
                 <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4" <c:if test="${!useCaptcha}">value="test"</c:if> />
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
+                <dt></dt><dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd></dt>
                 <dt></dt><dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
-                <dt></dt><dd><a href="" class="to_reg_btn" data-target="#reg">立即注册</a></dd>
+                <dt></dt><dd>
+                  <a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器下载</a>
+                        <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
+              </dd>
             </form>
         </div>
         <div class="login-layout" id="reg">
+            <div class="reg-tip" >
+                <i class="fa fa-info-circle"></i> 如果您已经有信息门户的账号，请不要在此注册。</div>
             <form id="reg-form" method="POST" action="${ctx}/reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>
@@ -65,6 +84,16 @@
                 <dt></dt><dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>
         </div>
+    </div>
+    <div class="note visible" id="note">
+        <ul>
+            <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
+                <img src="/extend/img/new.gif">
+            </li>
+            <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
+                <img src="/extend/img/new.gif">
+            </li>
+        </ul>
     </div>
 </div>
 <!--[if !IE]> -->

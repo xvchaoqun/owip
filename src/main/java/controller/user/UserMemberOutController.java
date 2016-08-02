@@ -1,7 +1,9 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.Member;
+import domain.member.MemberOut;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -47,8 +49,7 @@ public class UserMemberOutController extends BaseController{
         MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
-        if(memberOut==null || memberOut.getStatus()== SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
-                || memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut==null || memberOut.getStatus() <= SystemConstants.MEMBER_OUT_STATUS_BACK)
             return "user/memberOut/memberOut_au";
 
         return "user/memberOut/memberOut";
@@ -63,7 +64,7 @@ public class UserMemberOutController extends BaseController{
         //Integer userId = record.getUserId();
         Integer userId = loginUser.getId();
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
@@ -71,8 +72,7 @@ public class UserMemberOutController extends BaseController{
 
         MemberOut memberOut = memberOutService.get(userId);
 
-        if(memberOut!=null && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_SELF_BACK
-                && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut!=null && memberOut.getStatus() > SystemConstants.MEMBER_OUT_STATUS_BACK)
             throw new RuntimeException("不允许修改");
 
         Member member = memberService.get(userId);
@@ -94,7 +94,8 @@ public class UserMemberOutController extends BaseController{
         }
 
         applyApprovalLogService.add(memberOut.getId(),
-                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(), userId,
+                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

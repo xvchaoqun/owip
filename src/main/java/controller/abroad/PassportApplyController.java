@@ -1,11 +1,11 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.PassportApply;
-import domain.PassportApplyExample;
-import domain.PassportApplyExample.Criteria;
-import domain.SysUser;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyView;
+import domain.abroad.PassportApplyViewExample;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportApplyMixin;
@@ -161,8 +161,8 @@ public class PassportApplyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PassportApplyExample example = new PassportApplyExample();
-        Criteria criteria = example.createCriteria();
+        PassportApplyViewExample example = new PassportApplyViewExample();
+        PassportApplyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if(status==1){
@@ -188,12 +188,12 @@ public class PassportApplyController extends BaseController {
             return;
         }
 
-        int count = passportApplyMapper.countByExample(example);
+        int count = passportApplyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PassportApply> passportApplys = passportApplyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PassportApplyView> passportApplys = passportApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -204,12 +204,12 @@ public class PassportApplyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(PassportApply.class, PassportApplyMixin.class);
+        sourceMixins.put(PassportApplyView.class, PassportApplyMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
-    @RequiresPermissions("passportApply:edit")
+   /* @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_au(PassportApply record,String _applyDate, String _expectDate, String _handleDate, HttpServletRequest request) {
@@ -230,8 +230,8 @@ public class PassportApplyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
         } else {
 
-           /* passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*/
+           *//* passportApplyService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*//*
         }
 
         return success(FormUtils.SUCCESS);
@@ -278,7 +278,7 @@ public class PassportApplyController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("passportApply:abolish")
     @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)
@@ -293,16 +293,16 @@ public class PassportApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void passportApply_export(PassportApplyExample example, HttpServletResponse response) {
+    public void passportApply_export(PassportApplyViewExample example, HttpServletResponse response) {
 
-        List<PassportApply> passportApplys = passportApplyMapper.selectByExample(example);
-        int rownum = passportApplyMapper.countByExample(example);
+        List<PassportApplyView> passportApplys = passportApplyViewMapper.selectByExample(example);
+        int rownum = passportApplyViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"干部","申办证件名称","申办日期","审批状态","审批人","审批时间","应交组织部日期","实交组织部日期","申请时间"};
+        String[] titles = {"干部","申办证件名称","申办日期","审批状态","审批人","审批时间","应交组织部日期","实交组织部日期","证件号码", "接收人","申请时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -311,7 +311,13 @@ public class PassportApplyController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            PassportApply passportApply = passportApplys.get(i);
+            PassportApplyView passportApply = passportApplys.get(i);
+            String handleUser = "";
+            Integer handleUserId = passportApply.getHandleUserId();
+            if(handleUserId!=null){
+                SysUser sysUser = sysUserService.findById(handleUserId);
+                handleUser = sysUser!=null?sysUser.getRealname():"";
+            }
             String[] values = {
                         passportApply.getCadreId()+"",
                                             passportApply.getClassId()+"",
@@ -321,6 +327,8 @@ public class PassportApplyController extends BaseController {
                                             DateUtils.formatDate(passportApply.getApproveTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                                             DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD),
                                             DateUtils.formatDate(passportApply.getHandleDate(), DateUtils.YYYY_MM_DD),
+                                            passportApply.getCode(),
+                                            handleUser,
                                             DateUtils.formatDate(passportApply.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
                     };
 

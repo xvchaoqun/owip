@@ -1,7 +1,7 @@
 package service.abroad;
 
-import domain.SafeBox;
-import domain.SafeBoxExample;
+import domain.abroad.SafeBox;
+import domain.abroad.SafeBoxExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;

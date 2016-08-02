@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.HistoryUnit;
-import domain.HistoryUnitExample;
+import domain.unit.HistoryUnit;
+import domain.unit.HistoryUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

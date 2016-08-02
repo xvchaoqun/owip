@@ -16,7 +16,7 @@
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
-        <c:if test="${param.type=='aproval'}">
+        <c:if test="${param.type=='approval'}">
         <button id="agree" style="margin-left: 220px; margin-right: 30px;"
            class="btn btn-primary btn-sm"><i class="fa fa-check"></i> 同意申请</button>
           <button id="disagree" class="btn btn-danger btn-sm">
@@ -27,7 +27,7 @@
         <button class="openView btn btn-info btn-sm"
                 data-url="${ctx}/applySelf_yearLogs?id=${applySelf.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 150px">
-          <i class="fa fa-history"></i>  本年度申请记录</button>
+          <i class="fa fa-history"></i>  本年度因私出国境记录</button>
 
       </div>
   </ul>
@@ -50,7 +50,7 @@
           <td class="bg-right">身份证号</td>
           <td colspan="3" class="bg-left">${sysUser.idcard}</td>
           <td class="bg-right">联系电话</td>
-          <td class="bg-left">${sysUser.mobile}</td>
+          <td class="bg-left">${cadreMobile}</td>
         </tr>
         <tr>
           <td class="bg-right" nowrap>工作单位及职务</td>
@@ -162,7 +162,7 @@
   }
 </style>
 <script>
-<c:if test="${param.type=='aproval'}">
+<c:if test="${param.type=='approval'}">
   $("#agree").click(function(){
     loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
   });

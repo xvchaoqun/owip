@@ -24,7 +24,7 @@
                         <i class="fa fa-user"></i> 编辑委员
                     </button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="branchMemberGroup:del">
                         <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
@@ -104,12 +104,12 @@
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             }, frozen:true},
             {
-                label: '所属组织机构', name: 'party', align:'left', resizable: false, width: 550,
+                label: '所属组织机构', name: 'party', align:'left',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }, frozen:true
             },
             { label: '应换届时间', align:'center', name: 'tranTime', width: 130 },
             { label: '实际换届时间', align:'center', name: 'actualTranTime', width: 130 },
@@ -129,7 +129,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })
-
+    _initNavGrid("jqGrid", "jqGridPager");
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

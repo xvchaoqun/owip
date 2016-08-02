@@ -1,13 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="col-xs-offset-1">
-  <div class="widget-box widget-color-blue">
+  <div class="widget-box widget-color-blue collapsed">
     <!-- #section:custom/widget-box.options -->
     <div class="widget-header">
       <h5 class="widget-title bigger lighter">
         <i class="fa fa-history"></i>
         审核记录
       </h5>
+      <div class="widget-toolbar">
+        <a href="#" data-action="collapse">
+          <i class="ace-icon fa fa-chevron-down"></i>
+        </a>
+      </div>
     </div>
 
     <!-- /section:custom/widget-box.options -->

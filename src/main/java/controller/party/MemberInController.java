@@ -1,8 +1,12 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberInExample.Criteria;
+import domain.member.MemberIn;
+import domain.member.MemberInExample;
+import domain.member.MemberInExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInMixin;
@@ -89,6 +93,7 @@ public class MemberInController extends BaseController {
                                     String fromTitle,
                                     String _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -155,6 +160,8 @@ public class MemberInController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberIn_export(example, response);
             return;
         }
@@ -198,7 +205,7 @@ public class MemberInController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -212,7 +219,7 @@ public class MemberInController extends BaseController {
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_applyTime)){
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
@@ -242,7 +249,8 @@ public class MemberInController extends BaseController {
             enterApplyService.memberIn(record);
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
@@ -323,13 +331,36 @@ public class MemberInController extends BaseController {
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                   byte type, // 1:分党委审核 3：组织部审核
-                                   @RequestParam(value = "ids[]") int[] ids) {
+                                   //byte type, // 1:分党委审核 2：组织部审核
+                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
+        memberInService.memberIn_check(ids, null, (byte)2, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-组织部审核通过：%s", StringUtils.join( ids, ",")));
 
-        memberInService.memberIn_check(ids, type, loginUser.getId());
+        return success(FormUtils.SUCCESS);
+    }
 
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-审核：%s", ids));
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping("/memberIn_party_check")
+    public String memberIn_party_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        int id = ids[0];
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        modelMap.put("memberIn", memberIn);
+
+        return "party/memberIn/memberIn_party_check";
+    }
+
+    @RequiresRoles("partyAdmin")
+    @RequiresPermissions("memberIn:update")
+    @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberIn_party_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+                                 @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
+
+        memberInService.memberIn_check(ids, hasReceipt, (byte)1, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-分党委审核通过：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -347,14 +378,14 @@ public class MemberInController extends BaseController {
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_back(@CurrentUser SysUser loginUser,
-                                  @RequestParam(value = "ids[]") int[] ids,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
 
 
         memberInService.memberIn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转入申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转入申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -382,7 +413,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_au";
     }
 
-    @RequiresPermissions("memberIn:del")
+    /*@RequiresPermissions("memberIn:del")
     @RequestMapping(value = "/memberIn_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_del(HttpServletRequest request, Integer id) {
@@ -407,7 +438,7 @@ public class MemberInController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberIn_export(MemberInExample example, HttpServletResponse response) {
 
         List<MemberIn> records = memberInMapper.selectByExample(example);

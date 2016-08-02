@@ -1,12 +1,11 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysRole;
-import domain.SysRoleExample;
-import domain.SysUser;
+import domain.sys.SysRole;
+import domain.sys.SysRoleExample;
+import domain.sys.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,6 +156,28 @@ public class SysRoleController extends BaseController {
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除角色：%s", id));
 		}
 		
+		return success(FormUtils.SUCCESS);
+	}
+
+	@RequiresRoles("admin")
+	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
+	@ResponseBody
+	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request) {
+
+		if(id!=null){
+			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
+			if(sysRole.getIsSysHold()==null)
+				sysRole.setIsSysHold(false);
+			String role = sysRole.getRole();
+			Boolean isSysHold = sysRole.getIsSysHold();
+
+			SysRole record = new SysRole();
+			record.setId(id);
+			record.setIsSysHold(!isSysHold);
+			sysRoleService.updateByPrimaryKeySelective(record, role, role);
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", role, !isSysHold));
+		}
+
 		return success(FormUtils.SUCCESS);
 	}
 }

@@ -1,27 +1,23 @@
 package service.party;
 
-import domain.PartyMember;
-import domain.PartyMemberExample;
-import domain.PartyMemberGroup;
-import domain.SysUser;
+import domain.party.OrgAdmin;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
 import org.apache.ibatis.session.RowBounds;
-import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import service.OrgAdminService;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class PartyMemberService extends BaseMapper {
 
     @Autowired
-    private SysUserService sysUserService;
+    private OrgAdminService orgAdminService;
     @Autowired
     private PartyMemberAdminService partyMemberAdminService;
 
@@ -29,6 +25,20 @@ public class PartyMemberService extends BaseMapper {
     public boolean isPresentAdmin(Integer userId, Integer partyId){
         if(userId==null || partyId == null) return false;
         return commonMapper.isPartyAdmin(userId, partyId)>0;
+    }
+
+    // 删除分党委管理员
+    @Transactional
+    public void delAdmin(int userId, int partyId){
+
+        List<PartyMember> partyMembers = commonMapper.findPartyAdminOfPartyMember(userId, partyId);
+        for (PartyMember partyMember : partyMembers) { // 理论上只有一个
+            partyMemberAdminService.toggleAdmin(partyMember);
+        }
+        List<OrgAdmin> orgAdmins = commonMapper.findPartyAdminOfOrgAdmin(userId, partyId);
+        for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
+            orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
+        }
     }
 
     public boolean idDuplicate(Integer id, int groupId, int userId){
@@ -58,6 +68,7 @@ public class PartyMemberService extends BaseMapper {
         }
         return 1;
     }
+
     @Transactional
     public void del(Integer id){
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
@@ -125,15 +136,16 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMember entity = partyMemberMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Integer groupId = entity.getGroupId();
 
         PartyMemberExample example = new PartyMemberExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -143,9 +155,9 @@ public class PartyMemberService extends BaseMapper {
             PartyMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_party_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_party_member", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
 
             PartyMember record = new PartyMember();
             record.setId(id);

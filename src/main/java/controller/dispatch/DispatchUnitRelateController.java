@@ -1,9 +1,9 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.DispatchUnitRelate;
-import domain.DispatchUnitRelateExample;
-import domain.DispatchUnitRelateExample.Criteria;
+import domain.dispatch.DispatchUnitRelate;
+import domain.dispatch.DispatchUnitRelateExample;
+import domain.dispatch.DispatchUnitRelateExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -22,18 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +49,7 @@ public class DispatchUnitRelateController extends BaseController {
     @RequiresPermissions("dispatchUnitRelate:list")
     @RequestMapping("/dispatchUnitRelate_page")
     public String dispatchUnitRelate_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_dispatch_unit_relate") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit_relate") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer dispatchUnitId,
                                     Integer unitId,

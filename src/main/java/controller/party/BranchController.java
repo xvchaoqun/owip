@@ -1,8 +1,9 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.BranchExample.Criteria;
+import domain.party.*;
+import domain.party.BranchExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMixin;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
-import shiro.ShiroUser;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -54,6 +55,7 @@ public class BranchController extends BaseController {
             List<BranchMember> BranchMembers = branchMemberMapper.selectByExample(example);
             modelMap.put("branchMembers", BranchMembers);
         }
+        modelMap.put("adminIds", commonMapper.findBranchAdmin(id));
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         return "party/branch/branch_base";
@@ -126,7 +128,8 @@ public class BranchController extends BaseController {
             criteria.andPartyIdEqualTo(partyId);
         }
 
-        //===========权限
+        //===========权限（只有分党委管理员，才可以管理党支部）
+        //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
@@ -188,12 +191,23 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:edit")
     @RequestMapping(value = "/branch_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_au(Branch record, String _foundTime, HttpServletRequest request) {
+    public Map do_branch_au(@CurrentUser SysUser loginUser, Branch record, String _foundTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (branchService.idDuplicate(id, record.getCode())) {
-            return failed("添加重复");
+        // 权限控制
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            // 要求是分党委管理员
+            Integer partyId = record.getPartyId();
+            if (id != null) {
+                Branch branch = branchService.findAll().get(id);
+                partyId = branch.getPartyId();
+            }
+            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+                throw new UnauthorizedException();
+            }
         }
 
         if(StringUtils.isNotBlank(_foundTime)){
@@ -218,7 +232,7 @@ public class BranchController extends BaseController {
             branchService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "添加党支部：%s", record.getId()));
         } else {
-
+            record.setCode(null); // 不修改编号
             branchService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_OW, "更新党支部：%s", record.getId()));
         }
@@ -248,7 +262,19 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:del")
     @RequestMapping(value = "/branch_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_del(HttpServletRequest request, Integer id) {
+    public Map do_branch_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+
+        // 权限控制
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            // 要求是分党委管理员
+            Branch branch = branchService.findAll().get(id);
+            int partyId = branch.getPartyId();
+            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+        }
 
         if (id != null) {
             branchService.del(id);
@@ -274,7 +300,19 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:changeOrder")
     @RequestMapping(value = "/branch_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_branch_changeOrder(@CurrentUser SysUser loginUser, Integer id, Integer addNum, HttpServletRequest request) {
+
+        // 权限控制
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            // 要求是分党委管理员
+            Branch branch = branchService.findAll().get(id);
+            int partyId = branch.getPartyId();
+            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+        }
 
         branchService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_OW, "党支部调序：%s,%s", id, addNum));

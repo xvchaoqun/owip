@@ -7,28 +7,38 @@
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/user/applySelf_au"
              data-url-page="${ctx}/user/applySelf_page"
-             data-url-del="${ctx}/user/applySelf_del"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate
             ||not empty param.type }"/>
-                <div class="buttons">
+                <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
-                    <a id="note" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i> 申请说明</a>
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-width="650"
+                       data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_NOTE}">
+                        <i class="fa fa-info-circle"></i> 申请说明</a>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/user/applySelf_view"
                             data-open-by="page">
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
-                        <button class="jqEditBtn btn btn-primary btn-sm tooltip-info"
+                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                            data-url="${ctx}/applySelfModify_page"
+                            data-id-name="applyId"
+                            data-open-by="page">
+                        <i class="fa fa-search"></i> 变更记录
+                    </button>
+                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm tooltip-info"
                                 data-url="${ctx}/user/applySelf_au"
                                 data-open-by="page"
                                 data-querystr="&edit=1"
                                 data-rel="tooltip" data-placement="bottom"
-                                title="当因私出国（境）申请未通过审批时，修改相关信息重新申请。">
+                                title="当因私出国（境）申请未审批或者初审未通过时，修改相关信息重新申请。">
                             <i class="fa fa-edit"></i> 重新申请
                         </button>
-                            <button class="jqItemDelBtn btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i> 删除
+                            <button id="abolishBtn" class="jqItemBtn btn btn-danger btn-sm"
+                                    data-url="${ctx}/user/applySelf_del" data-title="撤销申请"
+                                    data-msg="确定撤销该申请吗？">
+                            <i class="fa fa-trash"></i> 撤销申请
                             </button>
                 </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -97,16 +107,23 @@
         </div>
     </div>
 </div>
+<script type="text/template" id="remark_tpl">
+<button class="popupBtn btn btn-xs btn-primary"
+            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
+</script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
+        ondblClickRow : function(rowid,iRow,iCol,e){
+            $(".jqOpenViewBtn").click();
+        },
         url: '${ctx}/user/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号', align:'center', name: 'id', width: 80 ,frozen:true,formatter:function(cellvalue, options, rowObject){
+            { label: '编号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
-            }},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100 ,frozen:true},
+            },frozen:true},
+            { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
             { label: '出行时间', align:'center', name: 'typeName', width: 100 },
             { label: '出发时间', align:'center', name: 'startDate', width: 100 },
             { label: '返回时间', align:'center', name: 'endDate', width: 100 },
@@ -143,12 +160,29 @@
             {hidden:true, name:'firstType',formatter:function(cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return tdBean.tdType
-            }}
+            }},
+            {hidden:true, name:'isFinish',formatter:function(cellvalue, options, rowObject) {
+                return cellvalue?1:0;
+            }},
+            {hidden:true, name:'isAgreed',formatter:function(cellvalue, options, rowObject) {
+                return cellvalue?1:0;
+            }},
+            { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _.template($("#remark_tpl").html().NoMultiSpace())({id:rowObject.id})
+                else return ''
+            } }
         ],
         onSelectRow: function(id,status){
             jgrid_sid=id;
-            var firstType = $(this).getRowData(id).firstType;
-            $(".jqEditBtn, .jqItemDelBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            var data = $(this).getRowData(id);
+            //console.log(status + "  " +  data.isFinish + "  " +  data.isAgreed + "  " + (data.isAgreed==0))
+
+            //$("#editBtn").prop("disabled",status &&data.isFinish==1&&data.isAgreed!=0)
+            var firstType = data.firstType;
+            //console.log(firstType)
+            $("#abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            $("#editBtn").prop("disabled",status && firstType!=3&&firstType!=4&&firstType!=5)
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
@@ -175,7 +209,4 @@
         return html;
     }
 
-    $("#note").click(function(){
-        loadModal("${ctx}/user/applySelf_note", 650);
-    });
 </script>

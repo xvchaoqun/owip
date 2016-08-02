@@ -1,8 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberReturnExample.Criteria;
+import domain.member.MemberReturn;
+import domain.member.MemberReturnExample;
+import domain.member.MemberReturnExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberReturnMixin;
@@ -94,6 +99,7 @@ public class MemberReturnController extends BaseController {
                                     String _positiveTime,
                                     Byte politicalStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -205,6 +211,8 @@ public class MemberReturnController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             memberReturn_export(example, response);
             return;
         }
@@ -247,7 +255,7 @@ public class MemberReturnController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId,  branchId);
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -280,7 +288,8 @@ public class MemberReturnController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
 
             applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(), loginUser.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -322,12 +331,14 @@ public class MemberReturnController extends BaseController {
 
         modelMap.put("memberReturn", currentMemberReturn);
 
+        Integer branchId = currentMemberReturn.getBranchId();
+        Integer partyId = currentMemberReturn.getPartyId();
         // 是否是当前记录的管理员
         if(type==1){
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberReturn.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if(type==2){
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberReturn.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -359,12 +370,12 @@ public class MemberReturnController extends BaseController {
     @ResponseBody
     public Map do_memberReturn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") int[] ids) {
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberReturnService.memberReturn_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -382,14 +393,14 @@ public class MemberReturnController extends BaseController {
     @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn_back(@CurrentUser SysUser loginUser,
-                                @RequestParam(value = "ids[]") int[] ids,
+                                @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
 
 
         memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     
@@ -417,7 +428,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_au";
     }
 
-    @RequiresPermissions("memberReturn:del")
+    /*@RequiresPermissions("memberReturn:del")
     @RequestMapping(value = "/memberReturn_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn_del(HttpServletRequest request, Integer id) {
@@ -442,7 +453,7 @@ public class MemberReturnController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     public void memberReturn_export(MemberReturnExample example, HttpServletResponse response) {
 
         List<MemberReturn> records = memberReturnMapper.selectByExample(example);

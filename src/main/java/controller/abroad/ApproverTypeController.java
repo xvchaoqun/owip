@@ -1,9 +1,12 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.ApproverType;
-import domain.ApproverTypeExample;
-import domain.ApproverTypeExample.Criteria;
+import domain.abroad.ApproverBlackList;
+import domain.abroad.ApproverType;
+import domain.abroad.ApproverTypeExample;
+import domain.abroad.ApproverTypeExample.Criteria;
+import domain.cadre.Cadre;
+import domain.unit.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,9 +26,7 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ApproverTypeController extends BaseController {
@@ -35,33 +36,84 @@ public class ApproverTypeController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approverType/selectCadres_tree")
     @ResponseBody
-    public Map selectCadres_tree(int id) throws IOException {
-
-        Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
-        //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
-        //disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreService.getTree(selectIdSet);
+    public Map selectCadres_tree(Integer id, byte type) throws IOException {
 
         Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
+        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+            Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
+            //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
+            //disabledIdSet.removeAll(selectIdSet);
+            TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
+
+
+            resultMap.put("tree", tree);
+        }
+        if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职
+            resultMap.put("tree", cadreService.getMainPostCadreTree());
+        }
+
+        if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
+
+            // 分管校领导 黑名单
+            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+            Integer leaderApproverTypeId = leaderApproverType.getId();
+            Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverTypeId);
+            Set<Integer> unselectCadreSet = new HashSet<>();
+            for (ApproverBlackList approverBlackList : blackListMap.values()) {
+                unselectCadreSet.add(approverBlackList.getCadreId());
+            }
+
+            Set<Cadre> cadreSet = new LinkedHashSet<>();
+            Set<Integer> selectCadreSet = new HashSet<>();
+            Map<Integer, Leader> leaderMap = leaderService.findAll();
+            for (Leader leader : leaderMap.values()) {
+                Cadre cadre = leader.getCadre();
+                cadreSet.add(cadre);
+                if(!unselectCadreSet.contains(cadre.getId()))
+                    selectCadreSet.add(cadre.getId());
+            }
+
+            TreeNode tree = cadreService.getTree(cadreSet, selectCadreSet, null, true, true);
+            resultMap.put("tree", tree);
+        }
+
         return resultMap;
     }
 
     @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/approverType/select_cadres")
-    public String select_cadres(int id, ModelMap modelMap) throws IOException {
+    @RequestMapping("/approverType/selectCadres")
+    public String select_cadres(Integer id, byte type, ModelMap modelMap) throws IOException {
 
-        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
-        modelMap.put("approverType", approverType);
-        return "abroad/approverType/select_cadres";
+        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+            ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
+            modelMap.put("approverType", approverType);
+        }
+        return "abroad/approverType/selectCadres";
     }
 
     @RequiresPermissions("approvalAuth:*")
-    @RequestMapping(value="/approverType/select_cadres", method=RequestMethod.POST)
+    @RequestMapping(value = "/approverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_cadres(Integer id, @RequestParam(value="cadreIds[]",required=false) Integer[] cadreIds) {
+    public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        approverTypeService.updateApproverCadreIds(id, cadreIds);
+        if (type != SystemConstants.APPROVER_TYPE_OTHER) {
+            if(type==SystemConstants.APPROVER_TYPE_UNIT){
+                // 本单位正职身份
+                ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+                Integer mainPostTypeId = mainPostApproverType.getId();
+                approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
+            }
+            if(type==SystemConstants.APPROVER_TYPE_LEADER){
+                // 分管校领导身份
+                ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+                Integer leaderApproverTypeId = leaderApproverType.getId();
+                approverBlackListService.updateCadreIds(leaderApproverTypeId, cadreIds);
+            }
+        }
+
+        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+            approverTypeService.updateApproverCadreIds(id, cadreIds);
+        }
         return success(FormUtils.SUCCESS);
     }
 
@@ -71,13 +123,14 @@ public class ApproverTypeController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approverType_page")
     public String approverType_page(HttpServletResponse response,
-                                    @RequestParam(defaultValue = "1")int cls,
+                                    @RequestParam(defaultValue = "1") int cls,
                                     String name,
-                                     Byte type,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                    Byte type,
+                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -94,7 +147,7 @@ public class ApproverTypeController extends BaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
-        if (type!=null) {
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
 
@@ -113,7 +166,7 @@ public class ApproverTypeController extends BaseController {
         if (StringUtils.isNotBlank(name)) {
             searchStr += "&name=" + name;
         }
-        if (type!=null) {
+        if (type != null) {
             searchStr += "&type=" + type;
         }
 
@@ -187,7 +240,7 @@ public class ApproverTypeController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             approverTypeService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除审批人分类：%s", StringUtils.join(ids, ",")));
         }

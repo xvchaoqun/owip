@@ -1,7 +1,7 @@
 package service.ext;
 
-import domain.ExtJzg;
-import domain.ExtJzgExample;
+import domain.ext.ExtJzg;
+import domain.ext.ExtJzgExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;

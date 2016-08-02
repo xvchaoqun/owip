@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
-<c:set var="MEMBER_STATUS_MAP" value="<%=SystemConstants.MEMBER_STATUS_MAP%>"/>
     <h3>${op}党员</h3>
 	<hr/>
     <form class="form-horizontal" action="${ctx}/member_au" id="modalForm" method="post">
@@ -45,8 +42,15 @@ pageEncoding="UTF-8"%>
 							'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 				</script>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">政治面貌</label>
+					<label class="col-xs-3 control-label">党籍状态</label>
+					<c:if test="${not empty member.politicalStatus}">
+						<div class="col-xs-6 label-text">
+								${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
+						</div>
+					</c:if>
+					<c:if test="${empty member.politicalStatus}">
 					<div class="col-xs-6">
+
 						<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
 							<option></option>
 							<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
@@ -57,6 +61,7 @@ pageEncoding="UTF-8"%>
 							$("#modalForm select[name=politicalStatus]").val(${member.politicalStatus});
 						</script>
 					</div>
+					</c:if>
 				</div>
 				<%--<div class="form-group">
 					<label class="col-xs-3 control-label">状态</label>

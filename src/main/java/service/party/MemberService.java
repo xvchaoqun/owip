@@ -1,8 +1,20 @@
 package service.party;
 
-import domain.*;
+import domain.ext.ExtBks;
+import domain.ext.ExtJzg;
+import domain.ext.ExtYjs;
+import domain.member.*;
+import domain.party.Branch;
+import domain.party.EnterApply;
+import domain.party.GraduateAbroad;
+import domain.party.GraduateAbroadExample;
+import domain.sys.SysUser;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,17 +22,24 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.ext.ExtService;
+import service.helper.ContextHelper;
+import service.helper.ShiroSecurityHelper;
+import service.sys.LogService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class MemberService extends BaseMapper {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -28,9 +47,13 @@ public class MemberService extends BaseMapper {
     @Autowired
     private EnterApplyService enterApplyService;
     @Autowired
+    private MemberApplyService memberApplyService;
+    @Autowired
     private PartyService partyService;
     @Autowired
     private BranchService branchService;
+    @Autowired
+    private LogService logService;
 
     public Member get(int userId){
 
@@ -45,7 +68,7 @@ public class MemberService extends BaseMapper {
     @Transactional
     public void quit(int userId, byte status){
 
-        Member member = memberMapper.selectByPrimaryKey(userId);
+        //Member member = memberMapper.selectByPrimaryKey(userId);
         Member record = new Member();
         record.setUserId(userId);
         record.setStatus(status);
@@ -54,7 +77,26 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  党员->访客
         SysUser sysUser = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername());
+        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername(), sysUser.getCode());
+    }
+
+    /**
+     * 党员出党后重新回来
+     * @param userId
+     */
+    @Transactional
+    public void reback(int userId){
+
+        Member record = new Member();
+        record.setUserId(userId);
+        record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL);
+        //record.setBranchId(member.getBranchId());
+        int ret = updateByPrimaryKeySelective(record);
+        if(ret>0) {
+            // 更新系统角色  访客->党员
+            SysUser sysUser = sysUserService.findById(userId);
+            sysUserService.changeRoleGuestToMember(userId, sysUser.getUsername(), sysUser.getCode());
+        }
     }
 
     // 后台数据库中导入党员数据后，需要同步信息、更新状态
@@ -89,7 +131,7 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
     @Transactional
@@ -133,9 +175,12 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(memberMapper.insertSelective(record) == 1);
         }else throw new RuntimeException("数据异常，入党失败");
 
+        // 如果是预备党员，则要进入申请入党预备党员阶段
+        memberApplyService.addGrowApply(userId);
+
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername());
+                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
     }
 
 
@@ -243,7 +288,7 @@ public class MemberService extends BaseMapper {
                     student.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 // 出生年月
-                student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyyMMdd"));
+                student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
 
                 //+++++++++++++ 同步后面一系列属性
                 student.setNation(extBks.getMz());
@@ -312,11 +357,11 @@ public class MemberService extends BaseMapper {
             studentMapper.updateByPrimaryKey(student);
     }
 
-    @Transactional
+    /*@Transactional
     public void del(Integer userId){
 
         memberMapper.deleteByPrimaryKey(userId);
-    }
+    }*/
 
     @Transactional
     public void changeBranch(Integer[] userIds, int partyId, int branchId){
@@ -372,24 +417,108 @@ public class MemberService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] userIds){
+    public void batchDel(Integer[] userIds) {
 
-        if(userIds==null || userIds.length==0) return;
+        if (userIds == null || userIds.length == 0) return;
+        {
+            MemberExample example = new MemberExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            memberMapper.deleteByExample(example);
+        }
 
-        MemberExample example = new MemberExample();
-        example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-        memberMapper.deleteByExample(example);
+        // 删除组织关系转出、出国党员暂留、校内转接、党员流出
+        {
+            MemberOutExample example = new MemberOutExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
+            if(memberOuts.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts)));
+                memberOutMapper.deleteByExample(example);
+            }
+        }
+        {
+            GraduateAbroadExample example = new GraduateAbroadExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<GraduateAbroad> graduateAbroads = graduateAbroadMapper.selectByExample(example);
+            if(graduateAbroads.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(graduateAbroads)));
+                graduateAbroadMapper.deleteByExample(example);
+            }
+        }
+        {
+            MemberTransferExample example = new MemberTransferExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
+            if(memberTransfers.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers)));
+                memberTransferMapper.deleteByExample(example);
+            }
+        }
+        {
+            MemberOutflowExample example = new MemberOutflowExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
+            if(memberOutflows.size()>0) {
+                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows)));
+                memberOutflowMapper.deleteByExample(example);
+            }
+        }
+
+        for (Integer userId : userIds) {
+            SysUser sysUser = sysUserService.findById(userId);
+            // 更新系统角色  党员->访客
+            sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER,
+                    SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
+        }
     }
-
+    // 系统内部使用，更新党员状态、党籍状态等
     @Transactional
     public int updateByPrimaryKeySelective(Member record){
 
+        Integer userId = record.getUserId();
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
-            updateMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
+            updateMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
+        }
+        return memberMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 修改党籍信息时使用，保留修改记录
+    @Transactional
+    public int updateByPrimaryKeySelective(Member record, String reason){
+
+        Integer userId = record.getUserId();
+        {
+            MemberModifyExample example = new MemberModifyExample();
+            example.createCriteria().andUserIdEqualTo(record.getUserId());
+            if(memberModifyMapper.countByExample(example)==0){ // 第一次修改，需要保留原纪录
+                addModify(userId, "初始记录");
+            }
         }
 
-        return memberMapper.updateByPrimaryKeySelective(record);
+        int count = updateByPrimaryKeySelective(record);
+
+        addModify(userId, reason);
+
+        return count;
+    }
+
+    private void addModify(int userId, String reason){
+
+        MemberModify modify = new MemberModify();
+        try {
+            ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+            BeanUtils.copyProperties(modify, memberMapper.selectByPrimaryKey(userId));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        modify.setReason(reason);
+        modify.setOpUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setOpTime(new Date());
+        modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
+        memberModifyMapper.insertSelective(modify);
     }
 }

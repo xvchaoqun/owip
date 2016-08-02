@@ -2,15 +2,15 @@ package controller.user;
 
 import bean.ApprovalResult;
 import controller.BaseController;
-import domain.*;
-import domain.ApplySelfExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.abroad.*;
+import domain.abroad.ApplySelfExample.Criteria;
+import domain.base.Country;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,16 +91,6 @@ public class UserApplySelfController extends BaseController {
         modelMap.put("justView", true);
 
         return "user/applySelf/applySelf_view";
-    }
-
-    @RequiresRoles("cadre")
-    @RequestMapping("/applySelf_note")
-    public String applySelf_note(ModelMap modelMap) {
-
-        SysConfig SysConfig = sysConfigService.get();
-        modelMap.put("notice", SysConfig.getApplySelfNote());
-
-        return "user/applySelf/applySelf_note";
     }
 
     @RequiresRoles("cadre")
@@ -188,7 +178,14 @@ public class UserApplySelfController extends BaseController {
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
-                throw new RuntimeException("不允许删除");
+                return failed("只有新提交的申请可以撤销");
+            }
+            {
+                PassportDrawExample example = new PassportDrawExample();
+                example.createCriteria().andApplyIdEqualTo(id);
+                if(passportDrawMapper.countByExample(example)>0){
+                    return failed("该行程已经申请使用证件，不允许撤销");
+                }
             }
 
             ApplySelfFileExample example = new ApplySelfFileExample();
@@ -237,6 +234,9 @@ public class UserApplySelfController extends BaseController {
         if(StringUtils.isNotBlank(_endDate)){
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
+        if(record.getStartDate().after(record.getEndDate())){
+            throw new RuntimeException("出发日期不能晚于回国日期");
+        }
         if(record.getId()==null) {
             Cadre cadre = cadreService.findByUserId(userId);
             record.setCadreId(cadre.getId());
@@ -245,10 +245,13 @@ public class UserApplySelfController extends BaseController {
 
             record.setStatus(true);// 提交
             record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
-            record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+
+            // 给干部管理员发短信提醒
+            shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+
         }else{
             Cadre cadre = cadreService.findByUserId(userId);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
@@ -275,7 +278,9 @@ public class UserApplySelfController extends BaseController {
             applySelfFileMapper.insert(applySelfFile);
         }
 
-        return success(FormUtils.SUCCESS);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("applyId", applyId);
+        return resultMap;
     }
 
     @RequiresRoles("cadre")

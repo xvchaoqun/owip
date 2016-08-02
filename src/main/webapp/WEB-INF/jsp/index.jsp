@@ -15,6 +15,7 @@
 
   <div class="navbar-container" id="navbar-container">
     <!-- #section:basics/sidebar.mobile.toggle -->
+<shiro:lacksRole name="reg">
     <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
       <span class="sr-only">Toggle sidebar</span>
 
@@ -24,15 +25,15 @@
 
       <span class="icon-bar"></span>
     </button>
-
+</shiro:lacksRole>
     <div class="navbar-header pull-left hidden-xs hidden-sm">
-      <div class="logo"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
-      <div class="txt">组织工作管理与服务一体化平台</div>
+      <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
+      <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">组织工作管理与服务一体化平台</div>
     </div>
 
     <div class="navbar-header pull-left hidden-md hidden-lg ">
       <a href="index" class="navbar-brand">
-        <small>
+        <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
           组工系统
         </small>
       </a>
@@ -44,11 +45,13 @@
 
       <li class="<c:if test="${_path=='/profile'}">active</c:if>">
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
-          <shiro:principal property="realname"/></a>
+          <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
-      <%--<li class="<c:if test="${_path=='/setting'}">active</c:if>">
-        <a href="${ctx}/setting"><i class="ace-icon fa fa-cog"></i> 个人设置</a>
-      </li>--%>
+      <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
+      <li class="<c:if test="${_path=='/help'}">active</c:if>">
+        <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+      </li>
+      </shiro:hasAnyRoles>
       <li>
         <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
       </li>

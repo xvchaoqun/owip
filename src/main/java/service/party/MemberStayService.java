@@ -1,8 +1,7 @@
 package service.party;
 
-import domain.*;
-import domain.MemberStay;
-import domain.MemberStayExample;
+import domain.member.MemberStay;
+import domain.member.MemberStayExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -146,7 +145,8 @@ public class MemberStayService extends BaseMapper {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberStay.getId(),
-                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(), shiroUser.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
+                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -248,7 +248,7 @@ public class MemberStayService extends BaseMapper {
     }
 
     @Transactional
-    public void memberStay_check(int[] ids, byte type, int loginUserId){
+    public void memberStay_check(Integer[] ids, byte type, int loginUserId){
 
         for (int id : ids) {
             MemberStay memberStay = null;
@@ -272,14 +272,16 @@ public class MemberStayService extends BaseMapper {
             }
             int userId = memberStay.getUserId();
             applyApprovalLogService.add(memberStay.getId(),
-                    memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                    memberStay.getPartyId(), memberStay.getBranchId(), userId,
+                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
     }
 
     @Transactional
-    public void memberStay_back(int[] userIds, byte status, String reason, int loginUserId){
+    public void memberStay_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
         for (int userId : userIds) {
@@ -320,7 +322,8 @@ public class MemberStayService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(id,
-                memberStay.getPartyId(), memberStay.getBranchId(), userId, loginUserId,
+                memberStay.getPartyId(), memberStay.getBranchId(), userId,
+                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, SystemConstants.MEMBER_STAY_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }

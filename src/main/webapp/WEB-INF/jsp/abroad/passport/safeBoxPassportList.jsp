@@ -32,11 +32,11 @@
         pager:"#jqGridPager2",
         url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
         colModel: [
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号', align:'center', name: 'user.code', width: 100,frozen:true },
+            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            } ,frozen:true },
+            },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '职位属性', align:'center', name: 'cadre.postType.name', width: 200 },
             { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },

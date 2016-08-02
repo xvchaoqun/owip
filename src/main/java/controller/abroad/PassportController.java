@@ -2,10 +2,15 @@ package controller.abroad;
 
 import bean.*;
 import controller.BaseController;
-import domain.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportExample;
+import domain.abroad.SafeBox;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
 import mixin.PassportMixin;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.helper.ExportHelper;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -103,10 +110,19 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passportList_page")
     public String passportList_page(
+            @CurrentUser SysUser loginUser,
             Integer cadreId,
             // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
             @RequestParam(required = false, defaultValue = "1") byte status,
             Integer userId, ModelMap modelMap) {
+
+        // 判断下是否上传了签名 和联系电话
+        String sign = loginUser.getSign();
+        if(StringUtils.isBlank(sign)
+                || new File(springProps.uploadPath + sign).exists()==false
+                || StringUtils.isBlank(loginUser.getMobile())) {
+            return "abroad/passportApply/passportApply_sign";
+        }
 
         modelMap.put("status", status);
         if (userId != null) {
@@ -130,8 +146,9 @@ public class PassportController extends BaseController {
                               Integer classId,
                               String code,
                               Integer safeBoxId,
-                              // 1:集中管理证件 2:取消集中保管证件（未确认） 3:丢失证件  4:取消集中保管证件（已确认） 5 保险柜管理
+                              // 1:集中管理证件 2:取消集中保管证件（未确认） 3:丢失证件  4:取消集中保管证件（已确认）
                               @RequestParam(required = false, defaultValue = "1") byte status,
+                              @RequestParam(required = false, defaultValue = "0") int export,
                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -157,6 +174,11 @@ public class PassportController extends BaseController {
 
         code = StringUtils.trimToNull(code);
 
+        if (export == 1) {
+            passport_export(cadreId, classId, code, type, safeBoxId, cancelConfirm, status, response);
+            return;
+        }
+
         int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, cancelConfirm);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -179,6 +201,137 @@ public class PassportController extends BaseController {
         return;
     }
 
+    public void passport_export(Integer cadreId, Integer classId, String code,
+                                Byte type, Integer safeBoxId, Boolean cancelConfirm, Byte status,
+                                HttpServletResponse response) {
+
+        List<Passport> records = selectMapper.selectPassportList(cadreId, classId, code, type, safeBoxId,
+                cancelConfirm, new RowBounds());
+        int rownum = records.size();
+        if(status==SystemConstants.PASSPORT_TYPE_KEEP) {
+            String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
+                    "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期", "所在保险柜", "是否借出"};
+            List<String[]> valuesList = new ArrayList<>();
+            for (int i = 0; i < rownum; i++) {
+                Passport record = records.get(i);
+                SysUser sysUser = record.getUser();
+                Cadre cadre = record.getCadre();
+                String[] values = {
+                        sysUser.getCode(),
+                        sysUser.getRealname(),
+                        cadre.getTitle(),
+                        cadre.getPostType()!=null?cadre.getPostType().getName():"",
+                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        record.getPassportClass().getName(),
+                        record.getCode(),
+                        record.getAuthority(),
+                        record.getIssueDate()!=null?DateUtils.formatDate(record.getIssueDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getExpiryDate()!=null?DateUtils.formatDate(record.getExpiryDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getSafeBox().getCode(),
+                        record.getIsLent()?"借出":"-"
+                };
+                valuesList.add(values);
+            }
+            String fileName = "集中管理证件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }
+
+        if(status==SystemConstants.PASSPORT_TYPE_CANCEL) {
+            String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
+                    "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期", "所在保险柜", "是否借出"
+                    , "取消集中保管原因", "状态"};
+            List<String[]> valuesList = new ArrayList<>();
+            for (int i = 0; i < rownum; i++) {
+                Passport record = records.get(i);
+                SysUser sysUser = record.getUser();
+                Cadre cadre = record.getCadre();
+                String[] values = {
+                        sysUser.getCode(),
+                        sysUser.getRealname(),
+                        cadre.getTitle(),
+                        cadre.getPostType()!=null?cadre.getPostType().getName():"",
+                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        record.getPassportClass().getName(),
+                        record.getCode(),
+                        record.getAuthority(),
+                        record.getIssueDate()!=null?DateUtils.formatDate(record.getIssueDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getExpiryDate()!=null?DateUtils.formatDate(record.getExpiryDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getSafeBox().getCode(),
+                        record.getIsLent()?"借出":"-",
+                        SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
+                        record.getCancelConfirm()?"已确认":"未确认"
+                };
+                valuesList.add(values);
+            }
+            String fileName = "取消集中管理证件（未确认）_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }
+
+        if(status==4) { // 取消集中管理证件（已确认）
+            String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
+                    "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期","取消集中保管日期", "取消集中保管原因", "状态"};
+            List<String[]> valuesList = new ArrayList<>();
+            for (int i = 0; i < rownum; i++) {
+                Passport record = records.get(i);
+                SysUser sysUser = record.getUser();
+                Cadre cadre = record.getCadre();
+                String[] values = {
+                        sysUser.getCode(),
+                        sysUser.getRealname(),
+                        cadre.getTitle(),
+                        cadre.getPostType()!=null?cadre.getPostType().getName():"",
+                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        record.getPassportClass().getName(),
+                        record.getCode(),
+                        record.getAuthority(),
+                        record.getIssueDate()!=null?DateUtils.formatDate(record.getIssueDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getExpiryDate()!=null?DateUtils.formatDate(record.getExpiryDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getCancelTime()!=null?DateUtils.formatDate(record.getCancelTime(), DateUtils.YYYY_MM_DD):"",
+                        SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
+                        record.getCancelConfirm()?"已确认":"未确认"
+                };
+                valuesList.add(values);
+            }
+            String fileName = "取消集中管理证件（已确认）_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }
+
+        if(status==SystemConstants.PASSPORT_TYPE_LOST) {
+            String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
+                    "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期","登记丢失日期"};
+            List<String[]> valuesList = new ArrayList<>();
+            for (int i = 0; i < rownum; i++) {
+                Passport record = records.get(i);
+                SysUser sysUser = record.getUser();
+                Cadre cadre = record.getCadre();
+                String keepDate = "";
+                if(!record.getKeepDate().after(record.getLostTime())){
+                    keepDate=record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"";
+                }
+                String[] values = {
+                        sysUser.getCode(),
+                        sysUser.getRealname(),
+                        cadre.getTitle(),
+                        cadre.getPostType()!=null?cadre.getPostType().getName():"",
+                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        record.getPassportClass().getName(),
+                        record.getCode(),
+                        record.getAuthority(),
+                        record.getIssueDate()!=null?DateUtils.formatDate(record.getIssueDate(), DateUtils.YYYY_MM_DD):"",
+                        record.getExpiryDate()!=null?DateUtils.formatDate(record.getExpiryDate(), DateUtils.YYYY_MM_DD):"",
+                        keepDate,
+                        record.getLostTime()!=null?DateUtils.formatDate(record.getLostTime(), DateUtils.YYYY_MM_DD):""
+                };
+                valuesList.add(values);
+            }
+            String fileName = "丢失的证件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }
+    }
+
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport_useLogs")
     public String passport_useLogs(int id, ModelMap modelMap) {
@@ -196,7 +349,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_cancel(int id, MultipartFile _cancelPic, HttpServletRequest request) {
+    public Map do_passport_cancel( @CurrentUser SysUser loginUser, int id, MultipartFile _cancelPic, HttpServletRequest request) {
 
         if (_cancelPic == null || _cancelPic.isEmpty()) throw new RuntimeException("请选择确认文件");
 
@@ -213,6 +366,7 @@ public class PassportController extends BaseController {
         record.setCancelPic(savePath);
         record.setCancelTime(new Date());
         record.setCancelConfirm(true);
+        record.setCancelUserId(loginUser.getId());
 
         passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
@@ -251,8 +405,8 @@ public class PassportController extends BaseController {
     }
 
     @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
-    @RequestMapping("/updateLostProof")
-    public String updateLostProof(int id, ModelMap modelMap) {
+     @RequestMapping("/updateLostProof")
+     public String updateLostProof(int id, ModelMap modelMap) {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
@@ -264,6 +418,7 @@ public class PassportController extends BaseController {
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
+            @CurrentUser SysUser loginUser,
             int id,
             String _lostTime,
             MultipartFile _lostProof,
@@ -277,16 +432,68 @@ public class PassportController extends BaseController {
         if (_lostProof != null && !_lostProof.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
             String realPath = File.separator
-                    + "passport_cancel" + File.separator
+                    + "passport_lost" + File.separator  // passport_cancel -> passport_lost 20160620
                     + fileName;
             String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
             String savePath = realPath + ext;
             FileUtils.copyFile(_lostProof, new File(springProps.uploadPath + savePath));
             record.setLostProof(savePath);
         }
+        record.setLostUserId(loginUser.getId());
         if(record.getLostTime()!=null || record.getLostProof()!=null)
             passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passport:view")
+    @RequestMapping("/passport_cancel_view")
+    public String passport_cancel_view(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/passport_cancel_view";
+    }
+
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping("/updateCancelPic")
+    public String updateCancelProof(int id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        return "abroad/passport/updateCancelPic";
+    }
+
+    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_updateCancelProof(
+            int id,
+            String _cancelTime,
+            MultipartFile _cancelPic,
+            HttpServletRequest request) {
+
+        Passport record = new Passport();
+        record.setId(id);
+        if (StringUtils.isNotBlank(_cancelTime)) {
+            record.setCancelTime(DateUtils.parseDate(_cancelTime, DateUtils.YYYY_MM_DD));
+        }
+        if (_cancelPic != null && !_cancelPic.isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
+            record.setCancelPic(savePath);
+        }
+        record.setCancelConfirm(true);
+        if(record.getCancelTime()!=null || record.getCancelPic()!=null)
+            passportService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新取消集中管理证明：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -302,12 +509,13 @@ public class PassportController extends BaseController {
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-        if (applyId != null) { // 交证件
-            PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            record.setCadreId(_passportApply.getCadreId());
-        }
+
         MetaType passportType = CmTag.getMetaType("mc_passport_type", record.getClassId());
-        if (passportService.idDuplicate(id, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())) {
+        int idDuplicate = passportService.idDuplicate(id, record.getType(), record.getCadreId(), record.getClassId(), record.getCode());
+        if(idDuplicate == 1){
+            return failed("证件号码重复");
+        }
+        if (idDuplicate == 2) {
             return failed(passportType.getName() + "重复，请先作废现有的" + passportType.getName());
         }
 
@@ -376,6 +584,26 @@ public class PassportController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 下载取消集中管理证明
+    @RequiresPermissions("passport:download")
+    @RequestMapping("/passport_cancelPic_download")
+    public void passport_cancelPic_download(Integer id, HttpServletRequest request,
+                                            HttpServletResponse response) throws IOException {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        String cancelPic = passport.getCancelPic();
+        String filePath = springProps.uploadPath + cancelPic;
+
+        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+
+        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
+                + "（取消集中管理证明）" + FileUtils.getExtention(cancelPic), "UTF-8");
+
+        DownloadUtils.download(request, response, filePath, fileName);
     }
 
     @RequiresPermissions("passport:download")

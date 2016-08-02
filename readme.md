@@ -25,14 +25,20 @@ Organization Work Integration Platform
 服务器
 219.224.19.170
 root
-zzgz@2015
+zzgz)(*QAZ!@#zzgz
+数据库
+longtor@2016
 
 219.143.237.234 root  zzgz@2015
 
 
+http://cas.bnu.edu.cn/cas/login?service=http%3A%2F%2Fzzbgz.bnu.edu.cn%2F
 http://219.224.19.170/
-admin  zzbgb6879
+admin  zzbgb6879/ longtor@2016
 
+http://cas.bnu.edu.cn/cas/login?service=http%3A%2F%2Fzzbgz.bnu.edu.cn%3A9090%2F
+http://219.224.19.170:9090/
+admin  test123
 
 
 1、还不需要进行审批的审批记录， 不显示
@@ -68,5 +74,3 @@ URL地址： https://weixin.bnu.edu.cn/sms/massms.php?id=2
 参数说明：
 mobile表示手机号（多个手机号用英文;分割，一次不超过400个）
 content表示发送的短信内容，长度不超过350字
-
-

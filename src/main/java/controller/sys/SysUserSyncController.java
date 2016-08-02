@@ -1,9 +1,9 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysUserSync;
-import domain.SysUserSyncExample;
-import domain.SysUserSyncExample.Criteria;
+import domain.sys.SysUserSync;
+import domain.sys.SysUserSyncExample;
+import domain.sys.SysUserSyncExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserSyncMixin;
@@ -36,19 +36,22 @@ public class SysUserSyncController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 同步人事库
+    // 同步学校信息
     @RequestMapping("/sync_user")
     @ResponseBody
     public Map sync_user(int type) {
         switch (type){
-            case SystemConstants.USER_SOURCE_JZG:
+            case SystemConstants.SYNC_TYPE_JZG:
                 sysUserSyncService.syncJZG(false);
                 break;
-            case SystemConstants.USER_SOURCE_YJS:
+            case SystemConstants.SYNC_TYPE_YJS:
                 sysUserSyncService.syncYJS(false);
                 break;
-            case SystemConstants.USER_SOURCE_BKS:
+            case SystemConstants.SYNC_TYPE_BKS:
                 sysUserSyncService.syncBks(false);
+                break;
+            case SystemConstants.SYNC_TYPE_ABROAD:
+                sysUserSyncService.syncAbroad(false);
                 break;
         }
 
@@ -60,9 +63,10 @@ public class SysUserSyncController extends BaseController {
     public Map sync_status() {
 
         Map<String, Object> map = success(FormUtils.SUCCESS);
-        map.put("lastSyncIsNotStop-" + SystemConstants.USER_SOURCE_JZG, sysUserSyncService.lastSyncIsNotStop(SystemConstants.USER_SOURCE_JZG));
-        map.put("lastSyncIsNotStop-" + SystemConstants.USER_SOURCE_YJS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.USER_SOURCE_YJS));
-        map.put("lastSyncIsNotStop-" + SystemConstants.USER_SOURCE_BKS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.USER_SOURCE_BKS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_JZG, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_YJS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_BKS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_ABROAD, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD));
         return map;
     }
 

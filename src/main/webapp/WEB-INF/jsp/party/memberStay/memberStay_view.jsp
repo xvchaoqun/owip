@@ -1,16 +1,5 @@
-<%@ page import="sys.constants.SystemConstants" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系暂留申请</h4>
@@ -59,7 +48,7 @@
                         ${userBean.nation}
                     </td>
                     <td class="bg-right">
-                        政治面貌
+                        党籍状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${MEMBER_POLITICAL_STATUS_MAP.get(userBean.politicalStatus)}
@@ -104,7 +93,7 @@
                         党费缴纳至年月
                     </td>
                     <td class="bg-left" style="min-width: 120px" >
-                        ${cm:formatDate(memberStay.payTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(memberStay.payTime,'yyyy-MM')}
                     </td>
 
                     <td class="bg-right">

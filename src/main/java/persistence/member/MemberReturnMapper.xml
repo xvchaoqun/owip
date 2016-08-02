@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.member.MemberReturnMapper" >
+  <resultMap id="BaseResultMap" type="domain.member.MemberReturn" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="party_id" property="partyId" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="apply_time" property="applyTime" jdbcType="DATE" />
+    <result column="return_apply_time" property="returnApplyTime" jdbcType="DATE" />
+    <result column="active_time" property="activeTime" jdbcType="DATE" />
+    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
+    <result column="grow_time" property="growTime" jdbcType="DATE" />
+    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
+    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_back" property="isBack" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, party_id, branch_id, apply_time, return_apply_time, active_time, candidate_time, 
+    grow_time, positive_time, political_status, status, is_back, remark, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.MemberReturnExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_return
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_member_return
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_member_return
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.member.MemberReturnExample" >
+    delete from ow_member_return
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert keyProperty="id" id="insert" parameterType="domain.member.MemberReturn" >
+    insert into ow_member_return (id, user_id, party_id, 
+      branch_id, apply_time, return_apply_time, 
+      active_time, candidate_time, grow_time, 
+      positive_time, political_status, status, 
+      is_back, remark, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{applyTime,jdbcType=DATE}, #{returnApplyTime,jdbcType=DATE}, 
+      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, 
+      #{positiveTime,jdbcType=DATE}, #{politicalStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{isBack,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.member.MemberReturn" >
+    insert into ow_member_return
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="partyId != null" >
+        party_id,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="returnApplyTime != null" >
+        return_apply_time,
+      </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="candidateTime != null" >
+        candidate_time,
+      </if>
+      <if test="growTime != null" >
+        grow_time,
+      </if>
+      <if test="positiveTime != null" >
+        positive_time,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isBack != null" >
+        is_back,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="returnApplyTime != null" >
+        #{returnApplyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null" >
+        #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="growTime != null" >
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null" >
+        #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.member.MemberReturnExample" resultType="java.lang.Integer" >
+    select count(*) from ow_member_return
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_member_return
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null" >
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyTime != null" >
+        apply_time = #{record.applyTime,jdbcType=DATE},
+      </if>
+      <if test="record.returnApplyTime != null" >
+        return_apply_time = #{record.returnApplyTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeTime != null" >
+        active_time = #{record.activeTime,jdbcType=DATE},
+      </if>
+      <if test="record.candidateTime != null" >
+        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      </if>
+      <if test="record.growTime != null" >
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.positiveTime != null" >
+        positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.politicalStatus != null" >
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isBack != null" >
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_member_return
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      apply_time = #{record.applyTime,jdbcType=DATE},
+      return_apply_time = #{record.returnApplyTime,jdbcType=DATE},
+      active_time = #{record.activeTime,jdbcType=DATE},
+      candidate_time = #{record.candidateTime,jdbcType=DATE},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      positive_time = #{record.positiveTime,jdbcType=DATE},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberReturn" >
+    update ow_member_return
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null" >
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="returnApplyTime != null" >
+        return_apply_time = #{returnApplyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null" >
+        active_time = #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null" >
+        candidate_time = #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="growTime != null" >
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null" >
+        positive_time = #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        political_status = #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null" >
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.member.MemberReturn" >
+    update ow_member_return
+    set user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      apply_time = #{applyTime,jdbcType=DATE},
+      return_apply_time = #{returnApplyTime,jdbcType=DATE},
+      active_time = #{activeTime,jdbcType=DATE},
+      candidate_time = #{candidateTime,jdbcType=DATE},
+      grow_time = #{growTime,jdbcType=DATE},
+      positive_time = #{positiveTime,jdbcType=DATE},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.member.MemberReturnExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_return
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

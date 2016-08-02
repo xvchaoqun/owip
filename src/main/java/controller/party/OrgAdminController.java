@@ -1,11 +1,14 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.OrgAdmin;
-import domain.OrgAdminExample;
-import domain.OrgAdminExample.Criteria;
+import domain.party.OrgAdmin;
+import domain.party.OrgAdminExample;
+import domain.party.OrgAdminExample.Criteria;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -173,11 +177,19 @@ public class OrgAdminController extends BaseController {
     @RequiresPermissions("orgAdmin:del")
     @RequestMapping(value = "/orgAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_orgAdmin_del(HttpServletRequest request, Integer id) {
+    public Map do_orgAdmin_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
 
         if (id != null) {
-
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
+
+            Subject subject = SecurityUtils.getSubject();
+            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+                if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
+                    return failed("不能删除自己");
+                }
+            }
+
             orgAdminService.del(id, orgAdmin.getUserId());
             logger.info(addLog(SystemConstants.LOG_OW, "删除党组织管理员：%s", id));
         }

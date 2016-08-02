@@ -42,11 +42,11 @@
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'}
-                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberReturn_approval"
                                             data-open-by="page"
                                             data-querystr="&type=1"
@@ -182,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>政治面貌</label>
+                                                <label>党籍状态</label>
                                                     <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
                                                         <option></option>
                                                         <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
@@ -283,23 +283,23 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberReturn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
+            {label: '学工号', name: 'user.code', width: 120, frozen:true},
             <c:if test="${cls==3}">
-            { label: '姓名', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
-            } ,frozen:true },
+            }, frozen:true  },
             </c:if>
             <c:if test="${cls!=3}">
-            {label: '姓名', name: 'user.realname', width: 75, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 75, frozen:true},
             </c:if>
             {
-                label: '所属组织机构', name: 'party', resizable: false, width: 450,
+                label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen: true
+                }, frozen:true
             },
             {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200},
             {label: '提交书面申请书时间', name: 'applyTime', width: 160},
@@ -307,7 +307,7 @@
             {label: '确定为发展对象时间', name: 'candidateTime', width: 200},
             {label: '入党时间', name: 'growTime', width: 100},
             {label: '转正时间', name: 'positiveTime', width: 100},
-            {label: '政治面貌', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
+            {label: '党籍状态', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
             }},
             {label: '状态', name: 'statusName', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -352,24 +352,24 @@
     $(window).triggerHandler('resize.jqGrid');
 
 
-    $("#jqGrid").navGrid('#jqGridPager',{refresh: false, edit:false,add:false,del:false,search:false});
+    _initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"支部审核",
+        caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberReturn_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberReturn_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"分党委批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberReturn_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-page-reload="true"'
+        props:'data-url="${ctx}/memberReturn_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"打回申请",
+        caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

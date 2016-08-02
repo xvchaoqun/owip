@@ -1,9 +1,12 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.SysUser;
-import domain.SysUserExample;
-import domain.SysUserExample.Criteria;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserExample.Criteria;
+import domain.ext.ExtBks;
+import domain.ext.ExtJzg;
+import domain.ext.ExtYjs;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +52,32 @@ public class SysUserController extends BaseController {
         SysUser sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
 
+        String code = sysUser.getCode();
+        Byte type = sysUser.getType();
+        String unit=null;
+        if(type == SystemConstants.USER_TYPE_JZG){
+            ExtJzg extJzg = extJzgService.getByCode(code);
+            if(extJzg!=null) {
+                unit = extJzg.getDwmc();
+                if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
+            }
+
+        }else if(type == SystemConstants.USER_TYPE_YJS){
+            ExtYjs extYjs = extYjsService.getByCode(code);
+            if(extYjs!=null) {
+                unit = extYjs.getYxsmc();
+                if(StringUtils.isNotBlank(extYjs.getYjfxmc())) unit += "-" + extYjs.getYjfxmc();
+            }
+        }else if(type == SystemConstants.USER_TYPE_BKS){
+            ExtBks extBks = extBksService.getByCode(code);
+            if(extBks!=null){
+                unit = extBks.getYxmc();
+                if(StringUtils.isNotBlank(extBks.getZymc())) unit += "-" + extBks.getZymc();
+            }
+        }
+        modelMap.put("unit", unit); // 学校人事库或学生库中的单位名称
+
+
         modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
         modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
 
@@ -89,9 +118,8 @@ public class SysUserController extends BaseController {
         SysUserExample example = new SysUserExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
-
         if (StringUtils.isNotBlank(username)) {
-            criteria.andUsernameLike("%" + username + "%");
+            criteria.andUsernameEqualTo(username);
         }
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike("%" + realname + "%");
@@ -176,7 +204,7 @@ public class SysUserController extends BaseController {
                 sysUser.setPasswd(encrypt.getPassword());
             }
             SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
-            sysUserService.updateByPrimaryKeySelective(sysUser, oldSysUser.getUsername());
+            sysUserService.updateByPrimaryKeySelective(sysUser, oldSysUser.getUsername(), oldSysUser.getCode());
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }
 
@@ -204,7 +232,7 @@ public class SysUserController extends BaseController {
         for (Integer id : ids) {
             SysUser sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
-            sysUserService.lockUser(sysUser.getId(), username, locked);
+            sysUserService.lockUser(sysUser.getId(), username, sysUser.getCode(),  locked);
             logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
 
@@ -225,7 +253,7 @@ public class SysUserController extends BaseController {
         }
 
         SysUser sysSysUser2 = sysUserMapper.selectByPrimaryKey(sysUser.getId());
-        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), "," + StringUtils.join(rIds, ",") + ",");
+        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), sysSysUser2.getCode(),  "," + StringUtils.join(rIds, ",") + ",");
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysSysUser2.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
@@ -244,7 +272,7 @@ public class SysUserController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        TreeNode tree = sysRoleService.getTree(selectIdSet);
+        TreeNode tree = sysRoleService.getTree(selectIdSet, true);
         modelMap.put("tree", JSONUtils.toString(tree));
 
         return "sys/sysUser/sysUserRole";

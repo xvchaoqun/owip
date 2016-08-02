@@ -22,7 +22,7 @@
                         <i class="fa fa-edit"></i> 修改信息</a>
 
                     <shiro:hasPermission name="leaderUnit:list">
-                        <button  class="jqOpenViewBtn btn btn-sm btn-primary"
+                        <button  class="jqOpenViewBtn btn btn-sm btn-warning"
                                  data-url="${ctx}/leader_unit">
                             <i class="fa fa-sitemap"></i> 编辑联系单位
                         </button>
@@ -99,26 +99,27 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/leader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号', align:'center', name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名',align:'center', name: 'user.realname',resizable:false, width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号',  name: 'user.code', width: 100 ,frozen:true},
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
-            } ,frozen:true },
-            { label: '所在单位及职务',  name: 'cadre.title', width: 300 , frozen:true },
+            },frozen:true  },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().replace(/\n|\r|(\r\n)/g,''))({id:rowObject.id})
-            }, frozen:true },
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
             </c:if>
-            { label:'行政级别', align:'center', name: 'cadre.adminLevelType.name', width: 280},
-            { label: '类别', align:'center', name: 'leaderType.name', width: 100 },
-            { label: '分管工作', align:'center', name: 'job', width: 350 }
+            { label:'行政级别',  name: 'cadre.adminLevelType.name', width: 280},
+            { label: '类别',  name: 'leaderType.name', width: 100 },
+            { label: '分管工作', align:'left', name: 'job', width: 750 }
 
         ]
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid');
-
+    _initNavGrid("jqGrid", "jqGridPager");
     register_user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
 </script>

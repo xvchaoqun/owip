@@ -1,11 +1,12 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.CadreParttime;
-import domain.CadreParttimeExample;
-import domain.CadreParttimeExample.Criteria;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreParttime;
+import domain.cadre.CadreParttimeExample;
+import domain.cadre.CadreParttimeExample.Criteria;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -28,12 +29,15 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,12 +54,32 @@ public class CadreParttimeController extends BaseController {
     }
     @RequiresPermissions("cadreParttime:list")
     @RequestMapping("/cadreParttime_page")
-    public String cadreParttime_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_cadre_parttime") String sort,
+    public String cadreParttime_page(
+            @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
+            Integer cadreId, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+        if (type == 2) {
+
+            CadreParttimeExample example = new CadreParttimeExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.setOrderByClause("start_time asc");
+            List<CadreParttime> cadreParttimes = cadreParttimeMapper.selectByExample(example);
+            modelMap.put("cadreParttimes", cadreParttimes);
+
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PARTTIME);
+            modelMap.put("cadreInfo", cadreInfo);
+        }
+        return "cadre/cadreParttime/cadreParttime_page";
+    }
+    @RequiresPermissions("cadreParttime:list")
+    @RequestMapping("/cadreParttime_data")
+    public void cadreParttime_data(HttpServletResponse response,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_parttime") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -75,7 +99,7 @@ public class CadreParttimeController extends BaseController {
 
         if (export == 1) {
             cadreParttime_export(example, response);
-            return null;
+            return;
         }
 
         int count = cadreParttimeMapper.countByExample(example);
@@ -84,24 +108,19 @@ public class CadreParttimeController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<CadreParttime> CadreParttimes = cadreParttimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreParttimes", CadreParttimes);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", CadreParttimes);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
 
-        if (cadreId!=null) {
-            searchStr += "&cadreId=" + cadreId;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "cadre/cadreParttime/cadreParttime_page";
     }
 
     @RequiresPermissions("cadreParttime:edit")
@@ -112,10 +131,10 @@ public class CadreParttimeController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_startTime)){
-            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
+            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
         }
         if(StringUtils.isNotBlank(_endTime)){
-            record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
+            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
         }
 
         if (id == null) {
@@ -179,7 +198,8 @@ public class CadreParttimeController extends BaseController {
     @ResponseBody
     public Map do_cadreParttime_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cadreParttimeService.changeOrder(id, addNum);
+        CadreParttime cadreParttime = cadreParttimeMapper.selectByPrimaryKey(id);
+        cadreParttimeService.changeOrder(id, cadreParttime.getCadreId(), addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
@@ -204,8 +224,8 @@ public class CadreParttimeController extends BaseController {
 
             CadreParttime cadreParttime = cadreParttimes.get(i);
             String[] values = {
-                        DateUtils.formatDate(cadreParttime.getStartTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(cadreParttime.getEndTime(), DateUtils.YYYY_MM_DD),
+                        DateUtils.formatDate(cadreParttime.getStartTime(), "yyyy.MM"),
+                                            DateUtils.formatDate(cadreParttime.getEndTime(), "yyyy.MM"),
                                             cadreParttime.getPost()
                     };
 

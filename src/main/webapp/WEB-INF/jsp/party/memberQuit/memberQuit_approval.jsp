@@ -118,14 +118,14 @@
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
-                                <li data-step="1"  class="${memberQuit.status==MEMBER_QUIT_STATUS_BRANCH_VERIFY?'complete':''}">
+                                <li data-step="1"  class="${memberQuit.status>=MEMBER_QUIT_STATUS_BRANCH_VERIFY?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">支部审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>
                                 </li>
-                                <li data-step="2"  class="${memberQuit.status==MEMBER_QUIT_STATUS_PARTY_VERIFY?'complete':''}">
+                                <li data-step="2"  class="${memberQuit.status>=MEMBER_QUIT_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">2</span>
                                     <span class="title">分党委审核</span>
                                     <%--<span class="subtitle">

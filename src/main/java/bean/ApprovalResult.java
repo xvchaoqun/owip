@@ -1,6 +1,6 @@
 package bean;
 
-import domain.ApprovalLog;
+import domain.abroad.ApprovalLog;
 
 /**
  * Created by fafa on 2016/3/11.

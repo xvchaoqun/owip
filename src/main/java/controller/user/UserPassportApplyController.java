@@ -1,10 +1,10 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.Cadre;
-import domain.PassportApply;
-import domain.PassportApplyExample;
-import domain.SysUser;
+import domain.cadre.Cadre;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyExample;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -56,10 +56,12 @@ public class UserPassportApplyController extends BaseController {
         record.setIp(IpUtils.getRealIp(request));
         record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_INIT);
 
-        passportApplyService.insertSelective(record);
+        passportApplyService.apply(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
 
-        return success(FormUtils.SUCCESS);
+        Map<String, Object> success = success(FormUtils.SUCCESS);
+        success.put("applyId", record.getId());
+        return success;
     }
 
     @RequiresRoles("cadre")

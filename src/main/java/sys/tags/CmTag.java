@@ -1,24 +1,32 @@
 package sys.tags;
 
-import domain.*;
-import org.apache.commons.lang.StringUtils;
+import bean.ApplySelfModifyBean;
+import bean.ApproverTypeBean;
+import domain.abroad.*;
+import domain.cadre.*;
+import domain.dispatch.*;
+import domain.member.MemberApply;
+import domain.party.Party;
+import domain.party.RetireApply;
+import domain.sys.*;
+import domain.unit.Unit;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
-import persistence.PassportMapper;
+import persistence.abroad.PassportMapper;
+import persistence.common.SelectMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
+import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
-import service.cadre.CadreService;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchTypeService;
-import service.dispatch.DispatchUnitService;
+import service.cadre.*;
+import service.dispatch.*;
 import service.party.*;
-import service.sys.MetaClassService;
-import service.sys.MetaTypeService;
-import service.sys.SysResourceService;
-import service.sys.SysUserService;
+import service.sys.*;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.service.ApplicationContextSupport;
 import sys.utils.HtmlEscapeUtils;
+import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
 import java.util.*;
@@ -26,13 +34,18 @@ import java.util.*;
 public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
+    static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
+    static CadrePostService cadrePostService = (CadrePostService) context.getBean("cadrePostService");
+    static CadreAdminLevelService cadreAdminLevelService = (CadreAdminLevelService) context.getBean("cadreAdminLevelService");
+    static CadreFamliyService cadreFamliyService = (CadreFamliyService) context.getBean("cadreFamliyService");
     static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
     static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
     static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
     static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
     static DispatchService dispatchService = (DispatchService) context.getBean("dispatchService");
+    static DispatchCadreService dispatchCadreService = (DispatchCadreService) context.getBean("dispatchCadreService");
     static DispatchUnitService dispatchUnitService = (DispatchUnitService) context.getBean("dispatchUnitService");
     static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
     static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
@@ -44,6 +57,31 @@ public class CmTag {
     static BranchService branchService = (BranchService) context.getBean("branchService");
     static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
+    static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
+    static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
+    static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
+    static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
+
+    public static String toJSONObject(Object obj){
+
+        if(obj==null) return "{}";
+        String jsonStr = JSONUtils.toString(obj);
+
+        return StringUtils.isBlank(jsonStr)?"{}":jsonStr;
+    }
+
+    public static String toJSONArray(List list){
+
+        if(list==null) return "[]";
+        String jsonStr = JSONUtils.toString(list);
+
+        return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
+    }
+
+    public static SysConfig getSysConfig(String code){
+
+        return sysConfigService.codeKeyMap().get(code);
+    }
 
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
@@ -180,8 +218,33 @@ public class CmTag {
         Map<Integer, Cadre> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
     }
+    public static Cadre getCadreByUserId(Integer userId) {
+
+        return cadreService.findByUserId(userId);
+    }
+
+    public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){
+
+        return cadreAdditionalPostService.findCadrePosts(cadreId);
+    }
+    // 主职
+    public static CadrePost getCadreMainCadrePost(int caderId){
+        return cadrePostService.getCadreMainCadrePost(caderId);
+    }
+    // 现任职务
+    public static CadreAdminLevel getPresentByCadreId(int caderId) {
+        CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
+        return cadreAdminLevelService.getPresentByCadreId(caderId,
+                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null);
+    }
+
+    public static CadreFamliy getCadreFamliy(Integer id){
+        return cadreFamliyService.get(id);
+    }
 
     public static SysUser getUserById(Integer id) {
+
+        if(id==null) return null;
 
         return sysUserService.findById(id);
     }
@@ -189,6 +252,19 @@ public class CmTag {
     public static SysUser getUserByUsername(String username) {
 
         return sysUserService.findByUsername(username);
+    }
+
+    public static ApproverTypeBean getApproverTypeBean(Integer userId) {
+
+       return applySelfService.getApproverTypeBean(userId);
+    }
+    public static Set<String> findRoles(String username) {
+
+        return sysUserService.findRoles(username);
+    }
+    public static Set<String> findPermissions(String username) {
+
+        return sysUserService.findPermissions(username);
     }
 
     public static Unit getUnit(Integer unitId) {
@@ -201,19 +277,24 @@ public class CmTag {
         return partyService.findAll().get(partyId);
     }
 
-    public static Boolean isPresentBranchAdmin(Integer userId, Integer branchId){
-        return branchMemberService.isPresentAdmin(userId, branchId);
+    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId){
+        return branchMemberService.isPresentAdmin(userId, partyId, branchId);
     }
     public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId){
         return partyMemberService.isPresentAdmin(userId, partyId);
     }
     // 是否直属党支部
     public static Boolean isDirectBranch(Integer partyId){
+        if(partyId==null) return false;
         return partyService.isDirectBranch(partyId);
     }
     // 是否分党委
     public static Boolean isParty(Integer partyId){
         return partyService.isParty(partyId);
+    }
+    // 是否党总支
+    public static Boolean isPartyGeneralBranch(Integer partyId){
+        return partyService.isPartyGeneralBranch(partyId);
     }
 
     public static Unit findUnitByCode(String code) {
@@ -253,6 +334,21 @@ public class CmTag {
 
         return dispatchService.findAll().get(dispatchId);
     }
+
+    public static DispatchCadre getDispatchCadre(Integer dispatchCadreId){
+
+        return dispatchCadreService.findAll().get(dispatchCadreId);
+    }
+
+    public static Integer getDispatchCadreCount(Integer dispatchId, Byte type){
+        return dispatchCadreService.count(dispatchId, type);
+    }
+
+    public static  List<DispatchCadreRelate> findDispatchCadreRelates(Integer relateId, Byte relateType){
+
+        return dispatchCadreRelateService.findDispatchCadreRelates(relateId, relateType);
+    }
+
     public static DispatchUnit getDispatchUnit(Integer dispatchUnitId){
         return dispatchUnitService.findAll().get(dispatchUnitId);
     }
@@ -276,6 +372,11 @@ public class CmTag {
     public static ApplySelf getApplySelf(Integer applyId){
         return applySelfService.get(applyId);
     }
+
+    public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId){
+        return selectMapper.getApplySelfModifyList(applyId);
+    }
+
     // 获取因私出国申请记录 初审 结果
     public static Integer getAdminFirstTrialStatus(Integer applyId) {
         return approvalLogService.getAdminFirstTrialStatus(applyId);
@@ -299,6 +400,11 @@ public class CmTag {
     public static Passport getPassport(Integer id) {
 
         return passportMapper.selectByPrimaryKey(id);
+    }
+
+    public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {
+
+        return passportDrawService.getPassportDrawFiles(id);
     }
 
     public static String encodeQueryString(String queryString) {

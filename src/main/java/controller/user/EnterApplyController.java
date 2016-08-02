@@ -1,7 +1,11 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
+import domain.member.*;
+import domain.party.Branch;
+import domain.party.EnterApply;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -148,7 +152,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(loginUser.getId(),
-                memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(), loginUser.getId(),
+                memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                 SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -249,7 +254,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberReturn(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -329,14 +335,14 @@ public class EnterApplyController extends BaseController {
         record.setReason(null);
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_applyTime)){
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }
         if(StringUtils.isNotBlank(_activeTime)){
             Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
-            if(activeTime.before(record.getApplyTime())){
+            if(record.getApplyTime()!=null && activeTime.before(record.getApplyTime())){
                 throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
             }
             record.setActiveTime(activeTime);
@@ -344,7 +350,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_candidateTime)){
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-            if(candidateTime.before(record.getActiveTime())){
+            if(record.getActiveTime()!=null && candidateTime.before(record.getActiveTime())){
                 throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
             }
             record.setCandidateTime(candidateTime);
@@ -352,7 +358,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_growTime)){
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(growTime.before(record.getCandidateTime())){
+            if(record.getCandidateTime()!=null && growTime.before(record.getCandidateTime())){
                 throw new RuntimeException("入党时间应该在确定为发展对象之后");
             }
             record.setGrowTime(growTime);
@@ -360,7 +366,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_positiveTime)){
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(positiveTime.before(record.getGrowTime())){
+            if(record.getGrowTime()!=null && positiveTime.before(record.getGrowTime())){
                 throw new RuntimeException("转正时间应该在入党之后");
             }
             record.setPositiveTime(positiveTime);
@@ -376,7 +382,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberIn(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -449,7 +456,8 @@ public class EnterApplyController extends BaseController {
         enterApplyService.memberInflow(record);
 
         applyApprovalLogService.add(record.getId(),
-                record.getPartyId(), record.getBranchId(), loginUser.getId(), loginUser.getId(),
+                record.getPartyId(), record.getBranchId(), loginUser.getId(),
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

@@ -7,13 +7,13 @@
       基本信息
     </a>
   </li>
-  <li class="${param.type==2?"active":""}">
+  <%--<li class="${param.type==2?"active":""}">
     <a href="${ctx}/setting">
       <i class="purple ace-icon fa fa-cog bigger-125"></i>
       个人设置
     </a>
-  </li>
-  <c:if test="${_user.source==USER_SOURCE_ADMIN}">
+  </li>--%>
+  <c:if test="${_user.source==USER_SOURCE_ADMIN||_user.source==USER_SOURCE_REG}">
     <shiro:hasPermission name="password:modify">
       <li class="${param.type==3?"active":""}">
         <a href="${ctx}/password">

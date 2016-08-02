@@ -1,8 +1,8 @@
 package service.party;
 
-import domain.MetaType;
-import domain.Party;
-import domain.PartyExample;
+import domain.sys.MetaType;
+import domain.party.Party;
+import domain.party.PartyExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,14 @@ public class PartyService extends BaseMapper {
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party");
     }
+    // 是否党总支
+    public boolean isPartyGeneralBranch(int partyId){
+
+        Party party = findAll().get(partyId);
+        MetaType metaType = metaTypeService.findAll().get(party.getClassId());
+        return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_general_branch");
+    }
+
 
     public boolean idDuplicate(Integer id, String code){
 

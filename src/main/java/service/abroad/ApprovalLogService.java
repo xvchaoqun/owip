@@ -1,19 +1,21 @@
 package service.abroad;
 
 import bean.ApprovalResult;
-import domain.ApplySelf;
-import domain.ApprovalLog;
-import domain.ApprovalLogExample;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApprovalLog;
+import domain.abroad.ApprovalLogExample;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.helper.ContextHelper;
+import service.sys.ShortMsgService;
 import sys.constants.SystemConstants;
+import sys.utils.IpUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,8 @@ public class ApprovalLogService extends BaseMapper {
 
     @Autowired
     private ApplySelfService applySelfService;
+    @Autowired
+    private ShortMsgService shortMsgService;
 
     // 获取申请记录 初审结果  审批结果: -1不需要审批 0未通过 1通过 null未审批
     public Integer getAdminFirstTrialStatus(int applyId){
@@ -112,10 +116,16 @@ public class ApprovalLogService extends BaseMapper {
 
         if(record.getTypeId()==null && record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
             applySelf.setIsFinish(true); // 终审完成
+            applySelf.setIsAgreed(record.getStatus());
         }
 
         // 立刻更新申请记录的相关审批结果字段（供查询使用）
         applySelfService.updateByPrimaryKeySelective(applySelf);
+
+        // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
+        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==SystemConstants.APPROVER_TYPE_ID_OD_LAST){
+            shortMsgService.sendApplySelfPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
+        }
     }
 
     @Transactional

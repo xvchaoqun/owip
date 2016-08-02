@@ -6,6 +6,12 @@ import java.util.Map;
 
 public class SystemConstants {
 
+	public final static Map<String, String> appKeyMap = new HashMap<>();
+	static {
+
+		appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
+	}
+
 	public static Map loginFailedResultMap(String message){
 
 		Map<String, Object> resultMap = new HashMap();
@@ -21,6 +27,8 @@ public class SystemConstants {
 			resultMap.put("msg", "验证码错误");
 		} else if ("LockedAccountException".equals(message)) {
 			resultMap.put("msg", "账号被锁定");
+		} else if ("ExcessiveAttemptsException".equals(message)) {
+			resultMap.put("msg", "登录过于频繁，请稍后再试");
 		}else if ("InspectorFinishException".equals(message)) {
 			resultMap.put("msg", "该账号已经测评完成");
 		}else if("SSOException".equals(message)){
@@ -62,10 +70,41 @@ public class SystemConstants {
 		ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
 	}
 
-	public static final String LOG_LOGIN = "mt_log_login";
+	// 系统配置字段：
+	// 因私出国（境）申请说明
+	public static final String SYS_CONFIG_APPLY_SELF_NOTE = "sc_apply_self_note";
+	// 因私出国（境）审批说明
+	public static final String SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = "sc_apply_self_approval_note";
+	// 申请使用因私出国（境）证件说明
+	public static final String SYS_CONFIG_PASSPORT_DRAW_NOTE = "sc_passport_draw_note";
+	// 组织关系转入说明
+	public static final String SYS_CONFIG_MEMBER_IN_NOTE_FRONT_TEACHER= "sc_member_in_note_front_teacher";
+	public static final String SYS_CONFIG_MEMBER_IN_NOTE_FRONT_STUDENT= "sc_member_in_note_front_student";
+	public static final String SYS_CONFIG_MEMBER_IN_NOTE_BACK= "sc_member_in_note_back";
+/*	public final static Map<String, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
+	static {
+		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_NOTE, "因私出国境申请说明");
+		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE, "因私出国境审批说明");
+	}*/
+
+	// 登录类型：1 网站 2 下次自动登录 2 CAS 3 移动设备
+	public static final byte LOGIN_TYPE_NET = 1;
+	public static final byte LOGIN_TYPE_NET_REMEBERME = 2;
+	public static final byte LOGIN_TYPE_CAS = 3;
+	public static final byte LOGIN_TYPE_MOBILE =4;
+	public final static Map<Byte, String> LOGIN_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET, "网站");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET_REMEBERME, "下次自动登录");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
+		LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
+	}
+
+	//public static final String LOG_LOGIN = "mt_log_login"; 登录单独记录
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";
 	public static final String LOG_USER = "mt_log_user";
+	public static final String LOG_MEMBER = "mt_log_member";
 	public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
 	public static final String LOG_ABROAD = "mt_log_abroad";
 
@@ -111,6 +150,19 @@ public class SystemConstants {
 		USER_TYPE_MAP.put(USER_TYPE_JZG, "教职工");
 		USER_TYPE_MAP.put(USER_TYPE_BKS, "本科生");
 		USER_TYPE_MAP.put(USER_TYPE_YJS, "研究生");
+	}
+
+	// 同步类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库
+	public final static byte SYNC_TYPE_JZG = 1;
+	public final static byte SYNC_TYPE_BKS = 2;
+	public final static byte SYNC_TYPE_YJS = 3;
+	public final static byte SYNC_TYPE_ABROAD = 4;
+	public final static Map<Byte, String> SYNC_TYPE_MAP = new LinkedHashMap();
+	static {
+		SYNC_TYPE_MAP.put(SYNC_TYPE_JZG, "人事库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_BKS, "本科生库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_YJS, "研究生库");
+		SYNC_TYPE_MAP.put(SYNC_TYPE_ABROAD, "教职工党员出国境信息库");
 	}
 
 	// 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
@@ -161,6 +213,33 @@ public class SystemConstants {
 	static {
 		APPLY_TYPE_MAP.put(APPLY_TYPE_STU, "学生");
 		APPLY_TYPE_MAP.put(APPLY_TYPE_TECHER, "教职工");
+	}
+
+	// 党员年龄段
+	public final static byte MEMBER_AGE_20= 1; // 20及以下
+	public final static byte MEMBER_AGE_21_30 = 2;
+	public final static byte MEMBER_AGE_31_40 = 3;
+	public final static byte MEMBER_AGE_41_50 = 4;
+	public final static byte MEMBER_AGE_51 = 5;
+	public final static byte MEMBER_AGE_0 = 0; // 未知
+	public final static Map<Byte, String> MEMBER_AGE_MAP = new LinkedHashMap<>();
+	static {
+		MEMBER_AGE_MAP.put(MEMBER_AGE_20, "20及以下");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_21_30, "21~30");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_31_40, "31~40");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_41_50, "41~50");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_51, "51及以上");
+		MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
+	}
+
+	public final static Map<Byte, String> PIE_COLOR_MAP = new LinkedHashMap<>();
+	static {
+		PIE_COLOR_MAP.put((byte)0, "#999");
+		PIE_COLOR_MAP.put((byte)1, "#68BC31");
+		PIE_COLOR_MAP.put((byte)2, "#2091CF");
+		PIE_COLOR_MAP.put((byte)3, "#AF4E96");
+		PIE_COLOR_MAP.put((byte)4, "#DA5430");
+		PIE_COLOR_MAP.put((byte)5, "#FEE074");
 	}
 
 	// 申请入党阶段
@@ -225,14 +304,14 @@ public class SystemConstants {
 	}
 
 	// 党员来源
-	public final static byte MEMBER_SOURCE_IMPORT = 1; // 建系统时统一导入
+	public final static byte MEMBER_SOURCE_IMPORT = 1; // 2015年底统一导入
 	public final static byte MEMBER_SOURCE_GROW = 2; // 本校发展
 	public final static byte MEMBER_SOURCE_TRANSFER = 3; // 外校转入
 	public final static byte MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
 	public final static byte MEMBER_SOURCE_ADMIN = 5; // 后台添加
 	public final static Map<Byte, String>MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 	static {
-		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "建系统时统一导入");
+		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "2015年底统一导入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
 		MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_RETURNED, "归国人员恢复入党");
@@ -303,6 +382,7 @@ public class SystemConstants {
 	}
 
 	// 党员转出状态
+	public final static byte MEMBER_OUT_STATUS_ABOLISH = -3;
 	public final static byte MEMBER_OUT_STATUS_SELF_BACK = -2;
 	public final static byte MEMBER_OUT_STATUS_BACK = -1;
 	public final static byte MEMBER_OUT_STATUS_APPLY = 0;
@@ -310,6 +390,7 @@ public class SystemConstants {
 	public final static byte MEMBER_OUT_STATUS_OW_VERIFY= 2;
 	public final static Map<Byte, String> MEMBER_OUT_STATUS_MAP = new LinkedHashMap<>();
 	static {
+		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ABOLISH, "组织部撤销已完成的审批");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_SELF_BACK, "本人撤回");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_BACK, "返回修改");
 		MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_APPLY, "申请");
@@ -405,6 +486,31 @@ public class SystemConstants {
 		MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
 	}
 
+	// 党员出国（境）保留组织关系申请    留学方式
+	public final static byte GRADUATE_ABROAD_TYPE_PUB = 1; // 公派
+	public final static byte GRADUATE_ABROAD_TYPE_SELF = 2; // 自费
+	public final static Map<Byte, String> GRADUATE_ABROAD_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_PUB, "公派");
+		GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_SELF, "自费");
+	}
+	// 党员出国（境）保留组织关系申请状态
+	public final static byte GRADUATE_ABROAD_STATUS_SELF_BACK = -2; // 本人撤回
+	public final static byte GRADUATE_ABROAD_STATUS_BACK = -1; // 审核不通过
+	public final static byte GRADUATE_ABROAD_STATUS_APPLY = 0;
+	public final static byte GRADUATE_ABROAD_STATUS_BRANCH_VERIFY= 1;
+	public final static byte GRADUATE_ABROAD_STATUS_PARTY_VERIFY= 2;
+	public final static byte GRADUATE_ABROAD_STATUS_OW_VERIFY= 3;
+	public final static Map<Byte, String> GRADUATE_ABROAD_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_SELF_BACK, "本人撤回");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BACK, "不通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_APPLY, "申请");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BRANCH_VERIFY, "党支部审核通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_PARTY_VERIFY, "分党委审核通过");
+		GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_OW_VERIFY, "组织部审核通过");
+	}
+
 	// 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY = 1;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD = 2;
@@ -418,6 +524,7 @@ public class SystemConstants {
 	public final static byte APPLY_APPROVAL_LOG_TYPE_USER_REG = 10;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT = 11;
 	public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT = 12;
+	public final static byte APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD = 13;
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
@@ -432,13 +539,33 @@ public class SystemConstants {
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "党员出党");
 		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, "流入党员转出");
+		APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD, "党员出国（境）申请组织关系暂留");
+	}
+
+	// 党员各类申请的操作人类别
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_SELF = 0; // 本人
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_BRANCH = 1; // 党支部
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_PARTY = 2; // 分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_OW = 3; // 组织部
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY = 4; // 转出分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY = 5; // 转入分党委
+	public final static byte APPLY_APPROVAL_LOG_USER_TYPE_ADMIN = 10;// 后台操作
+	public final static Map<Byte, String> APPLY_APPROVAL_LOG_USER_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_SELF, "本人");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_BRANCH, "党支部");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_PARTY, "分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_OW, "组织部");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY, "转出分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY, "转入分党委");
+		APPLY_APPROVAL_LOG_USER_TYPE_MAP.put(APPLY_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
 	}
 
 	// 党员各类申请的审批结果
 	public final static byte APPLY_APPROVAL_LOG_STATUS_DENY = 0;
 	public final static byte APPLY_APPROVAL_LOG_STATUS_PASS = 1;
 	public final static byte APPLY_APPROVAL_LOG_STATUS_BACK = 2;
-	public final static byte APPLY_APPROVAL_LOG_STATUS_NONEED = 3; // 不需要审核
+	public final static byte APPLY_APPROVAL_LOG_STATUS_NONEED = 3; // 直接通过，不需要审核
 	public final static Map<Byte, String> APPLY_APPROVAL_LOG_STATUS_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_APPROVAL_LOG_STATUS_MAP.put(APPLY_APPROVAL_LOG_STATUS_DENY, "不通过");
@@ -448,7 +575,7 @@ public class SystemConstants {
 	}
 
 
-	// 干部库类别 1现任干部库  2 临时干部库 3离任干部库
+	// 干部库类别 1现任干部库  2 考察对象 3离任干部库
 	public final static byte CADRE_STATUS_NOW = 1;
 	public final static byte CADRE_STATUS_TEMP = 2;
 	public final static byte CADRE_STATUS_LEAVE = 3;
@@ -456,18 +583,51 @@ public class SystemConstants {
 	public final static Map<Byte, String>CADRE_STATUS_MAP = new LinkedHashMap<>();
 	static {
 		CADRE_STATUS_MAP.put(CADRE_STATUS_NOW, "现任干部库");
-		CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "临时干部库");
-		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任处级干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "考察对象");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任中层干部库");
 		CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
 	}
 
 	// 干部任免类别
-	public static final byte DISPATCH_CADRE_TYPE_ASSIGN = 1;
-	public static final byte DISPATCH_CADRE_TYPE_DEPOSE = 2;
+	public static final byte DISPATCH_CADRE_TYPE_APPOINT = 1;
+	public static final byte DISPATCH_CADRE_TYPE_DISMISS = 2;
 	public final static Map<Byte, String> DISPATCH_CADRE_TYPE_MAP = new HashMap();
 	static {
-		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_ASSIGN, "任命");
-		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_DEPOSE, "免职");
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_APPOINT, "任命");
+		DISPATCH_CADRE_TYPE_MAP.put(DISPATCH_CADRE_TYPE_DISMISS, "免职");
+	}
+
+	// 干部任免关联模块
+	public static final byte DISPATCH_CADRE_RELATE_TYPE_WORK = 1;
+	public static final byte DISPATCH_CADRE_RELATE_TYPE_POST = 2;
+	public final static Map<Byte, String> DISPATCH_CADRE_RELATE_TYPE_MAP = new HashMap();
+	static {
+		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_WORK, "工作经历");
+		DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_POST, "任职情况(主职/兼职)");
+	}
+
+	// 干部干部信息采集表 类型，1 工作经历 2 兼职情况
+	public final static byte CADRE_INFO_TYPE_WORK = 1;
+	public final static byte CADRE_INFO_TYPE_PARTTIME = 2;
+	public final static byte CADRE_INFO_TYPE_TRAIN = 3;
+	public final static byte CADRE_INFO_TYPE_TEACH = 4;
+	public final static byte CADRE_INFO_TYPE_RESEARCH = 5;
+	public final static byte CADRE_INFO_TYPE_REWARD_OTHER = 6;
+	public final static byte CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY = 7;
+	public final static byte CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY = 8;
+	public final static byte CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY = 9;
+	public final static Map<Byte, String>CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "兼职情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TRAIN, "培训情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TEACH, "教学经历");// 包含教学成果及获奖情况
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况"); // 包含科研成果及获奖情况
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_REWARD_OTHER, "其他奖励情况");
+
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY, "参与科研项目总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY, "主持科研项目总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY, "出版著作及发表论文等总体情况");
 	}
 
 	// 干部学习经历 学校类型 1本校 2境内 3境外
@@ -497,13 +657,28 @@ public class SystemConstants {
 	static {
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BKS, "本科生课程");
 		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_SS, "硕士生课程");
-		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "研究生课程");
+		CADRE_COURSE_TYPE_MAP.put(CADRE_COURSE_TYPE_BS, "博士生课程");
 	}
 
 	// 干部获奖类别 1,教学成果及获奖情况 2科研成果及获奖情况， 3其他奖励情况
 	public final static byte CADRE_REWARD_TYPE_TEACH = 1;
 	public final static byte CADRE_REWARD_TYPE_RESEARCH = 2;
 	public final static byte CADRE_REWARD_TYPE_OTHER = 3;
+
+	// 干部科研项目类别 1,主持 2 参与
+	public final static byte CADRE_RESEARCH_TYPE_DIRECT = 1;
+	public final static byte CADRE_RESEARCH_TYPE_IN = 2;
+
+	// 干部出版著作类别 独著、译著、合著
+	public final static byte CADRE_BOOK_TYPE_ALONE = 1;
+	public final static byte CADRE_BOOK_TYPE_TRANSLATE = 2;
+	public final static byte CADRE_BOOK_TYPE_COAUTHOR = 3;
+	public final static Map<Byte, String> CADRE_BOOK_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_ALONE, "独著");
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_TRANSLATE, "译著");
+		CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_COAUTHOR, "合著");
+	}
 
 	// 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿
 	public final static byte CADRE_FAMLIY_TITLE_FATHER = 1;
@@ -529,6 +704,15 @@ public class SystemConstants {
 		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_HOLIDAY, "公众假期");
 		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_SCHOOL, "寒/暑假");
 		APPLY_SELF_DATE_TYPE_MAP.put(APPLY_SELF_DATE_TYPE_OTHER, "其他");
+	}
+
+	//行程修改类别
+	public final static byte APPLYSELF_MODIFY_TYPE_ORIGINAL = 0;
+	public final static byte APPLYSELF_MODIFY_TYPE_MODIFY = 1;
+	public final static Map<Byte, String> APPLYSELF_MODIFY_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		APPLYSELF_MODIFY_TYPE_MAP.put(APPLYSELF_MODIFY_TYPE_ORIGINAL, "首次提交申请");
+		APPLYSELF_MODIFY_TYPE_MAP.put(APPLYSELF_MODIFY_TYPE_MODIFY, "行程修改");
 	}
 
 	//证件类别 1:集中管理证件 2:取消集中保管证件 3:丢失证件
@@ -564,11 +748,24 @@ public class SystemConstants {
 	public final static byte PASSPORT_DRAW_TYPE_SELF = 1;
 	public final static byte PASSPORT_DRAW_TYPE_TW = 2;
 	public final static byte PASSPORT_DRAW_TYPE_OTHER = 3;
+	public final static byte PASSPORT_DRAW_TYPE_LONG_SELF = 4;
 	public final static Map<Byte, String>PASSPORT_DRAW_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
-		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公出访台湾");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_TW, "因公赴台");
 		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_OTHER, "其他事务");
+		PASSPORT_DRAW_TYPE_MAP.put(PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国");
+	}
+
+	//领取证件用途 1 仅签证 2 已签证，本次出境 3 同时签证和出境
+	public final static byte PASSPORT_DRAW_USE_TYPE_SIGN = 1;
+	public final static byte PASSPORT_DRAW_USE_TYPE_ABROAD = 2;
+	public final static byte PASSPORT_DRAW_USE_TYPE_BOTH = 3;
+	public final static Map<Byte, String>PASSPORT_DRAW_USE_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_SIGN, "仅签证");
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_ABROAD, "已签证，本次出境");
+		PASSPORT_DRAW_USE_TYPE_MAP.put(PASSPORT_DRAW_USE_TYPE_BOTH, "同时签证和出境");
 	}
 
 	//申办证件审批状态
@@ -624,22 +821,50 @@ public class SystemConstants {
 	public final static byte APPROVER_LOG_OD_TYPE_FIRST = 0;
 	public final static byte APPROVER_LOG_OD_TYPE_LAST = 1;
 
+	// 内容模板类别  1 短信
+	public final static byte CONTENT_TPL_TYPE_SHORTMSG = 1;
+	public final static byte CONTENT_TPL_TYPE_NORMAL = 2;
+	public final static Map<Byte, String> CONTENT_TPL_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_SHORTMSG, "短信");
+		CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_NORMAL, "文本");
+	}
+	// 内容模板内容类型  1 普通文本
+	public final static byte CONTENT_TPL_CONTENT_TYPE_STRING = 1;
+	public final static byte CONTENT_TPL_CONTENT_TYPE_HTML = 2;
+	public final static Map<Byte, String> CONTENT_TPL_CONTENT_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_STRING, "普通文本");
+		CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_HTML, "HTML");
+	}
+	// 内容模板引擎  1 MessageFormat
+	public final static byte CONTENT_TPL_ENGINE_MESSAGEFORMAT = 1;
+	public final static Map<Byte, String> CONTENT_TPL_ENGINE_MAP = new LinkedHashMap<>();
+	static {
+		CONTENT_TPL_ENGINE_MAP.put(CONTENT_TPL_ENGINE_MESSAGEFORMAT, "MessageFormat");
+	}
 
-	// 短信提醒类别
-	public final static String SHORT_MSG_KEY_PASSPORT_EXPIRE = "passport.expire";
-	public final static String SHORT_MSG_KEY_PASSPORT_DISMISS = "passport.dismiss";
-	public final static String SHORT_MSG_KEY_APPLYSELF_PASS = "applySelf.pass";
-	public final static String SHORT_MSG_KEY_APPLYSELF_UNPASS = "applySelf.unpass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_PASS = "passportApply.pass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS = "passportApply.unpass";
-	public final static String SHORT_MSG_KEY_PASSPORTAPPLY_DRAW = "passportApply.draw";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW = "passportDraw";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_RETURN = "passportDraw.return";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_PASS = "passportDraw.pass";
-	public final static String SHORT_MSG_KEY_PASSPORTDRAW_UNPASS = "passportDraw.unpass";
+	// 内容模板（与数据库中代码对应）
+	public final static String CONTENT_TPL_APPLYSELF_SUBMIT_INFO = "ct_applyself_submit_info"; // 干部提交因私申请，通知管理员
+	public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员
+	public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
+	public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
+	public final static String CONTENT_TPL_PASSPORT_ABOLISH = "ct_passport_abolish";
+	public final static String CONTENT_TPL_APPLYSELF_PASS = "ct_applySelf_pass";
+	public final static String CONTENT_TPL_APPLYSELF_UNPASS = "ct_applySelf_unpass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_PASS = "ct_passportApply_pass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_UNPASS = "ct_passportApply_unpass";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_DRAW = "ct_passportApply_draw";
+	public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT = "ct_passportApply_submit";
+	public final static String CONTENT_TPL_PASSPORTDRAW = "ct_passportDraw";
+	public final static String CONTENT_TPL_PASSPORTDRAW_RETURN = "ct_passportDraw_return";
+	public final static String CONTENT_TPL_PASSPORTDRAW_PASS = "ct_passportDraw_pass";
+	public final static String CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN = "ct_passportDraw_pass_needsign";
+	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS = "ct_passportDraw_unpass";
+	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN = "ct_passportDraw_unpass_needsign";
 
 
-	public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
+	/*public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
 	static {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_EXPIRE, "取消集中管理-证件到期");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_DISMISS, "取消集中管理-不再担任职务");
@@ -648,9 +873,12 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_PASS, "申办证件-通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_UNPASS, "申办证件-不通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_DRAW, "申办证件-催交证件");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTAPPLY_SUBMIT, "申办证件-提交申请");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW, "因私出国申请-领取证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_RETURN, "申请使用证件-催交证件");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS, "申请使用证件-通过");
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_PASS_NEEDSIGN, "申请使用证件（需要签注）-通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
-	}
+		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN, "申请使用证件（需要签注）-不通过");
+	}*/
 }

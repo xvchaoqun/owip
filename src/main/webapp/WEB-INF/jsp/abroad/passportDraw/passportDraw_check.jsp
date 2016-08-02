@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                     <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                         ${sysUser.realname}
                     </a></td>
-                    <td>${unitMap.get(cadre.unitId).name}-${cadre.title}</td>
+                    <td>${cadre.title}</td>
                     <td>${postMap.get(cadre.postId).name}</td>
                     <td>${passportTypeMap.get(passport.classId).name}</td>
                     <td>${passport.code}</td>
@@ -67,18 +67,14 @@ pageEncoding="UTF-8"%>
     </c:if>
     <div class="info">
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
-            <%--<form class="form-horizontal">
+            <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">证件应交回日期</label>
+                    <label class="col-xs-3 control-label">备注</label>
                     <div class="col-xs-6">
-                        <div class="input-group">
-                            <input required class="form-control date-picker" name="_expectDate" type="text"
-                                   data-date-format="yyyy年mm月dd日"/>
-                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                        </div>
+                        <textarea class="form-control limited" type="text" name="remark" rows="3"></textarea>
                     </div>
                 </div>
-            </form>--%>
+            </form>
             <div>
                 <button id="agree" class="btn btn-success btn-block" style="margin-top:20px;font-size: 20px">符合条件，同意领取证件</button>
             </div>
@@ -88,8 +84,7 @@ pageEncoding="UTF-8"%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">原因</label>
                     <div class="col-xs-6">
-                        <textarea ${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS?"disabled":""}
-                                class="form-control limited" type="text" name="remark" rows="3">${passportApply.remark}</textarea>
+                        <textarea class="form-control limited" type="text" name="reason" rows="3"></textarea>
                     </div>
                 </div>
             </form>
@@ -106,12 +101,8 @@ pageEncoding="UTF-8"%>
 <script>
 
     $("#agree").click(function(){
-        var _expectDate = $("input[name=_expectDate]").val();
-        if( _expectDate == ''){
-            SysMsg.info("请填写应交回日期");
-            return false;
-        }
-        $.post("${ctx}/passportDraw_agree",{id:"${param.id}"/*, _expectDate:_expectDate*/ },function(ret){
+        var remark = $("textarea[name=remark]").val().trim();
+        $.post("${ctx}/passportDraw_agree",{id:"${param.id}", remark:remark},function(ret){
             if(ret.success){
                 SysMsg.success('审批成功', '提示', function(){
                     page_reload();
@@ -121,12 +112,12 @@ pageEncoding="UTF-8"%>
         });
     });
     $("#disagree").click(function(){
-        var remark = $("textarea[name=remark]").val().trim();
-        if( remark == ''){
+        var reason = $("textarea[name=reason]").val().trim();
+        if( reason == ''){
             SysMsg.info("请填写原因");
             return false;
         }
-        $.post("${ctx}/passportDraw_disagree",{id:"${param.id}", remark:remark },function(ret){
+        $.post("${ctx}/passportDraw_disagree",{id:"${param.id}", remark:reason},function(ret){
             if(ret.success){
                 SysMsg.success('提交成功', '提示', function(){
                     page_reload();

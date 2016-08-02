@@ -1,18 +1,17 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.*;
-import domain.MemberInflowExample.Criteria;
+import domain.member.MemberInflow;
+import domain.member.MemberInflowExample;
+import domain.member.MemberInflowExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -30,9 +29,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -192,7 +189,7 @@ public class MemberInflowOutController extends BaseController {
                     .andOutIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-                    .andOutIsBackEqualTo(true);;
+                    .andOutIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
@@ -250,12 +247,14 @@ public class MemberInflowOutController extends BaseController {
 
         modelMap.put("memberInflow", currentMemberInflow);
 
+        Integer branchId = currentMemberInflow.getBranchId();
+        Integer partyId = currentMemberInflow.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getBranchId()));
+            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberInflow.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -287,12 +286,12 @@ public class MemberInflowOutController extends BaseController {
     @ResponseBody
     public Map do_memberInflowOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
-                                      @RequestParam(value = "ids[]") int[] ids) {
+                                      @RequestParam(value = "ids[]") Integer[] ids) {
 
 
         memberInflowOutService.memberInflowOut_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -310,14 +309,14 @@ public class MemberInflowOutController extends BaseController {
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflowOut_back(@CurrentUser SysUser loginUser,
-                                     @RequestParam(value = "ids[]") int[] ids,
+                                     @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
 
 
         memberInflowOutService.memberInflowOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", ids));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflowOut:edit")
@@ -349,10 +348,11 @@ public class MemberInflowOutController extends BaseController {
     public Map do_memberInflowOut(@CurrentUser SysUser loginUser, int userId, String outUnit, Integer outLocation,
                                   String _outTime, HttpServletRequest request) {
 
-        MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime);
+        MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime, false);
 
         applyApprovalLogService.add(memberInflow.getId(),
-                memberInflow.getPartyId(), memberInflow.getBranchId(), userId, loginUser.getId(),
+                memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

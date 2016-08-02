@@ -22,4 +22,6 @@ public class MemberOutMixin {
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date handleTime;
+    @JsonFormat(pattern = "yyyy-MM",timezone="GMT+8")
+    public Date payTime;
 }

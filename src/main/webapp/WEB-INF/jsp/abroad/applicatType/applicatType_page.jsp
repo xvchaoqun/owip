@@ -33,6 +33,8 @@ pageEncoding="UTF-8" %>
                 <div class="vspace-12"></div>
                 <div class="buttons">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-danger btn-sm"
+                       data-url="${ctx}/applicatType/selectCadresEscape"><i class="fa fa-search"></i> 未分配申请人身份的干部（${escapeCount}）</a>
                 </div>
             </mytag:sort-form>
             <div class="space-4"></div>
@@ -41,7 +43,7 @@ pageEncoding="UTF-8" %>
                     <thead>
                     <tr>
 							<th>申请人身份</th>
-							<th>包含职务</th>
+							<th>包含干部</th>
 							<th>审批人身份</th>
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <th nowrap class="hidden-480">排序</th>
@@ -55,21 +57,21 @@ pageEncoding="UTF-8" %>
 
 								<td>${applicatType.name}</td>
                             <td>
-                                <button data-id="${applicatType.id}" class="selectPostBtn btn btn-success btn-mini btn-xs">
-                                    <i class="fa fa-th-list"></i>  包含职务
+                                <button data-url="${ctx}/applicatType/selectCadres?id=${applicatType.id}" class="popupBtn btn btn-success btn-mini btn-xs">
+                                    <i class="fa fa-th-list"></i>  包含干部
                                 </button>
                             </td>
                             <td>
-                                <button data-id="${applicatType.id}" class="approvalOrderBtn btn btn-warning btn-mini btn-xs">
+                                <button data-url="${ctx}/applicatType/approvalOrder?id=${applicatType.id}" class="popupBtn btn btn-warning btn-mini btn-xs">
                                     <i class="fa fa-th-list"></i>  审批人身份
                                 </button>
                             </td>
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applicatType.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn pageReload" data-id="${applicatType.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${applicatType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn pageReload" data-id="${applicatType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             <td>
@@ -136,14 +138,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    $(".selectPostBtn").click(function(){
-        loadModal("${ctx}/applicatType/select_posts?id="+$(this).data("id"))
-    });
-
-    // 编辑审批身份
-    $(".myTableDiv .approvalOrderBtn").click(function(){
-        loadModal("${ctx}/applicatType/approvalOrder?id="+$(this).data("id"));
-    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

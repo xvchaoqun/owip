@@ -2,11 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-<c:set var="MEMBER_SOURCE_MAP" value="<%=SystemConstants.MEMBER_SOURCE_MAP%>"/>
-<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_STATUS_MAP" value="<%=SystemConstants.MEMBER_STATUS_MAP%>"/>
 <div class="widget-box">
 	<div class="widget-header">
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
@@ -22,9 +17,10 @@ pageEncoding="UTF-8"%>
 		<table class="table table-bordered table-striped">
 			<tbody>
 			<tr>
+				<c:set var="sysUser" value="${cm:getUserById(param.userId)}"/>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${cm:getUserById(param.userId).code}">
+					<img src="${ctx}/avatar/${sysUser.username}"  class="avatar">
 				</td>
 
 				<td class="bg-right">
@@ -65,16 +61,16 @@ pageEncoding="UTF-8"%>
 					${memberStudent.nativePlace}
 				</td>
 				<td  class="bg-right">
-					来源
+					学籍状态
 				</td>
 				<td class="bg-left">
-					${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+					${memberStudent.xjStatus}
 				</td>
 				<td class="bg-right">
 					同步来源
 				</td>
 				<td class="bg-left">
-					${USER_SOURCE_MAP.get(memberStudent.syncSource)}
+					${USER_SOURCE_MAP.get(sysUser.source)}
 				</td>
 			</tr>
 			<tr>
@@ -107,16 +103,17 @@ pageEncoding="UTF-8"%>
 				<td  class="bg-left">
 					${memberStudent.enrolYear}
 				</td>
-				<td class="bg-right">
+				<%--<td class="bg-right">
 					是否全日制
 				</td>
 				<td class="bg-left">
-					${memberStudent.isFullTime}
-				</td>
+					<c:if test="${empty memberStudent.isFullTime}">-</c:if>
+					<c:if test="${not empty memberStudent.isFullTime}">${memberStudent.isFullTime?"是":"否"}</c:if>
+				</td>--%>
 				<td  class="bg-right">
 					学生类别
 				</td>
-				<td class="bg-left">
+				<td class="bg-left" colspan="3">
 					${memberStudent.type}
 				</td>
 				<td class="bg-right">教育类别</td>
@@ -146,11 +143,7 @@ pageEncoding="UTF-8"%>
 					${memberStudent.delayYear}
 				</td>
 			</tr>
-			<tr>
-				<td class="bg-right" colspan="2">学籍状态</td>
-				<td  class="bg-left" colspan="7">${memberStudent.xjStatus}
-				</td>
-			</tr>
+
 			</tbody>
 		</table>
 			</div></div></div>
@@ -182,7 +175,7 @@ pageEncoding="UTF-8"%>
 
 	</tr>
 	<tr>
-		<td class="bg-right">政治面貌</td>
+		<td class="bg-right">党籍状态</td>
 		<td class="bg-left">
 			${MEMBER_POLITICAL_STATUS_MAP.get(memberStudent.politicalStatus)}
 		</td>
@@ -257,11 +250,12 @@ pageEncoding="UTF-8"%>
 </table></div></div></div>
 
 <div class="clearfix form-actions center">
+<c:if test="${sysUser.source==USER_SOURCE_YJS || sysUser.source==USER_SOURCE_BKS}">
 		<button class="btn btn-info  btn-pink" onclick="member_sync(${param.userId})" type="button">
 			<i class="ace-icon fa fa-refresh "></i>
-			同步数据
+			同步基本信息
 		</button>
-
+</c:if>
 		&nbsp; &nbsp; &nbsp;
 		<button class="closeView btn" type="button">
 			<i class="ace-icon fa fa-undo"></i>

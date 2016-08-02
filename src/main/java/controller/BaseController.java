@@ -1,6 +1,6 @@
 package controller;
 
-import domain.SysUser;
+import domain.sys.SysUser;
 import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,15 @@ import service.LoginUserService;
 import service.OrgAdminService;
 import service.SpringProps;
 import service.abroad.*;
+import service.analysis.StatService;
+import service.base.ContentTplService;
 import service.cadre.*;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.party.*;
+import service.party.TeacherService;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
@@ -34,6 +37,8 @@ public class BaseController extends BaseMapper {
     protected ApprovalOrderService approvalOrderService;
     @Autowired
     protected ApproverService approverService;
+    @Autowired
+    protected ApproverBlackListService approverBlackListService;
     @Autowired
     protected ApproverTypeService approverTypeService;
 
@@ -76,6 +81,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MemberAbroadService memberAbroadService;
     @Autowired
+    protected GraduateAbroadService graduateAbroadService;
+    @Autowired
     protected MemberQuitService memberQuitService;
     @Autowired
     protected RetireApplyService retireApplyService;
@@ -114,17 +121,17 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected UnitAdminService unitAdminService;
     @Autowired
-    protected CadreSubWorkService cadreSubWorkService;
-    @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
-    protected CadreMainWorkService cadreMainWorkService;
+    protected CadreAdminLevelService cadreAdminLevelService;
     @Autowired
     protected ExtJzgService extJzgService;
     @Autowired
     protected ExtYjsService extYjsService;
     @Autowired
     protected ExtBksService extBksService;
+    @Autowired
+    protected CadreConcatService cadreConcatService;
     @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired
@@ -136,15 +143,23 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreRewardService cadreRewardService;
     @Autowired
+    protected CadreBookService cadreBookService;
+    @Autowired
     protected CadreResearchService cadreResearchService;
     @Autowired
+    protected CadrePaperService cadrePaperService;
+    @Autowired
     protected CadreParttimeService cadreParttimeService;
+    @Autowired
+    protected CadreTrainService cadreTrainService;
     @Autowired
     protected CadreCourseService cadreCourseService;
     @Autowired
     protected CadreWorkService cadreWorkService;
     @Autowired
     protected CadreEduService cadreEduService;
+    @Autowired
+    protected CadreUnderEduService cadreUnderEduService;
     @Autowired
     protected CadreTutorService cadreTutorService;
     @Autowired
@@ -160,6 +175,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected DispatchCadreService dispatchCadreService;
     @Autowired
+    protected DispatchCadreRelateService dispatchCadreRelateService;
+    @Autowired
     protected DispatchUnitRelateService dispatchUnitRelateService;
     @Autowired
     protected DispatchUnitService dispatchUnitService;
@@ -169,6 +186,8 @@ public class BaseController extends BaseMapper {
     protected LeaderUnitService leaderUnitService;
     @Autowired
     protected CadreService cadreService;
+    @Autowired
+    protected CadreAdditionalPostService cadreAdditionalPostService;
     @Autowired
     protected HistoryUnitService historyUnitService;
     @Autowired
@@ -203,9 +222,17 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected ShortMsgService shortMsgService;
     @Autowired
+    protected ContentTplService contentTplService;
+    @Autowired
     protected LogService logService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected SysLoginLogService sysLoginLogService;
+
+    @Autowired
+    protected StatService statService;
+
     @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired
@@ -250,6 +277,14 @@ public class BaseController extends BaseMapper {
 		return resultMap;
 	}
 
+    public static Map<String, Object> ret(int ret, String msg){
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("ret", ret);
+        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
+        return resultMap;
+    }
+
     public Map getMetaMap(){
 
         Map map = new HashMap<>();
@@ -273,6 +308,8 @@ public class BaseController extends BaseMapper {
         map.put("eduTypeMap", metaTypeService.metaTypes("mc_edu"));
         map.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
         map.put("schoolTypeMap", metaTypeService.metaTypes("mc_school"));
+
+        map.put("abroadUserTypeMap", metaTypeService.metaTypes("mc_abroad_user_type"));
 
         map.put("eduMap", metaTypeService.metaTypes("mc_edu"));
 

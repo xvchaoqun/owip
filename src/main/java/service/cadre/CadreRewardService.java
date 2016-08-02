@@ -1,7 +1,7 @@
 package service.cadre;
 
-import domain.CadreReward;
-import domain.CadreRewardExample;
+import domain.cadre.CadreReward;
+import domain.cadre.CadreRewardExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,9 +91,9 @@ public class CadreRewardService extends BaseMapper {
             CadreReward targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
 
             CadreReward record = new CadreReward();
             record.setId(id);

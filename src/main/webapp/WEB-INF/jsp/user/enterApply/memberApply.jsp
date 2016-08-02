@@ -29,7 +29,9 @@
         <div class="col-sm-2 col-xs-4">
           <div class="input-group" style="width: 150px">
             <input required class="form-control date-picker" name="_applyTime" type="text"
-                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
+                   data-date-format="yyyy-mm-dd"
+                   data-date-end-date="${today}"
+                   value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}"/>
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
         </div>
@@ -90,7 +92,7 @@
       <script>
         register_class_party_branch_select($("#modalForm"), "party", "branch",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
-        register_date($('.date-picker'), {endDate:"${today}"});
+        register_date($('.date-picker'));
 
         $("form").validate({
           submitHandler: function (form) {

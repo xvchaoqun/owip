@@ -41,7 +41,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_abroadTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreFamliyAbroad.abroadTime,'yyyy-MM-dd')}" />
+                               data-date-min-view-mode="1"
+                               data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamliyAbroad.abroadTime,'yyyy-MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -73,8 +74,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal("hide");
+                        $("#jqGrid_cadreFamliyAbroad").trigger("reloadGrid");
                     }
                 }
             });

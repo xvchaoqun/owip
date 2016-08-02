@@ -1,10 +1,12 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.*;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.base.ContentTpl;
+import domain.cadre.*;
+import domain.sys.SysConfig;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -19,22 +21,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadreResearchController extends BaseController {
@@ -47,206 +48,134 @@ public class CadreResearchController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_page")
-    public String cadreResearch_page(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "id",tableName = "base_cadre_research") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String cadreResearch_page(
+            @RequestParam(defaultValue = "0") Byte type, // 0 列表 其他 预览
+            Integer cadreId, ModelMap modelMap) {
 
+        modelMap.put("type", type);
+        if (type != 0) {
 
-        List<CadreResearch> cadreResearchs = new ArrayList<>();
-        {
-            CadreResearchExample example = new CadreResearchExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
-            example.setOrderByClause("id desc");
-            cadreResearchs = cadreResearchMapper.selectByExample(example);
+            /*CadreResearchExample example = new CadreResearchExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT);
+            example.setOrderByClause("start_time asc");
+            List<CadreResearch> cadreResearchs = cadreResearchMapper.selectByExample(example);
+            modelMap.put("cadreResearchs", cadreResearchs);*/
+
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, type);
+            modelMap.put("cadreInfo", cadreInfo);
+
+            if(type==SystemConstants.CADRE_INFO_TYPE_RESEARCH){
+                Map<String, SysConfig> sysConfigMap = sysConfigService.codeKeyMap();
+                modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
+                modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
+                modelMap.put("bookPaperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY));
+            }else {
+                String key = null;
+                switch (type) {
+                    case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY:
+                        key = "sc_cadre_research_in_summary";
+                        break;
+                    case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY:
+                        key = "sc_cadre_research_direct_summary";
+                        break;
+                    case SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY:
+                        key = "sc_cadre_book_paper_summary";
+                        break;
+                }
+                if (key != null) {
+
+                    Map<String, SysConfig> sysConfigMap = sysConfigService.codeKeyMap();
+                    modelMap.put("sysConfig", sysConfigMap.get(key));
+                }
+            }
+
+            {
+                CadreRewardExample example = new CadreRewardExample();
+                example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
+                example.setOrderByClause("reward_time asc");
+                List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
+                modelMap.put("cadreRewards", cadreRewards);
+            }
         }
-        modelMap.put("cadreResearchs", cadreResearchs);
-
-
-        List<CadreReward> cadreRewards = new ArrayList<>();
-        {
-            CadreRewardExample example = new CadreRewardExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
-            example.setOrderByClause("sort_order desc");
-            cadreRewards = cadreRewardMapper.selectByExample(example);
-        }
-        modelMap.put("cadreRewards", cadreRewards);
-
-
         return "cadre/cadreResearch/cadreResearch_page";
+    }
+    @RequiresPermissions("cadreResearch:list")
+    @RequestMapping("/cadreResearch_data")
+    public void cadreResearch_data(HttpServletResponse response,
+                                 Integer cadreId,
+                                 byte researchType, //  1,主持 2 参与
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadreResearchExample example = new CadreResearchExample();
+        CadreResearchExample.Criteria criteria = example.createCriteria().andResearchTypeEqualTo(researchType);
+        example.setOrderByClause("start_time desc");
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+
+        if (export == 1) {
+            cadreResearch_export(example, response);
+            return;
+        }
+
+        int count = cadreResearchMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreResearch> cadreResearchs = cadreResearchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", cadreResearchs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("cadreResearch:edit")
     @RequestMapping(value = "/cadreResearch_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreResearch_au(CadreResearch record,
-                                   MultipartFile _chairFile,
-                                   MultipartFile _joinFile,
-                                   MultipartFile _publishFile,HttpServletRequest request) {
+    public Map do_cadreResearch_au(CadreResearch record, String _startTime, String _endTime,  HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if(_chairFile==null ||_joinFile==null || _publishFile==null )
-            return success(FormUtils.SUCCESS);
-        if(_chairFile!=null){
-            String ext = FileUtils.getExtention(_chairFile.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")){
-                throw new RuntimeException("[主持科研项目情况]文件格式错误，请上传word文档");
-            }
-
-            String originalFilename = _chairFile.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "research" + File.separator
-                    + "chair" + File.separator
-                    + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            String pdfPath = realPath + ".pdf";
-            FileUtils.copyFile(_chairFile, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
-
-            try {
-                String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            record.setChairFileName(originalFilename);
-            record.setChairFile(savePath);
+        if(StringUtils.isNotBlank(_startTime)){
+            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
         }
-
-        if(_joinFile!=null){
-            String ext = FileUtils.getExtention(_joinFile.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")){
-                throw new RuntimeException("[参与科研项目情况]文件格式错误，请上传word文档");
-            }
-
-            String originalFilename = _joinFile.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "research" + File.separator
-                    + "join" + File.separator
-                    + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            String pdfPath = realPath + ".pdf";
-            FileUtils.copyFile(_joinFile, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
-
-            try {
-                String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            record.setJoinFileName(originalFilename);
-            record.setJoinFile(savePath);
-        }
-
-        if(_publishFile!=null){
-            String ext = FileUtils.getExtention(_publishFile.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")){
-                throw new RuntimeException("[出版著作及发表论文等情况]文件格式错误，请上传word文档");
-            }
-
-            String originalFilename = _publishFile.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "research" + File.separator
-                    + "publish" + File.separator
-                    + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            String pdfPath = realPath + ".pdf";
-            FileUtils.copyFile(_publishFile, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
-
-            try {
-                String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            record.setPublishFileName(originalFilename);
-            record.setPublishFile(savePath);
+        if(StringUtils.isNotBlank(_endTime)){
+            record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
         }
 
         if (id == null) {
             cadreResearchService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
         } else {
 
             cadreResearchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequestMapping("/cadreResearch_swf")
-    public void cadreResearch_swf(Integer id, @RequestParam(required = false,defaultValue = "chair")String type
-            , HttpServletResponse response) throws IOException{
-
-        CadreResearch cadreResearch = cadreResearchMapper.selectByPrimaryKey(id);
-        String filePath = StringUtils.equalsIgnoreCase(type, "chair")?cadreResearch.getChairFile()
-                :StringUtils.equalsIgnoreCase(type, "join")?cadreResearch.getJoinFile():cadreResearch.getPublishFile();
-        filePath = springProps.uploadPath + FileUtils.getFileName(filePath) + ".swf";
-
-        byte[] bytes = FileUtils.getBytes(filePath);
-        if(bytes==null) return ;
-
-        response.reset();
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
-    }
-
-    @RequestMapping("/cadreResearch_swf_preview")
-    public String cadreResearch_swf_preview(Integer id, @RequestParam(required = false,defaultValue = "chair")String type,
-                              ModelMap modelMap) {
-
-        CadreResearch cadreResearch = cadreResearchMapper.selectByPrimaryKey(id);
-        String filePath = StringUtils.equalsIgnoreCase(type, "chair")?cadreResearch.getChairFile()
-                :StringUtils.equalsIgnoreCase(type, "join")?cadreResearch.getJoinFile():cadreResearch.getPublishFile();
-        modelMap.put("cadreResearch", cadreResearch);
-        modelMap.put("filePath", filePath);
-        return "cadre/cadreResearch/cadreResearch_swf_preview";
-    }
-
-    @RequiresPermissions("cadreResearch:download")
-    @RequestMapping("/cadreResearch_download")
-    public void cadreResearch_download(Integer id,
-                                  @RequestParam(required = false,defaultValue = "chair")String type,
-                                  HttpServletResponse response) throws IOException{
-
-        CadreResearch cadreResearch = cadreResearchMapper.selectByPrimaryKey(id);
-        String filePath = StringUtils.equalsIgnoreCase(type, "chair")?cadreResearch.getChairFile()
-                :StringUtils.equalsIgnoreCase(type, "join")?cadreResearch.getJoinFile():cadreResearch.getPublishFile();
-        byte[] bytes = FileUtils.getBytes(filePath);
-
-        String fileName = StringUtils.equalsIgnoreCase(type, "chair")?cadreResearch.getChairFileName()
-                :StringUtils.equalsIgnoreCase(type, "join")?cadreResearch.getJoinFileName():cadreResearch.getPublishFileName();
-        fileName = URLEncoder.encode(fileName, "UTF-8");
-
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
     }
 
     @RequiresPermissions("cadreResearch:edit")
@@ -272,7 +201,7 @@ public class CadreResearchController extends BaseController {
         if (id != null) {
 
             cadreResearchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部科研情况：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部科研项目：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -285,7 +214,7 @@ public class CadreResearchController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreResearchService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研项目：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -301,7 +230,7 @@ public class CadreResearchController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部","主持科研项目情况","参与科研项目情况","出版著作及发表论文等情况"};
+        String[] titles = {"所属干部","项目起始时间","项目结题时间","项目名称", "项目类型", "委托单位"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -313,9 +242,10 @@ public class CadreResearchController extends BaseController {
             CadreResearch cadreResearch = cadreResearchs.get(i);
             String[] values = {
                         cadreResearch.getCadreId()+"",
-                                            cadreResearch.getChairFile(),
-                                            cadreResearch.getJoinFile(),
-                                            cadreResearch.getPublishFile()
+                                            DateUtils.formatDate(cadreResearch.getStartTime(), DateUtils.YYYY_MM_DD),
+                                            DateUtils.formatDate(cadreResearch.getEndTime(), DateUtils.YYYY_MM_DD),
+                                            cadreResearch.getName(),
+                                            cadreResearch.getType(), cadreResearch.getUnit()
                     };
 
             Row row = sheet.createRow(i + 1);
@@ -327,7 +257,7 @@ public class CadreResearchController extends BaseController {
             }
         }
         try {
-            String fileName = "干部科研情况_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = "干部科研项目_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

@@ -2,16 +2,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
-<c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
-    <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入</h3>
+    <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
+		<a class="popupBtn btn btn-success btn-xs"
+		   data-width="800"
+		   data-url="${ctx}/sc_content?code=${SYS_CONFIG_MEMBER_IN_NOTE_BACK}">
+			<i class="fa fa-info-circle"></i> 申请说明</a>
+	</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberIn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberIn.id}">
 		<input type="hidden" name="resubmit">
 			<div class="row">
 				<div class="col-xs-4">
+					<div class="form-group">
+						<label class="col-xs-5 control-label">介绍信抬头</label>
+						<div class="col-xs-6">
+							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">介绍信有效期天数</label>
+						<div class="col-xs-6">
+							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">类别</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
+								<option></option>
+								<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+									<option value="${_type.key}">${_type.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=type]").val(${memberIn.type});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label">党籍状态</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+								<option></option>
+								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+									<option value="${_status.key}">${_status.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+							</script>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">用户</label>
 						<c:if test="${not empty userBean}">
@@ -57,34 +99,8 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<%--</c:if>--%>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">政治面貌</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
-								<option></option>
-								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-									<option value="${_status.key}">${_status.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
-							</script>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">类别</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
-								<option></option>
-								<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
-									<option value="${_type.key}">${_type.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=type]").val(${memberIn.type});
-							</script>
-						</div>
-					</div>
+
+
 
 					<div class="form-group">
 						<label class="col-xs-5 control-label">分党委</label>
@@ -117,12 +133,7 @@ pageEncoding="UTF-8"%>
 							<input required class="form-control" type="text" name="fromUnit" value="${memberIn.fromUnit}">
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位抬头</label>
-						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label">转出单位地址</label>
 						<div class="col-xs-6">
@@ -152,17 +163,13 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<input required class="form-control date-picker" name="_payTime" type="text"
-									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.payTime,'yyyy-MM-dd')}" />
+									   data-date-format="yyyy-mm"
+									   data-date-min-view-mode="1" value="${cm:formatDate(memberIn.payTime,'yyyy-MM')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label">介绍信有效期天数</label>
-						<div class="col-xs-6">
-							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label">转出办理时间</label>
 						<div class="col-xs-6">
@@ -177,8 +184,9 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">转入办理时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
+								<c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>
 								<input required class="form-control date-picker" name="_handleTime" type="text"
-									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}" />
+									   data-date-format="yyyy-mm-dd" value="${empty handleTime?today:handleTime}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>
@@ -191,7 +199,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">提交书面申请书时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input required class="form-control date-picker" name="_applyTime" type="text"
+								<input class="form-control date-picker" name="_applyTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.applyTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -201,7 +209,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">确定为入党积极分子时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input required class="form-control date-picker" name="_activeTime" type="text"
+								<input class="form-control date-picker" name="_activeTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.activeTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -211,7 +219,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">确定为发展对象时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input required class="form-control date-picker" name="_candidateTime" type="text"
+								<input class="form-control date-picker" name="_candidateTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.candidateTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -221,7 +229,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">入党时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input required class="form-control date-picker" name="_growTime" type="text"
+								<input class="form-control date-picker" name="_growTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -231,7 +239,7 @@ pageEncoding="UTF-8"%>
 						<label class="col-xs-5 control-label">转正时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input required class="form-control date-picker" name="_positiveTime" type="text"
+								<input class="form-control date-picker" name="_positiveTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.positiveTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -308,7 +316,7 @@ pageEncoding="UTF-8"%>
 			var nation = entity.user.nation || '';
 			var idcard = entity.user.idcard || '';
 
-			$("#modalForm input[name=gender]").val(gender == 1 ? '男' : (gender == 2 ? '女' : ''));
+			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
 			$("#modalForm input[name=nation]").val(nation);
 			$("#modalForm input[name=idcard]").val(idcard);

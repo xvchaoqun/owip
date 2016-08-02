@@ -14,7 +14,7 @@
 <div class="modal-body">
   <div class="row passport_apply">
     <div class="preview">
-      <iframe src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+      <iframe src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}&id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
     </div>
 
     <div class="info">
@@ -40,14 +40,21 @@
         </c:if>
         <c:if test="${param.type=='view'}">
             <div class="center" style="margin-top: 40px">
-                <button class="closeView btn btn-default btn-block" style="font-size: 30px">返回</button>
+                <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
+                <button class="printBtn btn btn-info btn-block" style="font-size: 30px">打印</button>
+                </c:if>
+                <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
             </div>
         </c:if>
+        <div class="well" style="margin-top: 40px; font-size: 16pt">
+            <i class="fa fa-info-circle"></i> 推荐使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">谷歌浏览器</a>（点击下载）进行浏览和打印
+        </div>
     </div>
   </div>
 </div>
-<c:if test="${param.type!='view'}">
+
 <script>
+<c:if test="${param.type!='view'}">
     $("#notSign").click(function(){
         if($("#agree").is(":checked") == false){
             $('#agree').qtip({content:'请确认信息准确无误。',show: true, hide: 'unfocus'});
@@ -64,6 +71,10 @@
 
         $("#item-content").load("${ctx}/user/passportDraw_self_confirm?applyId=${param.applyId}&passportId=${passport.id}&sign=1");
     });
+</c:if>
+<c:if test="${param.type=='view'}">
+    $(".printBtn").click(function () {
+        printWindow("${ctx}/report/passportSign?id=${param.id}");
+    });
+</c:if>
 </script>
-    </c:if>
-

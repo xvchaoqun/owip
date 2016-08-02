@@ -1,8 +1,13 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.*;
-import domain.LeaderExample.Criteria;
+import domain.sys.SysUser;
+import domain.unit.Leader;
+import domain.unit.LeaderExample;
+import domain.unit.LeaderExample.Criteria;
+import domain.cadre.Cadre;
+import domain.unit.LeaderUnit;
+import domain.unit.LeaderUnitExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.CadreMixin;
@@ -52,7 +57,7 @@ public class LeaderController extends BaseController {
     @RequiresPermissions("leader:list")
     @RequestMapping("/leader_page")
     public String leader_page(HttpServletResponse response,
-                              @SortParam(required = false, defaultValue = "sort_order", tableName = "base_leader") String sort,
+                              @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_leader") String sort,
                               @OrderParam(required = false, defaultValue = "desc") String order,
                               Integer cadreId,
                               Integer typeId,
@@ -74,7 +79,7 @@ public class LeaderController extends BaseController {
     @RequestMapping("/leader_data")
     @ResponseBody
     public void leader_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_leader") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_leader") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer typeId,

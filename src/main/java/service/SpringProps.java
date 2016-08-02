@@ -39,12 +39,18 @@ public class SpringProps {
 	@Value("${shortMsg.url}")
 	public String shortMsgUrl;
 
-	@Value("${sycn.JZG}")
+	@Value("${switch.sycn.ABROAD}")
+	public Boolean sycnAbroad;
+
+	@Value("${switch.sycn.JZG}")
 	public Boolean sycnJZG;
 
-	@Value("${sycn.BKS}")
+	@Value("${switch.sycn.BKS}")
 	public Boolean sycnBKS;
 
-	@Value("${sycn.YJS}")
+	@Value("${switch.sycn.YJS}")
 	public Boolean sycnYJS;
+
+	@Value("${switch.online.static}")
+	public Boolean onlineStatic;
 }

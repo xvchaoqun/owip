@@ -1,10 +1,14 @@
 package controller.user;
 
 import controller.BaseController;
-import domain.*;
-import domain.PassportDrawExample.Criteria;
+import domain.abroad.*;
+import domain.abroad.PassportDrawExample.Criteria;
+import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.PassportDrawMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -22,13 +26,11 @@ import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -67,15 +69,8 @@ public class UserPassportDrawController extends BaseController {
         Cadre cadre = cadreService.findByUserId(userId);
         int cadreId = cadre.getId();
 
-        Passport passportTw = null;
-        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
         List<Passport> passports = passportService.findByCadreId(cadreId);
-        for (Passport passport : passports) {
-            if(passport.getClassId().intValue() == passportTwType.getId())
-                passportTw = passport;
-        }
         modelMap.put("passports", passports);
-        modelMap.put("passportTw", passportTw);
 
         return "user/passportDraw/passportDraw_select";
     }
@@ -136,13 +131,23 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_sign")
-    public String passportDraw_self_sign(@CurrentUser SysUser loginUser, String type, Integer passportId, ModelMap modelMap) {
+    public String passportDraw_self_sign(@CurrentUser SysUser loginUser, String type,
+                                         Integer passportId, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
 
+        Passport passport = passportMapper.selectByPrimaryKey(passportId);
+        if(passport==null || passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
+        modelMap.put("passport", passport);
+
+        if(id!=null){
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            modelMap.put("passportDraw", passportDraw);
+        }
+
         if(StringUtils.equals(type, "tw")) {
-            Passport passportTw = null;
+            /*Passport passportTw = null;
             List<Passport> passports = passportService.findByCadreId(cadre.getId());
             for (Passport passport : passports) {
                 if(CmTag.typeEqualsCode(passport.getClassId(), "mt_passport_tw")){
@@ -150,13 +155,11 @@ public class UserPassportDrawController extends BaseController {
                 }
             }
             if(passportTw == null)throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
-            modelMap.put("passport", passportTw);
+            modelMap.put("passport", passportTw);*/
 
             return "user/passportDraw/passportDraw_self_sign_tw";
         }
-        Passport passport = passportMapper.selectByPrimaryKey(passportId);
-        if(passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
-        modelMap.put("passport", passport);
+
 
         if(StringUtils.equals(type, "add"))
             return "user/passportDraw/passportDraw_self_sign_add";
@@ -166,10 +169,12 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_confirm")
-    public String passportDraw_self_confirm(@CurrentUser SysUser loginUser, int applyId, int passportId, ModelMap modelMap) {
+    public String passportDraw_self_confirm(@CurrentUser SysUser loginUser, int applyId, int passportId,
+                                            HttpServletRequest request, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         modelMap.put("applySelf", applySelf);
+        request.setAttribute("isView", false);
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -190,7 +195,21 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_tw_page")
-    public String passportDraw_tw_page(ModelMap modelMap) {
+    public String passportDraw_tw_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+
+        int userId= loginUser.getId();
+        Cadre cadre = cadreService.findByUserId(userId);
+
+        Passport passportTw = null;
+        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+        List<Passport> passports = passportService.findByCadreId(cadre.getId());
+        for (Passport passport : passports) {
+            if(passport.getClassId().intValue() == passportTwType.getId())
+                passportTw = passport;
+        }
+        modelMap.put("passports", passports);
+        modelMap.put("passportTw", passportTw);
+
         return "user/passportDraw/passportDraw_tw";
     }
     @RequiresRoles("cadre")
@@ -211,13 +230,25 @@ public class UserPassportDrawController extends BaseController {
 
         return "index";
     }
+
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_page")
     public String passportDraw_page(@CurrentUser SysUser loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
+                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+
+        return "user/passportDraw/passportDraw_page";
+    }
+    @RequiresRoles("cadre")
+    @RequestMapping("/userPassportDraw_data")
+    @ResponseBody
+    public void userPassportDraw_data(@CurrentUser SysUser loginUser,
+                                    @RequestParam(required = false, defaultValue = "1")  Byte type,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -227,10 +258,16 @@ public class UserPassportDrawController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        modelMap.put("type", type);
 
         PassportDrawExample example = new PassportDrawExample();
-        Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        Criteria criteria = example.createCriteria();
+        if(type==SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
+                type==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            criteria.andTypeEqualTo(type);
+        }else{ // 因公赴台、长期因公出国
+            criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
+                    SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+        }
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         int userId= loginUser.getId();
@@ -243,21 +280,18 @@ public class UserPassportDrawController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("passportDraws", passportDraws);
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", passportDraws);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "user/passportDraw/passportDraw_page";
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(PassportDraw.class, PassportDrawMixin.class);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresRoles("cadre")
@@ -282,6 +316,7 @@ public class UserPassportDrawController extends BaseController {
                                   int applyId,
                                   int passportId,
                                   @RequestParam(required = false, defaultValue = "0")boolean needSign,
+                                  byte useType,
                                   String remark,
                                   HttpServletRequest request) {
 
@@ -300,6 +335,7 @@ public class UserPassportDrawController extends BaseController {
         record.setPassportId(passportId);
         record.setApplyDate(new Date());
         record.setNeedSign(needSign);
+        record.setUseType(useType);
         record.setRemark(remark);
 
         record.setCreateTime(new Date());
@@ -317,6 +353,8 @@ public class UserPassportDrawController extends BaseController {
     @RequestMapping(value = "/passportDraw_tw_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_tw_au(@CurrentUser SysUser loginUser,
+                                     Byte type, //2因公赴台  4 长期因公出国
+                                     Integer passportId,
                                      String _startDate,
                                      String _endDate,
                                      String reason,
@@ -326,6 +364,34 @@ public class UserPassportDrawController extends BaseController {
                                        HttpServletRequest request) {
 
         int userId= loginUser.getId();
+        if(type==null || (type != SystemConstants.PASSPORT_DRAW_TYPE_TW
+                && type != SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF)){
+            throw new RuntimeException("请选择申请类型");
+        }
+        if(passportId==null || passportMapper.selectByPrimaryKey(passportId)==null){
+            throw new RuntimeException("请选择证件");
+        }
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        int cadreId = cadre.getId();
+        Passport passportTw = null;
+        if(type == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+
+            MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+            List<Passport> passports = passportService.findByCadreId(cadreId);
+            for (Passport passport : passports) {
+                if (passport.getClassId().intValue() == passportTwType.getId())
+                    passportTw = passport;
+            }
+            if (passportTw == null) {
+                throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
+            }
+            if(passportId.intValue() != passportTw.getId()){
+                throw new RuntimeException("因公赴台，请选择“大陆居民往来台湾通行证”");
+            }
+            if (passportTw.getCadreId().intValue() != cadreId) throw new UnauthorizedException();
+        }
+
         List<PassportDrawFile> passportDrawFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
@@ -344,21 +410,6 @@ public class UserPassportDrawController extends BaseController {
             passportDrawFiles.add(passportDrawFile);
         }
 
-        Cadre cadre = cadreService.findByUserId(userId);
-        int cadreId = cadre.getId();
-
-        Passport passportTw = null;
-        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
-        List<Passport> passports = passportService.findByCadreId(cadreId);
-        for (Passport passport : passports) {
-            if(passport.getClassId().intValue() == passportTwType.getId())
-                passportTw = passport;
-        }
-        if(passportTw==null){
-            throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
-        }
-        if(passportTw.getCadreId().intValue() != cadreId) throw new UnauthorizedException();
-
         PassportDraw record = new PassportDraw();
         if(StringUtils.isNotBlank(_startDate)){
             record.setStartDate(DateUtils.parseDate(_startDate, DateUtils.YYYY_MM_DD));
@@ -366,11 +417,15 @@ public class UserPassportDrawController extends BaseController {
         if(StringUtils.isNotBlank(_endDate)){
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
+        if(record.getStartDate().after(record.getEndDate())){
+            throw new RuntimeException("出行时间不能晚于回国时间");
+        }
+
         record.setReason(reason);
         record.setCostSource(costSource);
         record.setCadreId(cadre.getId());
-        record.setType(SystemConstants.PASSPORT_DRAW_TYPE_TW);
-        record.setPassportId(passportTw.getId());
+        record.setType(type);
+        record.setPassportId(passportId);
         record.setApplyDate(new Date());
         record.setNeedSign(needSign);
 
@@ -380,7 +435,8 @@ public class UserPassportDrawController extends BaseController {
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
         record.setJobCertify(false);
         passportDrawService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（出访台湾）：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
+                SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
 
         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
             passportDrawFile.setDrawId(record.getId());
@@ -434,6 +490,10 @@ public class UserPassportDrawController extends BaseController {
         if(StringUtils.isNotBlank(_endDate)){
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
+        if(record.getStartDate().after(record.getEndDate())){
+            throw new RuntimeException("开始日期不能晚于结束日期");
+        }
+
         record.setReason(reason);
         record.setCadreId(cadre.getId());
         record.setType(SystemConstants.PASSPORT_DRAW_TYPE_OTHER);

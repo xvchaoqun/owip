@@ -3,10 +3,10 @@ package mixin.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import domain.DispatchType;
+import domain.dispatch.DispatchType;
 import org.springframework.context.ApplicationContext;
 import service.dispatch.DispatchTypeService;
-import service.party.ApplicationContextSupport;
+import sys.service.ApplicationContextSupport;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,6 +1,10 @@
 package service.party;
 
-import domain.*;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
+import domain.party.PartyMemberGroup;
+import domain.party.PartyMemberGroupExample;
+import domain.sys.SysUser;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,7 @@ public class PartyMemberGroupService extends BaseMapper {
     private SysUserService sysUserService;
 
     // 查找现任班子
-    public  PartyMemberGroup getPresentGroup(int partyId){
+    public PartyMemberGroup getPresentGroup(int partyId){
 
         PartyMemberGroupExample _example = new PartyMemberGroupExample();
         _example.createCriteria().andPartyIdEqualTo(partyId).andIsPresentEqualTo(true);
@@ -61,7 +65,7 @@ public class PartyMemberGroupService extends BaseMapper {
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
             List<Integer> partyIdList = commonMapper.adminPartyIdList(userId);
             if(partyIdList.size()==0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+                sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }
@@ -75,7 +79,7 @@ public class PartyMemberGroupService extends BaseMapper {
             // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
             Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());
             if (!roleStrSet.contains(SystemConstants.ROLE_PARTYADMIN)) {
-                sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername());
+                sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
             }
         }
     }

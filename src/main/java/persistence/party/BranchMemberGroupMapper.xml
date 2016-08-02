@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.party.BranchMemberGroupMapper" >
+  <resultMap id="BaseResultMap" type="domain.party.BranchMemberGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fid" property="fid" jdbcType="INTEGER" />
+    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_present" property="isPresent" jdbcType="BIT" />
+    <result column="tran_time" property="tranTime" jdbcType="DATE" />
+    <result column="actual_tran_time" property="actualTranTime" jdbcType="DATE" />
+    <result column="appoint_time" property="appointTime" jdbcType="DATE" />
+    <result column="dispatch_unit_id" property="dispatchUnitId" jdbcType="INTEGER" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, fid, branch_id, name, is_present, tran_time, actual_tran_time, appoint_time, 
+    dispatch_unit_id, sort_order
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchMemberGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_branch_member_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ow_branch_member_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ow_branch_member_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.party.BranchMemberGroupExample" >
+    delete from ow_branch_member_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert  keyProperty="id" id="insert" parameterType="domain.party.BranchMemberGroup" >
+    insert into ow_branch_member_group (id, fid, branch_id, 
+      name, is_present, tran_time, 
+      actual_tran_time, appoint_time, dispatch_unit_id, 
+      sort_order)
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{isPresent,jdbcType=BIT}, #{tranTime,jdbcType=DATE}, 
+      #{actualTranTime,jdbcType=DATE}, #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER})
+  </insert>
+  <insert  keyProperty="id" id="insertSelective" parameterType="domain.party.BranchMemberGroup" >
+    insert into ow_branch_member_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fid != null" >
+        fid,
+      </if>
+      <if test="branchId != null" >
+        branch_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="isPresent != null" >
+        is_present,
+      </if>
+      <if test="tranTime != null" >
+        tran_time,
+      </if>
+      <if test="actualTranTime != null" >
+        actual_tran_time,
+      </if>
+      <if test="appointTime != null" >
+        appoint_time,
+      </if>
+      <if test="dispatchUnitId != null" >
+        dispatch_unit_id,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isPresent != null" >
+        #{isPresent,jdbcType=BIT},
+      </if>
+      <if test="tranTime != null" >
+        #{tranTime,jdbcType=DATE},
+      </if>
+      <if test="actualTranTime != null" >
+        #{actualTranTime,jdbcType=DATE},
+      </if>
+      <if test="appointTime != null" >
+        #{appointTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchUnitId != null" >
+        #{dispatchUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.party.BranchMemberGroupExample" resultType="java.lang.Integer" >
+    select count(*) from ow_branch_member_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ow_branch_member_group
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fid != null" >
+        fid = #{record.fid,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null" >
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPresent != null" >
+        is_present = #{record.isPresent,jdbcType=BIT},
+      </if>
+      <if test="record.tranTime != null" >
+        tran_time = #{record.tranTime,jdbcType=DATE},
+      </if>
+      <if test="record.actualTranTime != null" >
+        actual_tran_time = #{record.actualTranTime,jdbcType=DATE},
+      </if>
+      <if test="record.appointTime != null" >
+        appoint_time = #{record.appointTime,jdbcType=DATE},
+      </if>
+      <if test="record.dispatchUnitId != null" >
+        dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortOrder != null" >
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ow_branch_member_group
+    set id = #{record.id,jdbcType=INTEGER},
+      fid = #{record.fid,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      is_present = #{record.isPresent,jdbcType=BIT},
+      tran_time = #{record.tranTime,jdbcType=DATE},
+      actual_tran_time = #{record.actualTranTime,jdbcType=DATE},
+      appoint_time = #{record.appointTime,jdbcType=DATE},
+      dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.party.BranchMemberGroup" >
+    update ow_branch_member_group
+    <set >
+      <if test="fid != null" >
+        fid = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null" >
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isPresent != null" >
+        is_present = #{isPresent,jdbcType=BIT},
+      </if>
+      <if test="tranTime != null" >
+        tran_time = #{tranTime,jdbcType=DATE},
+      </if>
+      <if test="actualTranTime != null" >
+        actual_tran_time = #{actualTranTime,jdbcType=DATE},
+      </if>
+      <if test="appointTime != null" >
+        appoint_time = #{appointTime,jdbcType=DATE},
+      </if>
+      <if test="dispatchUnitId != null" >
+        dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.party.BranchMemberGroup" >
+    update ow_branch_member_group
+    set fid = #{fid,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      is_present = #{isPresent,jdbcType=BIT},
+      tran_time = #{tranTime,jdbcType=DATE},
+      actual_tran_time = #{actualTranTime,jdbcType=DATE},
+      appoint_time = #{appointTime,jdbcType=DATE},
+      dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.party.BranchMemberGroupExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_branch_member_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

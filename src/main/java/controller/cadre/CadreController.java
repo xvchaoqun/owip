@@ -3,8 +3,11 @@ package controller.cadre;
 import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
-import domain.*;
-import domain.CadreExample.Criteria;
+import domain.cadre.*;
+import domain.ext.ExtJzg;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.CadreMixin;
@@ -70,7 +73,7 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order",tableName = "base_cadre") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order",tableName = "cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer cadreId,
@@ -78,6 +81,7 @@ public class CadreController extends BaseController {
                                     Integer postId,
                                     String title,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -88,8 +92,8 @@ public class CadreController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreExample example = new CadreExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        CadreViewExample example = new CadreViewExample();
+        CadreViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -106,16 +110,18 @@ public class CadreController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             cadre_export(example, response);
             return;
         }
 
-        int count = cadreMapper.countByExample(example);
+        int count = cadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> Cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreView> Cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
@@ -125,7 +131,7 @@ public class CadreController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Cadre.class, CadreMixin.class);
+        //sourceMixins.put(CadreView.class, CadreMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -133,7 +139,10 @@ public class CadreController extends BaseController {
 
     @RequiresPermissions("cadre:info")
     @RequestMapping("/cadre_view")
-    public String cadre_show_page(HttpServletResponse response,  ModelMap modelMap) {
+    public String cadre_show_page(HttpServletResponse response,
+                                  @RequestParam(defaultValue = "cadre_base")String to, // 默认跳转到基本信息
+                                  ModelMap modelMap) {
+        modelMap.put("to", to);
 
         return "cadre/cadre_view";
     }
@@ -159,19 +168,21 @@ public class CadreController extends BaseController {
         ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
         modelMap.put("extJzg", extJzg);
 
+        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(id);
         // 主职
-        modelMap.put("cadreMainWork", cadreMainWorkService.getByCadreId(id));
+        modelMap.put("mainCadrePost", mainCadrePost);
 
         // 现任职务
-        modelMap.put("cadrePost", cadrePostService.getPresentByCadreId(id));
+        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id,
+                mainCadrePost!=null?mainCadrePost.getAdminLevelId():null));
 
         // 兼职单位
-        List<CadreSubWork> cadreSubWorks = cadreSubWorkService.findByCadreId(id);
-        if(cadreSubWorks.size()>=1){
-            modelMap.put("cadreSubWork1", cadreSubWorks.get(0));
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
+        if(subCadrePosts.size()>=1){
+            modelMap.put("subCadrePost1", subCadrePosts.get(0));
         }
-        if(cadreSubWorks.size()>=2){
-            modelMap.put("cadreSubWork2", cadreSubWorks.get(1));
+        if(subCadrePosts.size()>=2){
+            modelMap.put("subCadrePost2", subCadrePosts.get(1));
         }
 
         // 最高学历
@@ -193,18 +204,32 @@ public class CadreController extends BaseController {
     }
 
     @RequiresPermissions("cadre:edit")
-    @RequestMapping(value = "/cadre_pass", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadre_pass(int id, HttpServletRequest request) {
+    @RequestMapping("/cadre_temp_pass_au")
+    public String cadre_temp_pass(Integer id, ModelMap modelMap) {
 
-        Cadre record = new Cadre();
+        if (id != null) {
+            Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+            modelMap.put("cadre", cadre);
+            modelMap.put("sysUser", cadre.getUser());
+        }
+        return "cadre/cadre_temp_pass_au";
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_temp_pass_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_temp_pass_au(Cadre record, HttpServletRequest request) {
+
+        int id = record.getId();
         record.setStatus(SystemConstants.CADRE_STATUS_NOW);
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_TEMP);
 
         cadreService.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s", id));
+        Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+        SysUser user = cadre.getUser();
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -232,6 +257,18 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 在“离任中层干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_assign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_assign(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        cadreService.assign(ids);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部任用：%s", StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
     // for test 给所有的干部加上干部身份
     @RequiresRoles("admin")
     @RequestMapping(value = "/cadre_addAllCadreRole")
@@ -242,7 +279,7 @@ public class CadreController extends BaseController {
         for (Cadre cadre : cadreMap.values()) {
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
             // 添加干部身份
-            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername());
+            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
         }
 
         return success(FormUtils.SUCCESS);
@@ -282,6 +319,8 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
+        if(status==SystemConstants.CADRE_STATUS_TEMP)
+            return "cadre/cadre_temp_au";
         return "cadre/cadre_au";
     }
 
@@ -305,7 +344,7 @@ public class CadreController extends BaseController {
 
         if (null != ids){
             cadreService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", new Object[]{ids}));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -320,14 +359,14 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadre_export(CadreExample example, HttpServletResponse response) {
+    public void cadre_export(CadreViewExample example, HttpServletResponse response) {
 
-        List<Cadre> records = cadreMapper.selectByExample(example);
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","备注"};
+        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","手机号","办公电话","家庭电话","电子邮箱","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            Cadre record = records.get(i);
+            CadreView record = records.get(i);
             SysUser sysUser =  record.getUser();
             String[] values = {
                     sysUser.getCode(),
@@ -336,6 +375,10 @@ public class CadreController extends BaseController {
                     metaTypeService.getName(record.getPostId()),
                     record.getPost(),
                     record.getTitle(),
+                    record.getMobile(),
+                    record.getOfficePhone(),
+                    record.getHomePhone(),
+                    record.getEmail(),
                     record.getRemark()
             };
             valuesList.add(values);

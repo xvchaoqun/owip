@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${applySelf!=null}">编辑</c:if><c:if test="${applySelf==null}">添加</c:if>因私出国申请</h3>
-</div>
-<div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/applySelf_au" id="modalForm" method="post">
+    <h3 class="header">因私出国申请变更</h3>
+    <form class="form-horizontal" action="${ctx}/applySelf_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${applySelf.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">干部</label>
@@ -20,7 +16,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">申请日期</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group" style="width: 200px">
 						<input required class="form-control date-picker" name="_applyDate" type="text"
 							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -44,7 +40,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出发时间</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group"  style="width: 200px">
 						<input required class="form-control date-picker" name="_startDate" type="text"
 							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -54,7 +50,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">返回时间</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group"  style="width: 200px">
 						<input required class="form-control date-picker" name="_endDate" type="text"
 							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -79,7 +75,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">出国（境）事由</label>
-			<div class="col-xs-9 choice">
+			<div class="col-xs-9 choice label-text">
 				<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;
 				<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;
 				<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;
@@ -92,7 +88,7 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">同行人员</label>
-			<div class="col-xs-9 choice">
+			<div class="col-xs-9 choice label-text">
 				<input name="_peerStaff" type="checkbox" value="配偶"> 配偶&nbsp;
 				<input name="_peerStaff" type="checkbox" value="子女"> 子女&nbsp;
 				<input name="_peerStaff" type="checkbox" value="无"> 无&nbsp;
@@ -103,7 +99,7 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">费用来源</label>
-			<div class="col-xs-9 choice">
+			<div class="col-xs-9 choice label-text">
 				<input  name="_costSource"type="radio" value="自费"> 自费&nbsp;
 				<input name="_costSource" type="radio" value="其他来源"> 其他来源
 				<input name="_costSource_other" type="text">
@@ -112,28 +108,56 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">所需证件</label>
-			<div class="col-xs-9 choice">
+			<div class="col-xs-9 choice label-text">
 				<c:forEach items="${passportTypeMap}" var="type">
 					<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;
 				</c:forEach>
 				<input name="needPassports" type="hidden">
 			</div>
 		</div>
-			<%--<div class="form-group">
-				<label class="col-xs-3 control-label">其他说明材料</label>
-				<div class="col-xs-6">
-                        <textarea class="form-control" name="files">${applySelf.files}</textarea>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">本人说明材料</label>
+			<div class="col-xs-2">
+			<input  class="form-control" type="file" name="_modifyProof" />
 				</div>
-			</div>--%>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">备注</label>
+			<div class="col-xs-2">
+				<textarea  class="form-control" name="remark"></textarea>
+			</div>
+		</div>
     </form>
+<div class="clearfix form-actions">
+	<div class="col-md-offset-3 col-md-9">
+		<button class="btn btn-info" type="submit">
+			<i class="ace-icon fa fa-check bigger-110"></i>
+			提交
+		</button>
+		&nbsp; &nbsp; &nbsp;
+		<button class="closeView btn" type="button">
+			<i class="ace-icon fa fa-undo bigger-110"></i>
+			取消
+		</button>
+	</div>
 </div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${applySelf!=null}">确定</c:if><c:if test="${applySelf==null}">添加</c:if>"/>
-</div>
+
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+	$('#modalForm input[type=file]').ace_file_input({
+		no_file:'请选择文件 ...',
+		btn_choose:'选择',
+		btn_change:'更改',
+		droppable:false,
+		onchange:null,
+		thumbnail:false //| true | large
+		//whitelist:'gif|png|jpg|jpeg'
+		//blacklist:'exe|php'
+		//onchange:''
+		//
+	});
+
 	<c:forEach var="reason" items="${fn:split(applySelf.reason,'+++')}">
 	$("input[name=_reason][value='${reason}']").prop("checked", true);
 	</c:forEach>
@@ -165,6 +189,7 @@ pageEncoding="UTF-8"%>
 		//autosize($('#form-field-tags'));
 	}
 
+	$("button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
@@ -260,12 +285,25 @@ pageEncoding="UTF-8"%>
 				return;
 			}
 			$("#modalForm input[name=needPassports]").val(needPassports.join(","));
-			
-            $(form).ajaxSubmit({
+
+			/*if($('#modalForm input[type=file]').val()==''){
+				SysMsg.info("请上传本人说明材料");
+				return;
+			}*/
+			if($.trim($('#modalForm textarea[name=remark]').val())==''){
+				SysMsg.info("请填写更改原因",'',function(){
+					$('#modalForm textarea[name=remark]').focus();
+				});
+				return;
+			}
+
+			$(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+						SysMsg.success('修改成功。', '成功',function(){
+							$("#jqGrid").trigger("reloadGrid");
+							$(".closeView").click();
+						});
                     }
                 }
             });

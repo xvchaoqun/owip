@@ -1,8 +1,12 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.*;
-import domain.UnitExample.Criteria;
+import domain.sys.MetaType;
+import domain.unit.HistoryUnit;
+import domain.unit.HistoryUnitExample;
+import domain.unit.Unit;
+import domain.unit.UnitExample;
+import domain.unit.UnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.UnitMixin;
@@ -75,7 +79,7 @@ public class UnitController extends BaseController {
     @RequestMapping("/unit_data")
     @ResponseBody
     public void unit_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_unit") String sort,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,

@@ -22,7 +22,7 @@
 
                     <tr>
                         <c:forEach items="${runUnits}" var="unit" varStatus="vs">
-                     <td>
+                     <td width="50%">
 
                     <c:set var="pUnitAdminCadres" value="${pUnitAdminCadreMap.get(unit.id)}"/>
                     <c:set var="npUnitAdminCadres" value="${npUnitAdminCadreMap.get(unit.id)}"/>
@@ -50,6 +50,9 @@
                     </c:if>
                     </td>
                         </c:forEach>
+                    <c:if test="${fn:length(runUnits)%2==1}">
+                        <td></td>
+                    </c:if>
                     </tr>
 
                     </tbody>
@@ -73,9 +76,28 @@
 
     <div class="widget-body">
         <div class="widget-main no-padding">
-            <c:forEach items="${historyUnits}" var="unit">
-                ${unit.name}
-            </c:forEach>
+            <table class="table table-actived table-striped table-hover">
+                <tbody>
+                <tr>
+                    <c:forEach items="${historyUnits}" var="unit" varStatus="vs">
+                    <td width="50%">
+                        <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
+                                ${unit.name}
+                        </a>
+                        <c:if test="${vs.count%2==0}">
+                    </td></tr>
+                    ${vs.last?"":"<tr>"}
+                </c:if>
+                </td>
+                </c:forEach>
+
+                <c:if test="${fn:length(historyUnits)%2==1}">
+                    <td></td>
+                </c:if>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

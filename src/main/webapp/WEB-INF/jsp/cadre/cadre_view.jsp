@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
+
     <div class="modal-body">
         <!-- PAGE CONTENT BEGINS -->
         <div class="widget-box transparent" id="view-box">
@@ -13,54 +13,78 @@
                         返回</a>
                     <%--<i class="ace-icon fa fa-user"></i>干部个人信息--%>
                 </h4>
-                <div class="widget-toolbar no-border">
+                <div class="jqgrid-vertical-offset widget-toolbar no-border">
                     <ul class="nav nav-tabs">
-                        <li class="active">
+                        <li class="${to=='cadre_base'?'active':''}">
                             <a href="javascript:;" data-url="${ctx}/cadre_base?id=${param.id}">基本信息</a>
                         </li>
+                        <shiro:hasPermission name="cadreEdu:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreEdu_page?cadreId=${param.id}">学习经历</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreWork:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreWork_page?cadreId=${param.id}">工作经历</a>
                         </li>
-                        <li>
-                            <a href="javascript:;" data-url="${ctx}/cadrePost_page?cadreId=${param.id}">任职情况</a>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadrePost:*">
+                        <li class="${to=='cadrePost_page'?'active':''}">
+                            <a href="javascript:;" data-url="${ctx}/cadrePost_page?id=${param.id}">任职情况</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadrePostInfo:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadrePostInfo_page?cadreId=${param.id}">岗位过程信息</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreParttime:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreParttime_page?cadreId=${param.id}">社会或学术兼职</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreTrain:*">
                         <li>
-                            <a href="javascript:;" data-url="">培训情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreTrain_page?cadreId=${param.id}">培训情况</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreCourse:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreCourse_page?cadreId=${param.id}">教学经历</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreResearch:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreResearch_page?cadreId=${param.id}">科研情况</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreReward:*">
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreReward_page?type=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.id}">其他奖励情况</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreReward_page?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.id}">其他奖励情况</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreFamliy:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreFamliy_page?cadreId=${param.id}">家庭成员信息</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreCompany:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/cadreCompany_page?cadreId=${param.id}">企业兼职情况</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreConcat:*">
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/cadreInfo_page?cadreId=${param.id}">联系方式</a>
+                            <a href="javascript:;" data-url="${ctx}/cadreConcat_page?cadreId=${param.id}">联系方式</a>
                         </li>
+                        </shiro:hasPermission>
                     </ul>
                 </div>
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
-                        <c:import url="/cadre_base"/>
+                        <c:import url="/${to}"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->

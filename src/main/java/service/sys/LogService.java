@@ -1,14 +1,12 @@
 package service.sys;
 
-import domain.MetaType;
-import domain.SysLog;
+import domain.sys.MetaType;
+import domain.sys.SysLog;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import service.BaseMapper;
-import service.sys.MetaTypeService;
+import service.helper.ContextHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
@@ -28,7 +26,7 @@ public class LogService extends BaseMapper {
 
     public String log(String logType, String content){
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request = ContextHelper.getRequest();
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
         SysLog record = new SysLog();
@@ -47,6 +45,7 @@ public class LogService extends BaseMapper {
 
         sysLogMapper.insertSelective(record );
 
-        return String.format("账号：%s, 类别：%s, %s", shiroUser.getUsername(), shiroUser.getType(), content );
+        return String.format("账号：%s, 类别：%s, %s", shiroUser.getUsername(),
+                SystemConstants.USER_TYPE_MAP.get(shiroUser.getType()), content );
     }
 }

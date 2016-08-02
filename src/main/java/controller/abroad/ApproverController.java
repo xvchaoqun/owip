@@ -1,9 +1,9 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.Approver;
-import domain.ApproverExample;
-import domain.ApproverExample.Criteria;
+import domain.abroad.Approver;
+import domain.abroad.ApproverExample;
+import domain.abroad.ApproverExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;

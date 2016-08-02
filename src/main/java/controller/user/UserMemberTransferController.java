@@ -2,7 +2,11 @@ package controller.user;
 
 import bean.UserBean;
 import controller.BaseController;
-import domain.*;
+import domain.member.Member;
+import domain.member.MemberTransfer;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -46,8 +50,6 @@ public class UserMemberTransferController extends BaseController{
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
 
         modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
         modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
@@ -83,7 +85,7 @@ public class UserMemberTransferController extends BaseController{
         UserBean userBean = userBeanService.get(userId);
 
         if(StringUtils.isNotBlank(_payTime)){
-            record.setPayTime(DateUtils.parseDate(_payTime, DateUtils.YYYY_MM_DD));
+            record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
         if(StringUtils.isNotBlank(_fromHandleTime)){
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
@@ -117,7 +119,8 @@ public class UserMemberTransferController extends BaseController{
             logger.info(addLog(SystemConstants.LOG_USER, "本人修改校内组织关系互转"));
         }
         applyApprovalLogService.add(memberTransfer.getId(),
-                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(), userId,
+                memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
+                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

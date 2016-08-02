@@ -3,8 +3,11 @@ package controller.abroad;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import controller.BaseController;
-import domain.*;
-import domain.ApplySelfExample.Criteria;
+import domain.abroad.*;
+import domain.abroad.ApplySelfExample.Criteria;
+import domain.base.Country;
+import domain.cadre.Cadre;
+import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -31,6 +35,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,26 +43,6 @@ import java.util.*;
 public class ApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @RequiresPermissions("applySelf:note")
-    @RequestMapping("/applySelf_note")
-    public String applySelf_note(ModelMap modelMap) {
-
-        SysConfig SysConfig = sysConfigService.get();
-        modelMap.put("sysConfig", SysConfig);
-
-        return "abroad/applySelf/applySelf_note";
-    }
-
-    @RequiresPermissions("applySelf:note")
-    @RequestMapping(value = "/applySelf_note", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_applySelf_note(String notice, ModelMap modelMap) {
-
-        sysConfigService.updateApplySelfNote(notice);
-
-        return success(FormUtils.SUCCESS);
-    }
 
     @RequiresPermissions("applySelf:approval")
     @RequestMapping("/applySelf_approval")
@@ -187,7 +172,7 @@ public class ApplySelfController extends BaseController {
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-                if (!approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
+                if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
                     throw new RuntimeException("您没有权限");
             }
         }
@@ -198,6 +183,8 @@ public class ApplySelfController extends BaseController {
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
         modelMap.put("applySelf", applySelf);
+
+        modelMap.put("cadreMobile", cadreConcatService.getCadreMobile(cadre.getUserId()));
 
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
@@ -231,7 +218,7 @@ public class ApplySelfController extends BaseController {
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-                if (!approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
+                if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
                     throw new RuntimeException("您没有权限");
             }
         }
@@ -244,9 +231,10 @@ public class ApplySelfController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        // 本年度的申请记录
+        // 本年度的申请记录（通过审批的）
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
+        criteria.andIsAgreedEqualTo(true);
         criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
                 DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
         example.setOrderByClause("create_time desc");
@@ -283,7 +271,7 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(Integer cadreId,
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
                                @RequestParam(required = false, defaultValue = "0") int status,
                                ModelMap modelMap) {
 
@@ -299,6 +287,24 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:list")
+    @RequestMapping("/applySelf_approvers")
+    @ResponseBody
+    public void getApprovers(int applySelfId, int approvalTypeId, HttpServletResponse response) throws IOException {
+
+        // 读取所有审批人
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        List<SysUser> approvers = applySelfService.findApprovers(applySelf.getCadreId(), approvalTypeId);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("approvers", approvers);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
+        JSONUtils.write(response, resultMap, sourceMixins);
+        return;
+    }
+
+    @RequiresPermissions("applySelf:list")
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
@@ -307,14 +313,15 @@ public class ApplySelfController extends BaseController {
                                Integer cadreId,
                                String _applyDate,
                                Byte type, // 出行时间范围
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
+                               Boolean isModify,
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
                                @RequestParam(required = false, defaultValue = "0") int status,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
 
         Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-                type, status, sort, order, pageNo, springProps.pageSize, export);
+                type, isModify, status, sort, order, pageNo, springProps.pageSize, export);
         if(map == null) return; // 导出
         CommonList commonList = (CommonList) map.get("commonList");
 
@@ -325,6 +332,7 @@ public class ApplySelfController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         request.setAttribute("isView", false);
+        //request.setAttribute("needApproverList", true);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
@@ -392,7 +400,11 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:edit")
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(ApplySelf record, String _applyDate, String _startDate, String _endDate, HttpServletRequest request) {
+    public Map do_applySelf_au(ApplySelf record,
+                               String _applyDate, String _startDate,
+                               String _endDate,
+                               MultipartFile _modifyProof, String remark,
+                               HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -406,21 +418,34 @@ public class ApplySelfController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
 
-        if (id == null) {
+        String modifyProof = null;
+        String modifyProofFileName = null;
+        if (_modifyProof != null && !_modifyProof.isEmpty()) {
+
+            modifyProofFileName = _modifyProof.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "apply_self_modify" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(modifyProofFileName);
+            modifyProof = realPath + ext;
+            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
+        }
+
+        /*if (id == null) {
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
 
             record.setStatus(true);// 提交
             record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
-            record.setIsFinish(false);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-        } else {
+        } else {*/
             //record.setStatus(true);
-            applySelfService.updateByPrimaryKeySelective(record);
+            applySelfService.modify(record, modifyProof, modifyProofFileName, remark);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
-        }
+        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

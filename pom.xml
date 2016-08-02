@@ -426,6 +426,20 @@
       <scope>system</scope>
       <systemPath>${basedir}/lib/iTextAsian.jar</systemPath>
     </dependency>
+
+    <dependency>
+      <groupId>org.jasig.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>neusoft</groupId>
+      <artifactId>cas-client</artifactId>
+      <version>4.0.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
+    </dependency>
+
   </dependencies>
 
   <build>

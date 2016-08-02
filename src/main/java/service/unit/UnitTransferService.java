@@ -1,7 +1,7 @@
 package service.unit;
 
-import domain.UnitTransfer;
-import domain.UnitTransferExample;
+import domain.unit.UnitTransfer;
+import domain.unit.UnitTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -110,9 +110,9 @@ public class UnitTransferService extends BaseMapper {
             UnitTransfer targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_unitTransfer", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_transfer", baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_unitTransfer", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_transfer", baseSortOrder, targetEntity.getSortOrder());
 
             UnitTransfer record = new UnitTransfer();
             record.setId(id);
