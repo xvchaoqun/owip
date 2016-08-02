@@ -146,6 +146,9 @@ body{
 .ui-th-column{
     text-align: center!important;
 }
+.rownumbers #jqGrid_cb{
+    text-align: left!important;
+}
 .jqgrow td:first-child input[type=checkbox]{
     display: inherit!important;
 }

@@ -899,8 +899,7 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function(){
     }
 });
 
-// 内页展示
-$(document).on("click", "#body-content .openView", function(){
+function _openView(url){
     var $container = $("#body-content");
     $container.showLoading({'afterShow':
         function() {
@@ -908,10 +907,14 @@ $(document).on("click", "#body-content .openView", function(){
                 $container.hideLoading();
             }, 2000 );
         }})
-    $.get($(this).data("url"),{},function(html){
+    $.get(url,{},function(html){
         $container.hideLoading().hide();
         $("#item-content").hide().html(html).fadeIn("slow");
     })
+}
+// 内页展示
+$(document).on("click", "#body-content .openView", function(){
+   _openView($(this).data("url"));
 });
 $(document).on("click", "#item-content .openView", function(){
     /*var $container = $("#item-content");

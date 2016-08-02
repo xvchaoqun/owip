@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class CadreView implements Serializable {
+public class CadreView1 implements Serializable {
 
     public SysUser getUser(){
-    return CmTag.getUserById(userId);
-}
+        return CmTag.getUserById(userId);
+    }
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
@@ -99,8 +99,6 @@ public class CadreView implements Serializable {
     private String proPost;
 
     private String manageLevel;
-
-    private String degree;
 
     private static final long serialVersionUID = 1L;
 
@@ -382,13 +380,5 @@ public class CadreView implements Serializable {
 
     public void setManageLevel(String manageLevel) {
         this.manageLevel = manageLevel == null ? null : manageLevel.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
     }
 }

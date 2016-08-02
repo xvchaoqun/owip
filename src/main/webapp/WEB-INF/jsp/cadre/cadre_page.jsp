@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-                  data-url-au="${ctx}/cadre_au?status=${status}"
+
                   data-url-page="${ctx}/cadre_page"
                   data-url-del="${ctx}/cadre_del"
                   data-url-bd="${ctx}/cadre_batchDel"
@@ -28,18 +28,19 @@ pageEncoding="UTF-8" %>
             </ul>
 
             <div class="tab-content">
-                <div id="home4" class="tab-pane in active">
+                <div id="home4" class="tab-pane in active rownumbers">
                     <div class="jqgrid-vertical-offset buttons">
                         <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
                         <button class="jqBatchBtn btn btn-warning btn-sm"
                                 data-title="重新任用"
-                                data-msg="确定任用这{0}个干部吗？"
+                                data-msg="确定任用这{0}个干部吗？（移动到考察对象中）"
                                 data-url="${ctx}/cadre_assign">
                             <i class="fa fa-reply"></i> 重新任用
                         </button>
                         </c:if>
                         <shiro:hasPermission name="cadre:edit">
-                            <a class="editBtn btn btn-info btn-sm btn-success"><i class="fa fa-plus"></i>
+                            <a class="popupBtn btn btn-info btn-sm btn-success"
+                               data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
                                 <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
                                 <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
                                 <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任处级干部</c:if>
@@ -47,12 +48,15 @@ pageEncoding="UTF-8" %>
                             </a>
                         </shiro:hasPermission>
 
-                        <button class="jqEditBtn btn btn-primary btn-sm">
+                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/cadre_au"
+                                data-querystr="&status=${status}">
                             <i class="fa fa-edit"></i> 修改信息
                         </button>
 
                         <c:if test="${status==CADRE_STATUS_TEMP}">
-                            <button onclick="_pass()" class="btn btn-success btn-sm">
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/cadre_temp_pass_au">
                                 <i class="fa fa-edit"></i> 通过常委会任命
                             </button>
                         </c:if>
@@ -67,7 +71,7 @@ pageEncoding="UTF-8" %>
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/cadre_additional_post" data-rel="tooltip" data-placement="bottom"
                                     title="添加职务——仅用于因私出国（境）审批人身份设定">
-                                <i class="fa fa-plus"></i> 兼审单位
+                                <i class="fa fa-plus"></i> 因私出国境兼审单位
                             </button>
                         </c:if>
                         <a class="popupBtn btn btn-primary btn-sm tooltip-success"
@@ -159,8 +163,10 @@ pageEncoding="UTF-8" %>
 </script>
 <script>
 
+    <c:if test="${status==CADRE_STATUS_NOW}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
+        rownumbers: true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
@@ -171,18 +177,172 @@ pageEncoding="UTF-8" %>
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
-            { label: '行政级别', name: 'adminLevelType.name' },
-            { label: '职务属性', name: 'postType.name', width: 150 },
+            { label: '部门属性', name: 'unit.unitType.name', width: 150},
             { label: '所在单位', name: 'unit.name', width: 200 },
-            { label: '职务', name: 'post', width: 350 },
-            { label: '所在单位及职务', name: 'title', width: 350 },
-            { label: '兼审单位', name: 'additional', formatter:function(cellvalue, options, rowObject){
+            { label: '现任职务', name: 'post',  align:'left',width: 350 },
+            { label: '所在单位及职务', name: 'title', align:'left', width: 350 },
+            { label: '行政级别', name: 'typeId',formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.adminLevelMap[cellvalue].name;
+            } },
+            { label: '职务属性', name: 'postId', width: 150,formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.postMap[cellvalue].name;
+            }  },
+            { label: '是否正职', name: 'mainCadrePost.postId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                return _cMap.postMap[cellvalue].boolAttr ? "是" : "否"
+            } },
+            { label: '性别', name: 'gender', width: 50, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.GENDER_MAP[cellvalue];
+            }  },
+            { label: '民族', name: 'nation'},
+            { label: '籍贯', name: 'nativePlace'},
+            { label: '身份证号', name: 'idcard', width: 150 },
+            { label: '出生时间', name: 'birth',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
+            { label: '年龄', name: 'birth', width: 50,
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return ''
+                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                    var year = Math.floor(month / 12);
+                    return year;
+                } },
+            { label: '党派加入时间', name: 'growTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
+            { label: '到校时间', name: 'arriveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
+            { label: '最高学历', name: 'eduId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _metaTypeMap[cellvalue]
+            }},
+            { label: '最高学位', name: 'degree'},
+            { label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}},
+            { label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _metaTypeMap[cellvalue]
+            }},
+            { label: '毕业学校、学院', name: 'school', width: 150},
+            { label: '学校类型', name: 'schoolType', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
+            }},
+            { label: '所学专业', name: 'major'},
+
+            { label: '岗位类别', name: 'postClass'},
+            { label: '专业技术职务', name: 'proPost', width: 120},
+            { label: '专技岗位等级', name: 'proPostLevel', width: 150},
+            { label: '管理岗位等级', name: 'manageLevel', width: 150},
+            {
+                label: '现职务任命文件',
+                width: 150,
+                name: 'mainCadrePost.dispatchCadreRelateBean.first',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (!cellvalue || cellvalue.id == undefined) return ''
+                    var dispatchCode = cellvalue.dispatchCode;
+                    if (cellvalue.fileName && cellvalue.fileName != '')
+                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
+                    else return dispatchCode;
+                }
+            },
+            {
+                label: '任现职时间',
+                name: 'mainCadrePost.dispatchCadreRelateBean.last.workTime',
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {
+                label: '现职务始任时间',
+                width: 150,
+                name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {
+                label: '任现职务年限',
+                width: 120,
+                name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return ''
+                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
+                    var year = Math.floor(month / 12);
+                    return year == 0 ? "未满一年" : year;
+                }
+            },
+            {
+                label: '职级始任日期',
+                width: 120,
+                name: 'presentAdminLevel.startDispatch.workTime',
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {
+                label: '任职级年限',
+                width: 120,
+                name: 'workYear',
+                formatter: function (cellvalue, options, rowObject) {
+                    //console.log(rowObject.endDispatch)
+                    if (rowObject.presentAdminLevel==undefined ||
+                            rowObject.presentAdminLevel.endDispatch == undefined
+                            || rowObject.presentAdminLevel.startDispatch==undefined) return ''
+                    var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, rowObject.presentAdminLevel.endDispatch.workTime);
+                    var year = Math.floor(month / 12);
+                    return year == 0 ? "未满一年" : year;
+                }
+            },
+            {
+                label: '是否双肩挑', name: 'mainCadrePost.isDouble', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                return cellvalue ? "是" : "否";
+            }
+            },
+            {
+                label: '双肩挑单位', name: 'mainCadrePost.doubleUnitId', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                return _cMap.unitMap[cellvalue].name
+            }
+            },
+            { label: '联系方式', name: 'mobile' },
+            { label: '办公电话', name: 'officePhone' },
+            { label: '家庭电话', name: 'homePhone' },
+            { label: '电子邮箱', name: 'email', width: 150 },
+            { label: '所属党组织', name: 'partyId',align:'left', width: 550, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.partyId==undefined) return '';
+                var party = _cMap.partyMap[rowObject.partyId].name;
+                if(rowObject.branchId!=undefined)
+                    var branch =_cMap.branchMap[rowObject.branchId].name;
+                return party + (($.trim(branch)=='')?'':'-'+branch);
+            } },
+            { label: '因私出国境兼审单位', width: 150 , name: 'additional', formatter:function(cellvalue, options, rowObject){
                 var cadreAdditionalPosts = rowObject.cadreAdditionalPosts;
                 if(cadreAdditionalPosts.length==0) return ''
                 return '<button class="popupBtn btn btn-xs btn-warning"' +
                         'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</button>'
-                        .format(rowObject.id);
+                                .format(rowObject.id);
             } },
+            { label: '备注', name: 'remark', width: 150 }
+        ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $('[data-rel="tooltip"]').tooltip();
+    });
+    </c:if>
+
+    <c:if test="${status!=CADRE_STATUS_NOW}">
+    $("#jqGrid").jqGrid({
+        //forceFit:true,
+        rownumbers: true,
+        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '工作证号', name: 'user.code', width: 100,frozen:true },
+            { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            },frozen:true  },
+            { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
+            { label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'adminLevelType.name' },
+            { label: '${status==CADRE_STATUS_TEMP?"现":""}职务属性', name: 'postType.name', width: 150 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":""}所在单位', name: 'unit.name', width: 200 },
+            { label: '${status==CADRE_STATUS_TEMP?"现任":""}职务', name: 'post', width: 350 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":""}所在单位及职务', name: 'title', width: 350 },
             { label: '手机号', name: 'mobile' },
             { label: '办公电话', name: 'officePhone' },
             { label: '家庭电话', name: 'homePhone' },
@@ -191,9 +351,10 @@ pageEncoding="UTF-8" %>
         ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
         $('[data-rel="tooltip"]').tooltip();
     });
+    </c:if>
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
-    function _pass(){
+   /* function _pass(){
 
         var grid = $("#jqGrid");
         var id  = grid.getGridParam("selrow");
@@ -214,7 +375,7 @@ pageEncoding="UTF-8" %>
                 });
             }
         });
-    }
+    }*/
 
     function openView(id){
         $("#body-content").hide();

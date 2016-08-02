@@ -15,7 +15,7 @@
                 </h4>
                 <div class="jqgrid-vertical-offset widget-toolbar no-border">
                     <ul class="nav nav-tabs">
-                        <li class="active">
+                        <li class="${to=='cadre_base'?'active':''}">
                             <a href="javascript:;" data-url="${ctx}/cadre_base?id=${param.id}">基本信息</a>
                         </li>
                         <shiro:hasPermission name="cadreEdu:*">
@@ -29,8 +29,8 @@
                         </li>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadrePost:*">
-                        <li>
-                            <a href="javascript:;" data-url="${ctx}/cadrePost_page?cadreId=${param.id}">任职情况</a>
+                        <li class="${to=='cadrePost_page'?'active':''}">
+                            <a href="javascript:;" data-url="${ctx}/cadrePost_page?id=${param.id}">任职情况</a>
                         </li>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="cadrePostInfo:*">
@@ -84,7 +84,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
-                        <c:import url="/cadre_base"/>
+                        <c:import url="/${to}"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->

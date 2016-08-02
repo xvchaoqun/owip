@@ -106,9 +106,9 @@
      <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->
-      <table tableName="ow_teacher" domainObjectName="member.Teacher">
+     <!-- <table tableName="ow_teacher" domainObjectName="member.Teacher">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
       </table>-->
       <!--<table tableName="ow_student" domainObjectName="member.Student">
@@ -166,9 +166,11 @@
       <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
         </table>
       <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
-      </table>
+      </table>-->
+
       <table tableName="cadre_view" domainObjectName="cadre.CadreView">
       </table>
+      <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>

@@ -1,4 +1,17 @@
 
+--2017-8-2
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select c.*, cc.mobile, cc.office_phone, cc.home_phone, cc.email, ot.realname,ot.gender, ot.nation, ot.native_place, ot.idcard, ot.birth,
+om.party_id, om.branch_id, om.grow_time, ot.arrive_time,
+max_ce.edu_id, max_ce.finish_time, max_ce.learn_style, max_ce.school, max_ce.dep, max_ce.school_type, max_ce.major,
+ot.post_class,ot.pro_post_level,ot.pro_post,ot.manage_level,
+max_degree.degree
+ from cadre c
+left join cadre_concat cc  on cc.cadre_id = c.id
+left join  ow_teacher ot on ot.user_id=c.user_id
+left join ow_member om on om.user_id=c.user_id
+left join cadre_edu max_ce on max_ce.cadre_id=c.id and max_ce.is_high_edu=1
+left join cadre_edu max_degree on max_degree.cadre_id=c.id and max_degree.is_high_degree=1
+
 --2017-7-28
 update sys_resource set parent_id=null where parent_id=0;
 ALTER TABLE `sys_resource`

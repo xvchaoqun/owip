@@ -1,13 +1,9 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>
-        <c:if test="${status==CADRE_STATUS_NOW}">现任干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEAVE}">离任处级干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">离任校领导干部</c:if>
+    <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>考察对象
     </h3>
 </div>
 <div class="modal-body">
@@ -23,8 +19,46 @@ pageEncoding="UTF-8"%>
                     </select>
 				</div>
 			</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">现所在单位</label>
+            <div class="col-xs-8">
+                <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                    <option></option>
+                    <c:forEach items="${unitMap}" var="unit">
+                        <option value="${unit.key}">${unit.value.name}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("#modalForm select[name=unitId]").val('${cadre.unitId}');
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">现任职务</label>
+            <div class="col-xs-6">
+                <input  class="form-control" type="text" name="post" value="${cadre.post}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">现所在单位及职务</label>
+            <div class="col-xs-6">
+                <input  class="form-control" type="text" name="title" value="${cadre.title}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">现职务属性</label>
+            <div class="col-xs-6">
+                <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                    <option></option>
+                    <jsp:include page="/metaTypes?__code=mc_post"/>
+                </select>
+                <script type="text/javascript">
+                    $("#modalForm select[name=postId]").val(${cadre.postId});
+                </script>
+            </div>
+        </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label">现行政级别</label>
 				<div class="col-xs-6">
                     <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
                         <option></option>
@@ -33,44 +67,6 @@ pageEncoding="UTF-8"%>
                     <script type="text/javascript">
                         $("#modalForm select[name=typeId]").val(${cadre.typeId});
                     </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
-				<div class="col-xs-6">
-                    <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                        <option></option>
-                        <jsp:include page="/metaTypes?__code=mc_post"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=postId]").val(${cadre.postId});
-                    </script>
-				</div>
-			</div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">所属单位</label>
-                <div class="col-xs-8">
-                    <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                        <option></option>
-                        <c:forEach items="${unitMap}" var="unit">
-                            <option value="${unit.key}">${unit.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=unitId]").val('${cadre.unitId}');
-                    </script>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">职务</label>
-                <div class="col-xs-6">
-                    <input  class="form-control" type="text" name="post" value="${cadre.post}">
-                </div>
-            </div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所在单位及职务</label>
-				<div class="col-xs-6">
-                        <input  class="form-control" type="text" name="title" value="${cadre.title}">
 				</div>
 			</div>
 			<div class="form-group">

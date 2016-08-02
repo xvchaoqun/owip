@@ -131,7 +131,7 @@ public class CadreController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(CadreView.class, CadreMixin.class);
+        //sourceMixins.put(CadreView.class, CadreMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -139,7 +139,10 @@ public class CadreController extends BaseController {
 
     @RequiresPermissions("cadre:info")
     @RequestMapping("/cadre_view")
-    public String cadre_show_page(HttpServletResponse response,  ModelMap modelMap) {
+    public String cadre_show_page(HttpServletResponse response,
+                                  @RequestParam(defaultValue = "cadre_base")String to, // 默认跳转到基本信息
+                                  ModelMap modelMap) {
+        modelMap.put("to", to);
 
         return "cadre/cadre_view";
     }
@@ -201,18 +204,32 @@ public class CadreController extends BaseController {
     }
 
     @RequiresPermissions("cadre:edit")
-    @RequestMapping(value = "/cadre_pass", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadre_pass(int id, HttpServletRequest request) {
+    @RequestMapping("/cadre_temp_pass_au")
+    public String cadre_temp_pass(Integer id, ModelMap modelMap) {
 
-        Cadre record = new Cadre();
+        if (id != null) {
+            Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+            modelMap.put("cadre", cadre);
+            modelMap.put("sysUser", cadre.getUser());
+        }
+        return "cadre/cadre_temp_pass_au";
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_temp_pass_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_temp_pass_au(Cadre record, HttpServletRequest request) {
+
+        int id = record.getId();
         record.setStatus(SystemConstants.CADRE_STATUS_NOW);
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_TEMP);
 
         cadreService.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s", id));
+        Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+        SysUser user = cadre.getUser();
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -302,6 +319,8 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
+        if(status==SystemConstants.CADRE_STATUS_TEMP)
+            return "cadre/cadre_temp_au";
         return "cadre/cadre_au";
     }
 

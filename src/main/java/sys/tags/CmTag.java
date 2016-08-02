@@ -3,10 +3,7 @@ package sys.tags;
 import bean.ApplySelfModifyBean;
 import bean.ApproverTypeBean;
 import domain.abroad.*;
-import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroad;
+import domain.cadre.*;
 import domain.dispatch.*;
 import domain.member.MemberApply;
 import domain.party.Party;
@@ -21,10 +18,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
-import service.cadre.CadreAdditionalPostService;
-import service.cadre.CadreFamliyAbroadService;
-import service.cadre.CadreFamliyService;
-import service.cadre.CadreService;
+import service.cadre.*;
 import service.dispatch.*;
 import service.party.*;
 import service.sys.*;
@@ -43,6 +37,8 @@ public class CmTag {
     static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
+    static CadrePostService cadrePostService = (CadrePostService) context.getBean("cadrePostService");
+    static CadreAdminLevelService cadreAdminLevelService = (CadreAdminLevelService) context.getBean("cadreAdminLevelService");
     static CadreFamliyService cadreFamliyService = (CadreFamliyService) context.getBean("cadreFamliyService");
     static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
     static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
@@ -230,6 +226,16 @@ public class CmTag {
     public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){
 
         return cadreAdditionalPostService.findCadrePosts(cadreId);
+    }
+    // 主职
+    public static CadrePost getCadreMainCadrePost(int caderId){
+        return cadrePostService.getCadreMainCadrePost(caderId);
+    }
+    // 现任职务
+    public static CadreAdminLevel getPresentByCadreId(int caderId) {
+        CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
+        return cadreAdminLevelService.getPresentByCadreId(caderId,
+                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null);
     }
 
     public static CadreFamliy getCadreFamliy(Integer id){

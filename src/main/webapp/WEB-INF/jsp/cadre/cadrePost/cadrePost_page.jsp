@@ -18,11 +18,11 @@
                     <div class="buttons">
                         <c:if test="${empty mainCadrePost}">
                             <a class="popupBtn btn btn-info btn-sm"
-                               data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.cadreId}"><i
+                               data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.id}"><i
                                     class="fa fa-plus"></i> 添加主职</a>
                         </c:if>
                         <button class="popupBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/cadrePost_au?id=${mainCadrePost.id}&isMainPost=1&cadreId=${param.cadreId}">
+                                data-url="${ctx}/cadrePost_au?id=${mainCadrePost.id}&isMainPost=1&cadreId=${param.id}">
                             <i class="fa fa-edit"></i> 修改
                         </button>
                         <button class="confirm btn btn-danger btn-sm"
@@ -52,12 +52,12 @@
                 <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
                     <div class="buttons">
                         <a class="popupBtn btn  btn-sm btn-info"
-                           data-url="${ctx}/cadrePost_au?isMainPost=0&cadreId=${param.cadreId}"><i
+                           data-url="${ctx}/cadrePost_au?isMainPost=0&cadreId=${param.id}"><i
                                 class="fa fa-plus"></i> 添加兼职</a>
                         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                                 data-url="${ctx}/cadrePost_au"
                                 data-grid-id="#jqGrid_subCadrePosts"
-                                data-querystr="&isMainPost=0&cadreId=${param.cadreId}">
+                                data-querystr="&isMainPost=0&cadreId=${param.id}">
                             <i class="fa fa-edit"></i> 修改
                         </button>
                         <button data-url="${ctx}/cadrePost_batchDel"
@@ -88,12 +88,12 @@
                 <h4 class="widget-title"><i class="fa fa-history"></i> 任职级经历
                     <div class="buttons">
                         <a class="popupBtn btn  btn-sm btn-info"
-                           data-url="${ctx}/cadreAdminLevel_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                           data-url="${ctx}/cadreAdminLevel_au?cadreId=${param.id}"><i class="fa fa-plus"></i>
                             添加任职级经历</a>
                         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                                 data-url="${ctx}/cadreAdminLevel_au"
                                 data-grid-id="#jqGrid_cadreAdminLevels"
-                                data-querystr="&cadreId=${param.cadreId}">
+                                data-querystr="&cadreId=${param.id}">
                             <i class="fa fa-edit"></i> 修改
                         </button>
                         <button data-url="${ctx}/cadreAdminLevel_batchDel"
@@ -128,7 +128,7 @@
                         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                                 data-url="${ctx}/cadreWork_updateUnitId"
                                 data-grid-id="#jqGrid_cadreWork"
-                                data-querystr="&cadreId=${param.cadreId}">
+                                data-querystr="&cadreId=${param.id}">
                             <i class="fa fa-edit"></i> 修改对应现运行单位
                         </button>
                     </div>
@@ -191,7 +191,7 @@
 <c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
     function _innerPage(type) {
-        $("#view-box .tab-content").load("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
+        $("#view-box .tab-content").load("${ctx}/cadrePost_page?id=${param.id}&type=" + type)
     }
 
     <c:if test="${type==1}">
@@ -278,7 +278,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return ''
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -377,7 +377,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return ''
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -431,7 +431,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return ''
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -447,9 +447,21 @@
                 if (!cellvalue || cellvalue.id == undefined) return ''
                 var dispatchCode = cellvalue.dispatchCode;
                 if (cellvalue.fileName && cellvalue.fileName != '')
-                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.id, dispatchCode);
+                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
                 else return dispatchCode;
             }
+            },
+            {
+                label: '任职级年限',
+                width: 120,
+                name: 'workYear',
+                formatter: function (cellvalue, options, rowObject) {
+                    //console.log(rowObject.endDispatch)
+                    if (rowObject.endDispatch == undefined || rowObject.startDispatch==undefined) return ''
+                    var month = MonthDiff(rowObject.startDispatch.workTime, rowObject.endDispatch.workTime);
+                    var year = Math.floor(month / 12);
+                    return year == 0 ? "未满一年" : year;
+                }
             },
             {
                 label: '关联任免文件', name: 'selectDispatch', formatter: function (cellvalue, options, rowObject) {
