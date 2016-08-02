@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${param.id}">
         <input type="hidden" name="status">
         <div class="well" style="font-size: 25px; padding-bottom: 10px; padding-left: 150px">
-        <input type="checkbox" class="big" value="1"/> 处级干部离任<br/>
+        <input type="checkbox" class="big" value="1"/> 中层干部离任<br/>
         <input type="checkbox" class="big" value="2"/> 校领导离任
             </div>
     </form>

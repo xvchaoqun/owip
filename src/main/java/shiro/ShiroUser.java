@@ -85,7 +85,7 @@ public class ShiroUser implements Serializable {
         if (userRoles.contains("cadre")) {
             Cadre cadre = CmTag.getCadreByUserId(id);
 
-            //临时和离任处级干部不可以看到因私出国申请，现任干部和离任校领导可以
+            //临时和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
             if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
                 userPermissions.remove("abroad:user");

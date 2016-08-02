@@ -584,7 +584,7 @@ public class SystemConstants {
 	static {
 		CADRE_STATUS_MAP.put(CADRE_STATUS_NOW, "现任干部库");
 		CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "考察对象");
-		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任处级干部库");
+		CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任中层干部库");
 		CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
 	}
 

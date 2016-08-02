@@ -257,7 +257,7 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 在“离任处级干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
+    // 在“离任中层干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_assign", method = RequestMethod.POST)
     @ResponseBody

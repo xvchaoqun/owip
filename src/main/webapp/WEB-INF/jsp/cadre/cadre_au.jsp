@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>
         <c:if test="${status==CADRE_STATUS_NOW}">现任干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEAVE}">离任处级干部</c:if>
+        <c:if test="${status==CADRE_STATUS_LEAVE}">离任中层干部</c:if>
         <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">离任校领导干部</c:if>
     </h3>
 </div>

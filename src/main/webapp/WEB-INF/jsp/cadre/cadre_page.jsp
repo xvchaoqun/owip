@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                                data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
                                 <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
                                 <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
-                                <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任处级干部</c:if>
+                                <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任中层干部</c:if>
                                 <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
                             </a>
                         </shiro:hasPermission>

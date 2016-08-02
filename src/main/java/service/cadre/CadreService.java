@@ -322,7 +322,7 @@ public class CadreService extends BaseMapper {
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
 
-            // 处级干部离任时，所有的证件都移动到 取消集中管理证件库
+            // 中层干部离任时，所有的证件都移动到 取消集中管理证件库
             Passport record = new Passport();
             record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
             record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
