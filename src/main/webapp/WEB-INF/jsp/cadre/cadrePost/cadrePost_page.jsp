@@ -465,7 +465,7 @@
                     if (rowObject.startDispatch==undefined|| end==undefined) return ''
 
                     var month = MonthDiff(rowObject.startDispatch.workTime, end);
-                    console.log("month="+month)
+                    //console.log("month="+month)
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;
                 }
