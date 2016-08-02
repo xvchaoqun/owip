@@ -287,7 +287,7 @@ pageEncoding="UTF-8" %>
                         end = rowObject.presentAdminLevel.endDispatch.workTime;
                     if(rowObject.presentAdminLevel.adminLevelId == rowObject.mainCadrePost.adminLevelId)
                         end = new Date().format("yyyy-MM-dd");
-                    if (rowObject.presentAdminLevel.startDispatch==undefined|| end==undefined) return ''
+                    if (rowObject.presentAdminLevel.startDispatch.workTime==undefined|| end==undefined) return ''
 
                     var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                     var year = Math.floor(month / 12);
