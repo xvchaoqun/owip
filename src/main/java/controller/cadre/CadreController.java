@@ -170,7 +170,8 @@ public class CadreController extends BaseController {
         modelMap.put("mainCadrePost", mainCadrePost);
 
         // 现任职务
-        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id, mainCadrePost.getAdminLevelId()));
+        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id,
+                mainCadrePost!=null?mainCadrePost.getAdminLevelId():null));
 
         // 兼职单位
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
