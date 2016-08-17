@@ -51,6 +51,16 @@
                         <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
               </dd>
             </form>
+            <div class="note visible" id="note">
+                <ul>
+                    <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
+                        <img src="/extend/img/new.gif">
+                    </li>
+                    <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
+                        <img src="/extend/img/new.gif">
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="login-layout" id="reg">
             <div class="reg-tip" >
@@ -85,16 +95,7 @@
             </form>
         </div>
     </div>
-    <div class="note visible" id="note">
-        <ul>
-            <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
-                <img src="/extend/img/new.gif">
-            </li>
-            <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
-                <img src="/extend/img/new.gif">
-            </li>
-        </ul>
-    </div>
+
 </div>
 <!--[if !IE]> -->
 <script type="text/javascript">
