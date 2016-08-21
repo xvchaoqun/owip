@@ -168,8 +168,8 @@
       <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView">
-      </table>
+     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView">
+      </table>-->
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -265,8 +265,8 @@
       </table>-->
    <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
     </table>-->
-     <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
-      </table>-->
+      <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
+      </table>
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
         <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->

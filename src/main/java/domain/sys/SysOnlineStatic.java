@@ -14,6 +14,12 @@ public class SysOnlineStatic implements Serializable {
 
     private Integer jzg;
 
+    private Integer day;
+
+    private Integer month;
+
+    private Integer year;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +62,30 @@ public class SysOnlineStatic implements Serializable {
 
     public void setJzg(Integer jzg) {
         this.jzg = jzg;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public Date getCreateTime() {

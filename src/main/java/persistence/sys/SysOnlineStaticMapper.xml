@@ -7,6 +7,9 @@
     <result column="bks" property="bks" jdbcType="INTEGER" />
     <result column="yjs" property="yjs" jdbcType="INTEGER" />
     <result column="jzg" property="jzg" jdbcType="INTEGER" />
+    <result column="day" property="day" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, online_count, bks, yjs, jzg, create_time
+    id, online_count, bks, yjs, jzg, day, month, year, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.SysOnlineStaticExample" >
     select
@@ -102,11 +105,14 @@
   </delete>
   <insert id="insert" parameterType="domain.sys.SysOnlineStatic" >
     insert into sys_online_static (id, online_count, bks, 
-      yjs, jzg, create_time
-      )
+      yjs, jzg, day, month, 
+      year, create_time)
     values (#{id,jdbcType=INTEGER}, #{onlineCount,jdbcType=INTEGER}, #{bks,jdbcType=INTEGER}, 
-      #{yjs,jdbcType=INTEGER}, #{jzg,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{yjs,jdbcType=INTEGER}, #{jzg,jdbcType=INTEGER},
+      dayofmonth(#{createTime,jdbcType=TIMESTAMP})),
+      month(#{createTime,jdbcType=TIMESTAMP})),
+      year(#{createTime,jdbcType=TIMESTAMP})),
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysOnlineStatic" >
     insert into sys_online_static
@@ -127,6 +133,15 @@
         jzg,
       </if>
       <if test="createTime != null" >
+        day,
+      </if>
+      <if test="createTime != null" >
+        month,
+      </if>
+      <if test="createTime != null" >
+        year,
+      </if>
+      <if test="createTime != null" >
         create_time,
       </if>
     </trim>
@@ -145,6 +160,15 @@
       </if>
       <if test="jzg != null" >
         #{jzg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        dayofmonth(#{createTime,jdbcType=TIMESTAMP}),
+      </if>
+      <if test="createTime != null" >
+        month(#{createTime,jdbcType=TIMESTAMP}),
+      </if>
+      <if test="createTime != null" >
+        year(#{createTime,jdbcType=TIMESTAMP}),
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -175,6 +199,15 @@
       <if test="record.jzg != null" >
         jzg = #{record.jzg,jdbcType=INTEGER},
       </if>
+      <if test="record.day != null" >
+        day = #{record.day,jdbcType=INTEGER},
+      </if>
+      <if test="record.month != null" >
+        month = #{record.month,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -190,6 +223,9 @@
       bks = #{record.bks,jdbcType=INTEGER},
       yjs = #{record.yjs,jdbcType=INTEGER},
       jzg = #{record.jzg,jdbcType=INTEGER},
+      day = #{record.day,jdbcType=INTEGER},
+      month = #{record.month,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +246,15 @@
       <if test="jzg != null" >
         jzg = #{jzg,jdbcType=INTEGER},
       </if>
+      <if test="day != null" >
+        day = #{day,jdbcType=INTEGER},
+      </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -222,6 +267,9 @@
       bks = #{bks,jdbcType=INTEGER},
       yjs = #{yjs,jdbcType=INTEGER},
       jzg = #{jzg,jdbcType=INTEGER},
+      day = #{day,jdbcType=INTEGER},
+      month = #{month,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

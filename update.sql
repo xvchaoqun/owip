@@ -1,4 +1,17 @@
 
+--2017-8-21
+ALTER TABLE `sys_online_static`
+	ADD COLUMN `day` INT(10) UNSIGNED NULL AFTER `jzg`,
+	ADD COLUMN `month` INT(10) UNSIGNED NULL AFTER `day`,
+	ADD COLUMN `year` INT(10) UNSIGNED NULL AFTER `month`;
+
+ALTER TABLE `sys_online_static`
+	ADD INDEX `day_month_year` (`day`, `month`, `year`);
+
+update sys_online_static set year=year(create_time), month=month(create_time), day=dayofmonth(create_time);
+
+
+
 --2017-8-2
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select c.*, cc.mobile, cc.office_phone, cc.home_phone, cc.email, ot.realname,ot.gender, ot.nation, ot.native_place, ot.idcard, ot.birth,
 om.party_id, om.branch_id, om.grow_time, ot.arrive_time,
