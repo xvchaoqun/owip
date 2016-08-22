@@ -3,8 +3,10 @@ package persistence.common;
 import bean.analysis.MemberStatByPartyBean;
 import bean.analysis.StatByteBean;
 import bean.analysis.StatIntBean;
+import domain.sys.SysOnlineStatic;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +38,7 @@ public interface StatMapper {
 
     // 统计分党委下各党支部党员人数
     List<StatIntBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
+
+    // 每日最高在线人数流量图
+    List<SysOnlineStatic> online_static_day(@Param("start")Date start, @Param("end")Date end);
 }

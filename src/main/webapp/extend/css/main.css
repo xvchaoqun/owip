@@ -652,3 +652,9 @@ input[type=radio].bigger{
     color: #0000A1;
     font-weight: bolder;
 }
+
+/*highcharts*/
+.highcharts-contextmenu hr{
+    margin-top:5px;
+    margin-bottom:5px;
+}

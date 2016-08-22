@@ -31,7 +31,7 @@
                     {label: "${APPLY_STAGE_MAP.get(apply.key)}(${apply.value})", data: '${apply.value}', color:'${PIE_COLOR_MAP.get(apply.key)}'},
                      </c:if>
                 </c:forEach>
-        ]
+        ];
 
         function drawPieChart(placeholder, data, position) {
             $.plot(placeholder, data, {

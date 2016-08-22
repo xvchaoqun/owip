@@ -440,6 +440,32 @@
       <systemPath>${basedir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
     </dependency>
 
+    <!-- highchart export -->
+    <dependency>
+      <groupId>batik-all-1.7</groupId>
+      <artifactId>batik-all-1.7</artifactId>
+      <version>1.7</version>
+      <type>jar</type>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/batik-all-1.7.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>pdf-transcoder</groupId>
+      <artifactId>pdf-transcoder</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/pdf-transcoder.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis-ext-1.3.04</groupId>
+      <artifactId>xml-apis-ext-1.3.04</artifactId>
+      <version>1.3.04</version>
+      <type>jar</type>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/xml-apis-ext-1.3.04.jar</systemPath>
+    </dependency>
+
   </dependencies>
 
   <build>

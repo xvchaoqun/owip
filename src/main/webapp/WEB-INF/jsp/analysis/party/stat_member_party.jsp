@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<script type="text/javascript" src="${ctx}/extend/js/highcharts.js"></script>
-<script src="${ctx}/extend/js/exporting.js"></script>
+
 <div id="container" style="height:500px; margin: 0 auto;"></div>
 <script>
 var mychart= {
@@ -87,7 +86,7 @@ var mychart= {
 		shadow: false
 	}
     };
-var mychartStr = JSON.stringify(mychart)/* jQuery.extend(true, {}, oldObject) */; 
+//var mychartStr = JSON.stringify(mychart)/* jQuery.extend(true, {}, oldObject) */;
 
 $(function () {
 	

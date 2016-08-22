@@ -63,7 +63,7 @@
                     {label: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", data: '${age.value}', color:'${PIE_COLOR_MAP.get(age.key)}'},
                      </c:if>
                 </c:forEach>
-        ]
+        ];
 
         function drawPieChart(placeholder, data, position) {
             $.plot(placeholder, data, {

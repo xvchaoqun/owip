@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- inline scripts related to this page -->
-<script src="assets/js/flot/jquery.flot.js"></script>
-<script src="assets/js/flot/jquery.flot.pie.js"></script>
-<script src="assets/js/flot/jquery.flot.resize.js"></script>
-<script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
+
      <div class="row">
         <div class="col-xs-12">
           <!-- PAGE CONTENT BEGINS -->

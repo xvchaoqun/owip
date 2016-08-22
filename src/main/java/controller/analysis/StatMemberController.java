@@ -26,19 +26,19 @@ import java.util.Map;
  * Created by fafa on 2016/8/1.
  */
 @Controller
-public class StatController extends BaseController {
+public class StatMemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("stat:list")
-    @RequestMapping("/stat_page")
+    @RequestMapping("/stat_member_page")
     public String stat_page(ModelMap modelMap) {
 
         modelMap.put("growOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
-        return "analysis/stat_page";
+        return "analysis/party/stat_member_page";
     }
 
     @RequiresPermissions("stat:list")
@@ -48,7 +48,7 @@ public class StatController extends BaseController {
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
         modelMap.put("statGrowMap", statService.typeMap(SystemConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
         modelMap.put("statPositiveMap", statService.typeMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
-        return "analysis/stat_member_count";
+        return "analysis/party/stat_member_count";
     }
 
     @RequiresPermissions("stat:list")
@@ -57,7 +57,7 @@ public class StatController extends BaseController {
 
         modelMap.put("type", type);
         modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
-        return "analysis/stat_member_age";
+        return "analysis/party/stat_member_age";
     }
 
     @RequiresPermissions("stat:list")
@@ -66,7 +66,7 @@ public class StatController extends BaseController {
 
         modelMap.put("type", type);
         modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
-        return "analysis/stat_member_apply";
+        return "analysis/party/stat_member_apply";
     }
 
     @RequiresPermissions("stat:list")
@@ -90,6 +90,6 @@ public class StatController extends BaseController {
         modelMap.put("categories", categories);
         modelMap.put("teachers",teachers);
         modelMap.put("students",students);
-        return "analysis/stat_member_party";
+        return "analysis/party/stat_member_party";
     }
 }
