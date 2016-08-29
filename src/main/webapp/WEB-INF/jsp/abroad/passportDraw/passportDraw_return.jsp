@@ -166,7 +166,7 @@
             SysMsg.info('请选择证件使用记录');
             return;
         }*/
-        if($('input[name=_realStartDate]').val()==''){
+        /*if($('input[name=_realStartDate]').val()==''){
             SysMsg.info('请选择实际出发时间','',function(){
                 $('input[name=_realStartDate]').focus();
             });
@@ -177,7 +177,7 @@
                 $('input[name=_realEndDate]').focus();
             });
             return;
-        }
+        }*/
         <%--<c:if test="${not empty applySelf}">
         if($('input[name=realToCountry]').val().trim()==''){
             SysMsg.info('请输入实际前往国家或地区','',function(){
