@@ -84,7 +84,7 @@
                     <label class="col-xs-3 control-label">实际出发时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 200px">
-                            <input required class="form-control date-picker" name="_realStartDate" type="text"
+                            <input class="form-control date-picker" name="_realStartDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
@@ -94,7 +94,7 @@
                     <label class="col-xs-3 control-label">实际返回时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 200px">
-                            <input required class="form-control date-picker" name="_realEndDate" type="text"
+                            <input class="form-control date-picker" name="_realEndDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
