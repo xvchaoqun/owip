@@ -61,7 +61,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">发证机关</label>
 				<div class="col-xs-6">
                         <input class="form-control" type="text" name="authority"
-                               value="${not empty param.applyId?"公安部出入境管理局":passport.authority}">
+                               value="${empty passport?"公安部出入境管理局":passport.authority}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -152,7 +152,7 @@ pageEncoding="UTF-8"%>
                             //console.log("成功：left:{0}, top:{1}".format(_left, _top))
                             $("#jqGrid").trigger("reloadGrid");
                             <c:if test="${not empty param.applyId}">
-                            page_reload()
+                            page_reload();
                             </c:if>
                         });
                     }
@@ -166,7 +166,7 @@ pageEncoding="UTF-8"%>
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    });
     register_user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm input[type=file]').ace_file_input({
         no_file:'请选择文件 ...',

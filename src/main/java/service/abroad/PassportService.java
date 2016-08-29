@@ -83,7 +83,7 @@ public class PassportService extends BaseMapper {
     }
     public List<Passport> findByCadreId(int cadreId){
 
-       return selectMapper.selectPassportList(cadreId, null, null,
+       return selectMapper.selectPassportList(null, cadreId, null, null,
                SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
     }
 
@@ -225,7 +225,7 @@ public class PassportService extends BaseMapper {
     public void expire(){
 
         Date now = new Date();
-        List<Passport> passports = selectMapper.selectPassportList(null, null, null,
+        List<Passport> passports = selectMapper.selectPassportList(null, null, null, null,
                 SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();

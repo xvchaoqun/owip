@@ -111,6 +111,7 @@ public class PassportController extends BaseController {
     @RequestMapping("/passportList_page")
     public String passportList_page(
             @CurrentUser SysUser loginUser,
+            //Integer unitId,
             Integer cadreId,
             // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
             @RequestParam(required = false, defaultValue = "1") byte status,
@@ -128,6 +129,10 @@ public class PassportController extends BaseController {
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
+        /*if(unitId!=null){
+
+            modelMap.put("unit", unitService.findAll().get(unitId));
+        }*/
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
@@ -142,6 +147,7 @@ public class PassportController extends BaseController {
     public void passport_data(HttpServletResponse response,
                               @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport") String sort,
                               @OrderParam(required = false, defaultValue = "desc") String order,
+                              Integer unitId,
                               Integer cadreId,
                               Integer classId,
                               String code,
@@ -175,17 +181,17 @@ public class PassportController extends BaseController {
         code = StringUtils.trimToNull(code);
 
         if (export == 1) {
-            passport_export(cadreId, classId, code, type, safeBoxId, cancelConfirm, status, response);
+            passport_export(unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm, status, response);
             return;
         }
 
-        int count = selectMapper.countPassport(cadreId, classId, code, type, safeBoxId, cancelConfirm);
+        int count = selectMapper.countPassport(unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (cadreId, classId, code, type, safeBoxId, cancelConfirm, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -201,11 +207,11 @@ public class PassportController extends BaseController {
         return;
     }
 
-    public void passport_export(Integer cadreId, Integer classId, String code,
+    public void passport_export(Integer unitId, Integer cadreId, Integer classId, String code,
                                 Byte type, Integer safeBoxId, Boolean cancelConfirm, Byte status,
                                 HttpServletResponse response) {
 
-        List<Passport> records = selectMapper.selectPassportList(cadreId, classId, code, type, safeBoxId,
+        List<Passport> records = selectMapper.selectPassportList(unitId, cadreId, classId, code, type, safeBoxId,
                 cancelConfirm, new RowBounds());
         int rownum = records.size();
         if(status==SystemConstants.PASSPORT_TYPE_KEEP) {
@@ -789,7 +795,7 @@ public class PassportController extends BaseController {
         for (SafeBox safeBox : safeBoxMap.values()) {
 
             Integer safeBoxId = safeBox.getId();
-            List<Passport> passports = selectMapper.selectPassportList(null, null, null, null,
+            List<Passport> passports = selectMapper.selectPassportList(null, null, null, null, null,
                     safeBoxId, null, new RowBounds());
             int size = passports.size();
             if (size == 0) continue;

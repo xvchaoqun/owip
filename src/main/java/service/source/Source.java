@@ -21,15 +21,15 @@ public abstract class Source {
 
     //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
-    protected Connection conn;
+    protected static Connection conn;
 
     public Connection initConn() {
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext(
-                new String[]{"/bnu-source.xml"});
-        DataSource dataSource = (DataSource) ac.getBean("bnuDS");
         if (null == conn) {
             try {
+                ApplicationContext ac = new ClassPathXmlApplicationContext(
+                        new String[]{"/bnu-source.xml"});
+                DataSource dataSource = (DataSource) ac.getBean("bnuDS");
                 conn = dataSource.getConnection();
             } catch (SQLException e) {
                 // TODO Auto-generated catch block

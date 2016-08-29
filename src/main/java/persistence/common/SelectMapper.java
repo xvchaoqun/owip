@@ -78,13 +78,13 @@ public interface SelectMapper {
         @Select("select distinct parent_code from base_location order by parent_code asc")
         List<Integer> selectDistinctLocationParentCode();
 
-    List<Passport> selectPassportList(@Param("cadreId") Integer cadreId,
+    List<Passport> selectPassportList(@Param("unitId") Integer unitId, @Param("cadreId") Integer cadreId,
                                       @Param("classId") Integer classId,
                                       @Param("code") String code,
                                       @Param("type") Byte type,
                                       @Param("safeBoxId") Integer safeBoxId,
                                       @Param("cancelConfirm") Boolean cancelConfirm, RowBounds rowBounds);
-    Integer countPassport(@Param("cadreId") Integer cadreId,
+    Integer countPassport(@Param("unitId") Integer unitId, @Param("cadreId") Integer cadreId,
                               @Param("classId") Integer classId,
                               @Param("code") String code,
                               @Param("type") Byte type,

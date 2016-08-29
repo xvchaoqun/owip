@@ -32,6 +32,9 @@
   <!-- 以下是根据指定的排序规则，读取证件列表-->
   <sql id="where_selectPassportList">
     <where>
+        <if test="unitId!=null">
+            and c.unit_id =#{unitId}
+        </if>
       <if test="cadreId!=null">
         and p.cadre_id =#{cadreId}
       </if>

@@ -350,7 +350,7 @@ public class PassportDrawController extends BaseController {
         record.setId(id);
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));
-        record.setRealToCountry(realToCountry);
+        record.setRealToCountry(StringUtils.trimToNull(realToCountry));
 
         if (_useRecord != null && !_useRecord.isEmpty()) {
             String originalFilename = _useRecord.getOriginalFilename();

@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-export="${ctx}/passport_data"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId ||not empty param.classId
+            <c:set var="_query" value="${not empty param.unitId ||not empty param.cadreId ||not empty param.classId
                 ||not empty param.safeBoxId ||not empty param.type || not empty param.code }"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -126,6 +126,18 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
+                                        <label>所属单位</label>
+                                        <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                            <option></option>
+                                            <c:forEach items="${unitMap}" var="unit">
+                                                <option value="${unit.key}">${unit.value.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <script type="text/javascript">
+                                            $("#searchForm select[name=unitId]").val(${param.unitId});
+                                        </script>
+                                    </div>
+                                    <div class="form-group">
                                         <label>姓名</label>
                                             <div class="input-group">
                                                 <input type="hidden" name="status" value="${status}">
@@ -207,7 +219,7 @@ pageEncoding="UTF-8" %>
             { label:'发证日期', name: 'issueDate' },
             { label:'有效期', name: 'expiryDate' },
             { label:'集中管理日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '';
                 else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
                     return '';
                 }
@@ -246,12 +258,12 @@ pageEncoding="UTF-8" %>
             //console.log(id)
             var rowData = $(this).getRowData(id);
             $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0);
-            console.log(rowData.hasFind)
+            console.log(rowData.hasFind);
             $("#hasFindBtn").prop("disabled",rowData.hasFind==0);
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
-    })
+    });
     _initNavGrid("jqGrid", "jqGridPager");
 
     function openView_safeBox(pageNo){
