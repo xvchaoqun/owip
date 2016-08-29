@@ -49,7 +49,7 @@
                     <tr>
 
                         <td>${sysUser.code}</td>
-                        <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
+                        <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                             ${sysUser.realname}
                         </a></td>
                         <td>${cadre.title}</td>
@@ -84,7 +84,7 @@
                     <label class="col-xs-3 control-label">归还时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 200px">
-                            <input required class="form-control date-picker" name="_retrunDate" type="text"
+                            <input required class="form-control date-picker" name="_returnDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
@@ -125,14 +125,14 @@
             SysMsg.info('请选择证件拍照');
             return;
         }*/
-        if($('input[name=_retrunDate]').val()==''){
+        if($('input[name=_returnDate]').val()==''){
             SysMsg.info('请选择归还时间','',function(){
-                $('input[name=_retrunDate]').focus();
+                $('input[name=_returnDate]').focus();
             });
             return;
         }
         var name = $(this).data("name");
-        var date = (new Date($('input[name=_retrunDate]').val())).format("yyyy年M月d日")
+        var date = (new Date($('input[name=_returnDate]').val())).format("yyyy年M月d日");
         var cls = $(this).data("cls");
         msg ="${shortMsg}".format(name, cls, date);
 

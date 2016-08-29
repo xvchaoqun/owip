@@ -49,7 +49,7 @@
                     <tr>
 
                         <td>${sysUser.code}</td>
-                        <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
+                        <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                             ${sysUser.realname}
                         </a></td>
                         <td>${cadre.title}</td>
@@ -60,7 +60,7 @@
                         <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                         <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
                         <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
-                        <td>${passport.safeBoxId}</td>
+                        <td>${passport.safeBox.code}</td>
                         <td>${passport.isLent?"借出":"-"}</td>
                         <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
                     </tr>
@@ -176,7 +176,7 @@
         if(val==1){
             $("#illegalUsePassport").slideDown();
         }
-    })
+    });
     $("input[type=submit]").click(function(){
 
         var usePassport = $("input[name=usePassport]:checked").val();
@@ -186,10 +186,10 @@
         }
         if(usePassport==1) {
 
-            if ($('input[type=file]').val() == '') {
+            /*if ($('input[type=file]').val() == '') {
                 SysMsg.info('请选择证件使用记录');
                 return;
-            }
+            }*/
             if ($('input[name=_realStartDate]').val() == '') {
                 SysMsg.info('请选择出国（境）时间', '', function () {
                     $('input[name=_realStartDate]').focus();

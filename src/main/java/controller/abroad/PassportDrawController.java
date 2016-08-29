@@ -275,7 +275,7 @@ public class PassportDrawController extends BaseController {
     @RequestMapping(value = "/passportDraw_draw", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_draw(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                    MultipartFile _drawRecord, String _retrunDate, Integer id) {
+                                    MultipartFile _drawRecord, String _returnDate, Integer id) {
 
         PassportDraw record = new PassportDraw();
 
@@ -283,7 +283,7 @@ public class PassportDrawController extends BaseController {
             throw new RuntimeException("请选择证件拍照");
         }*/
         record.setId(id);
-        record.setReturnDate(DateUtils.parseDate(_retrunDate, DateUtils.YYYY_MM_DD));
+        record.setReturnDate(DateUtils.parseDate(_returnDate, DateUtils.YYYY_MM_DD));
 
         if (_drawRecord != null && !_drawRecord.isEmpty()) {
             String originalFilename = _drawRecord.getOriginalFilename();
