@@ -202,12 +202,12 @@
                 });
                 return;
             }
-            if ($('input[name=realToCountry]').val().trim() == '') {
+            /*if ($('input[name=realToCountry]').val().trim() == '') {
                 SysMsg.info('请输入所到国家/地区', '', function () {
                     $('input[name=realToCountry]').focus();
                 });
                 return;
-            }
+            }*/
         }
         $("#modalForm").submit();return false;
     });

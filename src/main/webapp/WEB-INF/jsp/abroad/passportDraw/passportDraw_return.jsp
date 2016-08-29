@@ -105,7 +105,7 @@
                     <label class="col-xs-3 control-label">实际前往国家或地区</label>
                     <div class="col-xs-6">
                         <input type="text" name="realToCountry" id="form-field-tags"
-                               value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
+                               <%--value="${applySelf.toCountry}"--%> placeholder="输入后选择国家或按回车 ..." />
                     </div>
                 </div>
                 </c:if>
@@ -178,14 +178,14 @@
             });
             return;
         }
-        <c:if test="${not empty applySelf}">
+        <%--<c:if test="${not empty applySelf}">
         if($('input[name=realToCountry]').val().trim()==''){
             SysMsg.info('请输入实际前往国家或地区','',function(){
                 $('input[name=realToCountry]').focus();
             });
             return;
         }
-            </c:if>
+            </c:if>--%>
         $("#modalForm").submit();return false;
     });
     $("#modalForm").validate({
