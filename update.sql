@@ -1,4 +1,48 @@
 
+
+
+
+--2017-8-31
+
+-- 查询在已转出的党员库中的预备党员， 却不在入党申请的预备党员阶段的人员
+select  * from ow_member where political_status=1 and status=4
+and user_id not in( select oma.user_id from ow_member_apply oma, ow_member om where oma.user_id=om.user_id
+and om.political_status=1 and oma.stage=6);
+
+-- 已经是预备党员，却在入党申请中是未通过的状态 （查询这样的错误数据）
+select * from ow_member_apply where user_id in(
+select  user_id from ow_member where political_status=1 and status=4
+and user_id not in( select oma.user_id from ow_member_apply oma, ow_member om where oma.user_id=om.user_id
+and om.political_status=1 and oma.stage=6) );
+-- 林琬晴	201411141914  已经是预备党员，却在入党申请中是未通过的状态
+update ow_member_apply set grow_time='2016-05-20', fill_time='2016-08-31 15:55', stage=6,
+remark='更新错误数据' where user_id=51738;
+-- 杜翰洋 201221040037 已经是预备党员（已转出），却在入党申请中是未通过的状态
+update ow_member_apply set fill_time='2016-08-31 15:55', stage=6,
+remark='更新错误数据' where user_id=24994;
+
+-- 处理 已转出的党员库中的预备党员， 却不在入党申请的预备党员阶段的人员
+insert into ow_apply_approval_log(record_id, party_id, branch_id, apply_user_id, status, remark, create_time, stage, type)
+select user_id , party_id, branch_id, user_id, 1 as status, '预备党员统一导入（已转出部分）' as remark,
+'2016-08-31 16:00:00' as create_time, '预备党员' as stage,
+1 as type  from (
+select  * from ow_member where political_status=1 and status=4
+and user_id not in( select oma.user_id from ow_member_apply oma, ow_member om where oma.user_id=om.user_id
+and om.political_status=1 and oma.stage=6)
+) tmp;
+
+insert into ow_member_apply(user_id , type, party_id, branch_id, apply_time, grow_time, remark, fill_time, create_time, stage)
+select  user_id , if(type=1,2, 1) as type , party_id, branch_id, '2016-08-31' as apply_time,
+grow_time, '后台添加的预备党员(已转出)' as remark,
+'2016-08-31 16:00:00' as fill_time ,
+'2016-08-31 16:00:00' as create_time,
+6 as stage from (
+select  * from ow_member where political_status=1 and status=4
+and user_id not in( select oma.user_id from ow_member_apply oma, ow_member om where oma.user_id=om.user_id
+and om.political_status=1 and oma.stage=6)
+) tmp;
+
+
 --2017-8-21
 ALTER TABLE `sys_online_static`
 	ADD COLUMN `day` INT(10) UNSIGNED NULL AFTER `jzg`,
