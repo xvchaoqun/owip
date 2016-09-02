@@ -160,6 +160,7 @@
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
             {label: '申请领取证件名称', align: 'center', name: 'passportClass.name', width: 180},
+            {label: '证号号码', align: 'center', name: 'passport.code'},
             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
             {
                 label: '因私出国（境）行程',
@@ -314,7 +315,15 @@
                             + '<i class="fa fa-reply"></i> 归还证件</button>'
                 }
             },
-            {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130}
+            {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130},
+            { label: '附件', formatter:function(cellvalue, options, rowObject){
+                //console.log(rowObject.attachmentFilename)
+                if(rowObject.attachment && rowObject.attachment!='')
+                    return '<a href="javascript:void(0)" class="popupBtn" ' +
+                            'data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
+                                    .format(rowObject.attachment, encodeURI(rowObject.attachmentFilename));
+                else return '';
+            } }
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         //alert($(".various").length)

@@ -1,8 +1,8 @@
 package domain.abroad;
 
-import domain.sys.SysUser;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
+import domain.sys.SysUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -119,6 +119,10 @@ public class PassportDraw implements Serializable {
     private String useRecord;
 
     private Boolean jobCertify;
+
+    private String attachment;
+
+    private String attachmentFilename;
 
     private static final long serialVersionUID = 1L;
 
@@ -376,5 +380,21 @@ public class PassportDraw implements Serializable {
 
     public void setJobCertify(Boolean jobCertify) {
         this.jobCertify = jobCertify;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public String getAttachmentFilename() {
+        return attachmentFilename;
+    }
+
+    public void setAttachmentFilename(String attachmentFilename) {
+        this.attachmentFilename = attachmentFilename == null ? null : attachmentFilename.trim();
     }
 }

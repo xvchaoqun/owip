@@ -858,6 +858,7 @@ public class SystemConstants {
 	public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT = "ct_passportApply_submit";
 	public final static String CONTENT_TPL_PASSPORTDRAW = "ct_passportDraw";
 	public final static String CONTENT_TPL_PASSPORTDRAW_RETURN = "ct_passportDraw_return";
+	public final static String CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS = "ct_passportDraw_return_success";
 	public final static String CONTENT_TPL_PASSPORTDRAW_PASS = "ct_passportDraw_pass";
 	public final static String CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN = "ct_passportDraw_pass_needsign";
 	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS = "ct_passportDraw_unpass";

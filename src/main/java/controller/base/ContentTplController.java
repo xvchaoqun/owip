@@ -144,6 +144,10 @@ public class ContentTplController extends BaseController {
             contentType = contentTpl.getContentType();
             modelMap.put("contentTpl", contentTpl);
         }
+
+        if(contentType==null) contentType = SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING;
+        modelMap.put("contentType", contentType);
+
         if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING)
             return "base/contentTpl/contentTpl_string_au";
         if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML)

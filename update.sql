@@ -1,6 +1,11 @@
 
 
 
+--2017-9-2
+ALTER TABLE `abroad_passport_draw`
+	ADD COLUMN `attachment` VARCHAR(200) NULL DEFAULT NULL COMMENT '上传附件' AFTER `job_certify`;
+ALTER TABLE `abroad_passport_draw`
+	ADD COLUMN `attachment_filename` VARCHAR(200) NULL DEFAULT NULL COMMENT '附件文件名' AFTER `attachment`;
 
 --2017-8-31
 

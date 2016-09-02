@@ -43,8 +43,8 @@
       </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
       </table>-->
-     <!-- <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
-      </table>-->
+      <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
+      </table>
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
@@ -265,8 +265,8 @@
       </table>-->
    <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
     </table>-->
-      <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
-      </table>
+     <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
+      </table>-->
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
         <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->

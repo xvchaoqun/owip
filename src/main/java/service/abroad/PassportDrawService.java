@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.helper.ContextHelper;
+import service.helper.ShiroSecurityHelper;
 import service.sys.ShortMsgService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
@@ -135,6 +137,11 @@ public class PassportDrawService extends BaseMapper {
         _record.setId(passport.getId());
         _record.setIsLent(false);
         passportMapper.updateByPrimaryKeySelective(_record);
+
+        // 归还证件后通知本人
+        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroSecurityHelper.getCurrentUserId(),
+                null, "passportDrawReturnSuccess", passportDraw.getId());
+        shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
     }
 
     @Transactional

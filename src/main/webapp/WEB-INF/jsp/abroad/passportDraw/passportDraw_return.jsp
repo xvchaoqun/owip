@@ -75,6 +75,16 @@
                   id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
+                    <label class="col-xs-3 control-label">实交组织部日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group" style="width: 200px">
+                            <input class="form-control date-picker" name="_realReturnDate" type="text"
+                                   data-date-format="yyyy-mm-dd" value="${today}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
                     <div class="col-xs-2 file" style="width:300px;">
                         <input type="file" name="_useRecord" />
@@ -115,6 +125,12 @@
                         <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">附件(pdf格式)</label>
+                    <div class="col-xs-6"  style="width: 300px">
+                        <input class="form-control" type="file" name="_attachment" />
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -146,7 +162,7 @@
         //autosize($('#form-field-tags'));
     }
 
-    $('input[type=file]').ace_file_input({
+    $('input[type=file][name=_useRecord]').ace_file_input({
         style:'well',
         btn_choose:'请选择证件使用记录拍照',
         btn_change:null,
@@ -159,6 +175,19 @@
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     }).end().find('button[type=reset]').on(ace.click_event, function(){
         $('input[type=file]').ace_file_input('reset_input');
+    });
+
+    $('input[type=file][name=_attachment]').ace_file_input({
+        no_file:'请选择文件 ...',
+        btn_choose:'选择',
+        btn_change:'更改',
+        droppable:false,
+        onchange:null,
+        thumbnail:false, //| true | large
+        allowExt: ['pdf'],
+        //blacklist:'exe|php'
+        //onchange:''
+        //
     });
 
     $("input[type=submit]").click(function(){

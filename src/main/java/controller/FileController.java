@@ -2,12 +2,15 @@ package controller;
 
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
+import domain.dispatch.Dispatch;
 import domain.sys.SysUser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.DownloadUtils;
@@ -64,6 +67,31 @@ public class FileController extends BaseController {
             String path = springProps.uploadPath + passportDrawFile.getFilePath();
             DownloadUtils.download(request, response, path, passportDrawFile.getFileName());
         }
+    }
+
+    // 查看swf
+    @RequestMapping("/swf/preview")
+    public String swf_preview() {
+
+        return "common/swf_preview";
+    }
+
+    // swf内容
+    @RequestMapping("/swf")
+    public void dispatch_swf(String path, HttpServletResponse response) throws IOException{
+
+        String filePath = springProps.uploadPath + FileUtils.getFileName(path) + ".swf";
+
+        byte[] bytes = FileUtils.getBytes(filePath);
+        if(bytes==null) return ;
+
+        response.reset();
+        response.addHeader("Content-Length", "" + bytes.length);
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
     }
 
     // 图片

@@ -339,15 +339,50 @@ public class PassportDrawController extends BaseController {
     @RequestMapping(value = "/passportDraw_return", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_return(@CurrentUser SysUser loginUser, HttpServletRequest request,
-                                    MultipartFile _useRecord, String _realStartDate,
-                                    String _realEndDate, String realToCountry, String remark, Integer id) {
+                                      String  _realReturnDate,
+                                    MultipartFile _attachment,
+                                    MultipartFile _useRecord,
+                                      String _realStartDate,
+                                    String _realEndDate,
+                                      String realToCountry, String remark, Integer id) {
 
         PassportDraw record = new PassportDraw();
 
         /*if (_useRecord == null || _useRecord.isEmpty()) {
             throw new RuntimeException("请选择证件使用记录拍照");
         }*/
+
+        if(_attachment!=null){
+            String ext = FileUtils.getExtention(_attachment.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("附件格式错误，请上传pdf文件");
+            }
+
+            String originalFilename = _attachment.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  File.separator
+                    + "passportDraw" + File.separator
+                    + "attachment" + File.separator
+                    + id + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_attachment, new File(springProps.uploadPath + savePath));
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            record.setAttachmentFilename(originalFilename);
+            record.setAttachment(savePath);
+        }
+
         record.setId(id);
+        record.setRealReturnDate(DateUtils.parseDate(_realReturnDate, DateUtils.YYYY_MM_DD));
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));
         record.setRealToCountry(StringUtils.trimToNull(realToCountry));
@@ -364,7 +399,7 @@ public class PassportDrawController extends BaseController {
             record.setUseRecord(savePath);
         }
         record.setReturnRemark(remark);
-        record.setRealReturnDate(new Date());
+        //record.setRealReturnDate(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
         passportDrawService.returnPassport(record);

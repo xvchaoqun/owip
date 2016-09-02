@@ -2151,6 +2151,146 @@ public class PassportDrawExample {
             addCriterion("job_certify not between", value1, value2, "jobCertify");
             return (Criteria) this;
         }
+
+        public Criteria andAttachmentIsNull() {
+            addCriterion("attachment is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIsNotNull() {
+            addCriterion("attachment is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentEqualTo(String value) {
+            addCriterion("attachment =", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentNotEqualTo(String value) {
+            addCriterion("attachment <>", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentGreaterThan(String value) {
+            addCriterion("attachment >", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentGreaterThanOrEqualTo(String value) {
+            addCriterion("attachment >=", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentLessThan(String value) {
+            addCriterion("attachment <", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentLessThanOrEqualTo(String value) {
+            addCriterion("attachment <=", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentLike(String value) {
+            addCriterion("attachment like", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentNotLike(String value) {
+            addCriterion("attachment not like", value, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIn(List<String> values) {
+            addCriterion("attachment in", values, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentNotIn(List<String> values) {
+            addCriterion("attachment not in", values, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentBetween(String value1, String value2) {
+            addCriterion("attachment between", value1, value2, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentNotBetween(String value1, String value2) {
+            addCriterion("attachment not between", value1, value2, "attachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameIsNull() {
+            addCriterion("attachment_filename is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameIsNotNull() {
+            addCriterion("attachment_filename is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameEqualTo(String value) {
+            addCriterion("attachment_filename =", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameNotEqualTo(String value) {
+            addCriterion("attachment_filename <>", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameGreaterThan(String value) {
+            addCriterion("attachment_filename >", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("attachment_filename >=", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameLessThan(String value) {
+            addCriterion("attachment_filename <", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameLessThanOrEqualTo(String value) {
+            addCriterion("attachment_filename <=", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameLike(String value) {
+            addCriterion("attachment_filename like", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameNotLike(String value) {
+            addCriterion("attachment_filename not like", value, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameIn(List<String> values) {
+            addCriterion("attachment_filename in", values, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameNotIn(List<String> values) {
+            addCriterion("attachment_filename not in", values, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameBetween(String value1, String value2) {
+            addCriterion("attachment_filename between", value1, value2, "attachmentFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentFilenameNotBetween(String value1, String value2) {
+            addCriterion("attachment_filename not between", value1, value2, "attachmentFilename");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -280,6 +280,19 @@ public class ShortMsgService extends BaseMapper {
                     passportDraw.getPassportClass().getName());
             bean.setContent(msg);
             bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
+        }else if(StringUtils.equals(type, "passportDrawReturnSuccess")){
+
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS;
+            ContentTpl tpl = getShortMsgTpl(key);
+            bean.setType(tpl.getName());
+
+            SysUser user = passportDraw.getUser();
+            bean.setReceiver(user.getId()); // 覆盖
+            String realReturnDate = DateUtils.formatDate(passportDraw.getRealReturnDate(), "yyyy年MM月dd日");
+            String msg = MessageFormat.format(tpl.getContent(), user.getRealname(), passportDraw.getPassportClass().getName(), realReturnDate);
+            bean.setContent(msg);
+            bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportDrawApply")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
