@@ -281,7 +281,7 @@
                 label: '催交证件',
                 align: 'center',
                 name: 'passportType',
-                width: 100,
+                width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
                     if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
