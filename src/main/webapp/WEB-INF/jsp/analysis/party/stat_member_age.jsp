@@ -15,22 +15,22 @@
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
-                        <li class="active">
+                        <li class="${empty type?'active':''}">
                             <a href="#" class="blue">
                                 <i class="ace-icon fa fa-caret-right bigger-110 ${empty type?'':'invisible'}">
                                     &nbsp;</i>
                                 全部
                             </a>
                         </li>
-                        <li data-type="${MEMBER_TYPE_TEACHER}">
+                        <li data-type="${MEMBER_TYPE_TEACHER}"  class="${type!=MEMBER_TYPE_TEACHER?'':'active'}">
                             <a href="#" class="blue">
                                 <i class="ace-icon fa fa-caret-right bigger-110 ${type!=MEMBER_TYPE_TEACHER?'invisible':''}">
                                     &nbsp;</i>
                                 教职工
                             </a>
                         </li>
-                        <li data-type="${MEMBER_TYPE_STUDENT}">
-                            <a href="#">
+                        <li data-type="${MEMBER_TYPE_STUDENT}"  class="${type!=MEMBER_TYPE_STUDENT?'':'active'}">
+                            <a href="#" class="blue">
                                 <i class="ace-icon fa fa-caret-right bigger-110 ${type!=MEMBER_TYPE_STUDENT?'invisible':''}">
                                     &nbsp;</i>
                                 学生

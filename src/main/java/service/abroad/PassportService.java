@@ -1,10 +1,7 @@
 package service.abroad;
 
 import bean.XlsPassport;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportExample;
-import domain.abroad.SafeBox;
+import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.abroad.PassportDrawMapper;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.helper.ShiroSecurityHelper;
@@ -203,6 +201,37 @@ public class PassportService extends BaseMapper {
     public int updateByPrimaryKeySelective(Passport record){
         if(StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(0==idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+        return passportMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //证件找回
+    @Transactional
+    public int back(Passport record){
+        if(StringUtils.isNotBlank(record.getCode()))
+            Assert.isTrue(0==idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+
+        Passport passport = passportMapper.selectByPrimaryKey(record.getId());
+        Assert.isTrue(passport.getType()==SystemConstants.PASSPORT_TYPE_LOST);
+
+        // 如果该证件找回之前被借出了，则找回时，应该修改借出状态为已归还
+        if(passport.getIsLent()){
+
+            PassportDrawExample example = new PassportDrawExample();
+            example.createCriteria().andPassportIdEqualTo(passport.getId());
+            List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
+
+            PassportDraw _record = new PassportDraw();
+            _record.setId(passportDraws.get(0).getId()); // 证件在归还之前只能借出一次
+            _record.setReturnRemark("证件被找回");
+            _record.setRealReturnDate(new Date());
+            _record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
+            passportDrawMapper.updateByPrimaryKeySelective(_record);
+        }
+
+        record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+        record.setIsLent(false);
+        record.setHasFind(true);
+        record.setFindTime(new Date());
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 

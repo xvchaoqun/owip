@@ -53,4 +53,7 @@ public class SpringProps {
 
 	@Value("${switch.online.static}")
 	public Boolean onlineStatic;
+
+	@Value("${switch.passport.draw.return}")
+	public Boolean passportDrawReturnMsg;
 }

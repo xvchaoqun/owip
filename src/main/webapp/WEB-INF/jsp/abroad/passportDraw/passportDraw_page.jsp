@@ -200,7 +200,7 @@
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    var filesArray = []
+                    var filesArray = [];
                     for (var i in rowObject.files) {
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
@@ -283,6 +283,12 @@
                 name: 'passportType',
                 width: 100,
                 formatter: function (cellvalue, options, rowObject) {
+
+                    if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
+                        return '已取消集中管理';
+                    if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}')
+                        return '证件丢失';
+
                     if (rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
                         return '-';
                     }
@@ -297,7 +303,10 @@
                 name: 'lostTime',
                 width: 100,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
+
+                    if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
+                            rowObject.passport.type=='${PASSPORT_TYPE_LOST}' ||
+                            rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
                         return '-';
                     }
                     return '<button data-url="${ctx}/passportDraw_return?id={0}" class="openView btn btn-default btn-mini btn-xs">'

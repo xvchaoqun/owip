@@ -276,7 +276,8 @@ public class ShortMsgService extends BaseMapper {
             //MetaType passportClass = passportDraw.getPassportClass();
             String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), "yyyy年MM月dd日");
             String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
-            String msg = MessageFormat.format(tpl.getContent(), user.getRealname(), drawTime, returnDate);
+            String msg = MessageFormat.format(tpl.getContent(), user.getRealname(), drawTime, returnDate,
+                    passportDraw.getPassportClass().getName());
             bean.setContent(msg);
             bean.setMobile(cadreInfoService.getCadreMobile(user.getId()));
         }else if(StringUtils.equals(type, "passportDrawApply")){

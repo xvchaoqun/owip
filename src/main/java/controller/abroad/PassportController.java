@@ -578,14 +578,13 @@ public class PassportController extends BaseController {
                     // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                     throw new RuntimeException("该证件不可以进行更新操作");
                 }
+
+                passportService.updateByPrimaryKeySelective(record);
             }else{
                 // 证件找回
-                record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
-                record.setHasFind(true);
-                record.setFindTime(new Date());
+                passportService.back(record);
             }
 
-            passportService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
         }
 

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
 import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
@@ -23,6 +24,8 @@ public class SycnTask {
 	@Autowired
 	private PassportService passportService;
 	@Autowired
+	private PassportDrawService passportDrawService;
+	@Autowired
 	private SpringProps springProps;
 
 	@Scheduled(cron = "${cron.online.static}")
@@ -31,6 +34,19 @@ public class SycnTask {
 		if(springProps.onlineStatic) {
 			logger.debug("在线用户数量统计...");
 			sysOnlineStaticService.stat();
+		}
+	}
+
+	/*
+	自动发送，发送时间为上午10点，每三天发一次，直到将证件交回。
+	比如，应交组织部日期为2016年9月1日，那么从第二天9月2日开始发，每三天发一次，直到交回证件为止。
+	 */
+	@Scheduled(cron = "${cron.passport.draw.return}")
+	public void passportDrawReturnMsg(){
+
+		if(springProps.passportDrawReturnMsg) {
+			logger.debug("领取证件之后催交证件短信通知...");
+			passportDrawService.sendReturnMsg();
 		}
 	}
 
