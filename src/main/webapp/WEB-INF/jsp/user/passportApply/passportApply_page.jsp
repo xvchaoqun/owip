@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                     <tr>
                             <th>申请日期</th>
                             <th>申办证件名称</th>
-                            <th>申请表</th>
+                            <%--<th>申请表</th>--%>
 							<th>审批状态</th>
 							<th>应交组织部日期</th>
 							<th>实交组织部日期</th>
@@ -39,12 +39,12 @@ pageEncoding="UTF-8" %>
                         <tr>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
-								<td>
+								<%--<td>
                                     <button class="openView btn btn-success btn-mini btn-xs"
                                             data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
                                         <i class="fa fa-file-o"></i> 申请表
                                     </button>
-                                </td>
+                                </td>--%>
 
 								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
@@ -68,6 +68,10 @@ pageEncoding="UTF-8" %>
                                         </c:if>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
+                                         <button class="openView btn btn-success btn-mini btn-xs"
+                                                 data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
+                                             <i class="fa fa-file-o"></i> 查看申请表
+                                         </button>
                                          <button class="confirm btn btn-danger btn-xs"
                                                  data-url="${ctx}/user/passportApply_del?id=${passportApply.id}"
                                                  data-callback="_delCallback"

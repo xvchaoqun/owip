@@ -153,13 +153,15 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.approvalUser.id, cellvalue);
             }},
-            { label:'审批日期', align:'center',name: 'approveTime', width: 180},
+            { label:'审批日期', align:'center',name: 'approveTime'},
                 </c:if>
             <c:if test="${status==1 ||status==3}">
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
+                <c:if test="${status==1}">
                 var expectDate = rowObject.expectDate;
                 if(expectDate<=new Date().format('yyyy-MM-dd'))
-                    return "class='danger'"
+                    return "class='danger'";
+                </c:if>
             }},
             </c:if>
             <c:if test="${status==3}">
@@ -182,6 +184,6 @@ pageEncoding="UTF-8" %>
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    });
     register_user_select($('[data-rel="select2-ajax"]'));
 </script>
