@@ -97,6 +97,8 @@
                     <div class="col-xs-2 file" style="width:300px;">
                         <input type="file" name="_useRecord" />
                     </div>
+                    <input type="hidden" name="_useRecord_base64">
+                    <div style="display: inherit;line-height: 126px">或 <a href="javascript:" onclick="webcam()" class="camera"><img src="${ctx}/extend/img/camera.png"/>点此拍照</a></div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">实际出发时间</label>
@@ -144,8 +146,7 @@
         </div>
     </div>
 </div>
-<div class="modal-footer center">
-
+<div class="modal-footer center" style="margin-bottom: 25px;">
     <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
     <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
@@ -155,7 +156,54 @@
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
+<style>
+    .my-bootbox .modal-dialog{
+        width: 510px;
+    }
+    .my-bootbox .modal-body{
+        max-height: inherit;
+    }
+</style>
 <script>
+
+    function webcam(){
+
+        bootbox.confirm({
+            className: "my-bootbox",
+            buttons: {
+                confirm: {
+                    label: '截图',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default btn-show'
+                }
+            },
+            message: '<div id="my_camera"></div>',
+            callback: function(result) {
+                if(result) {
+                    Webcam.snap( function(data_uri) {
+                        //console.log(data_uri)
+                        $("input[name=_useRecord_base64]").val(data_uri);
+                        $('input[type=file][name=_useRecord]').ace_file_input('show_file_list', [
+                                   {type: 'image', name: '使用记录拍照.jpg', path: data_uri}]);
+                    } );
+
+                }else{
+                    //Webcam.reset();
+                }
+            },
+            title: '点击允许，打开摄像头'
+        }).draggable({handle :".modal-header"});
+
+        //if(!Webcam.loaded) {
+            //console.log("my_camera init")
+            Webcam.attach('#my_camera');
+        //}
+
+    }
+
     var tag_input = $('#form-field-tags');
     try{
         tag_input.tag(
@@ -183,7 +231,7 @@
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     }).end().find('button[type=reset]').on(ace.click_event, function(){
-        $('input[type=file]').ace_file_input('reset_input');
+        $('input[type=file][name=_useRecord]').ace_file_input('reset_input');
     });
 
     $('input[type=file][name=_attachment]').ace_file_input({

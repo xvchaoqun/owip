@@ -544,6 +544,11 @@ public class MemberApplyOpService extends BaseController {
             MemberApply record = new MemberApply();
             record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
 
+            if(memberApply.getPositiveStatus()==null ||
+                    memberApply.getPositiveStatus()!=SystemConstants.APPLY_STATUS_UNCHECKED){
+                throw new RuntimeException("党支部管理员还未提交转正时间");
+            }
+
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
                     .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)

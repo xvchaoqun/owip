@@ -344,6 +344,7 @@ public class PassportDrawController extends BaseController {
                                       String  _realReturnDate,
                                     MultipartFile _attachment,
                                     MultipartFile _useRecord,
+                                      String _useRecord_base64,
                                       String _realStartDate,
                                     String _realEndDate,
                                       String realToCountry, String remark, Integer id) {
@@ -400,7 +401,17 @@ public class PassportDrawController extends BaseController {
             FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
 
             record.setUseRecord(savePath);
+        }else if(StringUtils.isNotBlank(_useRecord_base64)){
+
+            String fileName = UUID.randomUUID().toString() + ".jpg";
+            String realPath = File.separator
+                    + "draw" + File.separator + "use" + File.separator;
+
+            ImageUtils.decodeBase64ToImage(_useRecord_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
+
+            record.setUseRecord(realPath + fileName);
         }
+
         record.setReturnRemark(remark);
         if(record.getRealReturnDate()==null) // 默认当天为归还时间
             record.setRealReturnDate(new Date());

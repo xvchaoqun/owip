@@ -670,3 +670,12 @@ input[type=radio].bigger{
 }
 .fancybox-inner{
 }
+
+.camera{
+    color: #000;
+    text-decoration: none;
+}
+.camera img{
+    margin-right: 5px;
+    margin-top: -4px;
+}

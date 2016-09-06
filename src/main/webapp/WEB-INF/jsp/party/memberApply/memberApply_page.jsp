@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                                                     </li>
                                                     <shiro:hasAnyRoles name="admin,odAdmin">
                                                         <div class="buttons pull-right">
-                                                            <a href="javascript:;" class="addBtn btn btn-info btn-sm">
+                                                            <a href="javascript:" class="addBtn btn btn-info btn-sm">
                                                                 <i class="fa fa-plus"></i> 添加入党申请</a>
                                                         </div>
                                                     </shiro:hasAnyRoles>
@@ -436,7 +436,8 @@ pageEncoding="UTF-8" %>
                 $("#growBtn").prop("disabled", rowData.growStatus != 0);
                 $("#growCheckBtn").prop("disabled", rowData.growStatus != 1);
                 $("#growOdCheckBtn").prop("disabled", rowData.growStatus != 2);
-                $("#positiveBtn").prop("disabled", rowData.positiveStatus != 0);
+                //console.log($.trim(rowData.positiveStatus) != '')
+                $("#positiveBtn").prop("disabled", $.trim(rowData.positiveStatus) != '');
                 $("#positiveCheckBtn").prop("disabled", rowData.positiveStatus != 1);
                 $("#positiveOdCheckBtn").prop("disabled", rowData.positiveStatus != 2);
             } else {
@@ -599,7 +600,7 @@ pageEncoding="UTF-8" %>
 
     $(".addBtn").click(function(){
         loadModal("${ctx}/memberApply_au");
-    })
+    });
 
     function goto_next(type){
         if(type==1){
