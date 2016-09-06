@@ -4,6 +4,7 @@ import bean.ShortMsgBean;
 import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -57,7 +58,7 @@ public class PassportDrawService extends BaseMapper {
             Passport passport = passportDraw.getPassport();
             if(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
                     || (passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
-                    && !passport.getCancelConfirm())) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
+                    && BooleanUtils.isFalse(passport.getCancelConfirm()))) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
 
                 Date returnDate = passportDraw.getReturnDate(); // 应归还时间
                 Period p = new Period(new DateTime(returnDate), new DateTime(today), PeriodType.days());
