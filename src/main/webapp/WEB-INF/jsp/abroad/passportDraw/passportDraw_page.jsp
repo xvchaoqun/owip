@@ -364,7 +364,7 @@
             },
             afterLoad: function() {
                 //console.log(this)
-                this.title = this.title + '【<a href="${ctx}/attach/passportDrawFile?id={0}">下载</a>】 '.format($(this.element).data('title-id')) ;
+                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/passportDrawFile?id={0}">点击下载</a>】</div></div>'.format($(this.element).data('title-id')) ;
             }
         });
     });

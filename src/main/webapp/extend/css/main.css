@@ -658,3 +658,15 @@ input[type=radio].bigger{
     margin-top:5px;
     margin-bottom:5px;
 }
+
+/*fancybox-title*/
+.fancybox-title .title{
+    font-size: larger;
+    font-weight: bolder;
+}
+.fancybox-title .title .download{
+    margin: 0 auto;
+    text-align: center;
+}
+.fancybox-inner{
+}
