@@ -154,6 +154,8 @@
            class="btn btn-success" value="确认归还"/>
     <input  class="closeView btn btn-default" value="返回"/>
 </div>
+<script src="${ctx}/extend/js/webcam.min.js"></script>
+
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <style>
@@ -166,7 +168,17 @@
 </style>
 <script>
 
+
+
     function webcam(){
+
+        Webcam.set({
+            width: 480,
+            height: 640,
+            force_flash: true,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
 
         bootbox.confirm({
             className: "my-bootbox",

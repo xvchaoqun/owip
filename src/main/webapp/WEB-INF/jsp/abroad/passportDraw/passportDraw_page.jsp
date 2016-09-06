@@ -109,19 +109,11 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
 <link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
 
-<script src="${ctx}/extend/js/webcam.min.js"></script>
-
 <script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
 <script type="text/javascript" src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
 <script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
-    Webcam.set({
-        width: 480,
-        height: 640,
-        force_flash: true,
-        image_format: 'jpeg',
-        jpeg_quality: 90
-    });
+
 
     $(".printProofBtn").click(function () {
         var grid = $("#jqGrid");
