@@ -402,7 +402,8 @@ public class PassportDrawController extends BaseController {
             record.setUseRecord(savePath);
         }
         record.setReturnRemark(remark);
-        //record.setRealReturnDate(new Date());
+        if(record.getRealReturnDate()==null) // 默认当天为归还时间
+            record.setRealReturnDate(new Date());
         record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
         passportDrawService.returnPassport(record);
