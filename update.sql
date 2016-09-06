@@ -1,5 +1,5 @@
 
---2017-9-5
+--2017-9-6
 
 ALTER TABLE `abroad_passport_draw`
 	ADD COLUMN `use_passport` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境）） 处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境））' AFTER `attachment_filename`;
