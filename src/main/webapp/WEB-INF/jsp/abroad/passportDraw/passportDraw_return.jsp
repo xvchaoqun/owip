@@ -87,11 +87,11 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label">类别</label>
                     <div class="col-xs-6">
+                        <input type="radio" name="usePassport" value="1" class="bigger" checked> 持证件出国（境）
                         <input type="radio" name="usePassport" value="0" class="bigger"> 未持证件出国（境）
-                        <input type="radio" name="usePassport" value="1" class="bigger"> 持证件出国（境）
                     </div>
                 </div>
-                <div id="illegalUsePassport" style="display: none">
+                <div id="illegalUsePassport">
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
                     <div class="col-xs-2 file" style="width:300px;">
