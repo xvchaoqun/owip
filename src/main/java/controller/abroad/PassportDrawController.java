@@ -338,7 +338,9 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_return", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_return(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_passportDraw_return(@CurrentUser SysUser loginUser,
+                                      HttpServletRequest request,
+                                      Boolean usePassport,
                                       String  _realReturnDate,
                                     MultipartFile _attachment,
                                     MultipartFile _useRecord,
@@ -382,6 +384,7 @@ public class PassportDrawController extends BaseController {
         }
 
         record.setId(id);
+        record.setUsePassport(usePassport);
         record.setRealReturnDate(DateUtils.parseDate(_realReturnDate, DateUtils.YYYY_MM_DD));
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));

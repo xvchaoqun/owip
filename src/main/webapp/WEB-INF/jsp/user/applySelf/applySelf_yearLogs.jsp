@@ -5,7 +5,7 @@
 <div class="widget-box transparent" id="useLogs">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="backBtn btn btn-mini btn-xs btn-success">
+            <a href="javascript:" class="backBtn btn btn-mini btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
@@ -13,7 +13,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${currentYear}年度因私出国境记录</a>
+                    <a href="javascript:">${currentYear}年度因私出国境记录</a>
                 </li>
             </ul>
         </div>
@@ -56,7 +56,7 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return (function(tdBean){
                     var type = tdBean.tdType;
-                    console.log(type)
+                    console.log(type);
                     var html = "";
                     switch (type){
                         //not_approval
@@ -69,6 +69,12 @@
 
                     return html;
                 })(tdBean);
+            }},
+            { label:'备注', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.usePassport==undefined) return "";
+                if(rowObject.usePassport==0)
+                    return "取消行程，未持证件出国（境）";
+                return ""
             }}
         ],
         gridComplete:function(){

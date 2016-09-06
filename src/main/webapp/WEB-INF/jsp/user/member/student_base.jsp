@@ -200,7 +200,7 @@ pageEncoding="UTF-8"%>
 			进入系统方式
 		</td>
 		<td class="bg-left">
-			${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+			${MEMBER_SOURCE_MAP.get(memberStudent.memberSource)}
 		</td>
 	</tr>
 	<tr>

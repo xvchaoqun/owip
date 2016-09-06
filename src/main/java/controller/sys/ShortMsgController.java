@@ -75,8 +75,10 @@ public class ShortMsgController extends BaseController {
     @RequestMapping("/shortMsg_page")
     public String shortMsg_page(Integer receiverId, Integer senderId, ModelMap modelMap) {
         if (receiverId!=null) {
-            modelMap.put("receiver", sysUserService.findById(receiverId));
-            modelMap.put("sender", sysUserService.findById(senderId));
+            if(receiverId!=null)
+                modelMap.put("receiver", sysUserService.findById(receiverId));
+            if(senderId!=null)
+                modelMap.put("sender", sysUserService.findById(senderId));
         }
         return "sys/shortMsg/shortMsg_page";
     }

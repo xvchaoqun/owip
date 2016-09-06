@@ -2291,6 +2291,66 @@ public class PassportDrawExample {
             addCriterion("attachment_filename not between", value1, value2, "attachmentFilename");
             return (Criteria) this;
         }
+
+        public Criteria andUsePassportIsNull() {
+            addCriterion("use_passport is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportIsNotNull() {
+            addCriterion("use_passport is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportEqualTo(Boolean value) {
+            addCriterion("use_passport =", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportNotEqualTo(Boolean value) {
+            addCriterion("use_passport <>", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportGreaterThan(Boolean value) {
+            addCriterion("use_passport >", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("use_passport >=", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportLessThan(Boolean value) {
+            addCriterion("use_passport <", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportLessThanOrEqualTo(Boolean value) {
+            addCriterion("use_passport <=", value, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportIn(List<Boolean> values) {
+            addCriterion("use_passport in", values, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportNotIn(List<Boolean> values) {
+            addCriterion("use_passport not in", values, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportBetween(Boolean value1, Boolean value2) {
+            addCriterion("use_passport between", value1, value2, "usePassport");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsePassportNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("use_passport not between", value1, value2, "usePassport");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

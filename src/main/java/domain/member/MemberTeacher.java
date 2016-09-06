@@ -7,13 +7,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberTeacher implements Serializable {
+
     public String getParty(){
         Party party = CmTag.getParty(partyId);
         return party!=null?party.getName():null;
     }
+
     private Date createTime;
 
     private Date applyTime;
+
+    private Byte memberSource;
 
     private Byte source;
 
@@ -133,6 +137,14 @@ public class MemberTeacher implements Serializable {
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Byte getMemberSource() {
+        return memberSource;
+    }
+
+    public void setMemberSource(Byte memberSource) {
+        this.memberSource = memberSource;
     }
 
     public Byte getSource() {

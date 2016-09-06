@@ -36,6 +36,7 @@
     <result column="job_certify" property="jobCertify" jdbcType="BIT" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="attachment_filename" property="attachmentFilename" jdbcType="VARCHAR" />
+    <result column="use_passport" property="usePassport" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -100,7 +101,7 @@
     cost_source, need_sign, remark, use_type, create_time, ip, status, user_id, approve_remark, 
     approve_time, approve_ip, real_start_date, real_end_date, real_to_country, return_date, 
     draw_user_id, draw_time, draw_record, real_return_date, draw_status, return_remark, 
-    use_record, job_certify, attachment, attachment_filename
+    use_record, job_certify, attachment, attachment_filename, use_passport
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.PassportDrawExample" >
     select
@@ -144,7 +145,7 @@
       draw_user_id, draw_time, draw_record, 
       real_return_date, draw_status, return_remark, 
       use_record, job_certify, attachment, 
-      attachment_filename)
+      attachment_filename, use_passport)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{applyId,jdbcType=INTEGER}, #{passportId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
@@ -156,7 +157,7 @@
       #{drawUserId,jdbcType=INTEGER}, #{drawTime,jdbcType=TIMESTAMP}, #{drawRecord,jdbcType=VARCHAR}, 
       #{realReturnDate,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, #{returnRemark,jdbcType=VARCHAR}, 
       #{useRecord,jdbcType=VARCHAR}, #{jobCertify,jdbcType=BIT}, #{attachment,jdbcType=VARCHAR}, 
-      #{attachmentFilename,jdbcType=VARCHAR})
+      #{attachmentFilename,jdbcType=VARCHAR}, #{usePassport,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.abroad.PassportDraw" >
     insert into abroad_passport_draw
@@ -263,6 +264,9 @@
       <if test="attachmentFilename != null" >
         attachment_filename,
       </if>
+      <if test="usePassport != null" >
+        use_passport,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -366,6 +370,9 @@
       </if>
       <if test="attachmentFilename != null" >
         #{attachmentFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="usePassport != null" >
+        #{usePassport,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -480,6 +487,9 @@
       <if test="record.attachmentFilename != null" >
         attachment_filename = #{record.attachmentFilename,jdbcType=VARCHAR},
       </if>
+      <if test="record.usePassport != null" >
+        use_passport = #{record.usePassport,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -520,7 +530,8 @@
       use_record = #{record.useRecord,jdbcType=VARCHAR},
       job_certify = #{record.jobCertify,jdbcType=BIT},
       attachment = #{record.attachment,jdbcType=VARCHAR},
-      attachment_filename = #{record.attachmentFilename,jdbcType=VARCHAR}
+      attachment_filename = #{record.attachmentFilename,jdbcType=VARCHAR},
+      use_passport = #{record.usePassport,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -627,6 +638,9 @@
       <if test="attachmentFilename != null" >
         attachment_filename = #{attachmentFilename,jdbcType=VARCHAR},
       </if>
+      <if test="usePassport != null" >
+        use_passport = #{usePassport,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -664,7 +678,8 @@
       use_record = #{useRecord,jdbcType=VARCHAR},
       job_certify = #{jobCertify,jdbcType=BIT},
       attachment = #{attachment,jdbcType=VARCHAR},
-      attachment_filename = #{attachmentFilename,jdbcType=VARCHAR}
+      attachment_filename = #{attachmentFilename,jdbcType=VARCHAR},
+      use_passport = #{usePassport,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.abroad.PassportDrawExample" id="selectByExampleWithRowbounds" >

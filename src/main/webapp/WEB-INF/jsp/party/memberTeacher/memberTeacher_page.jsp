@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
@@ -23,11 +23,11 @@ pageEncoding="UTF-8" %>
                 <div id="home4" class="tab-pane in active">
                     <div class="jqgrid-vertical-offset buttons">
                         <shiro:hasPermission name="member:add">
-                        <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+                        <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
                             <i class="fa fa-plus"></i> 添加党员</a>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="member:edit">
-                        <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                        <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
                             <button id="teacherEditBtn" class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
@@ -311,7 +311,7 @@ pageEncoding="UTF-8" %>
             } else if (ids.length==1) {
                 jgrid_sid = ids[0];
                 var rowData = $(this).getRowData(ids[0]);
-                console.log(rowData)
+                //console.log(rowData)
                 $("#teacherEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"
                 ||rowData.source == "${USER_SOURCE_BKS}"||rowData.source == "${USER_SOURCE_YJS}");
             }else{

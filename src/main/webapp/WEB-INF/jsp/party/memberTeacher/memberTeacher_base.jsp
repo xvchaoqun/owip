@@ -308,7 +308,7 @@
 			进入系统方式
 		</td>
 		<td class="bg-left">
-			${MEMBER_SOURCE_MAP.get(memberTeacher.source)}
+			${MEMBER_SOURCE_MAP.get(memberTeacher.memberSource)}
 		</td>
 	</tr>
 	<tr>
@@ -377,7 +377,7 @@
 					setTimeout( function(){
 						$container.hideLoading();
 					}, 2000 );
-				}})
+				}});
 		$.post("${ctx}/member_sync",{userId:userId},function(ret){
 
 			if(ret.success){

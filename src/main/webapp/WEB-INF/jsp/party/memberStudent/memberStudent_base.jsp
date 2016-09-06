@@ -207,7 +207,7 @@ pageEncoding="UTF-8"%>
 			进入系统方式
 		</td>
 		<td class="bg-left">
-			${MEMBER_SOURCE_MAP.get(memberStudent.source)}
+			${MEMBER_SOURCE_MAP.get(memberStudent.memberSource)}
 		</td>
 	</tr>
 	<tr>
@@ -275,7 +275,7 @@ pageEncoding="UTF-8"%>
 					setTimeout( function(){
 						$container.hideLoading();
 					}, 2000 );
-				}})
+				}});
 		$.post("${ctx}/member_sync",{userId:userId},function(ret){
 
 			if(ret.success){

@@ -85,6 +85,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-3 control-label">类别</label>
+                    <div class="col-xs-6">
+                        <input type="radio" name="usePassport" value="0" class="bigger"> 未持证件出国（境）
+                        <input type="radio" name="usePassport" value="1" class="bigger"> 持证件出国（境）
+                    </div>
+                </div>
+                <div id="illegalUsePassport" style="display: none">
+                <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
                     <div class="col-xs-2 file" style="width:300px;">
                         <input type="file" name="_useRecord" />
@@ -119,16 +127,17 @@
                     </div>
                 </div>
                 </c:if>
+                    </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">干部本人说明材料</label>
+                    <div class="col-xs-6"  style="width: 300px">
+                        <input class="form-control" type="file" name="_attachment" />
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">备注</label>
                     <div class="col-xs-6">
                         <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">附件(pdf格式)</label>
-                    <div class="col-xs-6"  style="width: 300px">
-                        <input class="form-control" type="file" name="_attachment" />
                     </div>
                 </div>
             </form>
@@ -190,7 +199,24 @@
         //
     });
 
+    $("input[name=usePassport]").click(function(){
+        var val = $(this).val();
+        if(val==0){
+            $("#illegalUsePassport").slideUp();
+        }
+        if(val==1){
+            $("#illegalUsePassport").slideDown();
+        }
+    });
+
     $("input[type=submit]").click(function(){
+
+        var usePassport = $("input[name=usePassport]:checked").val();
+        if(usePassport==undefined){
+            SysMsg.info('请选择类别');
+            return;
+        }
+
        /* if($('input[type=file]').val()==''){
             SysMsg.info('请选择证件使用记录');
             return;

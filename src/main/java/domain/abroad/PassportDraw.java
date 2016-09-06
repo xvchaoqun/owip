@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PassportDraw implements Serializable {
-
     public SysUser getUser(){
 
         Cadre cadre = getCadre();
@@ -123,6 +122,8 @@ public class PassportDraw implements Serializable {
     private String attachment;
 
     private String attachmentFilename;
+
+    private Boolean usePassport;
 
     private static final long serialVersionUID = 1L;
 
@@ -396,5 +397,13 @@ public class PassportDraw implements Serializable {
 
     public void setAttachmentFilename(String attachmentFilename) {
         this.attachmentFilename = attachmentFilename == null ? null : attachmentFilename.trim();
+    }
+
+    public Boolean getUsePassport() {
+        return usePassport;
+    }
+
+    public void setUsePassport(Boolean usePassport) {
+        this.usePassport = usePassport;
     }
 }

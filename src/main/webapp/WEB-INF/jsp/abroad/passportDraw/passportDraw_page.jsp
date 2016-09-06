@@ -277,7 +277,15 @@
                 return rowObject.drawStatusName;
             }
             },
-            {label: '应交组织部日期', align: 'center', name: 'returnDate', width: 130},
+            {label: '应交组织部日期', align: 'center', name: 'returnDate', width: 130,cellattr:function(rowId, val, rowObject, cm, rdata) {
+                if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_DRAW}'
+                 && (rowObject.passport.type=='${PASSPORT_TYPE_KEEP}' ||
+                        (rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && !rowObject.passport.cancelConfirm)))  {
+                    var _date = rowObject.returnDate;
+                    if (_date <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }
+            }},
             {
                 label: '催交证件',
                 align: 'center',

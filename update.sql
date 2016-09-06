@@ -1,4 +1,19 @@
 
+--2017-9-5
+
+ALTER TABLE `abroad_passport_draw`
+	ADD COLUMN `use_passport` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境）） 处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境））' AFTER `attachment_filename`;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_student` AS SELECT `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`, u.source, `m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`s`.`delay_year` AS `delay_year`,`s`.`period` AS `period`,`s`.`code` AS `code`,`s`.`edu_category` AS `edu_category`,`s`.`gender` AS `gender`,`s`.`birth` AS `birth`,`s`.`nation` AS `nation`,`s`.`actual_graduate_time` AS `actual_graduate_time`,`s`.`expect_graduate_time` AS `expect_graduate_time`,`s`.`actual_enrol_time` AS `actual_enrol_time`,`s`.`sync_source` AS `sync_source`,`s`.`type` AS `type`,`s`.`is_full_time` AS `is_full_time`,`s`.`realname` AS `realname`,`s`.`enrol_year` AS `enrol_year`,`s`.`native_place` AS `native_place`,`s`.`edu_way` AS `edu_way`,`s`.`idcard` AS `idcard`,`s`.`edu_level` AS `edu_level`,`s`.`grade` AS `grade`,`s`.`edu_type` AS `edu_type`, s.xj_status as xj_status, p.unit_id as unit_id
+FROM (`ow_member` `m`,`ow_party` p, sys_user u
+JOIN `ow_student` `s`)
+where (`m`.`user_id` = `s`.`user_id` and m.party_id=p.id and m.user_id=u.id)  ;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_teacher` AS SELECT `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`, u.source, `m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`t`.`code` AS `code`,`t`.`education` AS `education`,`t`.`gender` AS `gender`,`t`.`nation` AS `nation`,`t`.`school_type` AS `school_type`,`t`.`title_level` AS `title_level`,`t`.`staff_status` AS `staff_status`,`t`.`retire_time` AS `retire_time`,`t`.`post_class` AS `post_class`,`t`.`pro_post` AS `pro_post`,`t`.`major` AS `major`,`t`.`post` AS `post`,`t`.`school` AS `school`,`t`.`is_retire` AS `is_retire`,`t`.`is_honor_retire` AS `is_honor_retire`,`t`.`post_type` AS `post_type`,`t`.`degree_time` AS `degree_time`,`t`.`manage_level` AS `manage_level`,`t`.`email` AS `email`,`t`.`post_level` AS `post_level`,`t`.`office_level` AS `office_level`,`t`.`talent_title` AS `talent_title`,`t`.`address` AS `address`,`t`.`degree` AS `degree`,`t`.`mobile` AS `mobile`,`t`.`birth` AS `birth`,`t`.`authorized_type` AS `authorized_type`,`t`.`realname` AS `realname`,`t`.`arrive_time` AS `arrive_time`,`t`.`native_place` AS `native_place`,`t`.`marital_status` AS `marital_status`,`t`.`staff_type` AS `staff_type`,`t`.`phone` AS `phone`,`t`.`idcard` AS `idcard`,`t`.`on_job` AS `on_job`,`t`.`pro_post_level` AS `pro_post_level`,p.unit_id as unit_id
+FROM (`ow_member` `m`,`ow_party` p, sys_user u
+JOIN `ow_teacher` `t`)
+WHERE (`m`.`user_id` = `t`.`user_id` and m.party_id=p.id and m.user_id=u.id)  ;
 
 
 --2017-9-2

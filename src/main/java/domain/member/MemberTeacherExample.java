@@ -257,6 +257,66 @@ public class MemberTeacherExample {
             return (Criteria) this;
         }
 
+        public Criteria andMemberSourceIsNull() {
+            addCriterion("member_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceIsNotNull() {
+            addCriterion("member_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceEqualTo(Byte value) {
+            addCriterion("member_source =", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceNotEqualTo(Byte value) {
+            addCriterion("member_source <>", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceGreaterThan(Byte value) {
+            addCriterion("member_source >", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceGreaterThanOrEqualTo(Byte value) {
+            addCriterion("member_source >=", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceLessThan(Byte value) {
+            addCriterion("member_source <", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceLessThanOrEqualTo(Byte value) {
+            addCriterion("member_source <=", value, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceIn(List<Byte> values) {
+            addCriterion("member_source in", values, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceNotIn(List<Byte> values) {
+            addCriterion("member_source not in", values, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceBetween(Byte value1, Byte value2) {
+            addCriterion("member_source between", value1, value2, "memberSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberSourceNotBetween(Byte value1, Byte value2) {
+            addCriterion("member_source not between", value1, value2, "memberSource");
+            return (Criteria) this;
+        }
+
         public Criteria andSourceIsNull() {
             addCriterion("source is null");
             return (Criteria) this;

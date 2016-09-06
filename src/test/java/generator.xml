@@ -43,8 +43,8 @@
       </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
       </table>-->
-      <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
-      </table>
+      <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
+      </table>-->
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
@@ -99,10 +99,10 @@
 
       <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
       </table>-->
-      <!--<table tableName="ow_member_student" domainObjectName="member.MemberStudent">
-      </table>-->
-     <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher">
-      </table>-->
+      <table tableName="ow_member_student" domainObjectName="member.MemberStudent">
+      </table>
+      <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher">
+      </table>
      <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->
