@@ -110,7 +110,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setUsername(code);
         record.setCode(code);
         record.setType(SystemConstants.USER_TYPE_JZG);
-        record.setRealname(StringUtils.trim(extJzg.getXm()));
+        record.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extJzg.getXm()), StringUtils.trim(extJzg.getXmpy())));
         record.setGender(NumberUtils.toByte(extJzg.getXbm()));
         record.setBirth(extJzg.getCsrq());
         record.setIdcard(StringUtils.trim(extJzg.getSfzh()));
@@ -234,7 +234,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setUsername(code);
         record.setCode(code);
         record.setType(SystemConstants.USER_TYPE_YJS);
-        record.setRealname(StringUtils.trim(extYjs.getXm()));
+        record.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extYjs.getXm()), StringUtils.trim(extYjs.getXmpy())));
         record.setGender(NumberUtils.toByte(extYjs.getXbm()));
         if(StringUtils.isNotBlank(extYjs.getCsrq()))
             record.setBirth(DateUtils.parseDate(extYjs.getCsrq(), "yyyyMMdd"));
@@ -359,7 +359,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setUsername(code);
         record.setCode(code);
         record.setType(SystemConstants.USER_TYPE_BKS);
-        record.setRealname(StringUtils.trim(extBks.getXm()));
+        record.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extBks.getXm()), StringUtils.trim(extBks.getXmpy())));
         if(StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
             record.setGender(SystemConstants.GENDER_MALE);
         else if(StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
