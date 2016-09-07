@@ -104,7 +104,7 @@ public class SysUserController extends BaseController {
     public void sysUser_data(HttpServletRequest request,
                              @SortParam(required = false, defaultValue = "id", tableName = "sys_user") String sort,
                              @OrderParam(required = false, defaultValue = "desc") String order,
-                             Integer pageSize, Integer pageNo, String username, String realname,
+                             Integer pageSize, Integer pageNo, String username, String realname, String code,
                              Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
 
         if (null == pageSize) {
@@ -120,6 +120,9 @@ public class SysUserController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameEqualTo(username);
+        }
+        if (StringUtils.isNotBlank(code)) {
+            criteria.andCodeEqualTo(code);
         }
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike("%" + realname + "%");

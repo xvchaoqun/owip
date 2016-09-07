@@ -13,7 +13,7 @@ import java.io.File;
 /**
  * Created by fafa on 2016/5/23.
  */
-@Controller
+//@Controller
 public class AvatarController extends BaseController{
 
     int total = 0;

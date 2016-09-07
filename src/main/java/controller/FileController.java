@@ -2,26 +2,24 @@ package controller;
 
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
-import domain.dispatch.Dispatch;
 import domain.sys.SysUser;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.tool.qrcode.QRCodeUtil;
+import sys.utils.ConfigUtil;
 import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -98,14 +96,14 @@ public class FileController extends BaseController {
     @RequestMapping("/img")
     public void sign(String path, HttpServletResponse response) throws IOException {
 
-        showPic(springProps.uploadPath + path, response);
+        showPic(FileUtils.getBytes(springProps.uploadPath + path), response);
     }
 
     // 手写签名
     @RequestMapping("/sign")
     public void sign(@CurrentUser SysUser loginUser, HttpServletResponse response) throws IOException {
 
-        showPic(springProps.uploadPath + loginUser.getSign(), response);
+        showPic(FileUtils.getBytes(springProps.uploadPath + loginUser.getSign()), response);
     }
 
     @RequestMapping("/avatar/{username}")
@@ -119,12 +117,11 @@ public class FileController extends BaseController {
             filepath = springProps.avatarFolder + springProps.defaultAvatar;
         }
 
-        showPic(filepath, response);
+        showPic(FileUtils.getBytes(filepath), response);
     }
 
-    public void showPic(String filepath, HttpServletResponse response) throws IOException {
+    public void showPic(byte[] bytes, HttpServletResponse response) throws IOException {
 
-        byte[] bytes = FileUtils.getBytes(filepath);
         if (bytes == null) return;
 
         response.reset();
@@ -135,4 +132,17 @@ public class FileController extends BaseController {
         outputStream.flush();
         outputStream.close();
     }
+
+    //二维码
+    @RequestMapping("/qrcode")
+    public void qrcode(String content, HttpServletResponse response) throws Exception {
+
+        String homePath = ConfigUtil.defaultHomePath();
+        BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu60.jpg", false);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "JPG", baos);
+        showPic(baos.toByteArray(), response);
+        baos.close();
+    }
+
 }

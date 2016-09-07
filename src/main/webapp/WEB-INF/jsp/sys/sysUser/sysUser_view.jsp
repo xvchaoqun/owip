@@ -7,14 +7,14 @@
     <div class="widget-box transparent" id="view-box">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:;" class="closeView btn btn-mini btn-xs btn-success">
+                <a href="javascript:" class="closeView btn btn-mini btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:;" data-url="${ctx}/sysUser_view?userId=${param.userId}">账号详情</a>
+                        <a href="javascript:" data-url="${ctx}/sysUser_view?userId=${param.userId}">账号详情</a>
                     </li>
                 </ul>
             </div>
@@ -31,6 +31,8 @@
                                 ${sysUser.realname}
                             </h1>
                         </div>
+                        <div class="row">
+                        <div class="col-xs-6">
                         <div class="profile-user-info profile-user-info-striped">
                             <div class="profile-info-row">
                                 <div class="profile-info-name"> 所在单位 </div>
@@ -43,7 +45,9 @@
                                 <div class="profile-info-name">  ${(sysUser.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 
                                 <div class="profile-info-value">
-                                    <span class="editable" id="username">${sysUser.code}</span>
+                                    <span class="editable" id="username">${sysUser.code}
+
+                                    </span>
                                 </div>
                             </div>
 
@@ -124,7 +128,11 @@
                             </c:if>
 
                         </div>
-
+                        </div>
+                            <div>
+                                <img src="${ctx}/qrcode?content=${sysUser.code}"/>
+                            </div>
+                        </div>
                         <div class="clearfix form-actions center">
 
                             <button class="closeView btn" type="button">

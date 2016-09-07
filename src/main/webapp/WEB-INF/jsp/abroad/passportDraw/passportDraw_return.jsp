@@ -238,8 +238,8 @@
         no_icon:'ace-icon fa fa-picture-o',
         thumbnail:'large',
         droppable:true,
-        previewWidth: 80,
-        previewHeight: 100,
+        previewWidth: 240,
+        previewHeight: 320,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     }).end().find('button[type=reset]').on(ace.click_event, function(){

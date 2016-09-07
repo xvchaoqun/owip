@@ -11,7 +11,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-            <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname ||not empty param.username
+            <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname ||not empty param.code ||not empty param.username
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasRole name="admin">
@@ -53,9 +53,14 @@
                         <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
                                         <label>账号</label>
-                                            <input class="form-control search-query" name="username" type="text" value="${param.username}"
-                                                   placeholder="请输入账号">
+                                        <input class="form-control search-query" name="username" type="text" value="${param.username}"
+                                               placeholder="请输入账号">
                                     </div>
+                            <div class="form-group">
+                                <label>学工号</label>
+                                <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                       placeholder="请输入学工号">
+                            </div>
                                     <div class="form-group">
                                         <label>姓名</label>
                                             <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
@@ -155,7 +160,7 @@
                 var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
                         +'class="avatar" data-id="{2}"'
                         +'data-hasimg="{3}" data-username="{4}">';
-                html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username)
+                html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username);
                 return html;
             },frozen:true},
             { label: '类别', name: 'type', width: 100, formatter:function(cellvalue, options, rowObject){
@@ -201,8 +206,8 @@
                 $("#lockBtn, #unlockBtn").prop("disabled", true);
             } else if (status) {
                 var rowData = $(this).getRowData(id);
-                console.log((status && rowData.locked) + " " + (status && !rowData.locked))
-                $("#lockBtn").prop("disabled", rowData.locked==1)
+                console.log((status && rowData.locked) + " " + (status && !rowData.locked));
+                $("#lockBtn").prop("disabled", rowData.locked==1);
                 $("#unlockBtn").prop("disabled", rowData.locked==0)
             } else {
                 $("#lockBtn, #unlockBtn").prop("disabled", true);

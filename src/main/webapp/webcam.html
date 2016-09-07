@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src='/assets/js/jquery.js'></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="/extend/js/bootbox.min.js"></script>
+    <script src="/extend/js/webcam.min.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <style>
+        .my-bootbox .modal-dialog{
+            width: 510px;
+        }
+    </style>
+</head>
+<body>
+<div class="well">
+<a href="javascript:" onclick="webcam()" class="camera"><img src="/extend/img/camera.png"/>点此拍照</a>
+</div>
+<div id="my_camera"></div>
+<div id="result"></div>
+<script>
+    Webcam.set({
+        width: 480,
+        height: 640,
+        force_flash: true,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+    function webcam(){
+
+        Webcam.set({
+            width: 480,
+            height: 640,
+            force_flash: true,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+
+        bootbox.confirm({
+            className: "my-bootbox",
+            buttons: {
+                confirm: {
+                    label: '拍照',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default btn-show'
+                }
+            },
+            message: '<div id="my_camera"></div>',
+            callback: function(result) {
+                if(result) {
+                    Webcam.snap( function(data_uri) {
+                        //console.log(data_uri)
+                        $("#result").html("<img src='"+data_uri+"'/>")
+                    } );
+
+                }else{
+                    Webcam.reset();
+                }
+            },
+            title: '点击允许，打开摄像头'
+        });
+
+        //if(!Webcam.loaded) {
+        //console.log("my_camera init")
+        Webcam.attach('#my_camera');
+        //}
+
+    }
+</script>
+</body>
+</html>

@@ -314,6 +314,13 @@
                 width: 100,
                 formatter: function (cellvalue, options, rowObject) {
 
+                    if( rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_RETURN}'){
+
+                        if(rowObject.useRecord==undefined) return '-';
+
+                        return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/img?path={0}">使用记录</a>'
+                                .format(rowObject.useRecord, "使用记录");
+                    }
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
                             rowObject.passport.type=='${PASSPORT_TYPE_LOST}' ||
                             rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
