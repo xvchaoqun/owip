@@ -17,20 +17,29 @@
 </head>
 <body>
 <div class="well">
-<a href="javascript:" onclick="webcam()" class="camera"><img src="/extend/img/camera.png"/>点此拍照</a>
+<a href="javascript:" onclick="opencam()" class="camera"><img src="/extend/img/camera.png"/>打开</a>
+<a href="javascript:" onclick="freeze()" class="camera"><img src="/extend/img/camera.png"/>freeze</a>
+<a href="javascript:" onclick="unfreeze()" class="camera"><img src="/extend/img/camera.png"/>unfreeze</a>
 </div>
 <div id="my_camera"></div>
 <div id="result"></div>
 <script>
-    Webcam.set({
+ /*   Webcam.set({
         width: 480,
         height: 640,
         force_flash: true,
         image_format: 'jpeg',
         jpeg_quality: 90
     });
-    Webcam.attach('#my_camera');
-    function webcam(){
+    Webcam.attach('#my_camera');*/
+
+    function freeze(){
+        Webcam.freeze();
+    }
+ function unfreeze(){
+     Webcam.unfreeze();
+ }
+    function opencam(){
 
         Webcam.set({
             width: 480,
@@ -40,7 +49,7 @@
             jpeg_quality: 90
         });
 
-        bootbox.confirm({
+       /* bootbox.confirm({
             className: "my-bootbox",
             buttons: {
                 confirm: {
@@ -57,15 +66,16 @@
                 if(result) {
                     Webcam.snap( function(data_uri) {
                         //console.log(data_uri)
-                        $("#result").html("<img src='"+data_uri+"'/>")
+                        $("#result").html("<img src='"+data_uri+"'/>");
+
                     } );
 
                 }else{
-                    Webcam.reset();
+                    //Webcam.reset();
                 }
             },
             title: '点击允许，打开摄像头'
-        });
+        });*/
 
         //if(!Webcam.loaded) {
         //console.log("my_camera init")

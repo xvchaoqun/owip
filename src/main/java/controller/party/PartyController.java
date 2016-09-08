@@ -267,7 +267,7 @@ public class PartyController extends BaseController {
 
         List<Party> records = partyMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号","名称","简称","网址","所属单位","党总支类别","组织类别","所在单位属性","联系电话","邮箱"};
+        String[] titles = {"编号","名称","简称","所属单位","党总支类别","组织类别","所在单位属性","联系电话","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             Party record = records.get(i);
@@ -275,13 +275,13 @@ public class PartyController extends BaseController {
                     record.getCode(),
                     record.getName(),
                     record.getShortName(),
-                    record.getUrl(),
                     record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
                     metaTypeService.getName(record.getClassId()),
                     metaTypeService.getName(record.getTypeId()),
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
-                    record.getEmail()
+                    record.getEmail(),
+                    DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYY_MM_DD),
             };
             valuesList.add(values);
         }

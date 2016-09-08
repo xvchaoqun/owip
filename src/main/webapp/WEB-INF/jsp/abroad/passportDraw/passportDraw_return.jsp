@@ -94,11 +94,11 @@
                 <div id="illegalUsePassport">
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
-                    <div class="col-xs-2 file" style="width:300px;">
+                    <div class="col-xs-2 file" style="width:360px;">
                         <input type="file" name="_useRecord" />
                     </div>
                     <input type="hidden" name="_useRecord_base64">
-                    <div style="display: inherit;line-height: 126px">或 <a href="javascript:" onclick="webcam()" class="camera"><img src="${ctx}/extend/img/camera.png"/>点此拍照</a></div>
+                    <div style="display: inherit;line-height: 126px">或 <a href="javascript:" onclick="opencam()" class="camera"><img src="${ctx}/extend/img/camera.png"/>点此拍照</a></div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">实际出发时间</label>
@@ -154,66 +154,54 @@
            class="btn btn-success" value="确认归还"/>
     <input  class="closeView btn btn-default" value="返回"/>
 </div>
+
+<div class="webcam-container modal">
+    <div class="modal-header">
+        <button type="button" onclick="closecam()" class="close">&times;</button>
+        <h3>点击允许，打开摄像头</h3>
+    </div>
+    <div class="modal-body">
+    <div id="my_camera"></div>
+        </div>
+    <div class="modal-footer">
+        <a href="javascript:" class="btn btn-success" onclick="snap()"><i class="fa fa-camera" aria-hidden="true" ></i> 拍照</a>
+        <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
+    </div>
+</div>
 <script src="${ctx}/extend/js/webcam.min.js"></script>
 
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
-<style>
-    .my-bootbox .modal-dialog{
-        width: 510px;
-    }
-    .my-bootbox .modal-body{
-        max-height: inherit;
-    }
-</style>
 <script>
 
+    function snap(){
+        Webcam.snap( function(data_uri) {
+            //console.log(data_uri)
+            $("input[name=_useRecord_base64]").val(data_uri);
+            $('input[type=file][name=_useRecord]').ace_file_input('show_file_list', [
+                {type: 'image', name: '使用记录拍照.jpg', path: data_uri}]);
+        } );
+        Webcam.reset();
+        $(".webcam-container").modal('hide');
+    }
+    function closecam(){
+        Webcam.reset();
+        $(".webcam-container").modal('hide');
+    }
 
-
-    function webcam(){
+    function opencam(){
 
         Webcam.set({
-            width: 480,
-            height: 640,
-            force_flash: true,
+            width: 640,
+            height: 480,
+            //force_flash: true,
             image_format: 'jpeg',
             jpeg_quality: 90
         });
 
-        bootbox.confirm({
-            className: "my-bootbox",
-            buttons: {
-                confirm: {
-                    label: '截图',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-default btn-show'
-                }
-            },
-            message: '<div id="my_camera"></div>',
-            callback: function(result) {
-                if(result) {
-                    Webcam.snap( function(data_uri) {
-                        //console.log(data_uri)
-                        $("input[name=_useRecord_base64]").val(data_uri);
-                        $('input[type=file][name=_useRecord]').ace_file_input('show_file_list', [
-                                   {type: 'image', name: '使用记录拍照.jpg', path: data_uri}]);
-                    } );
+        Webcam.attach('#my_camera');
 
-                }else{
-                    //Webcam.reset();
-                }
-            },
-            title: '点击允许，打开摄像头'
-        }).draggable({handle :".modal-header"});
-
-        //if(!Webcam.loaded) {
-            //console.log("my_camera init")
-            Webcam.attach('#my_camera');
-        //}
-
+        $(".webcam-container").modal('show').draggable({handle :".modal-header"});
     }
 
     var tag_input = $('#form-field-tags');
@@ -238,8 +226,8 @@
         no_icon:'ace-icon fa fa-picture-o',
         thumbnail:'large',
         droppable:true,
-        previewWidth: 240,
-        previewHeight: 320,
+        previewWidth: 320,
+        previewHeight: 240,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     }).end().find('button[type=reset]').on(ace.click_event, function(){

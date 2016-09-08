@@ -671,6 +671,21 @@ input[type=radio].bigger{
 .fancybox-inner{
 }
 
+.webcam-container {
+    display: none;
+    position: fixed;
+    padding-right: 0px!important;
+    width: 674px;
+    height: 656px;
+    background-color: #fff;
+    z-index: 9999;
+    left:50%;
+    top:50%;
+    margin:-328px 0 0 -337px;
+}
+.webcam-container .modal-body {
+    max-height: inherit;
+}
 .camera{
     color: #000;
     text-decoration: none;
