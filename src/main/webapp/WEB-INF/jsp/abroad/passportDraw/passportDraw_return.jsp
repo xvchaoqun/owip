@@ -196,7 +196,7 @@
             height: 480,
             //force_flash: true,
             image_format: 'jpeg',
-            jpeg_quality: 90
+            jpeg_quality: 100
         });
 
         Webcam.attach('#my_camera');
