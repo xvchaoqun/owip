@@ -323,21 +323,21 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               memoryStoreEvictionPolicy="LRU" />
 
        <cache name="Location:ALL"
-              eternal="false"
-              maxElementsInMemory="100"
-              overflowToDisk="false"
-              diskPersistent="false"
-              timeToIdleSeconds="0"
+              maxElementsInMemory="1000"
+              overflowToDisk="true"
+              eternal="true"
               timeToLiveSeconds="0"
-              memoryStoreEvictionPolicy="LRU" />
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600"/>
        <cache name="Location:JSON"
-              eternal="false"
-              maxElementsInMemory="100"
-              overflowToDisk="false"
-              diskPersistent="false"
-              timeToIdleSeconds="0"
+              maxElementsInMemory="1000"
+              overflowToDisk="true"
+              eternal="true"
               timeToLiveSeconds="0"
-              memoryStoreEvictionPolicy="LRU" />
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600" />
        <cache name="Country:ALL"
               eternal="false"
               maxElementsInMemory="100"
@@ -396,12 +396,13 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        statistics="true">
 </cache>
 <cache name="Permissions"
-       maxEntriesLocalHeap="2000"
-       eternal="false"
-       timeToIdleSeconds="3600"
+       maxElementsInMemory="1000"
+       overflowToDisk="true"
+       eternal="true"
        timeToLiveSeconds="0"
-       overflowToDisk="false"
-       statistics="true">
+       timeToIdleSeconds="0"
+       diskPersistent="true"
+       diskExpiryThreadIntervalSeconds="600">
 </cache>
 <cache name="UserPermissions"
        maxEntriesLocalHeap="2000"
