@@ -21,7 +21,7 @@ public class MyXssFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-        if(StringUtils.equals(requestURI, "/sysConfig_au")
+        if(StringUtils.equals(requestURI, "/htmlFragment_au")
                 || StringUtils.equals(requestURI, "/contentTpl_au")
                 || StringUtils.equals(requestURI, "/cadreInfo_updateContent")){  // 不需要XSS参数编码的资源
             filterChain.doFilter(request, response);

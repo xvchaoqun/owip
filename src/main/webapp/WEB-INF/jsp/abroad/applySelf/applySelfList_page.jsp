@@ -36,7 +36,7 @@
                             </c:if>
                             <a class="popupBtn btn btn-info btn-sm"
                                data-width="650"
-                               data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE}">
+                               data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE}">
                                 <i class="fa fa-info-circle"></i> 审批说明</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -142,7 +142,7 @@
     $("#detailBtn").click(function () {
         var grid = $("#jqGrid");
         var id = grid.getGridParam("selrow");
-        var ids = grid.getGridParam("selarrrow")
+        var ids = grid.getGridParam("selarrrow");
         if (!$(this).hasClass("jqOpenViewBtn")) {
             if (!id || ids.length > 1) {
                 SysMsg.warning("请选择一行", "提示");
@@ -230,7 +230,7 @@
             {
                 label: '备注', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
-                    return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id})
+                    return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''
             }
             }

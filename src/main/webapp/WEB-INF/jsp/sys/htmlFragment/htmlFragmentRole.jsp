@@ -6,8 +6,8 @@
     <h4>修改配置角色</h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/sysConfigRole" method="post">
-  	<input type="hidden" name="id" value="${sysConfig.id}">
+  <form class="form-horizontal"  action="${ctx}/htmlFragmentRole" method="post">
+  	<input type="hidden" name="id" value="${htmlFragment.id}">
   	<div id="tree3"></div>
   </form>
   </div>

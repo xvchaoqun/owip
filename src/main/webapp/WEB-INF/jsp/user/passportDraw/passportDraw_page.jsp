@@ -11,7 +11,7 @@
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportDraw_select"><i
                             class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
                     <a class="popupBtn btn btn-info btn-sm"
-                       data-url="${ctx}/sc_content?code=${SYS_CONFIG_PASSPORT_DRAW_NOTE}">
+                       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_PASSPORT_DRAW_NOTE}">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                 </div>
             </mytag:sort-form>
@@ -69,7 +69,7 @@
     </button>
 </script>
 <script type="text/template" id="applyId_tpl">
-    <a class="openView" href="javascript:;"
+    <a class="openView" href="javascript:"
        data-url="${ctx}/user/applySelf_view?id={{=id}}"> S{{=id}}</a>
 </script>
 <script>
@@ -131,7 +131,7 @@
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    var filesArray = []
+                    var filesArray = [];
                     for (var i in rowObject.files) {
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
@@ -213,7 +213,7 @@
         });
 
         $(window).triggerHandler('resize.jqGrid');
-    })
+    });
 
     function _delCallback(target) {
         SysMsg.success('撤销成功。', '成功', function () {

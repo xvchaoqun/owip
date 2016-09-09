@@ -226,7 +226,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected LogService logService;
     @Autowired
-    protected SysConfigService sysConfigService;
+    protected HtmlFragmentService htmlFragmentService;
     @Autowired
     protected SysLoginLogService sysLoginLogService;
 

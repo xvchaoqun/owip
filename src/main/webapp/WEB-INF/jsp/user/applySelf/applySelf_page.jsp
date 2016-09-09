@@ -14,7 +14,7 @@
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
                     <a class="popupBtn btn btn-info btn-sm"
                        data-width="650"
-                       data-url="${ctx}/sc_content?code=${SYS_CONFIG_APPLY_SELF_NOTE}">
+                       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_APPLY_SELF_NOTE}">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/user/applySelf_view"
@@ -169,7 +169,7 @@
             }},
             { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
-                    return _.template($("#remark_tpl").html().NoMultiSpace())({id:rowObject.id})
+                    return _.template($("#remark_tpl").html().NoMultiSpace())({id:rowObject.id});
                 else return ''
             } }
         ],
@@ -181,7 +181,7 @@
             //$("#editBtn").prop("disabled",status &&data.isFinish==1&&data.isAgreed!=0)
             var firstType = data.firstType;
             //console.log(firstType)
-            $("#abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4)
+            $("#abolishBtn").prop("disabled",status && firstType!=3&&firstType!=4);
             $("#editBtn").prop("disabled",status && firstType!=3&&firstType!=4&&firstType!=5)
         }
     }).jqGrid("setFrozenColumns");

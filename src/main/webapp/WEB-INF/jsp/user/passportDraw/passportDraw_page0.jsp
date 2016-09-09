@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
                 <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportDraw_select"><i class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                    data-need-id="false"
-                   data-url="${ctx}/sc_content?code=${SYS_CONFIG_PASSPORT_DRAW_NOTE}">
+                   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_PASSPORT_DRAW_NOTE}">
                     <i class="fa fa-info-circle"></i> 申请说明</a>
             </div>
         </mytag:sort-form>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                             <td>${passportType.name}</td>
                             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
 								<td>
-                                    <a class="openView" href="javascript:;"
+                                    <a class="openView" href="javascript:"
                                        data-url="${ctx}/user/applySelf_view?id=${passportDraw.applyId}"> S${passportDraw.applyId}</a>
                                    </td>
                                 <td>
@@ -122,10 +122,10 @@ pageEncoding="UTF-8" %>
                                 ${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}
                                 <c:if test="${not empty passportDraw.approveRemark}">
                                     <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_NOT_PASS}">
-                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_NOT_PASS}"  href="javascript:;">原因</a>）
+                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_NOT_PASS}"  href="javascript:">原因</a>）
                                     </c:if>
                                     <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
-                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_PASS}" href="javascript:;">备注</a>）
+                                        （<a class="remark" data-remark="${passportDraw.approveRemark}" data-status="${PASSPORT_DRAW_STATUS_PASS}" href="javascript:">备注</a>）
                                     </c:if>
                                 </c:if>
                                 </td>

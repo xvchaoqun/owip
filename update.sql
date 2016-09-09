@@ -1,4 +1,21 @@
 
+
+--2017-9-9
+ALTER TABLE `sys_config`
+	COMMENT='系统html文本';
+RENAME TABLE `sys_config` TO `sys_html_fragment`;
+ALTER TABLE `sys_html_fragment`
+	ADD COLUMN `fid` INT(10) UNSIGNED NULL COMMENT '所属文本' AFTER `id`,
+	CHANGE COLUMN `code` `code` VARCHAR(50) NULL DEFAULT NULL COMMENT '配置标识' AFTER `fid`,
+	ADD COLUMN `category` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '分类，帮助文档、普通' AFTER `code`,
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类别，1 文本 2 数字 3 布尔' AFTER `category`,
+	CHANGE COLUMN `name` `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '标题' AFTER `role_id`,
+	ADD COLUMN `sort_order` INT UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `remark`,
+	ADD CONSTRAINT `FK_sys_html_fragment_sys_html_fragment` FOREIGN KEY (`fid`) REFERENCES `sys_html_fragment` (`id`) ON DELETE CASCADE;
+
+
+
+
 --2017-9-6
 
 ALTER TABLE `abroad_passport_draw`

@@ -138,7 +138,7 @@ public class FileController extends BaseController {
     public void qrcode(String content, HttpServletResponse response) throws Exception {
 
         String homePath = ConfigUtil.defaultHomePath();
-        BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu60.jpg", false);
+        BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu90.png", false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "JPG", baos);
         showPic(baos.toByteArray(), response);

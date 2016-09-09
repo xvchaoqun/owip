@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
 		<a class="popupBtn btn btn-success btn-xs"
 		   data-width="800"
-		   data-url="${ctx}/sc_content?code=${SYS_CONFIG_MEMBER_IN_NOTE_BACK}">
+		   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_MEMBER_IN_NOTE_BACK}">
 			<i class="fa fa-info-circle"></i> 申请说明</a>
 	</h3>
 <hr/>
@@ -308,7 +308,7 @@ pageEncoding="UTF-8"%>
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {
-			console.log(entity)
+			console.log(entity);
 			var gender = entity.user.gender || '';
 			var birth = '';
 			if (entity.user.birth && entity.user.birth != '')
@@ -321,9 +321,9 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=nation]").val(nation);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
-			$("#modalForm input[name=gender]").val('')
-			$("#modalForm input[name=age]").val('')
-			$("#modalForm input[name=nation]").val('')
+			$("#modalForm input[name=gender]").val('');
+			$("#modalForm input[name=age]").val('');
+			$("#modalForm input[name=nation]").val('');
 			$("#modalForm input[name=idcard]").val('')
 		}
 	});

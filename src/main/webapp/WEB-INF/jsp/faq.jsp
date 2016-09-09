@@ -22,10 +22,10 @@
 </div>
 <c:choose>
   <c:when test="${param.type==1}">
-    <c:set var="noteType" value="${SYS_CONFIG_MEMBER_IN_NOTE_FRONT_TEACHER}"/>
+    <c:set var="noteType" value="${HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER}"/>
   </c:when>
   <c:when test="${param.type==2}">
-    <c:set var="noteType" value="${SYS_CONFIG_MEMBER_IN_NOTE_FRONT_STUDENT}"/>
+    <c:set var="noteType" value="${HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT}"/>
   </c:when>
   <c:otherwise>
     <c:redirect url="/"/>
@@ -33,7 +33,7 @@
 </c:choose>
 <div class="container">
 <div class="row">
-${cm:getSysConfig(noteType).content}
+${cm:getHtmlFragment(noteType).content}
 </div>
 </div>
 <!--[if !IE]> -->

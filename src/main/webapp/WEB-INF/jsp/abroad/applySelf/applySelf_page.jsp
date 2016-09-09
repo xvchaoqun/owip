@@ -23,9 +23,11 @@
                     </li>
 
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
-                        <a class="btn btn-success btn-sm" onclick="_note('${SYS_CONFIG_APPLY_SELF_NOTE}')"><i
+                        <a class="openView btn btn-success btn-sm"
+                           data-url="${ctx}/htmlFragment_au?editContent=no&code=${HTML_FRAGMENT_APPLY_SELF_NOTE}"><i
                                 class="fa fa-plus"></i> 申请说明</a>
-                        <a class="btn btn-primary btn-sm" onclick="_note('${SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE}')"><i
+                        <a class="openView btn btn-primary btn-sm"
+                           data-url="${ctx}/htmlFragment_au?editContent=no&code=${HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE}"><i
                                 class="fa fa-plus"></i> 审批说明</a>
                     </div>
                 </ul>
@@ -183,7 +185,7 @@
     $("#detailBtn").click(function () {
         var grid = $("#jqGrid");
         var id = grid.getGridParam("selrow");
-        var ids = grid.getGridParam("selarrrow")
+        var ids = grid.getGridParam("selarrrow");
 
         if (!id || ids.length > 1) {
             SysMsg.warning("请选择一行", "提示");
@@ -210,7 +212,7 @@
                     $container.hideLoading();
                 }, 2000);
             }
-        })
+        });
         $.get(url, {}, function (html) {
             $container.hideLoading().hide();
             $("#item-content").hide().html(html).fadeIn("slow");
@@ -285,16 +287,16 @@
             {
                 label: '备注', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
-                    return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id})
+                    return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''
             }
             }
         ],
         rowattr: function (rowData, currentObj, rowId) {
-            var tdType, approvalTypeId, isFinish
+            var tdType, approvalTypeId, isFinish;
             if (currentObj.flowNode == -1 || currentObj.flowNode == 0) {
                 var tdBean = currentObj.approvalTdBeanMap[currentObj.flowNode];
-                isFinish = currentObj.isFinish
+                isFinish = currentObj.isFinish;
                 approvalTypeId = tdBean.approvalTypeId
             }
 
@@ -347,7 +349,7 @@
         var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if (tdBean.approvalTypeId != -1 && tdBean.tdType == 2)
-            attrs += "class='not_approval' "
+            attrs += "class='not_approval' ";
         /*    if(tdBean.tdType!=1) {
          var apprvalRealnames = [];
          for (var i in tdBean.approverList) {
@@ -413,9 +415,6 @@
         return html;
     }
 
-    function _note(code) {
-        loadModal("${ctx}/sysConfig_au?editContent=true&code=" + code, 700);
-    }
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2"]').select2();
     register_user_select($('[data-rel="select2-ajax"]'));

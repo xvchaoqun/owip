@@ -3,10 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${sysConfig.name}</h3>
+    <h3>${htmlFragment.title}</h3>
   </div>
   <div class="modal-body">
-    ${sysConfig.content}
+    ${htmlFragment.content}
   </div>
   <div class="modal-footer">
   <a href="#" data-dismiss="modal" class="btn btn-info">关闭</a></div>

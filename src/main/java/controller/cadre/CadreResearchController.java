@@ -3,7 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.base.ContentTpl;
 import domain.cadre.*;
-import domain.sys.SysConfig;
+import domain.sys.HtmlFragment;
 import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -68,7 +68,7 @@ public class CadreResearchController extends BaseController {
             modelMap.put("cadreInfo", cadreInfo);
 
             if(type==SystemConstants.CADRE_INFO_TYPE_RESEARCH){
-                Map<String, SysConfig> sysConfigMap = sysConfigService.codeKeyMap();
+                Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
                 modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
                 modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
                 modelMap.put("bookPaperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY));
@@ -76,19 +76,19 @@ public class CadreResearchController extends BaseController {
                 String key = null;
                 switch (type) {
                     case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY:
-                        key = "sc_cadre_research_in_summary";
+                        key = "hf_cadre_research_in_summary";
                         break;
                     case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY:
-                        key = "sc_cadre_research_direct_summary";
+                        key = "hf_cadre_research_direct_summary";
                         break;
                     case SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY:
-                        key = "sc_cadre_book_paper_summary";
+                        key = "hf_cadre_book_paper_summary";
                         break;
                 }
                 if (key != null) {
 
-                    Map<String, SysConfig> sysConfigMap = sysConfigService.codeKeyMap();
-                    modelMap.put("sysConfig", sysConfigMap.get(key));
+                    Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
+                    modelMap.put("htmlFragment", htmlFragmentMap.get(key));
                 }
             }
 

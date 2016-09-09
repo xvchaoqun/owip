@@ -275,7 +275,7 @@ public class BaseMapper {
 	protected MetaTypeMapper metaTypeMapper;
 
 	@Autowired
-	protected SysConfigMapper sysConfigMapper;
+	protected HtmlFragmentMapper htmlFragmentMapper;
 	@Autowired
 	protected SysOnlineStaticMapper sysOnlineStaticMapper;
 

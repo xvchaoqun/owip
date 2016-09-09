@@ -4,7 +4,7 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==0?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(0)"><i class="fa fa-flag"></i> 科研情况</a>
+        <a href="javascript:" onclick="_innerPage(0)"><i class="fa fa-flag"></i> 科研情况</a>
     </li>
     <li class="dropdown <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY
     ||type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY || type==CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}">active</c:if>" >
@@ -15,18 +15,18 @@
         </a>
         <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
             <li>
-                <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')">主持科研项目</a>
+                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')">主持科研项目</a>
             </li>
             <li>
-                <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')">参与科研项目</a>
+                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')">参与科研项目</a>
             </li>
             <li>
-                <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}')">出版著作及发表论文等</a>
+                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}')">出版著作及发表论文等</a>
             </li>
         </ul>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
 <div class="space-4"></div>
@@ -250,7 +250,7 @@
                         </c:forEach>
                     </c:if>
                     <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH}">
-                        ${sysConfig.content}
+                        ${htmlFragment.content}
                     </c:if>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
                     </div>
                     <div class="modal-footer center">
                         <c:if test="${type==CADRE_INFO_TYPE_RESEARCH}">
-                        <a href="javascript:;" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
                             复制初始数据
                         </a>
@@ -345,7 +345,7 @@
         }
         function copyOrginal() {
             //console.log($("#orginal").html())
-            KE.util.setFullHtml('content', $("#orginal").html())
+            KE.util.setFullHtml('content', $("#orginal").html());
             SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
         }
     </script>
@@ -442,7 +442,7 @@
                                 .format(rowObject.proof,rowObject.proofFilename);
                     }},
                 {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '-'
+                    if(cellvalue==0) return '-';
                     return '第{0}'.format(cellvalue);
                 }},
                 {label: '备注', name: 'remark', width: 350}

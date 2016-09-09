@@ -1,5 +1,6 @@
 package controller;
 
+import domain.sys.HtmlFragment;
 import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -18,6 +19,7 @@ import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController extends BaseController {
@@ -43,17 +45,20 @@ public class IndexController extends BaseController {
 
 	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
 	@RequestMapping("/help")
-	public String help() {
+	public String help(ModelMap modelMap) {
 
-		return "index";
+		List<HtmlFragment> hfDocs = htmlFragmentService.twoLevelTree(SystemConstants.HTML_FRAGMENT_HELP_DOC);
+		modelMap.put("hfDocs", hfDocs);
+
+		return "help";
 	}
 
-	@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+	/*@RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
 	@RequestMapping("/help_page")
 	public String help_page() {
 
 		return "help";
-	}
+	}*/
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index")

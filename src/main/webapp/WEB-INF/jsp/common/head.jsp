@@ -48,4 +48,5 @@
 <link rel="stylesheet" href="${ctx}/extend/css/select2.css" />
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.qtip.min.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/extend/css/component.css" />
+<link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
 <link rel="stylesheet" href="${ctx}/extend/css/main.css" />

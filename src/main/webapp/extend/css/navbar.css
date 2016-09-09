@@ -1,0 +1,72 @@
+.navbar {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    min-height: 45px;
+    height: 90px;
+    display: table;
+    width: 100%;
+    background: #033975;
+    font-family: 'Open Sans';
+    font-size: 13px;
+    color: #393939;
+    line-height: 1.5;
+}
+
+#navbar-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.navbar .navbar-brand small {
+    font-size: 135%;
+    font-weight: bolder;
+}
+
+.navbar-buttons {
+    padding-top: 50px;
+    padding-right: 20px;
+    color: #fff;
+    font-size: 16pt;
+}
+
+.navbar-buttons a {
+    color: #cccccc;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.navbar-buttons a:hover {
+    color: #0068bf;
+    font-weight: bolder;
+    background-color: #fff;
+}
+
+/* 内部LOGO */
+.navbar .navbar-header .logo {
+    padding-right: 25px;
+    float: left;
+    height: 58px;
+    border-right: 1px solid #fff;
+}
+
+.navbar .navbar-header .txt {
+    float: left;
+    height: 58px;
+    line-height: 58px;
+    font-size: 30px;
+    margin-left: 25px;
+    font-weight: bold;
+    color: #fff;
+}
+
+@media only screen and (min-width: 992px) {
+    .navbar-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

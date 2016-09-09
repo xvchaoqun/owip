@@ -72,19 +72,21 @@ public class SystemConstants {
 
 	// 系统配置字段：
 	// 因私出国（境）申请说明
-	public static final String SYS_CONFIG_APPLY_SELF_NOTE = "sc_apply_self_note";
+	public static final String HTML_FRAGMENT_APPLY_SELF_NOTE = "hf_apply_self_note";
 	// 因私出国（境）审批说明
-	public static final String SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE = "sc_apply_self_approval_note";
+	public static final String HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE = "hf_apply_self_approval_note";
 	// 申请使用因私出国（境）证件说明
-	public static final String SYS_CONFIG_PASSPORT_DRAW_NOTE = "sc_passport_draw_note";
+	public static final String HTML_FRAGMENT_PASSPORT_DRAW_NOTE = "hf_passport_draw_note";
 	// 组织关系转入说明
-	public static final String SYS_CONFIG_MEMBER_IN_NOTE_FRONT_TEACHER= "sc_member_in_note_front_teacher";
-	public static final String SYS_CONFIG_MEMBER_IN_NOTE_FRONT_STUDENT= "sc_member_in_note_front_student";
-	public static final String SYS_CONFIG_MEMBER_IN_NOTE_BACK= "sc_member_in_note_back";
-/*	public final static Map<String, String> SYS_CONFIG_MAP = new LinkedHashMap<>();
+	public static final String HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER= "hf_member_in_note_front_teacher";
+	public static final String HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT= "hf_member_in_note_front_student";
+	public static final String HTML_FRAGMENT_MEMBER_IN_NOTE_BACK= "hf_member_in_note_back";
+	// 帮助文档
+	public static final String HTML_FRAGMENT_HELP_DOC= "hf_help_doc";
+/*	public final static Map<String, String> HTML_FRAGMENT_MAP = new LinkedHashMap<>();
 	static {
-		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_NOTE, "因私出国境申请说明");
-		SYS_CONFIG_MAP.put(SYS_CONFIG_APPLY_SELF_APPROVAL_NOTE, "因私出国境审批说明");
+		HTML_FRAGMENT_MAP.put(HTML_FRAGMENT_APPLY_SELF_NOTE, "因私出国境申请说明");
+		HTML_FRAGMENT_MAP.put(HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE, "因私出国境审批说明");
 	}*/
 
 	// 登录类型：1 网站 2 下次自动登录 2 CAS 3 移动设备

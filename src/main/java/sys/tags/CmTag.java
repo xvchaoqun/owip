@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
 import persistence.common.SelectMapper;
+import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
 import service.abroad.PassportDrawService;
@@ -34,7 +35,8 @@ import java.util.*;
 public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
-    static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
+    static HtmlFragmentService htmlFragmentService = (HtmlFragmentService) context.getBean("htmlFragmentService");
+    static HtmlFragmentMapper htmlFragmentMapper = (HtmlFragmentMapper) context.getBean("htmlFragmentMapper");
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
     static CadrePostService cadrePostService = (CadrePostService) context.getBean("cadrePostService");
@@ -78,9 +80,14 @@ public class CmTag {
         return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
     }
 
-    public static SysConfig getSysConfig(String code){
+    public static HtmlFragment getHtmlFragment(String code){
 
-        return sysConfigService.codeKeyMap().get(code);
+        return htmlFragmentService.codeKeyMap().get(code);
+    }
+
+    public static HtmlFragment getHtmlFragment(Integer id){
+
+        return htmlFragmentMapper.selectByPrimaryKey(id);
     }
 
     public static String getApplyStatus(MemberApply memberApply) {
