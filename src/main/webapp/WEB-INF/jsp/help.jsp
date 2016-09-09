@@ -76,13 +76,13 @@
         <h1 id="download" class="page-header">帮助文档下载</h1>
         <div class="bs-callout bs-callout-warning">
             <h4>北京师范大学组织工作管理与服务平台用户手册-党建分册</h4>
-            <a href="${ctx}/attach/download?path=/upload/北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf&filename=北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf"
+            <a href="${ctx}/attach/download?path=/北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf&filename=北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
         </div>
         <div class="bs-callout bs-callout-warning">
           <h4>组织工作管理与服务一体化平台（党建部分使用说明）</h4>
           <p>
-            <a href="${ctx}/attach/download?path=/upload/组织工作管理与服务一体化平台（党建部分使用说明）.pdf&filename=组织工作管理与服务一体化平台（党建部分使用说明）.pdf"
+            <a href="${ctx}/attach/download?path=/组织工作管理与服务一体化平台（党建部分使用说明）.pdf&filename=组织工作管理与服务一体化平台（党建部分使用说明）.pdf"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
           </p>
         </div>
@@ -149,30 +149,15 @@
 ================================================== -->
 <footer class="bs-docs-footer" role="contentinfo">
   <div class="container">
-
-
-    <p>Designed and built with all the love in the world by <a href="https://twitter.com/mdo" target="_blank">@mdo</a> and <a href="https://twitter.com/fat" target="_blank">@fat</a>.</p>
-    <p>Maintained by the <a href="https://github.com/orgs/twbs/people">core team</a> with the help of <a href="https://github.com/twbs/bootstrap/graphs/contributors">our contributors</a>.</p>
-    <p>本项目源码受 <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a> 开源协议保护，文档受 <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> 开源协议保护。</p>
-    <ul class="bs-docs-footer-links muted">
-      <li>当前版本： v3.3.0</li>
-      <li>&middot;</li>
-      <li><a href="https://github.com/twbs/bootstrap">GitHub 仓库</a></li>
-      <li>&middot;</li>
-      <li><a href="../getting-started/#examples">实例精选</a></li>
-      <li>&middot;</li>
-      <li><a href="http://v2.bootcss.com/">v2.3.2 中文文档</a></li>
-      <li>&middot;</li>
-      <li><a href="../about/">关于</a></li>
-      <li>&middot;</li>
-      <li><a href="http://expo.bootcss.com">优站精选</a></li>
-      <li>&middot;</li>
-      <li><a href="http://blog.getbootstrap.com">官方博客</a></li>
-      <li>&middot;</li>
-      <li><a href="https://github.com/twbs/bootstrap/issues">Issues</a></li>
-      <li>&middot;</li>
-      <li><a href="https://github.com/twbs/bootstrap/releases">历史版本</a></li>
-    </ul>
+    <div class="footer">
+      <div class="footer-inner">
+        <div class="footer-content">
+            <span class="bigger-120">
+                <fmt:message key="site.school" bundle="${spring}"/>党委组织部 <span class="blue bolder">&copy;2016</span>
+            </span>
+        </div>
+      </div>
+    </div>
   </div>
 </footer>
 
