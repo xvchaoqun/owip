@@ -18,6 +18,7 @@ import shiro.ShiroUser;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class ExceptionHandlerController {
         return resultMap;
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler({RuntimeException.class, FileNotFoundException.class})
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 

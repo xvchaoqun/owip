@@ -273,7 +273,8 @@ public class BaseMapper {
 	protected MetaClassMapper metaClassMapper;
 	@Autowired
 	protected MetaTypeMapper metaTypeMapper;
-
+	@Autowired
+	protected AttachFileMapper attachFileMapper;
 	@Autowired
 	protected HtmlFragmentMapper htmlFragmentMapper;
 	@Autowired

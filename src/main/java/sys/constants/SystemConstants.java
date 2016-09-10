@@ -102,6 +102,20 @@ public class SystemConstants {
 		LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
 	}
 
+	// 系统附件类别，1图片 2word文档 3pdf 4 视频
+	public static final byte ATTACH_FILE_TYPE_IMAGE = 1;
+	public static final byte ATTACH_FILE_TYPE_DOC = 2;
+	public static final byte ATTACH_FILE_TYPE_PDF = 3;
+	public static final byte ATTACH_FILE_TYPE_VIDEO =4;
+	public final static Map<Byte, String> ATTACH_FILE_TYPE_MAP = new LinkedHashMap<>();
+	static {
+		ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_IMAGE, "图片");
+		ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_DOC, "word文档");
+		ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_PDF, "pdf文档");
+		ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_VIDEO, "视频");
+	}
+
+
 	//public static final String LOG_LOGIN = "mt_log_login"; 登录单独记录
 	public static final String LOG_ADMIN = "mt_log_admin";
 	public static final String LOG_OW = "mt_log_ow";

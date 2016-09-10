@@ -2,6 +2,7 @@ package controller;
 
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
+import domain.sys.AttachFile;
 import domain.sys.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -27,6 +28,18 @@ import java.util.Arrays;
  */
 @Controller
 public class FileController extends BaseController {
+
+    @RequestMapping(value = "/attach")
+    public void attach(String code,
+                       HttpServletRequest request,
+                       HttpServletResponse response) throws IOException {
+
+        AttachFile attachFile = attachFileService.get(code);
+        if (attachFile == null) throw new FileNotFoundException("文件不存在");
+
+        DownloadUtils.download(request, response, springProps.uploadPath + attachFile.getPath(),
+                attachFile.getFilename() + attachFile.getExt());
+    }
 
     @RequestMapping(value = "/attach/cadre")
     public void cadreXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -54,7 +67,7 @@ public class FileController extends BaseController {
         PassportDrawFile passportDrawFile = passportDrawFileMapper.selectByPrimaryKey(id);
         if (passportDrawFile != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
-            if(passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
+            if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN));
                 // 本人、干部管理员或管理员才可以下载
                 if (!hasRoles[0] && !hasRoles[1]) {
@@ -76,12 +89,12 @@ public class FileController extends BaseController {
 
     // swf内容
     @RequestMapping("/swf")
-    public void dispatch_swf(String path, HttpServletResponse response) throws IOException{
+    public void dispatch_swf(String path, HttpServletResponse response) throws IOException {
 
         String filePath = springProps.uploadPath + FileUtils.getFileName(path) + ".swf";
 
         byte[] bytes = FileUtils.getBytes(filePath);
-        if(bytes==null) return ;
+        if (bytes == null) return;
 
         response.reset();
         response.addHeader("Content-Length", "" + bytes.length);
