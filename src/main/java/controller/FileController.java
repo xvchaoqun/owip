@@ -153,7 +153,7 @@ public class FileController extends BaseController {
         String homePath = ConfigUtil.defaultHomePath();
         BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu90.png", false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "JPG", baos);
+        ImageIO.write(image, "PNG", baos);
         showPic(baos.toByteArray(), response);
         baos.close();
     }
