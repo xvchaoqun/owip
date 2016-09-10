@@ -4,10 +4,10 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 教学经历</a>
+        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 教学经历</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
 <div class="space-4"></div>
@@ -166,7 +166,7 @@
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
-                        <a href="javascript:;" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
                             复制初始数据
                         </a>
@@ -181,43 +181,21 @@
 </c:if>
 
 <c:if test="${type==2}">
-    <style>
-        .two-frames {
-            padding: 10px 20px;
-            max-width: 1330px;
-        }
-
-        .two-frames .left, .two-frames .right {
-            float: left;
-        }
-
-        .two-frames .left {
-            width: 630px;
-            margin-right: 25px;
-        }
-
-        .two-frames .right {
-            width: 630px;
-        }
-    </style>
-    <script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
-        KE.init({
-            id: 'content',
+
+        var ke = KindEditor.create('#content', {
+            allowFileManager : true,
+            uploadJson : '${ctx}/ke/upload_json',
+            fileManagerJson : '${ctx}/ke/file_manager_json',
             height: '550px',
-            resizeMode: 1,
-            width: '600px',
-            //scriptPath:"${ctx}/js/kindeditor/",
-            //skinsPath : KE.scriptPath + 'skins/',
-            items: [
-                'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+            width: '700px'
         });
-        KE.create('content');
+
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: KE.util.getData('content'),
+                content: ke.html(),
                 type: "${CADRE_INFO_TYPE_TEACH}"
             }, function (ret) {
                 if (ret.success) {
@@ -229,7 +207,7 @@
         }
         function copyOrginal() {
             //console.log($("#orginal").html())
-            KE.util.setFullHtml('content', $("#orginal").html())
+            ke.html($("#orginal").html());
             SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
         }
     </script>
@@ -283,7 +261,7 @@
                                 .format(rowObject.proof,rowObject.proofFilename);
                     }},
                 {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '-'
+                    if(cellvalue==0) return '-';
                     return '第{0}'.format(cellvalue);
                 }},
                 {label: '备注', name: 'remark', width: 350}

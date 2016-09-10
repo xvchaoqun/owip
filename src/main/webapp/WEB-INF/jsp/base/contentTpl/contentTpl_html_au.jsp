@@ -69,23 +69,20 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${contentTpl!=null}">确定</c:if><c:if test="${contentTpl==null}">添加</c:if>"/>
 </div>
-<script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
-    KE.init({
-        id: 'content',
+
+    var ke = KindEditor.create('#content', {
+        allowFileManager : true,
+        uploadJson : '${ctx}/ke/upload_json',
+        fileManagerJson : '${ctx}/ke/file_manager_json',
         height: '500px',
-        resizeMode: 1,
-        width: '600px',
-        //scriptPath:"${ctx}/js/kindeditor/",
-        //skinsPath : KE.scriptPath + 'skins/',
-        items: [
-            'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+        width: '700px'
     });
-    KE.create('content');
+
     $("#modalForm").validate({
         submitHandler: function (form) {
-            $("#modal form input[name=content]").val(KE.util.getData('content'));
+            $("#modal form input[name=content]").val(ke.html());
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){

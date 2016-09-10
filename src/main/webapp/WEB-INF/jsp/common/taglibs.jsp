@@ -23,6 +23,8 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
+<c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
+
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
 <c:set var="CONTENT_TPL_CONTENT_TYPE_STRING" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>"/>
 <c:set var="CONTENT_TPL_CONTENT_TYPE_HTML" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>"/>
@@ -56,7 +58,6 @@
 <c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER%>"/>
 <c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT%>"/>
 <c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>"/>
-
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>

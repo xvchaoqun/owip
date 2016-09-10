@@ -4,10 +4,10 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
+        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
 <c:if test="${type==1}">
@@ -102,7 +102,7 @@
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
-                        <a href="javascript:;" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
                             复制初始数据
                         </a>
@@ -126,7 +126,7 @@
     }
 </style>
 <script type="text/template" id="switch_tpl">
-    <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
+    <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id};}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
         <span>查看期间工作</span>({{=count}})
     </button>
@@ -163,43 +163,19 @@
     }
 </style>
 <c:if test="${type==2}">
-    <style>
-        .two-frames {
-            padding: 10px 20px;
-            max-width: 1330px;
-        }
-
-        .two-frames .left, .two-frames .right {
-            float: left;
-        }
-
-        .two-frames .left {
-            width: 630px;
-            margin-right: 25px;
-        }
-
-        .two-frames .right {
-            width: 630px;
-        }
-    </style>
-    <script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
-        KE.init({
-            id: 'content',
+        var ke = KindEditor.create('#content', {
+            allowFileManager : true,
+            uploadJson : '${ctx}/ke/upload_json',
+            fileManagerJson : '${ctx}/ke/file_manager_json',
             height: '550px',
-            resizeMode: 1,
-            width: '600px',
-            //scriptPath:"${ctx}/js/kindeditor/",
-            //skinsPath : KE.scriptPath + 'skins/',
-            items: [
-                'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+            width: '700px'
         });
-        KE.create('content');
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: KE.util.getData('content'),
+                content: ke.html(),
                 type:"${CADRE_INFO_TYPE_WORK}"
             }, function (ret) {
                 if (ret.success) {
@@ -211,7 +187,7 @@
         }
         function copyOrginal() {
             //console.log($("#orginal").html())
-            KE.util.setFullHtml('content', $("#orginal").html())
+            ke.html($("#orginal").html());
             SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
         }
     </script>
@@ -229,7 +205,7 @@
             colModel: [
                 {
                     label: '', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.subWorkCount == 0) return ''
+                    if (rowObject.subWorkCount == 0) return '';
                     return _.template($("#switch_tpl").html().NoMultiSpace())({
                         id: rowObject.id,
                         count: rowObject.subWorkCount
@@ -242,7 +218,7 @@
                 {label: '担任职务或者专技职务', name: 'post', width: 170},
                 {
                     label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return ''
+                    if (cellvalue == undefined) return '';
                     return _metaTypeMap[cellvalue]
                 }
                 },
@@ -295,7 +271,7 @@
 
         var getEvent = function () {
             return window.event || arguments.callee.caller.arguments[0];
-        }
+        };
 
         function _swtich(id, btn) {
 
@@ -339,7 +315,7 @@
                     {label: '担任职务或者专技职务', name: 'post', width: 180},
                     {
                         label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == undefined) return ''
+                        if (cellvalue == undefined) return '';
                         return _metaTypeMap[cellvalue]
                     }
                     },

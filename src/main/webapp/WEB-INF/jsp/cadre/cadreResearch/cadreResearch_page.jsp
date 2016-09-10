@@ -297,43 +297,19 @@
 </c:if>
 
 <c:if test="${type!=0}">
-    <style>
-        .two-frames {
-            padding: 10px 20px;
-            max-width: 1330px;
-        }
-
-        .two-frames .left, .two-frames .right {
-            float: left;
-        }
-
-        .two-frames .left {
-            width: 630px;
-            margin-right: 25px;
-        }
-
-        .two-frames .right {
-            width: 630px;
-        }
-    </style>
-    <script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
-        KE.init({
-            id: 'content',
+        var ke = KindEditor.create('#content', {
+            allowFileManager : true,
+            uploadJson : '${ctx}/ke/upload_json',
+            fileManagerJson : '${ctx}/ke/file_manager_json',
             height: '550px',
-            resizeMode: 1,
-            width: '600px',
-            //scriptPath:"${ctx}/js/kindeditor/",
-            //skinsPath : KE.scriptPath + 'skins/',
-            items: [
-                'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']
+            width: '700px'
         });
-        KE.create('content');
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: KE.util.getData('content'),
+                content: ke.html(),
                 type: "${type}"
             }, function (ret) {
                 if (ret.success) {
@@ -345,7 +321,7 @@
         }
         function copyOrginal() {
             //console.log($("#orginal").html())
-            KE.util.setFullHtml('content', $("#orginal").html());
+            ke.html($("#orginal").html());
             SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
         }
     </script>

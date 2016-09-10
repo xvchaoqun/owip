@@ -17,7 +17,7 @@
                         <i class="fa fa-plus"></i> 添加普通文本
                     </a>
                     <a class="popupBtn btn btn-info btn-sm"
-                       data-width="700"
+                       data-width="900"
                        data-url="${ctx}/contentTpl_au?contentType=${CONTENT_TPL_CONTENT_TYPE_HTML}">
                         <i class="fa fa-plus"></i> 添加HTML文本
                     </a>

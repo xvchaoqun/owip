@@ -76,13 +76,13 @@
         <h1 id="download" class="page-header">帮助文档下载</h1>
         <div class="bs-callout bs-callout-warning">
             <h4>北京师范大学组织工作管理与服务平台用户手册-党建分册</h4>
-            <a href="${ctx}/attach/download?path=/北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf&filename=北京师范大学组织工作管理与服务平台用户手册-党建分册.pdf"
+            <a href="/attach?code=af_help_dj"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
         </div>
         <div class="bs-callout bs-callout-warning">
           <h4>组织工作管理与服务一体化平台（党建部分使用说明）</h4>
           <p>
-            <a href="${ctx}/attach/download?path=/组织工作管理与服务一体化平台（党建部分使用说明）.pdf&filename=组织工作管理与服务一体化平台（党建部分使用说明）.pdf"
+            <a href="/attach?code=af_ppt_dj"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
           </p>
         </div>

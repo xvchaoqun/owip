@@ -658,3 +658,22 @@ input[type=radio].bigger{
     margin-right: 5px;
     margin-top: -4px;
 }
+
+/*cadre */
+.two-frames {
+    padding: 10px 20px;
+    max-width: 1530px;
+}
+
+.two-frames .left, .two-frames .right {
+    float: left;
+}
+
+.two-frames .left {
+    width: 730px;
+    margin-right: 25px;
+}
+
+.two-frames .right {
+    width: 730px;
+}

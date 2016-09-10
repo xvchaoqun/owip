@@ -1,0 +1,18 @@
+{
+  "schema": "owip20160314",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "sys_",
+  "tables": [
+    {
+      "table": "attach_file",
+      "key": "id",
+      "searchColumns": "user_id,type",
+      "showColumns": "user_id,type,path,filename,remark,create_time",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}

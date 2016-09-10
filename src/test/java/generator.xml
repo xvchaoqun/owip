@@ -273,9 +273,11 @@
     <!--<table tableName="sys_resource" domainObjectName="sys.SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
-          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      <table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
       </table>
+      <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
 
       <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
       </table>-->

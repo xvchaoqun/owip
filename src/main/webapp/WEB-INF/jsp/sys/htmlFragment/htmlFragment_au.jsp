@@ -70,7 +70,7 @@
         </button>
     </div>
 </div>
-<script type="text/javascript" src="${ctx}/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
 
     $("#modalForm select[name=fid]").select2({
@@ -97,18 +97,13 @@
         placeholder: "请选择上级对象"
     });
 
-    KE.init({
-        id: 'content',
+    var ke = KindEditor.create('#content', {
+        allowFileManager : true,
+        uploadJson : '${ctx}/ke/upload_json',
+        fileManagerJson : '${ctx}/ke/file_manager_json',
         height: '500px',
-        resizeMode: 1,
-        width: '800px',
-        //scriptPath:"${ctx}/js/kindeditor/",
-        //skinsPath : KE.scriptPath + 'skins/',
-       /* items: [
-            'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
-            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'image', 'link', 'unlink', 'fullscreen']*/
+        width: '800px'
     });
-    KE.create('content');
 
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
@@ -116,7 +111,7 @@
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-            $("#modalForm input[name=content]").val(KE.util.getData('content'));
+            $("#modalForm input[name=content]").val(ke.html());
 
             $(form).ajaxSubmit({
                 success:function(ret){
