@@ -46,6 +46,7 @@ public class MemberTeacherController extends BaseController {
             Integer userId,
             Integer partyId,
             Integer branchId,
+            @RequestParam(required = false, value = "nation")String[] nation,
             ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -58,6 +59,11 @@ public class MemberTeacherController extends BaseController {
             modelMap.put("party", partyMap.get(partyId));
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
+
+        if (nation!=null) {
+            List<String> selectNations = Arrays.asList(nation);
+            modelMap.put("selectNations", selectNations);
+        }
 
         modelMap.put("teacherEducationTypes", searchMapper.teacherEducationTypes());
         modelMap.put("teacherPostClasses", searchMapper.teacherPostClasses());
@@ -78,7 +84,7 @@ public class MemberTeacherController extends BaseController {
                                     Integer branchId,
                                     Byte politicalStatus,
                                     Byte gender,
-                                    String nation,
+                                   @RequestParam(required = false, value = "nation")String[] nation,
                                     Byte age,
                                     String education,
                                     String postClass,
@@ -128,8 +134,9 @@ public class MemberTeacherController extends BaseController {
         if(politicalStatus!=null){
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
-        if (StringUtils.isNotBlank(nation)) {
-            criteria.andNationLike("%" + nation + "%");
+        if (nation!=null) {
+            List<String> selectNations = Arrays.asList(nation);
+            criteria.andNationIn(selectNations);
         }
         if(age!=null){
             switch (age){

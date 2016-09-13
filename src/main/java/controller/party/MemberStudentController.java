@@ -116,6 +116,7 @@ public class MemberStudentController extends BaseController {
                                   Integer userId,
                                   Integer partyId,
                                   Integer branchId,
+                                  @RequestParam(required = false, value = "nation")String[] nation,
                                   ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -128,6 +129,11 @@ public class MemberStudentController extends BaseController {
             modelMap.put("party", partyMap.get(partyId));
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
+
+        if (nation!=null) {
+            List<String> selectNations = Arrays.asList(nation);
+            modelMap.put("selectNations", selectNations);
+        }
 
         modelMap.put("studentGrades", searchMapper.studentGrades());
         modelMap.put("studentTypes", searchMapper.studentTypes());
@@ -154,7 +160,7 @@ public class MemberStudentController extends BaseController {
                                      String _positiveTime,
                                      String eduLevel,
                                      String eduType,
-                                     String nation,
+                                     @RequestParam(required = false, value = "nation")String[] nation,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo) throws IOException {
@@ -205,8 +211,9 @@ public class MemberStudentController extends BaseController {
         if (StringUtils.isNotBlank(eduType)) {
             criteria.andEduTypeLike("%" + eduType + "%");
         }
-        if (StringUtils.isNotBlank(nation)) {
-            criteria.andNationLike("%" + nation + "%");
+        if (nation!=null) {
+            List<String> selectNations = Arrays.asList(nation);
+            criteria.andNationIn(selectNations);
         }
 
         if(age!=null){

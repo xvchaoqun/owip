@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -11,7 +13,7 @@
              data-url-export="${ctx}/memberTeacher_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
-             ||not empty param.age ||not empty param.gender||not empty param.nation
+             ||not empty param.age ||not empty param.gender||not empty selectNations
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus
@@ -119,15 +121,12 @@
                                             <div class="form-group">
                                                 <label>民族</label>
                                                 <div class="input-group">
-                                                    <select name="nation" data-rel="select2" data-placeholder="请选择">
-                                                        <option></option>
+                                                    <select class="multiselect" name="nation" multiple="" >
                                                         <c:forEach items="${teacherNations}" var="nation">
                                                             <option value="${nation}">${nation}</option>
                                                         </c:forEach>
                                                     </select>
-                                                    <script>
-                                                        $("#searchForm select[name=nation]").val('${param.nation}');
-                                                    </script>
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -257,6 +256,30 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $('#searchForm [data-rel="select2"]').select2();
+
+    $('#searchForm select[name=nation]').multiselect({
+        enableFiltering: true,
+        enableHTML: true,
+        buttonClass: 'btn btn-default',
+        filterPlaceholder: '查找',
+        nonSelectedText: '请选择',
+        nSelectedText: '已选择',
+        allSelectedText: '全部已选择',
+        templates: {
+            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+            filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+            li: '<li><a tabindex="0"><label></label></a></li>',
+            divider: '<li class="multiselect-item divider"></li>',
+            liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+        }
+    });
+    <c:if test="${fn:length(selectNations)>0}">
+    $("#searchForm select[name=nation]").multiselect('select',
+            ${cm:toJSONArray(selectNations)});
+    </c:if>
+
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));
 
