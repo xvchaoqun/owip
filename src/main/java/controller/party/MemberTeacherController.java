@@ -61,6 +61,7 @@ public class MemberTeacherController extends BaseController {
 
         modelMap.put("teacherEducationTypes", searchMapper.teacherEducationTypes());
         modelMap.put("teacherPostClasses", searchMapper.teacherPostClasses());
+        modelMap.put("teacherNations", searchMapper.teacherNations());
 
         return "party/memberTeacher/memberTeacher_page";
     }
@@ -77,6 +78,7 @@ public class MemberTeacherController extends BaseController {
                                     Integer branchId,
                                     Byte politicalStatus,
                                     Byte gender,
+                                    String nation,
                                     Byte age,
                                     String education,
                                     String postClass,
@@ -125,6 +127,9 @@ public class MemberTeacherController extends BaseController {
         }
         if(politicalStatus!=null){
             criteria.andPoliticalStatusEqualTo(politicalStatus);
+        }
+        if (StringUtils.isNotBlank(nation)) {
+            criteria.andNationLike("%" + nation + "%");
         }
         if(age!=null){
             switch (age){

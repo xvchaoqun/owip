@@ -131,6 +131,7 @@ public class MemberStudentController extends BaseController {
 
         modelMap.put("studentGrades", searchMapper.studentGrades());
         modelMap.put("studentTypes", searchMapper.studentTypes());
+        modelMap.put("studentNations", searchMapper.studentNations());
 
         return "party/memberStudent/memberStudent_page";
     }
@@ -153,6 +154,7 @@ public class MemberStudentController extends BaseController {
                                      String _positiveTime,
                                      String eduLevel,
                                      String eduType,
+                                     String nation,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo) throws IOException {
@@ -202,6 +204,9 @@ public class MemberStudentController extends BaseController {
         }
         if (StringUtils.isNotBlank(eduType)) {
             criteria.andEduTypeLike("%" + eduType + "%");
+        }
+        if (StringUtils.isNotBlank(nation)) {
+            criteria.andNationLike("%" + nation + "%");
         }
 
         if(age!=null){

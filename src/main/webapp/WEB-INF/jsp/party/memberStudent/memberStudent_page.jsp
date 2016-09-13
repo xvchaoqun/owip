@@ -11,7 +11,7 @@
                  data-url-export="${ctx}/memberStudent_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
-            ||not empty param.age ||not empty param.gender
+            ||not empty param.age ||not empty param.gender||not empty param.nation
             ||not empty param.type ||not empty param.grade
             ||not empty param.eduLevel ||not empty param.eduType
             ||not empty param.politicalStatus
@@ -22,11 +22,11 @@
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="member:add">
-                            <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+                            <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
                                 <i class="fa fa-plus"></i> 添加党员</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="member:edit">
-                            <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                            <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"
                                data-open-by="page" data-id-name="userId">
                                 <i class="fa fa-edit"></i> 修改信息</a>
                             </shiro:hasPermission>
@@ -97,6 +97,20 @@
                                                         <script>
                                                             $("#searchForm select[name=age]").val('${param.age}');
                                                         </script>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>民族</label>
+                                                    <div class="input-group">
+                                                        <select name="nation" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:forEach items="${studentNations}" var="nation">
+                                                                <option value="${nation}">${nation}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=nation]").val('${param.nation}');
+                                                        </script>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>学生类别</label>

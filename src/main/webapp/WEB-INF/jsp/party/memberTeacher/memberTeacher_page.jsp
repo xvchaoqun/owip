@@ -11,7 +11,7 @@
              data-url-export="${ctx}/memberTeacher_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
-             ||not empty param.age ||not empty param.gender
+             ||not empty param.age ||not empty param.gender||not empty param.nation
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus
@@ -115,6 +115,20 @@
                                                     <script>
                                                         $("#searchForm select[name=age]").val('${param.age}');
                                                     </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>民族</label>
+                                                <div class="input-group">
+                                                    <select name="nation" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach items="${teacherNations}" var="nation">
+                                                            <option value="${nation}">${nation}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=nation]").val('${param.nation}');
+                                                    </script>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>最高学历</label>
