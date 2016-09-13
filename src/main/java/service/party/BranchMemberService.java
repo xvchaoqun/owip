@@ -1,6 +1,8 @@
 package service.party;
 
 import domain.party.*;
+import domain.sys.MetaType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.OrgAdminService;
+import service.sys.MetaTypeService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
@@ -26,6 +29,8 @@ public class BranchMemberService extends BaseMapper {
     private  PartyMemberService partyMemberService;
     @Autowired
     private  PartyService partyService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     public void checkAuth(int partyId){
 
@@ -72,14 +77,31 @@ public class BranchMemberService extends BaseMapper {
         }
     }
 
-    public boolean idDuplicate(Integer id, int groupId, int userId){
+    public boolean idDuplicate(Integer id, int groupId, int userId, int typeId){
 
-        BranchMemberExample example = new BranchMemberExample();
-        BranchMemberExample.Criteria criteria = example.createCriteria()
-                .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        {
+            // 同一个人不可以在同一个委员会
+            BranchMemberExample example = new BranchMemberExample();
+            BranchMemberExample.Criteria criteria = example.createCriteria()
+                    .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
+            if (id != null) criteria.andIdNotEqualTo(id);
 
-        return branchMemberMapper.countByExample(example) > 0;
+            if(branchMemberMapper.countByExample(example) > 0) return true;
+        }
+
+        MetaType metaType = metaTypeService.findAll().get(typeId);
+        if(StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")){
+
+            // 每个委员会只有一个书记
+            BranchMemberExample example = new BranchMemberExample();
+            BranchMemberExample.Criteria criteria = example.createCriteria()
+                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId);
+            if (id != null) criteria.andIdNotEqualTo(id);
+
+            if(branchMemberMapper.countByExample(example) > 0) return true;
+        }
+
+        return false;
     }
 
     @Transactional

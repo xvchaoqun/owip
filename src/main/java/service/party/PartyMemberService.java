@@ -3,12 +3,15 @@ package service.party;
 import domain.party.OrgAdmin;
 import domain.party.PartyMember;
 import domain.party.PartyMemberExample;
+import domain.sys.MetaType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.OrgAdminService;
+import service.sys.MetaTypeService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +23,8 @@ public class PartyMemberService extends BaseMapper {
     private OrgAdminService orgAdminService;
     @Autowired
     private PartyMemberAdminService partyMemberAdminService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId){
@@ -41,14 +46,31 @@ public class PartyMemberService extends BaseMapper {
         }
     }
 
-    public boolean idDuplicate(Integer id, int groupId, int userId){
+    public boolean idDuplicate(Integer id, int groupId, int userId, int typeId){
 
-        PartyMemberExample example = new PartyMemberExample();
-        PartyMemberExample.Criteria criteria = example.createCriteria()
-                .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        {
+            // 同一个人不可以在同一个委员会
+            PartyMemberExample example = new PartyMemberExample();
+            PartyMemberExample.Criteria criteria = example.createCriteria()
+                    .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
+            if (id != null) criteria.andIdNotEqualTo(id);
 
-        return partyMemberMapper.countByExample(example) > 0;
+            if(partyMemberMapper.countByExample(example) > 0) return true;
+        }
+
+        MetaType metaType = metaTypeService.findAll().get(typeId);
+        if(StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_secretary")){
+
+            // 每个委员会只有一个书记
+            PartyMemberExample example = new PartyMemberExample();
+            PartyMemberExample.Criteria criteria = example.createCriteria()
+                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId);
+            if (id != null) criteria.andIdNotEqualTo(id);
+
+            if(partyMemberMapper.countByExample(example) > 0) return true;
+        }
+
+        return false;
     }
 
     @Transactional

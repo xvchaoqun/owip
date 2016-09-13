@@ -144,8 +144,8 @@ public class BranchMemberController extends BaseController {
 
         Integer id = record.getId();
 
-        if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId())) {
-            return failed("添加重复");
+        if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getTypeId())) {
+            return failed("添加重复【每个委员会的人员不可重复，并且书记只有一个】");
         }
         boolean autoAdmin = false;
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");

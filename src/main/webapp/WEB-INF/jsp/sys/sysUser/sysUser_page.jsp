@@ -201,7 +201,7 @@
             }}
         ],
         onSelectRow: function(id,status){
-            jgrid_sid=id;
+            saveJqgridSelected("#"+this.id, id, status);
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#lockBtn, #unlockBtn").prop("disabled", true);

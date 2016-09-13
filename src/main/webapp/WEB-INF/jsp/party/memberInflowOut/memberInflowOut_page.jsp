@@ -344,13 +344,13 @@
             { label: '组织关系所在地',   name: 'orLocation', width: 150 },{hidden:true, name:'outStatus'}
         ],
         onSelectRow: function(id,status){
-            jgrid_sid=id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids  = $(this).getGridParam("selarrrow");
             if(ids.length>1){
                 $("#branchApprovalBtn,#partyApprovalBtn").prop("disabled",true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+
                 var rowData = $(this).getRowData(ids[0]);
                 $("#branchApprovalBtn").prop("disabled",rowData.outStatus!="${MEMBER_INFLOW_OUT_STATUS_APPLY}");
                 $("#partyApprovalBtn").prop("disabled",rowData.outStatus!="${MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY}");

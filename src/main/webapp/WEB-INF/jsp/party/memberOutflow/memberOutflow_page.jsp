@@ -348,13 +348,13 @@
             {hidden:true, name:'status'}
         ],
         onSelectRow: function(id,status){
-            jgrid_sid=id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids  = $(this).getGridParam("selarrrow");
             if(ids.length>1){
                 $("#branchApprovalBtn,#partyApprovalBtn").prop("disabled",true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+
                 var rowData = $(this).getRowData(ids[0]);
                 $("#branchApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_APPLY}");
                 $("#partyApprovalBtn").prop("disabled",rowData.status!="${MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY}");

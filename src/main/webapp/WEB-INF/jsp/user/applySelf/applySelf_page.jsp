@@ -174,7 +174,7 @@
             } }
         ],
         onSelectRow: function(id,status){
-            jgrid_sid=id;
+            saveJqgridSelected("#"+this.id, id, status);
             var data = $(this).getRowData(id);
             //console.log(status + "  " +  data.isFinish + "  " +  data.isAgreed + "  " + (data.isAgreed==0))
 

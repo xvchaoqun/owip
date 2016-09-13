@@ -417,13 +417,13 @@
             {hidden: true,key:true, name: 'userId'}
         ],
         onSelectRow: function (id, status) {
-            jgrid_sid = id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+              
                 var rowData = $(this).getRowData(ids[0]);
                 $("#applyBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_INIT}");
                 $("#activeBtn").prop("disabled", rowData.stage != "${APPLY_STAGE_PASS}");

@@ -67,7 +67,6 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         SysMsg.success('操作成功。', '成功',function(){
-                            jgrid_sid=null;
                             $("#jqGrid").trigger("reloadGrid");
                         });
                     }

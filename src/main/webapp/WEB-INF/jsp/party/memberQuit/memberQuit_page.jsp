@@ -37,7 +37,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberQuit:edit">
                                     <c:if test="${cls==1}">
-                                    <a href="javascript:;" class="editBtn btn btn-info btn-sm">
+                                    <a href="javascript:" class="editBtn btn btn-info btn-sm">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls!=3}">
@@ -290,13 +290,13 @@
             , {hidden: true, name: 'status'},{hidden:true, key:true, name:'userId'}
         ],
         onSelectRow: function (id, status) {
-            jgrid_sid = id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#branchApprovalBtn, #partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+
                 var rowData = $(this).getRowData(ids[0]);
                 $("#branchApprovalBtn").prop("disabled", rowData.status != "${MEMBER_QUIT_STATUS_APPLY}");
                 $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_QUIT_STATUS_BRANCH_VERIFY}");

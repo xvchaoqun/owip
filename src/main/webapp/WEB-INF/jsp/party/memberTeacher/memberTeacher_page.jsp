@@ -317,13 +317,13 @@
             {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'},
             {hidden: true, name: 'source'}
         ],onSelectRow: function (id, status) {
-            jgrid_sid = null;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#teacherEditBtn").prop("disabled", true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+
                 var rowData = $(this).getRowData(ids[0]);
                 //console.log(rowData)
                 $("#teacherEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"

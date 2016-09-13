@@ -138,8 +138,8 @@ public class PartyMemberController extends BaseController {
 
         Integer id = record.getId();
 
-        if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId())) {
-            return failed("添加重复");
+        if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getTypeId())) {
+            return failed("添加重复【每个领导班子的人员不可重复，并且书记只有一个】");
         }
         boolean autoAdmin = false;
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_party_member_type");

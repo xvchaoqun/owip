@@ -163,7 +163,7 @@
             {label: 'IP', name: 'ip', width: 150}, {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
-            jgrid_sid = id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {

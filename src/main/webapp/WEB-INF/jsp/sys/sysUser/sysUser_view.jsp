@@ -148,6 +148,3 @@
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
 </div>
-<script>
-    jgrid_sid='${sysUser.id}'
-</script>

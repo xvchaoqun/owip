@@ -37,7 +37,7 @@ $.extend($.jgrid.defaults, {
     onPaging:function(){
         $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
     }
-})
+});
 function _initNavGrid(gridId, pagerId){
     $("#" + gridId).navGrid('#' + pagerId,{refresh: true, refreshstate:'current',refreshtitle:'获取最新数据', edit:false,add:false,del:false,search:false});
 }
@@ -54,8 +54,22 @@ function saveJqgridSelected(jqGridId, id, selectRowStatus){
         if(selectRowStatus) jgrid_sid[jqGridId] = id;
         else jgrid_sid[jqGridId] = null;
     }else{
-        if(selectRowStatus) jgrid_sid = id;
-        else jgrid_sid = null;
+        if(selectRowStatus){
+            if(jgrid_sid instanceof Array == false) jgrid_sid=[];
+            //console.log(jgrid_sid instanceof Array)
+            var contain = false;
+            for(var i=0;i<jgrid_sid.length;i++){
+                if(jgrid_sid[i] == id) contain=true;
+            }
+            if(!contain) jgrid_sid.push(id);
+        } else{
+            //console.log("==========" + id)
+            if(jgrid_sid){
+                for(var i=0;i<jgrid_sid.length;i++){
+                    if(jgrid_sid[i] == id) jgrid_sid.splice(i, 1);
+                }
+            }
+        }
     }
 }
 function loadJqgridSelected(jqGridId){
@@ -66,7 +80,13 @@ function loadJqgridSelected(jqGridId){
         }
     }else{
         if(jgrid_sid){
-            $(jqGridId).jqGrid("setSelection",jgrid_sid);
+            //console.log(jgrid_sid)
+            //console.log(jgrid_sid[0])
+            $(jqGridId).resetSelection();
+            for(var i=0;i<jgrid_sid.length;i++) {
+                //console.log(jgrid_sid[i])
+                $(jqGridId).jqGrid("setSelection", jgrid_sid[i]);
+            }
         }
     }
 }
@@ -74,7 +94,7 @@ $.jgrid.defaults.onSelectRow = function(id, status) {
 
     saveJqgridSelected("#"+this.id, id, status);
     //console.log(jgrid_sid)
-}
+};
 $.jgrid.defaults.gridComplete = function(){
     // 自定义初始化方法
     $(this).trigger('initGrid');
@@ -92,7 +112,7 @@ $.jgrid.defaults.gridComplete = function(){
         $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
         jgrid_top = undefined;
     }
-}
+};
 
 $(window).on('resize.jqGrid0', function () {
 
@@ -109,7 +129,7 @@ $(window).on('resize.jqGrid0', function () {
     $(".jqGrid0").setGridHeight($(window).height()-390-height-navHeight - 30)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
-})
+});
 
 $(window).on('resize.jqGrid', function () {
     if( $("#body-content").is(":hidden")){
@@ -132,7 +152,7 @@ $(window).on('resize.jqGrid', function () {
     $(".jqGrid").setGridHeight($(window).height()-320-height-navHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
-})
+});
 $(window).on('resize.jqGrid2', function () {
     if( $("#item-content").is(":hidden")){
         return;
@@ -152,7 +172,7 @@ $(window).on('resize.jqGrid2', function () {
         //alert(height)
     });
     $(".jqGrid2").setGridHeight($(window).height()-390-height);
-})
+});
 // 不改变宽度
 $(window).on('resize.jqGrid3', function () {
     var height = 0;
@@ -162,7 +182,7 @@ $(window).on('resize.jqGrid3', function () {
     });
     //alert(height)
     $(".jqGrid3").setGridHeight($(window).height()-400-height);
-})
+});
 // 不改变高度
 $(window).on('resize.jqGrid4', function () {
 
@@ -179,7 +199,7 @@ $(window).on('resize.jqGrid4', function () {
         }
         $(this).jqGrid( 'setGridWidth', _gridWidth );
     });
-})
+});
 //resize on sidebar collapse/expand
 $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
     if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
@@ -190,7 +210,7 @@ $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
             $(window).triggerHandler('resize.jqGrid2');
         }, 0);
     }
-})
+});
 $(document).on('shown.ace.widget hidden.ace.widget', function(ev) {
     $(window).triggerHandler('resize.jqGrid0');
     $(window).triggerHandler('resize.jqGrid');
@@ -210,14 +230,14 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
-}
+};
 
 $(document).on("click", ".myTableDiv .widget-header", function(){
     $("a[data-action=collapse]", this).click()
-})
+});
 $(document).on("click", ".myTableDiv .widget-header a[data-action=collapse]",function(e){
     e.stopPropagation();
-})
+});
 
 $(document).on("select2:select","[data-rel=select2],[data-rel=select2-ajax]",function(){
     //alert(0)
@@ -237,18 +257,18 @@ $(document).on("click","button[type=reset],input[type=reset]",function(event){
 $.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {
     remText: '还可以输入%n个字符...',
     limitText: '最多能输入%n个字符。'
-})
+});
 
 var console = console || {
     log : function(){
         return false;
     }
-}
+};
 
 var isJson = function(obj){
     var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
     return isjson;
-}
+};
 
 $(document).on("click", ".table-actived tr>td",function(){
 
@@ -256,7 +276,7 @@ $(document).on("click", ".table-actived tr>td",function(){
     $(this).closest(".table-actived").find("tr").not($tr).removeClass("active");
 
      $tr.addClass("active");
-})
+});
 
 $.ajaxSetup({
     cache: false,
@@ -353,7 +373,7 @@ function msg_prompt(elem, event){
 //tooltip placement on right or left
 function tooltip_placement(context, source) {
     var $source = $(source);
-    var $parent = $source.closest('table')
+    var $parent = $source.closest('table');
     var off1 = $parent.offset();
     var w1 = $parent.width();
 
@@ -418,7 +438,7 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
     var idName = $(this).data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
-    var ids  = grid.getGridParam("selarrrow")
+    var ids  = grid.getGridParam("selarrrow");
     if(!id || ids.length>1){
         SysMsg.warning("请选择一行", "提示");
         return ;
@@ -436,7 +456,7 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
                 setTimeout( function(){
                     $container.hideLoading();
                 }, 2000 );
-            }})
+            }});
         $.get(url,{},function(html){
             if(!html.startWith("{")) {
                 $container.hideLoading().hide();
@@ -468,7 +488,7 @@ $(document).on("click", ".jqOpenViewBtn", function(){
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var id  = grid.getGridParam("selrow");
-    var ids  = grid.getGridParam("selarrrow")
+    var ids  = grid.getGridParam("selarrrow");
     if(needId && (!id || ids.length>1)){
         SysMsg.warning("请选择一行", "提示");
         return ;
@@ -491,7 +511,7 @@ $(document).on("click", ".jqOpenViewBtn", function(){
                 setTimeout( function(){
                     $container.hideLoading();
                 }, 2000 );
-            }})
+            }});
         $.get(url,{},function(html){
             $container.hideLoading().hide();
             $("#item-content").hide().html(html).fadeIn("slow");
@@ -513,7 +533,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function(){
 
     var openBy = $(this).data("open-by");
     var grid = $("#jqGrid");
-    var ids  = grid.getGridParam("selarrrow")
+    var ids  = grid.getGridParam("selarrrow");
     if(ids.length==0){
         SysMsg.warning("请选择行", "提示");
         return ;
@@ -571,7 +591,7 @@ $(document).on("click", ".myTableDiv .delBtn", function(){
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
                     page_reload();
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -593,7 +613,7 @@ $(document).on("click", ".myTableDiv .jqItemDelBtn", function(){
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
                     page_reload();
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -706,7 +726,7 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
 $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 
     var grid = $("#jqGrid");
-    var ids  = grid.getGridParam("selarrrow")
+    var ids  = grid.getGridParam("selarrrow");
     var $div = $(this).closest(".myTableDiv");
     location.href = $div.data("url-export") +"?export=1&ids[]="+ids +"&" + $("div.myTableDiv #searchForm").serialize();
 });
@@ -754,7 +774,7 @@ $(document).on("click", ".myTableDiv .jqItemBtn", function(){
 
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
-    var ids  = grid.getGridParam("selarrrow")
+    var ids  = grid.getGridParam("selarrrow");
     if(!id || ids.length>1){
         SysMsg.warning("请选择一行", "提示");
         return ;
@@ -773,7 +793,7 @@ $(document).on("click", ".myTableDiv .jqItemBtn", function(){
             $.post(url,function (ret) {
                 if (ret.success) {
                     grid.trigger("reloadGrid");
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -796,7 +816,7 @@ $(document).on("click", ".myTableDiv .batchDelBtn", function(){
             $.post($div.data("url-bd"),{ids:ids},function(ret){
                 if(ret.success) {
                     page_reload();
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -819,7 +839,7 @@ $(document).on("click", ".myTableDiv .jqDelBtn", function(){
             $.post($div.data("url-bd"),{ids:ids},function(ret){
                 if(ret.success) {
                     grid.trigger("reloadGrid");
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -853,7 +873,7 @@ $(document).on("click", ".popTableDiv .delBtn", function(){
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
                     pop_reload();
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
         }
@@ -906,7 +926,7 @@ function _openView(url){
             setTimeout( function(){
                 $container.hideLoading();
             }, 2000 );
-        }})
+        }});
     $.get(url,{},function(html){
         $container.hideLoading().hide();
         $("#item-content").hide().html(html).fadeIn("slow");
@@ -928,7 +948,7 @@ $(document).on("click", "#item-content .openView", function(){
         $container.hideLoading().hide();
         $("#item-content").hide().html(html).show();
     })*/
-    $(this).attr("disabled", "disabled")
+    $(this).attr("disabled", "disabled");
     $.get($(this).data("url"),{},function(html){
         $("#item-content").html(html);
         $(this).removeAttr("disabled");
@@ -1075,7 +1095,7 @@ function formatState (state) {
     }
     //console.log($state)
     return $state;
-};
+}
 function templateSelection(state){
     var $state = state.text;
     if(state.code!=undefined && state.code.length>0)
@@ -1248,7 +1268,7 @@ function register_dispatch_select($dispatchTypeSelect, $year, $dispatchSelect){
 function register_unit_select($unitTypeSelect, $unitSelect, $unitType) {
     $unitTypeSelect.on("change", function () {
         $unitSelect.val(null).trigger("change");
-    })
+    });
     $unitSelect.select2({
         ajax: {
             dataType: 'json',

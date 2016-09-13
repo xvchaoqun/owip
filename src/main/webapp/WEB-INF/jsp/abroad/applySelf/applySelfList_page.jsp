@@ -149,7 +149,6 @@
                 return;
             }
         }
-        jgrid_sid = id;
 
         var approvalBtn = $("[role='row'][id=" + id + "]", "#jqGrid").find(".openView.btn-success");
         if (approvalBtn && approvalBtn.length == 1) {

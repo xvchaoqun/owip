@@ -192,8 +192,6 @@
             return;
         }
 
-        jgrid_sid = id;
-
         var url = "${ctx}/applySelf_view?id=" + id;
 
         var $tr = $("[role='row'][id=" + id + "]", "#jqGrid");

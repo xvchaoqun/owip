@@ -110,7 +110,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="graduateAbroad:edit">
                                     <c:if test="${cls==1}">
-                                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/graduateAbroad_au">
+                                    <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/graduateAbroad_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls==1||cls==4}">
@@ -392,11 +392,11 @@
             }},
             </c:if>
             {label: '人员类别', name: 'userType', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '';
                 return _metaTypeMap[cellvalue];
             }},
             {label: '出国原因', name: 'abroadReason', width: 250, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '';
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
             {label: '手机号码', name: 'mobile'},
@@ -426,7 +426,7 @@
                 return rowObject.startTime + "至" + rowObject.endTime;
             }},
             {label: '留学方式', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '';
                 return _cMap.GRADUATE_ABROAD_TYPE_MAP[cellvalue];
             }},
             {label: '申请保留组织关系起止时间', name: 'mobile', width: 200,formatter: function (cellvalue, options, rowObject) {
@@ -441,13 +441,13 @@
             }}</c:if>, {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
-            jgrid_sid = id;
+            saveJqgridSelected("#"+this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
-                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+                $("#branchApprovalBtn,#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
             } else if (ids.length==1) {
-                jgrid_sid = ids[0];
+
                 var rowData = $(this).getRowData(ids[0]);
                 $("#branchApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_APPLY}");
                 $("#partyApprovalBtn").prop("disabled", rowData.status != "${GRADUATE_ABROAD_STATUS_BRANCH_VERIFY}");

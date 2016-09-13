@@ -164,18 +164,18 @@
         $.post("${ctx}/partyMember_admin", {id: $(this).data("id")}, function (data) {
             if (data.success) {
                 pop_reload();
-                SysMsg.success('操作成功。', '成功');
+                //SysMsg.success('操作成功。', '成功');
             }
         });
-    })
-    $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;})
+    });
+    $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                     }
                 }
             });
