@@ -314,7 +314,7 @@ public class MemberStudentController extends BaseController {
 
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学生证号","姓名", "性别", "学生类别", "年级", "入党时间","转正时间", "所属分党委", "所属党支部"};
+        String[] titles = {"学生证号","姓名", "性别", "民族","学生类别", "年级", "入党时间","转正时间", "所属分党委", "所属党支部"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStudent record = records.get(i);
@@ -325,6 +325,7 @@ public class MemberStudentController extends BaseController {
                     record.getCode(),
                     record.getRealname(),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    record.getNation(),
                     record.getType(),
                     record.getGrade(),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
