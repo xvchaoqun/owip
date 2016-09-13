@@ -315,6 +315,7 @@
             </c:if>
             { label: '工作证号', name: 'code', width: 100,frozen:true },
             { label: '性别', name: 'gender', width: 55 },
+            { label: ' 民族',  name: 'nation'},
             { label: '年龄', name: 'age', width: 55 },
             { label: '最高学历', name: 'education', width: 100 },
             { label: '岗位类别', name: 'postClass', width: 100 },

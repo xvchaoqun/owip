@@ -273,6 +273,7 @@
             }, frozen:true  },
             { label: '学生证号',  name: 'code', width: 120, frozen:true },
             { label: '性别',  name: 'gender', width: 55, frozen:true },
+            { label: ' 民族',  name: 'nation'},
             { label: '年龄',  name: 'age', width: 55 },
             { label: '学生类别',  name: 'type', width: 150 },
             { label: '年级',  name: 'grade', width: 55 },
