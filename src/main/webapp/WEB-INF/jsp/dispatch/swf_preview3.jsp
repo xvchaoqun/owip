@@ -31,7 +31,7 @@
 			  SearchToolsVisible:false,
 			  ZoomToolsVisible :false
 	  };
-	 var params = {}
+	 var params = {};
       params.quality = "high";
       params.bgcolor = "#ffffff";
       params.allowscriptaccess = "sameDomain";
@@ -39,6 +39,7 @@
       var attributes = {};
       attributes.id = "FlexPaperViewer";
       attributes.name = "FlexPaperViewer";
+    attributes.wmode = "transparent"; // 解决FF下不显示问题
       swfobject.embedSWF(
           "${ctx}/extend/flexpaper/FlexPaperViewer.swf", "flashContent",
           "710", "750",

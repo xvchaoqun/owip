@@ -43,7 +43,7 @@
  	 var xiSwfUrlStr = "${expressInstallSwf}";
       var flashvars = { 
             SwfFile : escape("${ctx}/dispatch_swf?id=${dispatch.id}&type=${param.type}"),
-	  Scale : 0.6, 
+	  Scale : 0.6,
 	  ZoomTransition : "easeOut",
 	  ZoomTime : 0.5,
 			  ZoomInterval : 0.1,
@@ -56,7 +56,7 @@
 			  SearchToolsVisible:false,
 			  ZoomToolsVisible :false
 	  };
-	 var params = {}
+	 var params = {};
       params.quality = "high";
       params.bgcolor = "#ffffff";
       params.allowscriptaccess = "sameDomain";
@@ -64,6 +64,7 @@
       var attributes = {};
       attributes.id = "FlexPaperViewer";
       attributes.name = "FlexPaperViewer";
+      attributes.wmode = "transparent"; // 解决FF下不显示问题
       swfobject.embedSWF(
           "${ctx}/extend/flexpaper/FlexPaperViewer.swf", "flashContent",
           "710", "600", 
