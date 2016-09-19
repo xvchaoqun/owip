@@ -12,6 +12,7 @@ import domain.cadre.CadreExample;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
 import domain.unit.Unit;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -318,7 +319,7 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void leave(int id, byte status){
+    public void leave(int id, byte status, String title){
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
 
@@ -335,6 +336,8 @@ public class CadreService extends BaseMapper {
 
         Cadre record = new Cadre();
         record.setStatus(status);
+        if(StringUtils.isNotBlank(title))
+            record.setTitle(title);
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
 

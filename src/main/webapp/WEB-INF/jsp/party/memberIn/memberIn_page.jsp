@@ -17,7 +17,10 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                        </li>
+                        <li class="${cls==4?'active':''}">
+                            <a ${cls!=4?'href="?cls=4"':''}><i class="fa fa-circle-o"></i> 组织部审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
@@ -34,7 +37,7 @@
                             <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/memberIn_au">
                                 <i class="fa fa-plus"></i> 添加</a>
                         </c:if>
-                        <c:if test="${cls!=3}">
+                        <c:if test="${cls==1||cls==2}">
                             <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                     data-open-by="page">
                                 <i class="fa fa-edit"></i> 修改信息
@@ -54,6 +57,8 @@
                             data-count="${partyApprovalCount}">
                         <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
                     </button>
+                    </c:if>
+                        <c:if test="${cls==4}">
                         <shiro:hasRole name="odAdmin">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                             class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -331,6 +336,8 @@
             loadModal("${ctx}/memberIn_party_check?ids[]={0}".format(ids))
         }
     });
+    </c:if>
+    <c:if test="${cls==4}">
     <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
@@ -339,7 +346,8 @@
         props:'data-url="${ctx}/memberIn_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </shiro:hasRole>
-
+    </c:if>
+    <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
@@ -360,7 +368,29 @@
         }
     });
     </c:if>
+    <c:if test="${cls==4}">
+    <shiro:hasRole name="odAdmin">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"批量打回申请",
+        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        buttonicon:"fa fa-reply-all",
+        onClickButton: function(){
+            var ids  = $(this).getGridParam("selarrrow");
+            if(ids.length==0){
+                SysMsg.warning("请选择行", "提示");
+                return ;
+            }
+            var minStatus;
+            for(var key in ids){
+                var rowData = $(this).getRowData(ids[key]);
+                if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
+            }
 
+            loadModal("${ctx}/memberIn_back?ids[]={0}&status={1}".format(ids, minStatus))
+        }
+    });
+    </shiro:hasRole>
+    </c:if>
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=userId]'));
 </script>

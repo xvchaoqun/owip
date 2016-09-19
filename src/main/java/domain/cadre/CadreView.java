@@ -1,5 +1,6 @@
 package domain.cadre;
 
+import domain.sys.MetaType;
 import domain.sys.SysUser;
 import domain.unit.Unit;
 import sys.tags.CmTag;
@@ -7,6 +8,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CadreView implements Serializable {
 
@@ -24,7 +26,11 @@ public class CadreView implements Serializable {
     public CadreAdminLevel getPresentAdminLevel() {
         return CmTag.getPresentByCadreId(id);
     }
+    public MetaType getPostType(){
 
+        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
+        return postMap.get(postId);
+    }
     // 兼审单位
     public List<CadreAdditionalPost> getCadreAdditionalPosts(){
         return CmTag.getCadreAdditionalPosts(id);

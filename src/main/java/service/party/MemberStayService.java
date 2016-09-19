@@ -289,10 +289,10 @@ public class MemberStayService extends BaseMapper {
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY){
+            if(memberStay.getStatus() >= SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_STAY_STATUS_BACK){
+            if(memberStay.getStatus() >= SystemConstants.MEMBER_STAY_STATUS_BACK){
                 if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
 

@@ -277,10 +277,10 @@ public class MemberReturnService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
+            if(memberReturn.getStatus() >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
+            if(memberReturn.getStatus() >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 

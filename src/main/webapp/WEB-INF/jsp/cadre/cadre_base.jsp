@@ -64,13 +64,13 @@ pageEncoding="UTF-8"%>
 				</td>
 			</tr>
 			<tr>
-				<td>党籍状态</td>
+				<td>政治面貌</td>
 				<td >
 					<%--${extJzg.zzmm}--%>
 						${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
 				</td>
 				<td>
-					加入党团时间
+					党派加入时间
 				</td>
 				<td>
 					${cm:formatDate(member.growTime,'yyyy-MM-dd')}

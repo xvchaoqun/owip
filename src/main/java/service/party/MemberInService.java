@@ -277,10 +277,10 @@ public class MemberInService extends BaseMapper {
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
+            if(memberIn.getStatus() >= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_IN_STATUS_BACK){
+            if(memberIn.getStatus() >= SystemConstants.MEMBER_IN_STATUS_BACK){
                 if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
 

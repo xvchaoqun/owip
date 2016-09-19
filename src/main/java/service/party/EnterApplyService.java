@@ -57,7 +57,7 @@ public class EnterApplyService extends BaseMapper{
 
         List<EnterApply> enterApplies = enterApplyMapper.selectByExample(example);
         if(enterApplies.size()>1)
-            throw new DBErrorException("系统异常"); // 当前申请状态每个用户只允许一个，且是最新的一条
+            throw new DBErrorException("重复申请，请联系系统管理员"); // 当前申请状态每个用户只允许一个，且是最新的一条
         if(enterApplies.size()==1) return enterApplies.get(0);
 
         return null;
@@ -95,13 +95,11 @@ public class EnterApplyService extends BaseMapper{
     // 申请入党
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
-    public void memberApply(MemberApply record) {
+    public synchronized void memberApply(MemberApply record) {
         int userId = record.getUserId();
 
         checkMemberApplyAuth(userId);
 
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请");
 
         if(memberApplyMapper.selectByPrimaryKey(userId)==null)
             memberApplyMapper.insert(record);
@@ -113,21 +111,22 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY);
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
+
         enterApplyMapper.insertSelective(enterApply);
     }
 
     // 留学归国申请
     @Transactional
-    public void memberReturn(MemberReturn record) {
+    public synchronized void memberReturn(MemberReturn record) {
 
         int userId = record.getUserId();
         checkMemberApplyAuth(userId);
 
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
-
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请");
 
         MemberReturn memberReturn = memberReturnService.get(userId);
         if(memberReturn==null) {
@@ -143,21 +142,22 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_RETURN);
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
+
         enterApplyMapper.insertSelective(enterApply);
     }
 
     // 组织关系转入申请
     @Transactional
-    public void memberIn(MemberIn record) {
+    public synchronized void memberIn(MemberIn record) { //
 
         int userId = record.getUserId();
         checkMemberApplyAuth(userId);
 
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_APPLY);
-
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请");
 
         MemberIn memberIn = memberInService.get(userId);
         if(memberIn==null) {
@@ -168,17 +168,24 @@ public class EnterApplyService extends BaseMapper{
             memberInMapper.updateByPrimaryKey(record);
         }
 
+        // 20160919出现过重复的记录
+        // select * from ow_enter_apply where status=0 and user_id=97799;  2条记录
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
         enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERIN);
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
+
+        // 从上面移到这里，降低重复的可能性？
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
+
         enterApplyMapper.insertSelective(enterApply);
     }
 
     // 流入党员（不入党员库）
     @Transactional
-    public void memberInflow(MemberInflow record) {
+    public synchronized void memberInflow(MemberInflow record) {
 
         int userId = record.getUserId();
 
@@ -204,9 +211,6 @@ public class EnterApplyService extends BaseMapper{
         record.setCreateTime(new Date());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
 
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请");
-
         if(memberInflow==null) {
             record.setIsBack(false);
             record.setOutIsBack(false);
@@ -222,6 +226,10 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW);
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
+
+        EnterApply _enterApply = getCurrentApply(userId);
+        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
+
         enterApplyMapper.insertSelective(enterApply);
     }
 

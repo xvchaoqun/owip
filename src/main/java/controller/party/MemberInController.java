@@ -52,7 +52,7 @@ public class MemberInController extends BaseController {
     }
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_page")
-    public String memberIn_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberIn_page(@RequestParam(defaultValue = "1")Integer cls, // 1 分党委待审核 2未通过 3 已审核 4组织部待审核
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {
@@ -71,7 +71,7 @@ public class MemberInController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        // 分党委党总支直属党支部待审核总数
+        // 分党委待审核总数
         modelMap.put("partyApprovalCount", memberInService.count(null, null, (byte)1));
         // 组织部待审核数目
         modelMap.put("odApprovalCount", memberInService.count(null, null, (byte)2));
@@ -80,7 +80,8 @@ public class MemberInController extends BaseController {
     }
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_data")
-    public void memberIn_data(@RequestParam(defaultValue = "1")Integer cls, HttpServletResponse response,
+    public void memberIn_data(@RequestParam(defaultValue = "1")Integer cls,// 1 分党委待审核 2未通过 3 已审核 4组织部待审核
+                              HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_member_in") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
@@ -146,17 +147,18 @@ public class MemberInController extends BaseController {
             }
         }
         if(cls==1){
-            List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_IN_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
-            criteria.andStatusIn(statusList);
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
             statusList.add(SystemConstants.MEMBER_IN_STATUS_BACK);
             criteria.andStatusIn(statusList);
-        }else {
+        }else if(cls==4){ // 直属党支部审核，需要经过组织部审核
+            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+        }else if(cls==3) {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        }else{
+            criteria.andUserIdIsNull();
         }
 
         if (export == 1) {

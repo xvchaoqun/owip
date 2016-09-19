@@ -270,13 +270,13 @@ public class MemberQuitService extends BaseMapper {
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberQuit.getPartyId());
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId());
 
-            if(status >= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
+            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY){
+            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY){
                 if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_QUIT_STATUS_BACK){
+            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_BACK){
                 if(!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 

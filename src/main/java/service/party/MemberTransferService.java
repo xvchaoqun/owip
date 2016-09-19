@@ -288,10 +288,10 @@ public class MemberTransferService extends BaseMapper {
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
             Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
 
-            if(status >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
+            if(memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
                 if(!presentToPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK){
+            if(memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK){
                 if(!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
 

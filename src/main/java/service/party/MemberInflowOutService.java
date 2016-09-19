@@ -287,10 +287,10 @@ public class MemberInflowOutService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
-            if(status >= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY){
+            if(memberInflow.getOutStatus() >= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(status >= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK){
+            if(memberInflow.getOutStatus() >= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK){
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 

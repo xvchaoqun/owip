@@ -1,5 +1,10 @@
 
 
+--2017-9-19
+ALTER TABLE `cadre`
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任干部库  2 临时干部库 3离任中层干部库 4离任校领导干部库' AFTER `sort_order`;
+
+
 --2017-9-9
 ALTER TABLE `sys_config`
 	COMMENT='系统html文本';

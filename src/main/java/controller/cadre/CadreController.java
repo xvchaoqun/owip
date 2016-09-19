@@ -240,6 +240,7 @@ public class CadreController extends BaseController {
         Cadre cadre = cadreService.findAll().get(id);
         SysUser sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
+        modelMap.put("cadre", cadre);
 
         return "cadre/cadre_leave";
     }
@@ -247,11 +248,11 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_leave(int id, Byte status, HttpServletRequest request) {
+    public Map do_cadre_leave(int id, Byte status, String title, HttpServletRequest request) {
 
         if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
 
-        cadreService.leave(id, status);
+        cadreService.leave(id, status, StringUtils.trimToNull(title));
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
         return success(FormUtils.SUCCESS);
