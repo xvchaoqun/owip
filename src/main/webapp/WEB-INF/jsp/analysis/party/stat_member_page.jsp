@@ -58,10 +58,10 @@
                         </div>
 
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><a href="${ctx}/memberIn?cls=1">${memberInCount}</a> <span style="font-size: 10pt;">人</span> </span>
+                          <span class="infobox-data-number"><a href="${ctx}/memberIn?cls=4">${memberInCount}</a> <span style="font-size: 10pt;">人</span> </span>
 
                           <div class="infobox-content">
-                            组织关系转入申请
+                            组织关系转入审批
                           </div>
                         </div>
                       </div>
