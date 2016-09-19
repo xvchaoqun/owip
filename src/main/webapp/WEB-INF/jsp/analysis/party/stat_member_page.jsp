@@ -32,33 +32,33 @@
                   <div class="widget-main padding-4">
                     <div class="col-sm-12">
 
-                      <div class="infobox infobox-green">
+                      <div class="infobox infobox-pink" data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}">
                         <div class="infobox-icon">
-                          <i class="ace-icon fa fa-comments"></i>
+                          <i class="ace-icon fa fa-hand-lizard-o"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><a href="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}">${growOdCheckCount}</a> <span style="font-size: 10pt;">未处理</span></span>
+                          <span class="infobox-data-number"><span class="count">${growOdCheckCount}</span> <span style="font-size: 10pt;">未处理</span></span>
                           <div class="infobox-content">领取志愿书审批</div>
                         </div>
                       </div>
 
-                      <div class="infobox infobox-blue">
+                      <div class="infobox infobox-red" data-url="${ctx}/memberOut?cls=6">
                         <div class="infobox-icon">
-                          <i class="ace-icon fa fa-calendar-minus-o"></i>
+                          <i class="ace-icon fa fa-sign-out"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><a href="${ctx}/memberOut?cls=6">${memberOutCount}</a> <span style="font-size: 10pt;">待审</span></span>
+                          <span class="infobox-data-number"><span class="count">${memberOutCount}</span> <span style="font-size: 10pt;">待审</span></span>
 
                           <div class="infobox-content">组织关系转出审批</div>
                         </div>
                       </div>
-                      <div class="infobox infobox-blue2">
+                      <div class="infobox infobox-green" data-url="${ctx}/memberIn?cls=4">
                         <div class="infobox-icon">
-                          <i class="ace-icon fa fa-exclamation-triangle"></i>
+                          <i class="ace-icon fa fa-sign-in"></i>
                         </div>
 
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><a href="${ctx}/memberIn?cls=4">${memberInCount}</a> <span style="font-size: 10pt;">人</span> </span>
+                          <span class="infobox-data-number"><span class="count">${memberInCount}</span> <span style="font-size: 10pt;">未处理</span> </span>
 
                           <div class="infobox-content">
                             组织关系转入审批
@@ -66,13 +66,13 @@
                         </div>
                       </div>
 
-                      <div class="infobox infobox-red">
+                      <div class="infobox infobox-blue2" data-url="${ctx}/graduateAbroad?cls=3">
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-plane"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><a href="${ctx}/graduateAbroad?cls=3">${graduateAbroadCount}</a> <span style="font-size: 10pt;">申请</span></span>
-                          <div class="infobox-content">党员出国申请暂留</div>
+                          <span class="infobox-data-number"><span class="count">${graduateAbroadCount}</span> <span style="font-size: 10pt;">未处理</span></span>
+                          <div class="infobox-content">党员出国暂留审批</div>
                         </div>
                       </div>
                     </div>
@@ -164,6 +164,3 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-
-<script type="text/javascript">
-</script>

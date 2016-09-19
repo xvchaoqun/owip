@@ -1382,3 +1382,11 @@ function printWindow(url){
         }
     }
 }
+
+/** 统计页面 infobox **/
+$(document).on("click", ".infobox", function(){
+    var _count = $.trim($(".count", this).html());
+    var _url = $.trim($(this).data("url"));
+    if(parseInt(_count)>0 && _url.length>0)
+        location.href=_url;
+});

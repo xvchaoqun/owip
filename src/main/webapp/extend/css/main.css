@@ -73,7 +73,10 @@ body{
     border: none;
 }
 
-
+/*===infobox */
+.infobox{
+    cursor: pointer;
+}
 /*============search form=======*/
 .search-form{
     padding: 10px;
