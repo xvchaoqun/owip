@@ -149,10 +149,11 @@ $(function(){
                         _msg(msg);
                         var limit = 100;
                         var ts = setInterval(function(){
-                            $this.val("重新发送("+(limit--)+")");
+                            //console.log(limit);
+                            $this.html('<i class="fa fa-mobile"></i> 重新发送('+(limit--)+')');
                             if(limit<-1){
                                 clearInterval(ts);
-                                $this.val("重新发送").prop("disabled", false);
+                                $this.html('<i class="fa fa-mobile"></i> 重新发送').prop("disabled", false);
                             }
                         }, 1000);
 
@@ -189,7 +190,7 @@ $(function(){
 
         $.post("${ctx}/find_pass/changepw",{username:username, code:code, password:password},function(ret){
             if(ret.success){
-                SysMsg.info("密码修改成功", "成功",function(){
+                SysMsg.info("密码修改成功，请使用新密码登录。", "成功",function(){
                     location.href="${ctx}/login";
                 })
             }else{
