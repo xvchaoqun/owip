@@ -474,6 +474,15 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               overflowToDisk="false"
               statistics="true">
        </cache>
+       <!-- 24小时只能发5次短信重置密码-->
+       <cache name="FindPassDayCount"
+              maxEntriesLocalHeap="2000"
+              eternal="false"
+              timeToIdleSeconds="86400"
+              timeToLiveSeconds="0"
+              overflowToDisk="false"
+              statistics="true">
+       </cache>
 
 <cache name="TableColumns"
        maxEntriesLocalHeap="200"

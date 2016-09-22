@@ -23,6 +23,7 @@ import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +45,7 @@ import java.util.Map;
 @Controller
 public class CommonController extends BaseController{
 
+    @RequiresRoles("admin")
     @RequestMapping("/cache/clear")
     @ResponseBody
     public Map clearCache(){

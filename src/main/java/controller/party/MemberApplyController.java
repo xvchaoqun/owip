@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ShiroSecurityHelper;
 import service.party.MemberApplyOpService;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -112,10 +113,10 @@ public class MemberApplyController extends BaseController {
                 modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
-                if(status<1)
-                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
-                else
+                if(status==-1)
                     modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+                else if(status==2) // 组织部审核之后，分党委才提交
+                    modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
                 if(status==-1)
@@ -182,9 +183,10 @@ public class MemberApplyController extends BaseController {
                 //modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
-                modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)-1));
+                // 组织部先审核，然后分党委提交发展时间
+                modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
+                modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)2));
                 //modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
-                modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
                 modelMap.put("positiveCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte)-1));
@@ -297,7 +299,7 @@ public class MemberApplyController extends BaseController {
     }
 
     // 后台添加入党申请
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    //@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequestMapping("/memberApply_au")
     public String memberApply_au(Integer userId, ModelMap modelMap) {
 
@@ -324,12 +326,20 @@ public class MemberApplyController extends BaseController {
         return "party/memberApply/memberApply_au";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    //@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUser loginUser, int userId, Integer partyId,
-                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+                              Integer branchId, String _applyTime, String _activeTime,
+                                 String _candidateTime,String _trainTime,
+                                 String _planTime, String _drawTime,
+                                 String _growTime, String _positiveTime, String remark, HttpServletRequest request) {
 
+        MemberApply _memberApply = memberApplyService.get(userId);
+        if(_memberApply!=null) {
+            partyId = _memberApply.getPartyId();
+            branchId = _memberApply.getBranchId();
+        }
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
@@ -343,43 +353,145 @@ public class MemberApplyController extends BaseController {
             if(!isAdmin) throw new UnauthorizedException();
         }
 
-        enterApplyService.checkMemberApplyAuth(userId);
 
-        MemberApply memberApply = new MemberApply();
-        memberApply.setUserId(userId);
+        if(_memberApply==null) {
 
-        SysUser sysUser = sysUserService.findById(userId);
+            enterApplyService.checkMemberApplyAuth(userId);
+            SysUser sysUser = sysUserService.findById(userId);
+            Date birth = sysUser.getBirth();
+            if (birth != null && DateUtils.intervalYearsUntilNow(birth) < 18) {
+                throw new RuntimeException("未满18周岁，不能申请入党。");
+            }
 
-        if(sysUser.getType() == SystemConstants.USER_TYPE_JZG){
-            memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
-        } else if(sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
-            memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
+            MemberApply memberApply = new MemberApply();
+            memberApply.setUserId(userId);
+
+            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+                memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
+            } else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
+                    || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
+                memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
+            } else {
+                throw new UnauthorizedException("没有权限");
+            }
+
+            memberApply.setPartyId(partyId);
+            memberApply.setBranchId(branchId);
+            memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+            memberApply.setRemark(remark);
+            memberApply.setFillTime(new Date());
+            memberApply.setCreateTime(new Date());
+            memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
+            enterApplyService.memberApply(memberApply);
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "提交入党申请",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "");
+
+            logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         }else{
-            throw new UnauthorizedException("没有权限");
+
+            StringBuffer _remark = new StringBuffer();
+            MemberApply record = new MemberApply();
+
+            String applyTime = DateUtils.formatDate(_memberApply.getApplyTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_applyTime) && !StringUtils.equalsIgnoreCase(applyTime, _applyTime.trim())) {
+                record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+                _remark.append("提交书面申请书时间由" + applyTime + "修改为" + _applyTime + ";");
+            }
+
+            String activeTime = DateUtils.formatDate(_memberApply.getActiveTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_activeTime) && !StringUtils.equalsIgnoreCase(activeTime, _activeTime.trim())) {
+                record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+                _remark.append("确定为入党积极分子时间由" + activeTime + "修改为" + _activeTime + ";");
+
+                if(record.getApplyTime()!=null && record.getActiveTime().before(record.getApplyTime())){
+                    throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+                }
+            }
+            /*if(record.getApplyTime()==null && _memberApply.getApplyTime()!=null
+                    && record.getActiveTime().before(_memberApply.getApplyTime())){
+                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+            }*/
+
+            String candidateTime = DateUtils.formatDate(_memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getCandidateStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(candidateTime, _candidateTime.trim())) {
+
+                record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
+                _remark.append("确定为发展对象时间由" + candidateTime+ "修改为" + _candidateTime + ";");
+
+                if(record.getActiveTime()!=null && record.getCandidateTime().before(record.getActiveTime())){
+                    throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+                }
+
+                /*if(record.getActiveTime()==null && _memberApply.getActiveTime()!=null
+                        && record.getCandidateTime().before(_memberApply.getActiveTime())){
+                    throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+                }*/
+            }
+
+            String trainTime = DateUtils.formatDate(_memberApply.getTrainTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getCandidateStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(trainTime, _trainTime.trim())) {
+                record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
+                _remark.append("参加培训时间由" +trainTime + "修改为" + _trainTime + ";");
+            }
+
+            String planTime = DateUtils.formatDate(_memberApply.getPlanTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_planTime) && _memberApply.getPlanStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(planTime, _planTime.trim())) {
+                record.setPlanTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
+                _remark.append("列入发展计划时间由" + planTime + "修改为" + _planTime + ";");
+            }
+
+            String drawTime = DateUtils.formatDate(_memberApply.getDrawTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getDrawStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(drawTime, _drawTime.trim())) {
+                record.setDrawTime(DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD));
+                _remark.append("领取志愿书时间由" + drawTime + "修改为" + _drawTime + ";");
+            }
+
+            String growTime = DateUtils.formatDate(_memberApply.getGrowTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_growTime) && _memberApply.getGrowStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(growTime, _growTime.trim())) {
+                record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
+                _remark.append("入党时间由" + growTime + "修改为" + _growTime + ";");
+
+                if(record.getCandidateTime()!=null && record.getGrowTime().before(record.getCandidateTime())) {
+                    throw new RuntimeException("入党时间应该在确定为发展对象之后");
+                }
+            }
+
+            String positiveTime = DateUtils.formatDate(_memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getPositiveStatus()!=null
+                    && !StringUtils.equalsIgnoreCase(positiveTime, _positiveTime.trim())) {
+                record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
+                _remark.append("转正时间由" + positiveTime + "修改为" + _positiveTime + ";");
+
+                if(record.getGrowTime()!=null && record.getPositiveTime().before(record.getGrowTime())) {
+                    throw new RuntimeException("转正时间应该在入党时间之后");
+                }
+            }
+
+            if(_remark.length()>0) {
+                MemberApplyExample example = new MemberApplyExample();
+                example.createCriteria().andUserIdEqualTo(userId);
+                memberApplyService.updateByExampleSelective(userId, record, example);
+
+                applyApprovalLogService.add(userId,
+                        _memberApply.getPartyId(), _memberApply.getBranchId(), userId,
+                        loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
+
+                logger.info(addLog(SystemConstants.LOG_OW, "修改入党申请"));
+            }/*else{
+                return failed("您没有进行任何字段的修改。");
+            }*/
         }
-
-        Date birth = sysUser.getBirth();
-        if(birth!=null && DateUtils.intervalYearsUntilNow(birth)<18){
-            throw new RuntimeException("未满18周岁，不能申请入党。");
-        }
-
-        memberApply.setPartyId(partyId);
-        memberApply.setBranchId(branchId);
-        memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
-        memberApply.setRemark(remark);
-        memberApply.setFillTime(new Date());
-        memberApply.setCreateTime(new Date());
-        memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
-        enterApplyService.memberApply(memberApply);
-
-        applyApprovalLogService.add(userId,
-                memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,  "提交入党申请",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "");
-
-        logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -532,7 +644,19 @@ public class MemberApplyController extends BaseController {
         return "party/memberApply/apply_grow";
     }
 
-    //提交 预备党员
+    //组织部管理员审核 预备党员 , 在领取志愿书模块
+    @RequiresRoles("odAdmin")
+    @RequiresPermissions("memberApply:grow_check2")
+    @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map apply_grow_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
+
+        memberApplyOpService.apply_grow_check(ids, loginUser.getId());
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //分党委提交 预备党员， 在组织部审核之后
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
@@ -553,17 +677,7 @@ public class MemberApplyController extends BaseController {
         return success();
     }*/
 
-    //组织部管理员审核 预备党员
-    @RequiresRoles("odAdmin")
-    @RequiresPermissions("memberApply:grow_check2")
-    @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
-    @ResponseBody
-    public Map apply_grow_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUser loginUser, HttpServletRequest request) {
 
-        memberApplyOpService.apply_grow_check2(ids, loginUser.getId());
-
-        return success(FormUtils.SUCCESS);
-    }
     @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive")
     public String apply_positive(){
@@ -593,7 +707,7 @@ public class MemberApplyController extends BaseController {
         return success();
     }
 
-    //组织部管理员审核 正式党员
+    //组织部管理员审核 正式党员， 在预备党员模块
     @RequiresRoles("odAdmin")
     @RequiresPermissions("memberApply:positive_check2")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)

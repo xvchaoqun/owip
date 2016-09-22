@@ -11,6 +11,7 @@ import domain.party.Party;
 import domain.sys.SysUser;
 import mixin.MemberOutMixin;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -414,27 +415,53 @@ public class MemberOutController extends BaseController {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
 
             if (hasModified(before, record)) {
-                record.setIsModify(true);
+
                 memberOutService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
 
                 MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) { // 转出之后，如果还有修改，则需要保存记录
-                    MemberOutModify _modifyRecord = new MemberOutModify();
-                    try {
-                        BeanUtils.copyProperties(_modifyRecord, _memberOut);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+
+                    if(BooleanUtils.isFalse(before.getIsModify())){ // 第一次修改
+                        MemberOut _record = new MemberOut();
+                        _record.setId(before.getId());
+                        _record.setIsModify(true);
+                        memberOutMapper.updateByPrimaryKeySelective(_record);
+
+                        MemberOutModify _modifyRecord = new MemberOutModify();
+                        try {
+                            BeanUtils.copyProperties(_modifyRecord, before);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        _modifyRecord.setId(null);
+                        _modifyRecord.setOutId(_memberOut.getId());
+                        _modifyRecord.setApplyUserId(_memberOut.getUserId());
+                        _modifyRecord.setUserId(loginUserId);
+                        _modifyRecord.setCreateTime(new Date());
+                        _modifyRecord.setIp(IpUtils.getRealIp(request));
+                        memberOutModifyMapper.insertSelective(_modifyRecord);
                     }
-                    _modifyRecord.setId(null);
-                    _modifyRecord.setOutId(_memberOut.getId());
-                    _modifyRecord.setApplyUserId(_memberOut.getUserId());
-                    _modifyRecord.setUserId(loginUserId);
-                    _modifyRecord.setCreateTime(new Date());
-                    _modifyRecord.setIp(IpUtils.getRealIp(request));
-                    memberOutModifyMapper.insertSelective(_modifyRecord);
+
+                    {
+                        MemberOutModify _modifyRecord = new MemberOutModify();
+                        try {
+                            BeanUtils.copyProperties(_modifyRecord, _memberOut);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        _modifyRecord.setId(null);
+                        _modifyRecord.setOutId(_memberOut.getId());
+                        _modifyRecord.setApplyUserId(_memberOut.getUserId());
+                        _modifyRecord.setUserId(loginUserId);
+                        _modifyRecord.setCreateTime(new Date());
+                        _modifyRecord.setIp(IpUtils.getRealIp(request));
+                        memberOutModifyMapper.insertSelective(_modifyRecord);
+                    }
                 }
             } else {
                 return failed("没有修改项。如不需要修改，请直接返回。");

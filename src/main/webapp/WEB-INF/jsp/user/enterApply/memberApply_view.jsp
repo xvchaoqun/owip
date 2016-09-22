@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="row">
+<div class="row bottom20px">
   <div class="col-xs-12">
     <!-- PAGE CONTENT BEGINS -->
     <div class="col-xs-offset-1 col-xs-10" style="padding-top: 50px">

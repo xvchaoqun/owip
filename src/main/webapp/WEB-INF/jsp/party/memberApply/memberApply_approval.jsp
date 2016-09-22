@@ -7,14 +7,14 @@
     <div class="widget-box transparent">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:;" class="closeView reload btn btn-mini btn-xs btn-success">
+                <a href="javascript:" class="closeView reload btn btn-mini btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:;">申请详情</a>
+                        <a href="javascript:">申请详情</a>
                     </li>
                 </ul>
             </div>
@@ -248,17 +248,17 @@
                                     </c:if>--%>
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
-                                    <c:if test="${empty memberApply.growStatus}">
+                                    <c:if test="${memberApply.growStatus==2}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 发展为预备党员
                                         </button>
                                     </c:if>
-                                    <c:if test="${memberApply.growStatus==0}">
+                                    <%--<c:if test="${memberApply.growStatus==0}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 审核
                                         </button>
-                                    </c:if>
-                                    <c:if test="${memberApply.growStatus==1}">
+                                    </c:if>--%>
+                                    <c:if test="${empty memberApply.growStatus}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check2(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 组织部审核
                                         </button>

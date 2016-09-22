@@ -37,7 +37,7 @@
                             <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/memberIn_au">
                                 <i class="fa fa-plus"></i> 添加</a>
                         </c:if>
-                        <c:if test="${cls==1||cls==2}">
+                        <c:if test="${cls==1||cls==2||cls==4}">
                             <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                     data-open-by="page">
                                 <i class="fa fa-edit"></i> 修改信息

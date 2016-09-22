@@ -230,6 +230,29 @@ public class MemberApplyService extends BaseMapper {
     @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
 
+        if(record.getGrowTime()!=null){ // 如果修改了入党时间，相应的党员信息的入党时间也要修改
+            Member member = memberService.get(userId);
+            if(member!=null) {
+                if (member.getGrowTime()==null || !member.getGrowTime().equals(record.getGrowTime())) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setGrowTime(record.getGrowTime());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改入党时间");
+                }
+            }
+        }
+        if(record.getPositiveTime()!=null){ // 如果修改了转正时间
+            Member member = memberService.get(userId);
+            if(member!=null && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+                if (member.getPositiveTime()==null || !member.getPositiveTime().equals(record.getPositiveTime())) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setPositiveTime(record.getPositiveTime());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改转正时间");
+                }
+            }
+        }
+
         return memberApplyMapper.updateByExampleSelective(record, example);
     }
 
@@ -274,9 +297,9 @@ public class MemberApplyService extends BaseMapper {
             throw new DBErrorException("系统错误");
     }
 
-    // 成为预备党员
+    // 成为预备党员 (组织部审核之后，分党委提交发展时间)
     @Transactional
-    public void memberGrow(int userId) {
+    public void memberGrow(int userId, Date growTime) {
 
         SysUser sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
@@ -284,12 +307,12 @@ public class MemberApplyService extends BaseMapper {
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);
-        record.setGrowStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
+        record.setGrowTime(growTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
                 .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
+                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_OD_CHECKED);
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)

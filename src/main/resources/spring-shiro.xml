@@ -131,6 +131,8 @@
                 /test/** = anon
                 /api/** = anon
                 /faq = anon
+                /find_pass = anon
+                /find_pass/** = anon
                 /monitor = anon
                 /cas = anon
                 /m/login = anon

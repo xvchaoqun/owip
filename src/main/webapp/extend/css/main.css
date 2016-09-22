@@ -85,6 +85,11 @@ body{
     padding-bottom: 10px;
 }
 
+/* row */
+.row.bottom20px{
+    margin-bottom: 20px;
+}
+
 /*============table================*/
 .table-container{
     overflow: auto;

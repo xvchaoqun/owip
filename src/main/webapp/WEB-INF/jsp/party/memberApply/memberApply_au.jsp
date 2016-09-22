@@ -10,24 +10,14 @@
     </div>
 <div class="modal-body">
     <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/memberApply_au">
+      <c:if test="${empty memberApply}">
       <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right">账号</label>
         <div class="col-sm-9">
-          <select ${not empty member?"disabled data-theme='default'":""}
-                  required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
+          <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
                   name="userId" data-placeholder="请输入账号或姓名或学工号">
             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
           </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"> 提交申请书时间</label>
-        <div class="col-sm-3">
-          <div class="input-group">
-            <input required class="form-control date-picker" name="_applyTime" type="text"
-                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
-            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-          </div>
         </div>
       </div>
       <div class="form-group">
@@ -60,13 +50,134 @@
           </select>
               </div>
             </div>
-
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"> 提交书面申请书时间</label>
+          <div class="col-sm-3">
+            <div class="input-group">
+              <input required class="form-control date-picker" name="_applyTime" type="text"
+                     data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
+              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+            </div>
+          </div>
+        </div>
+      </c:if>
+      <c:if test="${not empty memberApply}">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right">账号</label>
+          <div class="col-sm-9 label-text">
+              ${sysUser.realname}-${sysUser.code}
+            <input type="hidden" name="userId" value="${sysUser.id}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right">所属组织机构</label>
+          <div class="col-sm-9 label-text">
+              ${party.name}${branch.name}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-6 control-label no-padding-right"> 提交书面申请书时间</label>
+          <div class="col-sm-3">
+            <div class="input-group"  style="width: 150px">
+              <input required class="form-control date-picker" name="_applyTime" type="text"
+                     data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
+              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+            </div>
+          </div>
+        </div>
+        <c:if test="${param.stage>APPLY_STAGE_PASS}">
+      <div class="form-group">
+        <label class="col-xs-6 control-label">确定为入党积极分子时间</label>
+        <div class="col-xs-3">
+          <div class="input-group" style="width: 150px">
+            <input  class="form-control date-picker" name="_activeTime" type="text"
+                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}" />
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
+          <c:if test="${param.stage>APPLY_STAGE_ACTIVE}">
+      <div class="form-group">
+        <label class="col-xs-6 control-label">确定为发展对象时间</label>
+        <div class="col-xs-3">
+          <div class="input-group" style="width: 150px">
+            <input  class="form-control date-picker" name="_candidateTime" type="text"
+                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}" />
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
+        <div class="form-group">
+          <label class="col-xs-6 control-label">参加培训时间</label>
+          <div class="col-xs-3">
+            <div class="input-group" style="width: 150px">
+              <input  class="form-control date-picker" name="_trainTime" type="text"
+                      data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.trainTime,'yyyy-MM-dd')}" />
+              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+            </div>
+          </div>
+        </div>
+            <c:if test="${param.stage>APPLY_STAGE_CANDIDATE}">
+        <div class="form-group">
+          <label class="col-xs-6 control-label">列入发展计划时间</label>
+          <div class="col-xs-3">
+            <div class="input-group" style="width: 150px">
+              <input  class="form-control date-picker" name="_planTime" type="text"
+                      data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}" />
+              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+            </div>
+          </div>
+        </div>
+              <c:if test="${param.stage>APPLY_STAGE_PLAN}">
+        <div class="form-group">
+          <label class="col-xs-6 control-label">领取志愿书时间</label>
+          <div class="col-xs-3">
+            <div class="input-group" style="width: 150px">
+              <input  class="form-control date-picker" name="_drawTime" type="text"
+                      data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}" />
+              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+            </div>
+          </div>
+        </div>
+              <c:if test="${param.stage>APPLY_STAGE_DRAW}">
+      <div class="form-group">
+        <label class="col-xs-6 control-label">入党时间</label>
+        <div class="col-xs-3">
+          <div class="input-group" style="width: 150px">
+            <input  class="form-control date-picker" name="_growTime" type="text"
+                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}" />
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
+              <c:if test="${param.stage>APPLY_STAGE_GROW}">
+      <div class="form-group">
+        <label class="col-xs-6 control-label">转正时间</label>
+        <div class="col-xs-3">
+          <div class="input-group" style="width: 150px">
+            <input class="form-control date-picker" name="_positiveTime" type="text"
+                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}" />
+            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+          </div>
+        </div>
+      </div>
+              </c:if>
+              </c:if>
+                </c:if>
+                </c:if>
+                </c:if>
+              </c:if>
+            </c:if>
+        </form>
+        </div>
+    <c:if test="${empty memberApply}">
       <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right"> 备注</label>
         <div class="col-sm-6">
           <textarea name="remark"  class="form-control" rows="5">${memberApply.remark}</textarea>
         </div>
       </div>
+    </c:if>
       </form>
   </div>
 <div class="modal-footer">
@@ -81,6 +192,7 @@
 
         $("#modalForm").validate({
           submitHandler: function (form) {
+        <c:if test="${empty memberApply}">
             if(!$("#party").is(":hidden")){
               if($('#modalForm select[name=partyId]').val()=='') {
                 bootbox.alert("请选择分党委。");
@@ -93,13 +205,19 @@
                 return;
               }
             }
+        </c:if>
             $(form).ajaxSubmit({
               success:function(ret){
                 if(ret.success){
                   $("#modal").modal("hide");
-                  SysMsg.success("提交成功。",'提示',function(){
+                  <c:if test="${empty memberApply}">
+                  SysMsg.success("添加成功。",'提示',function(){
                       location.reload();
                   });
+                    </c:if>
+                    <c:if test="${not empty memberApply}">
+                  $("#jqGrid").trigger("reloadGrid");
+                      </c:if>
                 }
               }
             });

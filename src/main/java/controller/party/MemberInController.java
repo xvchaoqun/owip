@@ -10,6 +10,7 @@ import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInMixin;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -261,9 +262,17 @@ public class MemberInController extends BaseController {
 
             if(resubmit!=null && resubmit==1 && memberIn.getStatus()<SystemConstants.MEMBER_IN_STATUS_APPLY){ // 重新提交
                 enterApplyService.memberIn(record);
+
+                applyApprovalLogService.add(record.getId(),
+                        record.getPartyId(), record.getBranchId(), record.getUserId(),
+                        loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台重新提交",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
             }else {
+
                 record.setStatus(null); // 更新的时候不能更新状态
                 memberInService.updateByPrimaryKeySelective(record);
+
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转入：%s", record.getId()));
             }
         }

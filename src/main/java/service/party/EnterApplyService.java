@@ -112,10 +112,10 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
-
         enterApplyMapper.insertSelective(enterApply);
+
+        // 确定申请不重复
+        getCurrentApply(userId);
     }
 
     // 留学归国申请
@@ -143,10 +143,10 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
-
         enterApplyMapper.insertSelective(enterApply);
+
+        // 确定申请不重复
+        getCurrentApply(userId);
     }
 
     // 组织关系转入申请
@@ -176,11 +176,10 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
-        // 从上面移到这里，降低重复的可能性？
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
-
         enterApplyMapper.insertSelective(enterApply);
+
+        // 确定申请不重复
+        getCurrentApply(userId);
     }
 
     // 流入党员（不入党员库）
@@ -227,10 +226,10 @@ public class EnterApplyService extends BaseMapper{
         enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
-        EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply!=null) throw new DBErrorException("重复申请，请联系系统管理员");
-
         enterApplyMapper.insertSelective(enterApply);
+
+        // 确定申请不重复
+        getCurrentApply(userId);
     }
 
     /*
@@ -255,7 +254,7 @@ public class EnterApplyService extends BaseMapper{
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply==null)
-            throw new DBErrorException("系统错误");
+            throw new DBErrorException("申请不存在，请联系系统管理员。");
 
         EnterApply enterApply = new EnterApply();
         enterApply.setId(_enterApply.getId());

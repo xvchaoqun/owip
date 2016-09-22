@@ -1,6 +1,7 @@
 ﻿/*公共样式*/
 body{overflow:hidden;background:#dbf5ff;margin:0px;padding:0px;color:#333;position:relative;font:14px "微软雅黑","宋体",Verdana,Geneva,sans-serif;min-width:1000px;width:expression((documentElement.clientWidth < 1000) ? "1000px" : "100%" );}
-div,form,ul,ol,li,img,dl,dt,dd,p,h1,h2,h3,h4,input{margin:0px; padding:0px;border:0;list-style:none;}
+div,form,ul,img,dl,dt,dd,p,h1,h2,h3,h4,input{margin:0px; padding:0px;border:0;list-style:none;}
+ol,li{margin:0px; padding:0px;border:0;list-style: decimal inside}
 div{width:auto}
 a{cursor:pointer;text-decoration:none;color:#333}
 a:hover{color:#e51212}
@@ -34,7 +35,7 @@ iframe{background: transparent;}
 	height: 100px;
 	margin-top: 290px;
 	margin-left: -2px;
-	font-size: 16pt;
+	font-size: 15pt;
 	-moz-border-radius: 15px;      /* Gecko browsers */
 	-webkit-border-radius: 15px;   /* Webkit browsers */
 	border-radius:15px;            /* W3C syntax */
@@ -61,7 +62,7 @@ iframe{background: transparent;}
 	margin-left: 8px;
 }
 
-.login_box .login-layout dd a.to_reg_btn{font-size:14px;float:right; padding-right: 15px;text-decoration: underline}
+.login_box .login-layout dd a.to_reg_btn{font-size:14px;/*float:right;*/ padding-right: 15px;text-decoration: underline}
 .login_box .login-layout dd a.to_login_btn{font-size:14px;float:right; padding-top: 5px; padding-right: 15px;text-decoration: underline}
 .login_box .login-layout#reg{width:395px;height:450px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/reg.png) top center no-repeat;margin:150px  0 0 540px;}
 .login_box .login-layout#reg dd input{width:100%;}
@@ -92,8 +93,8 @@ iframe{background: transparent;}
 	background-color: #f9f2f4;
 	border-radius:6px;
 	padding-left: 20px;
-	margin-top: -20px;
-	margin-bottom: 5px;
+	margin-top: -30px;
+	/*margin-bottom: 5px;*/
 }
 
 input:-webkit-autofill {

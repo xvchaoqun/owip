@@ -377,40 +377,7 @@ public class MemberApplyOpService extends BaseController {
         }
     }
 
-    // 领取志愿书：提交 预备党员 【// 分党委直接提交，不需要审核 -- 20160718 修改by 邹老师】
-    @Transactional
-    public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
 
-        for (int userId : userIds) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-            MemberApply memberApply = verifyAuth.entity;
-
-            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(growTime.before(memberApply.getDrawTime())){
-                throw new RuntimeException("发展时间应该在领取志愿书之后");
-            }
-
-            MemberApply record = new MemberApply();
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
-            record.setGrowTime(growTime);
-
-            MemberApplyExample example = new MemberApplyExample();
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
-
-            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-                applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，分党委提交");
-
-            }
-        }
-    }
 
     /*// 领取志愿书：审核 预备党员  【领取志愿书是需要组织部审批的，这样我们能够控制他们领取志愿书的人和数量的对应】
     @Transactional
@@ -464,26 +431,57 @@ public class MemberApplyOpService extends BaseController {
 
     // 领取志愿书：组织部管理员审核 预备党员
     @Transactional
-    public void apply_grow_check2(Integer[] userIds, int loginUserId){
+    public void apply_grow_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
-                    || _memberApply.getGrowStatus()==null
-                    || _memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_CHECKED){
-                throw new RuntimeException("分党委还没有审核。");
+            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
+                throw new RuntimeException("状态异常，还没到领取志愿书阶段。");
             }
 
-            memberApplyService.memberGrow(userId);
+            MemberApply record = new MemberApply();
+            record.setGrowStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
 
-            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        "预备党员，组织部审核");
+            }
+        }
+    }
+
+    // 领取志愿书：提交 预备党员 【// 分党委直接提交，不需要审核 -- 20160718 修改by 邹老师】
+    @Transactional
+    public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
+
+        for (int userId : userIds) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
+            MemberApply memberApply = verifyAuth.entity;
+
+            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+            if(growTime.before(memberApply.getDrawTime())){
+                throw new RuntimeException("发展时间应该在领取志愿书之后");
+            }
+
+            memberApplyService.memberGrow(userId, growTime);
+
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "预备党员，组织部审核");
+                    "预备党员，分党委提交");
         }
     }
 

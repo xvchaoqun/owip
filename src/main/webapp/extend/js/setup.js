@@ -449,6 +449,9 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
     var $div = $(this).closest("div.myTableDiv");
     var url = $div.data("url-au");
     if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
+
+    var querystr = $(this).data("querystr");
+    url += (querystr!=undefined)?(querystr):"";
     if(openBy=='page'){
         var $container = $("#body-content");
         $container.showLoading({'afterShow':

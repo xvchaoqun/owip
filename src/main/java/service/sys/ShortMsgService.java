@@ -15,6 +15,7 @@ import domain.sys.MetaType;
 import domain.sys.ShortMsg;
 import domain.sys.ShortMsgExample;
 import domain.sys.SysUser;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -24,6 +25,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +36,15 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
 import service.abroad.ApplySelfService;
-import service.abroad.PassportService;
 import service.base.ContentTplService;
 import service.cadre.CadreConcatService;
 import service.cadre.CadreService;
+import service.helper.ContextHelper;
+import shiro.PasswordHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IpUtils;
 import sys.utils.PropertiesUtils;
 
 import java.io.IOException;
@@ -56,8 +61,6 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
     @Autowired
-    private PassportService passportService;
-    @Autowired
     private CadreConcatService cadreInfoService;
     @Autowired
     private ApplySelfService applySelfService;
@@ -65,6 +68,54 @@ public class ShortMsgService extends BaseMapper {
     private SpringProps springProps;
     @Autowired
     private ContentTplService contentTplService;
+    @Autowired
+    protected PasswordHelper passwordHelper;
+    @Autowired
+    protected CacheManager cacheManager;
+
+    // 修改密码
+    public int changePassword(String username){
+
+        SysUser sysUser = sysUserService.findByUsername(username);
+
+        // 判断发短信频率
+        Cache<String, String> findPassCache = cacheManager.getCache("FindPassDayCount");
+        String cacheKey = DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + "_" + sysUser.getMobile();
+        String cacheVal = findPassCache.get(cacheKey);
+        int seq = 0;
+        if(cacheVal!=null){
+            seq = Integer.parseInt(cacheVal.split("_")[0]);
+        }
+        if(seq >= 5){
+            throw new RuntimeException("该账号修改密码发送短信今日已发送了5次，请明天再试。");
+        }
+
+        seq = seq+1;
+
+        String code = RandomStringUtils.randomNumeric(4);
+        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_FIND_PASS);
+        String msg = MessageFormat.format(tpl.getContent(), username, code, seq);
+
+        ShortMsgBean bean = new ShortMsgBean();
+        bean.setReceiver(sysUser.getId());
+        bean.setMobile(sysUser.getMobile());
+        bean.setContent(msg);
+        bean.setType(tpl.getName());
+        try {
+
+            boolean send = send(bean, IpUtils.getRealIp(ContextHelper.getRequest()));
+            if(send){
+
+                findPassCache.put(cacheKey, seq+"_"+code);
+                return seq;
+            }
+        }catch (Exception ex){
+            logger.error("修改密码发送短信失败，{}, {}", new Object[]{username, ex.getMessage()});
+        }
+
+        return 0;
+    }
+
 
     // 干部提交因私出国，给干部管理员发短信提醒
     @Async

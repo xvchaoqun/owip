@@ -90,6 +90,11 @@
                                                 <div class="tab-content" >
                                                     <div id="home4" class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
+                                                            <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                                                    data-id-name="userId"
+                                                                    data-querystr="&stage=${param.stage}">
+                                                                <i class="fa fa-edit"></i> 修改信息
+                                                            </button>
                                                             <c:choose>
                                                                 <c:when test="${stage==APPLY_STAGE_INIT || stage==APPLY_STAGE_PASS}">
                                                                     <shiro:hasRole name="branchAdmin">
@@ -197,7 +202,7 @@
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
-                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=-1"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=2"
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCount}">
@@ -219,7 +224,7 @@
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
-                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=1"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=-1"
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growOdCheckCount}">
@@ -407,7 +412,7 @@
             {label: '入党时间', name: 'growTime', width: 100},
             {label: '转正时间', name: 'positiveTime', width: 100},
             </c:if>
-            {label: '状态', name: 'applyStatus', width: 200},
+            {label: '状态', name: 'applyStatus', width: 300},
             {hidden: true, name: 'stage'},
             {hidden: true, name: 'candidateStatus'},
             {hidden: true, name: 'planStatus'},
@@ -421,7 +426,9 @@
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
-                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+                $("*[data-count]").each(function(){
+                    $(this).prop("disabled", true);
+                })
             } else if (ids.length==1) {
               
                 var rowData = $(this).getRowData(ids[0]);
@@ -433,9 +440,9 @@
                 $("#planCheckBtn").prop("disabled", rowData.planStatus == '');
                 $("#drawBtn").prop("disabled", rowData.drawStatus != 0);
                 $("#drawCheckBtn").prop("disabled", rowData.drawStatus != 1);
-                $("#growBtn").prop("disabled", rowData.growStatus != 0);
-                $("#growCheckBtn").prop("disabled", rowData.growStatus != 1);
-                $("#growOdCheckBtn").prop("disabled", rowData.growStatus != 2);
+                $("#growBtn").prop("disabled", rowData.growStatus != 2);
+                //$("#growCheckBtn").prop("disabled", rowData.growStatus != 1);
+                $("#growOdCheckBtn").prop("disabled", rowData.growStatus != '');
                 //console.log($.trim(rowData.positiveStatus) != '')
                 $("#positiveBtn").prop("disabled", $.trim(rowData.positiveStatus) != '');
                 $("#positiveCheckBtn").prop("disabled", rowData.positiveStatus != 1);
@@ -728,8 +735,8 @@
         });
     }
     function apply_grow_check2(userId, type){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
+        //bootbox.confirm("确定通过该申请？", function (result) {
+            //if(result){
                 $.post("${ctx}/apply_grow_check2",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
@@ -737,8 +744,8 @@
                         goto_next(type);
                     }
                 });
-            }
-        });
+            //}
+        //});
     }
     function apply_positive(userId, type){
         var url = "${ctx}/apply_positive?ids[]="+userId;

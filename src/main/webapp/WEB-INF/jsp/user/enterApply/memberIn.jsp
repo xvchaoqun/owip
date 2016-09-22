@@ -217,7 +217,7 @@
 
   <div class="clearfix form-actions">
     <div style="margin-left: 500px;">
-      <button class="btn btn-info" type="submit">
+      <button class="btn btn-info" type="submit" id="submitBtn" data-loading-text="提交中..."  data-success-text="您的申请已提交成功" autocomplete="off">
         <i class="ace-icon fa fa-check bigger-110"></i>
         提交
       </button>
@@ -262,12 +262,16 @@
                 return;
               }
             }
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
               success:function(ret){
                 if(ret.success){
                   bootbox.alert("提交成功。",function(){
+                      $btn.button("success").addClass("btn-success");
                       location.reload();
                   });
+                }else{
+                  $btn.button('reset');
                 }
               }
             });

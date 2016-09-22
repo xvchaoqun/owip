@@ -96,7 +96,7 @@
             <label class="col-xs-6 control-label">提交书面申请书时间</label>
             <div class="col-xs-6">
               <div class="input-group">
-                <input required class="form-control date-picker" name="_applyTime" type="text"
+                <input class="form-control date-picker" name="_applyTime" type="text"
                        data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.applyTime,'yyyy-MM-dd')}" />
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
               </div>
@@ -106,7 +106,7 @@
             <label class="col-xs-6 control-label">确定为入党积极分子时间</label>
             <div class="col-xs-6">
               <div class="input-group">
-                <input required class="form-control date-picker" name="_activeTime" type="text"
+                <input class="form-control date-picker" name="_activeTime" type="text"
                        data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.activeTime,'yyyy-MM-dd')}" />
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
               </div>
@@ -116,7 +116,7 @@
             <label class="col-xs-6 control-label">确定为发展对象时间</label>
             <div class="col-xs-6">
               <div class="input-group">
-                <input required class="form-control date-picker" name="_candidateTime" type="text"
+                <input class="form-control date-picker" name="_candidateTime" type="text"
                        data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.candidateTime,'yyyy-MM-dd')}" />
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
               </div>
@@ -126,7 +126,7 @@
             <label class="col-xs-6 control-label">入党时间</label>
             <div class="col-xs-6">
               <div class="input-group">
-                <input required class="form-control date-picker" name="_growTime" type="text"
+                <input class="form-control date-picker" name="_growTime" type="text"
                        data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.growTime,'yyyy-MM-dd')}" />
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
               </div>
@@ -136,7 +136,7 @@
             <label class="col-xs-6 control-label">转正时间</label>
             <div class="col-xs-6">
               <div class="input-group">
-                <input required class="form-control date-picker" name="_positiveTime" type="text"
+                <input class="form-control date-picker" name="_positiveTime" type="text"
                        data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberReturn.positiveTime,'yyyy-MM-dd')}" />
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
               </div>
@@ -148,7 +148,7 @@
 
       <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
-          <button class="btn btn-info" type="submit">
+          <button class="btn btn-info" type="submit" id="submitBtn" data-loading-text="提交中..."  data-success-text="您的申请已提交成功" autocomplete="off">
             <i class="ace-icon fa fa-check bigger-110"></i>
             提交
           </button>
@@ -195,15 +195,30 @@
                 return;
               }
             }
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
               success:function(ret){
                 if(ret.success){
                   bootbox.alert("提交成功。",function(){
+                    $btn.button("success").addClass("btn-success");
                       location.reload();
                   });
+                }else{
+                  $btn.button('reset');
                 }
               }
             });
           }
         });
+
+        $('#modalForm select[name=politicalStatus]').change(function(){
+          var $input = $("#modalForm  input[name=_positiveTime]");
+          if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
+            $input.closest(".form-group").addClass("has-error");
+            $input.attr("required", "required").valid();
+          }else {
+            $input.closest(".form-group").removeClass("has-error");
+            $input.removeAttr("required").valid();
+          }
+        }).change();
       </script>

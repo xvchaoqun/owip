@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <shiro:user>
     <c:redirect url="/"/>
@@ -45,11 +45,12 @@
                 <dt>验证码</dt><dd><input  name="captcha" class="yz" type="text" maxlength="4" <c:if test="${!useCaptcha}">value="test"</c:if> />
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
                 <dt></dt><dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd></dt>
-                <dt></dt><dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
+                <dt></dt><dd><a href="javascript:" class="submit_btn" id="login_btn"></a></dd>
                 <dt></dt><dd>
-                  <a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器下载</a>
-                        <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
-              </dd>
+                  <a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
+                <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
+                <a href="${ctx}/find_pass" class="to_reg_btn">密码找回</a>
+            </dd>
             </form>
             <div class="note visible" id="note">
                 <ul>
@@ -64,7 +65,12 @@
         </div>
         <div class="login-layout" id="reg">
             <div class="reg-tip" >
-                <i class="fa fa-info-circle"></i> 如果您已经有信息门户的账号，请不要在此注册。</div>
+                <ol>
+                    <li>
+                    如果您已经有信息门户的账号，请不要在此注册。
+                </li>
+                <li>手机号码可用于密码找回，请正确填写。</li>
+                </ol></div>
             <form id="reg-form" method="POST" action="${ctx}/reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>
@@ -80,6 +86,7 @@
                 <dt>真实姓名</dt><dd><div class="input_box"><input name="realname" type="text"/></div></dd>
                 <dt>身份证号码</dt><dd><div class="input_box"><input name="idcard" type="text"/></div></dd>
                 <dt>手机号码</dt><dd><div class="input_box"><input name="phone" type="text"/></div></dd>
+
                 <dt>选择分党委</dt><dd><div class="input_box">
                 <select name="party">
                     <option value="">请选择所属分党委</option>
@@ -90,7 +97,7 @@
                 </div></dd>
                 <dt>验证码</dt><dd><input name="captcha" class="yz" type="text" maxlength="4" <c:if test="${!useCaptcha}">value="test"</c:if> />
                 <img class="captcha" src="${ctx}/captcha.jpg" title="点击刷新" alt="验证码"/></dd>
-                <dt></dt><dd><a href="javascript:;" class="submit_btn" id="reg_btn"></a></dd>
+                <dt></dt><dd><a href="javascript:" class="submit_btn" id="reg_btn"></a></dd>
                 <dt></dt><dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>
         </div>

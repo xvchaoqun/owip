@@ -5,7 +5,7 @@
 <div class="widget-box transparent" id="useLogs">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">
-      <a href="javascript:;" class="closeView btn btn-mini btn-xs btn-success">
+      <a href="javascript:" class="closeView btn btn-mini btn-xs btn-success">
         <i class="ace-icon fa fa-backward"></i>
         返回</a>
     </h4>
@@ -13,7 +13,7 @@
     <div class="widget-toolbar no-border">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="javascript:;"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${APPLY_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
+          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${APPLY_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
         </li>
       </ul>
     </div>
@@ -31,6 +31,7 @@
 <script>
   $("#jqGrid2").jqGrid({
     multiselect:false,
+    ondblClickRow:function(){},
     pager:"jqGridPager2",
     url: "${ctx}/applyApprovalLog_data?callback=?&id=${param.id}&type=${type}",
     colModel: [
