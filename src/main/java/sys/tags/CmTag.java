@@ -94,13 +94,13 @@ public class CmTag {
         String stage = "";
         switch (memberApply.getStage()) {
             case SystemConstants.APPLY_STAGE_INIT:
-                stage = "待党支部提交";
+                stage = "待党支部审核";
                 break;
             case SystemConstants.APPLY_STAGE_DENY:
                 stage = "申请未通过";
                 break;
             case SystemConstants.APPLY_STAGE_PASS:
-                stage = "申请通过";
+                stage = "申请通过，待党支部提交";
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
                 if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {
