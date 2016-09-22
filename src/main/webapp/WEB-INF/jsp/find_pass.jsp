@@ -168,7 +168,7 @@ $(function(){
             }
         });
     });
-    $("input[name=code]").val(' ');
+    //$("input[name=code]").val(' ');
     $("#submitBtn").click(function(){
 
         var username = $.trim($("input[name=username]").val());
@@ -189,7 +189,9 @@ $(function(){
 
         $.post("${ctx}/find_pass/changepw",{username:username, code:code, password:password},function(ret){
             if(ret.success){
-                SysMsg.info("密码修改成功")
+                SysMsg.info("密码修改成功", "成功",function(){
+                    location.href="${ctx}/login";
+                })
             }else{
                 SysMsg.info(ret.msg)
             }
