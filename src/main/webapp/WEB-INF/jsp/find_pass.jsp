@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">新密码</label>
                             <div class="col-xs-6">
-                                <input type="password" name="password"/>
+                                <input type="text" onfocus="this.type='password'" name="password" autocomplete="off"/>
                             </div>
                         </div>
 
