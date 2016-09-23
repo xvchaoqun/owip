@@ -34,7 +34,7 @@ public class StatMemberController extends BaseController {
     @RequestMapping("/stat_member_page")
     public String stat_page(ModelMap modelMap) {
 
-        modelMap.put("growOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_DRAW, (byte) 1));
+        modelMap.put("growOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
