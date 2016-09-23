@@ -5,6 +5,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import java.util.Map;
  */
 @Controller
 public class FindPassController extends BaseController{
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected CacheManager cacheManager;
@@ -112,6 +116,8 @@ public class FindPassController extends BaseController{
 
             // 覆盖原验证码，使其失效
             findPassCache.put(cacheKey, seq + "_" + RandomStringUtils.randomNumeric(4));
+
+            logger.info(addLog(SystemConstants.LOG_USER, "账号%s通过短信验证修改密码成功", username));
             return success();
         }else{
             return failed("短信验证码错误，请输入正确的短信验证码");
