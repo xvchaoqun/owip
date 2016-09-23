@@ -140,6 +140,10 @@
           返回顶部
         </a>
 
+        <a style="margin-top:20px;margin-left: 20px;display: block" href="${ctx}/">
+          返回主界面
+        </a>
+
       </div>
     </div>
   </div>
