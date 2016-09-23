@@ -316,7 +316,7 @@ public class MemberApplyService extends BaseMapper {
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
-            throw new DBErrorException("系统错误");
+            throw new DBErrorException("需要组织部审核之后，才可以发展为预备党员");
 
         Member member = new Member();
         member.setUserId(userId);

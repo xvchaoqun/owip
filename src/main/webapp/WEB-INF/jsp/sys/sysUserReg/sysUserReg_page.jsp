@@ -48,6 +48,14 @@
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
+                                <c:if test="${cls==3}">
+                                <shiro:hasPermission name="sysUserReg:edit">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/sysUserReg_changepw">
+                                        <i class="fa fa-edit"></i> 修改登录密码
+                                    </button>
+                                </shiro:hasPermission>
+                                    </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">

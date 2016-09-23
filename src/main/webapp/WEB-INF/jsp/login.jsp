@@ -49,7 +49,7 @@
                 <dt></dt><dd>
                   <a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
                 <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
-                <a href="${ctx}/find_pass" class="to_reg_btn">密码找回</a>
+                <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
             </dd>
             </form>
             <div class="note visible" id="note">

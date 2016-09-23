@@ -38,6 +38,7 @@ public class StatMemberController extends BaseController {
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
+        modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
         return "analysis/party/stat_member_page";
     }
 

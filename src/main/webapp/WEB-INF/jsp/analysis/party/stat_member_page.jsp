@@ -41,8 +41,17 @@
                           <div class="infobox-content">领取志愿书审批</div>
                         </div>
                       </div>
+                      <div class="infobox infobox-red" data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}">
+                        <div class="infobox-icon">
+                          <i class="ace-icon fa fa-star"></i>
+                        </div>
+                        <div class="infobox-data">
+                          <span class="infobox-data-number"><span class="count">${positiveOdCheckCount}</span> <span style="font-size: 10pt;">未处理</span></span>
+                          <div class="infobox-content">预备党员转正审批</div>
+                        </div>
+                      </div>
 
-                      <div class="infobox infobox-red" data-url="${ctx}/memberOut?cls=6">
+                      <div class="infobox infobox-blue" data-url="${ctx}/memberOut?cls=6">
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-sign-out"></i>
                         </div>

@@ -9,9 +9,12 @@ import domain.sys.SysUserRegExample.Criteria;
 import mixin.SysUserRegMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ShiroSecurityHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -247,6 +252,17 @@ public class SysUserRegController extends BaseController {
             return failed("身份证已被注册。");
         }
 
+        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(record.getId());
+        Integer partyId = sysUserReg.getPartyId();
+        //===========权限
+        Integer loginUserId = ShiroSecurityHelper.getCurrentUserId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin) throw new UnauthorizedException();
+        }
+
         sysUserRegService.updateByPrimaryKeySelective(record);
         logger.info(addLog( SystemConstants.LOG_ADMIN, "更新申请用户注册：%s", record.getId()));
 
@@ -262,6 +278,44 @@ public class SysUserRegController extends BaseController {
             modelMap.put("sysUserReg", sysUserReg);
         }
         return "sys/sysUserReg/sysUserReg_au";
+    }
+
+    @RequiresPermissions("sysUserReg:changepw")
+    @RequestMapping(value = "/sysUserReg_changepw", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUserReg_changepw(Integer id, String password, HttpServletRequest request) {
+
+        if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), password)){
+            return failed("密码由6-16位的字母、下划线和数字组成");
+        }
+
+        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
+        Integer partyId = sysUserReg.getPartyId();
+        //===========权限
+        Integer loginUserId = ShiroSecurityHelper.getCurrentUserId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if(!isAdmin) throw new UnauthorizedException();
+        }
+
+        sysUserRegService.changepw(id ,password);
+
+        logger.info(addLog( SystemConstants.LOG_ADMIN, "更新注册用户%s登录密码", sysUserReg.getUsername()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("sysUserReg:changepw")
+    @RequestMapping("/sysUserReg_changepw")
+    public String sysUserReg_changepw(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
+            modelMap.put("sysUserReg", sysUserReg);
+        }
+        return "sys/sysUserReg/sysUserReg_changepw";
     }
 
     @RequiresPermissions("sysUserReg:del")

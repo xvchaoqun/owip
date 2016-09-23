@@ -106,6 +106,12 @@
                                     <span class="editable" >
                                         <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
                                             ${partyMap.get(partyId).name}
+                                            <shiro:hasAnyRoles name="admin, odAdmin">
+                                            <a class="confirm btn btn-danger btn-xs"
+                                               data-url="${ctx}/partyAdmin_del?userId=${param.userId}&partyId=${partyId}"
+                                               data-msg="确定删除该管理员[${partyMap.get(partyId).name}]？"
+                                               data-callback="_delAdminCallback">删除</a>
+                                            </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>
                                         </c:forEach>
                                     </span>
@@ -120,6 +126,12 @@
                                         <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
                                             <c:set var="branch" value="${branchMap.get(branchId)}"/>
                                             ${partyMap.get(branch.partyId).name}-${branch.name}
+                                            <shiro:hasAnyRoles name="admin, odAdmin">
+                                            <a class="confirm btn btn-danger btn-xs"
+                                               data-url="${ctx}/branchAdmin_del?userId=${param.userId}&branchId=${branch.id}"
+                                               data-msg="确定删除该管理员[${partyMap.get(branch.partyId).name}-${branch.name}]？"
+                                               data-callback="_delAdminCallback">删除</a>
+                                            </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>
                                         </c:forEach>
                                     </span>
@@ -148,3 +160,8 @@
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
 </div>
+<script>
+    function _delAdminCallback(target){
+        _openView("${ctx}/sysUser_view?userId=${param.userId}")
+    }
+</script>

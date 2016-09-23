@@ -44,8 +44,8 @@ public class FindPassController extends BaseController{
 
         Map resultMap = success();
         SysUser sysUser = sysUserService.findByUsername(username);
-        if(sysUser==null){
-            resultMap.put("type", 0); // 账号不存在
+        if(sysUser==null || sysUser.getLocked()){
+            resultMap.put("type", 0); // 账号不存在或账号被锁定
             return resultMap;
         }
 

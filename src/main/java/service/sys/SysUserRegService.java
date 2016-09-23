@@ -253,6 +253,28 @@ public class SysUserRegService extends BaseMapper {
         return false;
     }
 
+    @Transactional
+    public void changepw(int id, String password){
+
+        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
+        if(sysUserReg==null || sysUserReg.getUserId()==null) throw new RuntimeException("参数错误");
+
+        SysUser sysUser = sysUserService.findById(sysUserReg.getUserId());
+        if(sysUser==null) throw new RuntimeException("用户不存在");
+
+        SysUser record = new SysUser();
+        record.setId(sysUser.getId());
+        SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
+        record.setSalt(encrypt.getSalt());
+        record.setPasswd(encrypt.getPassword());
+        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+
+        SysUserReg _record = new SysUserReg();
+        _record.setId(id);
+        _record.setPasswd(password);
+        updateByPrimaryKeySelective(_record);
+    }
+
    /* @Transactional
     public int insertSelective(SysUserReg record){
 
