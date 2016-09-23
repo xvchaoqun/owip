@@ -252,7 +252,6 @@ public class MemberInController extends BaseController {
 
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
         if (memberIn == null) {
-
             enterApplyService.memberIn(record);
 
             applyApprovalLogService.add(record.getId(),

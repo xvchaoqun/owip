@@ -156,6 +156,7 @@ public class EnterApplyService extends BaseMapper{
         int userId = record.getUserId();
         checkMemberApplyAuth(userId);
 
+        record.setIsModify(false);
         record.setCreateTime(new Date());
         record.setStatus(SystemConstants.MEMBER_IN_STATUS_APPLY);
 

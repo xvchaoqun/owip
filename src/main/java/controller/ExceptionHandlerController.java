@@ -65,15 +65,18 @@ public class ExceptionHandlerController {
             resultMap.put("success", false);
             if(StringUtils.contains(ex.getCause().getMessage(), "Duplicate"))
                 resultMap.put("msg", "添加重复");
-            else
+            else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
                 resultMap.put("msg", "请先删除关联表的所有数据");
+                logger.debug(getMsg(request, ex));
+            }else {
+                resultMap.put("msg", "数据异常，请联系管理员");
+                logger.error(getMsg(request, ex));
+            }
         }else if(ex.getCause() instanceof SQLException){
 
             resultMap.put("success", false);
-            resultMap.put("msg", "系统异常：" + ex.getMessage());
+            resultMap.put("msg", "数据异常：" + ex.getMessage());
         }
-
-        logger.error(getMsg(request, ex));
 
         return resultMap;
     }
