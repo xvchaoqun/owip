@@ -1,9 +1,10 @@
 package service.party;
 
+import domain.member.*;
 import domain.party.EnterApply;
-import domain.member.Member;
-import domain.member.MemberIn;
-import domain.member.MemberInExample;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -14,9 +15,13 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ContextHelper;
+import service.helper.ShiroSecurityHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.IpUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -226,6 +231,66 @@ public class MemberInService extends BaseMapper {
         }
 
         return memberInMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 组织部审批之后，如再有修改需要保存修改记录
+    @Transactional
+    public void updateAfterOwVerify(MemberIn record, int userId){
+
+        {
+            MemberInModifyExample example = new MemberInModifyExample();
+            example.createCriteria().andInIdEqualTo(record.getId());
+            if(memberInModifyMapper.countByExample(example)==0){ // 第一次修改，需要保留原纪录
+                addModify(record.getId(), true);
+            }
+        }
+
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setPartyId(record.getPartyId());
+        member.setBranchId(record.getBranchId());
+        member.setPoliticalStatus(record.getPoliticalStatus());
+        member.setApplyTime(record.getApplyTime());
+        member.setActiveTime(record.getActiveTime());
+        member.setCandidateTime(record.getCandidateTime());
+        member.setGrowTime(record.getGrowTime());
+        member.setPositiveTime(record.getPositiveTime());
+        memberService.updateByPrimaryKeySelective(member, "更新组织关系转入记录");
+
+        if(record.getPartyId()!=null && record.getBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
+            updateMapper.updateToDirectBranch("ow_member", "user_id", record.getId(), record.getPartyId());
+        }
+
+        record.setIsModify(true);
+        memberInMapper.updateByPrimaryKeySelective(record);
+
+        addModify(record.getId(), false);
+    }
+
+    private void addModify(int id, boolean first){
+
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        Assert.isTrue(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        MemberInModify modify = new MemberInModify();
+        try {
+            ConvertUtils.register(new DateConverter(null), Date.class);
+            BeanUtils.copyProperties(modify, memberIn);
+            modify.setId(null);
+            modify.setApplyUserId(memberIn.getUserId());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        modify.setInId(id);
+        modify.setUserId(first?memberIn.getUserId():ShiroSecurityHelper.getCurrentUserId());
+        modify.setCreateTime(new Date());
+        modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
+        memberInModifyMapper.insertSelective(modify);
     }
 
     @Transactional

@@ -88,6 +88,7 @@ public class MemberInController extends BaseController {
                                     Integer userId,
                                     Byte status,
                                     Boolean isBack,
+                              Boolean isModify,
                                      Byte type,
                                     Integer partyId,
                                     Integer branchId,
@@ -124,6 +125,9 @@ public class MemberInController extends BaseController {
         }
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
+        }
+        if (isModify != null) {
+            criteria.andIsModifyEqualTo(isModify);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -271,7 +275,11 @@ public class MemberInController extends BaseController {
             }else {
 
                 record.setStatus(null); // 更新的时候不能更新状态
-                memberInService.updateByPrimaryKeySelective(record);
+                if(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY){
+                    memberInService.updateAfterOwVerify(record, memberIn.getUserId());
+                }else {
+                    memberInService.updateByPrimaryKeySelective(record);
+                }
 
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转入：%s", record.getId()));
             }

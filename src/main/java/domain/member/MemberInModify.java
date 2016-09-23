@@ -6,7 +6,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberIn implements Serializable {
+public class MemberInModify implements Serializable {
 
     public SysUser getUser(){
         return CmTag.getUserById(userId);
@@ -14,7 +14,9 @@ public class MemberIn implements Serializable {
 
     private Integer id;
 
-    private Integer userId;
+    private Integer inId;
+
+    private Integer applyUserId;
 
     private Byte politicalStatus;
 
@@ -56,15 +58,11 @@ public class MemberIn implements Serializable {
 
     private Boolean hasReceipt;
 
-    private Byte status;
-
-    private Boolean isBack;
-
-    private Boolean isModify;
-
-    private String reason;
+    private Integer userId;
 
     private Date createTime;
+
+    private String ip;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,12 +74,20 @@ public class MemberIn implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getInId() {
+        return inId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setInId(Integer inId) {
+        this.inId = inId;
+    }
+
+    public Integer getApplyUserId() {
+        return applyUserId;
+    }
+
+    public void setApplyUserId(Integer applyUserId) {
+        this.applyUserId = applyUserId;
     }
 
     public Byte getPoliticalStatus() {
@@ -244,36 +250,12 @@ public class MemberIn implements Serializable {
         this.hasReceipt = hasReceipt;
     }
 
-    public Byte getStatus() {
-        return status;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Boolean getIsBack() {
-        return isBack;
-    }
-
-    public void setIsBack(Boolean isBack) {
-        this.isBack = isBack;
-    }
-
-    public Boolean getIsModify() {
-        return isModify;
-    }
-
-    public void setIsModify(Boolean isModify) {
-        this.isModify = isModify;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {
@@ -282,5 +264,13 @@ public class MemberIn implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
     }
 }

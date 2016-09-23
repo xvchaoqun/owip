@@ -1,11 +1,16 @@
 
+--2016-9-22
+ALTER TABLE `ow_member_in`
+	ADD COLUMN `is_modify` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否修改，审批完成后是否修改过' AFTER `is_back`;
+ALTER TABLE `ow_member_out_modify`
+	COMMENT='组织关系转出完成审批后的修改记录';
 
---2017-9-19
+--2016-9-19
 ALTER TABLE `cadre`
 	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任干部库  2 临时干部库 3离任中层干部库 4离任校领导干部库' AFTER `sort_order`;
 
 
---2017-9-9
+--2016-9-9
 ALTER TABLE `sys_config`
 	COMMENT='系统html文本';
 RENAME TABLE `sys_config` TO `sys_html_fragment`;
@@ -21,7 +26,7 @@ ALTER TABLE `sys_html_fragment`
 
 
 
---2017-9-6
+--2016-9-6
 
 ALTER TABLE `abroad_passport_draw`
 	ADD COLUMN `use_passport` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境）） 处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境））' AFTER `attachment_filename`;
@@ -38,13 +43,13 @@ JOIN `ow_teacher` `t`)
 WHERE (`m`.`user_id` = `t`.`user_id` and m.party_id=p.id and m.user_id=u.id)  ;
 
 
---2017-9-2
+--2016-9-2
 ALTER TABLE `abroad_passport_draw`
 	ADD COLUMN `attachment` VARCHAR(200) NULL DEFAULT NULL COMMENT '上传附件' AFTER `job_certify`;
 ALTER TABLE `abroad_passport_draw`
 	ADD COLUMN `attachment_filename` VARCHAR(200) NULL DEFAULT NULL COMMENT '附件文件名' AFTER `attachment`;
 
---2017-8-31
+--2016-8-31
 
 -- 查询在已转出的党员库中的预备党员， 却不在入党申请的预备党员阶段的人员
 select  * from ow_member where political_status=1 and status=4
@@ -85,7 +90,7 @@ and om.political_status=1 and oma.stage=6)
 ) tmp;
 
 
---2017-8-21
+--2016-8-21
 ALTER TABLE `sys_online_static`
 	ADD COLUMN `day` INT(10) UNSIGNED NULL AFTER `jzg`,
 	ADD COLUMN `month` INT(10) UNSIGNED NULL AFTER `day`,
@@ -98,7 +103,7 @@ update sys_online_static set year=year(create_time), month=month(create_time), d
 
 
 
---2017-8-2
+--2016-8-2
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select c.*, cc.mobile, cc.office_phone, cc.home_phone, cc.email, ot.realname,ot.gender, ot.nation, ot.native_place, ot.idcard, ot.birth,
 om.party_id, om.branch_id, om.grow_time, ot.arrive_time,
 max_ce.edu_id, max_ce.finish_time, max_ce.learn_style, max_ce.school, max_ce.dep, max_ce.school_type, max_ce.major,
@@ -111,7 +116,7 @@ left join ow_member om on om.user_id=c.user_id
 left join cadre_edu max_ce on max_ce.cadre_id=c.id and max_ce.is_high_edu=1
 left join cadre_edu max_degree on max_degree.cadre_id=c.id and max_degree.is_high_degree=1
 
---2017-7-28
+--2016-7-28
 update sys_resource set parent_id=null where parent_id=0;
 ALTER TABLE `sys_resource`
 	ADD CONSTRAINT `FK_sys_resource_sys_resource` FOREIGN KEY (`parent_id`) REFERENCES `sys_resource` (`id`) ON DELETE CASCADE;
@@ -122,7 +127,7 @@ ALTER TABLE `base_meta_type`
 ALTER TABLE `base_meta_type`
 	ADD CONSTRAINT `FK_base_meta_type_base_meta_class` FOREIGN KEY (`class_id`) REFERENCES `base_meta_class` (`id`) ON DELETE CASCADE;
 
---2017-7-19
+--2016-7-19
 RENAME TABLE `base_cadre` TO `cadre`;
 RENAME TABLE `base_cadre_additional_post` TO `cadre_additional_post`;
 RENAME TABLE `base_cadre_concat` TO `cadre_concat`;
@@ -196,7 +201,7 @@ RENAME TABLE `base_leader_unit` TO `unit_leader_unit`;
 RENAME TABLE `base_history_unit` TO `unit_history_unit`;
 
 
---2017-7-17
+--2016-7-17
 ALTER TABLE `base_cadre_research`
 	CHANGE COLUMN `chair_file` `start_time` DATE NULL DEFAULT NULL COMMENT '项目起始时间' AFTER `cadre_id`,
 	CHANGE COLUMN `chair_file_name` `end_time` DATE NULL DEFAULT NULL COMMENT '项目结题时间' AFTER `start_time`,

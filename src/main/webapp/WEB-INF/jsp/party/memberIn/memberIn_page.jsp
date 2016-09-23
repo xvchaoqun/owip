@@ -11,7 +11,7 @@
                  data-url-export="${ctx}/memberIn_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
-                || not empty param.status ||not empty param.isBack
+                || not empty param.status ||not empty param.isBack||not empty param.isModify
                 || not empty param.fromUnit ||not empty param.fromTitle||not empty param._fromHandleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -37,12 +37,10 @@
                             <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/memberIn_au">
                                 <i class="fa fa-plus"></i> 添加</a>
                         </c:if>
-                        <c:if test="${cls==1||cls==2||cls==4}">
-                            <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
-                                    data-open-by="page">
-                                <i class="fa fa-edit"></i> 修改信息
-                            </button>
-                        </c:if>
+                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                data-open-by="page">
+                            <i class="fa fa-edit"></i> 修改信息
+                        </button>
                     </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
@@ -77,6 +75,14 @@
                             data-open-by="page">
                         <i class="fa fa-sign-in"></i> 查看审批记录
                     </button>
+                    <c:if test="${cls==3}">
+                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/memberInModify_page"
+                                data-id-name="inId"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 查看修改记录
+                        </button>
+                    </c:if>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -181,6 +187,21 @@
                                         </script>
                                     </div>
                                 </div>
+                                    <c:if test="${cls==3}">
+                                <div class="form-group">
+                                    <label>是否修改</label>
+                                    <div class="input-group">
+                                        <select name="isModify" data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="0">否</option>
+                                            <option value="1">是</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isModify]").val("${param.isModify}");
+                                        </script>
+                                    </div>
+                                </div>
+                                </c:if>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

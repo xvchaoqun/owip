@@ -120,7 +120,8 @@ public class BaseMapper {
 	protected MemberOutModifyMapper memberOutModifyMapper;
 	@Autowired
 	protected MemberInMapper memberInMapper;
-
+	@Autowired
+	protected MemberInModifyMapper memberInModifyMapper;
 	@Autowired
 	protected MemberOutflowMapper memberOutflowMapper;
 	@Autowired

@@ -439,7 +439,7 @@ public class MemberOutController extends BaseController {
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());
                         _modifyRecord.setApplyUserId(_memberOut.getUserId());
-                        _modifyRecord.setUserId(loginUserId);
+                        _modifyRecord.setUserId(_memberOut.getUserId()); // 原纪录
                         _modifyRecord.setCreateTime(new Date());
                         _modifyRecord.setIp(IpUtils.getRealIp(request));
                         memberOutModifyMapper.insertSelective(_modifyRecord);

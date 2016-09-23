@@ -66,8 +66,11 @@
        </table>-->
       <!--<table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView">
       </table>-->
-      <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
-      </table>-->
+       <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+      </table>
+      <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
+      </table>
+
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
        </table>-->
       <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
@@ -273,8 +276,8 @@
     <!--<table tableName="sys_resource" domainObjectName="sys.SysResource">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
-      </table>
+      <!--<table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
+      </table>-->
       <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>-->
