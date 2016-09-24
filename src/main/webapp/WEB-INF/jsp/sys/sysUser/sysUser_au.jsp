@@ -20,7 +20,7 @@
 			  </c:if>
           </div>
         </div>
-        <c:if test="${sysUser!=null}">
+        <c:if test="${sysUser!=null && (sysUser.source==USER_SOURCE_ADMIN||sysUser.source==USER_SOURCE_REG)}">
         <div class="form-group">
           <label class="col-xs-3 control-label">密码</label>
           <div class="col-xs-6">
