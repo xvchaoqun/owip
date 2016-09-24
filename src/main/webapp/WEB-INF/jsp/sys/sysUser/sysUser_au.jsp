@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">密码</label>
           <div class="col-xs-6">
-			   <input class="form-control" autocomplete="off" type="password" name="passwd" >
+			   <input class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="passwd" >
           </div>
         </div>
         </c:if>
@@ -112,7 +112,7 @@
 								SysMsg.success('操作成功。', '成功',function(){
 									$("#jqGrid").trigger("reloadGrid");
 									<c:if test="${not empty param.applyId}">
-									page_reload()
+									page_reload();
 									</c:if>
 								});
 							}

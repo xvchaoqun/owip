@@ -20,14 +20,14 @@
             <label class="col-xs-3 control-label">新密码</label>
 
             <div class="col-xs-6">
-                <input required class="form-control" type="password" name="password"  style="width: 150px">
+                <input required class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="password"  style="width: 150px">
                 密码由6-16位的字母、下划线和数字组成
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">密码确认</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="password" name="repassword"  style="width: 150px">
+                <input required class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="repassword"  style="width: 150px">
             </div>
         </div>
     </form>
