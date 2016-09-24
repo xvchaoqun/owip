@@ -11,10 +11,10 @@
             <table class="table table-actived table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th width="200">系统代码</th>
+                    <th width="200" class="hidden-xs hidden-sm">系统代码</th>
                     <th width="200">角色名称</th>
-                    <th width="200">备注</th>
-                    <th  width="150">设定级别</th>
+                    <th width="200" class="hidden-xs hidden-sm">备注</th>
+                    <th  width="150" class="hidden-xs hidden-sm">设定级别</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -22,10 +22,10 @@
                 <tbody>
                 <c:forEach items="${sysRoles}" var="sysRole" varStatus="st">
                     <tr>
-                        <td>${sysRole.role }</td>
+                        <td class="hidden-xs hidden-sm">${sysRole.role }</td>
                         <td>${sysRole.description }</td>
-                        <td>${sysRole.remark }</td>
-                        <td>
+                        <td class="hidden-xs hidden-sm">${sysRole.remark }</td>
+                        <td class="hidden-xs hidden-sm">
                                 ${sysRole.isSysHold?"仅允许系统自动设定":"可手动设定"}
                         </td>
                         <td>
@@ -36,7 +36,7 @@
                                 <button class="btn ${sysRole.isSysHold?'btn-success':'btn-primary'} btn-mini btn-xs" onclick="updateIsSysHold(${sysRole.id})">
                                     <i class="fa fa-key"></i>  ${sysRole.isSysHold?"修改为可手动设定":"仅允许系统自动设定"}
                                 </button>
-                                <a href="javascript:;" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
+                                <a href="javascript:" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
                                     <i class="fa fa-trash"></i> 删除</a>
                             </div>
 
