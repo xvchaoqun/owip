@@ -356,9 +356,9 @@ pageEncoding="UTF-8" %>
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
-            { label: '${status==CADRE_STATUS_TEMP?"现":""}所在单位', name: 'unit.name', width: 200 },
-            { label: '${status==CADRE_STATUS_TEMP?"现任":""}职务', name: 'post', width: 350 },
-            { label: '${status==CADRE_STATUS_TEMP?"现":status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE?"离任后":""}所在单位及职务', name: 'title', width: 350 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":"原"}所在单位', name: 'unit.name', width: 200 },
+            { label: '${status==CADRE_STATUS_TEMP?"现任":"原"}职务', name: 'post', width: 350 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":"离任后"}所在单位及职务', name: 'title', width: 350 },
             <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
             { label:'离任文件',  name: 'dispatch', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
@@ -367,11 +367,11 @@ pageEncoding="UTF-8" %>
             {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
                 </c:if>
             /*{ label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'presentAdminLevelType.name' },*/
-            { label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'typeId',formatter:function(cellvalue, options, rowObject){
+            { label: '${status==CADRE_STATUS_TEMP?"现":"原"}行政级别', name: 'typeId',formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 return _cMap.adminLevelMap[cellvalue].name;
             } },
-            { label: '${status==CADRE_STATUS_TEMP?"现":""}职务属性', name: 'postType.name', width: 150 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":"原"}职务属性', name: 'postType.name', width: 150 },
             { label: '手机号', name: 'mobile' },
             { label: '办公电话', name: 'officePhone' },
             { label: '家庭电话', name: 'homePhone' },
