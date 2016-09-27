@@ -63,6 +63,7 @@ pageEncoding="UTF-8" %>
 
                         <c:if test="${status==CADRE_STATUS_NOW}">
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-width="700"
                                     data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_LEAVE}">
                                 <i class="fa fa-edit"></i> 离任
                             </button>
@@ -208,10 +209,18 @@ pageEncoding="UTF-8" %>
                     var year = Math.floor(month / 12);
                     return year;
                 } },
-            { label: '党派', name: 'growTime', width: 80,formatter:function(cellvalue, options, rowObject){
-                return (cellvalue!=undefined)?"中共党员":"";
+            { label: '党派', name: 'isDp', width: 80,formatter:function(cellvalue, options, rowObject){
+
+                if(!rowObject.isDp && rowObject.growTime!=undefined) return "中共党员";
+                if(rowObject.isDp) return _metaTypeMap[rowObject.dpTypeId];
+                return "";
             }},
-            { label: '党派加入时间', name: 'growTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'} },
+            { label: '党派加入时间', name: 'growTime', width: 120,formatter:function(cellvalue, options, rowObject){
+
+                if(rowObject.isDp) return rowObject.dpAddTime.substr(0,10);
+                if(rowObject.growTime!=undefined) return rowObject.growTime.substr(0,10);
+                return ""
+            }},
             { label: '到校时间', name: 'arriveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '最高学历', name: 'eduId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
@@ -349,7 +358,14 @@ pageEncoding="UTF-8" %>
             },frozen:true },
             { label: '${status==CADRE_STATUS_TEMP?"现":""}所在单位', name: 'unit.name', width: 200 },
             { label: '${status==CADRE_STATUS_TEMP?"现任":""}职务', name: 'post', width: 350 },
-            { label: '${status==CADRE_STATUS_TEMP?"现":""}所在单位及职务', name: 'title', width: 350 },
+            { label: '${status==CADRE_STATUS_TEMP?"现":status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE?"离任后":""}所在单位及职务', name: 'title', width: 350 },
+            <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+            { label:'离任文件',  name: 'dispatch', width: 180,formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, cellvalue.dispatchCode);
+            },frozen:true },
+            {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+                </c:if>
             /*{ label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'presentAdminLevelType.name' },*/
             { label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'typeId',formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';

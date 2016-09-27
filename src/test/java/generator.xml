@@ -66,10 +66,10 @@
        </table>-->
       <!--<table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView">
       </table>-->
-       <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+      <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
       </table>
       <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-      </table>
+      </table>-->
 
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
        </table>-->
@@ -165,14 +165,13 @@
       <table tableName="base_short_msg" domainObjectName="sys.ShortMsg">
       </table>-->
 
-
-      <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
-        </table>
-      <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
+      <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView">
-      </table>-->
+       <table tableName="cadre" domainObjectName="cadre.Cadre">
+              </table>
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView">
+      </table>
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>

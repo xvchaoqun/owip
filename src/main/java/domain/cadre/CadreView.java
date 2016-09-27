@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
 import domain.unit.Unit;
@@ -11,10 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
-
     public SysUser getUser(){
-    return CmTag.getUserById(userId);
-}
+        return CmTag.getUserById(userId);
+    }
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
@@ -36,6 +37,16 @@ public class CadreView implements Serializable {
         return CmTag.getCadreAdditionalPosts(id);
     }
 
+    // 离任文件
+    public Dispatch getDispatch(){
+        if(dispatchCadreId!=null){
+            DispatchCadre dispatchCadre = CmTag.getDispatchCadre(dispatchCadreId);
+            if(dispatchCadre!=null)
+                return CmTag.getDispatch(dispatchCadre.getDispatchId());
+        }
+        return null;
+    }
+
     private Integer id;
 
     private Integer userId;
@@ -48,7 +59,19 @@ public class CadreView implements Serializable {
 
     private String title;
 
+    private Integer dispatchCadreId;
+
     private String post;
+
+    private Integer dpTypeId;
+
+    private Date dpAddTime;
+
+    private String dpPost;
+
+    private String dpRemark;
+
+    private Boolean isDp;
 
     private String remark;
 
@@ -158,12 +181,60 @@ public class CadreView implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
+    public Integer getDispatchCadreId() {
+        return dispatchCadreId;
+    }
+
+    public void setDispatchCadreId(Integer dispatchCadreId) {
+        this.dispatchCadreId = dispatchCadreId;
+    }
+
     public String getPost() {
         return post;
     }
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
+    }
+
+    public Integer getDpTypeId() {
+        return dpTypeId;
+    }
+
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
+    }
+
+    public Date getDpAddTime() {
+        return dpAddTime;
+    }
+
+    public void setDpAddTime(Date dpAddTime) {
+        this.dpAddTime = dpAddTime;
+    }
+
+    public String getDpPost() {
+        return dpPost;
+    }
+
+    public void setDpPost(String dpPost) {
+        this.dpPost = dpPost == null ? null : dpPost.trim();
+    }
+
+    public String getDpRemark() {
+        return dpRemark;
+    }
+
+    public void setDpRemark(String dpRemark) {
+        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
+    }
+
+    public Boolean getIsDp() {
+        return isDp;
+    }
+
+    public void setIsDp(Boolean isDp) {
+        this.isDp = isDp;
     }
 
     public String getRemark() {

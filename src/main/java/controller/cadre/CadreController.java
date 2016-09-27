@@ -4,9 +4,12 @@ import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.*;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
 import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.MetaType;
 import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -31,7 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -242,17 +247,20 @@ public class CadreController extends BaseController {
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
 
+        TreeNode dispatchCadreTree = cadreService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+        modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
+
         return "cadre/cadre_leave";
     }
 
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_leave(int id, Byte status, String title, HttpServletRequest request) {
+    public Map do_cadre_leave(int id, Byte status, String title, Integer dispatchCadreId, HttpServletRequest request) {
 
         if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
 
-        cadreService.leave(id, status, StringUtils.trimToNull(title));
+        cadreService.leave(id, status, StringUtils.trimToNull(title), dispatchCadreId);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
         return success(FormUtils.SUCCESS);
@@ -320,6 +328,11 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
+        if(status==SystemConstants.CADRE_STATUS_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
+            TreeNode dispatchCadreTree = cadreService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+            modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
+        }
+
         if(status==SystemConstants.CADRE_STATUS_TEMP)
             return "cadre/cadre_temp_au";
         return "cadre/cadre_au";

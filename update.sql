@@ -1,3 +1,24 @@
+--2016-9-26
+ALTER TABLE `cadre`
+	ADD COLUMN `dispatch_cadre_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '关联发文，离任时赋值' AFTER `title`;
+
+ALTER TABLE `cadre`
+	ADD COLUMN `dp_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '民主党派，democratic party' AFTER `post`,
+	ADD COLUMN `dp_add_time` DATE NULL DEFAULT NULL COMMENT '党派加入时间' AFTER `dp_type`,
+	ADD COLUMN `dp_post` VARCHAR(50) NULL DEFAULT NULL COMMENT '担任党派职务' AFTER `dp_add_time`,
+	ADD COLUMN `dp_remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '民主党派备注' AFTER `dp_post`;
+
+	ALTER TABLE `cadre`
+	CHANGE COLUMN `dp_type` `dp_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '民主党派，democratic party' AFTER `post`,
+	ADD CONSTRAINT `FK_cadre_base_meta_type` FOREIGN KEY (`dp_type_id`) REFERENCES `base_meta_type` (`id`);
+
+ALTER TABLE `cadre`
+	ADD COLUMN `is_dp` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否民主党派' AFTER `dp_remark`;
+update cadre set is_dp=0;
+ALTER TABLE `cadre`
+	CHANGE COLUMN `is_dp` `is_dp` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否民主党派' AFTER `dp_remark`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select `c`.*,`cc`.`mobile` AS `mobile`,`cc`.`office_phone` AS `office_phone`,`cc`.`home_phone` AS `home_phone`,`cc`.`email` AS `email`,`ot`.`realname` AS `realname`,`ot`.`gender` AS `gender`,`ot`.`nation` AS `nation`,`ot`.`native_place` AS `native_place`,`ot`.`idcard` AS `idcard`,`ot`.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,`ot`.`arrive_time` AS `arrive_time`,`max_ce`.`edu_id` AS `edu_id`,`max_ce`.`finish_time` AS `finish_time`,`max_ce`.`learn_style` AS `learn_style`,`max_ce`.`school` AS `school`,`max_ce`.`dep` AS `dep`,`max_ce`.`school_type` AS `school_type`,`max_ce`.`major` AS `major`,`ot`.`post_class` AS `post_class`,`ot`.`pro_post_level` AS `pro_post_level`,`ot`.`pro_post` AS `pro_post`,`ot`.`manage_level` AS `manage_level`,`max_degree`.`degree` AS `degree` from (((((`cadre` `c` left join `cadre_concat` `cc` on((`cc`.`cadre_id` = `c`.`id`))) left join `ow_teacher` `ot` on((`ot`.`user_id` = `c`.`user_id`))) left join `ow_member` `om` on((`om`.`user_id` = `c`.`user_id`))) left join `cadre_edu` `max_ce` on(((`max_ce`.`cadre_id` = `c`.`id`) and (`max_ce`.`is_high_edu` = 1)))) left join `cadre_edu` `max_degree` on(((`max_degree`.`cadre_id` = `c`.`id`) and (`max_degree`.`is_high_degree` = 1))))  ;
 
 --2016-9-22
 ALTER TABLE `ow_member_in`

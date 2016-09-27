@@ -336,6 +336,7 @@ public class BaseController extends BaseMapper {
         map.put("postMap", metaTypeService.metaTypes("mc_post"));
         map.put("unitMap", unitService.findAll());
         map.put("cadreMap", cadreService.findAll());
+        map.put("democraticPartyMap", metaTypeService.metaTypes("mc_democratic_party"));
         map.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
 
         map.put("dispatchTypeMap", dispatchTypeService.findAll());

@@ -66,14 +66,14 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td >
-					<%--${extJzg.zzmm}--%>
-						${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
+					${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId):
+						MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
 				</td>
 				<td>
 					党派加入时间
 				</td>
 				<td>
-					${cm:formatDate(member.growTime,'yyyy-MM-dd')}
+					${cadre.isDp?(cm:formatDate(cadre.dpAddTime,'yyyy-MM-dd')):(cm:formatDate(member.growTime,'yyyy-MM-dd'))}
 				</td>
 
 				<td>国家/地区</td>

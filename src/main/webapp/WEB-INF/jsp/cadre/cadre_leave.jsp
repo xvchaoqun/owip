@@ -12,15 +12,22 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status">
         <div class="form-group">
-            <label class="col-xs-4 control-label">类别</label>
-            <div class="col-xs-6 label-text"  style="font-size: 15px;">
+            <label class="col-xs-3 control-label">类别</label>
+            <div class="col-xs-8 label-text"  style="font-size: 15px;">
                 <input type="checkbox" class="big" value="1"/> 中层干部离任
                 <input type="checkbox"  class="big" value="2"/> 校领导离任
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">离任后所在单位及职务</label>
-            <div class="col-xs-6">
+            <label class="col-xs-3 control-label">离任文件</label>
+            <div class="col-xs-9 label-text">
+                <div id="tree3"></div>
+                <input type="hidden" name="dispatchCadreId">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">离任后所在单位及职务</label>
+            <div class="col-xs-8">
                 <input  class="form-control" type="text" name="title" value="${cadre.title}">
             </div>
         </div>
@@ -31,6 +38,33 @@ pageEncoding="UTF-8"%>
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 <script>
+
+    var treeNode = ${tree};
+    if(treeNode.children.length==0){
+        $("#tree3").html("没有发文");
+    }else{
+        $("#tree3").dynatree({
+            checkbox: true,
+            selectMode: 2,
+            children: treeNode,
+            onSelect: function(select, node) {
+                //node.expand(node.data.isFolder && node.isSelected());
+            },
+            onCustomRender: function(node) {
+                if(!node.data.isFolder)
+                return "<span class='dynatree-title'>"+node.data.title
+                        +"</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/swf_preview_url?path="+node.data.tooltip+"'>查看</button>"
+            },
+            cookieId: "dynatree-Cb3",
+            idPrefix: "dynatree-Cb3-"
+        });
+    }
+    $(".openUrl").click(function(){
+        event.stopPropagation();
+        event.preventDefault();
+        openwindow($(this).data("url"), '', 720, 820)
+    });
+
     $("input[type=checkbox]").click(function(){
         if($(this).prop("checked")){
             $("input[type=checkbox]").not(this).prop("checked", false);
@@ -47,16 +81,26 @@ pageEncoding="UTF-8"%>
                 SysMsg.warning("请选择离任类别");
                 return;
             }
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        $("#modal").modal("hide");
-                        SysMsg.success('操作成功。', '成功',function(){
-                                location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
-                        });
-                    }
-                }
+
+            var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
+                return node.data.key;
             });
+            if(selectIds.length>1){
+                SysMsg.warning("只能选择一个发文");
+
+            }else{
+                $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
+                $(form).ajaxSubmit({
+                    success:function(ret){
+                        if(ret.success){
+                            $("#modal").modal("hide");
+                            SysMsg.success('操作成功。', '成功',function(){
+                                    location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
+                            });
+                        }
+                    }
+                });
+            }
         }
     });
 </script>

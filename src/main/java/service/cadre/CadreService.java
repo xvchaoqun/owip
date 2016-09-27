@@ -9,6 +9,8 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreExample;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
 import domain.unit.Unit;
@@ -24,10 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.abroad.ApproverBlackListService;
 import service.abroad.ApproverTypeService;
+import service.dispatch.DispatchService;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -42,11 +46,48 @@ public class CadreService extends BaseMapper {
     @Autowired
     private UnitService unitService;
     @Autowired
+    private DispatchService dispatchService;
+    @Autowired
     private CadreAdditionalPostService cadreAdditionalPostService;
     @Autowired
     private ApproverBlackListService approverBlackListService;
     @Autowired
     private ApproverTypeService approverTypeService;
+
+    // 获取干部范文
+    public TreeNode getDispatchCadreTree(int cadreId, Byte type){
+
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+
+        List<DispatchCadre> dispatchCadres =  commonMapper.selectDispatchCadreList(cadreId, type);
+        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+        TreeNode root = new TreeNode();
+        root.title = "选择离任文件";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        root.children =  new ArrayList<TreeNode>();
+        for (DispatchCadre dispatchCadre : dispatchCadres) {
+
+            Dispatch dispatch = dispatchMap.get(dispatchCadre.getDispatchId());
+            TreeNode node = new TreeNode();
+            MetaType postType = postMap.get(dispatchCadre.getPostId());
+            node.title = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
+                    +"-" + dispatchCadre.getPost() + (postType!=null?("-" + postType.getName()):"");
+            node.key = dispatchCadre.getId()+"";
+            node.expand = false;
+            node.isFolder = false;
+            node.noLink = true;
+            node.icon = false;
+            node.hideCheckbox = false;
+            node.tooltip = dispatch.getFile();
+            node.select = (cadre.getDispatchCadreId()!=null && cadre.getDispatchCadreId().intValue() == dispatchCadre.getId());
+
+            root.children.add(node);
+        }
+        return root;
+    }
 
     @Transactional
     @Caching(evict= {
@@ -319,7 +360,7 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void leave(int id, byte status, String title){
+    public void leave(int id, byte status, String title, Integer dispatchCadreId){
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
 
@@ -338,6 +379,7 @@ public class CadreService extends BaseMapper {
         record.setStatus(status);
         if(StringUtils.isNotBlank(title))
             record.setTitle(title);
+        record.setDispatchCadreId(dispatchCadreId);
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
 
@@ -430,6 +472,7 @@ public class CadreService extends BaseMapper {
         // 添加干部身份
         sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
 
+        record.setIsDp(false);// 初次添加标记为非民主党派
         cadreMapper.insertSelective(record);
         Integer id = record.getId();
         Cadre _record = new Cadre();
@@ -460,6 +503,23 @@ public class CadreService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadreMapper.deleteByExample(example);
     }
+
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void democraticParty_batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        Cadre record = new Cadre();
+        record.setIsDp(false);
+        cadreMapper.updateByExampleSelective(record, example);
+    }
+
     
     @Transactional
     @Caching(evict= {

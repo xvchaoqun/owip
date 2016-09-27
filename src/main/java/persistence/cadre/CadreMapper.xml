@@ -8,7 +8,13 @@
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="unit_id" property="unitId" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="dispatch_cadre_id" property="dispatchCadreId" jdbcType="INTEGER" />
     <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="dp_type_id" property="dpTypeId" jdbcType="INTEGER" />
+    <result column="dp_add_time" property="dpAddTime" jdbcType="DATE" />
+    <result column="dp_post" property="dpPost" jdbcType="VARCHAR" />
+    <result column="dp_remark" property="dpRemark" jdbcType="VARCHAR" />
+    <result column="is_dp" property="isDp" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
@@ -72,7 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, type_id, post_id, unit_id, title, post, remark, sort_order, status
+    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
+    dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreExample" >
     select
@@ -107,11 +114,15 @@
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.Cadre" >
     insert into cadre (id, user_id, type_id, 
       post_id, unit_id, title, 
-      post, remark, sort_order, 
+      dispatch_cadre_id, post, dp_type_id, 
+      dp_add_time, dp_post, dp_remark, 
+      is_dp, remark, sort_order, 
       status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{dpTypeId,jdbcType=INTEGER}, 
+      #{dpAddTime,jdbcType=DATE}, #{dpPost,jdbcType=VARCHAR}, #{dpRemark,jdbcType=VARCHAR}, 
+      #{isDp,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.Cadre" >
@@ -135,8 +146,26 @@
       <if test="title != null" >
         title,
       </if>
+      <if test="dispatchCadreId != null" >
+        dispatch_cadre_id,
+      </if>
       <if test="post != null" >
         post,
+      </if>
+      <if test="dpTypeId != null" >
+        dp_type_id,
+      </if>
+      <if test="dpAddTime != null" >
+        dp_add_time,
+      </if>
+      <if test="dpPost != null" >
+        dp_post,
+      </if>
+      <if test="dpRemark != null" >
+        dp_remark,
+      </if>
+      <if test="isDp != null" >
+        is_dp,
       </if>
       <if test="remark != null" >
         remark,
@@ -167,8 +196,26 @@
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
+      <if test="dispatchCadreId != null" >
+        #{dispatchCadreId,jdbcType=INTEGER},
+      </if>
       <if test="post != null" >
         #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="dpTypeId != null" >
+        #{dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dpAddTime != null" >
+        #{dpAddTime,jdbcType=DATE},
+      </if>
+      <if test="dpPost != null" >
+        #{dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="dpRemark != null" >
+        #{dpRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDp != null" >
+        #{isDp,jdbcType=BIT},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -208,8 +255,26 @@
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.dispatchCadreId != null" >
+        dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      </if>
       <if test="record.post != null" >
         post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpTypeId != null" >
+        dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dpAddTime != null" >
+        dp_add_time = #{record.dpAddTime,jdbcType=DATE},
+      </if>
+      <if test="record.dpPost != null" >
+        dp_post = #{record.dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpRemark != null" >
+        dp_remark = #{record.dpRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDp != null" >
+        is_dp = #{record.isDp,jdbcType=BIT},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -233,7 +298,13 @@
       post_id = #{record.postId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
+      dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
+      dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
+      dp_add_time = #{record.dpAddTime,jdbcType=DATE},
+      dp_post = #{record.dpPost,jdbcType=VARCHAR},
+      dp_remark = #{record.dpRemark,jdbcType=VARCHAR},
+      is_dp = #{record.isDp,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
@@ -259,8 +330,26 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="dispatchCadreId != null" >
+        dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      </if>
       <if test="post != null" >
         post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="dpTypeId != null" >
+        dp_type_id = #{dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dpAddTime != null" >
+        dp_add_time = #{dpAddTime,jdbcType=DATE},
+      </if>
+      <if test="dpPost != null" >
+        dp_post = #{dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="dpRemark != null" >
+        dp_remark = #{dpRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDp != null" >
+        is_dp = #{isDp,jdbcType=BIT},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -281,7 +370,13 @@
       post_id = #{postId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
+      dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
+      dp_type_id = #{dpTypeId,jdbcType=INTEGER},
+      dp_add_time = #{dpAddTime,jdbcType=DATE},
+      dp_post = #{dpPost,jdbcType=VARCHAR},
+      dp_remark = #{dpRemark,jdbcType=VARCHAR},
+      is_dp = #{isDp,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}

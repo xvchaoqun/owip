@@ -67,8 +67,17 @@ pageEncoding="UTF-8"%>
                     <input  class="form-control" type="text" name="post" value="${cadre.post}">
                 </div>
             </div>
+<c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+    <div class="form-group">
+        <label class="col-xs-3 control-label">离任文件</label>
+        <div class="col-xs-9 label-text">
+            <div id="tree3"></div>
+            <input type="hidden" name="dispatchCadreId">
+        </div>
+    </div>
+    </c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所在单位及职务</label>
+				<label class="col-xs-3 control-label"><c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
 				<div class="col-xs-6">
                         <input  class="form-control" type="text" name="title" value="${cadre.title}">
 				</div>
@@ -87,21 +96,58 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+    var treeNode = ${tree};
+    if(treeNode.children.length==0){
+        $("#tree3").html("没有发文");
+    }else{
+        $("#tree3").dynatree({
+            checkbox: true,
+            selectMode: 2,
+            children: treeNode,
+            onSelect: function(select, node) {
+                //node.expand(node.data.isFolder && node.isSelected());
+            },
+            onCustomRender: function(node) {
+                if(!node.data.isFolder)
+                    return "<span class='dynatree-title'>"+node.data.title
+                            +"</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/swf_preview_url?path="+node.data.tooltip+"'>查看</button>"
+            },
+            cookieId: "dynatree-Cb3",
+            idPrefix: "dynatree-Cb3-"
+        });
+    }
+    $(".openUrl").click(function(){
+        event.stopPropagation();
+        event.preventDefault();
+        openwindow($(this).data("url"), '', 720, 820)
+    });
+    </c:if>
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        $("#modal").modal('hide');
-                        SysMsg.success('提交成功。', '成功',function(){
-                            $("#jqGrid").trigger("reloadGrid");
-                        });
-                    }
-                }
+
+            var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
+                return node.data.key;
             });
+            if(selectIds.length>1){
+                SysMsg.warning("只能选择一个发文");
+
+            }else{
+                $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
+                $(form).ajaxSubmit({
+                    success:function(ret){
+                        if(ret.success){
+                            $("#modal").modal('hide');
+                            SysMsg.success('提交成功。', '成功',function(){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }
+                    }
+                });
+            }
         }
     });
     $('[data-rel="select2"]').select2();

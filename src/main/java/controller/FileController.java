@@ -80,7 +80,14 @@ public class FileController extends BaseController {
         }
     }
 
-    // 查看swf
+    // 查看swf 页面打开
+    @RequestMapping("/swf_preview_url")
+    public String swf_preview_url() {
+
+        return "common/swf_preview_url";
+    }
+
+    // 查看swf modal
     @RequestMapping("/swf/preview")
     public String swf_preview() {
 
