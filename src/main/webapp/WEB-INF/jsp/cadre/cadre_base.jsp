@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td >
-					${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId):
+					${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId).name:
 						MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
 				</td>
 				<td>
