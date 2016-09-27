@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" onclick="openView(${metaType.classId})" aria-hidden="true" class="close">&times;</button>
@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="javascript:;" onclick="openView(${metaType.classId})" class="btn btn-default">取消</a>
+    <a href="javascript:" onclick="openView(${metaType.classId})" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${metaType!=null}">确定</c:if><c:if test="${metaType==null}">添加</c:if>"/>
 </div>
 
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
                     success:function(ret){
                         if(ret.success){
 							openView("${param.classId}", "${param.pageNo}");
-                            SysMsg.success('操作成功。', '成功');
+                            //SysMsg.success('操作成功。', '成功');
                         }
                     }
                 });
