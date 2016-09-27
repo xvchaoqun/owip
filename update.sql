@@ -1,3 +1,15 @@
+
+--2016-9-27
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `tutor_name` VARCHAR(50) NULL COMMENT '导师姓名，只有博士和硕士需要填写导师信息，如果是大专和本科，则这两个字段为不可编辑状态，显示为“-”' AFTER `degree_time`,
+	ADD COLUMN `tutor_title` VARCHAR(100) NULL COMMENT '所在单位及职务（职称）' AFTER `tutor_name`;
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `is_graduated` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '毕业/在读' AFTER `edu_id`,
+	CHANGE COLUMN `school` `school` VARCHAR(100) NULL DEFAULT NULL COMMENT '毕业/在读学校' AFTER `is_high_edu`,
+	ADD COLUMN `certificate` VARCHAR(200) NULL DEFAULT NULL COMMENT '学历学位证书，1个或2个证书（毕业证和学位证），逗号分隔开' AFTER `tutor_title`;
+
+
 --2016-9-26
 ALTER TABLE `cadre`
 	ADD COLUMN `dispatch_cadre_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '关联发文，离任时赋值' AFTER `title`;

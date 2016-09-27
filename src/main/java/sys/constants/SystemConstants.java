@@ -632,6 +632,7 @@ public class SystemConstants {
 	public final static byte CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY = 7;
 	public final static byte CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY = 8;
 	public final static byte CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY = 9;
+	public final static byte CADRE_INFO_TYPE_EDU = 10;
 	public final static Map<Byte, String>CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
@@ -644,6 +645,7 @@ public class SystemConstants {
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY, "参与科研项目总体情况");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY, "主持科研项目总体情况");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY, "出版著作及发表论文等总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_EDU, "学习经历");
 	}
 
 	// 干部学习经历 学校类型 1本校 2境内 3境外

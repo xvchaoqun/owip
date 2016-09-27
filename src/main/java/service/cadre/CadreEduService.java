@@ -13,22 +13,22 @@ import java.util.List;
 @Service
 public class CadreEduService extends BaseMapper {
 
-    public boolean hasHighEdu(Integer id, Boolean isHighEdu){
+    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu){
 
         if(!isHighEdu) return false;
 
         CadreEduExample example = new CadreEduExample();
-        CadreEduExample.Criteria criteria = example.createCriteria()
+        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsHighEduEqualTo(true);
         if(id!=null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
-    public boolean hasHighDegree(Integer id, Boolean isHighDegree){
+    public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree){
 
         if(!isHighDegree) return false;
 
         CadreEduExample example = new CadreEduExample();
-        CadreEduExample.Criteria criteria = example.createCriteria()
+        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsHighDegreeEqualTo(true);
         if(id!=null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
@@ -54,10 +54,10 @@ public class CadreEduService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreEdu record){
 
-        if(hasHighEdu(record.getId(), record.getIsHighEdu())){
+        if(hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())){
             throw new RuntimeException("已经存在最高学历");
         }
-        if(hasHighDegree(record.getId(), record.getIsHighDegree())){
+        if(hasHighDegree(record.getId(), record.getCadreId(), record.getIsHighDegree())){
             throw new RuntimeException("已经存在最高学位");
         }
 
@@ -82,10 +82,10 @@ public class CadreEduService extends BaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(CadreEdu record){
 
-        if(hasHighEdu(record.getId(), record.getIsHighEdu())){
+        if(hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())){
             throw new RuntimeException("已经存在最高学历");
         }
-        if(hasHighDegree(record.getId(), record.getIsHighDegree())){
+        if(hasHighDegree(record.getId(), record.getCadreId(), record.getIsHighDegree())){
             throw new RuntimeException("已经存在最高学位");
         }
 

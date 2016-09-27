@@ -168,10 +168,10 @@
       <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-       <table tableName="cadre" domainObjectName="cadre.Cadre">
+      <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
               </table>
       <table tableName="cadre_view" domainObjectName="cadre.CadreView">
-      </table>
+      </table>-->
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -206,10 +206,10 @@
       <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
       </table>
        <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
-       </table>
+       </table>-->
       <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
       </table>
-      <table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
+      <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->

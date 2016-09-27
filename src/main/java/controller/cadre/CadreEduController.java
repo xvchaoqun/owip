@@ -5,9 +5,11 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreEduExample;
 import domain.cadre.CadreEduExample.Criteria;
+import domain.cadre.CadreInfo;
 import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,21 +26,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreEduController extends BaseController {
@@ -53,12 +51,21 @@ public class CadreEduController extends BaseController {
     }
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
-    public String cadreEdu_page(HttpServletResponse response,
-                                @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
-                                @OrderParam(required = false, defaultValue = "desc") String order,
-                                Integer cadreId,
-                                @RequestParam(required = false, defaultValue = "0") int export,
-                                Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String cadreEdu_page(@RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
+                                Integer cadreId, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+        if (type == 2) {
+
+            CadreEduExample example = new CadreEduExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.setOrderByClause("enrol_time asc");
+            List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+            modelMap.put("cadreEdus", cadreEdus);
+
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
+            modelMap.put("cadreInfo", cadreInfo);
+        }
 
         if (cadreId!=null) {
 
@@ -124,9 +131,29 @@ public class CadreEduController extends BaseController {
     @RequiresPermissions("cadreEdu:edit")
     @RequestMapping(value = "/cadreEdu_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_au(CadreEdu record, String _enrolTime, String _finishTime, String _degreeTime, HttpServletRequest request) {
+    public Map do_cadreEdu_au(CadreEdu record, String _enrolTime,
+                              String _finishTime,
+                              String _degreeTime,
+                              @RequestParam(value = "_files[]") MultipartFile[] _files,
+                              HttpServletRequest request) {
 
         Integer id = record.getId();
+
+        List<String> filePaths = new ArrayList<>();
+        for (MultipartFile _file : _files) {
+            String originalFilename = _file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  File.separator
+                    + "cadre_edu" + File.separator + record.getCadreId() + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+            filePaths.add(savePath);
+        }
+        if(filePaths.size()>0){
+            record.setCertificate(StringUtils.join(filePaths, ","));
+        }
 
         if(StringUtils.isNotBlank(_enrolTime)){
             record.setEnrolTime(DateUtils.parseDate(_enrolTime, "yyyy.MM"));
@@ -137,7 +164,8 @@ public class CadreEduController extends BaseController {
         if(StringUtils.isNotBlank(_degreeTime)){
             record.setDegreeTime(DateUtils.parseDate(_degreeTime, "yyyy.MM"));
         }
-        record.setHasDegree((record.getHasDegree() == null) ? false : record.getHasDegree());
+        record.setIsGraduated(BooleanUtils.isTrue(record.getIsGraduated()));
+        record.setHasDegree(BooleanUtils.isTrue(record.getHasDegree()));
         /*if(!record.getHasDegree()){
             record.setDegree(""); // 没有获得学位，清除学位名称
             record.setDegreeCountry("");
@@ -148,8 +176,8 @@ public class CadreEduController extends BaseController {
             record.setDegreeCountry("中国");
         }
 
-        record.setIsHighEdu((record.getIsHighEdu() == null) ? false : record.getIsHighEdu());
-        record.setIsHighDegree((record.getIsHighDegree() == null) ? false : record.getIsHighDegree());
+        record.setIsHighEdu(BooleanUtils.isTrue(record.getIsHighEdu()));
+        record.setIsHighDegree(BooleanUtils.isTrue(record.getIsHighDegree()));
 
 
         if (id == null) {

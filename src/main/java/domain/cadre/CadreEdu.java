@@ -10,6 +10,8 @@ public class CadreEdu implements Serializable {
 
     private Integer eduId;
 
+    private Boolean isGraduated;
+
     private Boolean isHighEdu;
 
     private String school;
@@ -40,6 +42,12 @@ public class CadreEdu implements Serializable {
 
     private Date degreeTime;
 
+    private String tutorName;
+
+    private String tutorTitle;
+
+    private String certificate;
+
     private String remark;
 
     private Integer sortOrder;
@@ -68,6 +76,14 @@ public class CadreEdu implements Serializable {
 
     public void setEduId(Integer eduId) {
         this.eduId = eduId;
+    }
+
+    public Boolean getIsGraduated() {
+        return isGraduated;
+    }
+
+    public void setIsGraduated(Boolean isGraduated) {
+        this.isGraduated = isGraduated;
     }
 
     public Boolean getIsHighEdu() {
@@ -188,6 +204,30 @@ public class CadreEdu implements Serializable {
 
     public void setDegreeTime(Date degreeTime) {
         this.degreeTime = degreeTime;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName == null ? null : tutorName.trim();
+    }
+
+    public String getTutorTitle() {
+        return tutorTitle;
+    }
+
+    public void setTutorTitle(String tutorTitle) {
+        this.tutorTitle = tutorTitle == null ? null : tutorTitle.trim();
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        this.certificate = certificate == null ? null : certificate.trim();
     }
 
     public String getRemark() {
