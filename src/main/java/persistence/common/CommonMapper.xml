@@ -158,6 +158,7 @@
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
+    and user.role_ids not like "%${regRoleStr}%"
     order by create_time desc
   </select>
   <select id="countNotCadre" parameterType="map" resultType="java.lang.Integer" >
@@ -165,6 +166,7 @@
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
+    and user.role_ids not like "%${regRoleStr}%"
   </select>
 
   <select id="selectNotMemberList" resultMap="persistence.sys.SysUserMapper.BaseResultMap" parameterType="map" >
@@ -172,6 +174,7 @@
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
+    and user.role_ids not like "%${regRoleStr}%"
     order by create_time desc
   </select>
   <select id="countNotMember" parameterType="map" resultType="java.lang.Integer" >
@@ -179,6 +182,7 @@
     <if test="search != null" >
       and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
     </if>
+    and user.role_ids not like "%${regRoleStr}%"
   </select>
 
   <select id="selectDispatchUnitByCodeList" resultMap="persistence.dispatch.DispatchUnitMapper.BaseResultMap" parameterType="map" >

@@ -233,6 +233,8 @@ public class MemberApplyController extends BaseController {
                                    Integer branchId,
                                    @RequestParam(defaultValue = "1")Byte type,
                                    @RequestParam(defaultValue = "0")Byte stage,
+                                   Byte growStatus, // 领取志愿书阶段查询
+                                   Byte positiveStatus, // 预备党员阶段查询
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer pageSize, Integer pageNo) throws IOException {
 
@@ -262,6 +264,19 @@ public class MemberApplyController extends BaseController {
                 criteria.andStageIn(stageList);
             }else
                 criteria.andStageEqualTo(stage);
+
+            if(stage == SystemConstants.APPLY_STAGE_DRAW){
+                if(growStatus!=null && growStatus>=0)
+                    criteria.andGrowStatusEqualTo(growStatus);
+                if(growStatus!=null && growStatus==-1)
+                    criteria.andGrowStatusIsNull();
+            }
+            if(stage == SystemConstants.APPLY_STAGE_GROW){
+                if(positiveStatus!=null && positiveStatus>=0)
+                    criteria.andPositiveStatusEqualTo(positiveStatus);
+                if(positiveStatus!=null && positiveStatus==-1)
+                    criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
+            }
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

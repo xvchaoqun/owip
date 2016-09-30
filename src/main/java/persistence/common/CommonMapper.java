@@ -172,12 +172,12 @@ public interface CommonMapper {
     int countCadreByUnitId(@Param("search") String searchint, @Param("unitId")int unitId);
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
-    List<SysUser> selectNotCadreList(@Param("search") String search, RowBounds rowBounds);
-    int countNotCadre(@Param("search") String search);
+    List<SysUser> selectNotCadreList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    int countNotCadre(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
     // 根据账号、姓名、学工号查找 不是 党员的用户
-    List<SysUser> selectNotMemberList(@Param("search") String search, RowBounds rowBounds);
-    int countNotMember(@Param("search") String search);
+    List<SysUser> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    int countNotMember(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
 
     List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits")Boolean addPermits, @Param("adminPartyIdList")List<Integer> adminPartyIdList,

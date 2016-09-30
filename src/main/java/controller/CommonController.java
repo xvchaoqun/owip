@@ -270,12 +270,12 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countNotCadre(searchStr);
+        int count = commonMapper.countNotCadre(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<SysUser> sysUsers = commonMapper.selectNotCadreList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUser> sysUsers = commonMapper.selectNotCadreList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != sysUsers && sysUsers.size()>0){
@@ -540,12 +540,12 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countNotMember(searchStr);
+        int count = commonMapper.countNotMember(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<SysUser> sysUsers = commonMapper.selectNotMemberList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUser> sysUsers = commonMapper.selectNotMemberList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != sysUsers && sysUsers.size()>0){

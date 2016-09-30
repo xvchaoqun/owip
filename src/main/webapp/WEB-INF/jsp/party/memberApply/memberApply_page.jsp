@@ -9,7 +9,7 @@
                  data-url-page="${ctx}/memberApply_page"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId
-            ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
+            ||not empty param.partyId ||not empty param.branchId ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
             <div class="widget-box transparent">
                 <div class="widget-header">
                     <div class="widget-toolbar no-border">
@@ -294,7 +294,6 @@
                                                                     <form class="form-inline search-form" id="searchForm">
                                                                                 <div class="form-group">
                                                                                     <label>用户</label>
-
                                                                                         <div class="input-group">
                                                                                             <input type="hidden" name="cls" value="${cls}">
                                                                                             <input type="hidden" name="type" value="${type}">
@@ -323,6 +322,38 @@
                                                                                             <option value="${branch.id}">${branch.name}</option>
                                                                                         </select>
                                                                                 </div>
+
+                                                                                <c:if test="${stage==APPLY_STAGE_DRAW}">
+                                                                                    <div class="form-group">
+                                                                                        <label>状态</label>
+                                                                                        <div class="input-group">
+                                                                                            <select name="growStatus" data-rel="select2" data-placeholder="请选择">
+                                                                                                <option></option>
+                                                                                                <option value="-1">待组织部审核</option>
+                                                                                                <option value="2">组织部已审核，待分党委发展为预备党员</option>
+                                                                                            </select>
+                                                                                            <script>
+                                                                                                $("#searchForm select[name=growStatus]").val("${param.growStatus}");
+                                                                                            </script>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </c:if>
+                                                                        <c:if test="${stage==APPLY_STAGE_GROW}">
+                                                                            <div class="form-group">
+                                                                                <label>状态</label>
+                                                                                <div class="input-group">
+                                                                                    <select name="positiveStatus" data-rel="select2" data-placeholder="请选择">
+                                                                                        <option></option>
+                                                                                        <option value="-1">待支部提交预备党员转正</option>
+                                                                                        <option value="0">支部已提交，待分党委审核</option>
+                                                                                        <option value="1">分党委已审核，待组织部审核</option>
+                                                                                    </select>
+                                                                                    <script>
+                                                                                        $("#searchForm select[name=positiveStatus]").val("${param.positiveStatus}");
+                                                                                    </script>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:if>
                                                                             <script>
                                                                                 register_party_branch_select($("#searchForm"), "branchDiv",
                                                                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
@@ -375,7 +406,7 @@
                     var party = rowObject.party;
                     var branch = rowObject.branch;
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }, frozen:true
+                }
             },
             <c:if test="${stage<APPLY_STAGE_INIT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180},
