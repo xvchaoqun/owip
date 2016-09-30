@@ -1,7 +1,8 @@
 .idea/
 pro.ces/src/main/webapp/static/build
 out/
+/.gitignore
 *.iml
-!.gitignore
 logs
+/src/main/resources/spring.properties
 target
