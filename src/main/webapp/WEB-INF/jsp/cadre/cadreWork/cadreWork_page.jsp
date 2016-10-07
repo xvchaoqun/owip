@@ -82,23 +82,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
-                        <textarea id="content">
-                            <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
-                            <c:if test="${empty cadreInfo.content}">
-                                <c:forEach items="${cadreWorks}" var="cadreWork">
-                                    <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
-                                        &nbsp;${cadreWork.unit}${cadreWork.post}</p>
-                                    <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
-                                        <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
-                                            <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
-                                            <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
-                                            ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
-                                            &nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
-                                        </c:forEach>
-                                    </c:if>
-                                </c:forEach>
-                            </c:if>
-                        </textarea>
+                        <textarea id="content">${cadreInfo.content}</textarea>
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
@@ -166,9 +150,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            allowFileManager : true,
-            uploadJson : '${ctx}/ke/upload_json',
-            fileManagerJson : '${ctx}/ke/file_manager_json',
+            items : ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });

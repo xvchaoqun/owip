@@ -174,10 +174,10 @@ public class CadreController extends BaseController {
         modelMap.put("extJzg", extJzg);
 
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(id);
-        // 主职
+        // 主职,现任职务
         modelMap.put("mainCadrePost", mainCadrePost);
 
-        // 现任职务
+        // 任现职级
         modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id,
                 mainCadrePost!=null?mainCadrePost.getAdminLevelId():null));
 

@@ -266,18 +266,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
-                        <textarea id="content">
-                            <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
-                            <c:if test="${empty cadreInfo.content && type==CADRE_INFO_TYPE_RESEARCH}">
-                                    <p>${researchInInfo.content}</p>
-                                    <p>${researchDirectInfo.content}</p>
-                                    <p>${bookPaperInfo.content}</p>
-                                    <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
-                                    <c:forEach items="${cadreRewards}" var="cadreReward">
-                                        <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
-                                    </c:forEach>
-                            </c:if>
-                        </textarea>
+                        <textarea id="content">${cadreInfo.content}</textarea>
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
@@ -300,9 +289,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            allowFileManager : true,
-            uploadJson : '${ctx}/ke/upload_json',
-            fileManagerJson : '${ctx}/ke/file_manager_json',
+            items : ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });

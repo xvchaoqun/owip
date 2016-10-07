@@ -617,6 +617,20 @@ pageEncoding="UTF-8"%>
 				</tbody>
 			</table>
 		</div></div></div>
+
+
+<div class="clearfix form-actions center">
+
+		<a class="btn btn-success" href="${ctx}/cadre/adform?cadreId=${cadre.id}">
+			<i class="ace-icon fa fa-download "></i>
+			下载干部任免审批表
+		</a>
+	&nbsp; &nbsp; &nbsp;
+	<button class="closeView btn btn-default" type="button">
+		<i class="ace-icon fa fa-undo"></i>
+		返回
+	</button>
+</div>
 <style>
 	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;

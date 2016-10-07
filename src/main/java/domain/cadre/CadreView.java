@@ -46,7 +46,6 @@ public class CadreView implements Serializable {
         }
         return null;
     }
-
     private Integer id;
 
     private Integer userId;

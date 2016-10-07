@@ -31,6 +31,30 @@
     </w:pPr>
     </#if>
     <#list row as col>
+    <#if col_index==0>
+        <#switch col>
+            <#case 0><#break>
+            <#case 1>
+            <w:pPr>
+                <w:spacing w:line="400" w:line-rule="exact"/>
+                <w:ind w:left-chars="50" w:left="105" w:first-line-chars="100" w:first-line="220"/>
+                <w:rPr>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+            </w:pPr>
+            <#break>
+            <#case 2>
+            <w:pPr>
+                <w:spacing w:line="400" w:line-rule="exact"/>
+                <w:ind w:left-chars="50" w:left="105" w:first-line-chars="400" w:first-line="880"/>
+                <w:rPr>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+            </w:pPr>
+            <#break>
+        </#switch>
+    </#if>
+    <#if col_index!=0>
     <w:r>
         <w:rPr>
             <w:sz w:val="22"/>
@@ -45,6 +69,7 @@
         </w:rPr>
         <w:t>  </w:t>
     </w:r>
+    </#if>
     </#if>
     </#list>
 </w:p>

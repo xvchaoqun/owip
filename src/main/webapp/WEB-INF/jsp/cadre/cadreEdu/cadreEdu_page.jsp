@@ -55,8 +55,7 @@
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
                         <c:forEach items="${cadreEdus}" var="cadreEdu">
-                            <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}
-                                &nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}&nbsp;${cadreEdu.degree}</p>
+                            <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}&nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}&nbsp;${cadreEdu.degree}</p>
                         </c:forEach>
                     </div>
                 </div>
@@ -72,16 +71,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
-                        <textarea id="content">
-                            <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
-                            <c:if test="${empty cadreInfo.content}">
-                                <c:forEach items="${cadreEdus}" var="cadreEdu">
-                                    <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}
-                                        &nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}&nbsp;${cadreEdu.degree}</p>
-                                </c:forEach>
-                            </c:if>
-                        </textarea>
-                        <input type="hidden" name="content">
+                        <textarea id="content">${cadreInfo.content}</textarea>
                     </div>
                     <div class="modal-footer center">
                         <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
@@ -102,9 +92,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            allowFileManager : true,
-            uploadJson : '${ctx}/ke/upload_json',
-            fileManagerJson : '${ctx}/ke/file_manager_json',
+            items : ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });

@@ -67,15 +67,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
-                        <textarea id="content">
-                            <c:if test="${not empty cadreInfo.content}">${cadreInfo.content}</c:if>
-                            <c:if test="${empty cadreInfo.content}">
-                                <c:forEach items="${cadreRewards}" var="cadreReward">
-                                    <p>${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}
-                                        &nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
-                                </c:forEach>
-                            </c:if>
-                        </textarea>
+                        <textarea id="content">${cadreInfo.content}</textarea>
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
@@ -99,9 +91,7 @@
     <script>
 
         var ke = KindEditor.create('#content', {
-            allowFileManager : true,
-            uploadJson : '${ctx}/ke/upload_json',
-            fileManagerJson : '${ctx}/ke/file_manager_json',
+            items : ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });

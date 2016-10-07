@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
 	
-<classPathEntry location="D:\IdeaProjects\owip\src\test\java\mysql-connector-java-5.1.13-bin.jar" />
+<classPathEntry location="/Volumes/work/IdeaProjects/owip/src/test/java/mysql-connector-java-5.1.13-bin.jar" />
   <context id="context1" targetRuntime="MyBatis3">
   		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
   		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
@@ -169,9 +169,12 @@
       </table>-->
 
       <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
-              </table>
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView">
-      </table>-->
+              </table>-->
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -207,8 +210,8 @@
       </table>
        <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
-      <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
-      </table>
+      <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
+      </table>-->
       <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">

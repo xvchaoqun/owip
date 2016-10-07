@@ -15,6 +15,7 @@ import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.ConfigUtil;
 import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
+import sys.utils.ImageUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -116,41 +117,14 @@ public class FileController extends BaseController {
     @RequestMapping("/img")
     public void sign(String path, HttpServletResponse response) throws IOException {
 
-        showPic(FileUtils.getBytes(springProps.uploadPath + path), response);
+        ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + path), response);
     }
 
     // 手写签名
     @RequestMapping("/sign")
     public void sign(@CurrentUser SysUser loginUser, HttpServletResponse response) throws IOException {
 
-        showPic(FileUtils.getBytes(springProps.uploadPath + loginUser.getSign()), response);
-    }
-
-    @RequestMapping("/avatar/{username}")
-    public void avatar(@PathVariable String username, HttpServletResponse response) throws IOException {
-
-        SysUser sysUser = sysUserService.findByUsername(username);
-        String filepath = springProps.avatarFolder + File.separator + sysUser.getId() % 100 + File.separator
-                + sysUser.getCode() + ".jpg";
-        File imgFile = new File(filepath);
-        if (!imgFile.exists()) {
-            filepath = springProps.avatarFolder + springProps.defaultAvatar;
-        }
-
-        showPic(FileUtils.getBytes(filepath), response);
-    }
-
-    public void showPic(byte[] bytes, HttpServletResponse response) throws IOException {
-
-        if (bytes == null) return;
-
-        response.reset();
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("image/jpeg");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
+        ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + loginUser.getSign()), response);
     }
 
     //二维码
@@ -161,7 +135,7 @@ public class FileController extends BaseController {
         BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu90.png", false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "PNG", baos);
-        showPic(baos.toByteArray(), response);
+        ImageUtils.displayImage(baos.toByteArray(), response);
         baos.close();
     }
 

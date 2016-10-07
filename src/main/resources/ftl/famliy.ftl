@@ -38,7 +38,7 @@
                 <w:rPr>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${ftitle}</w:t>
+                <w:t>${ftitle!}</w:t>
             </w:r>
         </w:p>
     </w:tc>
@@ -59,7 +59,7 @@
                 <w:rPr>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${fname}</w:t>
+                <w:t>${fname!}</w:t>
             </w:r>
         </w:p>
     </w:tc>
@@ -80,7 +80,7 @@
                 <w:rPr>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${fage}</w:t>
+                <w:t>${fage!}</w:t>
             </w:r>
         </w:p>
     </w:tc>
@@ -100,7 +100,7 @@
                 <w:rPr>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${fps}</w:t>
+                <w:t>${fps!}</w:t>
             </w:r>
         </w:p>
     </w:tc>
@@ -122,7 +122,7 @@
                     <w:rFonts w:hint="fareast"/>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${fpost}</w:t>
+                <w:t>${fpost!}</w:t>
             </w:r>
         </w:p>
     </w:tc>

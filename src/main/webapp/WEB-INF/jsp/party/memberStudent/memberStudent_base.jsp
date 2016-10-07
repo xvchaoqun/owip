@@ -257,7 +257,7 @@ pageEncoding="UTF-8"%>
 		</button>
 </c:if>
 		&nbsp; &nbsp; &nbsp;
-		<button class="closeView btn" type="button">
+		<button class="closeView btn btn-default" type="button">
 			<i class="ace-icon fa fa-undo"></i>
 			返回
 		</button>

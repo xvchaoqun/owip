@@ -4,17 +4,36 @@ import domain.sys.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sys.utils.FileUtils;
+import sys.utils.ImageUtils;
 import sys.utils.PatternUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by fafa on 2016/5/23.
  */
 //@Controller
 public class AvatarController extends BaseController{
+
+    @RequestMapping("/avatar/{username}")
+    public void avatar(@PathVariable String username, HttpServletResponse response) throws IOException {
+
+        SysUser sysUser = sysUserService.findByUsername(username);
+        String filepath = springProps.avatarFolder + File.separator + sysUser.getId() % 100 + File.separator
+                + sysUser.getCode() + ".jpg";
+        File imgFile = new File(filepath);
+        if (!imgFile.exists()) {
+            filepath = springProps.avatarFolder + springProps.defaultAvatar;
+        }
+
+        ImageUtils.displayImage(FileUtils.getBytes(filepath), response);
+    }
+
 
     int total = 0;
     int save = 0;
