@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by fafa on 2016/5/23.
  */
-//@Controller
+@Controller
 public class AvatarController extends BaseController{
 
     @RequestMapping("/avatar/{username}")
@@ -74,7 +74,7 @@ public class AvatarController extends BaseController{
         }
     }
 
-    @RequestMapping("/avatar/process")
+    //@RequestMapping("/avatar/process")
     public void avatar(){
         System.out.println("处理头像");
         long startTime=System.currentTimeMillis();
