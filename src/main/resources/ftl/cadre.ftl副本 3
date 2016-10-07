@@ -819,7 +819,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${name!}</w:t>
+								<w:t>${name}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -882,7 +882,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${gender!}</w:t>
+								<w:t>${gender}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -958,7 +958,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${birth!}</w:t>
+								<w:t>${birth}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -981,7 +981,7 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${age!}</w:t>
+								<w:t>${age}</w:t>
 							</w:r>
 							<w:r wsp:rsidRPr="00E759EF">
 								<w:rPr>
@@ -1033,7 +1033,7 @@
 										<v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
 										<o:lock v:ext="edit" aspectratio="t"/>
 									</v:shapetype>
-									<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar!}</w:binData>
+									<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar}</w:binData>
 									<v:shape id="_x0000_i1025" type="#_x0000_t75" style="width:77pt;height:117pt">
 										<v:imagedata src="wordml://02000001.jpg" o:title="EPSON002"/>
 									</v:shape>
@@ -1104,7 +1104,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${nation!}</w:t>
+								<w:t>${nation}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1166,7 +1166,7 @@
 									<w:color w:val="000000"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${nativePlace!}</w:t>
+								<w:t>${nativePlace}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1213,7 +1213,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${birthCountry!}</w:t>
+								<w:t>${birthCountry}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1325,7 +1325,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${growTime!}</w:t>
+								<w:t>${growTime}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1371,7 +1371,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${workTime!}</w:t>
+								<w:t>${workTime}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1416,7 +1416,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${health!}</w:t>
+								<w:t>${health}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1500,7 +1500,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${proPost!}</w:t>
+								<w:t>${proPost}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1561,7 +1561,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${professinal!}</w:t>
+								<w:t>${professinal}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1727,7 +1727,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${degree!}</w:t>
+								<w:t>${degree}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1786,7 +1786,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor!}</w:t>
+								<w:t>${schoolDepMajor}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1897,7 +1897,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${inDegree!}</w:t>
+								<w:t>${inDegree}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1956,7 +1956,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor!}</w:t>
+								<w:t>${inSchoolDepMajor}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2052,7 +2052,7 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${post!}</w:t>
+								<w:t>${post}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2148,7 +2148,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${inPost!}</w:t>
+								<w:t>${inPost}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2244,7 +2244,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${prePost!}</w:t>
+								<w:t>${prePost}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2300,8 +2300,8 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						${learnDesc!}
-						${workDesc!}
+						${learnDesc}
+						${workDesc}
 						<w:p wsp:rsidR="009E10B4" wsp:rsidRDefault="009E10B4" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:spacing w:line="400" w:line-rule="exact"/>
@@ -2411,7 +2411,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${reward!}</w:t>
+								<w:t>${reward}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2481,7 +2481,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${ces!}</w:t>
+								<w:t>${ces}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2541,7 +2541,7 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						${trainDesc!}
+						${trainDesc}
 						<w:p wsp:rsidR="009E10B4" wsp:rsidRDefault="009E10B4" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:spacing w:line="400" w:line-rule="exact"/>
@@ -2619,7 +2619,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${reason!}</w:t>
+								<w:t>${reason}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2970,8 +2970,648 @@
 						</w:p>
 					</w:tc>
 				</w:tr>
-				${famliy!}
-				
+				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${ftitle}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fname}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fage}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fps}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="left"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fpost}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${ftitle}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fname}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fage}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fps}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="left"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fpost}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${ftitle}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fname}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fage}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fps}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fpost}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${ftitle}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fname}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fage}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fps}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fpost}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${ftitle}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="008F3577">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fname}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fage}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fps}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="009C6BA7" wsp:rsidRDefault="008F3577" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${fpost}</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
 				<w:tr wsp:rsidR="00E759EF">
 					<w:trPr>
 						<w:cantSplit/>
@@ -3078,7 +3718,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${opinion1!}</w:t>
+								<w:t>${opinion1}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3136,7 +3776,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y1!}</w:t>
+								<w:t>${y1}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3157,7 +3797,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${m1!}</w:t>
+								<w:t>${m1}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3178,7 +3818,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${d1!}</w:t>
+								<w:t>${d1}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3212,7 +3852,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${opinion2!}</w:t>
+								<w:t>${opinion2}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3270,7 +3910,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y2!}</w:t>
+								<w:t>${y2}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3291,7 +3931,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${m2!}</w:t>
+								<w:t>${m2}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3312,7 +3952,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${d2!}</w:t>
+								<w:t>${d2}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3345,7 +3985,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${opinion3!}</w:t>
+								<w:t>${opinion3}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3403,7 +4043,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y3!}</w:t>
+								<w:t>${y3}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3424,7 +4064,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${m3!}</w:t>
+								<w:t>${m3}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3445,7 +4085,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${d3!}</w:t>
+								<w:t>${d3}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3542,7 +4182,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${opinion4!}</w:t>
+								<w:t>${opinion4}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3612,7 +4252,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y4!}</w:t>
+								<w:t>${y4}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3633,7 +4273,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${m4!}</w:t>
+								<w:t>${m4}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3654,7 +4294,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${d4!}</w:t>
+								<w:t>${d4}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3691,7 +4331,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${opinion5!}</w:t>
+								<w:t>${opinion5}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3761,7 +4401,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y5!}</w:t>
+								<w:t>${y5}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3782,7 +4422,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${m5!}</w:t>
+								<w:t>${m5}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3803,7 +4443,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${d5!}</w:t>
+								<w:t>${d5}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
@@ -3833,7 +4473,7 @@
 					<w:rPr>
 						<w:rFonts w:hint="fareast"/>
 					</w:rPr>
-					<w:t>${admin!}</w:t>
+					<w:t>${admin}</w:t>
 				</w:r>
 			</w:p>
 			<w:sectPr wsp:rsidR="00F43419" wsp:rsidSect="00F43419">

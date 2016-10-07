@@ -564,14 +564,14 @@
 		</w:hdrShapeDefaults>
 		<w:footnotePr>
 			<w:footnote w:type="separator">
-				<w:p wsp:rsidR="00CC391F" wsp:rsidRDefault="00CC391F" wsp:rsidP="0060451C">
+				<w:p wsp:rsidR="003F10E2" wsp:rsidRDefault="003F10E2" wsp:rsidP="0060451C">
 					<w:r>
 						<w:separator/>
 					</w:r>
 				</w:p>
 			</w:footnote>
 			<w:footnote w:type="continuation-separator">
-				<w:p wsp:rsidR="00CC391F" wsp:rsidRDefault="00CC391F" wsp:rsidP="0060451C">
+				<w:p wsp:rsidR="003F10E2" wsp:rsidRDefault="003F10E2" wsp:rsidP="0060451C">
 					<w:r>
 						<w:continuationSeparator/>
 					</w:r>
@@ -580,14 +580,14 @@
 		</w:footnotePr>
 		<w:endnotePr>
 			<w:endnote w:type="separator">
-				<w:p wsp:rsidR="00CC391F" wsp:rsidRDefault="00CC391F" wsp:rsidP="0060451C">
+				<w:p wsp:rsidR="003F10E2" wsp:rsidRDefault="003F10E2" wsp:rsidP="0060451C">
 					<w:r>
 						<w:separator/>
 					</w:r>
 				</w:p>
 			</w:endnote>
 			<w:endnote w:type="continuation-separator">
-				<w:p wsp:rsidR="00CC391F" wsp:rsidRDefault="00CC391F" wsp:rsidP="0060451C">
+				<w:p wsp:rsidR="003F10E2" wsp:rsidRDefault="003F10E2" wsp:rsidP="0060451C">
 					<w:r>
 						<w:continuationSeparator/>
 					</w:r>
@@ -608,23 +608,19 @@
 		<wsp:rsids>
 			<wsp:rsidRoot wsp:val="00755B97"/>
 			<wsp:rsid wsp:val="00002C4E"/>
-			<wsp:rsid wsp:val="000879B9"/>
 			<wsp:rsid wsp:val="000C2287"/>
 			<wsp:rsid wsp:val="000D2128"/>
 			<wsp:rsid wsp:val="000E1735"/>
 			<wsp:rsid wsp:val="000F3F15"/>
-			<wsp:rsid wsp:val="00111D53"/>
 			<wsp:rsid wsp:val="00123E1F"/>
 			<wsp:rsid wsp:val="00147579"/>
 			<wsp:rsid wsp:val="00161323"/>
 			<wsp:rsid wsp:val="0016635E"/>
 			<wsp:rsid wsp:val="00176CB1"/>
 			<wsp:rsid wsp:val="0018787D"/>
-			<wsp:rsid wsp:val="001D7F9A"/>
 			<wsp:rsid wsp:val="001E1882"/>
 			<wsp:rsid wsp:val="001F27B8"/>
 			<wsp:rsid wsp:val="00236B8F"/>
-			<wsp:rsid wsp:val="00257EB9"/>
 			<wsp:rsid wsp:val="00277557"/>
 			<wsp:rsid wsp:val="0029420D"/>
 			<wsp:rsid wsp:val="00347E1A"/>
@@ -635,7 +631,6 @@
 			<wsp:rsid wsp:val="004A4CD9"/>
 			<wsp:rsid wsp:val="004C07F8"/>
 			<wsp:rsid wsp:val="004C15DD"/>
-			<wsp:rsid wsp:val="004F7F60"/>
 			<wsp:rsid wsp:val="00514A13"/>
 			<wsp:rsid wsp:val="00541A01"/>
 			<wsp:rsid wsp:val="0056143F"/>
@@ -646,7 +641,6 @@
 			<wsp:rsid wsp:val="006226C8"/>
 			<wsp:rsid wsp:val="00684C54"/>
 			<wsp:rsid wsp:val="006939D9"/>
-			<wsp:rsid wsp:val="006C7AAB"/>
 			<wsp:rsid wsp:val="006D0974"/>
 			<wsp:rsid wsp:val="006E3763"/>
 			<wsp:rsid wsp:val="006F3308"/>
@@ -657,9 +651,7 @@
 			<wsp:rsid wsp:val="00831DFE"/>
 			<wsp:rsid wsp:val="00833FE9"/>
 			<wsp:rsid wsp:val="00844283"/>
-			<wsp:rsid wsp:val="00867D1D"/>
 			<wsp:rsid wsp:val="008C76D8"/>
-			<wsp:rsid wsp:val="008F3577"/>
 			<wsp:rsid wsp:val="00943BE5"/>
 			<wsp:rsid wsp:val="0096019D"/>
 			<wsp:rsid wsp:val="00962591"/>
@@ -674,7 +666,6 @@
 			<wsp:rsid wsp:val="00A638DA"/>
 			<wsp:rsid wsp:val="00A64D2C"/>
 			<wsp:rsid wsp:val="00AE1527"/>
-			<wsp:rsid wsp:val="00AE27D3"/>
 			<wsp:rsid wsp:val="00AF78C0"/>
 			<wsp:rsid wsp:val="00B11C88"/>
 			<wsp:rsid wsp:val="00B122E7"/>
@@ -691,8 +682,6 @@
 			<wsp:rsid wsp:val="00C72792"/>
 			<wsp:rsid wsp:val="00C92BB8"/>
 			<wsp:rsid wsp:val="00CB6697"/>
-			<wsp:rsid wsp:val="00CC391F"/>
-			<wsp:rsid wsp:val="00CF4831"/>
 			<wsp:rsid wsp:val="00D03268"/>
 			<wsp:rsid wsp:val="00D73F08"/>
 			<wsp:rsid wsp:val="00D9330F"/>
@@ -700,11 +689,9 @@
 			<wsp:rsid wsp:val="00E6143B"/>
 			<wsp:rsid wsp:val="00E759EF"/>
 			<wsp:rsid wsp:val="00E777E2"/>
-			<wsp:rsid wsp:val="00EA2627"/>
 			<wsp:rsid wsp:val="00F43419"/>
 			<wsp:rsid wsp:val="00F55054"/>
 			<wsp:rsid wsp:val="00FA3A63"/>
-			<wsp:rsid wsp:val="00FB15E5"/>
 			<wsp:rsid wsp:val="00FB4A53"/>
 		</wsp:rsids>
 	</w:docPr>
@@ -819,7 +806,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${name!}</w:t>
+								<w:t>${name}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -882,7 +869,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${gender!}</w:t>
+								<w:t>${gender}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -958,7 +945,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${birth!}</w:t>
+								<w:t>${birth}</w:t>
 							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -981,7 +968,7 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${age!}</w:t>
+								<w:t>${age}</w:t>
 							</w:r>
 							<w:r wsp:rsidRPr="00E759EF">
 								<w:rPr>
@@ -999,11 +986,10 @@
 							<w:vmerge w:val="restart"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRPr="00514A13" wsp:rsidRDefault="006C7AAB">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRPr="00514A13" wsp:rsidRDefault="00A03704">
 							<w:pPr>
 								<w:jc w:val="center"/>
 								<w:rPr>
-									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
@@ -1033,7 +1019,7 @@
 										<v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
 										<o:lock v:ext="edit" aspectratio="t"/>
 									</v:shapetype>
-									<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar!}</w:binData>
+									<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar}</w:binData>
 									<v:shape id="_x0000_i1025" type="#_x0000_t75" style="width:77pt;height:117pt">
 										<v:imagedata src="wordml://02000001.jpg" o:title="EPSON002"/>
 									</v:shape>
@@ -1095,6 +1081,7 @@
 							<w:pPr>
 								<w:jc w:val="center"/>
 								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
@@ -1104,7 +1091,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${nation!}</w:t>
+								<w:t>${nation}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1166,8 +1153,9 @@
 									<w:color w:val="000000"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${nativePlace!}</w:t>
+								<w:t>${nativePlace}</w:t>
 							</w:r>
+						
 						</w:p>
 					</w:tc>
 					<w:tc>
@@ -1209,12 +1197,14 @@
 							</w:pPr>
 							<aml:annotation aml:id="5" w:type="Word.Bookmark.Start" w:name="A0114_6"/>
 							<aml:annotation aml:id="5" w:type="Word.Bookmark.End"/>
+							
 							<w:r>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${birthCountry!}</w:t>
+								<w:t>${birthCountry}</w:t>
 							</w:r>
+					
 						</w:p>
 					</w:tc>
 					<w:tc>
@@ -1325,7 +1315,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${growTime!}</w:t>
+								<w:t>${growTime}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1371,7 +1361,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${workTime!}</w:t>
+								<w:t>${workTime}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1416,7 +1406,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${health!}</w:t>
+								<w:t>${health}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1500,7 +1490,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${proPost!}</w:t>
+								<w:t>${post}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1561,7 +1551,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${professinal!}</w:t>
+								<w:t>${professinal}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1727,7 +1717,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${degree!}</w:t>
+								<w:t>${degree}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1786,7 +1776,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor!}</w:t>
+								<w:t>${schoolDepMajor}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1887,18 +1877,12 @@
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="006C7AAB">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0060451C">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${inDegree!}</w:t>
-							</w:r>
 						</w:p>
 					</w:tc>
 					<w:tc>
@@ -1945,19 +1929,13 @@
 							<w:gridSpan w:val="3"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="006C7AAB">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0060451C">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${inSchoolDepMajor!}</w:t>
-							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
@@ -2040,19 +2018,20 @@
 							<w:gridSpan w:val="7"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00111D53" wsp:rsidP="00111D53">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00E759EF" wsp:rsidP="00F43419">
 							<w:pPr>
 								<w:spacing w:line="310" w:line-rule="exact"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
+							<w:r wsp:rsidRPr="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${post!}</w:t>
+								<w:t>北京师范大学副校级干部</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2136,7 +2115,7 @@
 							<w:gridSpan w:val="7"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00111D53">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0060451C">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
@@ -2144,12 +2123,6 @@
 							</w:pPr>
 							<aml:annotation aml:id="10" w:type="Word.Bookmark.Start" w:name="RMZW_18"/>
 							<aml:annotation aml:id="10" w:type="Word.Bookmark.End"/>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${inPost!}</w:t>
-							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
@@ -2232,7 +2205,7 @@
 							<w:gridSpan w:val="7"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="00111D53">
+						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0060451C">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
@@ -2240,12 +2213,6 @@
 							</w:pPr>
 							<aml:annotation aml:id="11" w:type="Word.Bookmark.Start" w:name="RMZW_19"/>
 							<aml:annotation aml:id="11" w:type="Word.Bookmark.End"/>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${prePost!}</w:t>
-							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
@@ -2300,8 +2267,8 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						${learnDesc!}
-						${workDesc!}
+						${learnDesc}
+						${workDesc}
 						<w:p wsp:rsidR="009E10B4" wsp:rsidRDefault="009E10B4" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:spacing w:line="400" w:line-rule="exact"/>
@@ -2338,11 +2305,11 @@
 					<w:gridCol w:w="1289"/>
 					<w:gridCol w:w="1231"/>
 					<w:gridCol w:w="720"/>
-					<w:gridCol w:w="578"/>
-					<w:gridCol w:w="1222"/>
-					<w:gridCol w:w="54"/>
-					<w:gridCol w:w="1701"/>
-					<w:gridCol w:w="45"/>
+					<w:gridCol w:w="360"/>
+					<w:gridCol w:w="1080"/>
+					<w:gridCol w:w="360"/>
+					<w:gridCol w:w="900"/>
+					<w:gridCol w:w="900"/>
 					<w:gridCol w:w="3420"/>
 				</w:tblGrid>
 				<w:tr wsp:rsidR="00F43419" wsp:rsidTr="00D03268">
@@ -2400,7 +2367,7 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="00B50428" wsp:rsidRPr="00B50428" wsp:rsidRDefault="00111D53" wsp:rsidP="00C459E5">
+						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00B50428" wsp:rsidP="00C459E5">
 							<w:pPr>
 								<w:snapToGrid w:val="off"/>
 								<w:rPr>
@@ -2409,9 +2376,65 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${reward!}</w:t>
+								<w:t>2014.08  </w:t>
+							</w:r>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>被新疆自治区党委授予“第七批中央和国家机关、中央企业优秀援疆干部人才”称号，荣纪二等功。</w:t>
+							</w:r>
+						</w:p>
+						<w:p wsp:rsidR="00B50428" wsp:rsidRPr="00B50428" wsp:rsidRDefault="00B50428" wsp:rsidP="00C459E5">
+							<w:pPr>
+								<w:snapToGrid w:val="off"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00B50428">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2007</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00B50428">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年，</w:t>
+							</w:r>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>被评为“</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00B50428">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>教育部新世纪人才</w:t>
+							</w:r>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>”称号。</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2471,17 +2494,56 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="00F43419" wsp:rsidRPr="00BE4416" wsp:rsidRDefault="00111D53" wsp:rsidP="009E10B4">
+						<w:p wsp:rsidR="00F43419" wsp:rsidRPr="00BE4416" wsp:rsidRDefault="00C459E5" wsp:rsidP="009E10B4">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
+							<w:r wsp:rsidRPr="00C459E5">
 								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${ces!}</w:t>
+								<w:t>2012</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00C459E5">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>、</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00C459E5">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2013</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00C459E5">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>、</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00C459E5">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2014</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="00C459E5">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年年度考核均为合格。</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2541,14 +2603,364 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						${trainDesc!}
-						<w:p wsp:rsidR="009E10B4" wsp:rsidRDefault="009E10B4" wsp:rsidP="00B943F3">
+						<w:p wsp:rsidR="00962591" wsp:rsidRPr="000D2128" wsp:rsidRDefault="00962591" wsp:rsidP="00BE4416">
 							<w:pPr>
-								<w:spacing w:line="400" w:line-rule="exact"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2002</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>4</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>19</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>-2002</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>5</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>4</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日，在澳大利亚悉尼大学参加中组部干教中心组织的中国高级人事干部研修班。</w:t>
+							</w:r>
+						</w:p>
+						<w:p wsp:rsidR="00F43419" wsp:rsidRPr="000D2128" wsp:rsidRDefault="00962591" wsp:rsidP="00BE4416">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2006</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>3</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>1</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>-2006</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>4</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>1</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日，在中央党校参加五部委组织哲学社会科学骨干青年教师研修班。</w:t>
+							</w:r>
+						</w:p>
+						<w:p wsp:rsidR="00962591" wsp:rsidRPr="000D2128" wsp:rsidRDefault="00962591" wsp:rsidP="00BE4416">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2007</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>7</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月，在英国伦敦参加中国教育</w:t>
+							</w:r>
+							<w:r wsp:rsidR="00D03268" wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>国际</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>交流学会组织的中英校长领导力发展研讨班。</w:t>
+							</w:r>
+						</w:p>
+						<w:p wsp:rsidR="00962591" wsp:rsidRPr="00BE4416" wsp:rsidRDefault="00962591" wsp:rsidP="00BE4416">
+							<w:pPr>
+								<w:rPr>
+									<w:sz-cs w:val="21"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>2010</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>9</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>1</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>-2010</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>11</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>月</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>1</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>日，在国家教育行政学院参加第</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>34</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="000D2128">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>期青年干部培训班。</w:t>
+							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
@@ -2607,7 +3019,7 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00AE27D3">
+						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
@@ -2615,16 +3027,10 @@
 							</w:pPr>
 							<aml:annotation aml:id="12" w:type="Word.Bookmark.Start" w:name="RMLY_23"/>
 							<aml:annotation aml:id="12" w:type="Word.Bookmark.End"/>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${reason!}</w:t>
-							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
-				<w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
+				<w:tr wsp:rsidR="00F43419">
 					<w:trPr>
 						<w:cantSplit/>
 						<w:trHeight w:val="510"/>
@@ -2713,7 +3119,7 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="1298" w:type="dxa"/>
+							<w:tcW w:w="1080" w:type="dxa"/>
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
@@ -2751,8 +3157,7 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="1276" w:type="dxa"/>
-							<w:gridSpan w:val="2"/>
+							<w:tcW w:w="1080" w:type="dxa"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
 						<w:p wsp:rsidR="00943BE5" wsp:rsidRDefault="00943BE5">
@@ -2790,7 +3195,8 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="1701" w:type="dxa"/>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
 						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419">
@@ -2858,7 +3264,7 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="3465" w:type="dxa"/>
+							<w:tcW w:w="4320" w:type="dxa"/>
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
@@ -2970,8 +3376,643 @@
 						</w:p>
 					</w:tc>
 				</w:tr>
-				${famliy!}
-				
+				<w:tr wsp:rsidR="00E759EF">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>父亲</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00B62C14" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>周书亮</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00B62C14" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>群众</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="4320" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00B62C14" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="left"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>内蒙古武川县庙沟乡（已故）</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00E759EF">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>母亲</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>杜爱女</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>群众</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="4320" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00B62C14" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="left"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>内蒙古武川县庙沟乡（已故）</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00E759EF">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>妻子</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>张晓霞</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>51</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>中共党员</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="4320" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>人民教育出版社版权部</w:t>
+							</w:r>
+							<w:r wsp:rsidR="00D03268">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>主任</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00E759EF">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>女儿</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>周欣冉</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00E759EF">
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>13</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00D03268" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>群众</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="4320" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00E759EF" wsp:rsidRDefault="00D03268" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>三帆中学学生</w:t>
+							</w:r>
+						</w:p>
+					</w:tc>
+				</w:tr>
+				<w:tr wsp:rsidR="00E759EF">
+					<w:trPr>
+						<w:cantSplit/>
+						<w:trHeight w:val="510"/>
+						<w:jc w:val="center"/>
+					</w:trPr>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1289" w:type="dxa"/>
+							<w:vmerge/>
+							<w:textFlow w:val="tb-rl-v"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:spacing w:line="0" w:line-rule="at-least"/>
+								<w:ind w:left="113" w:right="113"/>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1231" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1080" w:type="dxa"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="1260" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+					<w:tc>
+						<w:tcPr>
+							<w:tcW w:w="4320" w:type="dxa"/>
+							<w:gridSpan w:val="2"/>
+							<w:vAlign w:val="center"/>
+						</w:tcPr>
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="009C6BA7" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+						</w:p>
+					</w:tc>
+				</w:tr>
 				<w:tr wsp:rsidR="00E759EF">
 					<w:trPr>
 						<w:cantSplit/>
@@ -3067,19 +4108,12 @@
 								</w:rPr>
 							</w:pPr>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00257EB9" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:rPr>
-									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${opinion1!}</w:t>
-							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
@@ -3123,7 +4157,7 @@
 								<w:t>章</w:t>
 							</w:r>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00FB15E5">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:spacing w:before="156"/>
 								<w:ind w:right="178"/>
@@ -3133,12 +4167,6 @@
 								</w:rPr>
 							</w:pPr>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${y1!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3151,15 +4179,9 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t> </w:t>
+								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${m1!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3172,15 +4194,9 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t> </w:t>
+								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${d1!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3202,18 +4218,12 @@
 								</w:rPr>
 							</w:pPr>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${opinion2!}</w:t>
-							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
@@ -3257,7 +4267,7 @@
 								<w:t>章</w:t>
 							</w:r>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:spacing w:before="156"/>
 								<w:ind w:right="214"/>
@@ -3268,19 +4278,13 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${y2!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
-								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 								<w:t>年</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3288,12 +4292,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${m2!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3301,7 +4299,7 @@
 								</w:rPr>
 								<w:t>月</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3309,12 +4307,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${d2!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3335,18 +4327,12 @@
 								</w:rPr>
 							</w:pPr>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${opinion3!}</w:t>
-							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
@@ -3390,7 +4376,7 @@
 								<w:t>章</w:t>
 							</w:r>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:spacing w:before="156"/>
 								<w:ind w:right="252"/>
@@ -3400,12 +4386,6 @@
 								</w:rPr>
 							</w:pPr>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${y3!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3418,15 +4398,9 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t> </w:t>
+								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${m3!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3439,15 +4413,9 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t> </w:t>
+								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${d3!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3467,7 +4435,7 @@
 					<w:tc>
 						<w:tcPr>
 							<w:tcW w:w="5040" w:type="dxa"/>
-							<w:gridSpan w:val="5"/>
+							<w:gridSpan w:val="6"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3490,7 +4458,7 @@
 					<w:tc>
 						<w:tcPr>
 							<w:tcW w:w="5220" w:type="dxa"/>
-							<w:gridSpan w:val="4"/>
+							<w:gridSpan w:val="3"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
@@ -3520,7 +4488,7 @@
 					<w:tc>
 						<w:tcPr>
 							<w:tcW w:w="5040" w:type="dxa"/>
-							<w:gridSpan w:val="5"/>
+							<w:gridSpan w:val="6"/>
 							<w:tcBorders>
 								<w:bottom w:val="single" w:sz="4" wx:bdrwidth="10" w:space="0" w:color="auto"/>
 							</w:tcBorders>
@@ -3532,18 +4500,12 @@
 								</w:rPr>
 							</w:pPr>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${opinion4!}</w:t>
-							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
@@ -3599,7 +4561,7 @@
 								<w:t>章</w:t>
 							</w:r>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:spacing w:before="156"/>
 								<w:ind w:right="252"/>
@@ -3610,19 +4572,13 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${y4!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
-								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 								<w:t>年</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3630,12 +4586,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${m4!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3643,7 +4593,7 @@
 								</w:rPr>
 								<w:t>月</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3651,12 +4601,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${d4!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3669,7 +4613,7 @@
 					<w:tc>
 						<w:tcPr>
 							<w:tcW w:w="5220" w:type="dxa"/>
-							<w:gridSpan w:val="4"/>
+							<w:gridSpan w:val="3"/>
 							<w:tcBorders>
 								<w:bottom w:val="single" w:sz="4" wx:bdrwidth="10" w:space="0" w:color="auto"/>
 							</w:tcBorders>
@@ -3681,18 +4625,12 @@
 								</w:rPr>
 							</w:pPr>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
 							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${opinion5!}</w:t>
-							</w:r>
 						</w:p>
 						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
@@ -3748,7 +4686,7 @@
 								<w:t>章</w:t>
 							</w:r>
 						</w:p>
-						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00FB15E5" wsp:rsidP="00E759EF">
+						<w:p wsp:rsidR="00E759EF" wsp:rsidRDefault="00E759EF" wsp:rsidP="00E759EF">
 							<w:pPr>
 								<w:spacing w:before="156"/>
 								<w:ind w:right="252"/>
@@ -3759,19 +4697,13 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${y5!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
-								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 								<w:t>年</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3779,12 +4711,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${m5!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3792,7 +4718,7 @@
 								</w:rPr>
 								<w:t>月</w:t>
 							</w:r>
-							<w:r wsp:rsidR="00E759EF">
+							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
@@ -3800,12 +4726,6 @@
 								<w:t>  </w:t>
 							</w:r>
 							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								<w:t>${d5!}</w:t>
-							</w:r>
-							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
@@ -3832,8 +4752,9 @@
 				<w:r wsp:rsidR="00C459E5">
 					<w:rPr>
 						<w:rFonts w:hint="fareast"/>
+						<wx:font wx:val="宋体"/>
 					</w:rPr>
-					<w:t>${admin!}</w:t>
+					<w:t>${admin}</w:t>
 				</w:r>
 			</w:p>
 			<w:sectPr wsp:rsidR="00F43419" wsp:rsidSect="00F43419">
