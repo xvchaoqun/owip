@@ -504,7 +504,7 @@ public class MemberService extends BaseMapper {
         return count;
     }
 
-    private void addModify(int userId, String reason){
+    public void addModify(int userId, String reason){
 
         MemberModify modify = new MemberModify();
         try {

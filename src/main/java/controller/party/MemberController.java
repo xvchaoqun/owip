@@ -190,6 +190,8 @@ public class MemberController extends BaseController {
             record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
 
+            memberService.addModify(record.getUserId(), "后台添加");
+
             logger.info(addLog(SystemConstants.LOG_MEMBER,
                     "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
