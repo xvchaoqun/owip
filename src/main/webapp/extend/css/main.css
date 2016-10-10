@@ -248,6 +248,8 @@ body{
 }
 .my_paginate_row>div:first-child{
     padding-top: 10px;
+    float: left;
+    margin-left: 10px;
 }
 .my_paginate_row .my_paginate {
     text-align: right;
