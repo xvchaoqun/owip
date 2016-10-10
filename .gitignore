@@ -4,5 +4,4 @@ out/
 /.gitignore
 *.iml
 logs
-/src/main/resources/spring.properties
 target
