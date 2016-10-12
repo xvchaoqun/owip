@@ -151,7 +151,7 @@
         this.originalOptions = this.$select.clone()[0].options;
         this.query = '';
         this.searchTimeout = null;
-        this.lastToggledInput = null
+        this.lastToggledInput = null;
 
         this.options.multiple = this.$select.attr('multiple') === "multiple";
         this.options.onChange = $.proxy(this.options.onChange, this);
@@ -176,8 +176,7 @@
         }
         
         this.$select.hide().after(this.$container);
-    };
-
+    }
     Multiselect.prototype = {
 
         defaults: {
@@ -802,10 +801,9 @@
                 }
                 
                 if (this.options.selectAllName) {
-                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" />');
-                }
-                else {
-                    $('label', $li).prepend('<input type="checkbox" />');
+                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" class="ace"/>');//ACE
+                } else {
+                    $('label', $li).prepend('<input type="checkbox" class="ace"/>');//ACE
                 }
                 
                 var $checkbox = $('input', $li);
@@ -814,7 +812,7 @@
                 $li.addClass("multiselect-item multiselect-all");
                 $checkbox.parent().parent()
                     .addClass('multiselect-all');
-
+                $checkbox.after('<span class="lbl" />');//ACE
                 this.$ul.prepend($li);
 
                 $checkbox.prop('checked', false);

@@ -6,6 +6,7 @@ import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;
 import domain.member.MemberStudentExample.Criteria;
 import domain.party.Party;
+import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberStudentMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -117,6 +118,7 @@ public class MemberStudentController extends BaseController {
                                   Integer partyId,
                                   Integer branchId,
                                   @RequestParam(required = false, value = "nation")String[] nation,
+                                  @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
                                   ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -134,10 +136,15 @@ public class MemberStudentController extends BaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
+        if (nativePlace!=null) {
+            List<String> selectNativePlaces = Arrays.asList(nativePlace);
+            modelMap.put("selectNativePlaces", selectNativePlaces);
+        }
 
         modelMap.put("studentGrades", searchMapper.studentGrades());
         modelMap.put("studentTypes", searchMapper.studentTypes());
         modelMap.put("studentNations", searchMapper.studentNations());
+        modelMap.put("studentNativePlaces", searchMapper.studentNativePlaces());
 
         return "party/memberStudent/memberStudent_page";
     }
@@ -161,6 +168,7 @@ public class MemberStudentController extends BaseController {
                                      String eduLevel,
                                      String eduType,
                                      @RequestParam(required = false, value = "nation")String[] nation,
+                                     @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo) throws IOException {
@@ -214,6 +222,10 @@ public class MemberStudentController extends BaseController {
         if (nation!=null) {
             List<String> selectNations = Arrays.asList(nation);
             criteria.andNationIn(selectNations);
+        }
+        if (nativePlace!=null) {
+            List<String> selectNativePlaces = Arrays.asList(nativePlace);
+            criteria.andNativePlaceIn(selectNativePlaces);
         }
 
         if(age!=null){
@@ -312,9 +324,11 @@ public class MemberStudentController extends BaseController {
 
     public void memberStudent_export(int cls, MemberStudentExample example, HttpServletResponse response) {
 
+        Map<Integer, Unit> unitMap = unitService.findAll();
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学生证号","姓名", "性别", "民族","学生类别", "年级", "入党时间","转正时间", "所属分党委", "所属党支部"};
+        String[] titles = {"学生证号","姓名", "性别", "民族","籍贯","学生类别",  "所在单位","年级", "所属分党委", "所属党支部",
+                "入党时间","转正时间","培养层次","培养类型"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStudent record = records.get(i);
@@ -326,12 +340,16 @@ public class MemberStudentController extends BaseController {
                     record.getRealname(),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     record.getNation(),
+                    record.getNativePlace(),
                     record.getType(),
+                    unitMap.get(record.getUnitId()).getName(),
                     record.getGrade(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName()
+                    record.getEduLevel(),
+                    record.getEduType()
             };
             valuesList.add(values);
         }

@@ -6,6 +6,7 @@ import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
 import domain.party.Party;
+import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +48,7 @@ public class MemberTeacherController extends BaseController {
             Integer partyId,
             Integer branchId,
             @RequestParam(required = false, value = "nation")String[] nation,
+            @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
             ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -64,10 +66,15 @@ public class MemberTeacherController extends BaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
+        if (nativePlace!=null) {
+            List<String> selectNativePlaces = Arrays.asList(nativePlace);
+            modelMap.put("selectNativePlaces", selectNativePlaces);
+        }
 
         modelMap.put("teacherEducationTypes", searchMapper.teacherEducationTypes());
         modelMap.put("teacherPostClasses", searchMapper.teacherPostClasses());
         modelMap.put("teacherNations", searchMapper.teacherNations());
+        modelMap.put("teacherNativePlaces", searchMapper.teacherNativePlaces());
 
         return "party/memberTeacher/memberTeacher_page";
     }
@@ -85,6 +92,7 @@ public class MemberTeacherController extends BaseController {
                                     Byte politicalStatus,
                                     Byte gender,
                                    @RequestParam(required = false, value = "nation")String[] nation,
+                                   @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
                                     Byte age,
                                     String education,
                                     String postClass,
@@ -137,6 +145,10 @@ public class MemberTeacherController extends BaseController {
         if (nation!=null) {
             List<String> selectNations = Arrays.asList(nation);
             criteria.andNationIn(selectNations);
+        }
+        if (nativePlace!=null) {
+            List<String> selectNativePlaces = Arrays.asList(nativePlace);
+            criteria.andNativePlaceIn(selectNativePlaces);
         }
         if(age!=null){
             switch (age){
@@ -275,10 +287,12 @@ public class MemberTeacherController extends BaseController {
 
     public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
+        Map<Integer, Unit> unitMap = unitService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号","姓名","性别","民族", "出生日期","所属分党委","所属党支部",
-                "入党时间","最高学历","岗位类别","专业技术职务","联系手机"};
+        String[] titles = {"工作证号","姓名","性别","民族","籍贯","最高学历","岗位类别","专业技术职务",
+                "出生日期","所在单位","所属分党委","所属党支部",
+                "入党时间","转正时间","联系手机"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberTeacher record = records.get(i);
@@ -291,13 +305,16 @@ public class MemberTeacherController extends BaseController {
                     record.getRealname(),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     record.getNation(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
-                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    record.getNativePlace(),
                     record.getEducation(),
                     record.getPostClass(),
                     record.getProPost(),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    unitMap.get(record.getUnitId()).getName(),
+                    partyId==null?"":partyService.findAll().get(partyId).getName(),
+                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getMobile()
             };
 
