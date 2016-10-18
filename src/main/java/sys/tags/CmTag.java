@@ -421,11 +421,11 @@ public class CmTag {
             if (StringUtils.isBlank(paramPair)) continue;
             String[] param = paramPair.split("=");
             if (param.length == 1) {
-                paramList.add(HtmlEscapeUtils.escape(param[0]));
+                paramList.add(HtmlEscapeUtils.escape(param[0], "UTF-8"));
                 continue;
             }
-            String paramName = HtmlEscapeUtils.escape(param[0]);
-            String paramValue = HtmlEscapeUtils.escape(param[1]);
+            String paramName = HtmlEscapeUtils.escape(param[0], "UTF-8");
+            String paramValue = HtmlEscapeUtils.escape(param[1], "UTF-8");
             paramList.add(paramName + "=" + paramValue);
         }
 

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <iframe id="myframe" src="${ctx}/report/passportApply?id=${passportApply.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <img src="${ctx}/report/passportApply?id=${passportApply.id}&_=<%=new Date().getTime()%>" width="595" height="842"/>
     </div>
     <div class="info">
         <div style="border: 1px dashed #aaaaaa;padding: 20px">
@@ -104,13 +104,16 @@ pageEncoding="UTF-8"%>
 <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passportApply.classId)}"/>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
-    $("#print").click(function(){ // 兼容谷歌
+    $("#print").click(function(){
+        printWindow("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");
+    });
+  /*  $("#print").click(function(){ // 兼容谷歌
         //$("#myframe").jqprint();
         var myframe = document.getElementById("myframe");
         myframe.focus();
         myframe.contentWindow.print();
     });
-
+*/
     $("#agree").click(function(){
         var _expectDate = $("input[name=_expectDate]").val();
         if( _expectDate == ''){
@@ -155,6 +158,6 @@ pageEncoding="UTF-8"%>
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    });
     $('textarea.limited').inputlimiter();
 </script>

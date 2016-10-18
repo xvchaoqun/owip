@@ -431,7 +431,13 @@
       <scope>system</scope>
       <systemPath>${basedir}/lib/iTextAsian.jar</systemPath>
     </dependency>
-
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>simfang</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/simfang.jar</systemPath>
+    </dependency>
     <dependency>
       <groupId>org.jasig.cas.client</groupId>
       <artifactId>cas-client-core</artifactId>
@@ -488,7 +494,6 @@
       <version>3.3.1</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>

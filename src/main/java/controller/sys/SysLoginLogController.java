@@ -59,7 +59,7 @@ public class SysLoginLogController extends BaseController {
 		}
 		pageNo = Math.max(1, pageNo);
 		
-		content = HtmlEscapeUtils.escape(Escape.unescape(content));
+		content = HtmlEscapeUtils.escape(Escape.unescape(content), "UTF-8");
 		
 		SysLoginLogExample example = new SysLoginLogExample();
 		SysLoginLogExample.Criteria criteria = example.createCriteria();

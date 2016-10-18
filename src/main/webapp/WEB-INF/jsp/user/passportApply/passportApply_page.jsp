@@ -109,7 +109,7 @@ pageEncoding="UTF-8" %>
     }
 
     $(".printBtn").click(function(){
-        printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"))
+        printWindow("${ctx}/report/passportApply?format=pdf&id="+ $(this).data("id"))
     });
     $(".remarkBtn").click(function(){
         SysMsg.info('<p style="padding:20px;font-size:25px;text-indent: 2em; ">'+$(this).data("remark")+'</p>'

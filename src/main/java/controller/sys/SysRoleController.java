@@ -54,7 +54,7 @@ public class SysRoleController extends BaseController {
 		}
 		pageNo = Math.max(1, pageNo);
 		
-		searchStr = HtmlEscapeUtils.escape(Escape.unescape(searchStr));
+		searchStr = HtmlEscapeUtils.escape(Escape.unescape(searchStr), "UTF-8");
 		
 		SysRoleExample example = new SysRoleExample();
 		//example.createCriteria().andStatusEqualTo(0);

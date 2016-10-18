@@ -167,13 +167,13 @@
 					<div class="form-group">
 						<label class="col-xs-6 control-label">导师姓名</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
+							<input class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-6 control-label">导师所在单位及职务（职称）</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
+							<input class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -261,9 +261,16 @@
 		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {
 			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("input[name='_files[]']").prop("disabled", true);
+
+			$("input[name=_finishTime]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
+
 		}else {
 			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
 			$("input[name='_files[]']").prop("disabled", false);
+
+			$("input[name=_finishTime]").prop("disabled", false).attr("required", "required");
+			$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
 		}
 	}
 	$('input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
@@ -274,11 +281,11 @@
 	function eduIdChange(){
 		var $eduId = $("select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}" || $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
-			$("input[name=tutorName]").prop("disabled", false).attr("required", "required");
-			$("input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
+			$("input[name=tutorName]").prop("disabled", false);
+			$("input[name=tutorTitle]").prop("disabled", false);
 		}else{
-			$("input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=tutorName]").val('').prop("disabled", true);
+			$("input[name=tutorTitle]").val('').prop("disabled", true);
 		}
 	}
 	$("select[name=eduId]").change(function(){

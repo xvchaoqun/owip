@@ -48,7 +48,9 @@ public class ReportController extends BaseController {
     public String member_out_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 @RequestParam(required = false, defaultValue = "0") Boolean print,
-                                Integer type, Model model) throws IOException, DocumentException {
+                                Integer type,
+                                @RequestParam(defaultValue = "pdf")String format,
+                                Model model) throws IOException, DocumentException {
 
         boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
                 SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
@@ -71,7 +73,7 @@ public class ReportController extends BaseController {
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
         model.addAttribute("url", "/WEB-INF/jasper/member_out_bj.jasper");
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
@@ -91,6 +93,7 @@ public class ReportController extends BaseController {
     public String member_in_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
                                @RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
+                               @RequestParam(defaultValue = "pdf")String format,
                                Model model) throws IOException, DocumentException {
 
         boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
@@ -111,7 +114,7 @@ public class ReportController extends BaseController {
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
         model.addAttribute("url", "/WEB-INF/jasper/member_in_bj.jasper");
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
@@ -162,7 +165,9 @@ public class ReportController extends BaseController {
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
-    public String cancel(Integer id, Model model) throws IOException, DocumentException {
+    public String cancel(Integer id,
+                         @RequestParam(defaultValue = "image")String format,
+                         Model model) throws IOException, DocumentException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
@@ -218,7 +223,7 @@ public class ReportController extends BaseController {
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
         model.addAttribute("url", "/WEB-INF/jasper/cancel.jasper");
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
@@ -226,7 +231,9 @@ public class ReportController extends BaseController {
 
     // 领取证件？
     @RequestMapping(value = "/passportSign", method = RequestMethod.GET)
-    public String passportSign(Integer classId, Integer userId, Integer id, Model model) throws IOException, DocumentException {
+    public String passportSign(Integer classId, Integer userId, Integer id,
+                               @RequestParam(defaultValue = "image")String format,
+                               Model model) throws IOException, DocumentException {
 
         PassportDraw passportDraw = null;
         if (id != null) { // 以id为准
@@ -283,14 +290,17 @@ public class ReportController extends BaseController {
         // 动态指定报表模板url
         model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
 
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
     @RequestMapping(value = "/passportApply", method = RequestMethod.GET)
-    public String passportApply(Integer classId, Integer userId, Integer id, Model model) throws IOException, DocumentException {
+    public String passportApply(Integer classId, Integer userId,
+                                Integer id,
+                                @RequestParam(defaultValue = "image")String format,
+                                Model model) throws IOException, DocumentException {
 
         PassportApply passportApply = null;
         if (id != null) { // 以id为准
@@ -345,7 +355,7 @@ public class ReportController extends BaseController {
         // 动态指定报表模板url
         model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
 
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
@@ -355,6 +365,7 @@ public class ReportController extends BaseController {
     public String abroad_draw_proof(@CurrentUser SysUser loginUser,
                                     @RequestParam(value = "ids[]") Integer[] ids,
                                     Integer type,
+                                    @RequestParam(defaultValue = "pdf")String format,
                                     Model model) throws IOException, DocumentException {
 
         boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
@@ -378,7 +389,7 @@ public class ReportController extends BaseController {
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
         model.addAttribute("url", "/WEB-INF/jasper/abroad_draw_proof.jasper");
-        model.addAttribute("format", "pdf"); // 报表格式
+        model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id

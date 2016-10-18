@@ -240,7 +240,7 @@
                 if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                     return '-';
                 }
-                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}\')" class="btn btn-info btn-mini btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
+                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-mini btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
             }
             },

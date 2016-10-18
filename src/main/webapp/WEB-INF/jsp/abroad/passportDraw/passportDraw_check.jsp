@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="widget-box transparent">
     <div class="widget-header widget-header-flat">
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
                 <tr>
 
                     <td>${sysUser.code}</td>
-                    <td><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
+                    <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
                         ${sysUser.realname}
                     </a></td>
                     <td>${cadre.title}</td>
@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
 <div class="row passport_apply">
     <c:if test="${passportDraw.needSign}">
     <div class="preview">
-        <iframe id="myframe" src="${ctx}/report/passportSign?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <img src="${ctx}/report/passportSign?id=${param.id}" width="595" height="842" />
     </div>
     </c:if>
     <div class="info">
@@ -130,6 +130,6 @@ pageEncoding="UTF-8"%>
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    });
     $('textarea.limited').inputlimiter();
 </script>

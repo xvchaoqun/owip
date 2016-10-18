@@ -2,8 +2,9 @@ package controller.jasper;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
+import org.springframework.web.servlet.view.jasperreports.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationIReportView extends JasperReportsMultiFormatView {
@@ -11,6 +12,14 @@ public class ApplicationIReportView extends JasperReportsMultiFormatView {
 	
 	public ApplicationIReportView() {
 		super();
+		Map<String, Class<? extends AbstractJasperReportsView>> formatMappings = new HashMap(5);
+		formatMappings.put("csv", JasperReportsCsvView.class);
+		formatMappings.put("html", JasperReportsHtmlView.class);
+		formatMappings.put("pdf", JasperReportsPdfView.class);
+		formatMappings.put("xls", JasperReportsXlsView.class);
+		formatMappings.put("image", JasperReportsImageView.class);
+
+		setFormatMappings(formatMappings);
 	}
 
 	protected JasperPrint fillReport(Map<String, Object> model) throws Exception {

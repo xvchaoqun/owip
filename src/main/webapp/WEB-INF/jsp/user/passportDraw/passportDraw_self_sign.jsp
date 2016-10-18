@@ -14,7 +14,7 @@
 <div class="modal-body">
   <div class="row passport_apply">
     <div class="preview">
-      <iframe src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}&id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+      <img src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}&id=${param.id}" width="595" height="842" />
     </div>
 
     <div class="info">
@@ -74,7 +74,7 @@
 </c:if>
 <c:if test="${param.type=='view'}">
     $(".printBtn").click(function () {
-        printWindow("${ctx}/report/passportSign?id=${param.id}");
+        printWindow("${ctx}/report/passportSign?id=${param.id}&format=pdf");
     });
 </c:if>
 </script>

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <iframe src="${ctx}/report/passportApply?classId=${param.classId}&userId=${_user.id}&id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <img src="${ctx}/report/passportApply?classId=${param.classId}&userId=${_user.id}&id=${param.id}" width="595" height="842"/>
     </div>
     <div class="info">
         <div class="alert alert-warning" style="font-size: 20px">
@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    });
     register_user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
 </script>

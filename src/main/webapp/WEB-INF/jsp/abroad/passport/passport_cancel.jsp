@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
         <div style="margin-bottom: 8px">
 
             <div class="buttons">
-                <a href="javascript:;" class="closeView btn btn-sm btn-success">
+                <a href="javascript:" class="closeView btn btn-sm btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回
                 </a>
@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
         </div>
     </ul>
     <div class="preview" style="margin: 20px 5px 50px 0px;">
-        <iframe id="myframe" src="${ctx}/report/cancel?id=${param.id}" width="595" height="842" frameborder="0"  border="0" marginwidth="0" marginheight="0"></iframe>
+        <img src="${ctx}/report/cancel?id=${param.id}" width="595" height="842"/>
     </div>
     <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px">
     <form class="form-horizontal" action="${ctx}/passport_cancel" id="modalForm" method="post"  enctype="multipart/form-data">
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function(){
-        printWindow("${ctx}/report/cancel?id=${param.id}");
+        printWindow("${ctx}/report/cancel?id=${param.id}&format=pdf");
     });
     $("#print_proof").click(function(){
         printWindow('${ctx}/img?path=${fn:replace(passport.cancelPic, "\\","\\/"  )}');
