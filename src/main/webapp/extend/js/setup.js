@@ -728,10 +728,22 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
 // 导出 for jqgrid
 $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 
-    var grid = $("#jqGrid");
+    var _this = $(this);
+    var gridId = _this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
     var ids  = grid.getGridParam("selarrrow");
-    var $div = $(this).closest(".myTableDiv");
-    location.href = $div.data("url-export") +"?export=1&ids[]="+ids +"&" + $("div.myTableDiv #searchForm").serialize();
+
+    var url = _this.data("url");
+    if($.trim(url)==''){
+        var $div = $(this).closest(".myTableDiv");
+        url = $div.data("url-export");
+    }
+    var queryString = _this.data("querystr");
+    url = url + (queryString?("?"+queryString):"");
+
+    var searchFormId = _this.data("search-form-id") || "div.myTableDiv #searchForm";
+
+    location.href = url + (url.indexOf("?")>0?"&":"?") + "export=1&ids[]="+ids +"&" + $(searchFormId).serialize();
 });
 
 // 批量操作 for jqgrid

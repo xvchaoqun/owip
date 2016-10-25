@@ -3,6 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.party.*;
 import domain.party.BranchExample.Criteria;
+import domain.sys.MetaType;
 import domain.sys.SysUser;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -104,6 +106,7 @@ public class BranchController extends BaseController {
                                     Boolean isPrefessional,
                                     Boolean isBaseTeam,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 String exportType,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -167,7 +170,12 @@ public class BranchController extends BaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            branch_export(example, response);
+
+            if(StringUtils.equals(exportType, "secretary")){ // 导出支部书记
+                branch_secretary_export(example, response);
+            }else {
+                branch_export(example, response);
+            }
             return;
         }
 
@@ -345,6 +353,38 @@ public class BranchController extends BaseController {
             valuesList.add(values);
         }
         String fileName = "党支部_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 导出支部书记
+    public void branch_secretary_export(BranchExample example, HttpServletResponse response) {
+
+        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+        List<Branch> records = branchMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"姓名","工号","所在单位","联系电话","所属分党委","所属党支部","党支部类别"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            Branch record = records.get(i);
+            List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), record.getId());
+
+            if(branchSecretary.size()>0) {
+                Integer userId = branchSecretary.get(0).getUserId();
+                SysUser sysUser = sysUserService.findById(userId);
+                String unit = sysUserService.getUnit(sysUser);
+                String[] values = {
+                        sysUser.getRealname(),
+                        sysUser.getCode(),
+                        StringUtils.trimToEmpty(unit),
+                        sysUser.getMobile(),
+                        record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
+                        record.getName(),
+                        metaTypeService.getName(record.getTypeId())
+                };
+                valuesList.add(values);
+            }
+        }
+        String fileName = "党支部书记_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

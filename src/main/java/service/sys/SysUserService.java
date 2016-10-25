@@ -1,5 +1,8 @@
 package service.sys;
 
+import domain.ext.ExtBks;
+import domain.ext.ExtJzg;
+import domain.ext.ExtYjs;
 import domain.party.EnterApply;
 import domain.sys.SysResource;
 import domain.sys.SysRole;
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.ext.ExtBksService;
+import service.ext.ExtJzgService;
+import service.ext.ExtYjsService;
 import service.helper.ShiroSecurityHelper;
 import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
@@ -30,6 +36,42 @@ public class SysUserService extends BaseMapper {
 	private SysResourceService sysResourceService;
 	@Autowired
 	private EnterApplyService enterApplyService;
+
+	@Autowired
+	protected ExtJzgService extJzgService;
+	@Autowired
+	protected ExtYjsService extYjsService;
+	@Autowired
+	protected ExtBksService extBksService;
+
+	// 获取用户所在的学校人事库或学生库中的单位名称
+	public String getUnit(SysUser sysUser){
+
+		String code = sysUser.getCode();
+		Byte type = sysUser.getType();
+		String unit=null;
+		if(type == SystemConstants.USER_TYPE_JZG){
+			ExtJzg extJzg = extJzgService.getByCode(code);
+			if(extJzg!=null) {
+				unit = extJzg.getDwmc();
+				if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
+			}
+
+		}else if(type == SystemConstants.USER_TYPE_YJS){
+			ExtYjs extYjs = extYjsService.getByCode(code);
+			if(extYjs!=null) {
+				unit = extYjs.getYxsmc();
+				if(StringUtils.isNotBlank(extYjs.getYjfxmc())) unit += "-" + extYjs.getYjfxmc();
+			}
+		}else if(type == SystemConstants.USER_TYPE_BKS){
+			ExtBks extBks = extBksService.getByCode(code);
+			if(extBks!=null){
+				unit = extBks.getYxmc();
+				if(StringUtils.isNotBlank(extBks.getZymc())) unit += "-" + extBks.getZymc();
+			}
+		}
+		return unit;
+	}
 
 	@Transactional
 	@Caching(evict={

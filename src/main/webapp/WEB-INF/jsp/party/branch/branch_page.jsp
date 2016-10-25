@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
                 </shiro:hasAnyRoles>
-                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
+                <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 <shiro:hasPermission name="member:edit">
                     <button data-url="${ctx}/member_au"
@@ -45,6 +45,10 @@ pageEncoding="UTF-8" %>
                 </button>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-querystr="exportType=secretary"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
                 <shiro:hasPermission name="branch:del">
                     <a class="jqDelBtn btn btn-danger btn-sm  tooltip-warning"
                        data-rel="tooltip" data-placement="top" title="如果党支部已经设置了管理员、支部委员会或添加了党员，则不可以删除"><i class="fa fa-trash"></i> 删除</a>
