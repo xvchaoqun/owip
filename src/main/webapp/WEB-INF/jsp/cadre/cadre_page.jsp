@@ -217,7 +217,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '党派加入时间', name: 'growTime', width: 120,formatter:function(cellvalue, options, rowObject){
 
-                if(rowObject.isDp) return rowObject.dpAddTime.substr(0,10);
+                if(rowObject.isDp && rowObject.dpAddTime!=undefined) return rowObject.dpAddTime.substr(0,10);
                 if(rowObject.growTime!=undefined) return rowObject.growTime.substr(0,10);
                 return ""
             }},
