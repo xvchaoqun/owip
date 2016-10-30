@@ -4,18 +4,19 @@
 <div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 教学经历</a>
+        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 承担本、硕、博课程情况</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 教学成果及获奖情况</a>
+    </li>
+    <li class="${type==3?"active":""}">
+        <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
-<div class="space-4"></div>
+
 <c:if test="${type==1}">
-    <div class="widget-box">
-        <div class="widget-header">
-            <h4 class="widget-title"><i class="fa fa-battery-full"></i> 本、硕、博课程情况
-                <div class="buttons">
+    <div class="space-4"></div>
+                <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="cadreCourse:edit">
                         <a class="popupBtn btn btn-success btn-sm"
                            data-url="${ctx}/cadreCourse_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -36,25 +37,14 @@
                         </button>
                     </shiro:hasPermission>
                 </div>
-            </h4>
-            <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
-                    <i class="ace-icon fa fa-chevron-up"></i>
-                </a>
-            </div>
-        </div>
-        <div class="widget-body">
-            <div class="widget-main table-nonselect">
-                <table id="jqGrid_cadreCourse" data-width-reduce="50" class="jqGrid4"></table>
-                <div id="jqGridPager_cadreCourse"></div>
-            </div>
-        </div>
-    </div>
     <div class="space-4"></div>
-    <div class="widget-box">
-        <div class="widget-header">
-            <h4 class="widget-title"><i class="fa fa-history"></i> 教学成果及获奖情况
-                <div class="buttons">
+                <table id="jqGrid_cadreCourse" data-width-reduce="60" class="jqGrid2"></table>
+                <div id="jqGridPager_cadreCourse"></div>
+    </c:if>
+    <c:if test="${type==2}">
+    <div class="space-4"></div>
+
+                <div class="jqgrid-vertical-offset buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_TEACH}&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加</a>
@@ -68,28 +58,16 @@
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid_cadreReward"
-                            data-callback="_reload"
+
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
-            </h4>
-
-            <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
-                    <i class="ace-icon fa fa-chevron-up"></i>
-                </a>
-            </div>
-        </div>
-        <div class="widget-body">
-            <div class="widget-main">
-                <table id="jqGrid_cadreReward" data-width-reduce="50" class="jqGrid4"></table>
+        <div class="space-4"></div>
+                <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>
                 <div id="jqGridPager_cadreReward"></div>
-            </div>
-        </div>
-    </div>
 </c:if>
-<c:if test="${type==2}">
+<c:if test="${type==3}">
     <div class="row two-frames">
         <div class="left">
             <div class="widget-box">
@@ -120,7 +98,7 @@
                         </c:if>
                         <p>获奖情况：</p>
                         <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
+                            <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;荣获${cadreReward.name}<c:if test="${not empty cadreReward.rank}">(排名第${cadreReward.rank})</c:if>&nbsp;${cadreReward.unit}</p>
                         </c:forEach>
                     </div>
                 </div>
@@ -142,7 +120,7 @@
                     <div class="modal-footer center">
                         <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
-                            复制初始数据
+                            同步自动生成的数据
                         </a>
                         <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
@@ -152,9 +130,10 @@
 
         </div>
     </div>
-</c:if>
+    </c:if>
+</div>
 
-<c:if test="${type==2}">
+<c:if test="${type==3}">
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
 
@@ -184,7 +163,7 @@
         }
     </script>
 </c:if>
-<c:if test="${type==1}">
+
 <script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
    data-url="${ctx}/cadreCourse_changeOrder" data-id="{{=id}}"
@@ -194,59 +173,58 @@
    data-url="${ctx}/cadreCourse_changeOrder"
    data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
-    <script>
-        function _innerPage(type) {
-            $("#view-box .tab-content").load("${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type)
-        }
-        $("#jqGrid_cadreCourse").jqGrid({
-            ondblClickRow: function () {
-            },
-            pager: "#jqGridPager_cadreCourse",
-            url: '${ctx}/cadreCourse_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {label: '类型', name: 'type', width: 120, formatter:function(cellvalue, options, rowObject){
-                    return _cMap.CADRE_COURSE_TYPE_MAP[cellvalue]
+<script>
+    function _innerPage(type) {
+        $("#view-box .tab-content").load("${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type)
+    }
+    <c:if test="${type==1}">
+    $("#jqGrid_cadreCourse").jqGrid({
+        ondblClickRow: function () {
+        },
+        pager: "#jqGridPager_cadreCourse",
+        url: '${ctx}/cadreCourse_data?${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '类型', name: 'type', width: 120, formatter:function(cellvalue, options, rowObject){
+                return _cMap.CADRE_COURSE_TYPE_MAP[cellvalue]
+            }},
+            {label: '课程名称', name: 'name', width: 250},
+            { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
+            },frozen:true },
+            {label: '备注（点击右上角“修改”，可添加备注信息）', name: 'remark', width: 350}
+        ]
+    });
+    </c:if>
+    <c:if test="${type==2}">
+    $("#jqGrid_cadreReward").jqGrid({
+        ondblClickRow: function () {
+        },
+        pager: "#jqGridPager_cadreReward",
+        url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_TEACH}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+            {label: '获得奖项', name: 'name', width: 350},
+            {label: '颁奖单位', name: 'unit', width: 280},
+            {label: '获奖证书', name: 'proof', width: 250,
+                formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.proof==undefined) return '-';
+                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
+                            .format(rowObject.proof,rowObject.proofFilename);
                 }},
-                {label: '课程名称', name: 'name', width: 250},
-                { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
-                    return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-                },frozen:true },
-                {label: '备注', name: 'remark', width: 350}
-            ]
-        }).on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid4');
-        });
+            {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==0) return '-';
+                return '第{0}'.format(cellvalue);
+            }},
+            {label: '备注', name: 'remark', width: 350}
+        ]
+    });
+    </c:if>
+    $(window).triggerHandler('resize.jqGrid2');
 
-        $("#jqGrid_cadreReward").jqGrid({
-            ondblClickRow: function () {
-            },
-            pager: "#jqGridPager_cadreReward",
-            url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_TEACH}&${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-                {label: '获得奖项', name: 'name', width: 350},
-                {label: '颁奖单位', name: 'unit', width: 280},
-                {label: '获奖证书', name: 'proof', width: 250,
-                    formatter: function (cellvalue, options, rowObject) {
-                        if(rowObject.proof==undefined) return '-';
-                        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(rowObject.proof,rowObject.proofFilename);
-                    }},
-                {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '-';
-                    return '第{0}'.format(cellvalue);
-                }},
-                {label: '备注', name: 'remark', width: 350}
-            ]
-        }).on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid4');
-        });
+    /*function _delCallback(target) {
+        $("#jqGrid_cadreCourse").trigger("reloadGrid");
+    }*/
 
-        function _delCallback(target) {
-            $("#jqGrid_cadreCourse").trigger("reloadGrid");
-        }
-
-        $('#searchForm [data-rel="select2"]').select2();
-        $('[data-rel="tooltip"]').tooltip();
-    </script>
-</c:if>
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+</script>

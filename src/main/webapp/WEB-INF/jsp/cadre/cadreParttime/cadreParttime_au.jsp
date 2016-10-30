@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">结束时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
-                        <input required class="form-control date-picker" name="_endTime" type="text"
+                        <input class="form-control date-picker" name="_endTime" type="text"
                                data-date-min-view-mode="1"
                                data-date-format="yyyy.mm" value="${cm:formatDate(cadreParttime.endTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注</label>
                 <div class="col-xs-6">
-                    <textarea required class="form-control" name="remark">${cadreParttime.remark}</textarea>
+                    <textarea class="form-control" name="remark">${cadreParttime.remark}</textarea>
                 </div>
             </div>
     </form>

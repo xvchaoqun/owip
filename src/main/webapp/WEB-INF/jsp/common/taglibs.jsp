@@ -80,7 +80,10 @@
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER%>" var="CADRE_INFO_TYPE_REWARD_OTHER"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY"/>
-<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY%>" var="CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY%>" var="CADRE_INFO_TYPE_BOOK_SUMMARY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY%>" var="CADRE_INFO_TYPE_PAPER_SUMMARY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD%>" var="CADRE_INFO_TYPE_RESEARCH_REWARD"/>
+
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_EDU%>" var="CADRE_INFO_TYPE_EDU"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_MAP%>" var="CADRE_INFO_TYPE_MAP"/>
 
@@ -90,6 +93,8 @@
 
 <c:set var="CADRE_COURSE_TYPE_MAP" value="<%=SystemConstants.CADRE_COURSE_TYPE_MAP%>"/>
 <c:set var="CADRE_BOOK_TYPE_MAP" value="<%=SystemConstants.CADRE_BOOK_TYPE_MAP%>"/>
+
+<c:set var="CADRE_FAMLIY_TITLE_MAP" value="<%=SystemConstants.CADRE_FAMLIY_TITLE_MAP%>"/>
 
 <c:set var="CADRE_RESEARCH_TYPE_DIRECT" value="<%=SystemConstants.CADRE_RESEARCH_TYPE_DIRECT%>"/>
 <c:set var="CADRE_RESEARCH_TYPE_IN" value="<%=SystemConstants.CADRE_RESEARCH_TYPE_IN%>"/>

@@ -72,7 +72,7 @@
                     <div class="modal-footer center">
                         <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
-                            复制初始数据
+                            同步自动生成的数据
                         </a>
                         <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
@@ -123,8 +123,8 @@
             pager: "#jqGridPager_cadreTrain",
             url: '${ctx}/cadreTrain_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
-                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'},frozen:true },
+                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'},frozen:true },
                 {label: '培训内容', name: 'content', width: 350},
                 {label: '主办单位', name: 'unit', width: 280},
                 {label: '备注', name: 'remark', width: 350}

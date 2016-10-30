@@ -71,6 +71,7 @@ public class DemocraticPartyController extends BaseController {
                            Integer cadreId,
                            Integer typeId,
                            Integer postId,
+                           Integer dpTypeId,
                            String title,
                            Integer pageSize, Integer pageNo) throws IOException {
 
@@ -93,6 +94,9 @@ public class DemocraticPartyController extends BaseController {
         }
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
+        }
+        if (dpTypeId!=null) {
+            criteria.andDpTypeIdEqualTo(dpTypeId);
         }
         if (postId!=null) {
             criteria.andPostIdEqualTo(postId);

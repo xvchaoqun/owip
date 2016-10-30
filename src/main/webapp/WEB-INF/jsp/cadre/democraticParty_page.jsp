@@ -7,10 +7,11 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
+                  data-url-page="${ctx}/democraticParty_page"
                   data-url-bd="${ctx}/democraticParty_batchDel"
                   data-url-export="${ctx}/democraticParty_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId||not empty param.dpTypeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
         <div class="tabbable">
 
@@ -51,6 +52,16 @@ pageEncoding="UTF-8" %>
                                                         </select>
                                                     </div>
                                             </div>
+                                    <div class="form-group">
+                                        <label>民主党派</label>
+                                        <select data-rel="select2" name="dpTypeId" data-placeholder="请选择民主党派">
+                                            <option></option>
+                                            <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                                        </select>
+                                        <script type="text/javascript">
+                                            $("#searchForm select[name=dpTypeId]").val(${param.dpTypeId});
+                                        </script>
+                                    </div>
                                             <div class="form-group">
                                                 <label>行政级别</label>
                                                     <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
@@ -112,6 +123,12 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             },frozen:true  },
+            { label: '民主党派', name: 'dpTypeId', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return _metaTypeMap[cellvalue]
+            }},
+            { label: '党派加入时间', name: 'dpAddTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} , width: 120},
+            { label: '担任党派职务', name: 'dpPost' , width: 250},
             { label: '部门属性', name: 'unit.unitType.name', width: 150},
             { label: '所在单位', name: 'unit.name', width: 200 },
             { label: '现任职务', name: 'post', width: 350 },
@@ -131,12 +148,7 @@ pageEncoding="UTF-8" %>
                 if(cellvalue=='${CADRE_STATUS_LEAVE}') return '离任中层干部';
                 if(cellvalue=='${CADRE_STATUS_LEADER_LEAVE}') return '离任校领导'
             } },
-            { label: '民主党派', name: 'dpTypeId', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                return _metaTypeMap[cellvalue]
-            }},
-            { label: '党派加入时间', name: 'dpAddTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} , width: 120},
-            { label: '担任党派职务', name: 'dpPost' , width: 250},
+
             { label: '备注', name: 'dpRemark', width: 350 }
         ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
         $('[data-rel="tooltip"]').tooltip();

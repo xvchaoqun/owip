@@ -55,7 +55,7 @@
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
                         <c:forEach items="${cadreEdus}" var="cadreEdu">
-                            <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}&nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}&nbsp;${cadreEdu.degree}</p>
+                            <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}&nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}专业&nbsp;${cadreEdu.degree}</p>
                         </c:forEach>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                     <div class="modal-footer center">
                         <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
-                            复制初始数据
+                            同步自动生成的数据
                         </a>
                         <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
@@ -135,11 +135,11 @@
                 {label: '学历', name: 'eduId' ,frozen:true, formatter:function(cellvalue, options, rowObject){
                     return _metaTypeMap[cellvalue]
                 }},
-                {label: '入学时间', name: 'enrolTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
-                {label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
-                {label: '毕业/在读', name: 'isGraduated', formatter:function(cellvalue, options, rowObject){
+                {label: '毕业/在读', width:90, name: 'isGraduated', formatter:function(cellvalue, options, rowObject){
                     return cellvalue?"毕业":"在读";
                 }},
+                {label: '入学时间', name: 'enrolTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
+                {label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
                 {label: '是否最高学历', width:110, name: 'isHighEdu', formatter:function(cellvalue, options, rowObject){
                     return cellvalue?"是":"否";
                 }},
@@ -193,7 +193,7 @@
 
                         return filesArray.join("，");
                     }
-                },{label: '备注', name: 'major', width:180}]
+                },{label: '备注', name: 'remark', width:180}]
         }).jqGrid("setFrozenColumns").on("initGrid",function(){
 
             $(".various").fancybox({

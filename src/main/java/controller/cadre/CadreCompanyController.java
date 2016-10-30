@@ -6,6 +6,7 @@ import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyExample;
 import domain.sys.SysUser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -20,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.tool.paging.CommonList;
+import sys.utils.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class CadreCompanyController extends BaseController {
@@ -45,33 +46,83 @@ public class CadreCompanyController extends BaseController {
     }
     @RequiresPermissions("cadreCompany:list")
     @RequestMapping("/cadreCompany_page")
-    public String cadreCompany_page(HttpServletResponse response,
-                                    int cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
+    public String cadreCompany_page() {
 
+        return "cadre/cadreCompany/cadreCompany_page";
+    }
+
+    @RequiresPermissions("cadreCompany:list")
+    @RequestMapping("/cadreCompany_data")
+    public void cadreCompany_data(HttpServletResponse response,
+                                 Integer cadreId,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
 
         CadreCompanyExample example = new CadreCompanyExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreCompany> cadreCompanys = cadreCompanyMapper.selectByExample(example);
-        modelMap.put("cadreCompanys", cadreCompanys);
+        CadreCompanyExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("start_time desc");
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
 
         if (export == 1) {
             cadreCompany_export(example, response);
-            return null;
+            return;
         }
-        
-        return "cadre/cadreCompany/cadreCompany_page";
+
+        int count = cadreCompanyMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreCompany> CadreCompanys = cadreCompanyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", CadreCompanys);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
     }
 
     @RequiresPermissions("cadreCompany:edit")
     @RequestMapping(value = "/cadreCompany_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreCompany_au(CadreCompany record, String _startTime, HttpServletRequest request) {
+    public Map do_cadreCompany_au(CadreCompany record, String _startTime,MultipartFile _paper, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_startTime)){
             record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
+        }
+
+        if(_paper!=null){
+            //String ext = FileUtils.getExtention(_proof.getOriginalFilename());
+            String originalFilename = _paper.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  File.separator
+                    + "cadre" + File.separator
+                    + "file" + File.separator
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_paper, new File(springProps.uploadPath + savePath));
+
+            record.setPaperFilename(originalFilename);
+            record.setPaper(savePath);
         }
 
         if (id == null) {

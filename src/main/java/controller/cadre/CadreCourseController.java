@@ -51,11 +51,11 @@ public class CadreCourseController extends BaseController {
     @RequiresPermissions("cadreCourse:list")
     @RequestMapping("/cadreCourse_page")
     public String cadreCourse_page(
-            @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
+            @RequestParam(defaultValue = "1") Byte type, // 1 承担本、硕、博课程情况 2 教学成果及获奖情况 3 预览
             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("type", type);
-        if (type == 2) {
+        if (type == 3) {
             modelMap.put("bksCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_BKS));
             modelMap.put("ssCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_SS));
             modelMap.put("bsCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_BS));

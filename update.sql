@@ -1,4 +1,12 @@
 
+-- 2016-10-28
+ALTER TABLE `cadre_company`
+	ADD COLUMN `paper` VARCHAR(200) NULL DEFAULT NULL COMMENT '批复文件' AFTER `report_unit`;
+
+ALTER TABLE `cadre_company`
+	ADD COLUMN `paper_filename` VARCHAR(200) NULL DEFAULT NULL COMMENT '文件名' AFTER `paper`,
+	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `paper_filename`;
+
 --2016-9-27
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `tutor_name` VARCHAR(50) NULL COMMENT '导师姓名，只有博士和硕士需要填写导师信息，如果是大专和本科，则这两个字段为不可编辑状态，显示为“-”' AFTER `degree_time`,

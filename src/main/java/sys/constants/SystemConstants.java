@@ -627,24 +627,33 @@ public class SystemConstants {
 	public final static byte CADRE_INFO_TYPE_PARTTIME = 2;
 	public final static byte CADRE_INFO_TYPE_TRAIN = 3;
 	public final static byte CADRE_INFO_TYPE_TEACH = 4;
-	public final static byte CADRE_INFO_TYPE_RESEARCH = 5;
 	public final static byte CADRE_INFO_TYPE_REWARD_OTHER = 6;
+
+	public final static byte CADRE_INFO_TYPE_RESEARCH = 5;
 	public final static byte CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY = 7;
 	public final static byte CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY = 8;
-	public final static byte CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY = 9;
+	public final static byte CADRE_INFO_TYPE_BOOK_SUMMARY = 9;
+	public final static byte CADRE_INFO_TYPE_PAPER_SUMMARY = 11;
+	public final static byte CADRE_INFO_TYPE_RESEARCH_REWARD = 12;
+
 	public final static byte CADRE_INFO_TYPE_EDU = 10;
+
 	public final static Map<Byte, String>CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "兼职情况");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TRAIN, "培训情况");
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TEACH, "教学经历");// 包含教学成果及获奖情况
-		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况"); // 包含科研成果及获奖情况
+
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_REWARD_OTHER, "其他奖励情况");
 
-		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY, "参与科研项目总体情况");
-		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY, "主持科研项目总体情况");
-		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY, "出版著作及发表论文等总体情况");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY, "参与科研项目");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY, "主持科研项目");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_BOOK_SUMMARY, "出版著作");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PAPER_SUMMARY, "发表论文");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH_REWARD, "科研成果及获奖");
+		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况");
+
 		CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_EDU, "学习经历");
 	}
 

@@ -88,7 +88,7 @@
                     <div class="modal-footer center">
                         <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
-                            复制初始数据
+                            同步自动生成的数据
                         </a>
                         <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
@@ -110,7 +110,7 @@
     }
 </style>
 <script type="text/template" id="switch_tpl">
-    <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
+    <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id};}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
         <span>查看期间工作</span>({{=count}})
     </button>

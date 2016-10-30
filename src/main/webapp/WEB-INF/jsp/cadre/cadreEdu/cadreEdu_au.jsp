@@ -25,9 +25,31 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-5 control-label">入学时间</label>
+					<div class="col-xs-6">
+						<div class="input-group">
+							<input required class="form-control date-picker" name="_enrolTime" type="text"
+								   data-date-min-view-mode="1"
+								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
+							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-5 control-label">毕业时间</label>
+					<div class="col-xs-6">
+						<div class="input-group">
+							<input required class="form-control date-picker" name="_finishTime" type="text"
+								   data-date-min-view-mode="1"
+								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
+							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-5 control-label">毕业/在读</label>
 					<div class="col-xs-6 label-text"  style="font-size: 15px;">
-						<input type="checkbox" class="big" name="isGraduated" ${cadreEdu.isGraduated?"checked":""} data-off-text="在读" data-on-text="毕业"/>
+						<input type="checkbox" class="big" name="isGraduated" ${(cadreEdu==null ||cadreEdu.isGraduated)?"checked":""} data-off-text="在读" data-on-text="毕业"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -70,28 +92,6 @@
 						<script type="text/javascript">
 							$("#modal form select[name=schoolType]").val(${cadreEdu.schoolType});
 						</script>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-5 control-label">入学时间</label>
-					<div class="col-xs-6">
-						<div class="input-group">
-							<input required class="form-control date-picker" name="_enrolTime" type="text"
-								   data-date-min-view-mode="1"
-								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
-							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-5 control-label">毕业时间</label>
-					<div class="col-xs-6">
-						<div class="input-group">
-							<input required class="form-control date-picker" name="_finishTime" type="text"
-								   data-date-min-view-mode="1"
-								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
-							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-						</div>
 					</div>
 				</div>
 
@@ -260,13 +260,15 @@
 	function isGraduatedChange(){
 		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {
 			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("input[name='_files[]']").prop("disabled", true);
 
 			$("input[name=_finishTime]").val('').prop("disabled", true).removeAttr("required");
 			$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
 
 		}else {
-			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
+			$("input[name=hasDegree]").bootstrapSwitch('disabled', false).bootstrapSwitch("state", true);
+			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
 			$("input[name='_files[]']").prop("disabled", false);
 
 			$("input[name=_finishTime]").prop("disabled", false).attr("required", "required");

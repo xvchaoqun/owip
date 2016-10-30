@@ -7,7 +7,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -25,8 +27,9 @@ public class CadrePostInfoController extends BaseController {
 
     @RequiresPermissions("cadrePostInfo:list")
     @RequestMapping("/cadrePostInfo_page")
-    public String cadrePostInfo_page(int cadreId) {
+    public String cadrePostInfo_page(@RequestParam(defaultValue = "1") Byte type, ModelMap modelMap) {
 
+        modelMap.put("type", type);
         return "cadre/cadrePostInfo/cadrePostInfo_page";
     }
 

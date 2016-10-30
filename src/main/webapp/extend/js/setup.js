@@ -49,7 +49,7 @@ function _initNavGrid(gridId, pagerId){
 var jgrid_sid,jgrid_left, jgrid_top;
 function saveJqgridSelected(jqGridId, id, selectRowStatus){
 
-    if($(jqGridId).hasClass("jqGrid4")){
+    /*if($(jqGridId).hasClass("jqGrid4")){
         jgrid_sid={};
         if(selectRowStatus) jgrid_sid[jqGridId] = id;
         else jgrid_sid[jqGridId] = null;
@@ -70,23 +70,44 @@ function saveJqgridSelected(jqGridId, id, selectRowStatus){
                 }
             }
         }
-    }
+    }*/
+
+    jgrid_sid= jgrid_sid||{};
+   // console.log($(jqGridId).getGridParam("selarrrow"))
+    jgrid_sid[jqGridId]=$(jqGridId).getGridParam("selarrrow");
+    //console.log(jgrid_sid[jqGridId])
 }
 function loadJqgridSelected(jqGridId){
 
-    if($(jqGridId).hasClass("jqGrid4")){
+    /*if($(jqGridId).hasClass("jqGrid4")){
         if(jgrid_sid && jgrid_sid[jqGridId]){
             $(jqGridId).jqGrid("setSelection",jgrid_sid[jqGridId]);
         }
     }else{
         if(jgrid_sid){
-            //console.log(jgrid_sid)
+            console.log(jqGridId + ":" + jgrid_sid)
             //console.log(jgrid_sid[0])
             $(jqGridId).resetSelection();
             for(var i=0;i<jgrid_sid.length;i++) {
                 //console.log(jgrid_sid[i])
                 $(jqGridId).jqGrid("setSelection", jgrid_sid[i]);
             }
+        }
+    }*/
+    jgrid_sid= jgrid_sid||{};
+    if(jgrid_sid[jqGridId]){
+        //console.log(jqGridId + ":" + jgrid_sid[jqGridId])
+        var num = jgrid_sid[jqGridId].length;
+        //console.log(num)
+        $(jqGridId).resetSelection();
+        var ids = [];
+        for(var i=0;i<num;i++) {
+            //console.log(jqGridId+"====="+i+"======"+jgrid_sid[jqGridId][i])
+            //$(jqGridId).jqGrid("setSelection", jgrid_sid[jqGridId][i]);
+            ids.push(jgrid_sid[jqGridId][i])
+        }
+        for(var i in ids){
+            $(jqGridId).jqGrid("setSelection", ids[i]);
         }
     }
 }
@@ -309,11 +330,13 @@ $.ajaxSetup({
                         label: "重新登陆",
                         className: "btn-success",
                         callback: function () {
-                            if(window.opener){
+                            /*if(window.opener){
                                 //window.open('','_self','');
                                 window.close();
                             }
-                            location.href=ctx+"/login";
+                            location.href=ctx+"/login";*/
+                            //alert(location.href)
+                            location.href = location.href;
                         }
                     }
                 }});
@@ -426,8 +449,9 @@ $(document).on("click", ".myTableDiv .editBtn", function(){
 });
 
 // 打开弹出框modal
-$(document).on("click", ".popupBtn", function(){
+$(document).on("click", ".popupBtn", function(e){
 
+    e.stopPropagation();
     loadModal($(this).data("url"), $(this).data("width"));
 });
 
@@ -482,8 +506,9 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
  * data-querystr 其他参数字符串&param=value
  * data-width 打开方式为modal时的宽度
  */
-$(document).on("click", ".jqOpenViewBtn", function(){
+$(document).on("click", ".jqOpenViewBtn", function(e){
 
+    e.stopPropagation();
     var openBy = $(this).data("open-by");
     var needId = $(this).data("need-id");
     if(needId==undefined) needId = true;
@@ -563,7 +588,9 @@ $(document).on("click", ".jqOpenViewBatchBtn", function(){
     }
 });
 
-$(document).on("click", ".confirm", function(){
+$(document).on("click", ".confirm", function(e){
+
+    e.stopPropagation();
 
     var _this = this;
     var url = $(this).data("url");
@@ -747,8 +774,9 @@ $(document).on("click", ".myTableDiv .jqExportBtn", function(){
 });
 
 // 批量操作 for jqgrid
-$(document).on("click", ".jqBatchBtn", function(){
+$(document).on("click", ".jqBatchBtn", function(e){
 
+    e.stopPropagation();
     var _this = $(this);
     var queryString = _this.data("querystr");
     var url = _this.data("url") + (queryString?("?"+queryString):"");

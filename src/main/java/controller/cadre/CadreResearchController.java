@@ -52,11 +52,10 @@ public class CadreResearchController extends BaseController {
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_page")
     public String cadreResearch_page(
-            @RequestParam(defaultValue = "0") Byte type, // 0 列表 其他 预览
+            @RequestParam(defaultValue = SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY + "") Byte type,
             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("type", type);
-        if (type != 0) {
 
             /*CadreResearchExample example = new CadreResearchExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT);
@@ -64,51 +63,59 @@ public class CadreResearchController extends BaseController {
             List<CadreResearch> cadreResearchs = cadreResearchMapper.selectByExample(example);
             modelMap.put("cadreResearchs", cadreResearchs);*/
 
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, type);
-            modelMap.put("cadreInfo", cadreInfo);
+        CadreInfo cadreInfo = cadreInfoService.get(cadreId, type);
+        modelMap.put("cadreInfo", cadreInfo);
 
-            if(type==SystemConstants.CADRE_INFO_TYPE_RESEARCH){
+        if (type == SystemConstants.CADRE_INFO_TYPE_RESEARCH) {
+            Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
+            modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
+            modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
+            modelMap.put("bookInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY));
+            modelMap.put("paperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY));
+            modelMap.put("researchRewardInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD));
+        } else {
+            String key = null;
+            switch (type) {
+                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY:
+                    key = "hf_cadre_research_in_summary";
+                    break;
+                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY:
+                    key = "hf_cadre_research_direct_summary";
+                    break;
+                case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY:
+                    key = "hf_cadre_book_summary";
+                    break;
+                case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY:
+                    key = "hf_cadre_paper_summary";
+                    break;
+                /*case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
+                    key = "hf_cadre_research_reward";
+                    break;*/
+            }
+            if (key != null) {
+
                 Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
-                modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
-                modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
-                modelMap.put("bookPaperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY));
-            }else {
-                String key = null;
-                switch (type) {
-                    case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY:
-                        key = "hf_cadre_research_in_summary";
-                        break;
-                    case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY:
-                        key = "hf_cadre_research_direct_summary";
-                        break;
-                    case SystemConstants.CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY:
-                        key = "hf_cadre_book_paper_summary";
-                        break;
-                }
-                if (key != null) {
-
-                    Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
-                    modelMap.put("htmlFragment", htmlFragmentMap.get(key));
-                }
+                modelMap.put("htmlFragment", htmlFragmentMap.get(key));
             }
+        }
 
-            {
-                CadreRewardExample example = new CadreRewardExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
-                example.setOrderByClause("reward_time asc");
-                List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
-                modelMap.put("cadreRewards", cadreRewards);
-            }
+        {
+            CadreRewardExample example = new CadreRewardExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
+            example.setOrderByClause("reward_time asc");
+            List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
+            modelMap.put("cadreRewards", cadreRewards);
         }
         return "cadre/cadreResearch/cadreResearch_page";
     }
+
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_data")
     public void cadreResearch_data(HttpServletResponse response,
-                                 Integer cadreId,
-                                 byte researchType, //  1,主持 2 参与
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                   Integer cadreId,
+                                   byte researchType, //  1,主持 2 参与
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -122,7 +129,7 @@ public class CadreResearchController extends BaseController {
         CadreResearchExample.Criteria criteria = example.createCriteria().andResearchTypeEqualTo(researchType);
         example.setOrderByClause("start_time desc");
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
@@ -155,14 +162,14 @@ public class CadreResearchController extends BaseController {
     @RequiresPermissions("cadreResearch:edit")
     @RequestMapping(value = "/cadreResearch_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreResearch_au(CadreResearch record, String _startTime, String _endTime,  HttpServletRequest request) {
+    public Map do_cadreResearch_au(CadreResearch record, String _startTime, String _endTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_startTime)){
+        if (StringUtils.isNotBlank(_startTime)) {
             record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_endTime)){
+        if (StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
         }
 
@@ -212,7 +219,7 @@ public class CadreResearchController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cadreResearchService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研项目：%s", StringUtils.join(ids, ",")));
         }
@@ -230,7 +237,7 @@ public class CadreResearchController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部","项目起始时间","项目结题时间","项目名称", "项目类型", "委托单位"};
+        String[] titles = {"所属干部", "项目起始时间", "项目结题时间", "项目名称", "项目类型", "委托单位"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -241,12 +248,12 @@ public class CadreResearchController extends BaseController {
 
             CadreResearch cadreResearch = cadreResearchs.get(i);
             String[] values = {
-                        cadreResearch.getCadreId()+"",
-                                            DateUtils.formatDate(cadreResearch.getStartTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(cadreResearch.getEndTime(), DateUtils.YYYY_MM_DD),
-                                            cadreResearch.getName(),
-                                            cadreResearch.getType(), cadreResearch.getUnit()
-                    };
+                    cadreResearch.getCadreId() + "",
+                    DateUtils.formatDate(cadreResearch.getStartTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(cadreResearch.getEndTime(), DateUtils.YYYY_MM_DD),
+                    cadreResearch.getName(),
+                    cadreResearch.getType(), cadreResearch.getUnit()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {

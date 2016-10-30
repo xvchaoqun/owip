@@ -1,82 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
-
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="cadreCompany:edit">
-                    <a class="btn btn-info btn-sm" onclick="_au()"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                </div>
-                <h4>&nbsp;</h4>
-            <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-							<th>兼职起始时间</th>
-							<th>兼职单位及职务</th>
-                        <shiro:hasPermission name="cadreCompany:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${cadreCompanys}" var="cadreCompany" varStatus="st">
-                        <tr>
-								<td>${cm:formatDate(cadreCompany.startTime,'yyyy-MM-dd')}</td>
-								<td>${cadreCompany.unit}</td>
-                            <shiro:hasPermission name="cadreCompany:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreCompany.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreCompany.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="cadreCompany:edit">
-                                    <button onclick="_au(${cadreCompany.id})" class="btn btn-default btn-mini btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="cadreCompany:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${cadreCompany.id})">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+<div class="space-4"></div>
+<div class="jqgrid-vertical-offset buttons">
+    <shiro:hasPermission name="cadreCompany:edit">
+        <a class="popupBtn btn btn-success btn-sm"
+           data-url="${ctx}/cadreCompany_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+            添加</a>
+        <a class="jqOpenViewBtn btn btn-primary btn-sm"
+           data-url="${ctx}/cadreCompany_au"
+           data-grid-id="#jqGrid_cadreCompany"
+           data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+            修改</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="cadreCompany:del">
+        <button data-url="${ctx}/cadreCompany_batchDel"
+                data-title="删除"
+                data-msg="确定删除这{0}条数据？"
+                data-grid-id="#jqGrid_cadreCompany"
+                class="jqBatchBtn btn btn-danger btn-sm">
+            <i class="fa fa-times"></i> 删除
+        </button>
+    </shiro:hasPermission>
+</div>
+<div class="space-4"></div>
+<table id="jqGrid_cadreCompany" class="jqGrid2"></table>
+<div id="jqGridPager_cadreCompany"></div>
 <script>
-    function _au(id) {
-        url = "${ctx}/cadreCompany_au?cadreId=${param.cadreId}";
-        if (id > 0)  url += "&id=" + id;
-        loadModal(url);
-    }
-    function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/cadreCompany_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/cadreCompany_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }
+
+    $("#jqGrid_cadreCompany").jqGrid({
+        ondblClickRow: function () {
+        },
+        pager: "#jqGridPager_cadreCompany",
+        url: '${ctx}/cadreCompany_data?${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '兼职起始时间', name: 'startTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+            {label: '兼职单位及职务', name: 'unit', width: 350},
+            {label: '报批单位', name: 'reportUnit', width: 280},
+            {label: '批复文件', name: 'paper', width: 250,
+                formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.paper==undefined) return '-';
+                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
+                            .format(rowObject.paper,rowObject.paperFilename);
+                }},
+            {label: '备注', name: 'remark', width: 350}
+        ]
+    }).on("initGrid", function () {
+        $(window).triggerHandler('resize.jqGrid2');
+    });
+
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
 </script>

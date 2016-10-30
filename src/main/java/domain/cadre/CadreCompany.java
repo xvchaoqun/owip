@@ -14,6 +14,12 @@ public class CadreCompany implements Serializable {
 
     private String reportUnit;
 
+    private String paper;
+
+    private String paperFilename;
+
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -54,5 +60,29 @@ public class CadreCompany implements Serializable {
 
     public void setReportUnit(String reportUnit) {
         this.reportUnit = reportUnit == null ? null : reportUnit.trim();
+    }
+
+    public String getPaper() {
+        return paper;
+    }
+
+    public void setPaper(String paper) {
+        this.paper = paper == null ? null : paper.trim();
+    }
+
+    public String getPaperFilename() {
+        return paperFilename;
+    }
+
+    public void setPaperFilename(String paperFilename) {
+        this.paperFilename = paperFilename == null ? null : paperFilename.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

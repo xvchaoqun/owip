@@ -451,6 +451,216 @@ public class CadreCompanyExample {
             addCriterion("report_unit not between", value1, value2, "reportUnit");
             return (Criteria) this;
         }
+
+        public Criteria andPaperIsNull() {
+            addCriterion("paper is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperIsNotNull() {
+            addCriterion("paper is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperEqualTo(String value) {
+            addCriterion("paper =", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNotEqualTo(String value) {
+            addCriterion("paper <>", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperGreaterThan(String value) {
+            addCriterion("paper >", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperGreaterThanOrEqualTo(String value) {
+            addCriterion("paper >=", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperLessThan(String value) {
+            addCriterion("paper <", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperLessThanOrEqualTo(String value) {
+            addCriterion("paper <=", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperLike(String value) {
+            addCriterion("paper like", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNotLike(String value) {
+            addCriterion("paper not like", value, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperIn(List<String> values) {
+            addCriterion("paper in", values, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNotIn(List<String> values) {
+            addCriterion("paper not in", values, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperBetween(String value1, String value2) {
+            addCriterion("paper between", value1, value2, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNotBetween(String value1, String value2) {
+            addCriterion("paper not between", value1, value2, "paper");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameIsNull() {
+            addCriterion("paper_filename is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameIsNotNull() {
+            addCriterion("paper_filename is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameEqualTo(String value) {
+            addCriterion("paper_filename =", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameNotEqualTo(String value) {
+            addCriterion("paper_filename <>", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameGreaterThan(String value) {
+            addCriterion("paper_filename >", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("paper_filename >=", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameLessThan(String value) {
+            addCriterion("paper_filename <", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameLessThanOrEqualTo(String value) {
+            addCriterion("paper_filename <=", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameLike(String value) {
+            addCriterion("paper_filename like", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameNotLike(String value) {
+            addCriterion("paper_filename not like", value, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameIn(List<String> values) {
+            addCriterion("paper_filename in", values, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameNotIn(List<String> values) {
+            addCriterion("paper_filename not in", values, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameBetween(String value1, String value2) {
+            addCriterion("paper_filename between", value1, value2, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperFilenameNotBetween(String value1, String value2) {
+            addCriterion("paper_filename not between", value1, value2, "paperFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

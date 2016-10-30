@@ -52,6 +52,37 @@ public class CadreController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadre:list")
+    @RequestMapping("/cadre/search")
+    public String search(){
+
+        return "cadre/cadre_search";
+    }
+    @RequiresPermissions("cadre:list")
+    @RequestMapping(value = "/cadre/search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_search(String code) {
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        String msg = "";
+        SysUser sysUser = sysUserService.findByCode(code);
+        if(sysUser==null){
+            msg = "该用户不存在";
+        }else {
+            resultMap.put("realname", sysUser.getRealname());
+            Cadre cadre = cadreService.findByUserId(sysUser.getId());
+            if(cadre==null){
+                msg = "该用户不是干部";
+            }else{
+                resultMap.put("cadreId", cadre.getId());
+                resultMap.put("status", cadre.getStatus());
+            }
+        }
+        resultMap.put("msg", msg);
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre")
     public String cadre() {
 
@@ -328,7 +359,7 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
-        if(status==SystemConstants.CADRE_STATUS_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
+        if(id!=null && (status==SystemConstants.CADRE_STATUS_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
             TreeNode dispatchCadreTree = cadreService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }

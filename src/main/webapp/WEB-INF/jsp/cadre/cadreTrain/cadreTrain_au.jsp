@@ -20,8 +20,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
-                               data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM')}" />
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -31,8 +30,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_endTime" type="text"
-                               data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM')}" />
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>

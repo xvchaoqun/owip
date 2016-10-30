@@ -23,6 +23,19 @@ public class CadreEduService extends BaseMapper {
         if(id!=null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
+
+    // 在读只允许一条记录
+    public boolean isNotGraduated(Integer id, int cadreId, Boolean isGraduated){
+
+        if(isGraduated) return false;
+
+        CadreEduExample example = new CadreEduExample();
+        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsGraduatedEqualTo(false);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+        return cadreEduMapper.countByExample(example) > 0;
+    }
+
     public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree){
 
         if(!isHighDegree) return false;
@@ -53,6 +66,10 @@ public class CadreEduService extends BaseMapper {
 
     @Transactional
     public int insertSelective(CadreEdu record){
+
+        if(isNotGraduated(record.getId(), record.getCadreId(), record.getIsGraduated())){
+            throw new RuntimeException("已经存在一条在读记录");
+        }
 
         if(hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())){
             throw new RuntimeException("已经存在最高学历");

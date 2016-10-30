@@ -17,6 +17,20 @@ pageEncoding="UTF-8"%>
                 ${sysUser.realname}
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">类型</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2" class="form-control" name="type" data-placeholder="请选择">
+                    <option></option>
+                    <c:forEach var="courseType" items="${CADRE_COURSE_TYPE_MAP}">
+                        <option value="${courseType.key}">${courseType.value}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("#modal select[name=type]").val('${cadreCourse.type}');
+                </script>
+            </div>
+        </div>
         <c:if test="${empty cadreCourse}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label" style="padding-top: 100px">课程名称（多门课程以#号分隔）</label>
@@ -39,20 +53,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
         </c:if>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6">
-                        <select required data-rel="select2" class="form-control" name="type" data-placeholder="请选择">
-                            <option></option>
-                            <c:forEach var="courseType" items="${CADRE_COURSE_TYPE_MAP}">
-                            <option value="${courseType.key}">${courseType.value}</option>
-                            </c:forEach>
-                        </select>
-                    <script>
-                        $("#modal select[name=type]").val('${cadreCourse.type}');
-                    </script>
-				</div>
-			</div>
+
     </form>
 </div>
 <div class="modal-footer">

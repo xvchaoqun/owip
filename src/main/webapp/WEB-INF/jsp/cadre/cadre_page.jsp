@@ -7,7 +7,6 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-
                   data-url-page="${ctx}/cadre_page"
                   data-url-del="${ctx}/cadre_del"
                   data-url-bd="${ctx}/cadre_batchDel"
@@ -24,7 +23,10 @@ pageEncoding="UTF-8" %>
                     <a href="?status=${cadreStatus.key}"><i class="fa fa-flag"></i> ${cadreStatus.value}</a>
                 </li>
                 </c:forEach>
-
+                <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                    <a class="popupBtn btn btn-danger btn-sm"
+                       data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
+                </div>
             </ul>
 
             <div class="tab-content">

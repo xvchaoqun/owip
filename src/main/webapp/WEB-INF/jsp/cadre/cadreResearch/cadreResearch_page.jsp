@@ -1,37 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="tabbable">
+<div class="tabbable myTableDiv">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
-    <li class="${type==0?"active":""}">
-        <a href="javascript:" onclick="_innerPage(0)"><i class="fa fa-flag"></i> 科研情况</a>
+    <li class="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"active":""}">
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')"><i class="fa fa-flag"></i> 主持科研项目</a>
     </li>
-    <li class="dropdown <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY
-    ||type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY || type==CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}">active</c:if>" >
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <i class="fa fa-sign-out"></i> 总体情况${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"(主持科研项目)"
-            :(type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY)?"(参与科研项目)":(type==CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY)?"(出版著作及发表论文等)":""}
-            <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-            <li>
-                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')">主持科研项目</a>
-            </li>
-            <li>
-                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')">参与科研项目</a>
-            </li>
-            <li>
-                <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_PAPER_SUMMARY}')">出版著作及发表论文等</a>
-            </li>
-        </ul>
+    <li class="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY?"active":""}">
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')"><i class="fa fa-flag"></i> 参与科研项目</a>
+    </li>
+    <li class="${type==CADRE_INFO_TYPE_BOOK_SUMMARY?"active":""}">
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_SUMMARY}')"><i class="fa fa-flag"></i> 出版著作</a>
+    </li>
+    <li class="${type==CADRE_INFO_TYPE_PAPER_SUMMARY?"active":""}">
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_PAPER_SUMMARY}')"><i class="fa fa-flag"></i> 发表论文</a>
+    </li>
+    <li class="${type==CADRE_INFO_TYPE_RESEARCH_REWARD?"active":""}">
+        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i> 科研成果及获奖</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
-<div class="space-4"></div>
-<c:if test="${type==0}">
-    <div class="widget-box">
+
+<div class="row two-frames">
+    <div class="left">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="smaller">
+                    ${type==CADRE_INFO_TYPE_RESEARCH?"初始数据":"参考模板"}
+                </h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main" style="min-height: ${type==CADRE_INFO_TYPE_RESEARCH?'647px':'347px'}" id="orginal">
+                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH}">
+                        <p>${researchInInfo.content}</p>
+                        <p>${researchDirectInfo.content}</p>
+                        <p>${bookInfo.content}</p>
+                        <p>${paperInfo.content}</p>
+                        <p>${researchRewardInfo.content}</p>
+                    </c:if>
+                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
+                        <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
+                        <c:forEach items="${cadreRewards}" var="cadreReward">
+                            <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH && type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
+                        ${htmlFragment.content}
+                    </c:if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="smaller">
+                    ${type==CADRE_INFO_TYPE_RESEARCH?"最终数据":"编辑区"}（<span
+                        style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                </h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main" style="margin-bottom: 10px">
+                    <textarea id="content">${cadreInfo.content}</textarea>
+                    <input type="hidden" name="content">
+                </div>
+                <div class="modal-footer center">
+                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH || type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                            <i class="ace-icon fa fa-copy"></i>
+                            同步自动生成的数据
+                        </a>
+                    </c:if>
+                    <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
+    <div class="space-4"></div>
+    <div class="widget-box collapsed">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主持科研项目情况
             <div class="buttons">
@@ -69,10 +121,10 @@
         </div>
     </div>
 </div>
-
+</c:if>
+    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     <div class="space-4"></div>
-
-    <div class="widget-box">
+    <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 参与科研项目情况
                 <div class="buttons">
@@ -110,10 +162,10 @@
             </div>
         </div>
     </div>
-
+    </c:if>
+    <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     <div class="space-4"></div>
-
-    <div class="widget-box">
+    <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 出版著作情况
                 <div class="buttons">
@@ -149,10 +201,10 @@
             </div>
         </div>
     </div>
-
+    </c:if>
+    <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     <div class="space-4"></div>
-
-    <div class="widget-box">
+    <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 发表论文情况
                 <div class="buttons">
@@ -188,9 +240,10 @@
             </div>
         </div>
     </div>
-
+    </c:if>
+    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     <div class="space-4"></div>
-    <div class="widget-box">
+    <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 科研成果及获奖情况
                 <div class="buttons">
@@ -227,97 +280,41 @@
             </div>
         </div>
     </div>
+    </c:if>
 
-</c:if>
-<c:if test="${type!=0}">
-    <div class="row two-frames">
-        <div class="left">
-            <div class="widget-box">
-                <div class="widget-header">
-                    <h4 class="smaller">
-                        ${type==CADRE_INFO_TYPE_RESEARCH?"初始数据":"参考模板"}
-                    </h4>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main" style="min-height: 647px" id="orginal">
-                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH}">
-                        <p>${researchInInfo.content}</p>
-                        <p>${researchDirectInfo.content}</p>
-                        <p>${bookPaperInfo.content}</p>
-                        <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
-                        <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH}">
-                        ${htmlFragment.content}
-                    </c:if>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="right">
-            <div class="widget-box">
-                <div class="widget-header">
-                    <h4 class="smaller">
-                            ${type==CADRE_INFO_TYPE_RESEARCH?"最终数据":"编辑区"}（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
-                    </h4>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main" style="margin-bottom: 10px">
-                        <textarea id="content">${cadreInfo.content}</textarea>
-                        <input type="hidden" name="content">
-                    </div>
-                    <div class="modal-footer center">
-                        <c:if test="${type==CADRE_INFO_TYPE_RESEARCH}">
-                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
-                            <i class="ace-icon fa fa-copy"></i>
-                            复制初始数据
-                        </a>
-                        </c:if>
-                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</c:if>
-
-<c:if test="${type!=0}">
-    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-    <script>
-        var ke = KindEditor.create('#content', {
-            items : ["source", "|", "fullscreen"],
-            height: '550px',
-            width: '700px'
+<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+<script>
+    var ke = KindEditor.create('#content', {
+        items : ["source", "|", "fullscreen"],
+        height: '${type==CADRE_INFO_TYPE_RESEARCH?'550px':'250px'}',
+        width: '700px'
+    });
+    function updateCadreInfo() {
+        $.post("${ctx}/cadreInfo_updateContent", {
+            cadreId: '${param.cadreId}',
+            content: ke.html(),
+            type: "${type}"
+        }, function (ret) {
+            if (ret.success) {
+                SysMsg.info("保存成功", "", function () {
+                    _innerPage("${type}")
+                });
+            }
         });
-        function updateCadreInfo() {
-            $.post("${ctx}/cadreInfo_updateContent", {
-                cadreId: '${param.cadreId}',
-                content: ke.html(),
-                type: "${type}"
-            }, function (ret) {
-                if (ret.success) {
-                    SysMsg.info("保存成功", "", function () {
-                        _innerPage("${type}")
-                    });
-                }
-            });
-        }
-        function copyOrginal() {
-            //console.log($("#orginal").html())
-            ke.html($("#orginal").html());
-            SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
-        }
-    </script>
-</c:if>
-<c:if test="${type==0}">
+    }
+    function copyOrginal() {
+        //console.log($("#orginal").html())
+        ke.html($("#orginal").html());
+        SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+    }
+</script>
+
     <script>
         function _innerPage(type) {
             $("#view-box .tab-content").load("${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type)
         }
+        <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
         $("#jqGrid_cadreResearch_in").jqGrid({
             ondblClickRow: function () {
             },
@@ -334,7 +331,8 @@
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid4');
         });
-
+        </c:if>
+        <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
         $("#jqGrid_cadreResearch_direct").jqGrid({
             ondblClickRow: function () {
             },
@@ -351,7 +349,8 @@
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid4');
         });
-
+        </c:if>
+        <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
         $("#jqGrid_cadreBook").jqGrid({
             ondblClickRow: function () {
             },
@@ -369,7 +368,8 @@
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid4');
         });
-
+        </c:if>
+        <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
         $("#jqGrid_cadrePaper").jqGrid({
             ondblClickRow: function () {
             },
@@ -388,7 +388,8 @@
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid4');
         });
-
+        </c:if>
+        <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
         $("#jqGrid_cadreReward").jqGrid({
             ondblClickRow: function () {
             },
@@ -413,9 +414,8 @@
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid4');
         });
-
+        </c:if>
 
         $('#searchForm [data-rel="select2"]').select2();
         $('[data-rel="tooltip"]').tooltip();
     </script>
-</c:if>

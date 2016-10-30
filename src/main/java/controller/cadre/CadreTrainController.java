@@ -130,10 +130,10 @@ public class CadreTrainController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_startTime)){
-            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
+            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM.dd"));
         }
         if(StringUtils.isNotBlank(_endTime)){
-            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
+            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM.dd"));
         }
 
         if (id == null) {

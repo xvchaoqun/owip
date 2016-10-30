@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">账号</label>
+				<label class="col-xs-4 control-label">账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">现所在单位</label>
+            <label class="col-xs-4 control-label">现所在单位</label>
             <div class="col-xs-8">
                 <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                     <option></option>
@@ -34,19 +34,19 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">现任职务</label>
+            <label class="col-xs-4 control-label">现任职务</label>
             <div class="col-xs-6">
                 <input  class="form-control" type="text" name="post" value="${cadre.post}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">现所在单位及职务</label>
+            <label class="col-xs-4 control-label">现所在单位及职务</label>
             <div class="col-xs-6">
                 <input  class="form-control" type="text" name="title" value="${cadre.title}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">现职务属性</label>
+            <label class="col-xs-4 control-label">现职务属性</label>
             <div class="col-xs-6">
                 <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                     <option></option>
@@ -58,7 +58,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">现行政级别</label>
+				<label class="col-xs-4 control-label">现行政级别</label>
 				<div class="col-xs-6">
                     <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
                         <option></option>
@@ -70,7 +70,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
                     <textarea class="form-control limited" name="remark" rows="5">${cadre.remark}</textarea>
 				</div>

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreCompany!=null}">编辑</c:if><c:if test="${cadreCompany==null}">添加</c:if>干部企业兼职情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreCompany_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreCompany_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cadreCompany.id}">
         <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
@@ -37,6 +37,19 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="reportUnit" value="${cadreCompany.reportUnit}">
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">批复文件</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="file" name="_paper" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注</label>
+                <div class="col-xs-6">
+                    <textarea class="form-control" name="remark">${cadreCompany.remark}</textarea>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -51,12 +64,24 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal("hide");
+                        $("#jqGrid_cadreCompany").trigger("reloadGrid");
                     }
                 }
             });
         }
+    });
+    $('#modalForm input[type=file]').ace_file_input({
+        no_file:'请选择文件 ...',
+        btn_choose:'选择',
+        btn_change:'更改',
+        droppable:false,
+        onchange:null,
+        thumbnail:false //| true | large
+        //whitelist:'gif|png|jpg|jpeg'
+        //blacklist:'exe|php'
+        //onchange:''
+        //
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
