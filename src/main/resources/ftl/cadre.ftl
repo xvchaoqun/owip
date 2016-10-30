@@ -2751,11 +2751,11 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="1276" w:type="dxa"/>
+							<w:tcW w:w="1298" w:type="dxa"/>
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="00943BE5" wsp:rsidRDefault="00943BE5">
+						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419">
 							<w:pPr>
 								<w:jc w:val="center"/>
 								<w:rPr>
@@ -2768,23 +2768,22 @@
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>出生</w:t>
+								<w:t>年</w:t>
 							</w:r>
-						</w:p>
-						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00943BE5">
-							<w:pPr>
-								<w:jc w:val="center"/>
+							<w:r>
 								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-							</w:pPr>
+								<w:t>  </w:t>
+							</w:r>
 							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>年月</w:t>
+								<w:t>龄</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
