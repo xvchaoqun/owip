@@ -48,7 +48,7 @@ public class Word2Html {
 
 	public static void main(String argv[]) {
 		try {
-			convert2Html("D://tmp//13.doc","D://tmp/1.html");
+			convert2Html("D://tmp//【干部信息采集表2015版】样表.doc","D://tmp/【干部信息采集表2015版】样表.html");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -96,10 +96,12 @@
                                 </c:forEach>
                             </p>
                         </c:if>
+                        <c:if test="${fn:length(cadreRewards)>0}">
                         <p>获奖情况：</p>
                         <c:forEach items="${cadreRewards}" var="cadreReward">
                             <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;荣获${cadreReward.name}<c:if test="${not empty cadreReward.rank}">(排名第${cadreReward.rank})</c:if>&nbsp;${cadreReward.unit}</p>
                         </c:forEach>
+                        </c:if>
                     </div>
                 </div>
             </div>

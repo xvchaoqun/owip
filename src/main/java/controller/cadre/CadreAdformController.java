@@ -31,7 +31,7 @@ public class CadreAdformController extends BaseController {
 
         modelMap.put("type", type);
 
-        modelMap.put("adform", cadreAdformService.getCadreAdform(cadreId));
+        modelMap.put("bean", cadreAdformService.getCadreAdform(cadreId));
 
         return "cadre/cadreAdform/cadreAdform_page";
     }

@@ -81,9 +81,16 @@
                         <li>
                             <a href="javascript:" data-url="">考察记录</a>
                         </li>
+                        <shiro:hasPermission name="cadreAdform:*">
                         <li>
                             <a href="javascript:" data-url="${ctx}/cadreAdform_page?cadreId=${param.id}">干部任免审批表</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreInfoForm:*">
+                        <li>
+                            <a href="javascript:" data-url="${ctx}/cadreInfoForm_page?cadreId=${param.id}">干部信息采集表</a>
+                        </li>
+                        </shiro:hasPermission>
                     </ul>
                 </div>
             </div>

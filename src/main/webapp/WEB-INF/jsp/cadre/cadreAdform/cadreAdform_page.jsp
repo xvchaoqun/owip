@@ -68,7 +68,7 @@
     }
     td.bolder{font-weight: bolder}
 </style>
-<div style="position: absolute; top:50px; left:10px;">
+<div style="position: absolute; top:55px; left:10px;">
     <a class="btn btn-primary" href="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
         <i class="ace-icon fa fa-download "></i>
         下载
@@ -89,24 +89,24 @@
                 <span>姓  名</span>
         </td>
         <td class="td0 center" colspan="2">
-               ${adform.realname}
+               ${bean.realname}
         </td>
         <td class="td2 center bolder">
                 <span class="s2">性  别</span>
         </td>
         <td class="td3 center">
-            ${GENDER_MAP.get(adform.gender)}
+            ${GENDER_MAP.get(bean.gender)}
         </td>
         <td class="td3 center bolder" colspan="2">
         <span>出生年月</span>
         <div><span>（  岁）</span></div>
         </td>
         <td class="td3 center">
-            ${cm:formatDate(adform.birth, "yyyy年MM月")}
-                <div><span>（${adform.age}岁）</span></div>
+            ${cm:formatDate(bean.birth, "yyyy年MM月")}
+                <div><span>（${bean.age}岁）</span></div>
         </td>
         <td class="td5 center" rowspan="4">
-            <img src="data:image/jpeg;base64,${adform.avatar}" width="110"/>
+            <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
         </td>
     </tr>
     <tr>
@@ -114,19 +114,19 @@
                 <span>民  族</span>
         </td>
         <td class="td0 center" colspan="2">
-            ${adform.nation}
+            ${bean.nation}
         </td>
         <td class="td2 center bolder">
                 <span class="s2">籍  贯</span>
         </td>
         <td class="td2 center">
-            ${adform.nativePlace}
+            ${bean.nativePlace}
         </td>
         <td class="td3 center bolder" colspan="2">
                 <span>出生地</span>
         </td>
         <td class="td3 center">
-            ${adform.homeplace}
+            ${bean.homeplace}
         </td>
     </tr>
     <tr>
@@ -137,20 +137,20 @@
             </div>
         </td>
         <td class="td0 center" colspan="2">
-            ${cm:formatDate(adform.growTime, "yyyy.MM")}
+            ${cm:formatDate(bean.growTime, "yyyy.MM")}
         </td>
         <td class="td2 center bolder">
                 <span class="s2">参加工作</span>
                 <div>时间</div>
         </td>
         <td class="td2 center">
-            ${cm:formatDate(adform.workTime, "yyyy.MM")}
+            ${cm:formatDate(bean.workTime, "yyyy.MM")}
         </td>
         <td class="td3 center bolder" colspan="2">
                 <span>健康状况</span>
         </td>
         <td class="td3 center">
-            ${adform.health}
+            ${bean.health}
         </td>
     </tr>
     <tr>
@@ -161,7 +161,7 @@
             </div>
         </td>
         <td class="td5 center" colspan="3">
-            ${adform.proPost}
+            ${bean.proPost}
         </td>
         <td class="td2 center bolder">
                 <span>熟悉专业</span>
@@ -170,7 +170,7 @@
             </div>
         </td>
         <td class="td7 center" colspan="3">
-            ${adform.professinal}
+            ${bean.professinal}
         </td>
     </tr>
     <tr>
@@ -187,7 +187,7 @@
             </div>
         </td>
         <td class="td6 padding10" colspan="2">
-            ${adform.degree}
+            ${bean.degree}
         </td>
         <td class="td8 center bolder">
 
@@ -197,7 +197,7 @@
             </div>
         </td>
         <td class="td9 padding10" colspan="3">
-            ${adform.schoolDepMajor}
+            ${bean.schoolDepMajor}
         </td>
     </tr>
     <tr>
@@ -208,7 +208,7 @@
             </div>
         </td>
         <td class="td6 padding10" colspan="2">
-            ${adform.inDegree}
+            ${bean.inDegree}
         </td>
         <td class="td8 center bolder">
                 <span>毕业院校</span>
@@ -217,7 +217,7 @@
             </div>
         </td>
         <td class="td9 padding10" colspan="3">
-            ${adform.inSchoolDepMajor}
+            ${bean.inSchoolDepMajor}
         </td>
     </tr>
     <tr class="r1">
@@ -225,7 +225,7 @@
                 <span>现 任 职 务</span>
         </td>
         <td class="td11 padding10" colspan="7">
-            ${adform.post}
+            ${bean.post}
         </td>
     </tr>
     <tr class="r1">
@@ -233,7 +233,7 @@
                 <span>拟 任 职 务</span>
         </td>
         <td class="td11 padding10" colspan="7">
-            ${adform.inPost}
+            ${bean.inPost}
         </td>
     </tr>
     <tr class="r1">
@@ -241,7 +241,7 @@
                 <span>拟 免 职 务</span>
         </td>
         <td class="td11 padding10" colspan="7">
-            ${adform.prePost}
+            ${bean.prePost}
         </td>
     </tr>
     <tr>
@@ -252,14 +252,18 @@
                 </div>
         </td>
         <td class="td12 padding10" colspan="8">
+            <c:if test="${not empty bean.learnDesc}">
             <p style="font-weight: bolder;">学习经历：</p>
             <p>
-                ${adform.learnDesc}
+                ${bean.learnDesc}
             </p>
+            </c:if>
+            <c:if test="${not empty bean.workDesc}">
             <p style="font-weight: bolder;">工作经历：</p>
             <p>
-                ${adform.workDesc}
+                ${bean.workDesc}
             </p>
+            </c:if>
         </td>
     </tr>
     </tbody>
@@ -277,7 +281,7 @@
             </div>
         </td>
         <td class="td12 padding10" colspan="8">
-            ${adform.reward}
+            ${bean.reward}
         </td>
     </tr>
     <tr>
@@ -291,7 +295,7 @@
             </div>
         </td>
         <td class="td12 padding10" colspan="8">
-            ${adform.ces}
+            ${bean.ces}
         </td>
     </tr>
     <tr>
@@ -302,7 +306,7 @@
             </div>
         </td>
         <td class="td12 padding10" colspan="8">
-            ${adform.trainDesc}
+            ${bean.trainDesc}
         </td>
     </tr>
     <tr>
@@ -313,7 +317,7 @@
             </div>
         </td>
         <td class="td12 padding10" colspan="8">
-            ${adform.reason}
+            ${bean.reason}
         </td>
     </tr>
     <tr class="r2">
@@ -356,7 +360,7 @@
                 <span>工 作 单 位 及 职 务</span>
         </td>
     </tr>
-    <c:forEach items="${adform.cadreFamliys}" var="f">
+    <c:forEach items="${bean.cadreFamliys}" var="f">
         <tr class="r2">
             <td class="td13 center">
                 ${CADRE_FAMLIY_TITLE_MAP.get(f.title)}
@@ -375,7 +379,7 @@
             </td>
         </tr>
     </c:forEach>
-    <c:forEach begin="0" end="${5-fn:length(adform.cadreFamliys)}">
+    <c:forEach begin="0" end="${5-fn:length(bean.cadreFamliys)}">
         <tr class="r2">
             <td class="td13">
                 <p class="p8"></p>

@@ -110,61 +110,61 @@ public class CadreAdformService extends BaseMapper{
     // 输出任免审批表
     public void process(int cadreId, Writer out) throws IOException, TemplateException {
 
-        CadreAdform adform = getCadreAdform(cadreId);
+        CadreAdform bean = getCadreAdform(cadreId);
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name", adform.getRealname());
-        dataMap.put("gender", SystemConstants.GENDER_MAP.get(adform.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(adform.getBirth(), "yyyy年MM月"));
-        dataMap.put("age", adform.getAge());
-        dataMap.put("avatar", adform.getAvatar());
-        dataMap.put("nation", adform.getNation());
-        dataMap.put("nativePlace", adform.getNativePlace());
-        dataMap.put("birthCountry", adform.getHomeplace());
-        dataMap.put("growTime", DateUtils.formatDate(adform.getGrowTime(), "yyyy.MM"));
-        dataMap.put("workTime", DateUtils.formatDate(adform.getWorkTime(), "yyyy.MM"));
+        dataMap.put("name", bean.getRealname());
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy年MM月"));
+        dataMap.put("age", bean.getAge());
+        dataMap.put("avatar", bean.getAvatar());
+        dataMap.put("nation", bean.getNation());
+        dataMap.put("nativePlace", bean.getNativePlace());
+        dataMap.put("birthCountry", bean.getHomeplace());
+        dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
-        dataMap.put("health", adform.getHealth());
-        dataMap.put("proPost", adform.getProPost());
-        dataMap.put("professinal", adform.getProfessinal());
+        dataMap.put("health", bean.getHealth());
+        dataMap.put("proPost", bean.getProPost());
+        dataMap.put("professinal", bean.getProfessinal());
 
-        dataMap.put("degree", adform.getDegree());
-        dataMap.put("schoolDepMajor", adform.getSchoolDepMajor());
-        dataMap.put("inDegree", adform.getInDegree());
-        dataMap.put("inSchoolDepMajor", adform.getInSchoolDepMajor());
+        dataMap.put("degree", bean.getDegree());
+        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
+        dataMap.put("inDegree", bean.getInDegree());
+        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
 
-        dataMap.put("post", adform.getPost());
-        dataMap.put("inPost", adform.getInPost());
-        dataMap.put("prePost", adform.getPrePost());
-        dataMap.put("reward", adform.getReward());
-        dataMap.put("ces", adform.getCes());
-        dataMap.put("reason", adform.getReason());
+        dataMap.put("post", bean.getPost());
+        dataMap.put("inPost", bean.getInPost());
+        dataMap.put("prePost", bean.getPrePost());
+        dataMap.put("reward", bean.getReward());
+        dataMap.put("ces", bean.getCes());
+        dataMap.put("reason", bean.getReason());
 
         dataMap.put("learnDesc", "");
         dataMap.put("workDesc", "");
 
-        if(adform.getLearnDesc()!=null)
-            dataMap.put("learnDesc", genSegment("学习经历", adform.getLearnDesc(), "cadreInfo.ftl"));
-        if(adform.getWorkDesc()!=null)
-            dataMap.put("workDesc", genSegment("工作经历", adform.getWorkDesc(), "cadreInfo.ftl"));
-        if(adform.getTrainDesc()!=null)
-            dataMap.put("trainDesc", genSegment(null, adform.getTrainDesc(), "cadreInfo.ftl"));
+        if(bean.getLearnDesc()!=null)
+            dataMap.put("learnDesc", genSegment("学习经历", bean.getLearnDesc(), "/common/cadreInfo.ftl"));
+        if(bean.getWorkDesc()!=null)
+            dataMap.put("workDesc", genSegment("工作经历", bean.getWorkDesc(), "/common/cadreInfo.ftl"));
+        if(bean.getTrainDesc()!=null)
+            dataMap.put("trainDesc", genSegment(null, bean.getTrainDesc(), "/common/cadreInfo.ftl"));
 
         String famliy = "";
-        List<CadreFamliy> cadreFamliys = adform.getCadreFamliys();
+        List<CadreFamliy> cadreFamliys = bean.getCadreFamliys();
         int size = cadreFamliys.size();
         for (int i=0; i<5; i++) {
             if(size<=i)
-                famliy += getFamliySeg(null, "famliy.ftl");
+                famliy += getFamliySeg(null, "/adform/famliy.ftl");
             else
-                famliy += getFamliySeg(cadreFamliys.get(i), "famliy.ftl");
+                famliy += getFamliySeg(cadreFamliys.get(i), "/adform/famliy.ftl");
         }
         dataMap.put("famliy", famliy);
         SysUser currentUser = ShiroSecurityHelper.getCurrentUser();
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
 
-        freemarkerService.process("cadre.ftl", dataMap, out);
+        freemarkerService.process("/adform/cadre.ftl", dataMap, out);
     }
 
     private String getFamliySeg(CadreFamliy cf, String ftlPath) throws IOException, TemplateException {
