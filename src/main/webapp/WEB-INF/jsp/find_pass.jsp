@@ -90,11 +90,12 @@
                 <hr>
                 <div class="row">
                     <div class="col-xs-12">
-                        <ol class="spaced2">
-                            <li>新密码将以短信的方式发到您注册账号时填写的手机上，请注意查收；</li>
-                            <li>每天只有5次重置密码的机会，请不要频繁操作；</li>
-                            <li>密码重置成功之后，为了保证您的账号安全，请尽快登录系统，进行修改密码操作（登陆系统右上角点击本人姓名->修改密码）。</li>
-                            <li class="text-danger">如果重置密码失败，请联系您所在的分党委管理员；</li>
+                        <div style="font-weight: bolder">注：</div>
+                        <ol class="spaced" style="padding-left: 20px;">
+                            <li>短信验证码将发到您注册账号时填写的手机上，请注意查收；</li>
+                            <li>每天只有5次修改密码的机会，请不要频繁操作；</li>
+                            <li>密码修改成功之后，请使用新密码登录系统；</li>
+                            <li class="text-danger">如果密码修改失败，请联系您所在的分党委管理员；</li>
                         </ol>
                     </div>
                 </div>
