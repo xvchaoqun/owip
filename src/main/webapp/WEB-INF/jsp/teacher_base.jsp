@@ -25,38 +25,38 @@ pageEncoding="UTF-8"%>
 						姓名
 					</td>
 					<td class="bg-left" style="min-width: 80px">
-						${teacher.realname}
+						${sysUser.realname}
 					</td>
 					<td class="bg-right">
 						性别
 					</td>
 					<td class="bg-left" style="min-width: 80px">
-						${GENDER_MAP.get(teacher.gender)}
+						${GENDER_MAP.get(sysUser.gender)}
 					</td>
 
 					<td class="bg-right">
 						民族
 					</td>
 					<td class="bg-left" style="min-width: 120px">
-						${teacher.nation}
+						${sysUser.nation}
 					</td>
 					<td  class="bg-right">
 						身份证号
 					</td>
 					<td class="bg-left" style="min-width: 120px">
-						${teacher.idcard}
+						${sysUser.idcard}
 					</td>
 				</tr>
 				<tr>
 					<td class="bg-right">工作证号</td>
 					<td  class="bg-left">
-						${teacher.code}
+						${sysUser.code}
 					</td>
 					<td class="bg-right">
 						籍贯
 					</td>
 					<td class="bg-left">
-						${teacher.nativePlace}
+						${sysUser.nativePlace}
 					</td>
 					<td  class="bg-right">
 						最高学历
@@ -203,19 +203,19 @@ pageEncoding="UTF-8"%>
 						联系邮箱
 					</td>
 					<td class="bg-left">
-						${teacher.email}
+						${sysUser.email}
 					</td>
 					<td  class="bg-right">
 						联系手机
 					</td>
 					<td class="bg-left">
-						${teacher.mobile}
+						${sysUser.mobile}
 					</td>
 					<td class="bg-right">
 						家庭电话
 					</td>
 					<td class="bg-left">
-						${teacher.phone}
+						${sysUser.homePhone}
 					</td>
 				</tr>
 				<tr>

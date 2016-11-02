@@ -266,7 +266,7 @@ public class MemberService extends BaseMapper {
         if(sysUserInfo==null)
             sysUserInfoMapper.insertSelective(ui);
         else
-            sysUserInfoMapper.updateByPrimaryKey(ui);
+            sysUserInfoMapper.updateByPrimaryKeySelective(ui);
 
         if(teacherInfo==null)
             teacherInfoMapper.insertSelective(teacher);
@@ -370,7 +370,7 @@ public class MemberService extends BaseMapper {
         if(sysUserInfo==null)
             sysUserInfoMapper.insertSelective(ui);
         else
-            sysUserInfoMapper.updateByPrimaryKey(ui);
+            sysUserInfoMapper.updateByPrimaryKeySelective(ui);
 
         if(studentInfo==null)
             studentInfoMapper.insertSelective(student);
