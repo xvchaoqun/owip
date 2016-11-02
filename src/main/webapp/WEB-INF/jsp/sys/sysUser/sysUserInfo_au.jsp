@@ -60,6 +60,13 @@
         </div>
         <div class="col-xs-4">
             <div class="form-group">
+                <label class="col-xs-3 control-label">*民族</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="nation" value="${ui.nation}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">籍贯</label>
 
                 <div class="col-xs-6">
