@@ -103,7 +103,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                     }
                 }
             });

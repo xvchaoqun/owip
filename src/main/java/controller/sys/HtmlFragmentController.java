@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.HtmlFragment;
 import domain.sys.HtmlFragmentExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -54,7 +55,7 @@ public class HtmlFragmentController extends BaseController {
     @RequiresPermissions("htmlFragment:list")
     @RequestMapping("/htmlFragment_data")
     @ResponseBody
-    public void htmlFragment_data(@CurrentUser SysUser loginUser,
+    public void htmlFragment_data(@CurrentUser SysUserView loginUser,
                                HttpServletResponse response,
                                String title, String code,
                                Integer pageSize, Integer pageNo) throws IOException {

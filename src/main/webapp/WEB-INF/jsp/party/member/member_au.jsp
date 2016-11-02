@@ -197,10 +197,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-						SysMsg.success('提交成功。', '成功',function(){
+						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
 							$(".closeView").click();
-						});
+						//});
                     }
                 }
             });

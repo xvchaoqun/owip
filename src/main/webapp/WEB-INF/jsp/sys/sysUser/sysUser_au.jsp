@@ -48,36 +48,6 @@
 			   <input required class="form-control" type="text" name="code" value="${sysUser.code}">
           </div>
         </div>
-    	<div class="form-group">
-          <label class="col-xs-3 control-label">真实姓名</label>
-          <div class="col-xs-6">
-			  <input required class="form-control" type="text" name="realname" value="${sysUser.realname}">
-          </div>
-        </div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">身份证</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">办公电话</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="phone" value="${sysUser.phone}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">手机号</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="mobile" value="${sysUser.mobile}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">邮箱</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="email" value="${sysUser.email}">
-			</div>
-		</div>
         </form>
   </div>
   <div class="modal-footer">
@@ -109,12 +79,12 @@
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');
-								SysMsg.success('操作成功。', '成功',function(){
+								//SysMsg.success('操作成功。', '成功',function(){
 									$("#jqGrid").trigger("reloadGrid");
 									<c:if test="${not empty param.applyId}">
 									page_reload();
 									</c:if>
-								});
+								//});
 							}
 						}
 					});

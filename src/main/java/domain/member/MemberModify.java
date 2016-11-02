@@ -1,6 +1,6 @@
 package domain.member;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,10 +8,10 @@ import java.util.Date;
 
 public class MemberModify implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public SysUser getOpUser(){
+    public SysUserView getOpUser(){
         return CmTag.getUserById(opUserId);
     }
 

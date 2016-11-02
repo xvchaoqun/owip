@@ -8,6 +8,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberReturnMixin;
@@ -240,7 +241,7 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:edit")
     @RequestMapping(value = "/memberReturn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_au(@CurrentUser SysUser loginUser, MemberReturn record,String _returnApplyTime,
+    public Map do_memberReturn_au(@CurrentUser SysUserView loginUser, MemberReturn record,String _returnApplyTime,
                                   String _applyTime, String _activeTime, String _candidateTime,
                                   String _growTime, String _positiveTime,HttpServletRequest request) {
 
@@ -308,7 +309,7 @@ public class MemberReturnController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn_approval")
-    public String memberReturn_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberReturn_approval(@CurrentUser SysUserView loginUser, Integer id,
                                     byte type, // 1:支部审核 2：分党委审核
                                     ModelMap modelMap) {
 
@@ -368,7 +369,7 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberReturn_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -392,7 +393,7 @@ public class MemberReturnController extends BaseController {
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn_back(@CurrentUser SysUser loginUser,
+    public Map do_memberReturn_back(@CurrentUser SysUserView loginUser,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
@@ -463,7 +464,7 @@ public class MemberReturnController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberReturn record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();

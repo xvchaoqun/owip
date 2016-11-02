@@ -9,6 +9,7 @@ import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.shiro.SecurityUtils;
@@ -80,7 +81,7 @@ public class MobileApplySelfController extends BaseController {
 		if (cadreId != null) {
 			Cadre cadre = cadreService.findAll().get(cadreId);
 			modelMap.put("cadre", cadre);
-			SysUser sysUser = sysUserService.findById(cadre.getUserId());
+			SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 			modelMap.put("sysUser", sysUser);
 		}
 
@@ -105,7 +106,7 @@ public class MobileApplySelfController extends BaseController {
 	@RequiresRoles("cadre")
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList_page")
-	public String applySelfList_page(@CurrentUser SysUser loginUser, HttpServletResponse response,
+	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,
 									 Integer cadreId,
 									 String _applyDate,
 									 Byte type, // 出行时间范围
@@ -145,7 +146,7 @@ public class MobileApplySelfController extends BaseController {
 		}
 
 		Cadre cadre = cadreService.findAll().get(cadreId);
-		SysUser sysUser = sysUserService.findById(cadre.getUserId());
+		SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
 		modelMap.put("sysUser", sysUser);
 		modelMap.put("cadre", cadre);

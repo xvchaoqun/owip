@@ -8,6 +8,7 @@ import domain.member.MemberQuitExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberQuitMixin;
@@ -198,7 +199,7 @@ public class MemberQuitController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:list")
     @RequestMapping("/memberQuit_approval")
-    public String memberQuit_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberQuit_approval(@CurrentUser SysUserView loginUser, Integer id,
                                      byte type, // 1:支部审核 2:分党委审核 3：组织部审核
                                      ModelMap modelMap) {
 
@@ -265,7 +266,7 @@ public class MemberQuitController extends BaseController {
     @RequiresPermissions("memberQuit:update")
     @RequestMapping(value = "/memberQuit_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberQuit_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberQuit_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                   byte type, // 1:支部审核 2:分党委审核 3：组织部审核
                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -289,7 +290,7 @@ public class MemberQuitController extends BaseController {
     @RequiresPermissions("memberQuit:update")
     @RequestMapping(value = "/memberQuit_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberQuit_back(@CurrentUser SysUser loginUser,
+    public Map do_memberQuit_back(@CurrentUser SysUserView loginUser,
                                    @RequestParam(value = "ids[]") Integer[] ids,
                                    byte status,
                                    String reason) {
@@ -304,7 +305,7 @@ public class MemberQuitController extends BaseController {
     @RequiresPermissions("memberQuit:edit")
     @RequestMapping(value = "/memberQuit_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberQuit_au(@CurrentUser SysUser loginUser,
+    public Map do_memberQuit_au(@CurrentUser SysUserView loginUser,
                                 MemberQuit record,
                                 Byte resubmit,
                                 String _quitTime, HttpServletRequest request) {
@@ -397,7 +398,7 @@ public class MemberQuitController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberQuit record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
 

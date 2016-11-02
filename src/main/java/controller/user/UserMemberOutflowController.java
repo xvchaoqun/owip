@@ -5,6 +5,7 @@ import domain.member.MemberOutflow;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -33,14 +34,14 @@ public class UserMemberOutflowController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberOutflow")
-    public String memberOutflow(@CurrentUser SysUser loginUser) {
+    public String memberOutflow(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("member")
     @RequestMapping("/memberOutflow_page")
-    public String memberOutflow_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberOutflow_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("sysUser", loginUser);
 
@@ -71,7 +72,7 @@ public class UserMemberOutflowController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_au(@CurrentUser SysUser loginUser,
+    public Map do_memberOutflow_au(@CurrentUser SysUserView loginUser,
                                    MemberOutflow record, String _flowTime, HttpServletRequest request) {
 
         Integer userId = loginUser.getId();
@@ -108,7 +109,7 @@ public class UserMemberOutflowController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberOutflow_back(@CurrentUser SysUser loginUser, String remark){
+    public Map memberOutflow_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         memberOutflowService.back(userId);

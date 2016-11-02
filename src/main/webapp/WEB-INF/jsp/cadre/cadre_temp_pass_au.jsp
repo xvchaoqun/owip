@@ -88,11 +88,11 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        SysMsg.success('操作成功。', '成功',function(){
+                        //SysMsg.success('操作成功。', '成功',function(){
                             //$("#jqGrid").trigger("reloadGrid");
                             //location.href='${ctx}/cadre?status=1'
                             _openView('${ctx}/cadre_view?id=${cadre.id}&to=cadrePost_page')
-                        });
+                       // });
                     }
                 }
             });

@@ -10,6 +10,7 @@ import domain.party.BranchMember;
 import domain.party.OrgAdmin;
 import domain.party.PartyMember;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -176,11 +177,11 @@ public interface CommonMapper {
     int countCadreByUnitId(@Param("search") String searchint, @Param("unitId")int unitId);
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
-    List<SysUser> selectNotCadreList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    List<SysUserView> selectNotCadreList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
     int countNotCadre(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
     // 根据账号、姓名、学工号查找 不是 党员的用户
-    List<SysUser> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    List<SysUserView> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
     int countNotMember(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
 

@@ -214,7 +214,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/unit_abolish", {id: id}, function (ret) {
                     if (ret.success) {
                         page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

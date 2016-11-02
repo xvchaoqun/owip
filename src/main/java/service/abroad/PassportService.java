@@ -5,6 +5,7 @@ import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,10 @@ public class PassportService extends BaseMapper {
             Passport record = new Passport();
 
             String userCode = uRow.getUserCode();
-            SysUser sysUser = sysUserService.findByCode(userCode);
-            if(sysUser== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
-            Cadre cadre = cadreService.findByUserId(sysUser.getId());
-            if(cadre== null) throw  new RuntimeException("工作证号：" +userCode +" 姓名："+sysUser.getRealname() +"不是干部");
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            Cadre cadre = cadreService.findByUserId(uv.getId());
+            if(cadre== null) throw  new RuntimeException("工作证号：" +userCode +" 姓名："+uv.getRealname() +"不是干部");
             record.setCadreId(cadre.getId());
             record.setType(type);
 
@@ -61,7 +62,7 @@ public class PassportService extends BaseMapper {
             //
             SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
             if(safeBox==null)
-                if(sysUser== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
+                if(uv== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);

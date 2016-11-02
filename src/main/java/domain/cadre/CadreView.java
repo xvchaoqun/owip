@@ -4,6 +4,7 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
     public Unit getUnit(){

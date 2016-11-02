@@ -5,6 +5,7 @@ import domain.party.*;
 import domain.party.BranchExample.Criteria;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.BranchMixin;
@@ -202,7 +203,7 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:edit")
     @RequestMapping(value = "/branch_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_au(@CurrentUser SysUser loginUser, Branch record, String _foundTime, HttpServletRequest request) {
+    public Map do_branch_au(@CurrentUser SysUserView loginUser, Branch record, String _foundTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -273,7 +274,7 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:del")
     @RequestMapping(value = "/branch_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+    public Map do_branch_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
@@ -311,7 +312,7 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:changeOrder")
     @RequestMapping(value = "/branch_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branch_changeOrder(@CurrentUser SysUser loginUser, Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_branch_changeOrder(@CurrentUser SysUserView loginUser, Integer id, Integer addNum, HttpServletRequest request) {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
@@ -370,7 +371,7 @@ public class BranchController extends BaseController {
 
             if(branchSecretary.size()>0) {
                 Integer userId = branchSecretary.get(0).getUserId();
-                SysUser sysUser = sysUserService.findById(userId);
+                SysUserView sysUser = sysUserService.findById(userId);
                 String unit = sysUserService.getUnit(sysUser);
                 String[] values = {
                         sysUser.getRealname(),

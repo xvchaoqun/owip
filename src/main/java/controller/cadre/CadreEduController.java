@@ -7,6 +7,7 @@ import domain.cadre.CadreEduExample;
 import domain.cadre.CadreEduExample.Criteria;
 import domain.cadre.CadreInfo;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
@@ -71,7 +72,7 @@ public class CadreEduController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
@@ -203,7 +204,7 @@ public class CadreEduController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreEdu/cadreEdu_au";

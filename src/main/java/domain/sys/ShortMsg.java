@@ -7,10 +7,10 @@ import java.util.Date;
 
 public class ShortMsg implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(receiverId);
     }
-    public SysUser getSender(){
+    public SysUserView getSender(){
         return CmTag.getUserById(senderId);
     }
     private Integer id;

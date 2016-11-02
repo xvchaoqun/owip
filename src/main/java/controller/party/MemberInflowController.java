@@ -8,6 +8,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
@@ -220,7 +221,7 @@ public class MemberInflowController extends BaseController {
     @RequiresPermissions("memberInflow:edit")
     @RequestMapping(value = "/memberInflow_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow_au(@CurrentUser SysUser loginUser,MemberInflow record,
+    public Map do_memberInflow_au(@CurrentUser SysUserView loginUser,MemberInflow record,
                                   String _flowTime, String _growTime, String _outTime,
                                   HttpServletRequest request) {
 
@@ -283,7 +284,7 @@ public class MemberInflowController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_approval")
-    public String memberInflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUser loginUser, Integer id,
+    public String memberInflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
                                         byte type, // 1:支部审核 2：分党委审核
                                         ModelMap modelMap) {
 
@@ -343,7 +344,7 @@ public class MemberInflowController extends BaseController {
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberInflow_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
                                       @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -367,7 +368,7 @@ public class MemberInflowController extends BaseController {
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow_back(@CurrentUser SysUser loginUser,
+    public Map do_memberInflow_back(@CurrentUser SysUserView loginUser,
                                      @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
@@ -437,7 +438,7 @@ public class MemberInflowController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberInflow record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();

@@ -7,6 +7,7 @@ import domain.party.BranchMemberExample;
 import domain.party.BranchMemberExample.Criteria;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -182,7 +183,7 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchAdmin_del(@CurrentUser SysUser loginUser, Integer userId, Integer branchId) {
+    public Map branchAdmin_del(@CurrentUser SysUserView loginUser, Integer userId, Integer branchId) {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
@@ -248,7 +249,7 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMember_admin(@CurrentUser SysUser loginUser,  HttpServletRequest request, Integer id) {
+    public Map branchMember_admin(@CurrentUser SysUserView loginUser,  HttpServletRequest request, Integer id) {
 
         if (id != null) {
 

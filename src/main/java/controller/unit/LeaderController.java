@@ -2,6 +2,7 @@ package controller.unit;
 
 import controller.BaseController;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.unit.Leader;
 import domain.unit.LeaderExample;
 import domain.unit.LeaderExample.Criteria;
@@ -68,7 +69,7 @@ public class LeaderController extends BaseController {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if (cadre != null) {
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);
             }
         }
@@ -167,7 +168,7 @@ public class LeaderController extends BaseController {
             modelMap.put("leader", leader);
             Cadre cadre = cadreService.findAll().get(leader.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         return "unit/leader/leader_au";

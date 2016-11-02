@@ -1,24 +1,10 @@
-package domain.member;
+package domain.sys;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Teacher implements Serializable {
+public class TeacherInfo implements Serializable {
     private Integer userId;
-
-    private String code;
-
-    private String realname;
-
-    private Byte gender;
-
-    private Date birth;
-
-    private String nativePlace;
-
-    private String nation;
-
-    private String idcard;
 
     private String education;
 
@@ -66,12 +52,6 @@ public class Teacher implements Serializable {
 
     private String maritalStatus;
 
-    private String email;
-
-    private String mobile;
-
-    private String phone;
-
     private Boolean isRetire;
 
     private Date retireTime;
@@ -88,62 +68,6 @@ public class Teacher implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getNativePlace() {
-        return nativePlace;
-    }
-
-    public void setNativePlace(String nativePlace) {
-        this.nativePlace = nativePlace == null ? null : nativePlace.trim();
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard == null ? null : idcard.trim();
     }
 
     public String getEducation() {
@@ -328,30 +252,6 @@ public class Teacher implements Serializable {
 
     public void setMaritalStatus(String maritalStatus) {
         this.maritalStatus = maritalStatus == null ? null : maritalStatus.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
     }
 
     public Boolean getIsRetire() {

@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class AttachFile implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
 

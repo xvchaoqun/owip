@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +56,7 @@ public class DemocraticPartyController extends BaseController {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);
             }
         }

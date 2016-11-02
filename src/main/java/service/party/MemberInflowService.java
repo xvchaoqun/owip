@@ -4,6 +4,7 @@ import domain.party.EnterApply;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,7 +164,7 @@ public class MemberInflowService extends BaseMapper {
     @Transactional
     public void addInflowMember(int userId, boolean isDirect){
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getInflowStatus()!= SystemConstants.MEMBER_INFLOW_STATUS_APPLY)

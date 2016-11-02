@@ -7,6 +7,7 @@ import domain.member.MemberInExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInMixin;
@@ -196,7 +197,7 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:edit")
     @RequestMapping(value = "/memberIn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_au(@CurrentUser SysUser loginUser,MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberIn_au(@CurrentUser SysUserView loginUser,MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
                               String _growTime, String _positiveTime,
                               String _fromHandleTime, String _handleTime,
                               Byte resubmit,
@@ -290,7 +291,7 @@ public class MemberInController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
-    public String memberIn_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberIn_approval(@CurrentUser SysUserView loginUser, Integer id,
                                       byte type, // 1:分党委审核 2：组织部审核
                                       ModelMap modelMap) {
 
@@ -348,7 +349,7 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberIn_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                    //byte type, // 1:分党委审核 2：组织部审核
                                    @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -374,7 +375,7 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_party_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberIn_party_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
 
         memberInService.memberIn_check(ids, hasReceipt, (byte)1, loginUser.getId());
@@ -395,7 +396,7 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_back(@CurrentUser SysUser loginUser,
+    public Map do_memberIn_back(@CurrentUser SysUserView loginUser,
                                   @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
@@ -466,7 +467,7 @@ public class MemberInController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberIn record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             String[] values = {

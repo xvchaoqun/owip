@@ -1,13 +1,13 @@
 package controller.dispatch;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
 import domain.dispatch.DispatchCadreExample.Criteria;
-import domain.cadre.Cadre;
 import domain.dispatch.DispatchType;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.DispatchMixin;
 import mixin.UnitMixin;
@@ -100,7 +100,7 @@ public class DispatchCadreController extends BaseController {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);
             }
         }
@@ -220,7 +220,7 @@ public class DispatchCadreController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 
@@ -273,13 +273,13 @@ public class DispatchCadreController extends BaseController {
         for (int i = 0; i < rownum; i++) {
             DispatchCadre record = records.get(i);
             Dispatch dispatch = record.getDispatch();
-            SysUser sysUser =  record.getUser();
+            SysUserView uv =  record.getUser();
             String[] values = {
                     CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),
                     metaTypeService.getName(record.getWayId()),
                     metaTypeService.getName(record.getProcedureId()),
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
+                    uv.getCode(),
+                    uv.getRealname(),
                     metaTypeService.getName(record.getAdminLevelId()),
                     record.getUnitId()==null?"":record.getUnit().getName(),
                     record.getRemark()

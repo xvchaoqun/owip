@@ -2,6 +2,7 @@ package mapper;
 
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
+import domain.sys.SysUserView;
 import persistence.sys.SysUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,7 @@ public class UserMapperTest {
 	@Test
 	public void resetPasswd(){
 		String username = "admin";
-		SysUser user = userService.findByUsername(username);
+		SysUserView user = userService.findByUsername(username);
 		System.out.println(user.getRealname());
 		String encrypt = passwordHelper.encryptBySalt("111111", user.getSalt());
 		System.out.println(encrypt);

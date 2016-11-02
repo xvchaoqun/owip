@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -83,7 +84,7 @@ public class SysRoleController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysRole_au", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_au(@CurrentUser SysUser loginUser,
+	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
 			SysRole sysRole, 
 			@RequestParam(value="resIds[]",required=false) Integer[] resIds,
 			HttpServletRequest request) {
@@ -148,7 +149,7 @@ public class SysRoleController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_del(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysRole_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
 		
 		if(id!=null){
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
@@ -162,7 +163,7 @@ public class SysRoleController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
 
 		if(id!=null){
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);

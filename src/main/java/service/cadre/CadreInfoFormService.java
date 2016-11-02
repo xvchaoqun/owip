@@ -5,6 +5,7 @@ import domain.cadre.*;
 import domain.member.Member;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -49,21 +50,21 @@ public class CadreInfoFormService extends BaseMapper{
     public CadreInfoForm getCadreInfoForm(int cadreId){
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-        SysUser sysUser = cadre.getUser();
+        SysUserView uv = cadre.getUser();
 
         CadreInfoForm bean = new CadreInfoForm();
         bean.setCadreId(cadreId);
-        bean.setCode(sysUser.getCode());
-        bean.setRealname(sysUser.getRealname());
-        bean.setGender(sysUser.getGender());
-        bean.setBirth(sysUser.getBirth());
-        bean.setAge(DateUtils.intervalYearsUntilNow(sysUser.getBirth()));
+        bean.setCode(uv.getCode());
+        bean.setRealname(uv.getRealname());
+        bean.setGender(uv.getGender());
+        bean.setBirth(uv.getBirth());
+        bean.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
         // 行政级别
         bean.setAdminLevel(cadre.getTypeId());
-        bean.setIdCard(sysUser.getIdcard());
+        bean.setIdCard(uv.getIdcard());
 
         File avatar =  new File(springProps.avatarFolder + File.separator
-                + sysUser.getId()%100 + File.separator + sysUser.getCode() +".jpg");
+                + uv.getId()%100 + File.separator + uv.getCode() +".jpg");
         if(!avatar.exists()) avatar = new File(springProps.avatarFolder + springProps.defaultAvatar);
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);
@@ -74,7 +75,7 @@ public class CadreInfoFormService extends BaseMapper{
         if(cadre.getIsDp()){
             bean.setGrowTime(cadre.getDpAddTime());
         }else{
-            Member member = memberService.get(sysUser.getId());
+            Member member = memberService.get(uv.getId());
             bean.setGrowTime(member == null ? null :member.getGrowTime());
         }
 
@@ -168,7 +169,7 @@ public class CadreInfoFormService extends BaseMapper{
 
         dataMap.put("health", bean.getHealth());
         dataMap.put("proPost", bean.getProPost());
-        dataMap.put("professinal", bean.getProfessinal());
+        dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("degree", bean.getDegree());
         dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());

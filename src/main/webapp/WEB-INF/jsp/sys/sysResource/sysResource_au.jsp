@@ -190,7 +190,7 @@
 						success:function(data){
 							if(data.success){
 								_reload();
-								SysMsg.success('操作成功。', '成功');
+								//SysMsg.success('操作成功。', '成功');
 							}
 						},error:function(ret){
 							

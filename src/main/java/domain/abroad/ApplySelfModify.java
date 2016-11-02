@@ -1,7 +1,7 @@
 package domain.abroad;
 
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,10 +9,10 @@ import java.util.Date;
 
 public class ApplySelfModify implements Serializable {
 
-    public SysUser getModifyUser() {
+    public SysUserView getModifyUser() {
         return CmTag.getUserById(modifyUserId);
     }
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

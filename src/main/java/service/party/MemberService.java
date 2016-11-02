@@ -8,11 +8,15 @@ import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.party.GraduateAbroad;
 import domain.party.GraduateAbroadExample;
-import domain.sys.SysUser;
+import domain.sys.StudentInfo;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +80,8 @@ public class MemberService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         // 更新系统角色  党员->访客
-        SysUser sysUser = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, sysUser.getUsername(), sysUser.getCode());
+        SysUserView uv = sysUserService.findById(userId);
+        sysUserService.changeRoleMemberToGuest(userId, uv.getUsername(), uv.getCode());
     }
 
     /**
@@ -94,8 +98,8 @@ public class MemberService extends BaseMapper {
         int ret = updateByPrimaryKeySelective(record);
         if(ret>0) {
             // 更新系统角色  访客->党员
-            SysUser sysUser = sysUserService.findById(userId);
-            sysUserService.changeRoleGuestToMember(userId, sysUser.getUsername(), sysUser.getCode());
+            SysUserView uv = sysUserService.findById(userId);
+            sysUserService.changeRoleGuestToMember(userId, uv.getUsername(), uv.getCode());
         }
     }
 
@@ -111,12 +115,12 @@ public class MemberService extends BaseMapper {
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         Byte type = sysUser.getType();
         if(type== SystemConstants.USER_TYPE_JZG){
 
             // 同步教职工信息到ow_member_teacher表
-            snycTeacher(userId, sysUser);
+            snycTeacherInfo(userId, sysUser);
         }else if(type==SystemConstants.USER_TYPE_BKS){
 
             // 同步本科生信息到 ow_member_student表
@@ -146,23 +150,23 @@ public class MemberService extends BaseMapper {
         }
 
         Integer userId = record.getUserId();
-        SysUser sysUser = sysUserService.findById(userId);
-        Byte type = sysUser.getType();
+        SysUserView uv = sysUserService.findById(userId);
+        Byte type = uv.getType();
         if(type== SystemConstants.USER_TYPE_JZG){
 
             // 同步教职工信息到ow_member_teacher表
             record.setType(SystemConstants.MEMBER_TYPE_TEACHER); // 教职工党员
-            snycTeacher(userId, sysUser);
+            snycTeacherInfo(userId, uv);
         }else if(type==SystemConstants.USER_TYPE_BKS){
 
             // 同步本科生信息到 ow_member_student表
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            snycStudent(userId, sysUser);
+            snycStudent(userId, uv);
         }else if(type==SystemConstants.USER_TYPE_YJS){
 
             // 同步研究生信息到 ow_member_student表
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            snycStudent(userId, sysUser);
+            snycStudent(userId, uv);
         }else{
             throw new DBErrorException("添加失败，该账号不是教工或学生");
         }
@@ -170,7 +174,7 @@ public class MemberService extends BaseMapper {
         Member _member = get(userId);
         if(_member!=null && _member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
             // 允许挂职干部转出后用原账号转入
-            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record)==1);
+            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1);
         }else if(_member==null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1);
         }else throw new RuntimeException("数据异常，入党失败");
@@ -180,41 +184,48 @@ public class MemberService extends BaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
+                SystemConstants.ROLE_MEMBER, uv.getUsername(), uv.getCode());
     }
 
 
-    // 同步教职工党员信息
-    public  void snycTeacher(int userId , SysUser sysUser){
+    // 同步教职工信息
+    public  void snycTeacherInfo(int userId, SysUserView uv){
 
-        String code = sysUser.getCode();
-        Teacher teacher = new Teacher();
+        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+
+        // 基本信息
+        SysUserInfo ui = new SysUserInfo();
+        ui.setUserId(userId);
+
+        String code = uv.getCode();
+        // 教工信息
+        TeacherInfo teacher = new TeacherInfo();
         teacher.setUserId(userId);
-        teacher.setCode(code);
-        teacher.setRealname(sysUser.getRealname()); // 如果是后台添加的用户，则需要同步姓名和身份号码
-        teacher.setIdcard(sysUser.getIdcard());
         teacher.setIsRetire(false); // 此值不能为空
         teacher.setCreateTime(new Date());
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
-            teacher.setRealname(extJzg.getXm());
-            // 性别
-            String xbm = extJzg.getXbm();
-            if(StringUtils.equals(xbm, "1"))
-                teacher.setGender(SystemConstants.GENDER_MALE);
-            else if(StringUtils.equals(xbm, "2"))
-                teacher.setGender(SystemConstants.GENDER_FEMALE);
-            else
-                teacher.setGender(SystemConstants.GENDER_UNKNOWN);
 
-            // 出生年月
-            teacher.setBirth(extJzg.getCsrq());
+            ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extJzg.getXm()),
+                    StringUtils.trim(extJzg.getXmpy())));
+            ui.setGender(NumberUtils.toByte(extJzg.getXbm()));
+            ui.setBirth(extJzg.getCsrq());
+            ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
+            ui.setNativePlace(extJzg.getJg());
+            ui.setNation(extJzg.getMz());
+            ui.setIdcard(extJzg.getSfzh());
+            ui.setEmail(extJzg.getDzxx());
+
+            // 手机号码为空才同步20161102  （手机号不同步人事库 20160616修改）
+            if(sysUserInfo==null || StringUtils.isBlank(sysUserInfo.getMobile()))
+                ui.setMobile(extJzg.getYddh());
+
+            ui.setHomePhone(extJzg.getJtdh());
 
             //+++++++++++++ 同步后面一系列属性
-            teacher.setNativePlace(extJzg.getJg());
-            teacher.setNation(extJzg.getMz());
-            teacher.setIdcard(extJzg.getSfzh());
+
             teacher.setEducation(extJzg.getZhxlmc());
             teacher.setDegree(extJzg.getZhxw());
             //teacher.setDegreeTime(); 学位授予日期
@@ -239,9 +250,6 @@ public class MemberService extends BaseMapper {
             teacher.setTalentTitle(extJzg.getRcch());
             // teacher.setAddress(extJzg.getjz); 居住地址
             // teacher.setMaritalStatus(); 婚姻状况
-            teacher.setEmail(extJzg.getDzxx());
-            teacher.setMobile(extJzg.getYddh());
-            teacher.setPhone(extJzg.getJtdh());
 
             // 是否退休 :在岗，退休，病休，离校，待聘,内退,离休, NULL
             //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
@@ -255,45 +263,56 @@ public class MemberService extends BaseMapper {
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
         }
 
-        if(teacherMapper.selectByPrimaryKey(userId)==null)
-            teacherMapper.insertSelective(teacher);
+        if(sysUserInfo==null)
+            sysUserInfoMapper.insertSelective(ui);
         else
-            teacherMapper.updateByPrimaryKey(teacher);
+            sysUserInfoMapper.updateByPrimaryKey(ui);
+
+        if(teacherInfo==null)
+            teacherInfoMapper.insertSelective(teacher);
+        else
+            teacherInfoMapper.updateByPrimaryKey(teacher);
     }
 
     // 同步学生党员信息
-    public void snycStudent(int userId, SysUser sysUser){
+    public void snycStudent(int userId, SysUserView uv){
 
-        String code = sysUser.getCode();
+        StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
 
-        Student student = new Student();
+        SysUserInfo ui = new SysUserInfo();
+        ui.setUserId(userId);
+
+        String code = uv.getCode();
+        StudentInfo student = new StudentInfo();
         student.setUserId(userId);
-        student.setCode(code);
-        student.setRealname(sysUser.getRealname());
-        student.setIdcard(sysUser.getIdcard());
         student.setCreateTime(new Date());
-        byte userType = sysUser.getType();
+        byte userType = uv.getType();
 
         if(userType ==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
             ExtBks extBks = extService.getExtBks(code);
             if(extBks!=null){
-                student.setRealname(extBks.getXm());
-                // 性别
-                String xb = extBks.getXb();
-                if(StringUtils.equals(xb, "男"))
-                    student.setGender(SystemConstants.GENDER_MALE);
-                else if(StringUtils.equals(xb, "女"))
-                    student.setGender(SystemConstants.GENDER_FEMALE);
-                else
-                    student.setGender(SystemConstants.GENDER_UNKNOWN);
 
-                // 出生年月
-                student.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
+                ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extBks.getXm()),
+                        StringUtils.trim(extBks.getXmpy())));
+
+                if (StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
+                    ui.setGender(SystemConstants.GENDER_MALE);
+                else if (StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
+                    ui.setGender(SystemConstants.GENDER_FEMALE);
+                else
+                    ui.setGender(SystemConstants.GENDER_UNKNOWN);
+
+                if (StringUtils.isNotBlank(extBks.getCsrq()))
+                    ui.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
+                ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
+                //ui.setMobile(StringUtils.trim(extBks.getYddh()));
+                //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
+                ui.setNation(extBks.getMz());
+                ui.setNativePlace(extBks.getSf()); // 籍贯
+                ui.setIdcard(extBks.getSfzh());
 
                 //+++++++++++++ 同步后面一系列属性
-                student.setNation(extBks.getMz());
-                student.setNativePlace(extBks.getSf());
-                student.setIdcard(extBks.getSfzh());
                 student.setType(extBks.getKslb());
                 //student.setEduLevel(extBks.getPycc()); 培养层次
                 //student.setEduType(extBks.getPylx()); 培养类型
@@ -315,23 +334,20 @@ public class MemberService extends BaseMapper {
         if(userType==SystemConstants.USER_TYPE_YJS){  // 同步研究生信息
             ExtYjs extYjs = extService.getExtYjs(code);
             if(extYjs!=null){
-                student.setRealname(extYjs.getXm());
-                // 性别
-                String xbm = extYjs.getXbm();
-                if(StringUtils.equals(xbm, "1"))
-                    student.setGender(SystemConstants.GENDER_MALE);
-                else if(StringUtils.equals(xbm, "2"))
-                    student.setGender(SystemConstants.GENDER_FEMALE);
-                else
-                    student.setGender(SystemConstants.GENDER_UNKNOWN);
 
-                // 出生年月
-                student.setBirth(DateUtils.parseDate(StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
+                ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extYjs.getXm()),
+                        StringUtils.trim(extYjs.getXmpy())));
+                ui.setGender(NumberUtils.toByte(extYjs.getXbm()));
+                if (StringUtils.isNotBlank(extYjs.getCsrq()))
+                    ui.setBirth(DateUtils.parseDate(StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
+                ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
+                //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
+                //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
+                ui.setNation(extYjs.getMz());
+                //ui.setNativePlace(extYjs.get); 籍贯
+                ui.setIdcard(extYjs.getSfzh());
 
                 //+++++++++++++ 同步后面一系列属性
-                student.setNation(extYjs.getMz());
-                //student.setNativePlace(extYjs.get); 籍贯
-                student.setIdcard(extYjs.getSfzh());
                 student.setType(extYjs.getXslb());
                 student.setEduLevel(extYjs.getPycc());
                 student.setEduType(extYjs.getPylx());
@@ -351,10 +367,15 @@ public class MemberService extends BaseMapper {
             }
         }
 
-        if(studentMapper.selectByPrimaryKey(userId)==null)
-            studentMapper.insertSelective(student);
+        if(sysUserInfo==null)
+            sysUserInfoMapper.insertSelective(ui);
         else
-            studentMapper.updateByPrimaryKey(student);
+            sysUserInfoMapper.updateByPrimaryKey(ui);
+
+        if(studentInfo==null)
+            studentInfoMapper.insertSelective(student);
+        else
+            studentInfoMapper.updateByPrimaryKey(student);
     }
 
     /*@Transactional
@@ -465,10 +486,10 @@ public class MemberService extends BaseMapper {
         }
 
         for (Integer userId : userIds) {
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView uv = sysUserService.findById(userId);
             // 更新系统角色  党员->访客
             sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER,
-                    SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
+                    SystemConstants.ROLE_GUEST, uv.getUsername(), uv.getCode());
         }
     }
     // 系统内部使用，更新党员状态、党籍状态等

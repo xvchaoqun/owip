@@ -4,6 +4,7 @@ import domain.party.BranchMember;
 import domain.party.BranchMemberGroup;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,7 +48,7 @@ public class BranchMemberAdminService extends BaseMapper {
         if (branchMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作
 
             Integer userId = branchMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             if (branchMember.getIsAdmin()) {
                 // 删除账号的"党支部管理员"角色
                 // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理

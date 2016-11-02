@@ -84,9 +84,9 @@ public class ImportTest {
             sysUser.setSalt(encrypt.getSalt());
             sysUser.setPasswd(encrypt.getPassword());
             sysUser.setCreateTime(new Date());
-            sysUser.setRealname(xlsUser.getRealname());
+            /*sysUser.setRealname(xlsUser.getRealname());
             sysUser.setBirth(DateUtils.parseDate(birth, DateUtils.YYYYMMDD));
-            sysUser.setIdcard(xlsUser.getIdcard());
+            sysUser.setIdcard(xlsUser.getIdcard());*/
             sysUser.setType(SystemConstants.USER_TYPE_JZG);
             sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
             sysUser.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));

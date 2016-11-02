@@ -13,6 +13,7 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -101,9 +102,9 @@ public class CadreService extends BaseMapper {
 
             Cadre record = new Cadre();
             String userCode = uRow.getUserCode();
-            SysUser sysUser = sysUserService.findByCode(userCode);
-            if(sysUser== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
-            record.setUserId(sysUser.getId());
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            record.setUserId(uv.getId());
             record.setStatus(status);
             record.setTypeId(uRow.getAdminLevel());
             record.setPostId(uRow.getPostId());
@@ -115,7 +116,7 @@ public class CadreService extends BaseMapper {
             record.setTitle(uRow.getTitle());
             record.setRemark(uRow.getRemark());
 
-            if (idDuplicate(null, sysUser.getId())) {
+            if (idDuplicate(null, uv.getId())) {
                 throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode()+"重复");
             }
 
@@ -194,8 +195,8 @@ public class CadreService extends BaseMapper {
                 int cadreId = cadre.getId();
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
-                node.title = sysUser.getRealname() + (title!=null?("-" + title):"");
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
+                node.title = uv.getRealname() + (title!=null?("-" + title):"");
                 node.key =  cadreId + "";
 
                 if (enableSelect && selectIdSet.contains(cadreId)) {
@@ -328,8 +329,8 @@ public class CadreService extends BaseMapper {
                 int cadreId = bean.getCadreId();
                 TreeNode node = new TreeNode();
                 Cadre cadre = cadreMap.get(cadreId);
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
-                node.title = sysUser.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
+                node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
                 (bean.additional?"(兼审单位)":"");
 
                 if(bean.additional) {
@@ -468,9 +469,9 @@ public class CadreService extends BaseMapper {
     })
     public int insertSelective(Cadre record){
 
-        SysUser sysUser = sysUserService.findById(record.getUserId());
+        SysUserView uv = sysUserService.findById(record.getUserId());
         // 添加干部身份
-        sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
         record.setIsDp(false);// 初次添加标记为非民主党派
         cadreMapper.insertSelective(record);

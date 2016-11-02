@@ -4,6 +4,7 @@ import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -301,7 +302,7 @@ public class MemberApplyService extends BaseMapper {
     @Transactional
     public void memberGrow(int userId, Date growTime) {
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
         if(sysUser==null || memberApply==null) throw new DBErrorException("系统错误");
 

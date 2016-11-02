@@ -5,6 +5,7 @@ import domain.party.Branch;
 import domain.member.MemberInflow;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class UserMemberInflowController extends BaseController{
 
     @RequiresRoles("inflowMember")
     @RequestMapping("/memberInflow_base_page")
-    public String memberInflow_base_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberInflow_base_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         MemberInflow memberInflow = memberInflowService.get(userId);
@@ -49,14 +50,14 @@ public class UserMemberInflowController extends BaseController{
 
     @RequiresRoles("inflowMember")
     @RequestMapping("/memberInflowOut")
-    public String memberInflowOut(@CurrentUser SysUser loginUser) {
+    public String memberInflowOut(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("inflowMember")
     @RequestMapping("/memberInflowOut_page")
-    public String memberInflowOut_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberInflowOut_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
@@ -84,7 +85,7 @@ public class UserMemberInflowController extends BaseController{
     @RequiresRoles("inflowMember")
     @RequestMapping(value = "/memberInflowOut", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflowOut(@CurrentUser SysUser loginUser, String outUnit, Integer outLocation,
+    public Map do_memberInflowOut(@CurrentUser SysUserView loginUser, String outUnit, Integer outLocation,
                                String _outTime, HttpServletRequest request) {
 
 
@@ -106,7 +107,7 @@ public class UserMemberInflowController extends BaseController{
     @RequiresRoles("inflowMember")
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberInflowOut_back(@CurrentUser SysUser loginUser, String remark){
+    public Map memberInflowOut_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         memberInflowOutService.back(userId);

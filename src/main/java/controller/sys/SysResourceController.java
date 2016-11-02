@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -47,7 +48,7 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_au(@CurrentUser SysUser loginUser, SysResource sysResource, HttpServletRequest request) {
+	public Map do_sysResource_au(@CurrentUser SysUserView loginUser, SysResource sysResource, HttpServletRequest request) {
 
 		SysResourceExample example = new SysResourceExample();
 		example.createCriteria().andNameEqualTo(sysResource.getPermission());
@@ -109,7 +110,7 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_del(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysResource_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
 		
 		if(id!=null){
 			

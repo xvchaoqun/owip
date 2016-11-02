@@ -71,7 +71,7 @@ pageEncoding="UTF-8" %>
         $.post("${ctx}/unitAdmin_changeOrder",{id:id, addNum:addNum},function(ret){
             if(ret.success) {
                 unitAdmin_page("${param.groupId}");
-                SysMsg.success('操作成功。', '成功');
+                //SysMsg.success('操作成功。', '成功');
             }
         });
     });
@@ -88,7 +88,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/unitAdmin_del", {id: id}, function (ret) {
                     if (ret.success) {
                         unitAdmin_page("${param.groupId}");
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

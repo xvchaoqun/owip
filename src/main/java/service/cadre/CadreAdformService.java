@@ -4,6 +4,7 @@ import bean.CadreAdform;
 import domain.cadre.*;
 import domain.member.Member;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +54,17 @@ public class CadreAdformService extends BaseMapper{
     public CadreAdform getCadreAdform(int cadreId){
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-        SysUser sysUser = cadre.getUser();
+        SysUserView uv = cadre.getUser();
 
         CadreAdform bean = new CadreAdform();
         bean.setCadreId(cadreId);
-        bean.setRealname(sysUser.getRealname());
-        bean.setGender(sysUser.getGender());
-        bean.setBirth(sysUser.getBirth());
-        bean.setAge(DateUtils.intervalYearsUntilNow(sysUser.getBirth()));
+        bean.setRealname(uv.getRealname());
+        bean.setGender(uv.getGender());
+        bean.setBirth(uv.getBirth());
+        bean.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
 
         File avatar =  new File(springProps.avatarFolder + File.separator
-                + sysUser.getId()%100 + File.separator + sysUser.getCode() +".jpg");
+                + uv.getId()%100 + File.separator + uv.getCode() +".jpg");
         if(!avatar.exists()) avatar = new File(springProps.avatarFolder + springProps.defaultAvatar);
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);
@@ -73,7 +74,7 @@ public class CadreAdformService extends BaseMapper{
         if(cadre.getIsDp()){
             bean.setGrowTime(cadre.getDpAddTime());
         }else{
-            Member member = memberService.get(sysUser.getId());
+            Member member = memberService.get(uv.getId());
             bean.setGrowTime(member == null ? null :member.getGrowTime());
         }
 
@@ -160,7 +161,7 @@ public class CadreAdformService extends BaseMapper{
                 famliy += getFamliySeg(cadreFamliys.get(i), "/adform/famliy.ftl");
         }
         dataMap.put("famliy", famliy);
-        SysUser currentUser = ShiroSecurityHelper.getCurrentUser();
+        SysUserView currentUser = ShiroSecurityHelper.getCurrentUser();
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
 

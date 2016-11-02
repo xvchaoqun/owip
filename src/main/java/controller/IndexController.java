@@ -2,6 +2,7 @@ package controller;
 
 import domain.sys.HtmlFragment;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -74,7 +75,7 @@ public class IndexController extends BaseController {
 	}
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index_page")
-	public String home_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+	public String home_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
 		if(SecurityUtils.getSubject().hasRole("reg")){
 			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
@@ -86,7 +87,7 @@ public class IndexController extends BaseController {
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/user_base")
-	public String user_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+	public String user_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
 		modelMap.put("sysUser", loginUser);
 

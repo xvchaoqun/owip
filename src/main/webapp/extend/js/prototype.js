@@ -41,6 +41,17 @@ String.prototype.NoMultiSpace = function()
     return this.replace(/\s{2}/g, " ").trim();
 }
 
+String.prototype.htmlencode = function(){
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(this));
+    return div.innerHTML;
+}
+String.prototype.htmldecode = function(){
+    var div = document.createElement('div');
+    div.innerHTML = this;
+    return div.innerText || div.textContent;
+}
+
 Array.prototype.indexOf = function(val) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == val) return i;

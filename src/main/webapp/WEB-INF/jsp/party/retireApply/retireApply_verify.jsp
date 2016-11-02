@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         page_reload();
-                        SysMsg.success('审核成功。', '提示');
+                        //SysMsg.success('审核成功。', '提示');
                     }
                 }
             });

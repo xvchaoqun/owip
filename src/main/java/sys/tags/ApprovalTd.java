@@ -3,7 +3,7 @@ package sys.tags;
 import bean.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -125,7 +125,7 @@ public class ApprovalTd extends BodyTagSupport {
             SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
             Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
             if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
                 td += String.format("<td><button data-id=\"%s\" data-userid=\"%s\" data-status=\"%s\" data-name=\"%s\"" +

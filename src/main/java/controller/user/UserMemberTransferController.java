@@ -7,6 +7,7 @@ import domain.member.MemberTransfer;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -35,14 +36,14 @@ public class UserMemberTransferController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberTransfer")
-    public String memberTransfer(@CurrentUser SysUser loginUser) {
+    public String memberTransfer(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("member")
     @RequestMapping("/memberTransfer_page")
-    public String memberTransfer_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberTransfer_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         Integer userId = loginUser.getId();
         UserBean userBean = userBeanService.get(userId);
@@ -78,7 +79,7 @@ public class UserMemberTransferController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,
+    public Map do_memberTransfer_au(@CurrentUser SysUserView loginUser,
                                    MemberTransfer record, String _payTime, String _fromHandleTime,  HttpServletRequest request) {
 
         Integer userId = loginUser.getId();
@@ -132,7 +133,7 @@ public class UserMemberTransferController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberTransfer_back(@CurrentUser SysUser loginUser, String remark){
+    public Map memberTransfer_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         memberTransferService.back(userId);

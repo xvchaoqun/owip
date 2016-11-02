@@ -4,6 +4,7 @@ import bean.ApproverTypeBean;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -44,7 +45,7 @@ public class MobileLoginController extends BaseController {
 										HttpServletRequest request,
 										HttpServletResponse response) throws IOException {
 
-		SysUser sysUser = sysUserService.findByUsername(username);
+		SysUserView sysUser = sysUserService.findByUsername(username);
 		if(sysUser==null){
 			logger.info(sysLoginLogService.log(null, username,
 					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，用户不存在"));
@@ -83,7 +84,7 @@ public class MobileLoginController extends BaseController {
 			logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
 
 			String msg;
-			SysUser sysUser = sysUserService.findByUsername(username);
+			SysUserView sysUser = sysUserService.findByUsername(username);
 			if(sysUser==null){
 				msg = "登录失败，用户名不存在";
 			}else{
@@ -112,7 +113,7 @@ public class MobileLoginController extends BaseController {
 
 	@RequestMapping("/logout")
 	@ResponseBody
-	public Map logout(@CurrentUser SysUser loginUser,  HttpSession session) {
+	public Map logout(@CurrentUser SysUserView loginUser,  HttpSession session) {
 
 		SecurityUtils.getSubject().logout();
 

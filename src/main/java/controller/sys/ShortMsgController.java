@@ -6,6 +6,7 @@ import domain.sys.ShortMsg;
 import domain.sys.ShortMsgExample;
 import domain.sys.ShortMsgExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,7 +39,7 @@ public class ShortMsgController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/shortMsg_view")
-    public String shortMsg_view(@CurrentUser SysUser loginUser,
+    public String shortMsg_view(@CurrentUser SysUserView loginUser,
                                 String type, // passport
                                 Integer id, ModelMap modelMap) {
 
@@ -51,7 +52,7 @@ public class ShortMsgController extends BaseController {
     @RequiresPermissions("ShortMsg:send")
     @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsg(@CurrentUser SysUser loginUser, String type, Integer id, HttpServletRequest request) {
+    public Map do_shortMsg(@CurrentUser SysUserView loginUser, String type, Integer id, HttpServletRequest request) {
 
         ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
 

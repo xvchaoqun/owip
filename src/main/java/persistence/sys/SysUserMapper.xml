@@ -7,17 +7,8 @@
     <result column="passwd" property="passwd" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="realname" property="realname" jdbcType="VARCHAR" />
-    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="TINYINT" />
-    <result column="birth" property="birth" jdbcType="DATE" />
-    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
-    <result column="sign" property="sign" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="source" property="source" jdbcType="TINYINT" />
     <result column="locked" property="locked" jdbcType="BIT" />
@@ -81,8 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, passwd, salt, role_ids, type, code, realname, avatar, gender, birth, 
-    idcard, sign, phone, mobile, email, create_time, source, locked
+    id, username, passwd, salt, role_ids, code, type, create_time, source, locked
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.SysUserExample" >
     select
@@ -116,18 +106,12 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.sys.SysUser" >
     insert into sys_user (id, username, passwd, 
-      salt, role_ids, type, 
-      code, realname, avatar, 
-      gender, birth, idcard, 
-      sign, phone, mobile, 
-      email, create_time, source, 
+      salt, role_ids, code, 
+      type, create_time, source, 
       locked)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
-      #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, 
-      #{sign,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT}, 
+      #{salt,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT}, 
       #{locked,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.sys.SysUser" >
@@ -148,38 +132,11 @@
       <if test="roleIds != null" >
         role_ids,
       </if>
-      <if test="type != null" >
-        type,
-      </if>
       <if test="code != null" >
         code,
       </if>
-      <if test="realname != null" >
-        realname,
-      </if>
-      <if test="avatar != null" >
-        avatar,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="birth != null" >
-        birth,
-      </if>
-      <if test="idcard != null" >
-        idcard,
-      </if>
-      <if test="sign != null" >
-        sign,
-      </if>
-      <if test="phone != null" >
-        phone,
-      </if>
-      <if test="mobile != null" >
-        mobile,
-      </if>
-      <if test="email != null" >
-        email,
+      <if test="type != null" >
+        type,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -207,38 +164,11 @@
       <if test="roleIds != null" >
         #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
-      </if>
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="realname != null" >
-        #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null" >
-        #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="birth != null" >
-        #{birth,jdbcType=DATE},
-      </if>
-      <if test="idcard != null" >
-        #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="sign != null" >
-        #{sign,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null" >
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -275,38 +205,11 @@
       <if test="record.roleIds != null" >
         role_ids = #{record.roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
-      </if>
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.realname != null" >
-        realname = #{record.realname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.avatar != null" >
-        avatar = #{record.avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="record.gender != null" >
-        gender = #{record.gender,jdbcType=TINYINT},
-      </if>
-      <if test="record.birth != null" >
-        birth = #{record.birth,jdbcType=DATE},
-      </if>
-      <if test="record.idcard != null" >
-        idcard = #{record.idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sign != null" >
-        sign = #{record.sign,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phone != null" >
-        phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mobile != null" >
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -329,17 +232,8 @@
       passwd = #{record.passwd,jdbcType=VARCHAR},
       salt = #{record.salt,jdbcType=VARCHAR},
       role_ids = #{record.roleIds,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      avatar = #{record.avatar,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=TINYINT},
-      birth = #{record.birth,jdbcType=DATE},
-      idcard = #{record.idcard,jdbcType=VARCHAR},
-      sign = #{record.sign,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       source = #{record.source,jdbcType=TINYINT},
       locked = #{record.locked,jdbcType=BIT}
@@ -362,38 +256,11 @@
       <if test="roleIds != null" >
         role_ids = #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
-      </if>
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="realname != null" >
-        realname = #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null" >
-        avatar = #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="birth != null" >
-        birth = #{birth,jdbcType=DATE},
-      </if>
-      <if test="idcard != null" >
-        idcard = #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="sign != null" >
-        sign = #{sign,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null" >
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -413,17 +280,8 @@
       passwd = #{passwd,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       role_ids = #{roleIds,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
-      realname = #{realname,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
-      birth = #{birth,jdbcType=DATE},
-      idcard = #{idcard,jdbcType=VARCHAR},
-      sign = #{sign,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       source = #{source,jdbcType=TINYINT},
       locked = #{locked,jdbcType=BIT}

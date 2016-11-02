@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.member.Member;
 import domain.party.*;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.GraduateAbroadMixin;
@@ -297,7 +298,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("graduateAbroad:list")
     @RequestMapping("/graduateAbroad_approval")
-    public String graduateAbroad_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUser loginUser, Integer id,
+    public String graduateAbroad_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUserView loginUser, Integer id,
                                     byte type, // 1:支部审核 2:分党委审核 3：组织部审核
                                     ModelMap modelMap) {
 
@@ -381,7 +382,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresPermissions("graduateAbroad:update")
     @RequestMapping(value = "/graduateAbroad_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_graduateAbroad_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_graduateAbroad_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:支部审核 2:分党委审核 3：组织部审核
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -405,7 +406,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresPermissions("graduateAbroad:update")
     @RequestMapping(value = "/graduateAbroad_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_graduateAbroad_back(@CurrentUser SysUser loginUser,
+    public Map do_graduateAbroad_back(@CurrentUser SysUserView loginUser,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
@@ -439,7 +440,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresPermissions("graduateAbroad:update")
     @RequestMapping(value = "/graduateAbroad_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_graduateAbroad_transfer(@CurrentUser SysUser loginUser,
+    public Map do_graduateAbroad_transfer(@CurrentUser SysUserView loginUser,
                                       @RequestParam(value = "ids[]") Integer[] ids,
                                       Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
 
@@ -453,7 +454,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresPermissions("graduateAbroad:edit")
     @RequestMapping(value = "/graduateAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_graduateAbroad_au(@CurrentUser SysUser loginUser,GraduateAbroad record,
+    public Map do_graduateAbroad_au(@CurrentUser SysUserView loginUser,GraduateAbroad record,
                                 String _startTime, String _endTime,
                                 String _saveStartTime, String _saveEndTime,
                                 String _payTime,  HttpServletRequest request) {
@@ -540,7 +541,7 @@ public class GraduateAbroadController extends BaseController {
     @RequiresPermissions("graduateAbroad:edit")
     @RequestMapping(value = "/graduateAbroad_transfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map graduateAbroad_transfer_au(@CurrentUser SysUser loginUser,
+    public Map graduateAbroad_transfer_au(@CurrentUser SysUserView loginUser,
                                           int id,  int branchId, int orgBranchAdminId, String orgBranchAdminPhone, HttpServletRequest request) {
 
         GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
@@ -586,7 +587,7 @@ public class GraduateAbroadController extends BaseController {
 
             // 原支部负责人
             if(graduateAbroad.getOrgBranchAdminId()!=null) {
-                SysUser sysUser = sysUserService.findById(graduateAbroad.getOrgBranchAdminId());
+                SysUserView sysUser = sysUserService.findById(graduateAbroad.getOrgBranchAdminId());
                 modelMap.put("sysUser", sysUser);
             }
 
@@ -635,7 +636,7 @@ public class GraduateAbroadController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             GraduateAbroadView record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             String[] values = {

@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.member.Member;
 import domain.member.MemberStay;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -34,14 +35,14 @@ public class UserMemberStayController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberStay")
-    public String memberStay(@CurrentUser SysUser loginUser) {
+    public String memberStay(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("member")
     @RequestMapping("/memberStay_page")
-    public String memberStay_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberStay_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 
@@ -60,7 +61,7 @@ public class UserMemberStayController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_au(@CurrentUser SysUser loginUser,
+    public Map do_memberStay_au(@CurrentUser SysUserView loginUser,
                                    MemberStay record,
                                    String _abroadTime, String _returnTime, String _payTime,HttpServletRequest request) {
 
@@ -119,7 +120,7 @@ public class UserMemberStayController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberStay_back(@CurrentUser SysUser loginUser, String remark){
+    public Map memberStay_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         memberStayService.back(userId);

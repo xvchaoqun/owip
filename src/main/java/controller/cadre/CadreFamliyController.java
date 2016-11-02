@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.*;
 import domain.cadre.CadreFamliyExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +57,7 @@ public class CadreFamliyController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
@@ -172,7 +173,7 @@ public class CadreFamliyController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         if (id != null) {

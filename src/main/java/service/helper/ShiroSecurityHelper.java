@@ -1,6 +1,6 @@
 package service.helper;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -23,7 +23,7 @@ public class ShiroSecurityHelper {
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
 
-	public static SysUser getCurrentUser() {
+	public static SysUserView getCurrentUser() {
 
 		if (!hasAuthenticated()) {
 			return null;

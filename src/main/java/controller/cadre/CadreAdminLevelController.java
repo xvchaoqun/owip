@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreAdminLevel;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -58,7 +59,7 @@ public class CadreAdminLevelController extends BaseController {
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreAdminLevel/cadreAdminLevel_au";

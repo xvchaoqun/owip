@@ -9,6 +9,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberOutflowMixin;
@@ -50,7 +51,7 @@ public class MemberOutflowController extends BaseController {
     @RequestMapping("/memberOutflow_view")
     public String memberOutflow_view(int userId, ModelMap modelMap) {
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
 
         MemberOutflow memberOutflow = memberOutflowService.get(sysUser.getId());
@@ -258,7 +259,7 @@ public class MemberOutflowController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_approval")
-    public String memberOutflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUser loginUser, Integer id,
+    public String memberOutflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
                                          byte type, // 1:支部审核 2：分党委审核
                                          ModelMap modelMap) {
 
@@ -318,7 +319,7 @@ public class MemberOutflowController extends BaseController {
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberOutflow_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:支部审核 2：分党委审核
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -342,7 +343,7 @@ public class MemberOutflowController extends BaseController {
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_back(@CurrentUser SysUser loginUser,
+    public Map do_memberOutflow_back(@CurrentUser SysUserView loginUser,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
@@ -357,7 +358,7 @@ public class MemberOutflowController extends BaseController {
     @RequiresPermissions("memberOutflow:edit")
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOutflow_au(@CurrentUser SysUser loginUser,MemberOutflow record, String _flowTime, HttpServletRequest request) {
+    public Map do_memberOutflow_au(@CurrentUser SysUserView loginUser,MemberOutflow record, String _flowTime, HttpServletRequest request) {
 
         Integer id = record.getId();
         if (memberOutflowService.idDuplicate(id, record.getUserId())) {
@@ -465,7 +466,7 @@ public class MemberOutflowController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOutflowView record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();

@@ -458,8 +458,9 @@ $(document).on("click", ".popupBtn", function(e){
 // 编辑 for jqgrid
 $(document).on("click", ".myTableDiv .jqEditBtn", function(){
 
-    var openBy = $(this).data("open-by");
-    var idName = $(this).data("id-name") || 'id';
+    var _this = $(this);
+    var openBy = _this.data("open-by");
+    var idName = _this.data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id  = grid.getGridParam("selrow");
     var ids  = grid.getGridParam("selarrrow");
@@ -470,11 +471,15 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
 
     saveJqgridSelected("#jqGrid", id, true);
 
-    var $div = $(this).closest("div.myTableDiv");
-    var url = $div.data("url-au");
+    var url = _this.data("url");
+    if($.trim(url)==''){
+        var $div = _this.closest("div.myTableDiv");
+        url = $div.data("url-au");
+    }
+
     if((id > 0))url = url.split("?")[0] + "?"+ idName +"="+id;
 
-    var querystr = $(this).data("querystr");
+    var querystr = _this.data("querystr");
     url += (querystr!=undefined)?(querystr):"";
     if(openBy=='page'){
         var $container = $("#body-content");
@@ -493,7 +498,7 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function(){
             }
         })
     }else{
-        loadModal(url, $(this).data("width"));
+        loadModal(url, _this.data("width"));
     }
 });
 

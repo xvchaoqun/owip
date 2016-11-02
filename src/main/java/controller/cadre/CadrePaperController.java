@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.*;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -193,7 +194,7 @@ public class CadrePaperController extends BaseController {
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
         return "cadre/cadrePaper/cadrePaper_au";
     }

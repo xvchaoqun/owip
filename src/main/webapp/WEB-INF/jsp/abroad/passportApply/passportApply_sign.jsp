@@ -76,9 +76,9 @@
     $("#signForm").ajaxSubmit({
       success:function(ret){
         if(ret.success){
-          SysMsg.success('提交成功。', '成功', function(){
+          //SysMsg.success('提交成功。', '成功', function(){
             location.href = "${ctx}/passportApply";
-          });
+          //});
         }
       }
     });

@@ -436,6 +436,9 @@ br.xs-100 {
    margin-left: 20px;
    margin-right: 20px;
 }
+.modal-width300{
+    width: 300px;
+}
 .modal-width600{
     width: 600px;
 }

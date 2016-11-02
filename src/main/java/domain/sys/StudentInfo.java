@@ -1,24 +1,10 @@
-package domain.member;
+package domain.sys;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Student implements Serializable {
+public class StudentInfo implements Serializable {
     private Integer userId;
-
-    private String code;
-
-    private String realname;
-
-    private Byte gender;
-
-    private Date birth;
-
-    private String nation;
-
-    private String nativePlace;
-
-    private String idcard;
 
     private String type;
 
@@ -60,62 +46,6 @@ public class Student implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
-    }
-
-    public String getNativePlace() {
-        return nativePlace;
-    }
-
-    public void setNativePlace(String nativePlace) {
-        this.nativePlace = nativePlace == null ? null : nativePlace.trim();
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard == null ? null : idcard.trim();
     }
 
     public String getType() {

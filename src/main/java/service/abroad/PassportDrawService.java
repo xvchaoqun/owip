@@ -4,6 +4,7 @@ import bean.ShortMsgBean;
 import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -208,7 +209,7 @@ public class PassportDrawService extends BaseMapper {
         for (int i = 0; i < rownum; i++) {
             PassportDraw passportDraw = passportDraws.get(i);
             Cadre cadre = passportDraw.getCadre();
-            SysUser sysUser = passportDraw.getUser();
+            SysUserView uv = passportDraw.getUser();
             Passport passport = passportDraw.getPassport();
             ApplySelf applySelf = passportDraw.getApplySelf();
             String xingcheng = "";
@@ -235,8 +236,8 @@ public class PassportDrawService extends BaseMapper {
 
             String[] values = {
                     String.valueOf(i+1),
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
+                    uv.getCode(),
+                    uv.getRealname(),
                     cadre.getTitle(),
                     passport.getPassportClass().getName(),
                     passport.getCode(),

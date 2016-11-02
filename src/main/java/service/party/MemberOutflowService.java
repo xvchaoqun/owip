@@ -4,6 +4,7 @@ import domain.member.Member;
 import domain.member.MemberOutflow;
 import domain.member.MemberOutflowExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -248,7 +249,7 @@ public class MemberOutflowService extends BaseMapper {
             record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
         }
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
             record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
         else

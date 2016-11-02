@@ -1,6 +1,6 @@
 package shiro;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -54,18 +54,18 @@ public class UserRealm extends AuthorizingRealm {
         String password = null;
         String salt = "salt";
 
-        SysUser user = userService.findByUsername(username);
-        if (user == null) {
+        SysUserView uv = userService.findByUsername(username);
+        if (uv == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-        if (user.getLocked()) {
+        if (uv.getLocked()) {
             throw new LockedAccountException(); //帐号锁定
         }
 
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if(springProps.useSSOLogin && user.getSource()!=SystemConstants.USER_SOURCE_ADMIN
-                && user.getSource()!=SystemConstants.USER_SOURCE_REG ){
+        if(springProps.useSSOLogin && uv.getSource()!=SystemConstants.USER_SOURCE_ADMIN
+                && uv.getSource()!=SystemConstants.USER_SOURCE_REG ){
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;
             try{
@@ -83,10 +83,10 @@ public class UserRealm extends AuthorizingRealm {
                     ByteSource.Util.bytes(salt),
                     credentialsMatcher.getHashIterations()).toHex();
         }else {
-            password = user.getPasswd();
-            salt = user.getSalt();
+            password = uv.getPasswd();
+            salt = uv.getSalt();
         }
-        Integer userId = user.getId();
+        Integer userId = uv.getId();
 
         /*ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
         Set<String> roles = userService.findRoles(username);
@@ -95,7 +95,7 @@ public class UserRealm extends AuthorizingRealm {
         _permissions.addAll(permissions);
         _permissions = filterMenus(approverTypeBean, roles, _permissions);*/
 
-        ShiroUser shiroUser = new ShiroUser(userId, username, user.getCode(), user.getRealname(), user.getType());
+        ShiroUser shiroUser = new ShiroUser(userId, username, uv.getCode(), uv.getRealname(), uv.getType());
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

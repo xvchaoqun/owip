@@ -7,6 +7,7 @@ import domain.cadre.CadreReward;
 import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreRewardExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -169,7 +170,7 @@ public class CadreRewardController extends BaseController {
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
         return "cadre/cadreReward/cadreReward_au";
     }

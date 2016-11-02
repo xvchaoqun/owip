@@ -165,7 +165,7 @@ td.padding10{
                 <span>有何专长</span>
             </div>
         </td><td class="td8 center" colspan="4">
-            ${bean.professinal}
+            ${bean.specialty}
         </td>
         </tr>
         <tr class="r1">

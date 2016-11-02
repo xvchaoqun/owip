@@ -270,7 +270,7 @@
         success:function(ret){
           if(ret.success){
             //page_reload();
-            SysMsg.success('更新成功。', '成功');
+            //SysMsg.success('更新成功。', '成功');
           }
         }
       });

@@ -1,15 +1,15 @@
 package domain.unit;
 
-import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.cadre.Cadre;
+import domain.sys.MetaType;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public class Leader implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

@@ -6,6 +6,7 @@ import domain.abroad.PassportApplyView;
 import domain.abroad.PassportApplyViewExample;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportApplyMixin;
@@ -69,7 +70,7 @@ public class PassportApplyController extends BaseController {
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_agree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportApply_agree(@CurrentUser SysUser loginUser, int id, String _expectDate, HttpServletRequest request) {
+    public Map passportApply_agree(@CurrentUser SysUserView loginUser, int id, String _expectDate, HttpServletRequest request) {
 
         PassportApply record = new PassportApply();
         record.setId(id);
@@ -92,7 +93,7 @@ public class PassportApplyController extends BaseController {
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_disagree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportApply_disagree(@CurrentUser SysUser loginUser, int id, String remark, HttpServletRequest request) {
+    public Map passportApply_disagree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
 
         PassportApply record = new PassportApply();
         record.setId(id);
@@ -111,7 +112,7 @@ public class PassportApplyController extends BaseController {
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_page")
     public String passportApply_page(
-            @CurrentUser SysUser loginUser,
+            @CurrentUser SysUserView loginUser,
             // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
             @RequestParam(required = false, defaultValue = "0")  Byte status,
             Integer cadreId,ModelMap modelMap) {
@@ -129,7 +130,7 @@ public class PassportApplyController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         return "abroad/passportApply/passportApply_page";
@@ -137,7 +138,7 @@ public class PassportApplyController extends BaseController {
 
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_data")
-    public void passportApply_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
+    public void passportApply_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  // 0：办理证件审批 1：批准办理证件审批（未交证件）
@@ -315,8 +316,8 @@ public class PassportApplyController extends BaseController {
             String handleUser = "";
             Integer handleUserId = passportApply.getHandleUserId();
             if(handleUserId!=null){
-                SysUser sysUser = sysUserService.findById(handleUserId);
-                handleUser = sysUser!=null?sysUser.getRealname():"";
+                SysUserView uv = sysUserService.findById(handleUserId);
+                handleUser = uv!=null?uv.getRealname():"";
             }
             String[] values = {
                         passportApply.getCadreId()+"",

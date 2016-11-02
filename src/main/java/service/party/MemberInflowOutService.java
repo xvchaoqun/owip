@@ -3,6 +3,7 @@ package service.party;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -224,7 +225,7 @@ public class MemberInflowOutService extends BaseMapper {
     @Transactional
     public void removeInflowMember(int userId, boolean isDirect){
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getOutStatus()!= SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)

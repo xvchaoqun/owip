@@ -89,7 +89,7 @@ pageEncoding="UTF-8" %>
             $.post("${ctx}/unitCadreTransfer_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
                 if(ret.success) {
                     unitCadreTransfer_page("${unitCadreTransfer.groupId}");
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
     }

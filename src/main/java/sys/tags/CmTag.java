@@ -246,14 +246,14 @@ public class CmTag {
         return cadreFamliyService.get(id);
     }
 
-    public static SysUser getUserById(Integer id) {
+    public static SysUserView getUserById(Integer id) {
 
         if(id==null) return null;
 
         return sysUserService.findById(id);
     }
 
-    public static SysUser getUserByUsername(String username) {
+    public static SysUserView getUserByUsername(String username) {
 
         return sysUserService.findByUsername(username);
     }

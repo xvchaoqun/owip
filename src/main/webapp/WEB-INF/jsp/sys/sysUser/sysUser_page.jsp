@@ -20,7 +20,12 @@
                     </a>
                     <shiro:hasPermission name="sysUser:edit">
                         <button class="jqEditBtn btn btn-primary btn-sm">
-                            <i class="fa fa-edit"></i> 修改信息
+                            <i class="fa fa-edit"></i> 修改账号
+                        </button>
+                        <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                data-url="${ctx}/sysUserInfo_au"
+                                data-open-by="page" data-id-name="userId">
+                            <i class="fa fa-edit"></i> 修改人事基础信息
                         </button>
                     </shiro:hasPermission>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -184,7 +189,7 @@
                 }
                 return roles.join(",")
             } },
-            { label: '身份证号码',  name: 'idcard', width: 150 },
+            { label: '身份证号码',  name: 'idcard', width: 160 },
             { label: '办公电话',  name: 'phone', width: 150 },
             { label: '手机号',  name: 'mobile', width: 150 },
             { label: '邮箱',  name: 'email', width: 150 },
@@ -267,7 +272,7 @@
                      <div class="modal-body">\
                      <input type="hidden" name="userId" value="'+$(this).data("id")+'"/>\
                         <div class="space-4"></div>\
-                        <div style="width:75%;margin-left:12%;"><input type="file" name="_avatar" /></div>\
+                        <div style="width:210px;margin-left:12%;"><input type="file" name="_avatar" /></div>\
                      </div>\
                     \
                      <div class="modal-footer center">\
@@ -280,8 +285,10 @@
                 </div>';
 
         var modal = $(modal);
+        $('.modal-dialog', modal).addClass("modal-width300").draggable({handle :".modal-header"});
         modal.modal("show").on("hidden", function(){
             modal.remove();
+            $('.modal-dialog', modal).removeClass("modal-width300");
         });
 
         var working = false;
@@ -304,8 +311,10 @@
             allowExt: ['jpg', 'jpeg', 'png', 'gif'],
             allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
         });
-        if($(this).data("hasimg"))
-            file.ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/'+$(this).data("username")}]);
+        if($(this).data("hasimg")) {
+            var path = '${ctx}/avatar/'+$(this).data("username") +"?_="+new Date().getTime();
+            file.ace_file_input('show_file_list', [{type: 'image', name:path, title:''}]);
+        }
         form.on('submit', function(){
             if(!file.data('ace_input_files')) return false;
 
@@ -326,8 +335,8 @@
                             form.find('.modal-body > :last-child').remove();
                             modal.modal("hide");
 
-                            _reload();
-                            SysMsg.success('更新成功。', '成功');
+                            $("#jqGrid").trigger("reloadGrid");
+                            //SysMsg.success('更新成功。', '成功');
                         }
                     }
                 });

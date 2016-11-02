@@ -5,6 +5,7 @@ import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;
@@ -64,7 +65,7 @@ public class UserPassportController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportList_page")
-    public String passportApply_page(@CurrentUser SysUser loginUser,
+    public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      // 1证件列表 2申请证件列表
                                      @RequestParam(defaultValue = "1") Integer type, ModelMap modelMap) {
 
@@ -104,7 +105,7 @@ public class UserPassportController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passport_useLogs")
-    public String passport_useLogs(@CurrentUser SysUser loginUser, int id, ModelMap modelMap) {
+    public String passport_useLogs(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
         int userId = loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -116,7 +117,7 @@ public class UserPassportController extends BaseController {
         modelMap.put("passport", passport);
 
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "abroad/passport/passport_useLogs";
@@ -125,7 +126,7 @@ public class UserPassportController extends BaseController {
     // 取消集中管理确认单
     @RequiresRoles("cadre")
     @RequestMapping("/passport_cancel")
-    public String passport_cancel(@CurrentUser SysUser loginUser, int id, ModelMap modelMap) {
+    public String passport_cancel(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         int userId = loginUser.getId();
@@ -141,7 +142,7 @@ public class UserPassportController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passport_lost_view")
-    public String passport_lost_view(@CurrentUser SysUser loginUser,int id, ModelMap modelMap) {
+    public String passport_lost_view(@CurrentUser SysUserView loginUser,int id, ModelMap modelMap) {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         int userId = loginUser.getId();
@@ -157,7 +158,7 @@ public class UserPassportController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passport_lostProof_download")
-    public void passport_lostProof_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request,
+    public void passport_lostProof_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
@@ -172,7 +173,7 @@ public class UserPassportController extends BaseController {
         String filePath = springProps.uploadPath + lostProof;
 
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
                 + "（丢失证明）" + FileUtils.getExtention(lostProof), "UTF-8");
@@ -183,7 +184,7 @@ public class UserPassportController extends BaseController {
     // 使用记录
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_data")
-    public void passportDraw_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
+    public void passportDraw_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                   @OrderParam(required = false, defaultValue = "desc") String order,
                                   int passportId, Integer year,

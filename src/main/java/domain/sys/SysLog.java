@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class SysLog implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
     public MetaType getLogType(){

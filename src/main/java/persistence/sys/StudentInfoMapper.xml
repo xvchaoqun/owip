@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.member.StudentMapper" >
-  <resultMap id="BaseResultMap" type="domain.member.Student" >
+<mapper namespace="persistence.sys.StudentInfoMapper" >
+  <resultMap id="BaseResultMap" type="domain.sys.StudentInfo" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="realname" property="realname" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="TINYINT" />
-    <result column="birth" property="birth" jdbcType="DATE" />
-    <result column="nation" property="nation" jdbcType="VARCHAR" />
-    <result column="native_place" property="nativePlace" jdbcType="VARCHAR" />
-    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="edu_level" property="eduLevel" jdbcType="VARCHAR" />
     <result column="edu_type" property="eduType" jdbcType="VARCHAR" />
@@ -86,17 +79,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, code, realname, gender, birth, nation, native_place, idcard, type, edu_level, 
-    edu_type, edu_category, edu_way, is_full_time, enrol_year, period, grade, actual_enrol_time, 
-    expect_graduate_time, delay_year, actual_graduate_time, xj_status, sync_source, create_time
+    user_id, type, edu_level, edu_type, edu_category, edu_way, is_full_time, enrol_year, 
+    period, grade, actual_enrol_time, expect_graduate_time, delay_year, actual_graduate_time, 
+    xj_status, sync_source, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.StudentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.StudentInfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_student
+    from sys_student_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,65 +100,38 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from ow_student
+    from sys_student_info
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from ow_student
+    delete from sys_student_info
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.member.StudentExample" >
-    delete from ow_student
+  <delete id="deleteByExample" parameterType="domain.sys.StudentInfoExample" >
+    delete from sys_student_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.member.Student" >
-    insert into ow_student (user_id, code, realname, 
-      gender, birth, nation, 
-      native_place, idcard, type, 
-      edu_level, edu_type, edu_category, 
-      edu_way, is_full_time, enrol_year, 
-      period, grade, actual_enrol_time, 
-      expect_graduate_time, delay_year, actual_graduate_time, 
-      xj_status, sync_source, create_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
-      #{nativePlace,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{eduLevel,jdbcType=VARCHAR}, #{eduType,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, 
-      #{eduWay,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, 
-      #{period,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, 
-      #{expectGraduateTime,jdbcType=DATE}, #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, 
-      #{xjStatus,jdbcType=VARCHAR}, #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="domain.sys.StudentInfo" >
+    insert into sys_student_info (user_id, type, edu_level, 
+      edu_type, edu_category, edu_way, 
+      is_full_time, enrol_year, period, 
+      grade, actual_enrol_time, expect_graduate_time, 
+      delay_year, actual_graduate_time, xj_status, 
+      sync_source, create_time)
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, 
+      #{eduType,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, #{eduWay,jdbcType=VARCHAR}, 
+      #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, #{expectGraduateTime,jdbcType=DATE}, 
+      #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, #{xjStatus,jdbcType=VARCHAR}, 
+      #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.member.Student" >
-    insert into ow_student
+  <insert id="insertSelective" parameterType="domain.sys.StudentInfo" >
+    insert into sys_student_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="code != null" >
-        code,
-      </if>
-      <if test="realname != null" >
-        realname,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="birth != null" >
-        birth,
-      </if>
-      <if test="nation != null" >
-        nation,
-      </if>
-      <if test="nativePlace != null" >
-        native_place,
-      </if>
-      <if test="idcard != null" >
-        idcard,
       </if>
       <if test="type != null" >
         type,
@@ -220,27 +186,6 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null" >
-        #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="birth != null" >
-        #{birth,jdbcType=DATE},
-      </if>
-      <if test="nation != null" >
-        #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="nativePlace != null" >
-        #{nativePlace,jdbcType=VARCHAR},
-      </if>
-      <if test="idcard != null" >
-        #{idcard,jdbcType=VARCHAR},
-      </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
@@ -291,38 +236,17 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.member.StudentExample" resultType="java.lang.Integer" >
-    select count(*) from ow_student
+  <select id="countByExample" parameterType="domain.sys.StudentInfoExample" resultType="java.lang.Integer" >
+    select count(*) from sys_student_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update ow_student
+    update sys_student_info
     <set >
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.realname != null" >
-        realname = #{record.realname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.gender != null" >
-        gender = #{record.gender,jdbcType=TINYINT},
-      </if>
-      <if test="record.birth != null" >
-        birth = #{record.birth,jdbcType=DATE},
-      </if>
-      <if test="record.nation != null" >
-        nation = #{record.nation,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nativePlace != null" >
-        native_place = #{record.nativePlace,jdbcType=VARCHAR},
-      </if>
-      <if test="record.idcard != null" >
-        idcard = #{record.idcard,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=VARCHAR},
@@ -378,15 +302,8 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update ow_student
+    update sys_student_info
     set user_id = #{record.userId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=TINYINT},
-      birth = #{record.birth,jdbcType=DATE},
-      nation = #{record.nation,jdbcType=VARCHAR},
-      native_place = #{record.nativePlace,jdbcType=VARCHAR},
-      idcard = #{record.idcard,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       edu_type = #{record.eduType,jdbcType=VARCHAR},
@@ -407,30 +324,9 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.member.Student" >
-    update ow_student
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sys.StudentInfo" >
+    update sys_student_info
     <set >
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null" >
-        realname = #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="birth != null" >
-        birth = #{birth,jdbcType=DATE},
-      </if>
-      <if test="nation != null" >
-        nation = #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="nativePlace != null" >
-        native_place = #{nativePlace,jdbcType=VARCHAR},
-      </if>
-      <if test="idcard != null" >
-        idcard = #{idcard,jdbcType=VARCHAR},
-      </if>
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
@@ -482,16 +378,9 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.member.Student" >
-    update ow_student
-    set code = #{code,jdbcType=VARCHAR},
-      realname = #{realname,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
-      birth = #{birth,jdbcType=DATE},
-      nation = #{nation,jdbcType=VARCHAR},
-      native_place = #{nativePlace,jdbcType=VARCHAR},
-      idcard = #{idcard,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="domain.sys.StudentInfo" >
+    update sys_student_info
+    set type = #{type,jdbcType=VARCHAR},
       edu_level = #{eduLevel,jdbcType=VARCHAR},
       edu_type = #{eduType,jdbcType=VARCHAR},
       edu_category = #{eduCategory,jdbcType=VARCHAR},
@@ -509,13 +398,13 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.member.StudentExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.sys.StudentInfoExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_student
+    from sys_student_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

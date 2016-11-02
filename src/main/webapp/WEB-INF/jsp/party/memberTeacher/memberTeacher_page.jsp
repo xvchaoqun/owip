@@ -32,18 +32,19 @@
                         <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
-                            <button id="teacherEditBtn" class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
-                               data-url="${ctx}/teacher_au"
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/memberModify_page"
+                                    data-id-name="userId"
+                                    data-open-by="page">
+                                <i class="fa fa-search"></i> 查看修改记录
+                            </button>
+                            <button id="teacherEditBtn" class="jqOpenViewBtn btn btn-warning btn-sm tooltip-success"
+                               data-url="${ctx}/member_teacherInfo_au"
                                data-open-by="page" data-id-name="userId"
                                data-rel="tooltip" data-placement="top" title="只能修改不在人事库账号的教职工基本信息">
                                 <i class="fa fa-edit"></i> 修改人事信息</button>
                         </shiro:hasPermission>
-                        <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/memberModify_page"
-                                data-id-name="userId"
-                                data-open-by="page">
-                            <i class="fa fa-search"></i> 查看修改记录
-                        </button>
+
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                             <i class="fa fa-download"></i> 导出</a>

@@ -1,7 +1,7 @@
 package domain.abroad;
 
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -15,7 +15,7 @@ public class ApplySelf implements Serializable {
         return SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(type);
     }
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

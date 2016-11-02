@@ -248,10 +248,10 @@
             if (result) {
                 $.post("${ctx}/memberStay_check", {ids: [id], type: type}, function (ret) {
                     if (ret.success) {
-                        SysMsg.success('操作成功。', '成功', function () {
+                        //SysMsg.success('操作成功。', '成功', function () {
                             //page_reload();
                             goto_next(goToNext);
-                        });
+                        //});
                     }
                 });
             }

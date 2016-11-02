@@ -122,10 +122,10 @@ pageEncoding="UTF-8"%>
         }
         $.post("${ctx}/passportApply_agree",{id:"${param.id}", _expectDate:_expectDate },function(ret){
             if(ret.success){
-                SysMsg.success('审批成功', '提示', function(){
+                //SysMsg.success('审批成功', '提示', function(){
 
                     $("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
-                });
+                //});
                 //$("#agree_msg").show().click();
 
             }
@@ -142,10 +142,10 @@ pageEncoding="UTF-8"%>
         }
         $.post("${ctx}/passportApply_disagree",{id:"${param.id}", remark:remark },function(ret){
             if(ret.success){
-                SysMsg.success('提交成功', '提示', function(){
+                //SysMsg.success('提交成功', '提示', function(){
                     //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
                     location.href="${ctx}/passportApply?status=2";
-                });
+                //});
             }
         });
     });

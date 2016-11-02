@@ -40,7 +40,7 @@ public class CadreInfoForm {
     // 专业技术职务及评定时间
     private String proPost;
     // 熟悉专业有何特长
-    private String professinal;
+    private String specialty;
 
     // 全日制教育-最高学历
     private String degree;
@@ -212,12 +212,12 @@ public class CadreInfoForm {
         this.proPost = proPost;
     }
 
-    public String getProfessinal() {
-        return professinal;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public void setProfessinal(String professinal) {
-        this.professinal = professinal;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
 
     public String getDegree() {

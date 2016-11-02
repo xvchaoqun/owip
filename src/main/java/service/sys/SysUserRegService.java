@@ -1,9 +1,6 @@
 package service.sys;
 
-import domain.sys.SysUser;
-import domain.sys.SysUserExample;
-import domain.sys.SysUserReg;
-import domain.sys.SysUserRegExample;
+import domain.sys.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -111,8 +108,8 @@ public class SysUserRegService extends BaseMapper {
     // 通过
     @Transactional
     @Caching(evict={
-            @CacheEvict(value="SysUser", key="#username"),
-            @CacheEvict(value="SysUser:ID_", key="#userId"),
+            @CacheEvict(value="SysUserView", key="#username"),
+            @CacheEvict(value="SysUserView:ID_", key="#userId"),
             @CacheEvict(value="UserRoles", key="#username"),
             @CacheEvict(value="UserPermissions", key="#username"),
             @CacheEvict(value="Menus", key="#username")
@@ -131,14 +128,20 @@ public class SysUserRegService extends BaseMapper {
             record.setId(sysUserReg.getUserId());
             record.setUsername(sysUserReg.getUsername());
             record.setCode(sysUserReg.getCode());
-            record.setRealname(sysUserReg.getRealname());
-            record.setIdcard(sysUserReg.getIdcard());
             record.setType(sysUserReg.getType());
-            record.setMobile(sysUserReg.getPhone());
             record.setSource(SystemConstants.USER_SOURCE_REG);
             record.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
 
             sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername(), sysUserReg.getCode());
+        }
+        {
+            SysUserInfo record = new SysUserInfo();
+            record.setUserId(sysUserReg.getUserId());
+            record.setRealname(sysUserReg.getRealname());
+            record.setIdcard(sysUserReg.getIdcard());
+            record.setMobile(sysUserReg.getPhone());
+
+            sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
     }
     
@@ -154,7 +157,7 @@ public class SysUserRegService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="SysUser", key="#username")
+    @CacheEvict(value="SysUserView", key="#username")
     public void reg(String username, String passwd, Byte type,
                        String realname, String idcard, String phone,
                        Integer party, String ip){
@@ -181,13 +184,17 @@ public class SysUserRegService extends BaseMapper {
         sysUser.setSalt(encrypt.getSalt());
         sysUser.setPasswd(encrypt.getPassword());
         sysUser.setCreateTime(new Date());
-        sysUser.setRealname(realname);
-        sysUser.setIdcard(idcard);
         sysUser.setType(type);
-        sysUser.setMobile(phone);
         sysUser.setSource(SystemConstants.USER_SOURCE_REG);
         sysUser.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         sysUserService.insertSelective(sysUser);
+
+        SysUserInfo sysUserInfo = new SysUserInfo();
+        sysUserInfo.setUserId(sysUser.getId());
+        sysUserInfo.setRealname(realname);
+        sysUserInfo.setIdcard(idcard);
+        sysUserInfo.setMobile(phone);
+        sysUserInfoMapper.insertSelective(sysUserInfo);
 
         SysUserReg reg = new SysUserReg();
         reg.setUserId(sysUser.getId());
@@ -254,12 +261,17 @@ public class SysUserRegService extends BaseMapper {
     }
 
     @Transactional
-    public void changepw(int id, String password){
+    @Caching(evict={
+            @CacheEvict(value="SysUserView", key="#result.username"),
+            @CacheEvict(value="SysUserView:CODE_", key="#result.code"),
+            @CacheEvict(value="SysUserView:ID_", key="#result.id")
+    })
+    public SysUserView changepw(int id, String password){ // 返回值是为了清除缓存
 
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
         if(sysUserReg==null || sysUserReg.getUserId()==null) throw new RuntimeException("参数错误");
 
-        SysUser sysUser = sysUserService.findById(sysUserReg.getUserId());
+        SysUserView sysUser = sysUserService.findById(sysUserReg.getUserId());
         if(sysUser==null) throw new RuntimeException("用户不存在");
 
         SysUser record = new SysUser();
@@ -273,6 +285,8 @@ public class SysUserRegService extends BaseMapper {
         _record.setId(id);
         _record.setPasswd(password);
         updateByPrimaryKeySelective(_record);
+
+        return sysUser;
     }
 
    /* @Transactional
@@ -282,7 +296,7 @@ public class SysUserRegService extends BaseMapper {
         Assert.isTrue(!idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard()));
         return sysUserRegMapper.insertSelective(record);
     }*/
-    @Transactional
+    /*@Transactional
     public void del(Integer id){
 
         sysUserRegMapper.deleteByPrimaryKey(id);
@@ -296,10 +310,16 @@ public class SysUserRegService extends BaseMapper {
         SysUserRegExample example = new SysUserRegExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         sysUserRegMapper.deleteByExample(example);
-    }
+    }*/
 
     @Transactional
     public int updateByPrimaryKeySelective(SysUserReg record){
+
+        // 不可修改账号ID、账号名称、学工号
+        record.setUserId(null);
+        record.setUsername(null);
+        record.setCode(null);
+
         return sysUserRegMapper.updateByPrimaryKeySelective(record);
     }
 

@@ -145,10 +145,10 @@
             if (result) {
                 $.post("${ctx}/sysUserReg_check", {id: id}, function (ret) {
                     if (ret.success) {
-                        SysMsg.success('操作成功。', '成功', function () {
+                        //SysMsg.success('操作成功。', '成功', function () {
                             //page_reload();
                             goto_next(goToNext);
-                        });
+                       // });
                     }
                 });
             }

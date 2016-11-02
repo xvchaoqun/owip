@@ -89,10 +89,10 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
 						$("#modal").modal("hide")
-						SysMsg.success('提交成功。', '成功',function(){
+						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
 							//$(".closeView").click();
-						});
+						//});
                     }
                 }
             });

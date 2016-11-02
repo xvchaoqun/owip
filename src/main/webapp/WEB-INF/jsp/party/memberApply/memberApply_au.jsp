@@ -211,9 +211,9 @@
                 if(ret.success){
                   $("#modal").modal("hide");
                   <c:if test="${empty memberApply}">
-                  SysMsg.success("添加成功。",'提示',function(){
+                  //SysMsg.success("添加成功。",'提示',function(){
                       location.reload();
-                  });
+                  //});
                     </c:if>
                     <c:if test="${not empty memberApply}">
                   $("#jqGrid").trigger("reloadGrid");

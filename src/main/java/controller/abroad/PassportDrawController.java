@@ -10,6 +10,7 @@ import domain.base.ContentTpl;
 import domain.base.Country;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;
@@ -66,7 +67,7 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportDraw_agree(@CurrentUser SysUser loginUser, int id, String remark, HttpServletRequest request) {
+    public Map passportDraw_agree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
 
         PassportDraw record = new PassportDraw();
         record.setId(id);
@@ -86,7 +87,7 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_disagree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportDraw_disagree(@CurrentUser SysUser loginUser, int id, String remark, HttpServletRequest request) {
+    public Map passportDraw_disagree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
 
         PassportDraw record = new PassportDraw();
         record.setId(id);
@@ -113,7 +114,7 @@ public class PassportDrawController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 
@@ -248,7 +249,7 @@ public class PassportDrawController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(passportDraw.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         return "abroad/passportDraw/passportDraw_au";
@@ -274,7 +275,7 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_draw", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_draw(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_passportDraw_draw(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                     MultipartFile _drawRecord, String _returnDate, Integer id) {
 
         PassportDraw record = new PassportDraw();
@@ -338,7 +339,7 @@ public class PassportDrawController extends BaseController {
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_return", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_return(@CurrentUser SysUser loginUser,
+    public Map do_passportDraw_return(@CurrentUser SysUserView loginUser,
                                       HttpServletRequest request,
                                       Boolean usePassport,
                                       String  _realReturnDate,
@@ -429,7 +430,7 @@ public class PassportDrawController extends BaseController {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
         Cadre cadre = cadreService.findAll().get(passportDraw.getCadreId());
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);

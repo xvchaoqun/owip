@@ -3,6 +3,7 @@ package service.party;
 import domain.party.PartyMember;
 import domain.party.PartyMemberGroup;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -47,7 +48,7 @@ public class PartyMemberAdminService extends BaseMapper {
         if(partyMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作
 
             Integer userId = partyMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             if(partyMember.getIsAdmin()){
                 // 删除账号的"分党委管理员"角色
                 // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理

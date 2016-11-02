@@ -1,14 +1,11 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.sys.SysUser;
-import domain.sys.SysUserExample;
+import domain.sys.*;
 import domain.sys.SysUserExample.Criteria;
-import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
-import domain.ext.ExtYjs;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import shiro.SaltPassword;
 import sys.constants.SystemConstants;
@@ -37,6 +35,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -49,7 +48,7 @@ public class SysUserController extends BaseController {
     @RequestMapping("/sysUser_view")
     public String sysUser_view(int userId, ModelMap modelMap) {
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
 
         String unit = sysUserService.getUnit(sysUser);
@@ -93,8 +92,8 @@ public class SysUserController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        SysUserExample example = new SysUserExample();
-        Criteria criteria = example.createCriteria();
+        SysUserViewExample example = new SysUserViewExample();
+        SysUserViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameEqualTo(username);
@@ -117,16 +116,17 @@ public class SysUserController extends BaseController {
         if (locked != null) {
             criteria.andLockedEqualTo(locked);
         }
-        int count = sysUserMapper.countByExample(example);
+        int count = sysUserViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUser> SysUsers = sysUserMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUserView> uvs = sysUserViewMapper.selectByExampleWithRowbounds
+                (example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", SysUsers);
+        resultMap.put("rows", uvs);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
@@ -206,12 +206,58 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresRoles("admin")
+    @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUserInfo_au(SysUserInfo record, MultipartFile _avatar) throws IOException {
+
+        Integer userId = record.getUserId();
+        SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        String code = sysUser.getCode();
+
+        String avatar = null;
+        if(_avatar!=null && !_avatar.isEmpty()){
+            //String originalFilename = _avatar.getOriginalFilename();
+
+            avatar =  File.separator + userId%100 + File.separator;
+            File path = new File(springProps.avatarFolder + avatar);
+            if(!path.exists()) path.mkdirs();
+            avatar += code +".jpg";
+
+            Thumbnails.of(_avatar.getInputStream())
+                    .size(143, 198)
+                    .outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.avatarFolder + avatar);
+            //FileUtils.copyFile(_avatar, new File(springProps.uploadPath + avatar));
+        }
+        record.setAvatar(avatar);
+
+        sysUserService.insertOrUpdateUserInfoSelective(record);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping("/sysUserInfo_au")
+    public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
+
+        if (userId != null) {
+            SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
+            modelMap.put("ui", ui);
+
+            SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+            modelMap.put("sysUser", sysUser);
+        }
+
+        return "sys/sysUser/sysUserInfo_au";
+    }
+
+    @RequiresRoles("admin")
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
 
         for (Integer id : ids) {
-            SysUser sysUser = sysUserService.findById(id);
+            SysUserView sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
             sysUserService.lockUser(sysUser.getId(), username, sysUser.getCode(),  locked);
             logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
@@ -223,7 +269,7 @@ public class SysUserController extends BaseController {
     @RequiresRoles("admin")
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserRole(@CurrentUser SysUser loginSysUser,
+    public Map do_sysUserRole(@CurrentUser SysUserView loginSysUser,
                               SysUser sysUser,
                               @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
                               HttpServletRequest request) {

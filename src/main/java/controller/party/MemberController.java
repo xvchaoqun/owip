@@ -10,6 +10,7 @@ import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -64,7 +65,7 @@ public class MemberController extends BaseController {
         String realname = "";
         String msg = "";
         String status = "";
-        SysUser sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.findByCode(code);
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
@@ -131,7 +132,7 @@ public class MemberController extends BaseController {
     //@RequiresPermissions("member:edit")
     @RequestMapping(value = "/member_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_au(@CurrentUser SysUser loginUser, Member record, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_member_au(@CurrentUser SysUserView loginUser, Member record, String _applyTime, String _activeTime, String _candidateTime,
                             String _growTime, String _positiveTime, String _transferTime, String reason, HttpServletRequest request) {
 
         Integer partyId = record.getPartyId();
@@ -175,7 +176,7 @@ public class MemberController extends BaseController {
         if (StringUtils.isNotBlank(_transferTime)) {
             record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYY_MM_DD));
         }
-        SysUser sysUser = sysUserService.findById(record.getUserId());
+        SysUserView sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);
         if (member == null) {
             SecurityUtils.getSubject().checkPermission("member:add");
@@ -270,7 +271,7 @@ public class MemberController extends BaseController {
 
     @RequiresRoles("partyAdmin")
     @RequestMapping("/member_changeBranch")
-    public String member_changeBranch(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+    public String member_changeBranch(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
 
         // 判断是分党委管理员
@@ -302,7 +303,7 @@ public class MemberController extends BaseController {
     @RequiresRoles("partyAdmin")
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
-    public Map member_changeBranch(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map member_changeBranch(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                    @RequestParam(value = "ids[]") Integer[] ids,
                                    int partyId, // 用于校验
                                    int branchId,
@@ -384,7 +385,7 @@ public class MemberController extends BaseController {
     @ResponseBody
     public Map sync(Integer userId) {
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         String code = sysUser.getCode();
         Member member = memberService.get(userId);
         if (member != null) {
@@ -452,7 +453,7 @@ public class MemberController extends BaseController {
     }*/
 
     @RequestMapping("/member_view")
-    public String member_show_page(@CurrentUser SysUser loginUser, HttpServletResponse response, int userId, ModelMap modelMap) {
+    public String member_show_page(@CurrentUser SysUserView loginUser, HttpServletResponse response, int userId, ModelMap modelMap) {
 
         Member member = memberService.get(userId);
 

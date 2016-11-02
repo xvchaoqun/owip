@@ -57,9 +57,9 @@
 								_reload();
 								SysMsg.success('操作成功。', '成功');*/
 								$("#modal").modal('hide');
-								SysMsg.success('操作成功。', '成功',function(){
+								//SysMsg.success('操作成功。', '成功',function(){
 									$("#jqGrid").trigger("reloadGrid");
-								});
+								//});
 							}
 						}
 					});

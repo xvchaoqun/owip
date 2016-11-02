@@ -6,6 +6,7 @@ import domain.abroad.PassportDrawExample.Criteria;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportDrawMixin;
@@ -42,7 +43,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportDraw_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+    public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -63,7 +64,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_select")
-    public String passportDraw_select(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -77,7 +78,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self")
-    public String passportDraw_self(@CurrentUser SysUser loginUser, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
+    public String passportDraw_self(@CurrentUser SysUserView loginUser, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -115,7 +116,7 @@ public class UserPassportDrawController extends BaseController {
     }
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_select")
-    public String passportDraw_self_select(@CurrentUser SysUser loginUser, int applyId, ModelMap modelMap, HttpServletRequest request) {
+    public String passportDraw_self_select(@CurrentUser SysUserView loginUser, int applyId, ModelMap modelMap, HttpServletRequest request) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         modelMap.put("applySelf", applySelf);
@@ -131,7 +132,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_sign")
-    public String passportDraw_self_sign(@CurrentUser SysUser loginUser, String type,
+    public String passportDraw_self_sign(@CurrentUser SysUserView loginUser, String type,
                                          Integer passportId, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
@@ -169,7 +170,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_confirm")
-    public String passportDraw_self_confirm(@CurrentUser SysUser loginUser, int applyId, int passportId,
+    public String passportDraw_self_confirm(@CurrentUser SysUserView loginUser, int applyId, int passportId,
                                             HttpServletRequest request, ModelMap modelMap) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
@@ -195,7 +196,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_tw_page")
-    public String passportDraw_tw_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String passportDraw_tw_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -214,7 +215,7 @@ public class UserPassportDrawController extends BaseController {
     }
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_other")
-    public String passportDraw_other(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String passportDraw_other(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -233,7 +234,7 @@ public class UserPassportDrawController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_page")
-    public String passportDraw_page(@CurrentUser SysUser loginUser,
+    public String passportDraw_page(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -244,7 +245,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping("/userPassportDraw_data")
     @ResponseBody
-    public void userPassportDraw_data(@CurrentUser SysUser loginUser,
+    public void userPassportDraw_data(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
@@ -297,7 +298,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportDraw_self_sign_add", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_self_sign_add(@CurrentUser SysUser loginUser, int id){
+    public Map do_passportDraw_self_sign_add(@CurrentUser SysUserView loginUser, int id){
 
         PassportDraw record = new PassportDraw();
         record.setId(id);
@@ -312,7 +313,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportDraw_self_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_self_au(@CurrentUser SysUser loginUser,
+    public Map do_passportDraw_self_au(@CurrentUser SysUserView loginUser,
                                   int applyId,
                                   int passportId,
                                   @RequestParam(required = false, defaultValue = "0")boolean needSign,
@@ -352,7 +353,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportDraw_tw_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_tw_au(@CurrentUser SysUser loginUser,
+    public Map do_passportDraw_tw_au(@CurrentUser SysUserView loginUser,
                                      Byte type, //2因公赴台  4 长期因公出国
                                      Integer passportId,
                                      String _startDate,
@@ -449,7 +450,7 @@ public class UserPassportDrawController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportDraw_other_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportDraw_other_au(@CurrentUser SysUser loginUser,
+    public Map do_passportDraw_other_au(@CurrentUser SysUserView loginUser,
                                      int passportId,
                                      String _startDate,
                                      String _endDate,

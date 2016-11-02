@@ -5,6 +5,7 @@ import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
 import domain.base.ContentTplExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -113,7 +114,7 @@ public class ContentTplController extends BaseController {
     @RequiresPermissions("contentTpl:edit")
     @RequestMapping(value = "/contentTpl_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_contentTpl_au(@CurrentUser SysUser loginUser,
+    public Map do_contentTpl_au(@CurrentUser SysUserView loginUser,
                                 ContentTpl record, HttpServletRequest request) {
 
         Integer id = record.getId();

@@ -7,12 +7,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberTeacher implements Serializable {
-
     public String getParty(){
         Party party = CmTag.getParty(partyId);
         return party!=null?party.getName():null;
     }
-
     private Date createTime;
 
     private Date applyTime;

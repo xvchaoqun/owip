@@ -9,6 +9,7 @@ import domain.cadre.CadreWorkExample.Criteria;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -181,7 +182,7 @@ public class CadreWorkController extends BaseController {
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreWork/cadreWork_au";
@@ -221,7 +222,7 @@ public class CadreWorkController extends BaseController {
         }
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreWork/cadreWork_updateUnitId";

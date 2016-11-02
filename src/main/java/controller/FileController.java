@@ -4,10 +4,10 @@ import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -63,7 +63,7 @@ public class FileController extends BaseController {
     }
 
     @RequestMapping(value = "/attach/passportDrawFile")
-    public void passportDrawFile(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void passportDrawFile(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         PassportDrawFile passportDrawFile = passportDrawFileMapper.selectByPrimaryKey(id);
         if (passportDrawFile != null) {
@@ -122,7 +122,7 @@ public class FileController extends BaseController {
 
     // 手写签名
     @RequestMapping("/sign")
-    public void sign(@CurrentUser SysUser loginUser, HttpServletResponse response) throws IOException {
+    public void sign(@CurrentUser SysUserView loginUser, HttpServletResponse response) throws IOException {
 
         ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + loginUser.getSign()), response);
     }

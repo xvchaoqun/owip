@@ -6,6 +6,7 @@ import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -42,7 +43,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/apply_page")
-    public String apply_page(@CurrentUser SysUser loginUser, HttpServletResponse response, ModelMap modelMap) {
+    public String apply_page(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
 
         Integer userId = loginUser.getId();
         EnterApply currentApply = enterApplyService.getCurrentApply(userId);
@@ -67,7 +68,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberApply_view")
-    public String memberApply_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberApply_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
         MemberApply memberApply = memberApplyService.get(loginUser.getId());
@@ -82,7 +83,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberApply")
-    public String memberApply(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
         MemberApply memberApply = memberApplyService.get(loginUser.getId());
@@ -108,7 +109,7 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
     @ResponseBody
-    public Map applyBack(@CurrentUser SysUser loginUser, String remark){
+    public Map applyBack(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
@@ -120,7 +121,7 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply(@CurrentUser SysUser loginUser,Integer partyId,
+    public Map do_memberApply(@CurrentUser SysUserView loginUser,Integer partyId,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
 
         enterApplyService.checkMemberApplyAuth(loginUser.getId());
@@ -165,7 +166,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberReturn_view")
-    public String memberReturn_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberReturn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
         MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
@@ -179,7 +180,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberReturn")
-    public String memberReturn(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberReturn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
 
@@ -204,7 +205,7 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReturn(@CurrentUser SysUser loginUser, String _returnApplyTime,
+    public Map do_memberReturn(@CurrentUser SysUserView loginUser, String _returnApplyTime,
                                String _applyTime, String _activeTime, String _candidateTime,
                                String _growTime, String _positiveTime,
                                MemberReturn record, HttpServletRequest request) {
@@ -268,7 +269,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberIn_view")
-    public String memberIn_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberIn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
         MemberIn memberIn = memberInService.get(loginUser.getId());
@@ -282,7 +283,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberIn")
-    public String memberIn(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberIn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
         modelMap.put("userBean", userBeanService.get(userId));
@@ -324,7 +325,7 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberIn", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn(@CurrentUser SysUser loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberIn(@CurrentUser SysUserView loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
                            String _growTime, String _positiveTime,
                            String _fromHandleTime, String _handleTime, HttpServletRequest request) {
 
@@ -397,7 +398,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberInflow_view")
-    public String memberInflow_view(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberInflow_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
@@ -409,7 +410,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles("guest")
     @RequestMapping("/memberInflow")
-    public String memberInflow(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberInflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("user", loginUser);
 
@@ -433,7 +434,7 @@ public class EnterApplyController extends BaseController {
     @RequiresRoles("guest")
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow(@CurrentUser SysUser loginUser,MemberInflow record,
+    public Map do_memberInflow(@CurrentUser SysUserView loginUser,MemberInflow record,
                                String _flowTime, String _growTime, HttpServletRequest request) {
 
         //

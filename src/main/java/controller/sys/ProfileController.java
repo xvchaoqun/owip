@@ -2,6 +2,8 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +51,7 @@ public class ProfileController extends BaseController {
     @RequiresPermissions("passportApply:*")
     @RequestMapping(value = "/profile_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_sign(@CurrentUser SysUser loginUser,String mobile, String phone,
+    public Map do_passportApply_sign(@CurrentUser SysUserView loginUser,String mobile, String phone,
                                      MultipartFile sign) throws IOException {
 
         String savePath =null;
@@ -75,13 +77,13 @@ public class ProfileController extends BaseController {
             return failed("手机号码有误");
         }
 
-        SysUser record = new SysUser();
-        record.setId(loginUser.getId());
+        SysUserInfo record = new SysUserInfo();
+        record.setUserId(loginUser.getId());
         record.setSign(savePath);
         record.setMobile(mobile);
         record.setPhone(phone);
 
-        sysUserService.updateByPrimaryKeySelective(record, loginUser.getUsername(), loginUser.getCode());
+        sysUserService.updateUserInfoByPrimaryKeySelective(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -108,7 +110,7 @@ public class ProfileController extends BaseController {
 
     @RequiresPermissions("profile:view")
     @RequestMapping("/profile_page")
-    public String profile_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String profile_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         Integer userId = loginUser.getId();
         modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
@@ -123,7 +125,7 @@ public class ProfileController extends BaseController {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         int userId = shiroUser.getId();
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView uv = sysUserService.findById(userId);
         String avatar = null;
         if(_avatar!=null && !_avatar.isEmpty()){
             //String originalFilename = _avatar.getOriginalFilename();
@@ -131,7 +133,7 @@ public class ProfileController extends BaseController {
             avatar =  File.separator + userId%100 + File.separator;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
-            avatar += sysUser.getCode() +".jpg";
+            avatar += uv.getCode() +".jpg";
 
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
@@ -141,8 +143,8 @@ public class ProfileController extends BaseController {
             //FileUtils.copyFile(_avatar, new File(springProps.uploadPath + avatar));
         }
 
-        SysUser record = new SysUser();
-        record.setId(userId);
+        SysUserInfo record = new SysUserInfo();
+        record.setUserId(userId);
         record.setAvatar(avatar);
         record.setRealname(realname);
         record.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
@@ -150,7 +152,7 @@ public class ProfileController extends BaseController {
         record.setEmail(email);
         record.setMobile(mobile);
 
-        sysUserService.updateByPrimaryKeySelective(record, shiroUser.getUsername(),shiroUser.getCode());
+        sysUserService.updateUserInfoByPrimaryKeySelective(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -159,14 +161,14 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map do_updateAvatar(MultipartFile _avatar, int userId) throws IOException {
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView uv = sysUserService.findById(userId);
         String avatar = null;
         if(_avatar!=null && !_avatar.isEmpty()){
 
             avatar =  File.separator + userId%100 + File.separator;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
-            avatar += sysUser.getCode() +".jpg";
+            avatar += uv.getCode() +".jpg";
 
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
@@ -175,10 +177,10 @@ public class ProfileController extends BaseController {
                     .toFile(springProps.avatarFolder + avatar);
         }
 
-        SysUser record = new SysUser();
-        record.setId(userId);
+        SysUserInfo record = new SysUserInfo();
+        record.setUserId(userId);
         record.setAvatar(avatar);
-        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.updateUserInfoByPrimaryKeySelective(record);
         return success(FormUtils.SUCCESS);
     }
 
@@ -190,7 +192,7 @@ public class ProfileController extends BaseController {
 
     @RequiresPermissions("password:modify")
     @RequestMapping("/password_page")
-    public String password_page(@CurrentUser SysUser sysUser, ModelMap modelMap) {
+    public String password_page(@CurrentUser SysUserView sysUser, ModelMap modelMap) {
 
         modelMap.put("sysUser", sysUser);
         return "sys/profile/password";
@@ -199,7 +201,7 @@ public class ProfileController extends BaseController {
     @RequiresPermissions("password:modify")
     @RequestMapping(value="/password", method= RequestMethod.POST)
     @ResponseBody
-    public Map password(@CurrentUser SysUser sysUser, String oldPassword, String password, HttpServletRequest request) {
+    public Map password(@CurrentUser SysUserView sysUser, String oldPassword, String password, HttpServletRequest request) {
 
         if(sysUser.getSource()!= SystemConstants.USER_SOURCE_ADMIN && sysUser.getSource()!= SystemConstants.USER_SOURCE_REG){
             return failed("当前账号不允许修改密码");

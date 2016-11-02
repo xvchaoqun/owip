@@ -105,7 +105,7 @@
 							if(data.success){
 								$("#modal").modal('hide');
 								$("#content").load("log_page");
-								SysMsg.success('操作成功。', '成功');
+								//SysMsg.success('操作成功。', '成功');
 								
 							}else if(data.msg=="duplicate"){
 								

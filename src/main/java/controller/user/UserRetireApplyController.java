@@ -5,6 +5,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class UserRetireApplyController extends BaseController{
     private Logger logger = LoggerFactory.getLogger(getClass());
     @RequiresRoles("member")
     @RequestMapping("/retireApply")
-    public String retireApply(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String retireApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("sysUser", loginUser);
 
@@ -70,7 +71,7 @@ public class UserRetireApplyController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_retireApply_au(@CurrentUser SysUser loginUser, RetireApply retireApply, HttpServletRequest request) {
+    public Map do_retireApply_au(@CurrentUser SysUserView loginUser, RetireApply retireApply, HttpServletRequest request) {
 
         retireApply.setUserId(loginUser.getId());
         retireApply.setApplyId(loginUser.getId());

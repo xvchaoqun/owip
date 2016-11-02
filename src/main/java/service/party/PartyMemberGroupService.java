@@ -5,6 +5,7 @@ import domain.party.PartyMemberExample;
 import domain.party.PartyMemberGroup;
 import domain.party.PartyMemberGroupExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class PartyMemberGroupService extends BaseMapper {
 
         for (PartyMember partyMember : getGroupAdmins(groupId)) {
             int userId = partyMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             // 删除账号的"分党委管理员"角色
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
             List<Integer> partyIdList = commonMapper.adminPartyIdList(userId);
@@ -74,7 +75,7 @@ public class PartyMemberGroupService extends BaseMapper {
 
         for (PartyMember partyMember : getGroupAdmins(groupId)) {
             int userId = partyMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             // 添加账号的"分党委管理员"角色
             // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
             Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());

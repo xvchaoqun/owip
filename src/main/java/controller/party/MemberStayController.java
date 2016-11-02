@@ -8,6 +8,7 @@ import domain.member.MemberStayViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberStayMixin;
@@ -227,7 +228,7 @@ public class MemberStayController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_approval")
-    public String memberStay_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberStay_approval(@CurrentUser SysUserView loginUser, Integer id,
                                     byte type, // 1:支部审核 2：分党委审核
                                     ModelMap modelMap) {
 
@@ -284,7 +285,7 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberStay_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -308,7 +309,7 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_back(@CurrentUser SysUser loginUser,
+    public Map do_memberStay_back(@CurrentUser SysUserView loginUser,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 byte status,
                                 String reason) {
@@ -323,7 +324,7 @@ public class MemberStayController extends BaseController {
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberStay_au(@CurrentUser SysUser loginUser,MemberStay record,
+    public Map do_memberStay_au(@CurrentUser SysUserView loginUser,MemberStay record,
                                 String _abroadTime, String _returnTime, String _payTime,  HttpServletRequest request) {
 
         Integer userId = record.getUserId();
@@ -433,7 +434,7 @@ public class MemberStayController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStayView record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             String[] values = {

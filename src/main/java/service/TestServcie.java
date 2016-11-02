@@ -1,6 +1,7 @@
 package service;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.sys.SysUserService;
@@ -15,18 +16,18 @@ public class TestServcie {
     private SysUserService sysUserService;
 
     public void toMember(int userId){
-        SysUser sysUser1 = sysUserService.findById(userId);
+        SysUserView sysUser1 = sysUserService.findById(userId);
         System.out.println("sysUser1=" + JSONUtils.toString(sysUser1));
         sysUserService.changeRoleGuestToMember(userId, sysUser1.getUsername(), sysUser1.getCode());
-        SysUser sysUser2 = sysUserService.findById(userId);
+        SysUserView sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
     }
 
     public void toGuest(int userId){
-        SysUser sysUser1 = sysUserService.findById(userId);
+        SysUserView sysUser1 = sysUserService.findById(userId);
         System.out.println("sysUser1=" + JSONUtils.toString(sysUser1));
         sysUserService.changeRoleMemberToGuest(userId, sysUser1.getUsername(), sysUser1.getCode());
-        SysUser sysUser2 = sysUserService.findById(userId);
+        SysUserView sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
     }
 }

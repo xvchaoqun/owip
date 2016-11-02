@@ -4,6 +4,7 @@ import bean.m.Breadcrumb;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class MobileCadreController extends BaseController {
 
 	@RequiresRoles(value = {"cadre", "cadreAdmin"}, logical = Logical.OR)
 	@RequestMapping("/cadre_base_page")
-	public String cadre_base_page(@CurrentUser SysUser loginUser,  ModelMap modelMap) {
+	public String cadre_base_page(@CurrentUser SysUserView loginUser,  ModelMap modelMap) {
 
 		Integer userId = loginUser.getId();
 		Cadre cadre = cadreService.findByUserId(userId);

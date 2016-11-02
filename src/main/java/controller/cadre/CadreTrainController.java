@@ -7,6 +7,7 @@ import domain.cadre.CadreTrain;
 import domain.cadre.CadreTrainExample;
 import domain.cadre.CadreTrainExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -159,7 +160,7 @@ public class CadreTrainController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreTrain/cadreTrain_au";

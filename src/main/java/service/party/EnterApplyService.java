@@ -4,6 +4,7 @@ import domain.member.*;
 import domain.party.EnterApply;
 import domain.party.EnterApplyExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class EnterApplyService extends BaseMapper{
 
     // 申请入党、流入、留学归国申请权限判断
     public void checkMemberApplyAuth(int userId){
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser.getType() == SystemConstants.USER_TYPE_JZG
                 || sysUser.getType() == SystemConstants.USER_TYPE_BKS
                 || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
@@ -199,7 +200,7 @@ public class EnterApplyService extends BaseMapper{
             throw new RuntimeException("已经是流入党员");
         }
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser.getType() == SystemConstants.USER_TYPE_JZG)
             record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
         else if(sysUser.getType() == SystemConstants.USER_TYPE_BKS

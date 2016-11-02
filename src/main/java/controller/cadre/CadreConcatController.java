@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreConcat;
 import domain.cadre.CadreConcatExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -102,7 +103,7 @@ public class CadreConcatController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         if (cadreId != null) {

@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
                 $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:ids[0]},function(ret){
                     if(ret.success) {
                         _reload();
-                        SysMsg.success('操作成功。', '成功');
+                        //SysMsg.success('操作成功。', '成功');
                     }
                 });
             }

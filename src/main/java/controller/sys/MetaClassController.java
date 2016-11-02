@@ -54,7 +54,7 @@ public class MetaClassController extends BaseController {
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass_data")
     @ResponseBody
-    public void metaClass_data(@CurrentUser SysUser loginUser,
+    public void metaClass_data(@CurrentUser SysUserView loginUser,
                                  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,

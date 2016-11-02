@@ -143,11 +143,11 @@ public class BaseMapper {
 	@Autowired
 	protected RetireApplyMapper retireApplyMapper;
 	@Autowired
-	protected StudentMapper studentMapper;
+	protected StudentInfoMapper studentInfoMapper;
 	@Autowired
 	protected MemberStudentMapper memberStudentMapper;
 	@Autowired
-	protected TeacherMapper teacherMapper;
+	protected TeacherInfoMapper teacherInfoMapper;
 	@Autowired
 	protected MemberTeacherMapper memberTeacherMapper;
 	@Autowired
@@ -264,6 +264,10 @@ public class BaseMapper {
 	protected SysLoginLogMapper sysLoginLogMapper;
 	@Autowired
 	protected SysUserMapper sysUserMapper;
+	@Autowired
+	protected SysUserInfoMapper sysUserInfoMapper;
+	@Autowired
+	protected SysUserViewMapper sysUserViewMapper;
 	@Autowired
 	protected SysUserRegMapper sysUserRegMapper;
 	@Autowired

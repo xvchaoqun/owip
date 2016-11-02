@@ -134,7 +134,7 @@ pageEncoding="UTF-8" %>
             if(data.success) {
                 hideDel();
                 $("#jqGrid").trigger("reloadGrid");
-                SysMsg.success('操作成功。', '成功');
+                //SysMsg.success('操作成功。', '成功');
             }
         });
     }

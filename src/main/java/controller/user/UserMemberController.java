@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,13 @@ public class UserMemberController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @RequiresRoles("member")
     @RequestMapping("/member")
-    public String member(@CurrentUser SysUser loginUser) {
+    public String member(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
     @RequiresRoles("member")
     @RequestMapping("/member_page")
-    public String member_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String member_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         Byte type = loginUser.getType();
         if(type==SystemConstants.USER_TYPE_JZG)
@@ -36,7 +37,7 @@ public class UserMemberController extends BaseController {
     }
     @RequiresRoles("member")
     @RequestMapping("/student_base")
-    public String student_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String student_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 
@@ -55,7 +56,7 @@ public class UserMemberController extends BaseController {
     }
     @RequiresRoles("member")
     @RequestMapping("/teacher_base")
-    public String teacher_base(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String teacher_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 

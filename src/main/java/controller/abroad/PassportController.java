@@ -9,6 +9,7 @@ import domain.abroad.SafeBox;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportMixin;
@@ -110,7 +111,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passportList_page")
     public String passportList_page(
-            @CurrentUser SysUser loginUser,
+            @CurrentUser SysUserView loginUser,
             //Integer unitId,
             Integer cadreId,
             // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
@@ -136,7 +137,7 @@ public class PassportController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
         return "abroad/passport/passport_page";
@@ -220,7 +221,7 @@ public class PassportController extends BaseController {
             List<String[]> valuesList = new ArrayList<>();
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
-                SysUser sysUser = record.getUser();
+                SysUserView sysUser = record.getUser();
                 Cadre cadre = record.getCadre();
                 String[] values = {
                         sysUser.getCode(),
@@ -250,11 +251,11 @@ public class PassportController extends BaseController {
             List<String[]> valuesList = new ArrayList<>();
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
-                SysUser sysUser = record.getUser();
+                SysUserView uv = record.getUser();
                 Cadre cadre = record.getCadre();
                 String[] values = {
-                        sysUser.getCode(),
-                        sysUser.getRealname(),
+                        uv.getCode(),
+                        uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
                         SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
@@ -281,11 +282,11 @@ public class PassportController extends BaseController {
             List<String[]> valuesList = new ArrayList<>();
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
-                SysUser sysUser = record.getUser();
+                SysUserView uv = record.getUser();
                 Cadre cadre = record.getCadre();
                 String[] values = {
-                        sysUser.getCode(),
-                        sysUser.getRealname(),
+                        uv.getCode(),
+                        uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
                         SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
@@ -311,15 +312,15 @@ public class PassportController extends BaseController {
             List<String[]> valuesList = new ArrayList<>();
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
-                SysUser sysUser = record.getUser();
+                SysUserView uv = record.getUser();
                 Cadre cadre = record.getCadre();
                 String keepDate = "";
                 if(!record.getKeepDate().after(record.getLostTime())){
                     keepDate=record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"";
                 }
                 String[] values = {
-                        sysUser.getCode(),
-                        sysUser.getRealname(),
+                        uv.getCode(),
+                        uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
                         SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
@@ -346,7 +347,7 @@ public class PassportController extends BaseController {
         modelMap.put("passport", passport);
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "abroad/passport/passport_useLogs";
@@ -355,7 +356,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_cancel( @CurrentUser SysUser loginUser, int id, MultipartFile _cancelPic, HttpServletRequest request) {
+    public Map do_passport_cancel( @CurrentUser SysUserView loginUser, int id, MultipartFile _cancelPic, HttpServletRequest request) {
 
         if (_cancelPic == null || _cancelPic.isEmpty()) throw new RuntimeException("请选择确认文件");
 
@@ -424,7 +425,7 @@ public class PassportController extends BaseController {
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
-            @CurrentUser SysUser loginUser,
+            @CurrentUser SysUserView loginUser,
             int id,
             String _lostTime,
             MultipartFile _lostProof,
@@ -603,9 +604,9 @@ public class PassportController extends BaseController {
 
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
 
-        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
+        String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
                 + "（取消集中管理证明）" + FileUtils.getExtention(cancelPic), "UTF-8");
 
         DownloadUtils.download(request, response, filePath, fileName);
@@ -622,9 +623,9 @@ public class PassportController extends BaseController {
 
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
 
-        String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()
+        String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
                 + "（丢失证明）" + FileUtils.getExtention(lostProof), "UTF-8");
 
         DownloadUtils.download(request, response, filePath, fileName);
@@ -655,7 +656,7 @@ public class PassportController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(passport.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
 
         } else if (applyId != null) {
@@ -667,7 +668,7 @@ public class PassportController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(passport.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 
@@ -683,7 +684,7 @@ public class PassportController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "abroad/passport/passport_lost";
@@ -838,12 +839,12 @@ public class PassportController extends BaseController {
             for (int i = 0; i < size; i++) {
                 Passport passport = passports.get(i);
                 Cadre cadre = cadreMap.get(passport.getCadreId());
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
 
                 String[] values = {
                         String.valueOf(i + 1),
-                        sysUser.getCode(),
-                        sysUser.getRealname(),
+                        uv.getCode(),
+                        uv.getRealname(),
                         cadre.getTitle(),
                         passportType.get(passport.getClassId()).getName(),
                         passport.getCode(),

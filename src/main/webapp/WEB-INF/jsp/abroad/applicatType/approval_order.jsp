@@ -114,9 +114,9 @@
                 success: function (ret) {
                     if (ret.success) {
 
-                        SysMsg.success('操作成功。', '成功',function(){
+                        //SysMsg.success('操作成功。', '成功',function(){
                             pop_reload();
-                        });
+                        //});
                     }
                 }
             });

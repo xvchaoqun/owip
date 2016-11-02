@@ -4,16 +4,12 @@ import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.*;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
 import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.MetaType;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.CadreMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -34,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.helper.ExportHelper;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -64,7 +59,7 @@ public class CadreController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        SysUser sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.findByCode(code);
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
@@ -99,7 +94,7 @@ public class CadreController extends BaseController {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
-                SysUser sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);
             }
         }
@@ -191,17 +186,17 @@ public class CadreController extends BaseController {
         Cadre cadre = cadreService.findAll().get(id);
         modelMap.put("cadre", cadre);
 
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", uv);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("branchMap", branchMap);
         modelMap.put("partyMap", partyMap);
-        modelMap.put("member", memberService.get(sysUser.getId()));
+        modelMap.put("member", memberService.get(uv.getId()));
 
         // 人事信息
-        ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
         modelMap.put("extJzg", extJzg);
 
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(id);
@@ -264,7 +259,7 @@ public class CadreController extends BaseController {
         cadreService.updateByExampleSelective(record, example);
 
         Cadre cadre = cadreMapper.selectByPrimaryKey(id);
-        SysUser user = cadre.getUser();
+        SysUserView user = cadre.getUser();
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
@@ -274,7 +269,7 @@ public class CadreController extends BaseController {
     public String cadre_leave(int id, HttpServletResponse response,  ModelMap modelMap) {
 
         Cadre cadre = cadreService.findAll().get(id);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
 
@@ -317,7 +312,7 @@ public class CadreController extends BaseController {
 
         Map<Integer, Cadre> cadreMap = cadreService.findAll();
         for (Cadre cadre : cadreMap.values()) {
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = cadre.getUser();
             // 添加干部身份
             sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
         }
@@ -412,7 +407,7 @@ public class CadreController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreView record = records.get(i);
-            SysUser sysUser =  record.getUser();
+            SysUserView sysUser =  record.getUser();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),

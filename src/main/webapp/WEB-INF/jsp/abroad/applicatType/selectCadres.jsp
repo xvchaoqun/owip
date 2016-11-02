@@ -49,9 +49,9 @@
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');
-								SysMsg.success('操作成功。', '成功',function(){
+								//SysMsg.success('操作成功。', '成功',function(){
 									page_reload()
-								});
+								//});
 
 							}
 						}

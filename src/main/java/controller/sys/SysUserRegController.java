@@ -6,6 +6,7 @@ import domain.sys.SysUser;
 import domain.sys.SysUserReg;
 import domain.sys.SysUserRegExample;
 import domain.sys.SysUserRegExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.SysUserRegMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -151,7 +152,7 @@ public class SysUserRegController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("sysUserReg:list")
     @RequestMapping("/sysUserReg_approval")
-    public String sysUserReg_approval(@CurrentUser SysUser loginUser, Integer id, ModelMap modelMap) {
+    public String sysUserReg_approval(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
         SysUserReg currentSysUserReg = null;
         if (id != null) {
@@ -194,7 +195,7 @@ public class SysUserRegController extends BaseController {
     @RequiresPermissions("sysUserReg:update")
     @RequestMapping(value = "/sysUserReg_deny", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserReg_deny(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_sysUserReg_deny(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                   Integer id,
                                   String reason) {
 
@@ -218,7 +219,7 @@ public class SysUserRegController extends BaseController {
     @RequiresPermissions("sysUserReg:update")
     @RequestMapping(value = "/sysUserReg_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserReg_check(@CurrentUser SysUser loginUser,HttpServletRequest request,
+    public Map do_sysUserReg_check(@CurrentUser SysUserView loginUser,HttpServletRequest request,
                                    Integer id) {
 
         VerifyAuth<SysUserReg> verifyAuth = checkVerityAuth2(id);
@@ -318,7 +319,7 @@ public class SysUserRegController extends BaseController {
         return "sys/sysUserReg/sysUserReg_changepw";
     }
 
-    @RequiresPermissions("sysUserReg:del")
+    /*@RequiresPermissions("sysUserReg:del")
     @RequestMapping(value = "/sysUserReg_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserReg_del(HttpServletRequest request, Integer id) {
@@ -343,5 +344,5 @@ public class SysUserRegController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 }

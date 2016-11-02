@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -33,14 +34,14 @@ public class UserMemberOutController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/memberOut")
-    public String memberOut(@CurrentUser SysUser loginUser) {
+    public String memberOut(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("member")
     @RequestMapping("/memberOut_page")
-    public String memberOut_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String memberOut_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
 
@@ -58,7 +59,7 @@ public class UserMemberOutController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_au(@CurrentUser SysUser loginUser,
+    public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
                                    MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
         //Integer userId = record.getUserId();
@@ -107,7 +108,7 @@ public class UserMemberOutController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberOut_back(@CurrentUser SysUser loginUser, String remark){
+    public Map memberOut_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         memberOutService.back(userId);

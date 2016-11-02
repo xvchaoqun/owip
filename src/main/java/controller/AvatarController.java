@@ -1,6 +1,7 @@
 package controller;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class AvatarController extends BaseController{
     @RequestMapping("/avatar/{username}")
     public void avatar(@PathVariable String username, HttpServletResponse response) throws IOException {
 
-        SysUser sysUser = sysUserService.findByUsername(username);
+        SysUserView sysUser = sysUserService.findByUsername(username);
         String filepath = springProps.avatarFolder + File.separator + sysUser.getId() % 100 + File.separator
                 + sysUser.getCode() + ".jpg";
         File imgFile = new File(filepath);
@@ -54,7 +55,7 @@ public class AvatarController extends BaseController{
                 try {
                     if (PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
                         String code = filename.split("\\.")[0];
-                        SysUser sysUser = sysUserService.findByCode(code);
+                        SysUserView sysUser = sysUserService.findByCode(code);
                         if (sysUser != null) {
                             String avatar = springProps.avatarFolder + File.separator + sysUser.getId() % 100 + File.separator;
                             File path = new File(avatar);

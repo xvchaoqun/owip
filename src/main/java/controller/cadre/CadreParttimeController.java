@@ -7,6 +7,7 @@ import domain.cadre.CadreParttime;
 import domain.cadre.CadreParttimeExample;
 import domain.cadre.CadreParttimeExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -160,7 +161,7 @@ public class CadreParttimeController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreParttime/cadreParttime_au";

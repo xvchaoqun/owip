@@ -11,6 +11,7 @@ import domain.cadre.Cadre;
 import domain.member.MemberOut;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,7 @@ public class ReportController extends BaseController {
 
     // 京外套打
     @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public String member_out_bj(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 @RequestParam(required = false, defaultValue = "0") Boolean print,
                                 Integer type,
@@ -90,7 +91,7 @@ public class ReportController extends BaseController {
 
     // 京内打印
     @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public String member_in_bj(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                @RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf")String format,
@@ -172,7 +173,7 @@ public class ReportController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
-        SysUser user = sysUserService.findById(cadre.getUserId());
+        SysUserView user = sysUserService.findById(cadre.getUserId());
         //String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String title = cadre.getTitle();
 
@@ -210,7 +211,7 @@ public class ReportController extends BaseController {
             map.put("month", DateUtils.getMonth(cancelTime));
             map.put("day", DateUtils.getDay(cancelTime));
         }*/
-        SysUser _user = ShiroSecurityHelper.getCurrentUser();
+        SysUserView _user = ShiroSecurityHelper.getCurrentUser();
         sign = springProps.uploadPath + _user.getSign();
         Date cancelTime =new Date();
         map.put("year", DateUtils.getYear(cancelTime));
@@ -245,7 +246,7 @@ public class ReportController extends BaseController {
             userId = cadre.getUserId();
         }
 
-        SysUser user = sysUserService.findById(userId);
+        SysUserView user = sysUserService.findById(userId);
         Cadre cadre = cadreService.findByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
@@ -269,7 +270,7 @@ public class ReportController extends BaseController {
         String mobile = "";
         if (passportDraw != null) {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_PASS) {
-                SysUser _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
+                SysUserView _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
                 sign = springProps.uploadPath + _user.getSign();
                 mobile = _user.getPhone(); // 办公电话
             }
@@ -310,7 +311,7 @@ public class ReportController extends BaseController {
             userId = cadre.getUserId();
         }
 
-        SysUser user = sysUserService.findById(userId);
+        SysUserView user = sysUserService.findById(userId);
         Cadre cadre = cadreService.findByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
@@ -334,7 +335,7 @@ public class ReportController extends BaseController {
         String mobile = "";
         if (passportApply != null) {
             if (passportApply.getStatus() != null && passportApply.getStatus() == SystemConstants.PASSPORT_APPLY_STATUS_PASS) {
-                SysUser _user = sysUserService.findById(passportApply.getUserId()); // 审核人
+                SysUserView _user = sysUserService.findById(passportApply.getUserId()); // 审核人
                 sign = springProps.uploadPath + _user.getSign();
                 mobile = _user.getPhone(); // 办公电话
             }
@@ -362,7 +363,7 @@ public class ReportController extends BaseController {
     }
 
     @RequestMapping(value = "/abroad_draw_proof", method = RequestMethod.GET)
-    public String abroad_draw_proof(@CurrentUser SysUser loginUser,
+    public String abroad_draw_proof(@CurrentUser SysUserView loginUser,
                                     @RequestParam(value = "ids[]") Integer[] ids,
                                     Integer type,
                                     @RequestParam(defaultValue = "pdf")String format,
@@ -401,7 +402,7 @@ public class ReportController extends BaseController {
 
         Integer cadreId = passportDraw.getCadreId();
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
-        SysUser sysUser = cadre.getUser();
+        SysUserView sysUser = cadre.getUser();
         String realname = sysUser.getRealname();
         String code = sysUser.getCode();
         String unit = cadre.getUnit().getName();

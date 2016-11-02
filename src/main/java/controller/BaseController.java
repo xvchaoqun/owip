@@ -18,7 +18,7 @@ import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.party.*;
-import service.party.TeacherService;
+import service.sys.TeacherInfoService;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
@@ -202,9 +202,9 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected UserBeanService userBeanService;
     @Autowired
-    protected TeacherService teacherService;
+    protected TeacherInfoService teacherService;
     @Autowired
-    protected StudentService studentService;
+    protected StudentInfoService studentService;
     @Autowired
     protected SysUserSyncService sysUserSyncService;
     @Autowired

@@ -7,6 +7,7 @@ import domain.member.MemberInflowExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberInflowMixin;
@@ -224,7 +225,7 @@ public class MemberInflowOutController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:list")
     @RequestMapping("/memberInflowOut_approval")
-    public String memberInflowOut_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUser loginUser, Integer id,
+    public String memberInflowOut_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
                                         byte type, // 1:支部审核 2：分党委审核
                                         ModelMap modelMap) {
 
@@ -284,7 +285,7 @@ public class MemberInflowOutController extends BaseController {
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflowOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberInflowOut_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                       byte type, // 1:支部审核 2：分党委审核
                                       @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -308,7 +309,7 @@ public class MemberInflowOutController extends BaseController {
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflowOut_back(@CurrentUser SysUser loginUser,
+    public Map do_memberInflowOut_back(@CurrentUser SysUserView loginUser,
                                      @RequestParam(value = "ids[]") Integer[] ids,
                                      byte status,
                                      String reason) {
@@ -345,7 +346,7 @@ public class MemberInflowOutController extends BaseController {
 
     @RequestMapping(value = "/memberInflowOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflowOut(@CurrentUser SysUser loginUser, int userId, String outUnit, Integer outLocation,
+    public Map do_memberInflowOut(@CurrentUser SysUserView loginUser, int userId, String outUnit, Integer outLocation,
                                   String _outTime, HttpServletRequest request) {
 
         MemberInflow memberInflow = memberInflowOutService.out(userId, outUnit, outLocation, _outTime, false);

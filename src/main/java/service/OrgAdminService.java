@@ -2,7 +2,7 @@ package service;
 
 import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
@@ -41,7 +41,7 @@ public class OrgAdminService extends BaseMapper {
 
         Assert.isTrue(!idDuplicate(null, userId, partyId, null));
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
 
         // 见PartyMemberAdminService.toggleAdmin
         // 添加账号的"分党委管理员"角色
@@ -65,7 +65,7 @@ public class OrgAdminService extends BaseMapper {
 
         Assert.isTrue(!idDuplicate(null, userId, null, branchId));
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
 
         // 见 BranchMemberAdminService.toggleAdmin
         // 添加账号的"党支部管理员"角色
@@ -93,7 +93,7 @@ public class OrgAdminService extends BaseMapper {
         OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
         Assert.isTrue(orgAdmin.getUserId().intValue() == userId);
 
-        SysUser sysUser = sysUserService.findById(userId);
+        SysUserView sysUser = sysUserService.findById(userId);
 
         // 先删除
         orgAdminMapper.deleteByPrimaryKey(id);

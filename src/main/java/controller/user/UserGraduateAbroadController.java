@@ -6,6 +6,7 @@ import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -33,14 +34,14 @@ public class UserGraduateAbroadController extends BaseController{
 
     @RequiresRoles("member")
     @RequestMapping("/graduateAbroad")
-    public String graduateAbroad(@CurrentUser SysUser loginUser) {
+    public String graduateAbroad(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
     @RequiresRoles("member")
     @RequestMapping("/graduateAbroad_page")
-    public String graduateAbroad_page(@CurrentUser SysUser loginUser, ModelMap modelMap) {
+    public String graduateAbroad_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 
@@ -78,7 +79,7 @@ public class UserGraduateAbroadController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/graduateAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_graduateAbroad_au(@CurrentUser SysUser loginUser,
+    public Map do_graduateAbroad_au(@CurrentUser SysUserView loginUser,
                                    GraduateAbroad record,
                                    String _startTime, String _endTime,
                                    String _saveStartTime, String _saveEndTime,
@@ -157,7 +158,7 @@ public class UserGraduateAbroadController extends BaseController{
     @RequiresRoles("member")
     @RequestMapping(value = "/graduateAbroad_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map graduateAbroad_back(@CurrentUser SysUser loginUser, String remark){
+    public Map graduateAbroad_back(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
         graduateAbroadService.back(userId);

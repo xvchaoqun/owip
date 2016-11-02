@@ -3,20 +3,20 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
     <h3>修改教职工党员人事信息</h3>
 	<hr/>
-    <form class="form-horizontal" action="${ctx}/teacher_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/member_teacherInfo_au" id="modalForm" method="post">
         <input type="hidden" name="userId" value="${teacher.userId}">
 		<div class="row">
 			<div class="col-xs-4">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作证号</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="code" value="${teacher.code}">
+                        <input class="form-control" type="text" name="code" value="${sysUser.code}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="realname" value="${teacher.realname}">
+                        <input class="form-control" type="text" name="realname" value="${sysUser.realname}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 						<c:forEach var="gender" items="${GENDER_MAP}">
 							<label>
 								<input name="gender" type="radio" class="ace" value="${gender.key}"
-									   <c:if test="${teacher.gender==gender.key}">checked</c:if>/>
+									   <c:if test="${sysUser.gender==gender.key}">checked</c:if>/>
 								<span class="lbl"> ${gender.value}</span>
 							</label>
 						</c:forEach>
@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 150px">
 						<input  class="form-control date-picker" name="_birth" type="text"
-								data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.birth,'yyyy-MM-dd')}" />
+								data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -46,19 +46,19 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">籍贯</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="nativePlace" value="${teacher.nativePlace}">
+						<input class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">民族</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="nation" value="${teacher.nation}">
+						<input class="form-control" type="text" name="nation" value="${sysUser.nation}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">身份证号</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="idcard" value="${teacher.idcard}">
+						<input class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -216,19 +216,19 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">联系邮箱</label>
 				<div class="col-xs-6">
-                        <input class="form-control email" type="text" name="email" value="${teacher.email}">
+                        <input class="form-control email" type="text" name="email" value="${sysUser.email}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">联系手机</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="mobile" value="${teacher.mobile}">
+                        <input class="form-control" type="text" name="mobile" value="${sysUser.mobile}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">家庭电话</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="phone" value="${teacher.phone}">
+                        <input class="form-control" type="text" name="homePhone" value="${sysUser.homePhone}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -285,10 +285,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-						SysMsg.success('提交成功。', '成功',function(){
+						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
 							$(".closeView").click();
-						});
+						//});
                     }
                 }
             });

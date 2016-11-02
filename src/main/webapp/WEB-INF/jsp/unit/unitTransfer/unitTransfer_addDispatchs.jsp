@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
             $.post("${ctx}/unitTransfer_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
                 if(ret.success) {
                     $("#modal").modal('hide');
-                    SysMsg.success('操作成功。', '成功');
+                    //SysMsg.success('操作成功。', '成功');
                 }
             });
     }

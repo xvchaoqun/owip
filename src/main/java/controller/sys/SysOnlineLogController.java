@@ -4,6 +4,7 @@ import bean.LoginUser;
 import controller.BaseController;
 import domain.sys.SysOnlineStatic;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -93,7 +94,7 @@ public class SysOnlineLogController extends BaseController {
     @RequiresPermissions("sysOnlineLog:kickout")
     @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysOnlineLog_kickout(@CurrentUser SysUser loginUser, @RequestParam(value = "ids[]")String[] ids) {
+    public Map do_sysOnlineLog_kickout(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]")String[] ids) {
 
         String currentUsername = loginUser.getUsername();
         Set<String> usernames = new HashSet<>();

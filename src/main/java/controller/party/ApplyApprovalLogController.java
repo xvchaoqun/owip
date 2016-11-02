@@ -5,6 +5,7 @@ import domain.member.ApplyApprovalLog;
 import domain.member.ApplyApprovalLogExample;
 import domain.member.*;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.ApplyApprovalLogMixin;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -77,7 +78,7 @@ public class ApplyApprovalLogController extends BaseController {
             }
 
             if (userId != null) {
-                SysUser sysUser = sysUserService.findById(userId);
+                SysUserView sysUser = sysUserService.findById(userId);
                 modelMap.put("sysUser", sysUser);
             }
         }

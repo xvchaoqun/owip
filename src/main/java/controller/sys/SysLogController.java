@@ -5,6 +5,7 @@ import controller.BaseController;
 import domain.sys.SysLog;
 import domain.sys.SysLogExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.SysLogMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -107,7 +108,7 @@ public class SysLogController extends BaseController {
 	@RequiresPermissions("sysLog:del")
 	@RequestMapping(value="/sysLog_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysLog_del(@CurrentUser SysUser user, Integer id, Integer type, HttpServletRequest request) {
+	public Map do_sysLog_del(@CurrentUser SysUserView user, Integer id, Integer type, HttpServletRequest request) {
 		
 		if(id!=null){
 

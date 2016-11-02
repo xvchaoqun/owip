@@ -3,6 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.party.RetireApply;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class RetireApplyController extends BaseController {
 
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_retireApply_au(@CurrentUser SysUser loginUser, RetireApply retireApply, HttpServletRequest request) {
+    public Map do_retireApply_au(@CurrentUser SysUserView loginUser, RetireApply retireApply, HttpServletRequest request) {
 
         //操作人应该是申请人所在党支部或直属党支部管理员
         int loginUserId = loginUser.getId();
@@ -71,7 +72,7 @@ public class RetireApplyController extends BaseController {
 
     @RequestMapping(value = "/retireApply_verify", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_retireApply_verify(@CurrentUser SysUser loginUser, int userId, HttpServletRequest request) {
+    public Map do_retireApply_verify(@CurrentUser SysUserView loginUser, int userId, HttpServletRequest request) {
 
         //该分党委管理员应是申请人所在的分党委
         int loginUserId = loginUser.getId();

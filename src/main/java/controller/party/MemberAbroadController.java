@@ -9,6 +9,7 @@ import domain.member.MemberAbroadViewExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.MemberAbroadViewMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -154,7 +155,7 @@ public class MemberAbroadController extends BaseController {
     @RequiresPermissions("memberAbroad:edit")
     @RequestMapping(value = "/memberAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberAbroad_au(@CurrentUser SysUser loginUser, MemberAbroad record,
+    public Map do_memberAbroad_au(@CurrentUser SysUserView loginUser, MemberAbroad record,
                                   String _abroadTime,
                                   String _expectReturnTime,
                                   String _actualReturnTime,
@@ -256,7 +257,7 @@ public class MemberAbroadController extends BaseController {
         for (int i = 0; i < rownum; i++) {
 
             MemberAbroadView record = memberAbroads.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             String[] values = {

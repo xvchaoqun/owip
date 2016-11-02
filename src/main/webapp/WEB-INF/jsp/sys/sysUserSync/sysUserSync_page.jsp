@@ -58,7 +58,7 @@
 
         $.post("${ctx}/sync_stop",{id:id},function(ret){
             if (ret.success) {
-                SysMsg.success('操作成功。', '成功');
+                //SysMsg.success('操作成功。', '成功');
                 page_reload()
             }
         })

@@ -9,6 +9,7 @@ import domain.member.MemberOutModify;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.MemberOutMixin;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -257,7 +258,7 @@ public class MemberOutController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
-    public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUser loginUser, Integer id,
+    public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUserView loginUser, Integer id,
                                      byte type, // 1:分党委审核 2：组织部审核
                                      ModelMap modelMap) {
 
@@ -315,7 +316,7 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberOut_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                   byte type, // 1:分党委审核 3：组织部审核
                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -339,7 +340,7 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_back(@CurrentUser SysUser loginUser,
+    public Map do_memberOut_back(@CurrentUser SysUserView loginUser,
                                  @RequestParam(value = "ids[]") Integer[] ids,
                                  byte status,
                                  String reason) {
@@ -354,7 +355,7 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_au(@CurrentUser SysUser loginUser, MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
+    public Map do_memberOut_au(@CurrentUser SysUserView loginUser, MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
@@ -566,7 +567,7 @@ public class MemberOutController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOut record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             String[] values = {

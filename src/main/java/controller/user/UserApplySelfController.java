@@ -7,6 +7,7 @@ import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -40,7 +41,7 @@ public class UserApplySelfController extends BaseController {
 
 /*    @RequiresRoles("cadre")
     @RequestMapping("/applySelf_download")
-    public void applySelf_download(@CurrentUser SysUser loginUser,
+    public void applySelf_download(@CurrentUser SysUserView loginUser,
                                    Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
@@ -59,7 +60,7 @@ public class UserApplySelfController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_view")
-    public String applySelf_view(@CurrentUser SysUser loginUser, Integer id, ModelMap modelMap) {
+    public String applySelf_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -108,7 +109,7 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_data")
     @ResponseBody
-    public void applySelf_data(@CurrentUser SysUser loginUser,
+    public void applySelf_data(@CurrentUser SysUserView loginUser,
                                String _applyDate,
                                Byte type, // 出行时间范围
                                  Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
@@ -168,7 +169,7 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+    public Map do_applySelf_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -201,7 +202,7 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(@CurrentUser SysUser loginUser,
+    public Map do_applySelf_au(@CurrentUser SysUserView loginUser,
                                ApplySelf record,
                                String _startDate,
                                String _endDate,
@@ -286,7 +287,7 @@ public class UserApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/applySelfFile_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelfFile_del(@CurrentUser SysUser loginUser, Integer id) {
+    public Map do_applySelfFile_del(@CurrentUser SysUserView loginUser, Integer id) {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
         int userId= loginUser.getId();
@@ -307,7 +308,7 @@ public class UserApplySelfController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_au")
-    public String applySelf_au(@CurrentUser SysUser loginUser, Integer id, ModelMap modelMap) {
+    public String applySelf_au(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);

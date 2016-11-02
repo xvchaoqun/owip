@@ -1,16 +1,16 @@
 package domain.member;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ApplyApprovalLog implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public SysUser getApplyUser(){
+    public SysUserView getApplyUser(){
         return CmTag.getUserById(applyUserId);
     }
     private Integer id;

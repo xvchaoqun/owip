@@ -2,6 +2,7 @@ package controller.mobile;
 
 import controller.BaseController;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class MobileIndexController extends BaseController {
 	}
 
 	@RequestMapping("/index_page")
-	public String home_page(@CurrentUser SysUser loginUser,HttpServletResponse response, ModelMap modelMap) {
+	public String home_page(@CurrentUser SysUserView loginUser,HttpServletResponse response, ModelMap modelMap) {
 
 		Subject subject = SecurityUtils.getSubject();
 		int notApprovalCount = 0;

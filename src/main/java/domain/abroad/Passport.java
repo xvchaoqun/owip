@@ -3,6 +3,7 @@ package domain.abroad;
 import domain.sys.SysUser;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
+import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Passport implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

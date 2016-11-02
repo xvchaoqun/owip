@@ -11,6 +11,7 @@ import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreExample;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.unit.Leader;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,11 +61,11 @@ public class ApplySelfService extends BaseMapper {
     protected SpringProps springProps;
 
     // 查找审批人
-    public List<SysUser> findApprovers(int cadreId/*被审批干部*/, int approvalTypeId) {
+    public List<SysUserView> findApprovers(int cadreId/*被审批干部*/, int approvalTypeId) {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approvalTypeId <= 0) { // 查找干部管理员
-            List<SysUser> cadreAdmin = sysUserService.findByRole("cadreAdmin");
+            List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin");
             return cadreAdmin;
         } else {
 
@@ -77,7 +78,7 @@ public class ApplySelfService extends BaseMapper {
             Cadre cadre = cadreMap.get(cadreId);
             ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
             if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
-                List<SysUser> _users = new ArrayList<>();
+                List<SysUserView> _users = new ArrayList<>();
                 List<Cadre> mainPostList = cadreService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
                     if (_cadre.getStatus() == SystemConstants.CADRE_STATUS_NOW
@@ -95,7 +96,7 @@ public class ApplySelfService extends BaseMapper {
                 return _users;
             } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
 
-                List<SysUser> users = new ArrayList<>();
+                List<SysUserView> users = new ArrayList<>();
                 MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
                 List<Leader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (Leader managerUnitLeader : managerUnitLeaders) {
@@ -106,7 +107,7 @@ public class ApplySelfService extends BaseMapper {
                 }
                 return users;
             } else { // 查找其他身份下的审批人
-                List<SysUser> users = new ArrayList<>();
+                List<SysUserView> users = new ArrayList<>();
                 List<Approver> approvers = approverService.findByType(approvalTypeId);
                 for (Approver approver : approvers) {
                     Cadre _cadre = approver.getCadre();
@@ -119,7 +120,7 @@ public class ApplySelfService extends BaseMapper {
     }
 
     // 查找下一步的审批人员
-    public List<SysUser> findNextApprovers(int applySelfId) {
+    public List<SysUserView> findNextApprovers(int applySelfId) {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
         // 下一个审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
@@ -330,7 +331,7 @@ public class ApplySelfService extends BaseMapper {
             if (needApproverList) {
                 // 读取所有审批人
                 ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-                List<SysUser> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
+                List<SysUserView> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
                 bean.setApproverList(approvers);
             }
 
@@ -378,7 +379,7 @@ public class ApplySelfService extends BaseMapper {
                 if (needApproverList && bean.getTdType() != 1) {
                     // 读取所有审批人
                     ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-                    List<SysUser> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
+                    List<SysUserView> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
                     bean.setApproverList(approvers);
                 }
 
@@ -413,7 +414,7 @@ public class ApplySelfService extends BaseMapper {
             if (needApproverList) {
                 // 读取所有审批人
                 ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-                List<SysUser> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
+                List<SysUserView> approvers = findApprovers(applySelf.getCadreId(), bean.getApprovalTypeId());
                 bean.setApproverList(approvers);
             }
 
@@ -584,9 +585,9 @@ public class ApplySelfService extends BaseMapper {
                 unitIds.add(cadre.getUnitId());
             }
             if (postType == null) {
-                SysUser sysUser = cadre.getUser();
+                SysUserView uv = cadre.getUser();
                 logger.error(String.format("读取职务属性出错：%s %s postId=%s",
-                        sysUser.getUsername(), sysUser.getRealname(), cadre.getPostId()));
+                        uv.getUsername(), uv.getRealname(), cadre.getPostId()));
             }
         }
         {
@@ -813,7 +814,7 @@ public class ApplySelfService extends BaseMapper {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApplySelf record = records.get(i);
-            SysUser sysUser = record.getUser();
+            SysUserView uv = record.getUser();
             Cadre cadre = record.getCadre();
 
             List<String> passportList = new ArrayList<>();
@@ -830,8 +831,8 @@ public class ApplySelfService extends BaseMapper {
             String[] values = {
                     "S" + record.getId(),
                     DateUtils.formatDate(record.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
+                    uv.getCode(),
+                    uv.getRealname(),
                     cadre.getTitle(),
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),

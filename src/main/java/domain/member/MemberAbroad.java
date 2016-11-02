@@ -1,13 +1,13 @@
 package domain.member;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberAbroad implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
     private Integer id;

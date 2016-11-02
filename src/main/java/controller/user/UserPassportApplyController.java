@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +42,7 @@ public class UserPassportApplyController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_au(int classId, @CurrentUser SysUser loginUser,  HttpServletRequest request) {
+    public Map do_passportApply_au(int classId, @CurrentUser SysUserView loginUser,  HttpServletRequest request) {
 
         PassportApply record = new PassportApply();
 
@@ -67,7 +68,7 @@ public class UserPassportApplyController extends BaseController {
     @RequiresRoles("cadre")
     @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+    public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
         Cadre cadre = cadreService.findByUserId(userId);
@@ -112,7 +113,7 @@ public class UserPassportApplyController extends BaseController {
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportApply_page")
-    public String passportApply_page(@CurrentUser SysUser loginUser,
+    public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                      // 1证件列表 2申请证件列表

@@ -1,8 +1,8 @@
 package domain.dispatch;
 
-import domain.sys.SysUser;
-import domain.unit.Unit;
 import domain.cadre.Cadre;
+import domain.sys.SysUserView;
+import domain.unit.Unit;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -15,7 +15,7 @@ public class DispatchCadre implements Serializable {
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

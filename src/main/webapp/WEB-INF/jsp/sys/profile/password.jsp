@@ -87,9 +87,9 @@
       $(form).ajaxSubmit({
         success:function(data){
           if(data.success){
-            SysMsg.success('修改密码成功。', '成功', function(){
+            //SysMsg.success('修改密码成功。', '成功', function(){
                 location.href ="${ctx}/"
-            });
+           // });
 
           }
         }

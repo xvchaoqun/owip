@@ -1,14 +1,14 @@
 package domain.abroad;
 
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 
 public class Approver implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }

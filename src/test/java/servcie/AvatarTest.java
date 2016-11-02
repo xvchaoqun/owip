@@ -1,6 +1,7 @@
 package servcie;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class AvatarTest {
 
                 if( PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
                     String code = filename.split("\\.")[0];
-                    SysUser sysUser = sysUserService.findByCode(code);
+                    SysUserView sysUser = sysUserService.findByCode(code);
                     if(sysUser!=null){
                         String avatar =  springProps.avatarFolder + File.separator + sysUser.getId()%100 + File.separator;
                         File path = new File(avatar);

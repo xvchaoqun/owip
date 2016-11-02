@@ -1,6 +1,7 @@
 package controller;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -38,11 +39,11 @@ public class CasController {
 
         String username = CasUtils.getUsername(request);
         if (StringUtils.isNotBlank(username)) {
-            SysUser sysUser = sysUserService.findByUsername(username);
-            if (sysUser != null) {  // 系统中存在这个用户才处理
+            SysUserView uv = sysUserService.findByUsername(username);
+            if (uv != null) {  // 系统中存在这个用户才处理
 
-                ShiroUser shiroUser = new ShiroUser(sysUser.getId(), sysUser.getUsername(), sysUser.getCode(),
-                        sysUser.getRealname(), sysUser.getType());
+                ShiroUser shiroUser = new ShiroUser(uv.getId(), uv.getUsername(), uv.getCode(),
+                        uv.getRealname(), uv.getType());
                 PrincipalCollection principals = new SimplePrincipalCollection(
                         shiroUser, "casRealm");
                 WebSubject.Builder builder = new WebSubject.Builder(request, response);

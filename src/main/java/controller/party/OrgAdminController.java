@@ -5,6 +5,7 @@ import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
 import domain.party.OrgAdminExample.Criteria;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -177,7 +178,7 @@ public class OrgAdminController extends BaseController {
     @RequiresPermissions("orgAdmin:del")
     @RequestMapping(value = "/orgAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_orgAdmin_del(@CurrentUser SysUser loginUser, HttpServletRequest request, Integer id) {
+    public Map do_orgAdmin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         if (id != null) {
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);

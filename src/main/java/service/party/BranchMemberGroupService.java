@@ -2,6 +2,7 @@ package service.party;
 
 import domain.party.*;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -76,7 +77,7 @@ public class BranchMemberGroupService extends BaseMapper {
 
         for (BranchMember branchMember : getGroupAdmins(groupId)) {
             int userId = branchMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
             List<Integer> branchIdList = commonMapper.adminBranchIdList(userId);
@@ -90,7 +91,7 @@ public class BranchMemberGroupService extends BaseMapper {
 
         for (BranchMember branchMember : getGroupAdmins(groupId)) {
             int userId = branchMember.getUserId();
-            SysUser sysUser = sysUserService.findById(userId);
+            SysUserView sysUser = sysUserService.findById(userId);
             // 添加账号的"党支部管理员"角色
             // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
             Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());

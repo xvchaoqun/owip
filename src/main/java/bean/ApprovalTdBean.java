@@ -1,6 +1,7 @@
 package bean;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ApprovalTdBean {
      */
     private int tdType;
     private boolean canApproval;
-    private List<SysUser> approverList;
+    private List<SysUserView> approverList;
 
     public Integer getApplySelfId() {
         return applySelfId;
@@ -50,11 +51,11 @@ public class ApprovalTdBean {
         this.canApproval = canApproval;
     }
 
-    public List<SysUser> getApproverList() {
+    public List<SysUserView> getApproverList() {
         return approverList;
     }
 
-    public void setApproverList(List<SysUser> approverList) {
+    public void setApproverList(List<SysUserView> approverList) {
         this.approverList = approverList;
     }
 }

@@ -1,8 +1,8 @@
 package domain.abroad;
 
-import domain.sys.SysUser;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
+import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -14,11 +14,11 @@ public class PassportApplyView implements Serializable {
     public Cadre getCadre(){
         return CmTag.getCadreById(cadreId);
     }
-    public SysUser getApplyUser(){
+    public SysUserView getApplyUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public SysUser getApprovalUser(){
+    public SysUserView getApprovalUser(){
         if(userId!=null)
             return CmTag.getUserById(userId);
         return null;
@@ -32,7 +32,7 @@ public class PassportApplyView implements Serializable {
 
         return SystemConstants.PASSPORT_APPLY_STATUS_MAP.get(status);
     }
-    public SysUser getHandleUser(){
+    public SysUserView getHandleUser(){
 
         return (handleUserId!=null)?CmTag.getUserById(handleUserId):null;
     }

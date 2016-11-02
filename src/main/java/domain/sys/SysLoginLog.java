@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class SysLoginLog implements Serializable {
 
-    public SysUser getUser(){
+    public SysUserView getUser(){
 
         if(StringUtils.isBlank(username)) return null;
 

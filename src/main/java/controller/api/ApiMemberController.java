@@ -3,6 +3,7 @@ package controller.api;
 import controller.BaseController;
 import domain.member.Member;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.NeedSign;
 import interceptor.SignParam;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class ApiMemberController extends BaseController {
     public Map member_status(@SignParam(value = "code") String code) {
 
         Map resultMap;
-        SysUser sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.findByCode(code);
         if(sysUser==null){
             resultMap = ret(-1, "用户不存在");
             return resultMap;

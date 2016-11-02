@@ -1,6 +1,7 @@
 package controller;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.cache.Cache;
@@ -43,13 +44,13 @@ public class FindPassController extends BaseController{
     public Map checkUsername(String username) {
 
         Map resultMap = success();
-        SysUser sysUser = sysUserService.findByUsername(username);
-        if(sysUser==null || sysUser.getLocked()){
+        SysUserView uv = sysUserService.findByUsername(username);
+        if(uv==null || uv.getLocked()){
             resultMap.put("type", 0); // 账号不存在或账号被锁定
             return resultMap;
         }
 
-        switch (sysUser.getSource()){
+        switch (uv.getSource()){
             case SystemConstants.USER_SOURCE_BKS:
             case SystemConstants.USER_SOURCE_YJS:
             case SystemConstants.USER_SOURCE_JZG:
@@ -57,7 +58,7 @@ public class FindPassController extends BaseController{
                 break;
             default:
                 resultMap.put("type", 2);  // 注册账号
-                String mobile = sysUser.getMobile();
+                String mobile = uv.getMobile();
                 if(StringUtils.isBlank(mobile)){
                     resultMap.put("send", 0); // 手机号码为空
                 }else{
@@ -86,13 +87,13 @@ public class FindPassController extends BaseController{
             return failed("密码由6-16位的字母、下划线和数字组成");
         }
 
-        SysUser sysUser = sysUserService.findByUsername(username);
-        if(sysUser==null){
+        SysUserView uv = sysUserService.findByUsername(username);
+        if(uv==null){
             return failed("该账号不存在，请重新输入。");
         }
 
         Cache<String, String> findPassCache = cacheManager.getCache("FindPassDayCount");
-        String cacheKey = DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + "_" + sysUser.getMobile();
+        String cacheKey = DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + "_" + uv.getMobile();
         String cacheVal = findPassCache.get(cacheKey);
         String _code = null;
         int seq = 0;
@@ -108,11 +109,11 @@ public class FindPassController extends BaseController{
         if(code!=null && StringUtils.equalsIgnoreCase(code.trim(), _code)){
 
             SysUser _sysUser = new SysUser();
-            _sysUser.setId(sysUser.getId());
+            _sysUser.setId(uv.getId());
             SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
             _sysUser.setSalt(encrypt.getSalt());
             _sysUser.setPasswd(encrypt.getPassword());
-            sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername() , sysUser.getCode());
+            sysUserService.updateByPrimaryKeySelective(_sysUser, uv.getUsername(), uv.getCode());
 
             // 覆盖原验证码，使其失效
             findPassCache.put(cacheKey, seq + "_" + RandomStringUtils.randomNumeric(4));

@@ -1,4 +1,72 @@
 
+-- 2016-11-2
+insert into sys_user_info( user_id, realname,avatar,gender,birth,idcard,sign,phone,mobile,email)
+select id as user_id, realname,avatar,gender,birth,idcard,sign,phone,mobile,email from sys_user;
+
+ALTER TABLE `sys_user`
+	DROP COLUMN `realname`,
+	DROP COLUMN `avatar`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `birth`,
+	DROP COLUMN `idcard`,
+	DROP COLUMN `sign`,
+	DROP COLUMN `phone`,
+	DROP COLUMN `mobile`,
+	DROP COLUMN `email`;
+
+	ALTER TABLE `sys_user`
+	CHANGE COLUMN `code` `code` VARCHAR(20) NOT NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `role_ids`;
+
+CREATE ALGORITHM = UNDEFINED VIEW `sys_user_view` AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+ALTER TABLE `ow_student`
+	DROP COLUMN `code`,
+	DROP COLUMN `realname`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `birth`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `native_place`,
+	DROP COLUMN `idcard`;
+
+RENAME TABLE `ow_student` TO `sys_student_info`;
+
+ALTER TABLE `ow_teacher`
+	COMMENT='教职工信息',
+	DROP COLUMN `code`,
+	DROP COLUMN `realname`,
+	DROP COLUMN `gender`,
+	DROP COLUMN `birth`,
+	DROP COLUMN `native_place`,
+	DROP COLUMN `nation`,
+	DROP COLUMN `idcard`;
+RENAME TABLE `ow_teacher` TO `sys_teacher_info`;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_student` AS select `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`s`.`delay_year` AS `delay_year`,`s`.`period` AS `period`,`u`.`code` AS `code`,`s`.`edu_category` AS `edu_category`,`ui`.`gender` AS `gender`,`ui`.`birth` AS `birth`,`ui`.`nation` AS `nation`,`s`.`actual_graduate_time` AS `actual_graduate_time`,`s`.`expect_graduate_time` AS `expect_graduate_time`,`s`.`actual_enrol_time` AS `actual_enrol_time`,`s`.`sync_source` AS `sync_source`,`s`.`type` AS `type`,`s`.`is_full_time` AS `is_full_time`,`ui`.`realname` AS `realname`,`s`.`enrol_year` AS `enrol_year`,`ui`.`native_place` AS `native_place`,`s`.`edu_way` AS `edu_way`,`ui`.`idcard` AS `idcard`,`s`.`edu_level` AS `edu_level`,`s`.`grade` AS `grade`,`s`.`edu_type` AS `edu_type`,`s`.`xj_status` AS `xj_status`,`p`.`unit_id` AS `unit_id` from ((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_student_info` `s`))
+join sys_user_info ui where ((`m`.`user_id` = `s`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`)) and ui.user_id=u.id ;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_teacher` AS select `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`u`.`code` AS `code`,`t`.`education` AS `education`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`t`.`school_type` AS `school_type`,`t`.`title_level` AS `title_level`,`t`.`staff_status` AS `staff_status`,`t`.`retire_time` AS `retire_time`,`t`.`post_class` AS `post_class`,`t`.`pro_post` AS `pro_post`,`t`.`major` AS `major`,`t`.`post` AS `post`,`t`.`school` AS `school`,`t`.`is_retire` AS `is_retire`,`t`.`is_honor_retire` AS `is_honor_retire`,`t`.`post_type` AS `post_type`,`t`.`degree_time` AS `degree_time`,`t`.`manage_level` AS `manage_level`,`ui`.`email` AS `email`,`t`.`post_level` AS `post_level`,`t`.`office_level` AS `office_level`,`t`.`talent_title` AS `talent_title`,`t`.`address` AS `address`,`t`.`degree` AS `degree`,`ui`.`mobile` AS `mobile`,`ui`.`birth` AS `birth`,`t`.`authorized_type` AS `authorized_type`,`ui`.`realname` AS `realname`,`t`.`arrive_time` AS `arrive_time`,`ui`.`native_place` AS `native_place`,`t`.`marital_status` AS `marital_status`,`t`.`staff_type` AS `staff_type`,`ui`.`phone` AS `phone`,`ui`.`idcard` AS `idcard`,`t`.`on_job` AS `on_job`,`t`.`pro_post_level` AS `pro_post_level`,`p`.`unit_id` AS `unit_id` from ((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_teacher_info` `t`)) join sys_user_info ui where ((`m`.`user_id` = `t`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`)) and ui.user_id=u.id;
+
+ALTER TABLE `sys_teacher_info`
+	DROP COLUMN `email`,
+	DROP COLUMN `mobile`,
+	DROP COLUMN `phone`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select `c`.*,`cc`.`mobile` AS `mobile`,`cc`.`office_phone` AS `office_phone`,`cc`.`home_phone` AS `home_phone`,`cc`.`email` AS `email`,
+ui.`realname` AS `realname`,ui.`gender` AS `gender`,ui.`nation` AS `nation`,ui.`native_place` AS `native_place`,ui.`idcard` AS `idcard`,ui.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,`t`.`arrive_time` AS `arrive_time`,`max_ce`.`edu_id` AS `edu_id`,`max_ce`.`finish_time` AS `finish_time`,`max_ce`.`learn_style` AS `learn_style`,`max_ce`.`school` AS `school`,`max_ce`.`dep` AS `dep`,`max_ce`.`school_type` AS `school_type`,`max_ce`.`major` AS `major`,`t`.`post_class` AS `post_class`,`t`.`pro_post_level` AS `pro_post_level`,`t`.`pro_post` AS `pro_post`,`t`.`manage_level` AS `manage_level`,`max_degree`.`degree` AS `degree` from (((((`cadre` `c` left join `cadre_concat` `cc` on((`cc`.`cadre_id` = `c`.`id`)))
+left join sys_user_info ui on ui.user_id=c.user_id
+ left join `sys_teacher_info` `t` on((`t`.`user_id` = `c`.`user_id`))) left join `ow_member` `om` on((`om`.`user_id` = `c`.`user_id`))) left join `cadre_edu` `max_ce` on(((`max_ce`.`cadre_id` = `c`.`id`) and (`max_ce`.`is_high_edu` = 1)))) left join `cadre_edu` `max_degree` on(((`max_degree`.`cadre_id` = `c`.`id`) and (`max_degree`.`is_high_degree` = 1))))  ;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ext_member_view` AS
+select u.code as sid, ui.realname, om.status, om.`type`, om.political_status  from sys_user u, sys_user_info ui, ow_member om
+where om.user_id=u.id and ui.user_id=u.id and om.user_id not in(select user_id from ow_graduate_abroad where status=3)
+union all
+select su.code as sid, sui.realname, (oga.status+1) as status, om.type, om.political_status
+from ow_graduate_abroad oga, ow_member om, sys_user su, sys_user_info sui where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id and sui.user_id=su.id;
+
+
+
 -- 2016-10-28
 ALTER TABLE `cadre_company`
 	ADD COLUMN `paper` VARCHAR(200) NULL DEFAULT NULL COMMENT '批复文件' AFTER `report_unit`;

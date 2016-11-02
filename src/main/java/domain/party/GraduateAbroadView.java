@@ -1,16 +1,16 @@
 package domain.party;
 
-import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class GraduateAbroadView implements Serializable {
-    public SysUser getUser(){
+    public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public SysUser getOrgBranchAdmin(){
+    public SysUserView getOrgBranchAdmin(){
         return CmTag.getUserById(orgBranchAdminId);
     }
     private Integer id;

@@ -3034,7 +3034,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${professional!}</w:t>
+									<w:t>${specialty!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>

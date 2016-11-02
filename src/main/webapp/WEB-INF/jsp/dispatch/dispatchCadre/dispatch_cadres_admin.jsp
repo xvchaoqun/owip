@@ -209,7 +209,7 @@
         success:function(ret){
           if(ret.success){
             $("#dispatch-cadres-view").load("${ctx}/dispatch_cadres_admin?dispatchId=${param.dispatchId}");
-            SysMsg.success('操作成功。', '成功');
+            //SysMsg.success('操作成功。', '成功');
           }
         }
       });

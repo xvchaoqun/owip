@@ -8,6 +8,7 @@ import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
 import domain.cadre.Cadre;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;
@@ -54,7 +55,7 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:approval")
     @RequestMapping(value = "/applySelf_approval", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_approval(@CurrentUser SysUser loginUser,
+    public Map do_applySelf_approval(@CurrentUser SysUserView loginUser,
                                      int applySelfId, int approvalTypeId,
                                      int status, String remark, HttpServletRequest request) {
 
@@ -138,7 +139,7 @@ public class ApplySelfController extends BaseController {
 
     @RequiresPermissions("applySelf:download")
     @RequestMapping("/applySelf_download")
-    public void applySelf_download(@CurrentUser SysUser loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void applySelf_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
@@ -178,9 +179,9 @@ public class ApplySelfController extends BaseController {
         }
 
         Cadre cadre = cadreService.findAll().get(cadreId);
-        SysUser sysUser = sysUserService.findById(cadre.getUserId());
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
 
-        modelMap.put("sysUser", sysUser);
+        modelMap.put("sysUser", uv);
         modelMap.put("cadre", cadre);
         modelMap.put("applySelf", applySelf);
 
@@ -209,7 +210,7 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:view")
     @RequestMapping("/applySelf_yearLogs_data")
     @ResponseBody
-    public void applySelf_yearLogs_data(@CurrentUser SysUser loginUser,Integer cadreId, Integer year,
+    public void applySelf_yearLogs_data(@CurrentUser SysUserView loginUser,Integer cadreId, Integer year,
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
@@ -279,7 +280,7 @@ public class ApplySelfController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 
@@ -293,7 +294,7 @@ public class ApplySelfController extends BaseController {
 
         // 读取所有审批人
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-        List<SysUser> approvers = applySelfService.findApprovers(applySelf.getCadreId(), approvalTypeId);
+        List<SysUserView> approvers = applySelfService.findApprovers(applySelf.getCadreId(), approvalTypeId);
 
         Map<String, Object> resultMap = success();
         resultMap.put("approvers", approvers);
@@ -361,7 +362,7 @@ public class ApplySelfController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 
@@ -371,7 +372,7 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadre")
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
-    public void applySelfList_data(@CurrentUser SysUser loginUser, HttpServletResponse response,
+    public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                      Integer cadreId,
                                      String _applyDate,
                                      Byte type, // 出行时间范围
@@ -460,7 +461,7 @@ public class ApplySelfController extends BaseController {
 
             Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
             modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
+            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
 

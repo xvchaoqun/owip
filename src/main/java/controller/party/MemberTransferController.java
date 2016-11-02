@@ -9,6 +9,7 @@ import domain.member.MemberTransferExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MemberTransferMixin;
@@ -230,7 +231,7 @@ public class MemberTransferController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_approval")
-    public String memberTransfer_approval(@CurrentUser SysUser loginUser, Integer id,
+    public String memberTransfer_approval(@CurrentUser SysUserView loginUser, Integer id,
                                       byte type, // 1:转出分党委审核 2：转入分党委审核
                                       ModelMap modelMap) {
 
@@ -287,7 +288,7 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_check(@CurrentUser SysUser loginUser, HttpServletRequest request,
+    public Map do_memberTransfer_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                    byte type, // 1:转出分党委审核 2：转入分党委审核
                                    @RequestParam(value = "ids[]") Integer[] ids) {
 
@@ -311,7 +312,7 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_back(@CurrentUser SysUser loginUser,
+    public Map do_memberTransfer_back(@CurrentUser SysUserView loginUser,
                                   @RequestParam(value = "ids[]") Integer[] ids,
                                   byte status,
                                   String reason) {
@@ -326,7 +327,7 @@ public class MemberTransferController extends BaseController {
     @RequiresPermissions("memberTransfer:edit")
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberTransfer_au(@CurrentUser SysUser loginUser,MemberTransfer record,
+    public Map do_memberTransfer_au(@CurrentUser SysUserView loginUser,MemberTransfer record,
                                     String _payTime, String _fromHandleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
@@ -464,7 +465,7 @@ public class MemberTransferController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberTransfer record = records.get(i);
-            SysUser sysUser = sysUserService.findById(record.getUserId());
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Integer toPartyId = record.getToPartyId();
