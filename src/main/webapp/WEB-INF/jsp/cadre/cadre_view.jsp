@@ -78,9 +78,11 @@
                             <a href="javascript:" data-url="${ctx}/cadreConcat_page?cadreId=${param.id}">联系方式</a>
                         </li>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="cadreInspect:*">
                         <li>
                             <a href="javascript:" data-url="">考察记录</a>
                         </li>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="cadreAdform:*">
                         <li>
                             <a href="javascript:" data-url="${ctx}/cadreAdform_page?cadreId=${param.id}">干部任免审批表</a>
