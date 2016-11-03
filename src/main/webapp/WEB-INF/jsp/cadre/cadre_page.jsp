@@ -174,15 +174,8 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                // 短信称谓
-                var msgTitle = $.trim(rowObject.msgTitle);
-                if(msgTitle!='' && msgTitle!=cellvalue){
-                    msgTitle = "<span style='font-size: smaller'><"+msgTitle+"></span>";
-                }else{
-                    msgTitle = ''
-                }
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}{2}</a>'
-                        .format(rowObject.id, cellvalue, msgTitle);
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
@@ -345,6 +338,14 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id);
             } },
+            { label: '短信称谓', name: 'msgTitle', width: 80,formatter:function(cellvalue, options, rowObject){
+                // 短信称谓
+                var msgTitle = $.trim(cellvalue);
+                if(msgTitle=='' || msgTitle==rowObject.user.realname){
+                    msgTitle = '无'
+                }
+                return msgTitle;
+            }},
             { label: '备注', name: 'remark', width: 150 }
         ]}).jqGrid("setFrozenColumns").on("initGrid",function(){
         $('[data-rel="tooltip"]').tooltip();
