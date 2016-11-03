@@ -176,8 +176,10 @@ pageEncoding="UTF-8" %>
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 // 短信称谓
                 var msgTitle = $.trim(rowObject.msgTitle);
-                if(msgTitle!=''){
+                if(msgTitle!='' && msgTitle!=cellvalue){
                     msgTitle = "<span style='font-size: smaller'><"+msgTitle+"></span>";
+                }else{
+                    msgTitle = ''
                 }
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}{2}</a>'
                         .format(rowObject.id, cellvalue, msgTitle);
