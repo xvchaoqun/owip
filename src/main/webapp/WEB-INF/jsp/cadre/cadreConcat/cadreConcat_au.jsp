@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">手机号</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="mobile" value="${cadreConcat.mobile}">
+                        <input class="form-control" type="text" name="mobile" value="${cadreConcat.mobile}">
 				</div>
 			</div>
             <div class="form-group">
@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">电子邮箱</label>
 				<div class="col-xs-6">
-                        <input required class="form-control email" type="text" name="email" value="${cadreConcat.email}">
+                        <input class="form-control email" type="text" name="email" value="${cadreConcat.email}">
 				</div>
 			</div>
     </form>
