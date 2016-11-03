@@ -262,6 +262,8 @@ public class UserPassportDrawController extends BaseController {
 
         PassportDrawExample example = new PassportDrawExample();
         Criteria criteria = example.createCriteria();
+        criteria.andIsDeletedEqualTo(false);
+
         if(type==SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
                 type==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
             criteria.andTypeEqualTo(type);
@@ -334,16 +336,12 @@ public class UserPassportDrawController extends BaseController {
         record.setType(SystemConstants.PASSPORT_DRAW_TYPE_SELF);
         record.setApplyId(applyId);
         record.setPassportId(passportId);
-        record.setApplyDate(new Date());
+
         record.setNeedSign(needSign);
         record.setUseType(useType);
         record.setRemark(remark);
-
-        record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
-        record.setJobCertify(false);
+
         passportDrawService.insertSelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
 
@@ -427,14 +425,9 @@ public class UserPassportDrawController extends BaseController {
         record.setCadreId(cadre.getId());
         record.setType(type);
         record.setPassportId(passportId);
-        record.setApplyDate(new Date());
         record.setNeedSign(needSign);
-
-        record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
-        record.setJobCertify(false);
+
         passportDrawService.insertSelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
                 SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
@@ -499,14 +492,9 @@ public class UserPassportDrawController extends BaseController {
         record.setCadreId(cadre.getId());
         record.setType(SystemConstants.PASSPORT_DRAW_TYPE_OTHER);
         record.setPassportId(passportId);
-        record.setApplyDate(new Date());
         record.setRemark(remark);
-
-        record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
-        record.setJobCertify(false);
+
         passportDrawService.insertSelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
 

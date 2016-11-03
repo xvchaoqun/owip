@@ -16,6 +16,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, class_id, apply_date, status, abolish, user_id, approve_time, expect_date, 
-    handle_date, handle_user_id, remark, create_time, ip
+    handle_date, handle_user_id, remark, create_time, ip, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.PassportApplyExample" >
     select
@@ -114,12 +115,14 @@
       apply_date, status, abolish, 
       user_id, approve_time, expect_date, 
       handle_date, handle_user_id, remark, 
-      create_time, ip)
+      create_time, ip, is_deleted
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
       #{applyDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{abolish,jdbcType=BIT}, 
       #{userId,jdbcType=INTEGER}, #{approveTime,jdbcType=TIMESTAMP}, #{expectDate,jdbcType=DATE}, 
       #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.abroad.PassportApply" >
     insert into abroad_passport_apply
@@ -166,6 +169,9 @@
       <if test="ip != null" >
         ip,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -209,6 +215,9 @@
       </if>
       <if test="ip != null" >
         #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -263,6 +272,9 @@
       <if test="record.ip != null" >
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +295,8 @@
       handle_user_id = #{record.handleUserId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      ip = #{record.ip,jdbcType=VARCHAR}
+      ip = #{record.ip,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +343,9 @@
       <if test="ip != null" >
         ip = #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -347,7 +363,8 @@
       handle_user_id = #{handleUserId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      ip = #{ip,jdbcType=VARCHAR}
+      ip = #{ip,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.abroad.PassportApplyExample" id="selectByExampleWithRowbounds" >

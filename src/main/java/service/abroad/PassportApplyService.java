@@ -95,7 +95,23 @@ public class PassportApplyService extends BaseMapper {
 
         PassportApplyExample example = new PassportApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        passportApplyMapper.deleteByExample(example);
+
+        PassportApply record = new PassportApply();
+        record.setIsDeleted(true);
+        passportApplyMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void batchUnDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        PassportApplyExample example = new PassportApplyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        PassportApply record = new PassportApply();
+        record.setIsDeleted(false);
+        passportApplyMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional

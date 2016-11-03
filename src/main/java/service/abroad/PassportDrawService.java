@@ -52,7 +52,8 @@ public class PassportDrawService extends BaseMapper {
         Date today = new Date();
         // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
         PassportDrawExample example = new PassportDrawExample();
-        example.createCriteria().andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW).andReturnDateLessThan(today);
+        example.createCriteria().andIsDeletedEqualTo(false).
+                andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW).andReturnDateLessThan(today);
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
         for (PassportDraw passportDraw : passportDraws) {
 
@@ -88,6 +89,12 @@ public class PassportDrawService extends BaseMapper {
     @Transactional
     public int insertSelective(PassportDraw record){
 
+        record.setIsDeleted(false);
+        record.setApplyDate(new Date());
+        record.setCreateTime(new Date());
+        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
+        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
+        record.setJobCertify(false);
         return passportDrawMapper.insertSelective(record);
     }
     @Transactional
@@ -96,6 +103,7 @@ public class PassportDrawService extends BaseMapper {
         passportDrawMapper.deleteByPrimaryKey(id);
     }
 
+    // 逻辑删除
     @Transactional
     public void batchDel(Integer[] ids){
 
@@ -103,8 +111,25 @@ public class PassportDrawService extends BaseMapper {
 
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        passportDrawMapper.deleteByExample(example);
+
+        PassportDraw record = new PassportDraw();
+        record.setIsDeleted(true);
+        passportDrawMapper.updateByExampleSelective(record, example);
     }
+    @Transactional
+    public void batchUnDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        PassportDrawExample example = new PassportDrawExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        PassportDraw record = new PassportDraw();
+        record.setIsDeleted(false);
+        passportDrawMapper.updateByExampleSelective(record, example);
+    }
+
+
     // 领取证件
     @Transactional
     public void drawPassport(PassportDraw record){

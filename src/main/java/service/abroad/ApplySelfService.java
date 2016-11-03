@@ -133,7 +133,10 @@ public class ApplySelfService extends BaseMapper {
     public Map findApplySelfList(HttpServletResponse response, Integer cadreId,
                                  String _applyDate,
                                  // 出行时间范围
-                                 Byte type, Boolean isModify, int status, String sort, String order, Integer pageNo, Integer pageSize, int export) {
+                                 Byte type, Boolean isModify,
+                                 // 1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批 -1: 已删除的记录
+                                 int status,
+                                 String sort, String order, Integer pageNo, Integer pageSize, int export) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -147,7 +150,8 @@ public class ApplySelfService extends BaseMapper {
         if (sort != null && order != null)
             example.setOrderByClause(String.format("%s %s", sort, order));
 
-        criteria.andIsFinishEqualTo(status != 0);
+        criteria.andIsDeletedEqualTo(status==-1);
+        criteria.andIsFinishEqualTo(status > 0);
         criteria.andIsAgreedEqualTo(status == 1);
 
         if (cadreId != null) {
@@ -189,7 +193,7 @@ public class ApplySelfService extends BaseMapper {
         return map;
     }
 
-    // 干部 审批人员列表
+    // 干部（非管理员） 审批人员列表
     public Map findApplySelfList(int userId/*审批人*/, Integer cadreId/*被审批干部*/,
                                  String _applyDate,
                                  // 出行时间范围
@@ -728,6 +732,8 @@ public class ApplySelfService extends BaseMapper {
 
     @Transactional
     public int insertSelective(ApplySelf record) {
+
+        record.setIsDeleted(false);
         record.setIsFinish(false);
         record.setIsAgreed(false);
         record.setIsModify(false);
@@ -740,6 +746,7 @@ public class ApplySelfService extends BaseMapper {
         applySelfMapper.deleteByPrimaryKey(id);
     }
 
+    // 逻辑删除
     @Transactional
     public void batchDel(Integer[] ids) {
 
@@ -747,12 +754,37 @@ public class ApplySelfService extends BaseMapper {
 
         ApplySelfExample example = new ApplySelfExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        applySelfMapper.deleteByExample(example);
+
+        ApplySelf record = new ApplySelf();
+        record.setIsDeleted(true);
+        applySelfMapper.updateByExampleSelective(record, example);
+    }
+    @Transactional
+    public void batchUnDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        ApplySelfExample example = new ApplySelfExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        ApplySelf record = new ApplySelf();
+        record.setIsDeleted(false);
+        applySelfMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
     public int updateByPrimaryKeySelective(ApplySelf record) {
         return applySelfMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 未标记删除的记录，才可以进行审批操作
+    @Transactional
+    public int approval(ApplySelf record) {
+
+        ApplySelfExample example = new ApplySelfExample();
+        example.createCriteria().andIdEqualTo(record.getId()).andIsDeletedEqualTo(false);
+
+        return  applySelfMapper.updateByExampleSelective(record, example);
     }
 
     // 变更行程

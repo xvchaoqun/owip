@@ -141,7 +141,7 @@ public class PassportApplyController extends BaseController {
     public void passportApply_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                 // 0：办理证件审批 1：批准办理证件审批（未交证件）
+                                 // -1：已删除 0：办理证件审批 1：批准办理证件审批（未交证件）
                                  // 3：批准办理证件审批（已交证件）
                                  // 4：批准办理证件审批（作废）2：未批准办理新证件
                                  @RequestParam(required = false, defaultValue = "0")  Byte status,
@@ -166,13 +166,18 @@ public class PassportApplyController extends BaseController {
         PassportApplyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(status==1){
-            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
-        }else if(status==3){
-            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
-        }else if(status==4){
-            criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
-        }else criteria.andStatusEqualTo(status);
+        if(status==-1){
+            criteria.andIsDeletedEqualTo(true);
+        }else{
+            criteria.andIsDeletedEqualTo(false);
+            if(status==1){
+                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
+            }else if(status==3){
+                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
+            }else if(status==4){
+                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
+            }else criteria.andStatusEqualTo(status);
+        }
 
         if (cadreId!=null) {
 
@@ -265,8 +270,9 @@ public class PassportApplyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
+    // 逻辑删除
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -279,7 +285,21 @@ public class PassportApplyController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }*/
+    }
+    @RequiresPermissions("passportApply:del")
+    @RequestMapping(value = "/passportApply_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            passportApplyService.batchUnDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
 
     @RequiresPermissions("passportApply:abolish")
     @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)

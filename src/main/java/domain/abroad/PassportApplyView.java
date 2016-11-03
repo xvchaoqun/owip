@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class PassportApplyView implements Serializable {
+
     public Cadre getCadre(){
         return CmTag.getCadreById(cadreId);
     }
@@ -36,7 +37,6 @@ public class PassportApplyView implements Serializable {
 
         return (handleUserId!=null)?CmTag.getUserById(handleUserId):null;
     }
-
     private Integer id;
 
     private Integer cadreId;
@@ -68,6 +68,8 @@ public class PassportApplyView implements Serializable {
     private Integer passportId;
 
     private String code;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -197,5 +199,13 @@ public class PassportApplyView implements Serializable {
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

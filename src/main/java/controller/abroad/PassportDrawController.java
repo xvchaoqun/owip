@@ -128,6 +128,7 @@ public class PassportDrawController extends BaseController {
                                     Integer cadreId,
                                     Integer passportId,
                                     Integer year,
+                                    // -1:已删除
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     String _applyDate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
@@ -151,12 +152,19 @@ public class PassportDrawController extends BaseController {
         if(passportId!=null){ // 查询特定证件的使用记录
             criteria.andPassportIdEqualTo(passportId);
         }else {
-            if(type==SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
-                    type==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
-                criteria.andTypeEqualTo(type);
-            }else{ // 因公赴台、长期因公出国
-                criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
-                        SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+
+            if(type==-1){
+                criteria.andIsDeletedEqualTo(true);
+            }else {
+                criteria.andIsDeletedEqualTo(false);
+
+                if (type == SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
+                        type == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+                    criteria.andTypeEqualTo(type);
+                } else { // 因公赴台、长期因公出国
+                    criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
+                            SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+                }
             }
         }
         if(year!=null){
@@ -445,7 +453,7 @@ public class PassportDrawController extends BaseController {
         return "user/passportDraw/passportDraw_view";
     }
 
-    @RequiresPermissions("passportDraw:del")
+    /*@RequiresPermissions("passportDraw:del")
     @RequestMapping(value = "/passportDraw_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_del(HttpServletRequest request, Integer id) {
@@ -456,8 +464,9 @@ public class PassportDrawController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "删除领取证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
+    // 逻辑删除
     @RequiresPermissions("passportDraw:del")
     @RequestMapping(value = "/passportDraw_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -466,9 +475,23 @@ public class PassportDrawController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             passportDrawService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除领取证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除领取证件申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+    @RequiresPermissions("passportDraw:del")
+    @RequestMapping(value = "/passportDraw_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            passportDrawService.batchUnDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回领取证件申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
 }

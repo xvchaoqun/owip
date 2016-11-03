@@ -22,6 +22,7 @@
     <result column="flow_users" property="flowUsers" jdbcType="VARCHAR" />
     <result column="is_agreed" property="isAgreed" jdbcType="BIT" />
     <result column="is_modify" property="isModify" jdbcType="BIT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List" >
     id, cadre_id, apply_date, type, start_date, end_date, to_country, reason, peer_staff, 
     cost_source, need_passports, create_time, ip, status, is_finish, flow_node, flow_nodes, 
-    flow_users, is_agreed, is_modify
+    flow_users, is_agreed, is_modify, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.ApplySelfExample" >
     select
@@ -123,14 +124,14 @@
       cost_source, need_passports, create_time, 
       ip, status, is_finish, flow_node, 
       flow_nodes, flow_users, is_agreed, 
-      is_modify)
+      is_modify, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{type,jdbcType=TINYINT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{toCountry,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, 
       #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
       #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}, 
-      #{isModify,jdbcType=BIT})
+      #{isModify,jdbcType=BIT}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.abroad.ApplySelf" >
     insert into abroad_apply_self
@@ -195,6 +196,9 @@
       <if test="isModify != null" >
         is_modify,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -256,6 +260,9 @@
       </if>
       <if test="isModify != null" >
         #{isModify,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -328,6 +335,9 @@
       <if test="record.isModify != null" >
         is_modify = #{record.isModify,jdbcType=BIT},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -354,7 +364,8 @@
       flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
       flow_users = #{record.flowUsers,jdbcType=VARCHAR},
       is_agreed = #{record.isAgreed,jdbcType=BIT},
-      is_modify = #{record.isModify,jdbcType=BIT}
+      is_modify = #{record.isModify,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -419,6 +430,9 @@
       <if test="isModify != null" >
         is_modify = #{isModify,jdbcType=BIT},
       </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -442,7 +456,8 @@
       flow_nodes = #{flowNodes,jdbcType=VARCHAR},
       flow_users = #{flowUsers,jdbcType=VARCHAR},
       is_agreed = #{isAgreed,jdbcType=BIT},
-      is_modify = #{isModify,jdbcType=BIT}
+      is_modify = #{isModify,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.abroad.ApplySelfExample" id="selectByExampleWithRowbounds" >

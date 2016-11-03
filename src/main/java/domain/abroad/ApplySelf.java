@@ -27,7 +27,6 @@ public class ApplySelf implements Serializable {
 
         return CmTag.getApprovalTdBeanMap(id);
     }
-
     private Integer id;
 
     private Integer cadreId;
@@ -67,6 +66,8 @@ public class ApplySelf implements Serializable {
     private Boolean isAgreed;
 
     private Boolean isModify;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -228,5 +229,13 @@ public class ApplySelf implements Serializable {
 
     public void setIsModify(Boolean isModify) {
         this.isModify = isModify;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

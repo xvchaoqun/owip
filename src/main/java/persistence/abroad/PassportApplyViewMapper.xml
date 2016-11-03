@@ -18,6 +18,7 @@
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="passport_id" property="passportId" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, class_id, apply_date, status, abolish, user_id, approve_time, expect_date, 
-    handle_date, handle_user_id, remark, create_time, ip, passport_id, code
+    handle_date, handle_user_id, remark, create_time, ip, passport_id, code, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.PassportApplyViewExample" >
     select
@@ -107,13 +108,13 @@
       user_id, approve_time, expect_date, 
       handle_date, handle_user_id, remark, 
       create_time, ip, passport_id, 
-      code)
+      code, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
       #{applyDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{abolish,jdbcType=BIT}, 
       #{userId,jdbcType=INTEGER}, #{approveTime,jdbcType=TIMESTAMP}, #{expectDate,jdbcType=DATE}, 
       #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{passportId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR})
+      #{code,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.abroad.PassportApplyView" >
     insert into abroad_passport_apply_view
@@ -166,6 +167,9 @@
       <if test="code != null" >
         code,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -215,6 +219,9 @@
       </if>
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -275,6 +282,9 @@
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -297,7 +307,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       passport_id = #{record.passportId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR}
+      code = #{record.code,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

@@ -25,8 +25,8 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
       </table>-->
-      <!--<table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf">
-      </table>-->
+      <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf">
+      </table>
      <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
       </table>-->
      <!-- <table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog">
@@ -43,8 +43,8 @@
       </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
       </table>-->
-      <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
-      </table>-->
+      <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
+      </table>
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
@@ -52,10 +52,10 @@
       </table>-->
       <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->
-      <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
-      </table>-->
-      <!--<table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
-      </table>-->
+      <table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
+      </table>
+      <table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
+      </table>
 
 
     <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
@@ -266,9 +266,9 @@
       <table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
          <ignoreColumn column="update_time"/>
      </table>-->
-      <table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo">
+      <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
    <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">

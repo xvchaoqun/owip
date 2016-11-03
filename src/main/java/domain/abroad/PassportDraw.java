@@ -2,7 +2,6 @@ package domain.abroad;
 
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PassportDraw implements Serializable {
+
     public SysUserView getUser(){
 
         Cadre cadre = getCadre();
@@ -55,7 +55,6 @@ public class PassportDraw implements Serializable {
         Date now = new Date();
         return DateUtils.compareDate(returnDate, now);
     }
-
     private Integer id;
 
     private Integer cadreId;
@@ -125,6 +124,8 @@ public class PassportDraw implements Serializable {
     private String attachmentFilename;
 
     private Boolean usePassport;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -406,5 +407,13 @@ public class PassportDraw implements Serializable {
 
     public void setUsePassport(Boolean usePassport) {
         this.usePassport = usePassport;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

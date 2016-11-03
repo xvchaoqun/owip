@@ -1,4 +1,30 @@
 
+
+-- 2016-11-3
+
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否已删除' AFTER `is_modify`;
+ALTER TABLE `abroad_passport_apply`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否删除' AFTER `ip`;
+ALTER TABLE `abroad_passport_draw`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否删除' AFTER `use_passport`;
+
+ALTER TABLE `abroad_apply_self`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否已删除' AFTER `is_modify`;
+
+	ALTER TABLE `abroad_passport_apply`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `ip`;
+
+	ALTER TABLE `abroad_passport_draw`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `use_passport`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_apply_view` AS select `apa`.`id` AS `id`,`apa`.`cadre_id` AS `cadre_id`,`apa`.`class_id` AS `class_id`,`apa`.`apply_date` AS `apply_date`,
+`apa`.`status` AS `status`,`apa`.`abolish` AS `abolish`,`apa`.`user_id` AS `user_id`,`apa`.`approve_time` AS `approve_time`,
+`apa`.`expect_date` AS `expect_date`,`apa`.`handle_date` AS `handle_date`,
+`apa`.`handle_user_id` AS `handle_user_id`,`apa`.`remark` AS `remark`,`apa`.`create_time` AS `create_time`,
+`apa`.`ip` AS `ip`,`ap`.`id` AS `passport_id`,`ap`.`code` AS `code` , apa.is_deleted from (`abroad_passport_apply` `apa`
+left join `abroad_passport` `ap` on((`ap`.`apply_id` = `apa`.`id`)))  ;
+
 -- 2016-11-2
 insert into sys_user_info( user_id, realname,avatar,gender,birth,idcard,sign,phone,mobile,email)
 select id as user_id, realname,avatar,gender,birth,idcard,sign,phone,mobile,email from sys_user;

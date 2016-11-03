@@ -21,7 +21,9 @@
                     <li class="<c:if test="${status==2}">active</c:if>">
                         <a href="?status=2"><i class="fa fa-times"></i> 不同意申请</a>
                     </li>
-
+                    <li class="<c:if test="${status==-1}">active</c:if>">
+                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                    </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"
                            data-url="${ctx}/htmlFragment_au?editContent=no&code=${HTML_FRAGMENT_APPLY_SELF_NOTE}"><i
@@ -38,7 +40,7 @@
                             <%-- <shiro:hasPermission name="applySelf:edit">
                                  <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加</a>
                              </shiro:hasPermission>--%>
-                            <c:if test="${status!=2}">
+                            <c:if test="${status==0||status==1}">
                                 <shiro:hasPermission name="applySelf:edit">
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                             data-url="${ctx}/applySelf_au" data-open-by="page">
@@ -65,16 +67,27 @@
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
-                            <c:if test="${status!=0}">
+                            <c:if test="${status>0}">
                                 <button data-url="${ctx}/shortMsg_view"
                                         data-querystr="&type=applySelf"
                                         class="jqOpenViewBtn btn btn-primary btn-sm">
                                     <i class="fa fa-info-circle"></i> 短信提醒
                                 </button>
                             </c:if>
-                            <%--<shiro:hasPermission name="applySelf:del">
-                                <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasPermission>--%>
+                            <c:if test="${status>=0}">
+                            <shiro:hasPermission name="applySelf:del">
+                                <a class="jqBatchBtn btn btn-danger btn-sm"
+                                   data-url="${ctx}/applySelf_batchDel" data-title="删除因私出国申请"
+                                   data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                            </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${status==-1}">
+                                <shiro:hasPermission name="applySelf:del">
+                                    <a class="jqBatchBtn btn btn-success btn-sm"
+                                       data-url="${ctx}/applySelf_batchUnDel" data-title="找回已删除因私出国申请"
+                                       data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
+                                </shiro:hasPermission>
+                            </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

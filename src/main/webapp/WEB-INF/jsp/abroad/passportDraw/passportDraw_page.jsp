@@ -17,6 +17,9 @@
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
                         <a href="?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务</a>
                     </li>
+                    <li class="<c:if test="${type==-1}">active</c:if>">
+                        <a href="?type=-1"><i class="fa fa-trash"></i> 已删除</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -30,6 +33,20 @@
                                 <button class="printProofBtn btn btn-warning btn-sm">
                                     <i class="fa fa-print"></i> 打印在职证明
                                 </button>
+                            </c:if>
+                            <c:if test="${type>=0}">
+                                <shiro:hasPermission name="passportDraw:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/passportDraw_batchDel" data-title="删除申请使用证件申请"
+                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                                </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${type==-1}">
+                                <shiro:hasPermission name="passportDraw:del">
+                                    <a class="jqBatchBtn btn btn-success btn-sm"
+                                       data-url="${ctx}/passportDraw_batchUnDel" data-title="找回已删除申请使用证件申请"
+                                       data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
+                                </shiro:hasPermission>
                             </c:if>
                         </div>
                         <div class="myTableDiv"

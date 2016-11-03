@@ -1,6 +1,5 @@
 package domain.abroad;
 
-import domain.sys.SysUser;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUserView;
@@ -62,6 +61,8 @@ public class PassportApply implements Serializable {
     private Date createTime;
 
     private String ip;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -175,5 +176,13 @@ public class PassportApply implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

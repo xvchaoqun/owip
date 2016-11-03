@@ -124,6 +124,7 @@ public class UserApplySelfController extends BaseController {
 
         ApplySelfExample example = new ApplySelfExample();
         Criteria criteria = example.createCriteria();
+        criteria.andIsDeletedEqualTo(false);
         example.setOrderByClause("create_time desc");
 
         int userId= loginUser.getId();

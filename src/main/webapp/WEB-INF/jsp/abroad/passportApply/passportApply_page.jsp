@@ -35,7 +35,9 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==2}">active</c:if>">
                         <a href="?status=2"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
-
+                    <li class="<c:if test="${status==-1}">active</c:if>">
+                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -56,12 +58,26 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-recycle"></i> 作废
                                 </a>
                             </c:if>
-                            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT}">
+                            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT && status!=-1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-open-by="page"
                                     data-url="${ctx}/passportApply_check?id=${passportApply.id}">
                                     <i class="fa fa-info-circle"></i> 申请表
                             </button>
+                            </c:if>
+                            <c:if test="${status>=0}">
+                                <shiro:hasPermission name="passportApply:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/passportApply_batchDel" data-title="删除办理证件申请"
+                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                                </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${status==-1}">
+                                <shiro:hasPermission name="passportApply:del">
+                                    <a class="jqBatchBtn btn btn-success btn-sm"
+                                       data-url="${ctx}/passportApply_batchUnDel" data-title="找回已删除办理证件申请"
+                                       data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
+                                </shiro:hasPermission>
                             </c:if>
                             </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

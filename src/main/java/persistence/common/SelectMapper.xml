@@ -80,6 +80,7 @@
   <!-- 以下是有审核权限的干部读取因私出访申请列表， 分为待审批、已审批-->
   <sql id="Where_selectNotApproval" >
     where
+      aas.is_deleted=0 and
     <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
      aas.id=-1
     </if>
@@ -132,7 +133,7 @@
     <include refid="Where_selectNotApproval" />
   </select>
   <sql id="Where_hasApprovalList">
-    where aas.cadre_id=bc.id  and aas.status=1
+    where aas.is_deleted=0 and aas.cadre_id=bc.id  and aas.status=1
     and (
     concat(',',aas.flow_users,',') like '%,${flowUserId},%'
     <if test="approverTypeUnitIdListMap != null">

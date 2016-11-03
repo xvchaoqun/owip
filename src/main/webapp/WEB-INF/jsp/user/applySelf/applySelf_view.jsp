@@ -16,7 +16,7 @@
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
-        <c:if test="${param.type=='approval'}">
+        <c:if test="${param.type=='approval' && !applySelf.isDeleted}">
         <button id="agree" style="margin-left: 220px; margin-right: 30px;"
            class="btn btn-primary btn-sm"><i class="fa fa-check"></i> 同意申请</button>
           <button id="disagree" class="btn btn-danger btn-sm">

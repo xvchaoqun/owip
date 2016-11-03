@@ -118,7 +118,7 @@ public class ApplySelfController extends BaseController {
                 // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
                 applySelf.setIsFinish(true);
 
-                applySelfService.updateByPrimaryKeySelective(applySelf);
+                applySelfService.approval(applySelf);
             }
         }
         if (approvalTypeId == 0) {
@@ -272,8 +272,8 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles("cadreAdmin")
     @RequestMapping("/applySelf_page")
     public String applySelf_page(Integer cadreId,
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
-                               @RequestParam(required = false, defaultValue = "0") int status,
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
+                               @RequestParam(required = false, defaultValue = "0") int status, // -1: 已删除的记录
                                ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -315,8 +315,8 @@ public class ApplySelfController extends BaseController {
                                String _applyDate,
                                Byte type, // 出行时间范围
                                Boolean isModify,
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未审批）
-                               @RequestParam(required = false, defaultValue = "0") int status,
+                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
+                               @RequestParam(required = false, defaultValue = "0") int status,// -1: 已删除的记录
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
@@ -381,7 +381,8 @@ public class ApplySelfController extends BaseController {
                                      Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
 
-        Map map = applySelfService.findApplySelfList(loginUser.getId(), cadreId, _applyDate, type, status, pageNo, springProps.pageSize);
+        Map map = applySelfService.findApplySelfList(loginUser.getId(), cadreId, _applyDate,
+                type, status, pageNo, springProps.pageSize);
         CommonList commonList = (CommonList) map.get("commonList");
 
         Map resultMap = new HashMap();
@@ -475,7 +476,7 @@ public class ApplySelfController extends BaseController {
         return "abroad/applySelf/applySelf_au";
     }
 
-    @RequiresPermissions("applySelf:del")
+    /*@RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_del(HttpServletRequest request, Integer id) {
@@ -487,7 +488,8 @@ public class ApplySelfController extends BaseController {
         }
         return success(FormUtils.SUCCESS);
     }
-
+*/
+    // 逻辑删除
     @RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -496,7 +498,20 @@ public class ApplySelfController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             applySelfService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除因私出国申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除[可找回]因私出国申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+    @RequiresPermissions("applySelf:del")
+    @RequestMapping(value = "/applySelf_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            applySelfService.batchUnDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回因私出国申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
