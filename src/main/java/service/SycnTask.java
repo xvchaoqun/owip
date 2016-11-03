@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import service.abroad.ApplySelfService;
 import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
 import service.sys.SysOnlineStaticService;
@@ -26,7 +27,20 @@ public class SycnTask {
 	@Autowired
 	private PassportDrawService passportDrawService;
 	@Autowired
+	private ApplySelfService applySelfService;
+	@Autowired
 	private SpringProps springProps;
+
+	/**
+	 * 因私审批自动通知审批人
+	 */
+	@Scheduled(cron = "${cron.applyself.approval}")
+	public void applySelfSendApprovalMsg(){
+
+		if(springProps.applySelfSendApprovalMsg) {
+			applySelfService.sendApprovalMsg();
+		}
+	}
 
 	@Scheduled(cron = "${cron.online.static}")
 	public void onlineStatic(){

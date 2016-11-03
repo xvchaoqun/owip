@@ -68,9 +68,13 @@ public class PassportDrawService extends BaseMapper {
                 if ((days - 1) % 3 == 0) {  // 间隔第1,4,7...天应发短信提醒
 
                     ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
-                    boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
-                    logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
-                    if (ret) count++;
+                    try {
+                        boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
+                        logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
+                        if (ret) count++;
+                    }catch (Exception ex){
+                        logger.error("领取证件之后催交证件短信失败", ex);
+                    }
                 }
             }
         }

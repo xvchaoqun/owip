@@ -830,14 +830,18 @@ public class SystemConstants {
 		PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_ABOLISH, "已作废");
 	}
 
-	// 因私出国审批人类别  1本单位正职 2分管校领导 3 其他
+	// 因私出国审批人类别  1本单位正职 2分管校领导 3 书记 4 校长
 	public final static byte APPROVER_TYPE_UNIT = 1;
 	public final static byte APPROVER_TYPE_LEADER= 2;
-	public final static byte APPROVER_TYPE_OTHER= 3;
+	public final static byte APPROVER_TYPE_SECRETARY= 3;
+	public final static byte APPROVER_TYPE_MASTER= 4;
+	public final static byte APPROVER_TYPE_OTHER= 20;
 	public final static Map<Byte, String> APPROVER_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPROVER_TYPE_MAP.put(APPROVER_TYPE_UNIT, "本单位正职");
 		APPROVER_TYPE_MAP.put(APPROVER_TYPE_LEADER, "分管校领导");
+		APPROVER_TYPE_MAP.put(APPROVER_TYPE_SECRETARY, "书记");
+		APPROVER_TYPE_MAP.put(APPROVER_TYPE_MASTER, "校长");
 		APPROVER_TYPE_MAP.put(APPROVER_TYPE_OTHER, "其他");
 	}
 
@@ -892,6 +896,18 @@ public class SystemConstants {
 	public final static String CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN = "ct_passportDraw_pass_needsign";
 	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS = "ct_passportDraw_unpass";
 	public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN = "ct_passportDraw_unpass_needsign";
+
+
+	// 本单位正职（一人）审批通知
+	public final static String CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1 = "ct_applyself_approval_unit_1";
+	// 本单位正职（多人）审批通知
+	public final static String CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2 = "ct_applyself_approval_unit_2";
+	// 分管校领导审批通知
+	public final static String CONTENT_TPL_APPLYSELF_APPROVAL_LEADER = "ct_applyself_approval_leader";
+	// 书记审批通知
+	public final static String CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY = "ct_applyself_approval_secretary";
+	// 校长审批通知
+	public final static String APPLYSELF_APPROVAL_MASTER = "ct_applyself_approval_master";
 
 
 	/*public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();

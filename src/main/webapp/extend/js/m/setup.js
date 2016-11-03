@@ -72,9 +72,9 @@ var _width;
 function loadModal(url, width, dragTarget){ // dragTarget：拖拽位置
     if(width>0){
         _width = width;
-        $('#modal .modal-dialog').addClass("modal-width"+width);
+        $('#modal .modal-dialog').addClass("width"+width);
     }else{
-        $('#modal .modal-dialog').removeClass("modal-width"+_width);
+        $('#modal .modal-dialog').removeClass("width"+_width);
     }
     dragTarget = dragTarget||".modal-header";
 

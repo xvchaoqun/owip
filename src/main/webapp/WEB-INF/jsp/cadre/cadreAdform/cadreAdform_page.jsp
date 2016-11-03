@@ -183,7 +183,7 @@
         <td class="td0 center bolder" colspan="2">
                 <span>全日制</span>
             <div>
-                <span>教&nbsp;&nbsp;&nbsp;&nbsp;育</span>
+                <span>教    育</span>
             </div>
         </td>
         <td class="td6 padding10" colspan="2">

@@ -6,7 +6,7 @@
     <h4>
 <c:if test="${param.type==APPROVER_TYPE_UNIT}">"本单位正职"</c:if>
 <c:if test="${param.type==APPROVER_TYPE_LEADER}">"分管校领导"</c:if>
-<c:if test="${param.type==APPROVER_TYPE_OTHER}">"${approverType.name}"</c:if>
+<c:if test="${param.type!=APPROVER_TYPE_UNIT && param.type!=APPROVER_TYPE_LEADER}">"${approverType.name}"</c:if>
 		所包含的干部
     </h4>
   </div>
@@ -59,13 +59,13 @@
 		$("#modal form").validate({
 
 				submitHandler: function (form) {
-					<c:if test="${param.type==APPROVER_TYPE_OTHER}">
+					<c:if test="${param.type!=APPROVER_TYPE_UNIT && param.type!=APPROVER_TYPE_LEADER}">
 					var cadreIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 						if(!node.data.isFolder)
 						return node.data.key;
 					});
 					</c:if>
-					<c:if test="${param.type!=APPROVER_TYPE_OTHER}">
+					<c:if test="${param.type==APPROVER_TYPE_UNIT || param.type==APPROVER_TYPE_LEADER}">
 					var cadreIds = [];
 					$("#tree3").dynatree("getRoot").visit(function(node){
 						if(!node.data.isFolder && !node.data.unselectable && !node.isSelected()) {

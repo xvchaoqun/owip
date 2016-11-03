@@ -1,16 +1,10 @@
 package service.abroad;
 
-import bean.ApplySelfSearchBean;
-import bean.ApprovalResult;
-import bean.ApprovalTdBean;
-import bean.ApproverTypeBean;
+import bean.*;
 import domain.abroad.*;
-import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreAdditionalPostExample;
-import domain.cadre.CadreExample;
+import domain.base.ContentTpl;
+import domain.cadre.*;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.Leader;
 import org.apache.commons.beanutils.BeanUtils;
@@ -24,11 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
+import service.cadre.CadreConcatService;
 import service.cadre.CadreService;
 import service.helper.ContextHelper;
 import service.helper.ExportHelper;
 import service.helper.ShiroSecurityHelper;
 import service.sys.MetaTypeService;
+import service.sys.ShortMsgService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -36,10 +32,12 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Service
@@ -57,6 +55,10 @@ public class ApplySelfService extends BaseMapper {
     protected ApproverBlackListService approverBlackListService;
     @Autowired
     protected ApproverTypeService approverTypeService;
+    @Autowired
+    protected ShortMsgService shortMsgService;
+    @Autowired
+    protected CadreConcatService cadreConcatService;
     @Autowired
     protected SpringProps springProps;
 
@@ -127,6 +129,130 @@ public class ApplySelfService extends BaseMapper {
         Integer flowNode = applySelf.getFlowNode();
 
         return findApprovers(applySelf.getCadreId(), flowNode);
+    }
+
+    /**
+     * 仅用于定时任务，给需要审批的人员发短信
+     *
+     * 如果领导没有审批，那么从第二天开始，每天早上8点发送一次
+      */
+    public void sendApprovalMsg(){
+
+        logger.debug("====因私审批短信通知...start====");
+        int success = 0, total = 0; // 成功条数，总条数
+        //Date today = new Date();
+
+        ApplySelfExample example = new ApplySelfExample();
+        example.createCriteria().andIsDeletedEqualTo(false) // 没有删除
+                .andStatusEqualTo(true) // 已经提交的
+                .andIsFinishEqualTo(false) // 还未完成审批的
+                .andFlowNodeGreaterThan(0); // 当前不是组织部审批的
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+
+        for (ApplySelf applySelf : applySelfs) {
+
+            Map<String, Integer> resultMap = sendApprovalMsg(applySelf.getId());
+            success += resultMap.get("success");
+            total += resultMap.get("total");
+        }
+
+        logger.debug(String.format("====因私审批短信通知，发送成功%s/%s条...end====", success, total));
+    }
+
+    /**
+     * 给一条申请记录的下一步审批人发短信
+     * @param applySelfId
+     * @return 发送短信的数目
+     */
+    public Map<String, Integer> sendApprovalMsg(int applySelfId){
+
+        int success = 0, total = 0; // 成功条数，总条数
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("id", applySelfId);
+        resultMap.put("success", success);
+        resultMap.put("total", total);
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        if(applySelf.getIsDeleted() || !applySelf.getStatus()
+                || applySelf.getIsFinish() || applySelf.getFlowNode()<=0){
+            return resultMap;
+        }
+
+        SysUserView applyUser = applySelf.getUser();
+        Integer flowNode = applySelf.getFlowNode();
+        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(flowNode);
+        Byte type = approverType.getType();
+        List<SysUserView> approvers = findApprovers(applySelf.getCadreId(), flowNode);
+        int size = approvers.size();
+        String key = null; // 短信模板代码
+        if(size>0) {
+            if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职审批
+
+                if (size > 1) { // 多个正职审批
+                    key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2;
+                } else{ // 单个正职审批
+                    key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
+                }
+            } else if (type == SystemConstants.APPROVER_TYPE_LEADER) {  // 校领导审批
+
+                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_LEADER;
+            } else if (type == SystemConstants.APPROVER_TYPE_SECRETARY) { // 书记审批
+
+                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY;
+            } else if (type == SystemConstants.APPROVER_TYPE_MASTER) { // 校长审批
+
+                key = SystemConstants.APPLYSELF_APPROVAL_MASTER;
+            }
+
+            // 校验用，以防万一
+            if(size>1 && !StringUtils.equals(key, SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
+                logger.error("因私审批系统发送短信异常："
+                        + JSONUtils.toString(applySelf, false));
+                return resultMap;
+            }
+        }
+        if(key != null){
+            for (SysUserView approver : approvers) {
+
+                Cadre approvalCadre = cadreService.findByUserId(approver.getId());
+                CadreConcat approvalCadreConcat = cadreConcatMapper.selectByPrimaryKey(approvalCadre.getId());
+                String title = StringUtils.isBlank(approvalCadreConcat.getMsgTitle())?approver.getRealname():
+                        approvalCadreConcat.getMsgTitle();
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(null);
+                bean.setReceiver(approver.getId());
+                ContentTpl tpl = shortMsgService.getShortMsgTpl(key);
+                String msgTpl = tpl.getContent();
+                bean.setType(tpl.getName());
+                String msg = null;
+                switch (key){
+                    case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
+                    case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2:
+                        msg = MessageFormat.format(msgTpl, title, applyUser.getRealname());
+                        break;
+                    default:
+                        Cadre applyCadre = cadreService.findByUserId(applyUser.getId());
+                        msg = MessageFormat.format(msgTpl, title, applyCadre.getTitle(), applyUser.getRealname());
+                        break;
+                }
+                bean.setContent(msg);
+                bean.setMobile(approvalCadreConcat.getMobile());
+                try {
+                    total++;
+                    boolean ret = shortMsgService.send(bean, "127.0.0.1");
+                    logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", bean.getContent()));
+
+                    if(ret) success++;
+                }catch (Exception ex){
+                    logger.error("因私审批系统发送短信失败", ex);
+                }
+            }
+        }
+
+        resultMap.put("success", success);
+        resultMap.put("total", total);
+
+        return resultMap;
     }
 
     // 干部管理员 审批列表
@@ -465,7 +591,8 @@ public class ApplySelfService extends BaseMapper {
         Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>(); // 本人所属的审批身份及对应的审批的职务属性
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         for (ApproverType approverType : approverTypeMap.values()) {
-            if (approverType.getType() == SystemConstants.APPROVER_TYPE_OTHER) {
+            Byte type = approverType.getType();
+            if (type != SystemConstants.APPROVER_TYPE_UNIT && type != SystemConstants.APPROVER_TYPE_LEADER) {
                 List<Integer> approvalPostIds = getApprovalPostIds(userId, approverType.getId());
                 if (approvalPostIds.size() > 0) {
                     approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
@@ -694,9 +821,7 @@ public class ApplySelfService extends BaseMapper {
             Set<Integer> unitIds = new HashSet<>();
             unitIds.addAll(getMainPostUnitIds(userId));
             return unitIds.contains(targetCadre.getUnitId());
-        }
-
-        if (type == SystemConstants.APPROVER_TYPE_LEADER) {  // 校领导审批
+        }else if (type == SystemConstants.APPROVER_TYPE_LEADER) {  // 校领导审批
 
             //分管校领导
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
@@ -705,8 +830,7 @@ public class ApplySelfService extends BaseMapper {
             unitIds.addAll(unitIdList);
 
             return unitIds.contains(targetCadre.getUnitId());
-        }
-        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+        }else{
             Set<Integer> cadreIdSet = new HashSet<>();
             // 其他审批人身份 的所在单位 给定一个干部id，查找他需要审批的干部
             List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds_approverTypeId(cadre.getId(), approvalTypeId);
@@ -714,8 +838,6 @@ public class ApplySelfService extends BaseMapper {
 
             return cadreIdSet.contains(targetCadreId);
         }
-
-        return false;
     }
 
     public List<ApplySelfFile> getFiles(int applyId) {
@@ -779,7 +901,7 @@ public class ApplySelfService extends BaseMapper {
 
     // 未标记删除的记录，才可以进行审批操作
     @Transactional
-    public int approval(ApplySelf record) {
+    public int doApproval(ApplySelf record) {
 
         ApplySelfExample example = new ApplySelfExample();
         example.createCriteria().andIdEqualTo(record.getId()).andIsDeletedEqualTo(false);

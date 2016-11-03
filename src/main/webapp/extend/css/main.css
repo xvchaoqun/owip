@@ -219,15 +219,13 @@ body{
     text-align: right;
 }*/
 
- #view-box .widget-box .table-striped > tbody > tr:nth-of-type(odd) {
-     background-color:inherit;
- }
-#view-box .widget-box .table tbody tr:hover td, #view-box .table tbody tr:hover th {
-    background-color:transparent;
+#view-box .widget-box .table-striped > tbody > tr:nth-of-type(odd) {
+ background-color:inherit;
 }
-
+/*#view-box .table tbody tr:hover th {
+    background-color:transparent;
+}*/
 #view-box .widget-main.no-padding .table{
-
     border: 1px solid #E5E5E5
 }
 
@@ -436,28 +434,33 @@ br.xs-100 {
    margin-left: 20px;
    margin-right: 20px;
 }
-.modal-width300{
+
+/*width*/
+.width300{
     width: 300px;
 }
-.modal-width600{
+.width500{
+    width: 500px;
+}
+.width600{
     width: 600px;
 }
-.modal-width650{
+.width650{
     width: 650px;
 }
-.modal-width700{
+.width700{
     width: 700px;
 }
-.modal-width800{
+.width800{
     width: 800px;
 }
-.modal-width900{
+.width900{
     width: 900px;
 }
-.modal-width1000{
+.width1000{
     width: 1000px;
 }
-.modal-width1200{
+.width1200{
     width: 1200px;
 }
 

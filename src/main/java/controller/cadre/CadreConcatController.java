@@ -3,14 +3,6 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadreConcat;
-import domain.cadre.CadreConcatExample;
-import domain.sys.SysUser;
-import domain.sys.SysUserView;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.MSUtils;
 import sys.utils.PropertiesUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -46,19 +32,14 @@ public class CadreConcatController extends BaseController {
     }
     @RequiresPermissions("cadreConcat:list")
     @RequestMapping("/cadreConcat_page")
-    public String cadreConcat_page(HttpServletResponse response,
-                                    int cadreId,
+    public String cadreConcat_page(int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
 
-        CadreConcatExample example = new CadreConcatExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreConcat> cadreConcats = cadreConcatMapper.selectByExample(example);
-        modelMap.put("cadreConcats", cadreConcats);
+        CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
+        modelMap.put("cadreConcat", cadreConcat);
 
-        if (export == 1) {
-            cadreConcat_export(example, response);
-            return null;
-        }
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        modelMap.put("cadre", cadre);
 
         return "cadre/cadreConcat/cadreConcat_page";
     }
@@ -67,8 +48,6 @@ public class CadreConcatController extends BaseController {
     @RequestMapping(value = "/cadreConcat_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreConcat_au(CadreConcat record, HttpServletRequest request) {
-
-        Integer cadreId = record.getCadreId();
 
         if(record.getMobile()!=null) {
             if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())) {
@@ -101,12 +80,9 @@ public class CadreConcatController extends BaseController {
     @RequestMapping("/cadreConcat_au")
     public String cadreConcat_au(Integer cadreId, ModelMap modelMap) {
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
-        modelMap.put("cadre", cadre);
-        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
-
         if (cadreId != null) {
+            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            modelMap.put("cadre", cadre);
             CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadreConcat", cadreConcat);
         }
@@ -141,7 +117,7 @@ public class CadreConcatController extends BaseController {
     }*/
 
 
-    public void cadreConcat_export(CadreConcatExample example, HttpServletResponse response) {
+   /* public void cadreConcat_export(CadreConcatExample example, HttpServletResponse response) {
 
         List<CadreConcat> cadreConcats = cadreConcatMapper.selectByExample(example);
         int rownum = cadreConcatMapper.countByExample(example);
@@ -184,5 +160,5 @@ public class CadreConcatController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 }

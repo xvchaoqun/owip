@@ -39,20 +39,12 @@ public class ApproverTypeController extends BaseController {
     public Map selectCadres_tree(Integer id, byte type) throws IOException {
 
         Map<String, Object> resultMap = success();
-        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
-            Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
-            //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
-            //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
 
-
-            resultMap.put("tree", tree);
-        }
         if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职
-            resultMap.put("tree", cadreService.getMainPostCadreTree());
-        }
 
-        if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
+            resultMap.put("tree", cadreService.getMainPostCadreTree());
+
+        }else if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
 
             // 分管校领导 黑名单
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
@@ -75,6 +67,13 @@ public class ApproverTypeController extends BaseController {
 
             TreeNode tree = cadreService.getTree(cadreSet, selectCadreSet, null, true, true);
             resultMap.put("tree", tree);
+        }else{ // 其他审批身份
+
+            Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
+            //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
+            //disabledIdSet.removeAll(selectIdSet);
+            TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
+            resultMap.put("tree", tree);
         }
 
         return resultMap;
@@ -84,7 +83,7 @@ public class ApproverTypeController extends BaseController {
     @RequestMapping("/approverType/selectCadres")
     public String select_cadres(Integer id, byte type, ModelMap modelMap) throws IOException {
 
-        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+        if (type != SystemConstants.APPROVER_TYPE_UNIT && type != SystemConstants.APPROVER_TYPE_LEADER) {
             ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
             modelMap.put("approverType", approverType);
         }
@@ -96,22 +95,18 @@ public class ApproverTypeController extends BaseController {
     @ResponseBody
     public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        if (type != SystemConstants.APPROVER_TYPE_OTHER) {
-            if(type==SystemConstants.APPROVER_TYPE_UNIT){
-                // 本单位正职身份
-                ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-                Integer mainPostTypeId = mainPostApproverType.getId();
-                approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
-            }
-            if(type==SystemConstants.APPROVER_TYPE_LEADER){
-                // 分管校领导身份
-                ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-                Integer leaderApproverTypeId = leaderApproverType.getId();
-                approverBlackListService.updateCadreIds(leaderApproverTypeId, cadreIds);
-            }
-        }
-
-        if (type == SystemConstants.APPROVER_TYPE_OTHER) {
+        if(type==SystemConstants.APPROVER_TYPE_UNIT){
+            // 本单位正职身份
+            ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+            Integer mainPostTypeId = mainPostApproverType.getId();
+            approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
+        }else if(type==SystemConstants.APPROVER_TYPE_LEADER){
+            // 分管校领导身份
+            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+            Integer leaderApproverTypeId = leaderApproverType.getId();
+            approverBlackListService.updateCadreIds(leaderApproverTypeId, cadreIds);
+        }else {
+            // 其他身份
             approverTypeService.updateApproverCadreIds(id, cadreIds);
         }
         return success(FormUtils.SUCCESS);

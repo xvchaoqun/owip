@@ -56,4 +56,7 @@ public class SpringProps {
 
 	@Value("${switch.passport.draw.return}")
 	public Boolean passportDrawReturnMsg;
+
+	@Value("${switch.applyself.approval}")
+	public Boolean applySelfSendApprovalMsg;
 }

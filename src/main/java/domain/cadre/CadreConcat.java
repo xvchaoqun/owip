@@ -7,6 +7,8 @@ public class CadreConcat implements Serializable {
 
     private String mobile;
 
+    private String msgTitle;
+
     private String officePhone;
 
     private String homePhone;
@@ -29,6 +31,14 @@ public class CadreConcat implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getMsgTitle() {
+        return msgTitle;
+    }
+
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle == null ? null : msgTitle.trim();
     }
 
     public String getOfficePhone() {

@@ -8,18 +8,18 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreConcat_au" id="modalForm" method="post">
         <input type="hidden" name="cadreId" value="${cadre.id}">
-        <div class="form-group">
-            <label class="col-xs-3 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
-            </div>
-        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">手机号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="mobile" value="${cadreConcat.mobile}">
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">短信称谓</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="msgTitle" value="${empty cadreConcat.msgTitle?cadre.user.realname:cadreConcat.msgTitle}">
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">办公电话</label>
 				<div class="col-xs-6">

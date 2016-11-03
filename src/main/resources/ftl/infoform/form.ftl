@@ -3729,97 +3729,13 @@
 										<w:b-cs/>
 									</w:rPr>
 								</w:pPr>
-								<#if adminLevel==adminLevel_1>
-                                    <w:r wsp:rsidR="004C409A" wsp:rsidRPr="00F8286D">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings 2" w:char="F052"/>
-								</w:r>
-								<#else>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings" w:char="F06F"/>
-								</w:r>
-								</#if>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>正处</w:t>
-								</w:r>
-								<w:r wsp:rsidR="002059A1" wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>  </w:t>
-								</w:r>
-							<#if adminLevel==adminLevel_2>
-                                <w:r wsp:rsidR="004C409A" wsp:rsidRPr="00F8286D">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings 2" w:char="F052"/>
-								</w:r>
-							<#else>
-                                <w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings" w:char="F06F"/>
-								</w:r>
-							</#if>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>副处</w:t>
-								</w:r>
-								<w:r wsp:rsidR="002059A1" wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>  </w:t>
-								</w:r>
-							<#if adminLevel==adminLevel_3>
-                                <w:r wsp:rsidR="004C409A" wsp:rsidRPr="00F8286D">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings 2" w:char="F052"/>
-								</w:r>
-							<#else>
-                                <w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:sym w:font="Wingdings" w:char="F06F"/>
-								</w:r>
-							</#if>
-								<w:r wsp:rsidR="002059A1" wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>无级别</w:t>
+									<w:t>${adminLevel!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>

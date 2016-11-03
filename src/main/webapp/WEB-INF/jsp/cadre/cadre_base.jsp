@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-		<table class="table table-bordered table-striped">
+		<table class="table table-nohover table-bordered table-striped">
 			<tbody>
 			<tr>
 				<td rowspan="6" style="text-align: center;vertical-align: middle;
@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					${partyMap.get(member.partyId).name}
 					<c:if test="${not empty member.branchId}">
-						-${branchMap.get(member.branchId).name}
+					- ${branchMap.get(member.branchId).name}
 					</c:if>
 				</td>
 
@@ -626,6 +626,9 @@ pageEncoding="UTF-8"%>
 	</button>
 </div>
 <style>
+	#view-box .widget-box .table tbody tr:hover td{
+		background-color:transparent;
+	}
 	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
 		background-color: #f9f9f9;
 		text-align: right;

@@ -285,10 +285,10 @@
                 </div>';
 
         var modal = $(modal);
-        $('.modal-dialog', modal).addClass("modal-width300").draggable({handle :".modal-header"});
+        $('.modal-dialog', modal).addClass("width300").draggable({handle :".modal-header"});
         modal.modal("show").on("hidden", function(){
             modal.remove();
-            $('.modal-dialog', modal).removeClass("modal-width300");
+            $('.modal-dialog', modal).removeClass("width300");
         });
 
         var working = false;

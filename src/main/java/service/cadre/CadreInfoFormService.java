@@ -181,11 +181,13 @@ public class CadreInfoFormService extends BaseMapper{
 
         dataMap.put("post", bean.getPost());
 
-        dataMap.put("adminLevel", bean.getAdminLevel());
-        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        MetaType adminLevel = metaTypeMap.get(bean.getAdminLevel());
+        dataMap.put("adminLevel", adminLevel==null?"":adminLevel.getName());
+        /*
         dataMap.put("adminLevel_1", metaTypeMap.get("mt_admin_level_main").getId());
         dataMap.put("adminLevel_2", metaTypeMap.get("mt_admin_level_vice").getId());
-        dataMap.put("adminLevel_3", metaTypeMap.get("mt_admin_level_none").getId());
+        dataMap.put("adminLevel_3", metaTypeMap.get("mt_admin_level_none").getId());*/
 
         dataMap.put("idCard", bean.getIdCard());
         dataMap.put("household", "");

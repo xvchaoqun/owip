@@ -3,7 +3,6 @@ package domain.cadre;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;
@@ -78,6 +77,8 @@ public class CadreView implements Serializable {
     private Integer sortOrder;
 
     private Byte status;
+
+    private String msgTitle;
 
     private String mobile;
 
@@ -259,6 +260,14 @@ public class CadreView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getMsgTitle() {
+        return msgTitle;
+    }
+
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle == null ? null : msgTitle.trim();
     }
 
     public String getMobile() {

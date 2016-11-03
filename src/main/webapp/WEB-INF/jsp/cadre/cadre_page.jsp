@@ -174,8 +174,13 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                // 短信称谓
+                var msgTitle = $.trim(rowObject.msgTitle);
+                if(msgTitle!=''){
+                    msgTitle = "<span style='font-size: smaller'><"+msgTitle+"></span>";
+                }
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}{2}</a>'
+                        .format(rowObject.id, cellvalue, msgTitle);
             },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})

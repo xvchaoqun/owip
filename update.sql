@@ -1,4 +1,14 @@
 
+-- 2016-11-3
+ALTER TABLE `cadre_concat`
+	ADD COLUMN `msg_title` VARCHAR(20) NULL DEFAULT NULL COMMENT '短信称谓' AFTER `mobile`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select `c`.*,`cc`.`msg_title`,`cc`.`mobile` AS `mobile`,`cc`.`office_phone` AS `office_phone`,`cc`.`home_phone` AS `home_phone`,`cc`.`email` AS `email`,
+ui.`realname` AS `realname`,ui.`gender` AS `gender`,ui.`nation` AS `nation`,ui.`native_place` AS `native_place`,ui.`idcard` AS `idcard`,ui.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,`t`.`arrive_time` AS `arrive_time`,`max_ce`.`edu_id` AS `edu_id`,`max_ce`.`finish_time` AS `finish_time`,`max_ce`.`learn_style` AS `learn_style`,`max_ce`.`school` AS `school`,`max_ce`.`dep` AS `dep`,`max_ce`.`school_type` AS `school_type`,`max_ce`.`major` AS `major`,`t`.`post_class` AS `post_class`,`t`.`pro_post_level` AS `pro_post_level`,`t`.`pro_post` AS `pro_post`,`t`.`manage_level` AS `manage_level`,`max_degree`.`degree` AS `degree` from (((((`cadre` `c` left join `cadre_concat` `cc` on((`cc`.`cadre_id` = `c`.`id`)))
+left join sys_user_info ui on ui.user_id=c.user_id
+ left join `sys_teacher_info` `t` on((`t`.`user_id` = `c`.`user_id`))) left join `ow_member` `om` on((`om`.`user_id` = `c`.`user_id`))) left join `cadre_edu` `max_ce` on(((`max_ce`.`cadre_id` = `c`.`id`) and (`max_ce`.`is_high_edu` = 1)))) left join `cadre_edu` `max_degree` on(((`max_degree`.`cadre_id` = `c`.`id`) and (`max_degree`.`is_high_degree` = 1))))  ;
+
+
 
 -- 2016-11-3
 

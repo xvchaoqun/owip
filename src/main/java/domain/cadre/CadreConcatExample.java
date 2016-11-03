@@ -234,6 +234,76 @@ public class CadreConcatExample {
             return (Criteria) this;
         }
 
+        public Criteria andMsgTitleIsNull() {
+            addCriterion("msg_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleIsNotNull() {
+            addCriterion("msg_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleEqualTo(String value) {
+            addCriterion("msg_title =", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleNotEqualTo(String value) {
+            addCriterion("msg_title <>", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleGreaterThan(String value) {
+            addCriterion("msg_title >", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("msg_title >=", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleLessThan(String value) {
+            addCriterion("msg_title <", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleLessThanOrEqualTo(String value) {
+            addCriterion("msg_title <=", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleLike(String value) {
+            addCriterion("msg_title like", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleNotLike(String value) {
+            addCriterion("msg_title not like", value, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleIn(List<String> values) {
+            addCriterion("msg_title in", values, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleNotIn(List<String> values) {
+            addCriterion("msg_title not in", values, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleBetween(String value1, String value2) {
+            addCriterion("msg_title between", value1, value2, "msgTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgTitleNotBetween(String value1, String value2) {
+            addCriterion("msg_title not between", value1, value2, "msgTitle");
+            return (Criteria) this;
+        }
+
         public Criteria andOfficePhoneIsNull() {
             addCriterion("office_phone is null");
             return (Criteria) this;

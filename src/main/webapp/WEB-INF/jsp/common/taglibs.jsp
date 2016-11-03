@@ -283,6 +283,5 @@
 
 <c:set var="APPROVER_TYPE_UNIT" value="<%=SystemConstants.APPROVER_TYPE_UNIT%>"/>
 <c:set var="APPROVER_TYPE_LEADER" value="<%=SystemConstants.APPROVER_TYPE_LEADER%>"/>
-<c:set var="APPROVER_TYPE_OTHER" value="<%=SystemConstants.APPROVER_TYPE_OTHER%>"/>
 <c:set var="APPROVER_TYPE_MAP" value="<%=SystemConstants.APPROVER_TYPE_MAP%>"/>
 

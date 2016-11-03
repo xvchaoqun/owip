@@ -176,7 +176,7 @@ td.padding10{
             </td><td class="td2 center bolder" colspan="2">
                 <span>全日制</span>
                     <div>
-                <span>教&nbsp;&nbsp;&nbsp;&nbsp;育</span>
+                <span>教   育</span>
                     </div>
         </td><td class="td9 padding10" colspan="5">
             ${bean.degree}
@@ -233,20 +233,15 @@ td.padding10{
             ${bean.post}
         </td><td class="td5 center bolder" colspan="2">
                 <span>职务级别</span>
-        </td><td class="td10 center" colspan="3">
+        </td><td class="td10 padding10" colspan="3">
                 <span>
-                    <input type="checkbox" style="vertical-align: -3px"  disabled
-                    ${cm:getMetaTypeByCode('mt_admin_level_main').id==bean.adminLevel?'checked':''}/> 正处&nbsp;&nbsp;
-                    <input type="checkbox" style="vertical-align: -3px" disabled
-                    ${cm:getMetaTypeByCode('mt_admin_level_vice').id==bean.adminLevel?'checked':''}/> 副处&nbsp;&nbsp;
-                    <input type="checkbox" style="vertical-align: -3px" disabled
-                    ${cm:getMetaTypeByCode('mt_admin_level_none').id==bean.adminLevel?'checked':''}/> 无级别&nbsp;&nbsp;</span>
+                    ${adminLevelMap.get(bean.adminLevel).name}</span>
         </td>
         </tr>
         <tr class="r1">
             <td class="td1 center bolder">
                     <span>身份证号</span>
-            </td><td class="td11" colspan="7">
+            </td><td class="td11 padding10" colspan="7">
             ${bean.idCard}
         </td><td class="td5 center bolder" colspan="2">
                 <span>户籍地</span>

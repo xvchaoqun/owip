@@ -61,7 +61,7 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
     @Autowired
-    private CadreConcatService cadreInfoService;
+    private CadreConcatService cadreConcatService;
     @Autowired
     private ApplySelfService applySelfService;
     @Autowired
@@ -232,7 +232,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passport.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
 
         }else if(StringUtils.equals(type, "applySelf")){
 
@@ -250,7 +250,7 @@ public class ShortMsgService extends BaseMapper {
             bean.setReceiver(uv.getId()); // 覆盖
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportApplyPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
@@ -263,7 +263,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportApplyUnPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
@@ -276,7 +276,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportApplyDraw")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_DRAW;
@@ -288,7 +288,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportApplySubmit")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT;
@@ -300,7 +300,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportDraw")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -314,7 +314,7 @@ public class ShortMsgService extends BaseMapper {
             String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName(), returnDate);
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportDrawReturn")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -330,7 +330,7 @@ public class ShortMsgService extends BaseMapper {
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), drawTime, returnDate,
                     passportDraw.getPassportClass().getName());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportDrawReturnSuccess")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -343,7 +343,7 @@ public class ShortMsgService extends BaseMapper {
             String realReturnDate = DateUtils.formatDate(passportDraw.getRealReturnDate(), "yyyy年MM月dd日");
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportDraw.getPassportClass().getName(), realReturnDate);
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }else if(StringUtils.equals(type, "passportDrawApply")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
@@ -373,7 +373,7 @@ public class ShortMsgService extends BaseMapper {
             MetaType passportClass = passportDraw.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(), passportClass.getName(), passportDraw.getId());
             bean.setContent(msg);
-            bean.setMobile(cadreInfoService.getCadreMobile(uv.getId()));
+            bean.setMobile(cadreConcatService.getCadreMobile(uv.getId()));
         }
 
         return bean;

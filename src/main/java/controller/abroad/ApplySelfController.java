@@ -7,7 +7,6 @@ import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -118,7 +117,7 @@ public class ApplySelfController extends BaseController {
                 // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
                 applySelf.setIsFinish(true);
 
-                applySelfService.approval(applySelf);
+                applySelfService.doApproval(applySelf);
             }
         }
         if (approvalTypeId == 0) {
@@ -130,7 +129,17 @@ public class ApplySelfController extends BaseController {
         record.setCreateTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
 
-        approvalLogService.add(record);
+        approvalLogService.doApproval(record);
+
+        // 如果在工作时间（8:00-11:30,14:00-20:30），那么就立即发送给下一个领导
+        // 短信通知下一个审批人
+        String nowTime = DateUtils.formatDate(new Date(), "HHmm");
+        if((nowTime.compareTo("0800")>=0 && nowTime.compareTo("1130")<=0)
+            || (nowTime.compareTo("1400")>=0 && nowTime.compareTo("2030")<=0)) {
+
+            Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
+            logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, false));
+        }
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
 

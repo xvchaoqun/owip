@@ -54,14 +54,14 @@ pageEncoding="UTF-8" %>
 								<td>${approverType.name}</td>
 								<td>${APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
-                                    <c:if test="${approverType.type!=APPROVER_TYPE_OTHER}">
+                                    <c:if test="${approverType.type==APPROVER_TYPE_UNIT || approverType.type==APPROVER_TYPE_LEADER}">
                                         <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}"
                                                 class="popupBtn btn btn-primary btn-mini btn-xs"
                                                 data-rel="tooltip" data-placement="top" title="点击进行二次编辑，在此最终确定参与审批的干部">
                                             <i class="fa fa-th-list"></i>  包含干部
                                         </button>
                                      </c:if>
-                                    <c:if test="${approverType.type==APPROVER_TYPE_OTHER}">
+                                    <c:if test="${approverType.type!=APPROVER_TYPE_UNIT && approverType.type!=APPROVER_TYPE_LEADER}">
                                     <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
                                             class="popupBtn btn btn-success btn-mini btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
