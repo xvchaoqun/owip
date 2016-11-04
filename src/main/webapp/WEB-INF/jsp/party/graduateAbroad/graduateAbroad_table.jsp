@@ -96,10 +96,10 @@
     ${graduateAbroad.phone}
   </td>
   <td class="bg-right">
-    微信号
+    QQ号
   </td>
   <td class="bg-left">
-    ${graduateAbroad.weixin}
+    ${graduateAbroad.qq}
   </td>
 </tr>
 <tr>
@@ -111,10 +111,10 @@
   </td>
 
   <td class="bg-right">
-    QQ号
+    微信号
   </td>
   <td class="bg-left" colspan="2">
-    ${graduateAbroad.qq}
+    ${graduateAbroad.weixin}
   </td>
 </tr>
 <tr>
