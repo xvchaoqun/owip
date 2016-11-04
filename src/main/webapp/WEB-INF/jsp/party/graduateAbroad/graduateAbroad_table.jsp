@@ -44,7 +44,7 @@
     籍贯
   </td>
   <td class="bg-left" style="min-width: 80px">
-    ${student.nativePlace}
+    ${userBean.nativePlace}
   </td>
 </tr>
 <tr>
