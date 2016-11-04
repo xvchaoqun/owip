@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadreConcat;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class CadreConcatController extends BaseController {
     @ResponseBody
     public Map do_cadreConcat_au(CadreConcat record, HttpServletRequest request) {
 
-        if(record.getMobile()!=null) {
+        if(StringUtils.isNotBlank(record.getMobile())) {
             if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())) {
                 throw new RuntimeException("手机号码有误");
             }

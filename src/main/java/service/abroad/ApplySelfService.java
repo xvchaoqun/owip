@@ -435,6 +435,10 @@ public class ApplySelfService extends BaseMapper {
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         Map<Integer, ApprovalResult> approvalResultMap = getApprovalResultMap(applySelfId);
         int size = approvalResultMap.size();
+        if(size==0){
+            // 干部没任何身份（需要在后台设置身份）
+            return resultMap;
+        }
         ApprovalResult[] vals = approvalResultMap.values().toArray(new ApprovalResult[size]);
         Integer[] keys = approvalResultMap.keySet().toArray(new Integer[size]);
 
@@ -632,7 +636,7 @@ public class ApplySelfService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId);
             List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
             if(applicatCadres.size()==0){
-                logger.error("数据异常，干部没有任何身份: cadreId="+cadreId);
+                logger.error("===========数据异常，干部没有任何身份: cadreId="+cadreId);
                 return approvalResultMap;// 异常情况，不允许申请人没有任何身份
             }
             ApplicatCadre applicatCadre = applicatCadres.get(0);

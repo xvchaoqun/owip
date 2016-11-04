@@ -142,7 +142,7 @@
             { label:'${type.value.name}审批', align:'center', name: 'approver${type.key}', width: 150,
                 cellattr:function(rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
-                    if(tdBean.tdType==2)
+                    if(tdBean!=undefined && tdBean.tdType==2)
                         return "class='not_approval'"
                 }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
@@ -151,7 +151,7 @@
             </c:forEach>
             { label:'组织部终审', align:'center', name: 'approver0', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                if(tdBean.tdType==2)
+                if(tdBean!=undefined && tdBean.tdType==2)
                     return "class='not_approval'"
             }, formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
@@ -159,7 +159,7 @@
             }},
             {hidden:true, name:'firstType',formatter:function(cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
-                return tdBean.tdType
+                return tdBean!=undefined?tdBean.tdType:null;
             }},
             {hidden:true, name:'isFinish',formatter:function(cellvalue, options, rowObject) {
                 return cellvalue?1:0;
@@ -190,6 +190,8 @@
     $('[data-rel="tooltip"]').tooltip();
     $('#searchForm [data-rel="select2"]').select2();
     function processTdBean(tdBean){
+
+        if(tdBean==undefined) return '';
 
         var applySelfId = tdBean.applySelfId;
         var approvalTypeId = tdBean.approvalTypeId;

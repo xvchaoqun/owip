@@ -20,7 +20,7 @@
 			  </c:if>
           </div>
         </div>
-        <c:if test="${sysUser!=null && (sysUser.source==USER_SOURCE_ADMIN||sysUser.source==USER_SOURCE_REG)}">
+        <c:if test="${sysUser==null || sysUser.source==USER_SOURCE_ADMIN||sysUser.source==USER_SOURCE_REG}">
         <div class="form-group">
           <label class="col-xs-3 control-label">密码</label>
           <div class="col-xs-6">
@@ -51,7 +51,6 @@
         </form>
   </div>
   <div class="modal-footer">
-  <c:if test="${sysUser==null}"><p class="pull-left text-error">注：初始化密码与账号相同</p></c:if>
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="<c:if test="${sysUser!=null}">确认</c:if><c:if test="${sysUser==null}">添加</c:if>"/>
   </div>

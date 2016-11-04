@@ -1,4 +1,9 @@
 
+
+# 重置因私申请审批状态
+delete from abroad_approval_log where apply_id=203;
+update abroad_apply_self set flow_node=-1, flow_nodes=null where id=203;
+
 组织工作管理与服务一体化平台
 Organization Work Integration Platform
 

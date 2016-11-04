@@ -68,7 +68,7 @@
         bootbox.confirm("确定同步（将耗费很长时间）？", function (result) {
             if (result) {
                 var $btn = $this.button('loading')
-                $.post("${ctx}/sync_user",{type:$this.data("type")},function(ret){
+                $.post("${ctx}/sync_user_batch",{type:$this.data("type")},function(ret){
                     if(ret.success){
                         $btn.button('reset');
                         SysMsg.success('同步成功。', '成功');

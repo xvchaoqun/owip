@@ -308,7 +308,7 @@
             if (currentObj.flowNode == -1 || currentObj.flowNode == 0) {
                 var tdBean = currentObj.approvalTdBeanMap[currentObj.flowNode];
                 isFinish = currentObj.isFinish;
-                approvalTypeId = tdBean.approvalTypeId
+                approvalTypeId = tdBean!=undefined?tdBean.approvalTypeId:null;
             }
 
             return {
@@ -357,6 +357,9 @@
     _initNavGrid("jqGrid", "jqGridPager");
 
     function approverTdAttrs(tdBean) {
+
+        if(tdBean==undefined) return '';
+
         var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if (tdBean.approvalTypeId != -1 && tdBean.tdType == 2)
@@ -387,6 +390,8 @@
      return html;
      }*/
     function processTdBean(tdBean) {
+
+        if(tdBean==undefined) return '';
 
         var applySelfId = tdBean.applySelfId;
         var approvalTypeId = tdBean.approvalTypeId;

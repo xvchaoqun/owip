@@ -352,9 +352,10 @@
 <div class="clearfix form-actions center">
 
 	<c:if test="${sysUser.source==USER_SOURCE_JZG}">
-	<button class="btn btn-info  btn-pink" onclick="member_sync(${param.userId})" type="button">
+	<button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"
+			data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
 		<i class="ace-icon fa fa-refresh "></i>
-		同步基本信息
+		同步学校信息
 	</button>
 	</c:if>
 
@@ -370,19 +371,23 @@
 		$("#item-content #view-box .nav-tabs li.active a").click();
 	}
 
-	function member_sync(userId){
+	function sync_user(userId, btn){
+
+		var $btn = $(btn).button('loading')
 		var $container = $("#view-box");
 		$container.showLoading({'afterShow':
 				function() {
 					setTimeout( function(){
 						$container.hideLoading();
+						$btn.button('reset');
 					}, 2000 );
 				}});
-		$.post("${ctx}/member_sync",{userId:userId},function(ret){
+		$.post("${ctx}/sync_user",{userId:userId},function(ret){
 
 			if(ret.success){
 				$container.hideLoading();
 				_reload();
+				$btn.button('reset');
 			}
 		});
 	}

@@ -1,7 +1,6 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.ext.*;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberExample;
@@ -9,7 +8,6 @@ import domain.member.MemberTeacher;
 import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -19,16 +17,12 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.source.ExtBksImport;
-import service.source.ExtJzgImport;
-import service.source.ExtYjsImport;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -44,12 +38,6 @@ import java.util.*;
 public class MemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private ExtJzgImport extJzgImport;
-    @Autowired
-    private ExtBksImport extBksImport;
-    @Autowired
-    private ExtYjsImport extYjsImport;
 
     @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
     @RequestMapping("/member/search")
@@ -376,43 +364,6 @@ public class MemberController extends BaseController {
             memberService.batchDel(ids);
 
             logger.info(addLog(SystemConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members)));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    // 同步信息
-    @RequestMapping(value = "/member_sync", method = RequestMethod.POST)
-    @ResponseBody
-    public Map sync(Integer userId) {
-
-        SysUserView sysUser = sysUserService.findById(userId);
-        String code = sysUser.getCode();
-        Member member = memberService.get(userId);
-        if (member != null) {
-            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-                extJzgImport.excute(code);
-
-                ExtJzgExample example = new ExtJzgExample();
-                example.createCriteria().andZghEqualTo(code);
-                List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
-                if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
-            }else {
-                if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
-                    extYjsImport.excute(code);
-
-                    ExtYjsExample example = new ExtYjsExample();
-                    example.createCriteria().andXhEqualTo(code);
-                    List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
-                    if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
-                }else {
-
-                    extBksImport.excute(code);
-                    ExtBksExample example = new ExtBksExample();
-                    example.createCriteria().andXhEqualTo(code);
-                    List<ExtBks> extBkses = extBksMapper.selectByExample(example);
-                    if(extBkses.size()==1) sysUserSyncService.syncExtBks(extBkses.get(0));
-                }
-            }
         }
         return success(FormUtils.SUCCESS);
     }

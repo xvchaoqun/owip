@@ -203,7 +203,7 @@
                 label: '${type.value.name}审批', align: 'center', name: 'approver${type.key}', width: 150,
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
-                    if (tdBean.tdType == 2)
+                    if (tdBean!=undefined && tdBean.tdType == 2)
                         return "class='not_approval'"
                 }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
@@ -218,7 +218,7 @@
                 width: 100,
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap[0];
-                    if (tdBean.tdType == 2)
+                    if (tdBean!=undefined && tdBean.tdType == 2)
                         return "class='not_approval'"
                 },
                 formatter: function (cellvalue, options, rowObject) {
@@ -243,6 +243,8 @@
     $(window).triggerHandler('resize.jqGrid');
 
     function processTdBean(tdBean) {
+
+        if(tdBean==undefined) return '';
 
         var applySelfId = tdBean.applySelfId;
         var approvalTypeId = tdBean.approvalTypeId;

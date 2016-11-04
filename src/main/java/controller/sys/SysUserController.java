@@ -164,11 +164,14 @@ public class SysUserController extends BaseController {
         }
 
         if (id == null) {
-            if (sysUser.getUsername() == null) {
+            if (StringUtils.isBlank(sysUser.getUsername())) {
                 return failed("用户名不能为空");
             }
+            if (StringUtils.isBlank(sysUser.getPasswd())) {
+                return failed("密码不能为空");
+            }
             sysUser.setLocked(false);
-            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getUsername()); // 初始化密码与账号相同
+            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getPasswd());
             sysUser.setSalt(encrypt.getSalt());
             sysUser.setPasswd(encrypt.getPassword());
             sysUser.setCreateTime(new Date());
@@ -208,9 +211,9 @@ public class SysUserController extends BaseController {
     @RequiresRoles("admin")
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserInfo_au(SysUserInfo record, MultipartFile _avatar) throws IOException {
+    public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
 
-        Integer userId = record.getUserId();
+        record.setUserId(userId);
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         String code = sysUser.getCode();
 

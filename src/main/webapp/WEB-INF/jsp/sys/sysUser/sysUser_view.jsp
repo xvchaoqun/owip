@@ -23,7 +23,7 @@
             <div class="widget-main padding-4">
                 <div class="tab-content padding-8">
 
-                    <div class="col-xs-offset-1 col-xs-10">
+                    <div class="col-xs-offset-1 col-xs-10 loading">
 
                         <div class="page-header">
                             <h1>
@@ -146,7 +146,15 @@
                             </div>
                         </div>
                         <div class="clearfix form-actions center">
-
+                            <c:if test="${sysUser.source==USER_SOURCE_YJS
+                            || sysUser.source==USER_SOURCE_BKS || sysUser.source==USER_SOURCE_JZG}">
+                                <button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"
+                                        data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
+                                    <i class="ace-icon fa fa-refresh "></i>
+                                    同步学校信息
+                                </button>
+                                &nbsp; &nbsp; &nbsp;
+                            </c:if>
                             <button class="closeView btn" type="button">
                                 <i class="ace-icon fa fa-undo"></i>
                                 返回
@@ -161,6 +169,31 @@
     </div><!-- /.widget-box -->
 </div>
 <script>
+
+    function _reload(){
+        $("#item-content").load("${ctx}/sysUser_view?userId=${sysUser.id}&_="+new Date().getTime());
+    }
+    function sync_user(userId, btn){
+
+        var $btn = $(btn).button('loading')
+        var $container = $("#item-content .loading");
+        $container.showLoading({'afterShow':
+                function() {
+                    setTimeout( function(){
+                        $container.hideLoading();
+                        $btn.button('reset');
+                    }, 2000 );
+                }});
+        $.post("${ctx}/sync_user",{userId:userId},function(ret){
+
+            if(ret.success){
+                $container.hideLoading();
+                _reload();
+                $btn.button('reset');
+            }
+        });
+    }
+
     function _delAdminCallback(target){
         _openView("${ctx}/sysUser_view?userId=${param.userId}")
     }

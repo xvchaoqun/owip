@@ -11,7 +11,6 @@ import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
 import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
-import sys.utils.PropertiesUtils;
 
 @Component
 public class SycnTask {
@@ -84,7 +83,7 @@ public class SycnTask {
 
 		logger.info("同步教职工党员出国境信息...");
 		try {
-			sysUserSyncService.syncAbroad(true);
+			sysUserSyncService.syncAllAbroad(true);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
@@ -101,7 +100,7 @@ public class SycnTask {
 
 		logger.info("同步教师库...");
 		try {
-			sysUserSyncService.syncJZG(true);
+			sysUserSyncService.syncAllJZG(true);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
@@ -116,7 +115,7 @@ public class SycnTask {
 
 		logger.info("同步研究生库...");
 		try {
-			sysUserSyncService.syncYJS(true);
+			sysUserSyncService.syncAllYJS(true);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
@@ -131,7 +130,7 @@ public class SycnTask {
 
 		logger.info("同步本科生库...");
 		try {
-			sysUserSyncService.syncBks(true);
+			sysUserSyncService.syncAllBks(true);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}

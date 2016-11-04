@@ -4,7 +4,7 @@
 <h3>修改人事基础信息（其中带*的字段每天会被人事库信息同步覆盖）</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/sysUserInfo_au" id="modalForm" method="post"  enctype="multipart/form-data">
-    <input type="hidden" name="userId" value="${ui.userId}">
+    <input type="hidden" name="userId" value="${sysUser.id}">
 
     <div class="row">
         <div class="col-xs-4">

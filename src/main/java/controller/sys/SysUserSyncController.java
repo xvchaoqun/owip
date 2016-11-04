@@ -1,9 +1,12 @@
 package controller.sys;
 
 import controller.BaseController;
+import domain.ext.*;
+import domain.member.Member;
 import domain.sys.SysUserSync;
 import domain.sys.SysUserSyncExample;
 import domain.sys.SysUserSyncExample.Criteria;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserSyncMixin;
@@ -12,12 +15,16 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.source.ExtBksImport;
+import service.source.ExtJzgImport;
+import service.source.ExtYjsImport;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -35,23 +42,63 @@ import java.util.Map;
 public class SysUserSyncController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private ExtJzgImport extJzgImport;
+    @Autowired
+    private ExtBksImport extBksImport;
+    @Autowired
+    private ExtYjsImport extYjsImport;
 
-    // 同步学校信息
-    @RequestMapping("/sync_user")
+    // 同步学校信息（单个用户）
+    @RequestMapping(value = "/sync_user", method = RequestMethod.POST)
     @ResponseBody
-    public Map sync_user(int type) {
+    public Map sync_user(Integer userId) {
+
+        SysUserView sysUser = sysUserService.findById(userId);
+        String code = sysUser.getCode();
+        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+            extJzgImport.excute(code);
+
+            ExtJzgExample example = new ExtJzgExample();
+            example.createCriteria().andZghEqualTo(code);
+            List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+            if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
+        }else {
+            if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
+                extYjsImport.excute(code);
+
+                ExtYjsExample example = new ExtYjsExample();
+                example.createCriteria().andXhEqualTo(code);
+                List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
+                if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
+            }else {
+
+                extBksImport.excute(code);
+                ExtBksExample example = new ExtBksExample();
+                example.createCriteria().andXhEqualTo(code);
+                List<ExtBks> extBkses = extBksMapper.selectByExample(example);
+                if(extBkses.size()==1) sysUserSyncService.syncExtBks(extBkses.get(0));
+            }
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 同步学校信息（批量）
+    @RequestMapping("/sync_user_batch")
+    @ResponseBody
+    public Map sync_user_batch(int type) {
         switch (type){
             case SystemConstants.SYNC_TYPE_JZG:
-                sysUserSyncService.syncJZG(false);
+                sysUserSyncService.syncAllJZG(false);
                 break;
             case SystemConstants.SYNC_TYPE_YJS:
-                sysUserSyncService.syncYJS(false);
+                sysUserSyncService.syncAllYJS(false);
                 break;
             case SystemConstants.SYNC_TYPE_BKS:
-                sysUserSyncService.syncBks(false);
+                sysUserSyncService.syncAllBks(false);
                 break;
             case SystemConstants.SYNC_TYPE_ABROAD:
-                sysUserSyncService.syncAbroad(false);
+                sysUserSyncService.syncAllAbroad(false);
                 break;
         }
 
