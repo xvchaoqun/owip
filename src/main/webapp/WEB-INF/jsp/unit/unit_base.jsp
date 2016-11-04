@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-				<table class="table table-bordered table-striped">
+				<table class="table table-unhover table-bordered table-striped">
 					<tbody>
 					<tr>
 
@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-actived table-striped table-bordered table-hover">
+			<table class="table table-unhover table-actived table-striped table-bordered table-hover">
 				<thead>
 				<tr>
 					<th>单位编号</th>
@@ -131,7 +131,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<table class="table table-actived table-striped table-bordered table-hover">
+			<table class="table table-unhover table-actived table-striped table-bordered table-hover">
 				<thead>
 				<tr>
 					<th>单位编号</th>
@@ -178,9 +178,3 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
-<style>
-	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-		background-color: #f9f9f9;
-		text-align: right;
-	}
-</style>

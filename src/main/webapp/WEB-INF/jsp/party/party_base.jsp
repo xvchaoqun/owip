@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-				<table class="table table-bordered table-striped">
+				<table class="table table-unhover table-bordered table-striped">
 					<tbody>
 					<tr>
 
@@ -97,7 +97,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-striped table-bordered">
+			<table class="table table-unhover table-striped table-bordered">
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
@@ -138,7 +138,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-striped table-bordered">
+			<table class="table table-unhover table-striped table-bordered">
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
@@ -171,9 +171,3 @@ pageEncoding="UTF-8"%>
 		//});
 	}
 </script>
-<style>
-	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-		background-color: #f9f9f9;
-		text-align: right;
-	}
-</style>

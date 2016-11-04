@@ -98,6 +98,14 @@ body{
 .table-responsive{
     overflow-x: hidden;
 }
+/* view box table */
+.table.table-unhover tbody tr:hover td{
+    background-color:transparent;
+}
+.table.table-unhover > tbody > tr > td:nth-of-type(odd) {
+    background-color: #f9f9f9;
+    text-align: right;
+}
 /*jqgrid start*/
 .table > thead > tr > th:last-child {
     border-right-color:inherit!important; /*覆盖ace， jqgrid*/
@@ -106,6 +114,8 @@ body{
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: #eadda9;
 }
+
+
 .ui-pg-table tbody tr:hover td{
     background-color:inherit;
 }

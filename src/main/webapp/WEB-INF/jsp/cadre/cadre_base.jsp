@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-		<table class="table table-nohover table-bordered table-striped">
+		<table class="table table-unhover table-bordered table-striped">
 			<tbody>
 			<tr>
 				<td rowspan="6" style="text-align: center;vertical-align: middle;
@@ -152,7 +152,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<table class="table table-bordered table-striped">
+			<table class="table table-unhover table-bordered table-striped">
 				<tbody>
 				<tr>
 					<td>
@@ -268,7 +268,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<table class="table table-bordered table-striped">
+			<table class="table table-unhover table-bordered table-striped">
 				<tbody>
 				<tr>
 					<td>
@@ -421,7 +421,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<table class="table table-bordered">
+			<table class="table table-unhover table-bordered">
 				<tbody>
 				<tr>
 					<td rowspan="2"  class="bg-right" style="text-align: center;vertical-align: middle">
@@ -430,14 +430,14 @@ pageEncoding="UTF-8"%>
 					<td class="bg-right">
 						专业技术职务
 					</td>
-					<td style="min-width: 80px" class="bg-white">
+					<td style="min-width: 80px" class="bg-left">
 						--
 					</td>
 
 					<td class="bg-right">
 						专业技术职务评定时间
 					</td>
-					<td  style="min-width: 80px"  class="bg-white">
+					<td  style="min-width: 80px"  class="bg-left">
 						--
 					</td>
 				</tr>
@@ -455,7 +455,7 @@ pageEncoding="UTF-8"%>
 
 				</tr>
 				<tr>
-					<td colspan="5" style="background-color:#fff;text-align: left ">
+					<td colspan="5" class="bg-left">
 						专技岗位备注：
 					</td>
 
@@ -467,13 +467,13 @@ pageEncoding="UTF-8"%>
 					<td class="bg-right">
 						管理岗位等级
 					</td>
-					<td  class="bg-white">
+					<td  class="bg-left">
 						${extJzg.glgwdj}
 					</td>
 					<td class="bg-right">
 						管理岗位分级
 					</td>
-					<td  class="bg-white">
+					<td  class="bg-left">
 						--
 					</td>
 				</tr>
@@ -488,7 +488,7 @@ pageEncoding="UTF-8"%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="5" style="background-color:#fff;text-align: left ">
+					<td colspan="5" class="bg-left">
 						管理岗位备注：--
 					</td>
 
@@ -500,18 +500,18 @@ pageEncoding="UTF-8"%>
 					<td class="bg-right">
 						工勤岗位等级
 					</td>
-					<td  class="bg-white">
+					<td  class="bg-left">
 						--
 					</td>
 					<td  class="bg-right">
 						工勤岗位分级时间
 					</td>
-					<td  class="bg-white">
+					<td  class="bg-left">
 						--
 					</td>
 				</tr>
 				<tr>
-					<td colspan="5" style="background-color:#fff;text-align: left ">
+					<td colspan="5" class="bg-left">
 						工勤岗位备注：--
 					</td>
 
@@ -536,7 +536,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-			<table class="table table-bordered table-striped">
+			<table class="table table-unhover table-bordered table-striped">
 				<tbody>
 				<tr>
 					<td>
@@ -625,12 +625,3 @@ pageEncoding="UTF-8"%>
 		返回
 	</button>
 </div>
-<style>
-	#view-box .widget-box .table tbody tr:hover td{
-		background-color:transparent;
-	}
-	#view-box .widget-box .table-striped > tbody > tr > td:nth-of-type(odd) {
-		background-color: #f9f9f9;
-		text-align: right;
-	}
-</style>

@@ -45,7 +45,8 @@
                         年龄
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${cm:intervalYearsUntilNow(userBean.birth)}
+
+                        ${empty userBean.birth?'':cm:intervalYearsUntilNow(userBean.birth)}
                     </td>
                 </tr>
                 <tr>
