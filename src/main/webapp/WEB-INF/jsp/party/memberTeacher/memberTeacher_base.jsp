@@ -354,7 +354,7 @@
 	<c:if test="${sysUser.source==USER_SOURCE_JZG}">
 	<button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"
 			data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
-		<i class="ace-icon fa fa-refresh "></i>
+		<i class="ace-icon fa fa-random "></i>
 		同步学校信息
 	</button>
 	</c:if>
