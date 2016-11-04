@@ -12,6 +12,13 @@
 <%@ page import="sys.service.ApplicationContextSupport" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.List" %>
+<%@ page import="domain.sys.SysUserView" %>
+<%@ page import="org.apache.http.entity.StringEntity" %>
+<%@ page import="org.apache.http.impl.client.CloseableHttpClient" %>
+<%@ page import="org.apache.http.impl.client.HttpClients" %>
+<%@ page import="org.apache.http.client.methods.HttpPost" %>
+<%@ page import="org.apache.http.client.methods.CloseableHttpResponse" %>
+<%@ page import="org.apache.http.util.EntityUtils" %>
 <%--
   Created by IntelliJ IDEA.
   User: fafa
@@ -26,7 +33,7 @@
 </head>
 <body>
 <%
- /* String url="https://weixin.bnu.edu.cn/sms/massms.php?id=2";
+  String url="https://weixin.bnu.edu.cn/sms/massms.php?id=2";
   String formStatusData="{\"mobile\":\"13810487549\", \"content\":\"孙秋瑞同志，您好！您提交的领取使用大陆居民往来台湾通行证的申请（编码为：D34）已通过审批，请派人携带有效证件（教工卡、学生卡或身份证）并凭此短信到组织部（主楼A306）领取证件。谢谢！\"}";
   StringEntity params =new StringEntity(formStatusData,"UTF-8");
   CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -34,8 +41,8 @@
   httppost.setEntity(params);
   httppost.addHeader("content-type", "application/json");
   CloseableHttpResponse res = httpclient.execute(httppost);
-  out.println(EntityUtils.toString(res.getEntity()));*/
-  ApplicationContext context = ApplicationContextSupport.getContext();
+  out.println(EntityUtils.toString(res.getEntity()));
+ /* ApplicationContext context = ApplicationContextSupport.getContext();
   PassportDrawMapper passportDrawMapper = (PassportDrawMapper) context.getBean("passportDrawMapper");
 
   int count = 0;
@@ -56,11 +63,11 @@
       int days = p.getDays();
       if ((days - 1) % 3 == 0) {  // 间隔第1,4,7...天应发短信提醒
 
-        SysUser user = passportDraw.getUser();
+        SysUserView user = passportDraw.getUser();
         out.write(user.getRealname() + " " + user.getCode() + " " + passportDraw.getReturnDate() + "<br/>");
       }
     }
-  }
+  }*/
 %>
 </body>
 </html>
