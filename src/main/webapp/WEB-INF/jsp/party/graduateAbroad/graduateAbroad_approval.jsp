@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-xs-12">
                         <table class="center-block table table-bordered table-striped"
-                               style="width: 890px; border-top: none; border-left: none;">
+                               style="width: 900px; border-top: none; border-left: none;">
                            <jsp:include page="graduateAbroad_table.jsp"/>
                         </table>
                         </div>
