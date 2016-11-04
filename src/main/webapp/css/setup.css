@@ -239,6 +239,10 @@ body{
     border: 1px solid #E5E5E5
 }
 
+/* 暂留申请表*/
+.transparent>.widget-body .widget-main .table-bordered>tbody>tr>td:last-child{
+    border-right-width: 1px!important;
+}
 /*排序*/
 .order-step{
     width: 30px;
