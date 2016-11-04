@@ -44,24 +44,12 @@ public class UserBeanService extends BaseMapper {
         userBean.setGender(sysUser.getGender());
         userBean.setRealname(sysUser.getRealname());
         userBean.setIdcard(sysUser.getIdcard());
-
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-            userBean.setBirth(sysUser.getBirth());
-            if (sysUser.getGender() != null)
-                userBean.setGender(sysUser.getGender());
-            if (sysUser.getIdcard() != null) userBean.setIdcard(sysUser.getIdcard());
-            userBean.setNation(sysUser.getNation());
-            userBean.setNativePlace(sysUser.getNativePlace());
-            if (sysUser.getRealname() != null) userBean.setRealname(sysUser.getRealname());
-        } else {
-            userBean.setBirth(sysUser.getBirth());
-            if (sysUser.getGender() != null)
-                userBean.setGender(sysUser.getGender());
-            if (sysUser.getIdcard() != null) userBean.setIdcard(sysUser.getIdcard());
-            userBean.setNation(sysUser.getNation());
-            userBean.setNativePlace(sysUser.getNativePlace());
-            if (sysUser.getRealname() != null) userBean.setRealname(sysUser.getRealname());
-        }
+        userBean.setNation(sysUser.getNation());
+        userBean.setNativePlace(sysUser.getNativePlace());
+        userBean.setBirth(sysUser.getBirth());
+        userBean.setGender(sysUser.getGender());
+        userBean.setIdcard(sysUser.getIdcard());
+        userBean.setRealname(sysUser.getRealname());
 
         Member member = memberService.get(userId);
         if (member != null) { // 如果是党员

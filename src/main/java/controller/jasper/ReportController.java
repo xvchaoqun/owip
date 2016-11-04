@@ -212,7 +212,8 @@ public class ReportController extends BaseController {
             map.put("day", DateUtils.getDay(cancelTime));
         }*/
         SysUserView _user = ShiroSecurityHelper.getCurrentUser();
-        sign = springProps.uploadPath + _user.getSign();
+        if(FileUtils.exists(springProps.uploadPath + _user.getSign()))
+            sign = springProps.uploadPath + _user.getSign();
         Date cancelTime =new Date();
         map.put("year", DateUtils.getYear(cancelTime));
         map.put("month", DateUtils.getMonth(cancelTime));
@@ -271,7 +272,8 @@ public class ReportController extends BaseController {
         if (passportDraw != null) {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
-                sign = springProps.uploadPath + _user.getSign();
+                if(FileUtils.exists(springProps.uploadPath + _user.getSign()))
+                    sign = springProps.uploadPath + _user.getSign();
                 mobile = _user.getPhone(); // 办公电话
             }
 
@@ -336,7 +338,8 @@ public class ReportController extends BaseController {
         if (passportApply != null) {
             if (passportApply.getStatus() != null && passportApply.getStatus() == SystemConstants.PASSPORT_APPLY_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportApply.getUserId()); // 审核人
-                sign = springProps.uploadPath + _user.getSign();
+                if(FileUtils.exists(springProps.uploadPath + _user.getSign()))
+                    sign = springProps.uploadPath + _user.getSign();
                 mobile = _user.getPhone(); // 办公电话
             }
 
