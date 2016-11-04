@@ -1135,10 +1135,10 @@ function register_class_party_branch_select($container, partyDivId, branchDivId,
 }
 function formatState (state) {
     if (!state.id) { return state.text; }
-    var $state = state.text;
-    if(state.code!=undefined && state.code.length>0)
-        $state += '-' + state.code;
-    if(state.unit!=undefined && state.unit.length>0){
+    var $state = $.trim(state.text);
+    if($.trim(state.code)!='')
+        $state += ($state!=''?'-':'') + state.code;
+    if($.trim(state.unit)!=''){
         $state += '-' + state.unit;
     }
     //console.log($state)
@@ -1146,8 +1146,8 @@ function formatState (state) {
 }
 function templateSelection(state){
     var $state = state.text;
-    if(state.code!=undefined && state.code.length>0)
-        $state += '-' + state.code;
+    if($.trim(state.code)!='')
+        $state += ($state!=''?'-':'') + state.code;
     return $state;
 }
 
